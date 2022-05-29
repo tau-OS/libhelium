@@ -1,4 +1,4 @@
-public enum libhelium.Colors {
+public enum He.Colors {
     NONE = 0,
     RED,
     ORANGE,

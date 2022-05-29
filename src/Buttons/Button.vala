@@ -1,8 +1,8 @@
-abstract class libhelium.Button : Gtk.Button {
-    public abstract libhelium.Colors color { get; set; }
+abstract class He.Button : Gtk.Button {
+    public abstract He.Colors color { get; set; }
 
     construct {
-        this.color = libhelium.Colors.BLUE;
+        this.color = He.Colors.BLUE;
     }
 }
 

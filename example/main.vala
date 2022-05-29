@@ -8,11 +8,11 @@ int main (string[] argv) {
         var window = new Gtk.ApplicationWindow (app);
 
         // Create a new button
-        var button = new libhelium.FillButton ("Testing");
+        var button = new He.FillButton ("Testing");
 
         // When the button is clicked, close the window
         button.clicked.connect (() => {
-            button.color = libhelium.Colors.NONE;
+            button.color = He.Colors.NONE;
             //window.close ();
         });
         window.set_child (button);
