@@ -1,7 +1,17 @@
 class He.Application : Gtk.Application {
-  public Application() {
+  private void init_style_providers() {
     var light = new Gtk.CssProvider();
     light.load_from_resource("/co/tauos/helium/gtk.css");
-    Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default (), light, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
+    
+    var dark = new Gtk.CssProvider();
+    dark.load_from_resource("/co/tauos/helium/gtk-dark.css");
+    
+    Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default (), dark, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
+  }
+
+  construct {
+    this.startup.connect(() => {
+      init_style_providers();
+    });
   }
 }

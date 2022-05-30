@@ -8,6 +8,13 @@
       "group": "test",
       "problemMatcher": [],
       "label": "Meson: Run libhelium-example"
+    },
+    {
+      "type": "meson",
+      "mode": "build",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "Meson: Build all targets"
     }
   ]
 }
