@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "meson",
+      "target": "libhelium-example",
+      "mode": "run",
+      "group": "test",
+      "problemMatcher": [],
+      "label": "Meson: Run libhelium-example"
+    }
+  ]
+}

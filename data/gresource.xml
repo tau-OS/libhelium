@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/co/tauos/helium">
+    <file>gtk.css</file>
+    <file>gtk-dark.css</file>
+  </gresource>
+</gresources>
