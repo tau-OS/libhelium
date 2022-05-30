@@ -1,10 +1,11 @@
 int main (string[] argv) {
     // Create a new application
-    var app = new Gtk.Application ("com.tauos.libhelium-example",
-                                   GLib.ApplicationFlags.FLAGS_NONE);
-    var desktop = new He.Desktop();
+    var app = new He.Application ();
+    var desktop = new He.Desktop ();
     if (desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK) {
         print("Dark!");
+    } else {
+    	print("Light!");
     };
 
     app.activate.connect (() => {
