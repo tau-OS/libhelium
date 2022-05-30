@@ -1,4 +1,4 @@
-class He.FillButton : He.Button {
+class He.TintButton : He.Button {
     private He.Colors _color;
 
     public override He.Colors color {
@@ -15,12 +15,12 @@ class He.FillButton : He.Button {
         }
     }
 
-    public FillButton(string label) {
+    public TintButton(string label) {
         this.label = label;
     }
-
+    
     construct {
         var style_context = this.get_style_context ();
-        style_context.add_class ("fill-button");
+        style_context.add_class ("tint-button");
     }
 }

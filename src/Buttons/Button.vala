@@ -5,4 +5,3 @@ abstract class He.Button : Gtk.Button {
         this.color = He.Colors.BLUE;
     }
 }
-
