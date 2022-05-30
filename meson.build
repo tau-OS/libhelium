@@ -9,6 +9,7 @@ project('libhelium', ['c', 'vala'],
 
 dependencies = [
     dependency('gtk4'),
+    dependency('gio-2.0'),
 ]
 
 
