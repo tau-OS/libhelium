@@ -3,9 +3,8 @@ class He.TintButton : He.Button {
 
     public override He.Colors color {
         set {
-            var style_context = this.get_style_context ();
-            if (_color != He.Colors.NONE) style_context.remove_class (_color.to_css_class());
-            if (value != He.Colors.NONE) style_context.add_class (value.to_css_class());
+            if (_color != He.Colors.NONE) this.remove_css_class (_color.to_css_class());
+            if (value != He.Colors.NONE) this.add_css_class (value.to_css_class());
 
             _color = value;
         }
@@ -20,7 +19,6 @@ class He.TintButton : He.Button {
     }
     
     construct {
-        var style_context = this.get_style_context ();
-        style_context.add_class ("tint-button");
+        this.add_css_class ("tint-button");
     }
 }
