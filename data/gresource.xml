@@ -3,5 +3,14 @@
   <gresource prefix="/co/tauos/helium">
     <file>gtk.css</file>
     <file>gtk-dark.css</file>
+    <file>assets/bullet-symbolic.svg</file>
+    <file>assets/bullet-symbolic.symbolic.png</file>
+    <file>assets/bullet@2-symbolic.symbolic.png</file>
+    <file>assets/check-symbolic.symbolic.png</file>
+    <file>assets/check@2-symbolic.symbolic.png</file>
+    <file>assets/dash-symbolic.svg</file>
+    <file>assets/dash-symbolic.symbolic.png</file>
+    <file>assets/dash@2-symbolic.symbolic.png</file>
+    <file>assets/devel-symbolic.svg</file>
   </gresource>
 </gresources>
