@@ -1,9 +1,14 @@
 sources += files(
-	'Portal.vala',
-	'Desktop.vala',
-	'Application.vala',
-	'Colors.vala',
-	'Buttons/Button.vala',
-	'Buttons/FillButton.vala',
-	'Buttons/TintButton.vala',
+	'Utils/Portal.vala',
+	'Utils/Desktop.vala',
+
+	'Models/Application.vala',
+	'Models/Colors.vala',
+	'Models/Button.vala',
+
+	'Widgets/AppBar.vala',
+	'Widgets/FillButton.vala',
+	'Widgets/TintButton.vala',
+	'Widgets/OutlineButton.vala',
+	'Widgets/ViewTitle.vala',
 )

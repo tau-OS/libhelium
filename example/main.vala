@@ -1,13 +1,6 @@
 int main (string[] argv) {
     // Create a new application
     var app = new He.Application ();
-    var desktop = new He.Desktop ();
-    if (desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK) {
-        print("Dark!");
-    } else {
-    	print("Light!");
-    };
-
     app.activate.connect (() => {
         var window = new Gtk.ApplicationWindow (app);
 
@@ -20,21 +13,32 @@ int main (string[] argv) {
         tint_btn.clicked.connect (() => {
             tint_btn.color = He.Colors.GREEN;
         });
+        
+        var outline_btn = new He.OutlineButton ("Outline");
+        outline_btn.clicked.connect (() => {
+            outline_btn.color = He.Colors.BLUE;
+        });
+        
+        var viewtitle = new He.ViewTitle ("Helium Demo");
 
-		var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-		box.hexpand = false;
-		box.margin_top = box.margin_start = box.margin_end = box.margin_bottom = 18;
-		box.append (fill_btn);
-		box.append (tint_btn);
+		var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+		box.append (viewtitle);
+		
+		var btn_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+		btn_box.hexpand = false;
+		btn_box.margin_start = btn_box.margin_end = btn_box.margin_bottom = 18;
+		btn_box.append (fill_btn);
+		btn_box.append (tint_btn);
+		btn_box.append (outline_btn);
+		
+		box.append (btn_box);
+		
+		var title = new He.AppBar (true);
 
         window.set_child (box);
-        window.set_title ("Helium Demo");
         window.set_size_request (360, 360);
+        window.set_titlebar (title);
         window.present ();
-
-        desktop.notify["prefers-color-scheme"].connect (() => {
-    		Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK;
-		});
     });
 
     return app.run (argv);
