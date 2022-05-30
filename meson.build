@@ -18,10 +18,14 @@ sources = []
 subdir('src')
 helium = subproject('helium', default_options: ['gtk4=true', 'gtk3=false', 'shell=false'], required: true)
 
+generate_gtk4_light = helium.get_variable('generate_gtk4_light')
+generate_gtk4_dark = helium.get_variable('generate_gtk4_dark')
+
 gresource = gnome.compile_resources(
     'gresource',
     'data' / 'gresource.xml',
     source_dir: [meson.current_build_dir() / 'subprojects' / 'helium' / 'Helium' / 'gtk-4.0'],
+    dependencies: [generate_gtk4_light, generate_gtk4_dark],
 )
 
 
