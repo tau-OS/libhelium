@@ -1,14 +1,35 @@
 class He.ViewTitle : Gtk.Box, Gtk.Buildable {
-	public ViewTitle (string title) {
-		var label = new Gtk.Label ("");
-	
-		label.xalign = 0;
-		label.add_css_class ("view-title");
-		label.set_label (title);
-		label.margin_top = 6;
-		label.margin_start = label.margin_end = 18;
-		label.margin_bottom = 12;
+    private Gtk.Label? _label;
+    public string? label {
+        set {
+            if (value == null) {
+                if (_label != null) {
+                    _label = null;
+                }
+
+                return;
+            }
+
+            if (_label == null) {
+                _label = new Gtk.Label(null);
+            }
+
+            _label.set_text(value);
+        }
+
+        get {
+            if (_label == null) return null;
+            return _label.get_text();
+        }
+    }
+
+	public ViewTitle () {
+		_label.xalign = 0;
+		_label.add_css_class ("view-title");
+		_label.margin_top = 6;
+		_label.margin_start = _label.margin_end = 18;
+		_label.margin_bottom = 12;
 		
-		this.append (label);
+		this.append (_label);
 	}
 }
