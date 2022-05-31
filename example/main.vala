@@ -46,9 +46,9 @@ int main (string[] argv) {
 
         var viewtitle = new He.ViewTitle ("Helium Demo");
 
-		var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-		box.append (viewtitle);
-		box.append (disclosure_btn);
+		var title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+		title_box.append (viewtitle);
+		title_box.append (disclosure_btn);
 		
 		var btn_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 		btn_box.vexpand = true;
@@ -61,6 +61,8 @@ int main (string[] argv) {
         btn_box.append (iconic_button);
         btn_box.append (disclosure_btn);
 		
+		var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+		box.append (title_box);
 		box.append (btn_box);
         
         overlay_btn.child = box;
