@@ -1,7 +1,7 @@
 project(
     'helium-1',
     'vala', 'c',
-    meson_version: '>= 0.48.2',
+    meson_version: '>= 0.56.0',
     version: '1.0.0'
 )
 
