@@ -19,7 +19,6 @@ class He.PillButton : He.Button {
     }
 
     construct {
-        this.add_css_class ("fill-button");
         this.add_css_class ("pill-button");
     }
 }
