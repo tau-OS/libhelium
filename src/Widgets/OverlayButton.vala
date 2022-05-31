@@ -158,7 +158,7 @@ class He.OverlayButton : Gtk.Box {
 
             if (_label == null) {
                 _label = new Gtk.Label(null);
-                _label.add_css_class("textual");
+                button.add_css_class("textual");
                 button_content.append(_label);
             }
 
