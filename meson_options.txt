@@ -1,1 +1,4 @@
 option('demo', type: 'boolean', value: true, description: 'Include Demo app')
+option('package_subdir', type: 'string',
+  description: 'Subdirectory to append to all installed files, for use as subproject'
+)

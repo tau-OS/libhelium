@@ -3,6 +3,9 @@ int main (string[] argv) {
     var app = new He.Application ();
     app.activate.connect (() => {
         var window = new Gtk.ApplicationWindow (app);
+        
+        var theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default ());
+        theme.add_resource_path ("/co/tauos/Helium1/Demo/");
 
         var fill_btn = new He.FillButton ("Fill");
         fill_btn.clicked.connect (() => {

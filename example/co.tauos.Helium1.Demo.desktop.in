@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Helium Demo
+Exec=libhelium-example
+Icon=co.tauos.Helium1.Demo
+Keywords=libhelium;
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true
+NoDisplay=true

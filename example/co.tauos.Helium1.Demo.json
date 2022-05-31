@@ -1,0 +1,31 @@
+{
+  "app-id": "co.tauos.Helium1.Demo",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "master",
+  "sdk": "org.gnome.Sdk",
+  "command": "libhelium-example",
+  "finish-args": [
+    "--device=dri",
+    "--share=ipc",
+    "--socket=wayland",
+    "--socket=fallback-x11"
+  ],
+  "modules": [
+    {
+      "name": "libhelium",
+      "buildsystem": "meson",
+      "builddir": true,
+      "post-install" : [
+          "desktop-file-edit --remove-key=NoDisplay ${FLATPAK_DEST}/share/applications/co.tauos.Helium1.Demo.desktop"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/tau-OS/libhelium.git",
+          "branch": "main"
+        }
+      ]
+    }
+  ]
+}
+
