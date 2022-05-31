@@ -29,6 +29,8 @@ int main (string[] argv) {
             pill_btn.color = He.Colors.INDIGO;
         });
 
+        var iconic_button = new He.IconicButton ("list-add-symbolic");
+
         var overlay_btn = new He.OverlayButton("list-add-symbolic", "nya!", "list-add-symbolic");
         overlay_btn.secondary_color = He.Colors.PURPLE;
 
@@ -53,14 +55,24 @@ int main (string[] argv) {
 		btn_box.append (outline_btn);
 		btn_box.append (text_btn);
 		btn_box.append (pill_btn);
+        btn_box.append (iconic_button);
 		
 		box.append (btn_box);
-
-
         
         overlay_btn.child = box;
+
+        var iconic_button_1 = new He.IconicButton ("list-add-symbolic");
+        var iconic_button_2 = new He.IconicButton ("list-add-symbolic");
+
+        var iconic_button_3 = new He.IconicButton ("list-add-symbolic");
 		
         var bottom_bar = new He.BottomBar ("Example", "Nekos are cute!");
+        bottom_bar.append_button (iconic_button_1, He.BottomBar.Position.LEFT);
+        bottom_bar.append_button (iconic_button_2, He.BottomBar.Position.LEFT);
+
+        bottom_bar.append_button (iconic_button_3, He.BottomBar.Position.RIGHT);
+
+
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
         main_box.append(overlay_btn);
         main_box.append(bottom_bar);

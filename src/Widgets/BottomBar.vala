@@ -15,6 +15,36 @@ class He.BottomBar : Gtk.Box {
     set { description_label.set_text (value); }
   }
 
+  public enum Position {
+    LEFT,
+    RIGHT,
+  }
+
+  public void append_button(He.IconicButton icon, Position position) {
+    var box = position == Position.LEFT ? left_box : right_box;
+    box.append(icon);
+  }
+
+  public void prepend_button(He.IconicButton icon, Position position) {
+    var box = position == Position.LEFT ? left_box : right_box;
+    box.prepend(icon);
+  }
+
+  public void remove_button(He.IconicButton icon, Position position) {
+    var box = position == Position.LEFT ? left_box : right_box;
+    box.remove(icon);
+  }
+
+  public void insert_button_after(He.IconicButton icon, He.IconicButton after, Position position) {
+    var box = position == Position.LEFT ? left_box : right_box;
+    box.insert_child_after(icon, after);
+  }
+
+  public void reorder_button_after(He.IconicButton icon, He.IconicButton after, Position position) {
+    var box = position == Position.LEFT ? left_box : right_box;
+    box.insert_child_after(icon, after);
+  }
+
   public BottomBar(string title, string description) {
     this.title = title;
     this.description = description;
@@ -29,11 +59,12 @@ class He.BottomBar : Gtk.Box {
     this.center_box.append(description_label);
     this.center_box.homogeneous = true;
 
-    this.left_box.hexpand = true;
-    this.right_box.hexpand = true;
+    var center_layout = new Gtk.CenterLayout();
+    this.layout_manager = center_layout;
 
-    //  this.title_label.vexpand = true;
-    //  this.description_label.vexpand = true;
+    center_layout.set_start_widget(left_box);
+    center_layout.set_center_widget(center_box);
+    center_layout.set_end_widget(right_box);
 
     this.append(left_box);
     this.append(center_box);
