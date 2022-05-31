@@ -1,38 +1,16 @@
-helium_demo_resources = gnome.compile_resources(
-   'helium-demo-resources',
-   'co.tauos.Helium1.Demo.gresources.xml',
-   c_name: 'he',
-)
+subdir('data')
+
+conf = configuration_data()
+conf.set_quoted('APP_ID', 'co.tauos.Helium1.Demo')
+conf.set_quoted('VERSION', '1.0.0')
+conf.set_quoted('LOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
+configure_file(output: 'config.h', configuration: conf)
+config_h_dir = include_directories('.')
 
 example_sources = sources + [helium_demo_resources]
 example_sources += files(
-	'main.vala'
+	'src/main.vala',
+	'src/window.vala'
 )
 
-desktop_file = i18n.merge_file(
-  input: 'co.tauos.Helium1.Demo.desktop.in',
-  output: 'co.tauos.Helium1.Demo.desktop',
-  type: 'desktop',
-  po_dir: '../po',
-  install: true,
-  install_dir: datadir / 'applications'
-)
-
-desktop_utils = find_program('desktop-file-validate', required: false)
-if desktop_utils.found()
-  test('Validate desktop file', desktop_utils,
-    args: [desktop_file]
-  )
-endif
-
-executable('libhelium-example', gresource, sources: example_sources, dependencies: dependencies, install: true)
-
-install_data(
-  'libhelium.svg',
-  install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
-)
-
-install_data(
-  'libhelium-symbolic.svg',
-  install_dir: datadir / 'icons' / 'hicolor' / 'symbolic' / 'apps'
-)
+executable('libhelium-example', gresource, sources: example_sources, dependencies: dependencies, vala_args: [meson.project_source_root() + '/example/src/config.vapi'], install: true)

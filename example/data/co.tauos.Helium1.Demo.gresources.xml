@@ -2,6 +2,8 @@
   <gresource prefix="/co/tauos/Helium1/Demo">
     <file preprocess="xml-stripblanks" alias="icons/scalable/apps/libhelium.svg">libhelium.svg</file>
     <file preprocess="xml-stripblanks" alias="icons/symbolic/apps/libhelium-symbolic.svg">libhelium-symbolic.svg</file>
+
+    <file preprocess="xml-stripblanks" alias="window.ui">ui/window.ui</file>
   </gresource>
 </gresources>
 

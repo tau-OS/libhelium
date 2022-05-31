@@ -6,6 +6,7 @@ project('libhelium', ['c', 'vala'],
 
 gnome = import('gnome')
 i18n = import('i18n')
+pkgconfig = import('pkgconfig')
 
 # Setup various paths that subdirectory meson.build files need
 package_subdir = get_option('package_subdir') # When used as subproject
@@ -30,7 +31,7 @@ dependencies = [
 
 sources = []
 
-subdir('src')
+subdir('lib')
 helium = subproject(
     'tau-helium',
     default_options: ['gtk4=true', 'gtk3=false', 'shell=false'],
@@ -48,13 +49,49 @@ gresource = gnome.compile_resources(
     dependencies: [generate_gtk4_light, generate_gtk4_dark],
 )
 
+include_dir = join_paths(
+    get_option('prefix'),
+    get_option('includedir'),
+    meson.project_name()
+)
 
-libhelium = shared_library('helium', gresource, sources,
-		  vala_header: 'libhelium.h',
-		  vala_vapi: 'libhelium-1.vapi',
+libhelium = library(
+                  'helium', gresource, sources,
+                  vala_header: 'libhelium-1.h',
+                  vala_vapi: 'libhelium-1.vapi',
+                  vala_gir: 'libhelium-1.gir',
                   dependencies: dependencies,
                   install: true,
-                  install_dir: [true, true, true])
+                  install_dir: [true, include_dir, true, true]
+)
+# typelib generation isn't automated yet
+g_ir_compiler = find_program('g-ir-compiler')
+	custom_target(
+	'libhelium.typelib',
+	command: [
+	    g_ir_compiler,
+	    '--shared-library',
+	    '@PLAINNAME@',
+	    '--output',
+	    '@OUTPUT@',
+	    join_paths(meson.current_build_dir(), 'libhelium-1.gir'),
+	],
+	input: libhelium,
+	output: 'libhelium.typelib',
+	depends: libhelium,
+	install: true,
+	install_dir: join_paths(get_option('libdir'), 'girepository-1.0'),
+)
+
+helium_pc = pkgconfig.generate(
+    libhelium,
+    name: meson.project_name(),
+    requires: dependencies,
+    subdirs: ['helium-1'],
+    description: 'tauOS Application Framework',
+    version: meson.project_version(),
+    url: 'https://github.com/tau-OS/libhelium',
+)
 
 if get_option('demo')
   subdir('example')

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libhelium" version="1.0"/>
+  <template class="DemoMainWindow" parent="GtkApplicationWindow">
+    <property name="visible">1</property>
+    <property name="default-width">500</property>
+    <property name="default-height">500</property>
+    <child type="titlebar">
+      <object class="HeAppBar"/>
+    </child>
+    <child>
+      <object class="GtkBox" id="main_box">
+        <property name="orientation">vertical</property>
+        <property name="homogeneous">1</property>
+        <child>
+          <object class="HeOverlayButton">
+            <property name="primary_icon">list-add-symbolic</property>
+            <property name="primary_label">Nya!</property>
+            <property name="secondary_icon">list-add-symbolic</property>
+            <property name="secondary_color">HeColorsPurple</property>
+            <child>
+              <object class="GtkBox">
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="spacing">12</property>
+                    <child>
+                      <object class="HeViewTitle">
+                        <property name="label">Helium Demo</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="HeDisclosureButton">
+                        <property name="icon-name">list-add-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">12</property>
+                    <property name="margin-end">18</property>
+                    <property name="margin-start">18</property>
+                    <property name="margin-bottom">18</property>
+                    <property name="vexpand">1</property>
+                    <child>
+                      <object class="HeFillButton">
+                        <property name="label">Fill</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="HeTintButton">
+                        <property name="label">Tint</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="HeOutlineButton">
+                        <property name="label">Outline</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="HeTextButton">
+                        <property name="label">Text</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="HePillButton">
+                        <property name="label">Pill</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="HeBottomBar">
+            <property name="title">Example</property>
+            <property name="subtitle">Nekos are cute!</property>
+            <child type="left">
+              <object class="HeIconicButton">
+                <property name="icon-name">list-add-symbolic</property>
+              </object>
+            </child>
+            <child type="left">
+              <object class="HeIconicButton">
+                <property name="icon-name">list-add-symbolic</property>
+              </object>
+            </child>
+            <child type="right">
+              <object class="HeIconicButton">
+                <property name="icon-name">list-add-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
