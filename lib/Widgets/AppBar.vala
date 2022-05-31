@@ -1,22 +1,30 @@
 namespace He {
     class AppBar : Gtk.Box, Gtk.Buildable {
-        private bool flat { get; set; }
+        public Gtk.HeaderBar? title;
 
-        public AppBar (bool flat) {
-        	var title = new Gtk.HeaderBar ();
+        private bool _flat;
+        public bool flat {
+            get {
+                return _flat;
+            }
+            set {
+                _flat = value;
+
+                if (_flat) {
+            		title.add_css_class ("flat");
+            	} else {
+            		title.remove_css_class ("flat");
+            	}
+            }
+        }
+
+        construct {
+            title = new Gtk.HeaderBar ();
         	title.hexpand = true;
 
         	// Remove default gtk title here because HIG
         	var title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
         	title.set_title_widget (title_box);
-
-        	this.flat = flat;
-
-        	if (flat) {
-        		title.add_css_class ("flat");
-        	} else {
-        		title.remove_css_class ("flat");
-        	}
 
         	this.append (title);
         }

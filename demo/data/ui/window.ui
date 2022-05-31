@@ -7,20 +7,22 @@
     <property name="default-width">500</property>
     <property name="default-height">500</property>
     <child type="titlebar">
-      <object class="HeAppBar"/>
+      <object class="HeAppBar">
+        <property name="flat">1</property>
+      </object>
     </child>
     <child>
       <object class="GtkBox" id="main_box">
         <property name="orientation">vertical</property>
-        <property name="homogeneous">1</property>
         <child>
           <object class="HeOverlayButton">
             <property name="icon">list-add-symbolic</property>
             <property name="label">Nya!</property>
             <property name="secondary_icon">list-add-symbolic</property>
-            <property name="secondary_color">HeColorsPurple</property>
-            <child>
+            <property name="secondary_color">7</property>
+            <property name="child">
               <object class="GtkBox">
+                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkBox">
                     <property name="orientation">horizontal</property>
@@ -73,7 +75,7 @@
                   </object>
                 </child>
               </object>
-            </child>
+            </property>
           </object>
         </child>
         <child>
