@@ -58,6 +58,7 @@ class He.BottomBar : Gtk.Box {
     this.center_box.append(title_label);
     this.center_box.append(description_label);
     this.center_box.homogeneous = true;
+    this.center_box.margin_start = this.center_box.margin_end = 18;
 
     var center_layout = new Gtk.CenterLayout();
     this.layout_manager = center_layout;

@@ -32,12 +32,11 @@ sources = []
 
 subdir('src')
 helium = subproject(
-            'tau-helium', 
-            default_options: ['gtk4=true', 'gtk3=false', 'shell=false'],
-            required: true
-         )
+    'tau-helium',
+    default_options: ['gtk4=true', 'gtk3=false', 'shell=false'],
+    required: true
+ )
 helium_folder = 'subprojects/tau-helium/Helium/gtk-4.0'
-
 generate_gtk4_light = helium.get_variable('generate_gtk4_light')
 generate_gtk4_dark = helium.get_variable('generate_gtk4_dark')
 

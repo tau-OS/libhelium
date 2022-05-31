@@ -3,6 +3,7 @@ int main (string[] argv) {
     var app = new He.Application ();
     app.activate.connect (() => {
         var window = new Gtk.ApplicationWindow (app);
+        app.application_id = "co.tauos.Helium1.Demo";
         
         var theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default ());
         theme.add_resource_path ("/co/tauos/Helium1/Demo/");
@@ -36,15 +37,15 @@ int main (string[] argv) {
 
         var iconic_button = new He.IconicButton ("list-add-symbolic");
 
-        var overlay_btn = new He.OverlayButton("list-add-symbolic", "nya!", "list-add-symbolic");
+        var overlay_btn = new He.OverlayButton("list-add-symbolic", "Nya!", "list-add-symbolic");
         overlay_btn.secondary_color = He.Colors.PURPLE;
 
         overlay_btn.clicked.connect (() => {
-            overlay_btn.color = He.Colors.PURPLE;
+            overlay_btn.color = He.Colors.PINK;
         });
 
         overlay_btn.secondary_clicked.connect (() => {
-            overlay_btn.secondary_color = He.Colors.BLUE;
+            overlay_btn.secondary_color = He.Colors.MINT;
         });
 
         var viewtitle = new He.ViewTitle ("Helium Demo");
@@ -63,7 +64,6 @@ int main (string[] argv) {
 		btn_box.append (text_btn);
 		btn_box.append (pill_btn);
         btn_box.append (iconic_button);
-        btn_box.append (disclosure_btn);
 		
 		var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 		box.append (title_box);
@@ -73,14 +73,20 @@ int main (string[] argv) {
 
         var iconic_button_1 = new He.IconicButton ("list-add-symbolic");
         var iconic_button_2 = new He.IconicButton ("list-add-symbolic");
-
         var iconic_button_3 = new He.IconicButton ("list-add-symbolic");
+        var iconic_button_4 = new He.IconicButton ("list-add-symbolic");
+        var iconic_button_5 = new He.IconicButton ("list-add-symbolic");
+
+        var iconic_button_6 = new He.IconicButton ("list-add-symbolic");
 		
         var bottom_bar = new He.BottomBar ("Example", "Nekos are cute!");
         bottom_bar.append_button (iconic_button_1, He.BottomBar.Position.LEFT);
         bottom_bar.append_button (iconic_button_2, He.BottomBar.Position.LEFT);
+        bottom_bar.append_button (iconic_button_3, He.BottomBar.Position.LEFT);
+        bottom_bar.append_button (iconic_button_4, He.BottomBar.Position.LEFT);
+        bottom_bar.append_button (iconic_button_5, He.BottomBar.Position.LEFT);
 
-        bottom_bar.append_button (iconic_button_3, He.BottomBar.Position.RIGHT);
+        bottom_bar.append_button (iconic_button_6, He.BottomBar.Position.RIGHT);
 
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -91,6 +97,8 @@ int main (string[] argv) {
 
         window.set_child (main_box);
         window.set_size_request (360, 360);
+        window.default_width = 500;
+        window.default_height = 500;
         window.set_titlebar (title);
         window.present ();
     });
