@@ -46,8 +46,9 @@ int main (string[] argv) {
 
         var viewtitle = new He.ViewTitle ("Helium Demo");
 
-		var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+		var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
 		box.append (viewtitle);
+		box.append (disclosure_btn);
 		
 		var btn_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 		btn_box.vexpand = true;
