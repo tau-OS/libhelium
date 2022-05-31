@@ -1,4 +1,4 @@
-class He.BottomBar : Gtk.Box {
+class He.BottomBar : Gtk.Box, Gtk.Buildable {
   private Gtk.Box left_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
   private Gtk.Box center_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
   private Gtk.Box right_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);

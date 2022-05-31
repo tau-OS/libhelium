@@ -1,4 +1,4 @@
-class He.IconicButton : Gtk.Button {
+class He.IconicButton : Gtk.Button, Gtk.Buildable {
   public string icon {
     get {
       return this.get_icon_name ();

@@ -1,5 +1,5 @@
 namespace He {
-    abstract class Button : Gtk.Button {
+    abstract class Button : Gtk.Button, Gtk.Buildable {
         public abstract He.Colors color { get; set; }
 
         construct {

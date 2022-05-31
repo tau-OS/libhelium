@@ -1,4 +1,4 @@
-class He.DisclosureButton : Gtk.Button {
+class He.DisclosureButton : Gtk.Button, Gtk.Buildable {
   public string icon {
     get {
       return this.get_icon_name ();

@@ -1,4 +1,4 @@
-class He.ViewTitle : Gtk.Box {
+class He.ViewTitle : Gtk.Box, Gtk.Buildable {
 	public ViewTitle (string title) {
 		var label = new Gtk.Label ("");
 	

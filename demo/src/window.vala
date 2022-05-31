@@ -19,6 +19,9 @@
 */
 [GtkTemplate (ui = "/co/tauos/Helium1/Demo/window.ui")]
 public class Demo.MainWindow : Gtk.ApplicationWindow {
+    delegate void HookFunc ();
+    public signal void clicked ();
+
     public MainWindow (He.Application application) {
         GLib.Object (
             application: application,

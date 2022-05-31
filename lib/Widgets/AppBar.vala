@@ -1,5 +1,5 @@
 namespace He {
-    class AppBar : Gtk.Box {
+    class AppBar : Gtk.Box, Gtk.Buildable {
         private bool flat { get; set; }
 
         public AppBar (bool flat) {

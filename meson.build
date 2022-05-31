@@ -19,7 +19,6 @@ gio_os_dep = dependency('gio-unix-2.0', version: '>=' + glib_min_version)
 add_project_arguments(
     vala_os_arg,
     '--abi-stability',
-    '--hide-internal',
     '--target-glib=' + glib_min_version,
     language: ['vala']
 )
