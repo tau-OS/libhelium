@@ -1,6 +1,8 @@
 class He.Application : Gtk.Application {
   private void init_style_providers() {
     Gtk.Settings.get_for_display(Gdk.Display.get_default()).gtk_theme_name = "Empty";
+    Gtk.Settings.get_for_display(Gdk.Display.get_default()).gtk_icon_theme_name = "Hydrogen";
+    Gtk.Settings.get_for_display(Gdk.Display.get_default()).gtk_cursor_theme_name = "Hydrogen";
 
     var light = new Gtk.CssProvider();
     light.load_from_resource("/co/tauos/helium/gtk.css");
