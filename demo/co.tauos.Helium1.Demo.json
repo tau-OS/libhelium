@@ -3,7 +3,7 @@
   "runtime": "org.gnome.Platform",
   "runtime-version": "master",
   "sdk": "org.gnome.Sdk",
-  "command": "libhelium-example",
+  "command": "co.tauos.Helium1.Demo",
   "finish-args": [
     "--device=dri",
     "--share=ipc",
@@ -30,12 +30,11 @@
       "post-install" : [
           "desktop-file-edit --remove-key=NoDisplay ${FLATPAK_DEST}/share/applications/co.tauos.Helium1.Demo.desktop"
       ],
-      "sources": [
-        {
-          "type": "git",
-          "url": "https://github.com/tau-OS/libhelium.git",
-          "branch": "main"
-        }
+      "sources" : [
+          {
+            "type" : "dir",
+            "path" : "."
+          }
       ]
     }
   ]

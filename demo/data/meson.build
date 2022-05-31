@@ -1,11 +1,11 @@
 install_data(
   'libhelium.svg',
-  install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
+  install_dir: get_option('datadir') / 'icons' / 'hicolor' / 'scalable' / 'apps'
 )
 
 install_data(
   'libhelium-symbolic.svg',
-  install_dir: datadir / 'icons' / 'hicolor' / 'symbolic' / 'apps'
+  install_dir: get_option('datadir') / 'icons' / 'hicolor' / 'symbolic' / 'apps'
 )
 
 helium_demo_resources = gnome.compile_resources(
@@ -20,7 +20,7 @@ desktop_file = i18n.merge_file(
   type: 'desktop',
   po_dir: '../../po',
   install: true,
-  install_dir: datadir / 'applications'
+  install_dir: get_option('datadir') / 'applications'
 )
 
 desktop_utils = find_program('desktop-file-validate', required: false)

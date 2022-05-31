@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Helium Demo
-Exec=libhelium-example
+Exec=co.tauos.Helium1.Demo
 Icon=co.tauos.Helium1.Demo
 Keywords=libhelium;
 Terminal=false
