@@ -1,7 +1,8 @@
-class He.OverlayButton : Gtk.Overlay {
+class He.OverlayButton : Gtk.Box {
     private Gtk.Button button = new Gtk.Button();
     private Gtk.Box button_content = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Image image = new Gtk.Image();
+    private Gtk.Overlay overlay = new Gtk.Overlay();
     private Gtk.Label? _label;
 
     public signal void clicked();
@@ -25,10 +26,42 @@ class He.OverlayButton : Gtk.Overlay {
         }
     }
 
+    public enum Alignment {
+        LEFT,
+        CENTER,
+        RIGHT;
+
+        public Gtk.Align to_gtk_align() {
+            switch (this) {
+                case LEFT:
+                    return Gtk.Align.START;
+                case CENTER:
+                    return Gtk.Align.CENTER;
+                case RIGHT:
+                    return Gtk.Align.END;
+                default:
+                    return Gtk.Align.END;
+            }
+        }
+        
+        public static Alignment from_gtk_align(Gtk.Align align) {
+            switch (align) {
+                case Gtk.Align.START:
+                    return Alignment.LEFT;
+                case Gtk.Align.CENTER:
+                    return Alignment.CENTER;
+                case Gtk.Align.END:
+                    return Alignment.RIGHT;
+                default:
+                    return Alignment.RIGHT;
+            }
+        }
+    }
+
     private Size? _size;
     public Size size {
         set {
-            if (_size != Size.MEDIUM) button.remove_css_class (_size.to_css_class());
+            if (_size != null && _size != Size.MEDIUM) button.remove_css_class (_size.to_css_class());
             if (value != Size.MEDIUM) button.add_css_class (value.to_css_class());
 
             _size = value;
@@ -90,6 +123,26 @@ class He.OverlayButton : Gtk.Overlay {
         }
     }
 
+    public Gtk.Widget? child {
+        get {
+            return overlay.get_child();
+        }
+
+        set {
+            overlay.set_child(value);
+        }
+    }
+
+    public Alignment alignment {
+        set {
+            button.set_halign(value.to_gtk_align());
+        }
+
+        get {
+            return Alignment.from_gtk_align(button.get_halign());
+        }
+    }
+
     public OverlayButton(string icon, string? label) {
         this.icon = icon;
         if (label != null) this.label = label;
@@ -99,13 +152,19 @@ class He.OverlayButton : Gtk.Overlay {
         button_content.append(image);
         button.set_child(button_content);
         button.add_css_class ("overlay-button");
-        this.add_overlay(button);
+        button.valign = Gtk.Align.END;
+        overlay.add_overlay(button);
+        overlay.vexpand = true;
+        overlay.hexpand = true;
 
+        this.append(overlay);
+        
         button.clicked.connect(() => {
             clicked();
         });
-
+        
         this.size = Size.MEDIUM;
         this.color = He.Colors.BLUE;
+        this.alignment = Alignment.RIGHT;
     }
 }

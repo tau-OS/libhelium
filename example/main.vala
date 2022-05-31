@@ -30,8 +30,9 @@ int main (string[] argv) {
         });
 
         var overlay_btn = new He.OverlayButton("plus", "Overlay");
+
         overlay_btn.clicked.connect (() => {
-            overlay_btn.color = He.Colors.BLUE;
+            overlay_btn.color = He.Colors.GREEN;
         });
 
         var viewtitle = new He.ViewTitle ("Helium Demo");
@@ -47,13 +48,14 @@ int main (string[] argv) {
 		btn_box.append (outline_btn);
 		btn_box.append (text_btn);
 		btn_box.append (pill_btn);
-        btn_box.append(overlay_btn);
 		
 		box.append (btn_box);
+
+        overlay_btn.child = box;
 		
 		var title = new He.AppBar (true);
 
-        window.set_child (box);
+        window.set_child (overlay_btn);
         window.set_size_request (360, 360);
         window.set_titlebar (title);
         window.present ();
