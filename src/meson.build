@@ -12,5 +12,6 @@ sources += files(
 	'Widgets/TextButton.vala',
 	'Widgets/PillButton.vala',
 	'Widgets/OutlineButton.vala',
+	'Widgets/OverlayButton.vala',
 	'Widgets/ViewTitle.vala',
 )

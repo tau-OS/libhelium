@@ -29,6 +29,11 @@ int main (string[] argv) {
             pill_btn.color = He.Colors.BLUE;
         });
 
+        var overlay_btn = new He.OverlayButton("plus", "Overlay");
+        overlay_btn.clicked.connect (() => {
+            overlay_btn.color = He.Colors.BLUE;
+        });
+
         var viewtitle = new He.ViewTitle ("Helium Demo");
 
 		var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -42,6 +47,7 @@ int main (string[] argv) {
 		btn_box.append (outline_btn);
 		btn_box.append (text_btn);
 		btn_box.append (pill_btn);
+        btn_box.append(overlay_btn);
 		
 		box.append (btn_box);
 		

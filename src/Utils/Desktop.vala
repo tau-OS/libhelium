@@ -32,7 +32,7 @@ public class He.Desktop : Object {
             ).get_variant ().get_uint32 ();
 
             portal.setting_changed.connect ((scheme, key, value) => {
-                 if (scheme == "org.freedesktop.appearance" && key == "color-scheme") {
+                if (scheme == "org.freedesktop.appearance" && key == "color-scheme") {
                     prefers_color_scheme = (ColorScheme) value.get_uint32 ();
                 }
             });
