@@ -29,9 +29,7 @@ int main (string[] argv) {
             pill_btn.color = He.Colors.INDIGO;
         });
 
-        //  "Overlay", "list-add-symbolic"
-        var overlay_btn = new He.OverlayButton("list-add-symbolic", null, null);
-        overlay_btn.size = He.OverlayButton.Size.SMALL;
+        var overlay_btn = new He.OverlayButton("list-add-symbolic", "nya!", "list-add-symbolic");
         overlay_btn.secondary_color = He.Colors.PURPLE;
 
         overlay_btn.clicked.connect (() => {

@@ -1,7 +1,7 @@
 class He.OverlayButton : Gtk.Box {
     private Gtk.Button button = new Gtk.Button();
     private Gtk.Box button_content = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
-    private Gtk.Box button_row = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+    private Gtk.Box button_row = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 18);
     private Gtk.Image image = new Gtk.Image();
     private Gtk.Overlay overlay = new Gtk.Overlay();
     private Gtk.Button secondary_button = new Gtk.Button();
@@ -204,6 +204,7 @@ class He.OverlayButton : Gtk.Box {
         button.valign = Gtk.Align.END;
 
         button_row.append(button);
+        button_row.add_css_class("overlay-button-row");
 
         secondary_button.add_css_class("overlay-button");
         secondary_button.add_css_class("small");
