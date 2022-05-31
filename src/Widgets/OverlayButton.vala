@@ -164,7 +164,7 @@ class He.OverlayButton : Gtk.Box {
         });
         
         this.size = Size.MEDIUM;
-        this.color = He.Colors.BLUE;
+        this.color = He.Colors.GREEN;
         this.alignment = Alignment.RIGHT;
     }
 }
