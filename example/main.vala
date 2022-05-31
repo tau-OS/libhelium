@@ -29,6 +29,8 @@ int main (string[] argv) {
             pill_btn.color = He.Colors.INDIGO;
         });
 
+        var disclosure_btn = new He.DisclosureButton ("list-add-symbolic");
+
         var iconic_button = new He.IconicButton ("list-add-symbolic");
 
         var overlay_btn = new He.OverlayButton("list-add-symbolic", "nya!", "list-add-symbolic");
@@ -56,6 +58,7 @@ int main (string[] argv) {
 		btn_box.append (text_btn);
 		btn_box.append (pill_btn);
         btn_box.append (iconic_button);
+        btn_box.append (disclosure_btn);
 		
 		box.append (btn_box);
         
