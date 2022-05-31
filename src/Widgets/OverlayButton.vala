@@ -205,10 +205,11 @@ class He.OverlayButton : Gtk.Box {
 
         button_row.append(button);
         button_row.add_css_class("overlay-button-row");
-
+        button_row.valign = Gtk.Align.END;
+        
         secondary_button.add_css_class("overlay-button");
         secondary_button.add_css_class("small");
-        secondary_button.valign = Gtk.Align.END;
+        secondary_button.valign = Gtk.Align.CENTER;
         secondary_button.clicked.connect(() => {
             secondary_clicked();
         });
