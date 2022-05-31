@@ -46,7 +46,7 @@ int main (string[] argv) {
 		box.append (viewtitle);
 		
 		var btn_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-		btn_box.hexpand = false;
+		btn_box.vexpand = true;
 		btn_box.margin_start = btn_box.margin_end = btn_box.margin_bottom = 18;
 		btn_box.append (fill_btn);
 		btn_box.append (tint_btn);
@@ -56,11 +56,18 @@ int main (string[] argv) {
 		
 		box.append (btn_box);
 
+
+        
         overlay_btn.child = box;
 		
+        var bottom_bar = new He.BottomBar ("Example", "Nekos are cute!");
+        var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        main_box.append(overlay_btn);
+        main_box.append(bottom_bar);
+
 		var title = new He.AppBar (true);
 
-        window.set_child (overlay_btn);
+        window.set_child (main_box);
         window.set_size_request (360, 360);
         window.set_titlebar (title);
         window.present ();
