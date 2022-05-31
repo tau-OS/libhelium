@@ -47,6 +47,7 @@ int main (string[] argv) {
         var viewtitle = new He.ViewTitle ("Helium Demo");
 
 		var title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+		title_box.valign = Gtk.Align.CENTER;
 		title_box.append (viewtitle);
 		title_box.append (disclosure_btn);
 		

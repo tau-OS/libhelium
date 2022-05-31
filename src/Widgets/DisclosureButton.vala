@@ -14,5 +14,6 @@ class He.DisclosureButton : Gtk.Button {
 
   construct {
     this.add_css_class ("disclosure-button");
+    this.valign = Gtk.Align.CENTER;
   }
 }
