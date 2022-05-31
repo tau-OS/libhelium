@@ -1,0 +1,1 @@
+option('demo', type: 'boolean', value: true, description: 'Include Demo app')
