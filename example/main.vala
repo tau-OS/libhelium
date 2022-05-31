@@ -21,9 +21,14 @@ int main (string[] argv) {
 
         var text_btn = new He.TextButton ("Text");
         text_btn.clicked.connect (() => {
-            outline_btn.color = He.Colors.BLUE;
+            text_btn.color = He.Colors.BLUE;
         });
         
+        var pill_btn = new He.PillButton ("Pill");
+        pill_btn.clicked.connect (() => {
+            pill_btn.color = He.Colors.BLUE;
+        });
+
         var viewtitle = new He.ViewTitle ("Helium Demo");
 
 		var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -36,6 +41,7 @@ int main (string[] argv) {
 		btn_box.append (tint_btn);
 		btn_box.append (outline_btn);
 		btn_box.append (text_btn);
+		btn_box.append (pill_btn);
 		
 		box.append (btn_box);
 		

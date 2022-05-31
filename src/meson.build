@@ -10,6 +10,7 @@ sources += files(
 	'Widgets/FillButton.vala',
 	'Widgets/TintButton.vala',
 	'Widgets/TextButton.vala',
+	'Widgets/PillButton.vala',
 	'Widgets/OutlineButton.vala',
 	'Widgets/ViewTitle.vala',
 )
