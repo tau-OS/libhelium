@@ -29,10 +29,17 @@ int main (string[] argv) {
             pill_btn.color = He.Colors.INDIGO;
         });
 
-        var overlay_btn = new He.OverlayButton("list-add-symbolic", "Overlay");
+        //  "Overlay", "list-add-symbolic"
+        var overlay_btn = new He.OverlayButton("list-add-symbolic", null, null);
+        overlay_btn.size = He.OverlayButton.Size.SMALL;
+        overlay_btn.secondary_color = He.Colors.PURPLE;
 
         overlay_btn.clicked.connect (() => {
             overlay_btn.color = He.Colors.PURPLE;
+        });
+
+        overlay_btn.secondary_clicked.connect (() => {
+            overlay_btn.secondary_color = He.Colors.BLUE;
         });
 
         var viewtitle = new He.ViewTitle ("Helium Demo");

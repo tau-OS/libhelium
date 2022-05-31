@@ -1,11 +1,15 @@
 class He.OverlayButton : Gtk.Box {
     private Gtk.Button button = new Gtk.Button();
     private Gtk.Box button_content = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+    private Gtk.Box button_row = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Image image = new Gtk.Image();
     private Gtk.Overlay overlay = new Gtk.Overlay();
+    private Gtk.Button secondary_button = new Gtk.Button();
+    private Gtk.Image secondary_image;
     private Gtk.Label? _label;
 
     public signal void clicked();
+    public signal void secondary_clicked();
 
     public enum Size {
         SMALL,
@@ -86,6 +90,50 @@ class He.OverlayButton : Gtk.Box {
         }
     }
 
+    private He.Colors _secondary_color;
+    public He.Colors secondary_color {
+        set {
+            if (_color != He.Colors.NONE) secondary_button.remove_css_class (_secondary_color.to_css_class());
+            if (value != He.Colors.NONE) secondary_button.add_css_class (value.to_css_class());
+
+            _secondary_color = value;
+        }
+
+        get {
+            return _secondary_color;
+        }
+    }
+
+    public string? secondary_icon {
+        set {
+            if (value == null) {
+                if (secondary_image != null) {
+                    secondary_image.destroy();
+
+                    secondary_button.set_child(null);
+                    button_row.remove (secondary_button);
+
+                    secondary_image = null;
+                }
+
+                return;
+            }
+
+            if (secondary_image == null) {
+                secondary_image = new Gtk.Image();
+                secondary_button.set_child(secondary_image);
+                button_row.prepend(secondary_button);
+            }
+
+            secondary_image.set_from_icon_name(value);
+        }
+
+        owned get {
+            if (secondary_image == null) return null;
+            return secondary_image.icon_name;
+        }
+    }
+
     public string icon {
         set {
             image.set_from_icon_name(value);
@@ -135,17 +183,18 @@ class He.OverlayButton : Gtk.Box {
 
     public Alignment alignment {
         set {
-            button.set_halign(value.to_gtk_align());
+            button_row.set_halign(value.to_gtk_align());
         }
 
         get {
-            return Alignment.from_gtk_align(button.get_halign());
+            return Alignment.from_gtk_align(button_row.get_halign());
         }
     }
 
-    public OverlayButton(string icon, string? label) {
+    public OverlayButton(string icon, string? label, string? secondary_icon) {
         this.icon = icon;
         if (label != null) this.label = label;
+        if (secondary_icon != null) this.secondary_icon = secondary_icon;
     }
 
     construct {
@@ -153,7 +202,17 @@ class He.OverlayButton : Gtk.Box {
         button.set_child(button_content);
         button.add_css_class ("overlay-button");
         button.valign = Gtk.Align.END;
-        overlay.add_overlay(button);
+
+        button_row.append(button);
+
+        secondary_button.add_css_class("overlay-button");
+        secondary_button.add_css_class("small");
+        secondary_button.valign = Gtk.Align.END;
+        secondary_button.clicked.connect(() => {
+            secondary_clicked();
+        });
+
+        overlay.add_overlay(button_row);
         overlay.vexpand = true;
         overlay.hexpand = true;
 
@@ -165,6 +224,7 @@ class He.OverlayButton : Gtk.Box {
         
         this.size = Size.MEDIUM;
         this.color = He.Colors.GREEN;
+        this.secondary_color = He.Colors.BLUE;
         this.alignment = Alignment.RIGHT;
     }
 }
