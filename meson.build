@@ -1,5 +1,5 @@
 project(
-    'libhelium-1',
+    'helium-1',
     'vala', 'c',
     meson_version: '>= 0.48.2',
     version: '1.0.0'

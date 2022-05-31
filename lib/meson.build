@@ -19,11 +19,10 @@ libhelium_sources += files(
 )
 
 # define all the names and versions
-libhelium_gi_name = 'libhelium'
+libhelium_gi_name = 'helium'
 libhelium_gi_version = '1.0'
 
 libhelium_gi = libhelium_gi_name + '-' + libhelium_gi_version
-libhelium_gir = libhelium_gi + '.gir'
 libhelium_typelib = libhelium_gi + '.typelib'
 
 include_dir = join_paths(
@@ -33,6 +32,12 @@ include_dir = join_paths(
 )
 
 # compile shared library, generate GIR, header, and vapi file
+datadir    = get_option('datadir')
+libdir     = get_option('libdir')
+girdir     = get_option('datadir') / 'gir-1.0'
+typelibdir = get_option('libdir')  / 'girepository-1.0'
+vapidir    = get_option('datadir') / 'vapi'
+
 libhelium = library(
     meson.project_name(), gresource,
 
@@ -44,32 +49,31 @@ libhelium = library(
         meson.get_compiler('vala').find_library('posix')
     ],
 
-    vala_header: 'libhelium-1.h',
-    vala_vapi: 'libhelium-1.vapi',
-    vala_gir: libhelium_gir,
-
     version: meson.project_version(),
     install: true,
-    install_dir: [true, include_dir, true, true],
+    install_dir: [true, include_dir, true],
 )
 
-# typelib generation isn't automated yet
-g_ir_compiler = find_program('g-ir-compiler')
-custom_target(
-        libhelium_typelib,
-        command: [
-            g_ir_compiler,
-            '--shared-library',
-            '@PLAINNAME@',
-            '--output',
-            '@OUTPUT@',
-            join_paths(meson.current_build_dir(), libhelium_gir),
-        ],
-        input: libhelium,
-        output: libhelium_typelib,
-        depends: libhelium,
-        install: true,
-        install_dir: join_paths(get_option('libdir'), 'girepository-1.0'),
+libhelium_gir = gnome.generate_gir(libhelium,
+                 sources: libhelium_sources,
+               nsversion: '1',
+               namespace: 'He',
+         export_packages: 'libhelium-1',
+           symbol_prefix: 'he',
+       identifier_prefix: 'He',
+               link_with: libhelium,
+                includes: ['Gio-2.0', 'Gtk-4.0'],
+                 install: true,
+         install_dir_gir: girdir,
+     install_dir_typelib: typelibdir,
+)
+
+libhelium_vapi = gnome.generate_vapi('libhelium-1',
+             sources: libhelium_gir[0],
+            packages: [ 'gio-2.0', 'gtk4' ],
+             install: true,
+         install_dir: vapidir,
+       metadata_dirs: [ meson.current_source_dir() ],
 )
 
 libhelium_dep = declare_dependency(
