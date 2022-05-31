@@ -20,6 +20,17 @@ class He.BottomBar : Gtk.Box, Gtk.Buildable {
     RIGHT,
   }
 
+  public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+      if (strcmp (type, "left") == 0) {
+        left_box.append ((Gtk.Widget)child);
+      } else if (strcmp (type, "right") == 0) {
+        right_box.append ((Gtk.Widget)child);
+      } else {
+        left_box.append ((Gtk.Widget)child);
+      }
+  }
+
+
   public void append_button(He.IconicButton icon, Position position) {
     var box = position == Position.LEFT ? left_box : right_box;
     box.append(icon);
