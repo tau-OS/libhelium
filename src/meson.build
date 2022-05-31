@@ -9,6 +9,7 @@ sources += files(
 	'Widgets/AppBar.vala',
 	'Widgets/FillButton.vala',
 	'Widgets/TintButton.vala',
+	'Widgets/TextButton.vala',
 	'Widgets/OutlineButton.vala',
 	'Widgets/ViewTitle.vala',
 )
