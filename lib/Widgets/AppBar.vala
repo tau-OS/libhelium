@@ -18,6 +18,22 @@ namespace He {
             }
         }
 
+        private bool _show_buttons;
+        public bool show_buttons {
+            get {
+                return _show_buttons;
+            }
+            set {
+                _show_buttons = value;
+
+                if (_show_buttons) {
+            		title.set_decoration_layout (":maximize,close");
+            	} else {
+            		title.set_decoration_layout (":");
+            	}
+            }
+        }
+
         construct {
             title = new Gtk.HeaderBar ();
         	title.hexpand = true;

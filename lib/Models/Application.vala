@@ -26,8 +26,10 @@ namespace He {
           typeof (He.OutlineButton).ensure ();
           typeof (He.OverlayButton).ensure ();
           typeof (He.PillButton).ensure ();
+          typeof (He.SideBar).ensure ();
           typeof (He.TextButton).ensure ();
           typeof (He.TintButton).ensure ();
+          typeof (He.ViewSubTitle).ensure ();
           typeof (He.ViewTitle).ensure ();
       }
 
