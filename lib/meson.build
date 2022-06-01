@@ -21,6 +21,7 @@ libhelium_sources += files(
 	'Widgets/ContentBlockImage.vala',
 	'Widgets/MiniContentBlock.vala',
 	'Widgets/ContentBlockImages.vala',
+    'Widgets/Chip.vala',
 )
 
 # define all the names and versions

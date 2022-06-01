@@ -1,4 +1,5 @@
 subdir('data')
+subproject('blueprint-compiler')
 
 conf = configuration_data()
 conf.set_quoted('APP_ID', 'co.tauos.Helium1.Demo')
@@ -19,5 +20,6 @@ executable(
 	sources: example_sources,
 	dependencies: [libhelium_dep],
 	vala_args: [meson.project_source_root() + '/demo/src/config.vapi'],
-	install: true
+	install: true,
+
 )

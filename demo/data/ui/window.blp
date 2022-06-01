@@ -1,0 +1,155 @@
+using Gtk 4.0;
+
+template DemoMainWindow : ApplicationWindow {
+  visible: true;
+  default-width: 500;
+  default-height: 500;
+
+  [titlebar]
+  .HeAppBar {
+    flat: "1";
+  }
+
+  Box main_box {
+    orientation: vertical;
+
+    .HeOverlayButton {
+      icon: "list-add-symbolic";
+      label: "Nya!";
+      secondary-icon: "list-add-symbolic";
+      secondary-color: "7";
+      child: 
+      Box {
+        orientation: vertical;
+
+        Box {
+          orientation: horizontal;
+          spacing: 12;
+
+          .HeViewTitle {
+            label: "Helium Demo";
+          }
+
+          .HeDisclosureButton {
+            icon-name: "list-add-symbolic";
+          }
+        }
+
+        Box {
+          orientation: vertical;
+          spacing: 12;
+          margin-end: 18;
+          margin-start: 18;
+          margin-bottom: 18;
+          vexpand: true;
+
+          .HeFillButton {
+            label: "Fill";
+          }
+
+          .HeTintButton {
+            label: "Tint";
+          }
+
+          .HeOutlineButton {
+            label: "Outline";
+          }
+
+          .HeTextButton {
+            label: "Text";
+          }
+
+          .HePillButton {
+            label: "Pill";
+          }
+
+          .HeContentBlock {
+            title: "Content Block";
+            subtitle: "Catgirls are cute!";
+            icon: "list-add-symbolic";
+            primary-button: 
+            .HeFillButton {
+              label: "Primary";
+            }
+
+            ;
+            secondary-button: 
+            .HeTintButton {
+              label: "Secondary";
+            }
+
+            ;
+          }
+
+          .HeMiniContentBlock {
+            title: "Content Block";
+            subtitle: "Catgirls are cute!";
+            icon: "list-add-symbolic";
+            primary-button: 
+            .HeFillButton {
+              label: "Primary";
+            }
+
+            ;
+          }
+
+          .HeContentBlockImages {
+            title: "Content Block";
+            subtitle: "Catgirls are cute!";
+            icon: "list-add-symbolic";
+
+            [top_left]
+            .HeContentBlockImage {
+              file: "file:///Users/lleyton/Desktop/no.jpg";
+            }
+
+            [top_right]
+            .HeContentBlockImage {
+              file: "file:///Users/lleyton/Desktop/no.jpg";
+            }
+
+            [bottom_left]
+            .HeContentBlockImage {
+              file: "file:///Users/lleyton/Desktop/no.jpg";
+            }
+
+            [bottom_right]
+            .HeContentBlockImage {
+              file: "file:///Users/lleyton/Desktop/no.jpg";
+            }
+          }
+
+          .HeChip {
+            label: "Chip";
+          }
+
+          .HeChip {
+            label: "Chip";
+          }
+        }
+      }
+
+      ;
+    }
+
+    .HeBottomBar {
+      title: "Example";
+      description: "Nekos are cute!";
+
+      [left]
+      .HeIconicButton {
+        icon-name: "list-add-symbolic";
+      }
+
+      [left]
+      .HeIconicButton {
+        icon-name: "list-add-symbolic";
+      }
+
+      [right]
+      .HeIconicButton {
+        icon-name: "list-add-symbolic";
+      }
+    }
+  }
+}

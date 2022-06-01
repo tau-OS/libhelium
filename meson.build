@@ -20,6 +20,8 @@ add_project_arguments(
     vala_os_arg,
     '--abi-stability',
     '--target-glib=' + glib_min_version,
+    '--gresourcesdir',
+    meson.current_build_dir() / 'demo' / 'data',
     language: ['vala']
 )
 

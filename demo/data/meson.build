@@ -1,17 +1,31 @@
+blueprints = custom_target('blueprints',
+  input: files(
+    'ui/window.blp',
+  ),
+  output: '.',
+  command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
+)
+
 install_data(
   'libhelium.svg',
   install_dir: get_option('datadir') / 'icons' / 'hicolor' / 'scalable' / 'apps'
 )
 
-install_data(
+install_data(\
   'libhelium-symbolic.svg',
   install_dir: get_option('datadir') / 'icons' / 'hicolor' / 'symbolic' / 'apps'
 )
 
 helium_demo_resources = gnome.compile_resources(
-   'helium-demo-resources',
-   'co.tauos.Helium1.Demo.gresources.xml',
-   c_name: 'he',
+  'helium-demo-resources',
+  'co.tauos.Helium1.Demo.gresources.xml',
+  # gresource_bundle: true,
+  source_dir: meson.current_build_dir(),
+  c_name: 'he',
+  # install: true,
+  dependencies: blueprints,
+  install_dir: get_option('datadir') / meson.project_name(),
+
 )
 
 desktop_file = i18n.merge_file(
