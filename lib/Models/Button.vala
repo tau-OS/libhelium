@@ -3,7 +3,7 @@ namespace He {
         public abstract He.Colors color { get; set; }
 
         construct {
-            this.color = He.Colors.GREEN;
+            this.color = He.Colors.PURPLE;
         }
     }
 }
