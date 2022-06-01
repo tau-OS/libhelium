@@ -35,117 +35,119 @@ template DemoMainWindow : ApplicationWindow {
           }
         }
 
-        Box {
-          orientation: vertical;
-          spacing: 12;
-          margin-end: 18;
-          margin-start: 18;
-          margin-bottom: 18;
-          vexpand: true;
+        ScrolledWindow {
+            Box {
+              orientation: vertical;
+              spacing: 12;
+              margin-end: 18;
+              margin-start: 18;
+              margin-bottom: 18;
+              vexpand: true;
 
-          .HeFillButton {
-            label: "Fill";
-          }
+              .HeFillButton {
+                label: "Fill";
+              }
 
-          .HeTintButton {
-            label: "Tint";
-          }
+              .HeTintButton {
+                label: "Tint";
+              }
 
-          .HeOutlineButton {
-            label: "Outline";
-          }
+              .HeOutlineButton {
+                label: "Outline";
+              }
 
-          .HeTextButton {
-            label: "Text";
-          }
+              .HeTextButton {
+                label: "Text";
+              }
 
-          .HePillButton {
-            label: "Pill";
-          }
+              .HePillButton {
+                label: "Pill";
+              }
 
-          .HeContentBlock {
-            title: "Content Block";
-            subtitle: "Catgirls are cute!";
-            icon: "list-add-symbolic";
-            primary-button: 
-            .HeFillButton {
-              label: "Primary";
+              .HeContentBlock {
+                title: "Content Block";
+                subtitle: "Catgirls are cute!";
+                icon: "list-add-symbolic";
+                primary-button:
+                .HeFillButton {
+                  label: "Primary";
+                }
+
+                ;
+                secondary-button:
+                .HeTintButton {
+                  label: "Secondary";
+                }
+
+                ;
+              }
+
+              .HeMiniContentBlock {
+                title: "Content Block";
+                subtitle: "Catgirls are cute!";
+                icon: "list-add-symbolic";
+                primary-button:
+                .HeFillButton {
+                  label: "Primary";
+                }
+
+                ;
+              }
+
+              .HeContentBlockImages {
+                title: "Content Block";
+                subtitle: "Catgirls are cute!";
+                icon: "list-add-symbolic";
+
+                [top_left]
+                .HeContentBlockImage {
+                  file: "file:///Users/lleyton/Desktop/no.jpg";
+                }
+
+                [top_right]
+                .HeContentBlockImage {
+                  file: "file:///Users/lleyton/Desktop/no.jpg";
+                }
+
+                [bottom_left]
+                .HeContentBlockImage {
+                  file: "file:///Users/lleyton/Desktop/no.jpg";
+                }
+
+                [bottom_right]
+                .HeContentBlockImage {
+                  file: "file:///Users/lleyton/Desktop/no.jpg";
+                }
+              }
+
+              .HeChip {
+                label: "Chip";
+              }
+
+              .HeChip {
+                label: "Chip";
+              }
+
+              .HeBadge {
+                label: "Badge";
+                .HePillButton {
+                  label: "Nya nya, breed me nya";
+                  color: 0;
+                }
+              }
+
+              .HeBadge {
+                .HeFillButton {
+                  label: "owo";
+                }
+              }
+
+              .HeModifierBadge {}
+
+              .HeModifierBadge {
+                label: "NYAAAA";
+              }
             }
-
-            ;
-            secondary-button: 
-            .HeTintButton {
-              label: "Secondary";
-            }
-
-            ;
-          }
-
-          .HeMiniContentBlock {
-            title: "Content Block";
-            subtitle: "Catgirls are cute!";
-            icon: "list-add-symbolic";
-            primary-button: 
-            .HeFillButton {
-              label: "Primary";
-            }
-
-            ;
-          }
-
-          .HeContentBlockImages {
-            title: "Content Block";
-            subtitle: "Catgirls are cute!";
-            icon: "list-add-symbolic";
-
-            [top_left]
-            .HeContentBlockImage {
-              file: "file:///Users/lleyton/Desktop/no.jpg";
-            }
-
-            [top_right]
-            .HeContentBlockImage {
-              file: "file:///Users/lleyton/Desktop/no.jpg";
-            }
-
-            [bottom_left]
-            .HeContentBlockImage {
-              file: "file:///Users/lleyton/Desktop/no.jpg";
-            }
-
-            [bottom_right]
-            .HeContentBlockImage {
-              file: "file:///Users/lleyton/Desktop/no.jpg";
-            }
-          }
-
-          .HeChip {
-            label: "Chip";
-          }
-
-          .HeChip {
-            label: "Chip";
-          }
-
-          .HeBadge {
-            label: "Badge";
-            .HePillButton {
-              label: "Nya nya, breed me nya";
-              color: 0;
-            }
-          }
-
-          .HeBadge {
-            .HeFillButton {
-              label: "owo";
-            }
-          }
-
-          .HeModifierBadge {}
-
-          .HeModifierBadge {
-            label: "NYAAAA";
-          }
         }
       }
       

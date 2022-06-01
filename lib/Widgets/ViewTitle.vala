@@ -10,14 +10,16 @@ class He.ViewTitle : Gtk.Box, Gtk.Buildable {
         }
     }
 
-	construct {
-	    _label = new Gtk.Label ("");
-		_label.xalign = 0;
-		_label.add_css_class ("view-title");
-		_label.margin_top = 6;
-		_label.margin_start = _label.margin_end = 18;
-		_label.margin_bottom = 12;
-		
-		this.append (_label);
-	}
+    construct {
+        _label = new Gtk.Label ("");
+        _label.xalign = 0;
+        _label.valign = Gtk.Align.CENTER;
+        _label.add_css_class ("view-title");
+        _label.margin_top = 6;
+        _label.margin_start = 18;
+        _label.margin_end = 12;
+        _label.margin_bottom = 12;
+
+        this.append (_label);
+    }
 }
