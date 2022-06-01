@@ -40,7 +40,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="HeContentBlock">
                     <property name="orientation">vertical</property>
                     <property name="spacing">12</property>
                     <property name="margin-end">18</property>
