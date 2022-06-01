@@ -17,6 +17,10 @@ libhelium_sources += files(
 	'Widgets/TintButton.vala',
 	'Widgets/TextButton.vala',
 	'Widgets/ViewTitle.vala',
+	'Widgets/ContentBlock.vala',
+	'Widgets/ContentBlockImage.vala',
+	'Widgets/MiniContentBlock.vala',
+	'Widgets/ContentBlockImages.vala',
 )
 
 # define all the names and versions

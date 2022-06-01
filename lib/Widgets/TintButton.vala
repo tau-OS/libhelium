@@ -14,8 +14,22 @@ class He.TintButton : He.Button {
         }
     }
 
+    public string icon {
+        set {
+            this.set_icon_name (value);
+        }
+
+        get {
+            return this.get_icon_name ();
+        }
+    }
+
     public TintButton(string label) {
         this.label = label;
+    }
+
+    public TintButton.from_icon(string icon) {
+        this.icon = icon;
     }
     
     construct {

@@ -40,7 +40,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="HeContentBlock">
+                  <object class="GtkBox">
                     <property name="orientation">vertical</property>
                     <property name="spacing">12</property>
                     <property name="margin-end">18</property>
@@ -70,6 +70,67 @@
                     <child>
                       <object class="HePillButton">
                         <property name="label">Pill</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="HeContentBlock">
+                        <property name="title">Content Block</property>
+                        <property name="subtitle">Catgirls are cute!</property>
+                        <property name="icon">list-add-symbolic</property>
+                        <property name="primary_button">
+                          <object class="HeFillButton">
+                            <property name="label">Primary</property>
+                          </object>
+                        </property>
+                        <property name="secondary_button">
+                          <object class="HeTintButton">
+                            <property name="label">Secondary</property>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+                    <!-- <child>
+                      <object class="HeContentBlockImage">
+                        <property name="file">file:///Users/lleyton/Desktop/no.jpg</property>
+                      </object>
+                    </child> -->
+                    <child>
+                      <object class="HeMiniContentBlock">
+                        <property name="title">Content Block</property>
+                        <property name="subtitle">Catgirls are cute!</property>
+                        <property name="icon">list-add-symbolic</property>
+                        <property name="primary_button">
+                          <object class="HeFillButton">
+                            <property name="label">Primary</property>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="HeContentBlockImages">
+                        <property name="title">Content Block</property>
+                        <property name="subtitle">Catgirls are cute!</property>
+                        <property name="icon">list-add-symbolic</property>
+                        <child type="top_left">
+                          <object class="HeContentBlockImage">
+                            <property name="file">file:///Users/lleyton/Desktop/no.jpg</property>
+                          </object>
+                        </child>
+                        <child type="top_right">
+                          <object class="HeContentBlockImage">
+                            <property name="file">file:///Users/lleyton/Desktop/no.jpg</property>
+                          </object>
+                        </child>
+                        <child type="bottom_left">
+                          <object class="HeContentBlockImage">
+                            <property name="file">file:///Users/lleyton/Desktop/no.jpg</property>
+                          </object>
+                        </child>
+                        <child type="bottom_right">
+                          <object class="HeContentBlockImage">
+                            <property name="file">file:///Users/lleyton/Desktop/no.jpg</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>

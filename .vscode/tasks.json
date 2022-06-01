@@ -3,18 +3,18 @@
   "tasks": [
     {
       "type": "meson",
-      "target": "libhelium-example",
-      "mode": "run",
-      "group": "test",
-      "problemMatcher": [],
-      "label": "Meson: Run libhelium-example"
-    },
-    {
-      "type": "meson",
       "mode": "build",
       "group": "build",
       "problemMatcher": [],
       "label": "Meson: Build all targets"
+    },
+    {
+      "type": "meson",
+      "target": "demo/co.tauos.Helium1.Demo",
+      "mode": "run",
+      "group": "test",
+      "problemMatcher": [],
+      "label": "Meson: Run demo/co.tauos.Helium1.Demo"
     }
   ]
 }

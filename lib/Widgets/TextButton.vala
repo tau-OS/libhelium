@@ -17,6 +17,20 @@ class He.TextButton : He.Button {
   public TextButton(string label) {
       this.label = label;
   }
+
+  public TextButton.from_icon(string icon) {
+    this.icon = icon;
+}
+
+  public string icon {
+    set {
+        this.set_icon_name (value);
+    }
+
+    get {
+        return this.get_icon_name ();
+    }
+}
   
   construct {
       this.add_css_class ("textual-button");
