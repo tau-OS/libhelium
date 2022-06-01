@@ -1,4 +1,4 @@
-class He.OverlayButton : Gtk.Box {
+class He.OverlayButton : Gtk.Box, Gtk.Buildable {
     private Gtk.Button button = new Gtk.Button();
     private Gtk.Box button_content = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box button_row = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 18);
@@ -179,6 +179,10 @@ class He.OverlayButton : Gtk.Box {
         set {
             overlay.set_child(value);
         }
+    }
+
+    public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+        this.child = (Gtk.Widget) child;
     }
 
     public Alignment alignment {

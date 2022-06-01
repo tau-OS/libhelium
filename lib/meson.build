@@ -21,6 +21,8 @@ libhelium_sources += files(
 	'Widgets/ContentBlockImage.vala',
 	'Widgets/MiniContentBlock.vala',
 	'Widgets/ContentBlockImages.vala',
+	'Widgets/Badge.vala',
+	'Widgets/ModifierBadge.vala',
     'Widgets/Chip.vala',
 )
 

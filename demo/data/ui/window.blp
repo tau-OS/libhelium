@@ -18,7 +18,7 @@ template DemoMainWindow : ApplicationWindow {
       label: "Nya!";
       secondary-icon: "list-add-symbolic";
       secondary-color: "7";
-      child: 
+
       Box {
         orientation: vertical;
 
@@ -126,10 +126,29 @@ template DemoMainWindow : ApplicationWindow {
           .HeChip {
             label: "Chip";
           }
+
+          .HeBadge {
+            label: "Badge";
+            .HePillButton {
+              label: "Nya nya, breed me nya";
+              color: 0;
+            }
+          }
+
+          .HeBadge {
+            .HeFillButton {
+              label: "owo";
+            }
+          }
+
+          .HeModifierBadge {}
+
+          .HeModifierBadge {
+            label: "NYAAAA";
+          }
         }
       }
-
-      ;
+      
     }
 
     .HeBottomBar {
