@@ -1,5 +1,5 @@
 using Gtk 4.0;
-//using He 1;
+using He 1;
 
 template DemoMainWindow : ApplicationWindow {
   visible: true;
@@ -16,7 +16,7 @@ template DemoMainWindow : ApplicationWindow {
     Box {
       orientation: horizontal;
 
-      .HeSideBar {
+      He.SideBar {
         title: "Sidebar";
         subtitle: "Subtitle";
 
@@ -57,7 +57,7 @@ template DemoMainWindow : ApplicationWindow {
         orientation: vertical;
       }
 
-      .HeSideBar {
+      He.SideBar {
         title: "Secondary";
         subtitle: "Subtitle";
 
@@ -66,17 +66,17 @@ template DemoMainWindow : ApplicationWindow {
           icon-name: "view-more";
         }
 
-        .HeMiniContentBlock {
+        He.MiniContentBlock {
           title: "Mini Content Block";
           subtitle: "Subtitle";
           icon: "list-add-symbolic";
         }
-        .HeMiniContentBlock {
+        He.MiniContentBlock {
           title: "Mini Content Block";
           subtitle: "Subtitle";
           icon: "list-add-symbolic";
         }
-        .HeMiniContentBlock {
+        He.MiniContentBlock {
           title: "Mini Content Block";
           subtitle: "Subtitle";
           icon: "list-add-symbolic";
@@ -90,7 +90,7 @@ template DemoMainWindow : ApplicationWindow {
       Box {
         orientation: vertical;
 
-        .HeAppBar {
+        He.AppBar {
           flat: true;
           show-buttons: true;
 
@@ -99,7 +99,7 @@ template DemoMainWindow : ApplicationWindow {
           }
         }
 
-        .HeOverlayButton {
+        He.OverlayButton {
           icon: "list-add-symbolic";
           label: "Add Thing";
           secondary-icon: "list-add-symbolic";
@@ -112,11 +112,11 @@ template DemoMainWindow : ApplicationWindow {
               orientation: horizontal;
               spacing: 12;
 
-              .HeViewTitle {
+              He.ViewTitle {
                 label: "Helium Demo";
               }
 
-              .HeDisclosureButton {
+              He.DisclosureButton {
                 icon-name: "list-add-symbolic";
               }
             }
@@ -132,75 +132,75 @@ template DemoMainWindow : ApplicationWindow {
                 margin-bottom: 18;
                 vexpand: true;
 
-                .HeFillButton {
+                He.FillButton {
                   label: "Fill";
                 }
 
-                .HeTintButton {
+                He.TintButton {
                   label: "Tint";
                 }
 
-                .HeOutlineButton {
+                He.OutlineButton {
                   label: "Outline";
                 }
 
-                .HeTextButton {
+                He.TextButton {
                   label: "Text";
                 }
 
-                .HePillButton {
+                He.PillButton {
                   label: "Pill";
                 }
 
-                .HeContentBlock {
+                He.ContentBlock {
                   title: "Content Block";
                   subtitle: "Subtitle";
                   icon: "list-add-symbolic";
                   primary-button:
-                    .HeFillButton {
+                    He.FillButton {
                       label: "Primary";
                     }
                   ;
                   secondary-button:
-                    .HeTintButton {
+                    He.TintButton {
                       label: "Secondary";
                     }
                   ;
                 }
 
-                .HeMiniContentBlock {
+                He.MiniContentBlock {
                   title: "Content Block";
                   subtitle: "Subtitle";
                   icon: "list-add-symbolic";
                   primary-button:
-                    .HeFillButton {
+                    He.FillButton {
                       label: "Primary";
                     }
                   ;
                 }
 
-                .HeContentBlockImageCluster {
+                He.ContentBlockImageCluster {
                   title: "Content Block";
                   subtitle: "Subtitle";
                   icon: "list-add-symbolic";
 
                   [top_left]
-                  .HeContentBlockImage {
+                  He.ContentBlockImage {
                     file: "file:///Users/lleyton/Desktop/no.jpg";
                   }
 
                   [top_right]
-                  .HeContentBlockImage {
+                  He.ContentBlockImage {
                     file: "file:///Users/lleyton/Desktop/no.jpg";
                   }
 
                   [bottom_left]
-                  .HeContentBlockImage {
+                  He.ContentBlockImage {
                     file: "file:///Users/lleyton/Desktop/no.jpg";
                   }
 
                   [bottom_right]
-                  .HeContentBlockImage {
+                  He.ContentBlockImage {
                     file: "file:///Users/lleyton/Desktop/no.jpg";
                   }
                 }
@@ -208,53 +208,53 @@ template DemoMainWindow : ApplicationWindow {
                 Box {
                   orientation: horizontal;
                   spacing: 12;
-                    .HeChip {
+                    He.Chip {
                       label: "Chip";
                     }
 
-                    .HeChip {
+                    He.Chip {
                       label: "Chip";
                     }
 
-                    .HeChip {
+                    He.Chip {
                       label: "Chip";
                     }
 
-                    .HeChip {
+                    He.Chip {
                       label: "Chip";
                     }
 
-                    .HeChip {
+                    He.Chip {
                       label: "Chip";
                     }
                 }
 
-                .HeBadge {
+                He.Badge {
                   label: "Badge";
-                  .HePillButton {
+                  He.PillButton {
                     label: "Really long string to show the badge above the button here.";
                     color: orange;
                   }
                 }
 
-                .HeBadge {
-                  .HeFillButton {
+                He.Badge {
+                  He.FillButton {
                     label: "Button";
                   }
                 }
 
-                .HeModifierBadge {}
+                He.ModifierBadge {}
 
-                .HeModifierBadge {
+                He.ModifierBadge {
                   label: "Badge";
                 }
 
-                .HeFillButton toast_button {
+                He.FillButton toast_button {
                   label: "Toast Button";
                   color: dark;
                 }
 
-                .HeToast toast {
+                He.Toast toast {
                   label: "Toasty! Am I funny yet guys? ...guys?";
                   default-action: "Boo! Outdated Meme!";
                 }
@@ -263,22 +263,22 @@ template DemoMainWindow : ApplicationWindow {
           }
         }
 
-        .HeBottomBar {
+        He.BottomBar {
           title: "Example";
           description: "3 items";
 
           [left]
-          .HeIconicButton {
+          He.IconicButton {
           icon-name: "list-add-symbolic";
           }
 
           [left]
-          .HeIconicButton {
+          He.IconicButton {
           icon-name: "list-add-symbolic";
           }
 
           [right]
-          .HeIconicButton {
+          He.IconicButton {
           icon-name: "list-add-symbolic";
           }
         }
