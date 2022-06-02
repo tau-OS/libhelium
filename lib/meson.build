@@ -58,12 +58,31 @@ libhelium = library(
         meson.get_compiler('c').find_library('m'),
         meson.get_compiler('vala').find_library('posix')
     ],
-    vala_gir: 'libhelium-1.gir',
+    vala_gir: 'He-1.gir',
     vala_header: 'libhelium-1.h',
     vala_vapi: 'libhelium-1.vapi',
     version: libhelium_gi_version,
     install: true,
     install_dir: [true, include_dir, vapidir, girdir],
+)
+
+# typelib generation isn't automated yet
+g_ir_compiler = find_program('g-ir-compiler')
+custom_target(
+    libhelium_typelib,
+    command: [
+        g_ir_compiler,
+        '--shared-library',
+        '@PLAINNAME@',
+        '--output',
+        '@OUTPUT@',
+        join_paths(meson.current_build_dir(), 'He-1.gir'),
+    ],
+    input: libhelium,
+    output: libhelium_typelib,
+    depends: libhelium,
+    install: true,
+    install_dir: join_paths(get_option('libdir'), 'girepository-1.0'),
 )
 
 libhelium_dep = declare_dependency(
