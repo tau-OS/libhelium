@@ -43,11 +43,9 @@ public class He.Toast : Gtk.Widget {
         Object (label: label);
     }
 
-    class construct {
-        set_css_name ("toast");
-    }
-
     construct {
+        add_css_class ("toast-box");
+
         halign = Gtk.Align.CENTER;
         valign = Gtk.Align.START;
         visible = false;
