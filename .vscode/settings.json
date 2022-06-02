@@ -8,6 +8,4 @@
     ".flatpak/**": true,
     "_build/**": true
   },
-  "mesonbuild.buildFolder": "_build",
-  "mesonbuild.mesonPath": "/var/home/lains/Projects/tauos/libhelium/.flatpak/meson.sh"
 }
