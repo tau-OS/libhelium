@@ -17,51 +17,52 @@ template DemoMainWindow : ApplicationWindow {
 
       .HeSideBar {
         .HeAppBar {
-            flat: "1";
-            show-buttons: "0";
+          flat: "1";
+          show-buttons: "0";
 
-            MenuButton main_menu {
-              icon-name: "open-menu";
-            }
+          MenuButton main_menu {
+            icon-name: "open-menu";
+          }
 
-            ToggleButton search {
-              icon-name: "system-search";
-            }
-         }
+          ToggleButton search {
+            icon-name: "system-search";
+          }
+        }
 
-         .HeViewTitle {
-           label: "Sidebar";
-         }
+        .HeViewTitle {
+          label: "Sidebar";
+        }
 
-         .HeViewSubTitle {
-           label: "A subtitle";
-         }
+        .HeViewSubTitle {
+          label: "A subtitle";
+        }
 
-         Revealer {
-           reveal-child: bind search.active;
-           SearchEntry {
-             margin-start: 18;
-             margin-end: 18;
-             margin-bottom: 12;
-           }
-         }
+        Revealer {
+          reveal-child: bind search.active;
 
-         Box {
-           orientation: vertical;
-           margin-start: 18;
-           margin-end: 18;
-           spacing: 6;
+          SearchEntry {
+            margin-start: 18;
+            margin-end: 18;
+            margin-bottom: 12;
+          }
+        }
 
-           Button {
-             label: "Button";
-           }
-           Button {
-             label: "Button";
-           }
-           Button {
-             label: "Button";
-           }
-         }
+        Box {
+          orientation: vertical;
+          margin-start: 18;
+          margin-end: 18;
+          spacing: 6;
+
+          Button {
+            label: "Button";
+          }
+          Button {
+            label: "Button";
+          }
+          Button {
+            label: "Button";
+          }
+        }
       }
 
       Separator {
@@ -70,37 +71,39 @@ template DemoMainWindow : ApplicationWindow {
 
       .HeSideBar {
         .HeAppBar {
-            flat: "1";
-            show-buttons: "0";
-         }
-         .HeViewTitle {
-                label: "Secondary";
-         }
-         .HeViewSubTitle {
-                label: "A subtitle";
-         }
+          flat: "1";
+          show-buttons: "0";
+        }
 
-         Box {
-           orientation: vertical;
-           margin-start: 18;
-           margin-end: 18;
+        .HeViewTitle {
+          label: "Secondary";
+        }
 
-           .HeMiniContentBlock {
-             title: "Mini Content Block";
-             subtitle: "Catgirls are cute!";
-             icon: "list-add-symbolic";
-           }
-           .HeMiniContentBlock {
-             title: "Mini Content Block";
-             subtitle: "Catgirls are cute!";
-             icon: "list-add-symbolic";
-           }
-           .HeMiniContentBlock {
-             title: "Mini Content Block";
-             subtitle: "Catgirls are cute!";
-             icon: "list-add-symbolic";
-           }
-         }
+        .HeViewSubTitle {
+          label: "A subtitle";
+        }
+
+        Box {
+          orientation: vertical;
+          margin-start: 18;
+          margin-end: 18;
+
+          .HeMiniContentBlock {
+            title: "Mini Content Block";
+            subtitle: "Catgirls are cute!";
+            icon: "list-add-symbolic";
+          }
+          .HeMiniContentBlock {
+            title: "Mini Content Block";
+            subtitle: "Catgirls are cute!";
+            icon: "list-add-symbolic";
+          }
+          .HeMiniContentBlock {
+            title: "Mini Content Block";
+            subtitle: "Catgirls are cute!";
+            icon: "list-add-symbolic";
+          }
+        }
       }
 
       Separator {
@@ -111,9 +114,10 @@ template DemoMainWindow : ApplicationWindow {
         orientation: vertical;
 
         .HeAppBar {
-            flat: "1";
-            show-buttons: "1";
-          }
+          flat: "1";
+          show-buttons: "1";
+        }
+
         .HeOverlayButton {
           icon: "list-add-symbolic";
           label: "Nya!";
@@ -137,150 +141,150 @@ template DemoMainWindow : ApplicationWindow {
             }
 
             ScrolledWindow {
-                Box {
-                  orientation: vertical;
-                  spacing: 12;
-                  margin-end: 18;
-                  margin-start: 18;
-                  margin-bottom: 18;
-                  vexpand: true;
+              Box {
+                orientation: vertical;
+                spacing: 12;
+                margin-end: 18;
+                margin-start: 18;
+                margin-bottom: 18;
+                vexpand: true;
 
+                .HeFillButton {
+                  label: "Fill";
+                }
+
+                .HeTintButton {
+                  label: "Tint";
+                }
+
+                .HeOutlineButton {
+                  label: "Outline";
+                }
+
+                .HeTextButton {
+                  label: "Text";
+                }
+
+                .HePillButton {
+                  label: "Pill";
+                }
+
+                .HeContentBlock {
+                  title: "Content Block";
+                  subtitle: "Catgirls are cute!";
+                  icon: "list-add-symbolic";
+                  primary-button:
                   .HeFillButton {
-                    label: "Fill";
+                    label: "Primary";
                   }
-
+                  secondary-button:
                   .HeTintButton {
-                    label: "Tint";
-                  }
-
-                  .HeOutlineButton {
-                    label: "Outline";
-                  }
-
-                  .HeTextButton {
-                    label: "Text";
-                  }
-
-                  .HePillButton {
-                    label: "Pill";
-                  }
-
-                  .HeContentBlock {
-                    title: "Content Block";
-                    subtitle: "Catgirls are cute!";
-                    icon: "list-add-symbolic";
-                    primary-button:
-                    .HeFillButton {
-                      label: "Primary";
-                    }
-                    secondary-button:
-                    .HeTintButton {
-                      label: "Secondary";
-                    }
-                  }
-
-                  .HeMiniContentBlock {
-                    title: "Content Block";
-                    subtitle: "Catgirls are cute!";
-                    icon: "list-add-symbolic";
-                    primary-button:
-                    .HeFillButton {
-                      label: "Primary";
-                    }
-                  }
-
-                  .HeContentBlockImageCluster {
-                    title: "Content Block";
-                    subtitle: "Catgirls are cute!";
-                    icon: "list-add-symbolic";
-
-                    [top_left]
-                    .HeContentBlockImage {
-                      file: "file:///Users/lleyton/Desktop/no.jpg";
-                    }
-
-                    [top_right]
-                    .HeContentBlockImage {
-                      file: "file:///Users/lleyton/Desktop/no.jpg";
-                    }
-
-                    [bottom_left]
-                    .HeContentBlockImage {
-                      file: "file:///Users/lleyton/Desktop/no.jpg";
-                    }
-
-                    [bottom_right]
-                    .HeContentBlockImage {
-                      file: "file:///Users/lleyton/Desktop/no.jpg";
-                    }
-                  }
-
-                  Box {
-                    orientation: horizontal;
-                    spacing: 12;
-                      .HeChip {
-                        label: "Chip";
-                      }
-
-                      .HeChip {
-                        label: "Chip";
-                      }
-
-                      .HeChip {
-                        label: "Chip";
-                      }
-
-                      .HeChip {
-                        label: "Chip";
-                      }
-
-                      .HeChip {
-                        label: "Chip";
-                      }
-                  }
-
-                  .HeBadge {
-                    label: "Badge";
-                    .HePillButton {
-                      label: "Nya nya, breed me nya";
-                      color: 0;
-                    }
-                  }
-
-                  .HeBadge {
-                    .HeFillButton {
-                      label: "owo";
-                    }
-                  }
-
-                  .HeModifierBadge {}
-
-                  .HeModifierBadge {
-                    label: "NYAAAA";
+                    label: "Secondary";
                   }
                 }
+
+                .HeMiniContentBlock {
+                  title: "Content Block";
+                  subtitle: "Catgirls are cute!";
+                  icon: "list-add-symbolic";
+                  primary-button:
+                  .HeFillButton {
+                    label: "Primary";
+                  }
+                }
+
+                .HeContentBlockImageCluster {
+                  title: "Content Block";
+                  subtitle: "Catgirls are cute!";
+                  icon: "list-add-symbolic";
+
+                  [top_left]
+                  .HeContentBlockImage {
+                    file: "file:///Users/lleyton/Desktop/no.jpg";
+                  }
+
+                  [top_right]
+                  .HeContentBlockImage {
+                    file: "file:///Users/lleyton/Desktop/no.jpg";
+                  }
+
+                  [bottom_left]
+                  .HeContentBlockImage {
+                    file: "file:///Users/lleyton/Desktop/no.jpg";
+                  }
+
+                  [bottom_right]
+                  .HeContentBlockImage {
+                    file: "file:///Users/lleyton/Desktop/no.jpg";
+                  }
+                }
+
+                Box {
+                  orientation: horizontal;
+                  spacing: 12;
+                    .HeChip {
+                      label: "Chip";
+                    }
+
+                    .HeChip {
+                      label: "Chip";
+                    }
+
+                    .HeChip {
+                      label: "Chip";
+                    }
+
+                    .HeChip {
+                      label: "Chip";
+                    }
+
+                    .HeChip {
+                      label: "Chip";
+                    }
+                }
+
+                .HeBadge {
+                  label: "Badge";
+                  .HePillButton {
+                    label: "Nya nya, breed me nya";
+                    color: 0;
+                  }
+                }
+
+                .HeBadge {
+                  .HeFillButton {
+                    label: "owo";
+                  }
+                }
+
+                .HeModifierBadge {}
+
+                .HeModifierBadge {
+                  label: "NYAAAA";
+                }
+              }
             }
           }
         }
 
         .HeBottomBar {
-            title: "Example";
-            description: "Nekos are cute!";
+          title: "Example";
+          description: "Nekos are cute!";
 
-            [left]
-            .HeIconicButton {
-            icon-name: "list-add-symbolic";
-            }
+          [left]
+          .HeIconicButton {
+          icon-name: "list-add-symbolic";
+          }
 
-            [left]
-            .HeIconicButton {
-            icon-name: "list-add-symbolic";
-            }
+          [left]
+          .HeIconicButton {
+          icon-name: "list-add-symbolic";
+          }
 
-            [right]
-            .HeIconicButton {
-            icon-name: "list-add-symbolic";
-            }
+          [right]
+          .HeIconicButton {
+          icon-name: "list-add-symbolic";
+          }
         }
       }
     }
