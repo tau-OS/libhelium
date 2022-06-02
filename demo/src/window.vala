@@ -33,6 +33,10 @@ public class Demo.MainWindow : Gtk.ApplicationWindow {
 
     [GtkChild]
     private unowned Gtk.MenuButton main_menu;
+    [GtkChild]
+    private unowned Gtk.Button toast_button;
+    [GtkChild]
+    private unowned He.Toast toast;
 
     public He.Application app { get; construct; }
     public MainWindow (He.Application application) {
@@ -62,6 +66,10 @@ public class Demo.MainWindow : Gtk.ApplicationWindow {
 
         var builder = new Gtk.Builder.from_resource ("/co/tauos/Helium1/Demo/menu.ui");
         main_menu.menu_model = (MenuModel)builder.get_object ("menu");
+
+        toast_button.clicked.connect (() => {
+            toast.send_notification ();
+        });
 
         this.set_size_request (360, 360);
         this.show ();

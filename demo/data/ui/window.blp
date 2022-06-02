@@ -141,6 +141,8 @@ template DemoMainWindow : ApplicationWindow {
             }
 
             ScrolledWindow {
+              hscrollbar-policy: never;
+
               Box {
                 orientation: vertical;
                 spacing: 12;
@@ -264,6 +266,15 @@ template DemoMainWindow : ApplicationWindow {
 
                 .HeModifierBadge {
                   label: "Badge";
+                }
+
+                Button toast_button {
+                  label: "Toast Button";
+                }
+
+                .HeToast toast {
+                  label: "Toasty! Am I funny yet guys? ...guys?";
+                  default-action: "Boo! Outdated Meme!";
                 }
               }
             }

@@ -24,6 +24,7 @@ libhelium_sources += files(
     'Widgets/SideBar.vala',
     'Widgets/TextButton.vala',
     'Widgets/TintButton.vala',
+    'Widgets/Toast.vala',
     'Widgets/ViewSubTitle.vala',
     'Widgets/ViewTitle.vala',
 )
@@ -49,20 +50,20 @@ typelibdir = get_option('libdir')  / 'girepository-1.0'
 vapidir    = get_option('datadir') / 'vapi'
 
 libhelium = library(
+    libhelium_gi,
+    gresource,
+    libhelium_sources,
     dependencies: [
         libhelium_deps,
         meson.get_compiler('c').find_library('m'),
         meson.get_compiler('vala').find_library('posix')
     ],
-    gresource,
-    install_dir: [true, include_dir, vapidir, girdir],
-    install: true,
-    libhelium_gi, 
-    libhelium_sources,
     vala_gir: 'libhelium-1.gir',
     vala_header: 'libhelium-1.h',
     vala_vapi: 'libhelium-1.vapi',
     version: libhelium_gi_version,
+    install: true,
+    install_dir: [true, include_dir, vapidir, girdir],
 )
 
 libhelium_dep = declare_dependency(
