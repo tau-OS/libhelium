@@ -59,29 +59,13 @@ libhelium = library(
         meson.get_compiler('vala').find_library('posix')
     ],
 
+    vala_header: 'libhelium-1.h',
+    vala_vapi: 'libhelium-1.vapi',
+    vala_gir: 'libhelium-1.gir',
+
     version: meson.project_version(),
     install: true,
-    install_dir: [true, include_dir, true],
-)
-
-libhelium_gir = gnome.generate_gir(libhelium,
-                 sources: libhelium_sources,
-               nsversion: '1',
-               namespace: 'He',
-         export_packages: 'libhelium-1',
-               link_with: libhelium,
-                includes: ['Gio-2.0', 'Gtk-4.0'],
-                 install: true,
-         install_dir_gir: girdir,
-     install_dir_typelib: typelibdir,
-)
-
-libhelium_vapi = gnome.generate_vapi('libhelium-1',
-             sources: libhelium_gir[0],
-            packages: [ 'gio-2.0', 'gtk4' ],
-             install: true,
-         install_dir: vapidir,
-       metadata_dirs: [ meson.current_source_dir() ],
+    install_dir: [true, include_dir, vapidir, girdir],
 )
 
 libhelium_dep = declare_dependency(

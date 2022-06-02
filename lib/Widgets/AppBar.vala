@@ -34,6 +34,10 @@ namespace He {
             }
         }
 
+        public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+            title.pack_end ((Gtk.Widget)child);
+        }
+
         construct {
             title = new Gtk.HeaderBar ();
         	title.hexpand = true;

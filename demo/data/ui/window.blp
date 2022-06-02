@@ -19,12 +19,31 @@ template DemoMainWindow : ApplicationWindow {
         .HeAppBar {
             flat: "1";
             show-buttons: "0";
+
+            MenuButton main_menu {
+              icon-name: "open-menu";
+            }
+
+            ToggleButton search {
+              icon-name: "system-search";
+            }
          }
+
          .HeViewTitle {
-                label: "Sidebar";
+           label: "Sidebar";
          }
+
          .HeViewSubTitle {
-                label: "A subtitle";
+           label: "A subtitle";
+         }
+
+         Revealer {
+           reveal-child: bind search.active;
+           SearchEntry {
+             margin-start: 18;
+             margin-end: 18;
+             margin-bottom: 12;
+           }
          }
 
          Box {
@@ -99,7 +118,7 @@ template DemoMainWindow : ApplicationWindow {
           icon: "list-add-symbolic";
           label: "Nya!";
           secondary-icon: "list-add-symbolic";
-          secondary-color: "7";
+          secondary-color: "1";
 
           Box {
             orientation: vertical;

@@ -30,6 +30,7 @@ libhelium_deps = [
     gio_os_dep,
     dependency('glib-2.0', version: '>=' + glib_min_version),
     dependency('gobject-2.0', version: '>=' + glib_min_version),
+    dependency('gee-0.8'),
     dependency('gtk4', version: '>=4.4'),
 ]
 
