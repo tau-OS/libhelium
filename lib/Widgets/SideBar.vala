@@ -1,7 +1,7 @@
 public class He.SideBar : Gtk.Box, Gtk.Buildable {
+    private He.AppBar titlebar = new He.AppBar();
     private He.ViewTitle title_label = new He.ViewTitle();
     private He.ViewSubTitle subtitle_label = new He.ViewSubTitle();
-    private Gtk.Box titlebox = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
     public string title {
@@ -28,8 +28,8 @@ public class He.SideBar : Gtk.Box, Gtk.Buildable {
     }
 
     public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-        if (type == "titlebar") {
-            titlebox.append ((Gtk.Widget) child);
+        if (type == "titlebar-button") {
+            titlebar.title.pack_end ((Gtk.Widget) child);
         } else {
             box.append ((Gtk.Widget) child);
         }
@@ -42,10 +42,13 @@ public class He.SideBar : Gtk.Box, Gtk.Buildable {
         this.hexpand = false;
         this.hexpand_set = true;
 
+        titlebar.show_buttons = false;
+        titlebar.flat = true;
+
         box.margin_start = box.margin_end = 18;
         box.orientation = Gtk.Orientation.VERTICAL;
 
-        this.append (titlebox);
+        this.append (titlebar);
         this.append (title_label);
         this.append (subtitle_label);
         this.append (box);

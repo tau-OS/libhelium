@@ -20,18 +20,13 @@ template DemoMainWindow : ApplicationWindow {
         title: "Sidebar";
         subtitle: "Subtitle";
 
-        [titlebar]
-        .HeAppBar {
-          flat: true;
-          show-buttons: false;
-
-          MenuButton main_menu {
-            icon-name: "open-menu";
-          }
-
-          ToggleButton search {
-            icon-name: "system-search";
-          }
+        [titlebar-button]
+        MenuButton main_menu {
+          icon-name: "open-menu";
+        }
+        [titlebar-button]
+        ToggleButton search {
+          icon-name: "system-search";
         }
 
         Revealer {
@@ -66,14 +61,9 @@ template DemoMainWindow : ApplicationWindow {
         title: "Secondary";
         subtitle: "Subtitle";
 
-        [titlebar]
-        .HeAppBar {
-          flat: true;
-          show-buttons: false;
-
-          MenuButton {
-            icon-name: "view-more";
-          }
+        [titlebar-button]
+        MenuButton {
+          icon-name: "view-more";
         }
 
         .HeMiniContentBlock {
