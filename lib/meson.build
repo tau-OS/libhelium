@@ -36,41 +36,37 @@ libhelium_gi = libhelium_gi_name + '-' + libhelium_gi_version
 libhelium_typelib = libhelium_gi + '.typelib'
 
 include_dir = join_paths(
-    get_option('prefix'),
     get_option('includedir'),
+    get_option('prefix'),
     meson.project_name()
 )
 
 # compile shared library, generate GIR, header, and vapi file
 datadir    = get_option('datadir')
-libdir     = get_option('libdir')
 girdir     = get_option('datadir') / 'gir-1.0'
+libdir     = get_option('libdir')
 typelibdir = get_option('libdir')  / 'girepository-1.0'
 vapidir    = get_option('datadir') / 'vapi'
 
 libhelium = library(
-    libhelium_gi, 
-    gresource,
-
-    libhelium_sources,
-
     dependencies: [
         libhelium_deps,
         meson.get_compiler('c').find_library('m'),
         meson.get_compiler('vala').find_library('posix')
     ],
-
+    gresource,
+    install_dir: [true, include_dir, vapidir, girdir],
+    install: true,
+    libhelium_gi, 
+    libhelium_sources,
+    vala_gir: 'libhelium-1.gir',
     vala_header: 'libhelium-1.h',
     vala_vapi: 'libhelium-1.vapi',
-    vala_gir: 'libhelium-1.gir',
-
     version: libhelium_gi_version,
-    install: true,
-    install_dir: [true, include_dir, vapidir, girdir],
 )
 
 libhelium_dep = declare_dependency(
-    link_with: libhelium,
     dependencies: libhelium_deps,
     include_directories: [include_directories('.')],
+    link_with: libhelium,
 )
