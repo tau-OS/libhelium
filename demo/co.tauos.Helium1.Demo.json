@@ -27,6 +27,11 @@
       "name": "libhelium",
       "buildsystem": "meson",
       "builddir": true,
+      "config-opts": [
+        "-Ddemo=true",
+        "-Dintrospection=true",
+        "-Dvapi=true"
+      ],
       "sources" : [
           {
             "type" : "dir",

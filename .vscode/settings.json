@@ -1,5 +1,4 @@
 {
-  "mesonbuild.configureOnOpen": false,
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
@@ -8,4 +7,7 @@
     ".flatpak/**": true,
     "_build/**": true
   },
+  "mesonbuild.configureOnOpen": false,
+  "mesonbuild.buildFolder": "_build",
+  "mesonbuild.mesonPath": "/var/home/lains/Projects/tauos/libhelium/.flatpak/meson.sh",
 }

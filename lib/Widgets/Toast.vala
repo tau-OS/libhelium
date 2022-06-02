@@ -60,9 +60,13 @@ public class He.Toast : Gtk.Widget {
         close_button.add_css_class ("flat");
         close_button.add_css_class ("circular");
 
-        notification_label = new Gtk.Label (label);
-        notification_label.xalign = 0;
-        notification_label.hexpand = true;
+        notification_label = new Gtk.Label (label) {
+            wrap = true,
+            wrap_mode = Pango.WrapMode.WORD,
+            xalign = 0,
+            hexpand = true
+        };
+        notification_label.add_css_class ("flat");
 
         var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
         box.valign = Gtk.Align.CENTER;
