@@ -2,3 +2,4 @@ _build
 subprojects/tau-helium
 subprojects/blueprint-compiler
 .flatpak
+.vscode
