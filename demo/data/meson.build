@@ -20,13 +20,10 @@ install_data(\
 helium_demo_resources = gnome.compile_resources(
   'helium-demo-resources',
   'co.tauos.Helium1.Demo.gresources.xml',
-  # gresource_bundle: true,
   source_dir: meson.current_build_dir(),
   c_name: 'he',
-  # install: true,
   dependencies: blueprints,
   install_dir: get_option('datadir') / meson.project_name(),
-
 )
 
 desktop_file = i18n.merge_file(

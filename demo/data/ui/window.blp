@@ -1,5 +1,5 @@
 using Gtk 4.0;
-using He 1;
+//using He 1;
 
 template DemoMainWindow : ApplicationWindow {
   visible: true;
@@ -16,8 +16,12 @@ template DemoMainWindow : ApplicationWindow {
     Box {
       orientation: horizontal;
 
-      He.SideBar {
-        He.AppBar {
+      .HeSideBar {
+        title: "Sidebar";
+        subtitle: "Subtitle";
+
+        [titlebar]
+        .HeAppBar {
           flat: true;
           show-buttons: false;
 
@@ -30,28 +34,16 @@ template DemoMainWindow : ApplicationWindow {
           }
         }
 
-        He.ViewTitle {
-          label: "Sidebar";
-        }
-
-        He.ViewSubTitle {
-          label: "A subtitle";
-        }
-
         Revealer {
           reveal-child: bind search.active;
+          margin-bottom: 12;
 
           SearchEntry {
-            margin-start: 18;
-            margin-end: 18;
-            margin-bottom: 12;
           }
         }
 
         Box {
           orientation: vertical;
-          margin-start: 18;
-          margin-end: 18;
           spacing: 6;
 
           Button {
@@ -70,40 +62,34 @@ template DemoMainWindow : ApplicationWindow {
         orientation: vertical;
       }
 
-      He.SideBar {
-        He.AppBar {
+      .HeSideBar {
+        title: "Secondary";
+        subtitle: "Subtitle";
+
+        [titlebar]
+        .HeAppBar {
           flat: true;
           show-buttons: false;
+
+          MenuButton {
+            icon-name: "view-more";
+          }
         }
 
-        He.ViewTitle {
-          label: "Secondary";
+        .HeMiniContentBlock {
+          title: "Mini Content Block";
+          subtitle: "Subtitle";
+          icon: "list-add-symbolic";
         }
-
-        He.ViewSubTitle {
-          label: "A subtitle";
+        .HeMiniContentBlock {
+          title: "Mini Content Block";
+          subtitle: "Subtitle";
+          icon: "list-add-symbolic";
         }
-
-        Box {
-          orientation: vertical;
-          margin-start: 18;
-          margin-end: 18;
-
-          He.MiniContentBlock {
-            title: "Mini Content Block";
-            subtitle: "Subtitle";
-            icon: "list-add-symbolic";
-          }
-          He.MiniContentBlock {
-            title: "Mini Content Block";
-            subtitle: "Subtitle";
-            icon: "list-add-symbolic";
-          }
-          He.MiniContentBlock {
-            title: "Mini Content Block";
-            subtitle: "Subtitle";
-            icon: "list-add-symbolic";
-          }
+        .HeMiniContentBlock {
+          title: "Mini Content Block";
+          subtitle: "Subtitle";
+          icon: "list-add-symbolic";
         }
       }
 
@@ -114,12 +100,16 @@ template DemoMainWindow : ApplicationWindow {
       Box {
         orientation: vertical;
 
-        He.AppBar {
+        .HeAppBar {
           flat: true;
           show-buttons: true;
+
+          MenuButton {
+            icon-name: "view-more";
+          }
         }
 
-        He.OverlayButton {
+        .HeOverlayButton {
           icon: "list-add-symbolic";
           label: "Add Thing";
           secondary-icon: "list-add-symbolic";
@@ -132,11 +122,11 @@ template DemoMainWindow : ApplicationWindow {
               orientation: horizontal;
               spacing: 12;
 
-              He.ViewTitle {
+              .HeViewTitle {
                 label: "Helium Demo";
               }
 
-              He.DisclosureButton {
+              .HeDisclosureButton {
                 icon-name: "list-add-symbolic";
               }
             }
@@ -152,75 +142,75 @@ template DemoMainWindow : ApplicationWindow {
                 margin-bottom: 18;
                 vexpand: true;
 
-                He.FillButton {
+                .HeFillButton {
                   label: "Fill";
                 }
 
-                He.TintButton {
+                .HeTintButton {
                   label: "Tint";
                 }
 
-                He.OutlineButton {
+                .HeOutlineButton {
                   label: "Outline";
                 }
 
-                He.TextButton {
+                .HeTextButton {
                   label: "Text";
                 }
 
-                He.PillButton {
+                .HePillButton {
                   label: "Pill";
                 }
 
-                He.ContentBlock {
+                .HeContentBlock {
                   title: "Content Block";
                   subtitle: "Subtitle";
                   icon: "list-add-symbolic";
                   primary-button:
-                    He.FillButton {
+                    .HeFillButton {
                       label: "Primary";
                     }
                   ;
                   secondary-button:
-                    He.TintButton {
+                    .HeTintButton {
                       label: "Secondary";
                     }
                   ;
                 }
 
-                He.MiniContentBlock {
+                .HeMiniContentBlock {
                   title: "Content Block";
                   subtitle: "Subtitle";
                   icon: "list-add-symbolic";
                   primary-button:
-                    He.FillButton {
+                    .HeFillButton {
                       label: "Primary";
                     }
                   ;
                 }
 
-                He.ContentBlockImageCluster {
+                .HeContentBlockImageCluster {
                   title: "Content Block";
                   subtitle: "Subtitle";
                   icon: "list-add-symbolic";
 
                   [top_left]
-                  He.ContentBlockImage {
+                  .HeContentBlockImage {
                     file: "file:///Users/lleyton/Desktop/no.jpg";
                   }
 
                   [top_right]
-                  He.ContentBlockImage {
+                  .HeContentBlockImage {
                     file: "file:///Users/lleyton/Desktop/no.jpg";
                   }
 
                   [bottom_left]
-                  He.ContentBlockImage {
+                  .HeContentBlockImage {
                     file: "file:///Users/lleyton/Desktop/no.jpg";
                   }
 
                   [bottom_right]
-                  He.ContentBlockImage {
+                  .HeContentBlockImage {
                     file: "file:///Users/lleyton/Desktop/no.jpg";
                   }
                 }
@@ -228,44 +218,44 @@ template DemoMainWindow : ApplicationWindow {
                 Box {
                   orientation: horizontal;
                   spacing: 12;
-                    He.Chip {
+                    .HeChip {
                       label: "Chip";
                     }
 
-                    He.Chip {
+                    .HeChip {
                       label: "Chip";
                     }
 
-                    He.Chip {
+                    .HeChip {
                       label: "Chip";
                     }
 
-                    He.Chip {
+                    .HeChip {
                       label: "Chip";
                     }
 
-                    He.Chip {
+                    .HeChip {
                       label: "Chip";
                     }
                 }
 
-                He.Badge {
+                .HeBadge {
                   label: "Badge";
-                  He.PillButton {
+                  .HePillButton {
                     label: "Really long string to show the badge above the button here.";
                     color: red;
                   }
                 }
 
-                He.Badge {
-                  He.FillButton {
+                .HeBadge {
+                  .HeFillButton {
                     label: "Button";
                   }
                 }
 
-                He.ModifierBadge {}
+                .HeModifierBadge {}
 
-                He.ModifierBadge {
+                .HeModifierBadge {
                   label: "Badge";
                 }
 
@@ -273,7 +263,7 @@ template DemoMainWindow : ApplicationWindow {
                   label: "Toast Button";
                 }
 
-                He.Toast toast {
+                .HeToast toast {
                   label: "Toasty! Am I funny yet guys? ...guys?";
                   default-action: "Boo! Outdated Meme!";
                 }
@@ -282,22 +272,22 @@ template DemoMainWindow : ApplicationWindow {
           }
         }
 
-        He.BottomBar {
+        .HeBottomBar {
           title: "Example";
           description: "3 items";
 
           [left]
-          He.IconicButton {
+          .HeIconicButton {
           icon-name: "list-add-symbolic";
           }
 
           [left]
-          He.IconicButton {
+          .HeIconicButton {
           icon-name: "list-add-symbolic";
           }
 
           [right]
-          He.IconicButton {
+          .HeIconicButton {
           icon-name: "list-add-symbolic";
           }
         }
