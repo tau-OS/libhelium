@@ -1,4 +1,4 @@
-class He.ContentBlock : Gtk.Box, Gtk.Buildable {
+public class He.ContentBlock : Gtk.Box, Gtk.Buildable {
     private Gtk.Label title_label = new Gtk.Label(null);
     private Gtk.Label subtitle_label = new Gtk.Label(null);
     private Gtk.Image image = new Gtk.Image();
@@ -79,7 +79,7 @@ class He.ContentBlock : Gtk.Box, Gtk.Buildable {
         this.orientation = Gtk.Orientation.VERTICAL;
         this.add_css_class ("content-block");
         
-        image.icon_size = 64;
+        image.icon_size = ((Gtk.IconSize)64);
         image.halign = Gtk.Align.START;
         title_label.xalign = 0;
         title_label.add_css_class ("cb-title");

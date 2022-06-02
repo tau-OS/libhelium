@@ -1,4 +1,4 @@
-class He.ViewTitle : Gtk.Box, Gtk.Buildable {
+public class He.ViewTitle : Gtk.Box, Gtk.Buildable {
     private Gtk.Label? _label;
     public string? label {
         set {

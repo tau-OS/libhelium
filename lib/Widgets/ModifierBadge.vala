@@ -1,4 +1,4 @@
-class He.ModifierBadge : Gtk.Box {
+public class He.ModifierBadge : Gtk.Box {
     private Gtk.Label _label;
 
     public string? label {

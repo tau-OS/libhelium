@@ -1,4 +1,4 @@
-class He.MiniContentBlock : Gtk.Box {
+public class He.MiniContentBlock : Gtk.Box {
   private Gtk.Label title_label = new Gtk.Label(null);
   private Gtk.Label subtitle_label = new Gtk.Label(null);
   private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 6);
@@ -59,7 +59,7 @@ class He.MiniContentBlock : Gtk.Box {
   }
 
   construct {
-    this.image.icon_size = 48;
+    this.image.icon_size = ((Gtk.IconSize)48);
 
     this.title_label.xalign = 0;
     this.title_label.add_css_class ("cb-title");

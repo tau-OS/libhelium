@@ -1,4 +1,4 @@
-class He.ContentBlockImage : Gtk.Widget, Gtk.Buildable {
+public class He.ContentBlockImage : Gtk.Widget, Gtk.Buildable {
     private string _file;
     private int _requested_height;
     private int _requested_width;

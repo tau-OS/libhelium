@@ -1,4 +1,4 @@
-class He.OverlayButton : Gtk.Box, Gtk.Buildable {
+public class He.OverlayButton : Gtk.Box, Gtk.Buildable {
     private Gtk.Button button = new Gtk.Button();
     private Gtk.Box button_content = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box button_row = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 18);

@@ -1,4 +1,4 @@
-class He.Chip : Gtk.Button {
+public class He.Chip : Gtk.Button {
   public Chip(string label) {
     this.label = label;
   }

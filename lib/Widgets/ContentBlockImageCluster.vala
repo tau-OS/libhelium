@@ -1,4 +1,4 @@
-class He.ContentBlockImages : Gtk.Box, Gtk.Buildable {
+public class He.ContentBlockImageCluster : Gtk.Box, Gtk.Buildable {
   private Gtk.Label title_label = new Gtk.Label(null);
   private Gtk.Label subtitle_label = new Gtk.Label(null);
   private Gtk.Image image = new Gtk.Image();
@@ -76,7 +76,7 @@ class He.ContentBlockImages : Gtk.Box, Gtk.Buildable {
     this.grid.remove(image);
   }
 
-  public ContentBlockImages(string title, string subtitle, string icon) {
+  public ContentBlockImageCluster(string title, string subtitle, string icon) {
       this.title = title;
       this.subtitle = subtitle;
       this.icon = icon;

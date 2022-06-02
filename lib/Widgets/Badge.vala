@@ -1,4 +1,4 @@
-class He.Badge : Gtk.Box,  Gtk.Buildable {
+public class He.Badge : Gtk.Box,  Gtk.Buildable {
     private Gtk.Overlay overlay = new Gtk.Overlay ();
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Label _label;

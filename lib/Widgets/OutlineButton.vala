@@ -1,4 +1,4 @@
-class He.OutlineButton : He.Button {
+public class He.OutlineButton : He.Button {
     private He.Colors _color;
 
     public override He.Colors color {
