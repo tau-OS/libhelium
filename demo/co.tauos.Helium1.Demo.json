@@ -27,9 +27,6 @@
       "name": "libhelium",
       "buildsystem": "meson",
       "builddir": true,
-      "post-install" : [
-          "desktop-file-edit --remove-key=NoDisplay ${FLATPAK_DEST}/share/applications/co.tauos.Helium1.Demo.desktop"
-      ],
       "sources" : [
           {
             "type" : "dir",
