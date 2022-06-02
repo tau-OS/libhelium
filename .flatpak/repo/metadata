@@ -1,0 +1,4 @@
+[Application]
+name=co.tauos.Helium1.Demo
+runtime=org.gnome.Platform/x86_64/master
+sdk=org.gnome.Sdk/x86_64/master

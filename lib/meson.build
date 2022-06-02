@@ -29,7 +29,7 @@ libhelium_sources += files(
 )
 
 # define all the names and versions
-libhelium_gi_name = 'helium'
+libhelium_gi_name = 'libhelium'
 libhelium_gi_version = '1.0'
 
 libhelium_gi = libhelium_gi_name + '-' + libhelium_gi_version
@@ -49,7 +49,8 @@ typelibdir = get_option('libdir')  / 'girepository-1.0'
 vapidir    = get_option('datadir') / 'vapi'
 
 libhelium = library(
-    meson.project_name(), gresource,
+    libhelium_gi, 
+    gresource,
 
     libhelium_sources,
 
@@ -63,7 +64,7 @@ libhelium = library(
     vala_vapi: 'libhelium-1.vapi',
     vala_gir: 'libhelium-1.gir',
 
-    version: meson.project_version(),
+    version: libhelium_gi_version,
     install: true,
     install_dir: [true, include_dir, vapidir, girdir],
 )
