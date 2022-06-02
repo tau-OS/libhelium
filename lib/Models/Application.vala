@@ -29,6 +29,8 @@ public class He.Application : Gtk.Application {
     typeof (He.TextButton).ensure ();
     typeof (He.TintButton).ensure ();
     typeof (He.Toast).ensure ();
+    typeof (He.View).ensure ();
+    typeof (He.ViewMono).ensure ();
     typeof (He.ViewSubTitle).ensure ();
     typeof (He.ViewTitle).ensure ();
   }

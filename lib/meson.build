@@ -3,6 +3,7 @@ libhelium_sources += files(
     'Models/Application.vala',
     'Models/Button.vala',
     'Models/Colors.vala',
+    'Models/View.vala',
     'Utils/Desktop.vala',
     'Utils/Portal.vala',
     'Widgets/AppBar.vala',
@@ -25,6 +26,7 @@ libhelium_sources += files(
     'Widgets/TextButton.vala',
     'Widgets/TintButton.vala',
     'Widgets/Toast.vala',
+    'Widgets/ViewMono.vala',
     'Widgets/ViewSubTitle.vala',
     'Widgets/ViewTitle.vala',
 )

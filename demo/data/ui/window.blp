@@ -105,160 +105,139 @@ template DemoMainWindow : ApplicationWindow {
           secondary-icon: "list-add-symbolic";
           secondary-color: indigo;
 
-          Box {
-            orientation: vertical;
+          .HeViewMono {
+            title: "Helium Demo";
+
+            [view-button]
+            .HeDisclosureButton {
+              icon-name: "list-add-symbolic";
+            }
+
+            .HeFillButton {
+              label: "Fill";
+            }
+
+            .HeTintButton {
+              label: "Tint";
+            }
+
+            .HeOutlineButton {
+              label: "Outline";
+            }
+
+            .HeTextButton {
+              label: "Text";
+            }
+
+            .HePillButton {
+              label: "Pill";
+            }
+
+            .HeContentBlock {
+              title: "Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+              primary-button:
+                .HeFillButton {
+                  label: "Primary";
+                }
+              ;
+              secondary-button:
+                .HeTintButton {
+                  label: "Secondary";
+                }
+              ;
+            }
+
+            .HeMiniContentBlock {
+              title: "Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+              primary-button:
+                .HeFillButton {
+                  label: "Primary";
+                }
+              ;
+            }
+
+            .HeContentBlockImageCluster {
+              title: "Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+
+              [top_left]
+              .HeContentBlockImage {
+                file: "file:///Users/lleyton/Desktop/no.jpg";
+              }
+
+              [top_right]
+              .HeContentBlockImage {
+                file: "file:///Users/lleyton/Desktop/no.jpg";
+              }
+
+              [bottom_left]
+              .HeContentBlockImage {
+                file: "file:///Users/lleyton/Desktop/no.jpg";
+              }
+
+              [bottom_right]
+              .HeContentBlockImage {
+                file: "file:///Users/lleyton/Desktop/no.jpg";
+              }
+            }
 
             Box {
               orientation: horizontal;
               spacing: 12;
+                .HeChip {
+                  label: "Chip";
+                }
 
-              .HeViewTitle {
-                label: "Helium Demo";
-              }
+                .HeChip {
+                  label: "Chip";
+                }
 
-              .HeDisclosureButton {
-                icon-name: "list-add-symbolic";
+                .HeChip {
+                  label: "Chip";
+                }
+
+                .HeChip {
+                  label: "Chip";
+                }
+
+                .HeChip {
+                  label: "Chip";
+                }
+            }
+
+            .HeBadge {
+              label: "Badge";
+              .HePillButton {
+                label: "Really long string to show the badge above the button here.";
+                color: orange;
               }
             }
 
-            ScrolledWindow {
-              hscrollbar-policy: never;
-
-              Box {
-                orientation: vertical;
-                spacing: 12;
-                margin-end: 18;
-                margin-start: 18;
-                margin-bottom: 18;
-                vexpand: true;
-
-                .HeFillButton {
-                  label: "Fill";
-                }
-
-                .HeTintButton {
-                  label: "Tint";
-                }
-
-                .HeOutlineButton {
-                  label: "Outline";
-                }
-
-                .HeTextButton {
-                  label: "Text";
-                }
-
-                .HePillButton {
-                  label: "Pill";
-                }
-
-                .HeContentBlock {
-                  title: "Content Block";
-                  subtitle: "Subtitle";
-                  icon: "list-add-symbolic";
-                  primary-button:
-                    .HeFillButton {
-                      label: "Primary";
-                    }
-                  ;
-                  secondary-button:
-                    .HeTintButton {
-                      label: "Secondary";
-                    }
-                  ;
-                }
-
-                .HeMiniContentBlock {
-                  title: "Content Block";
-                  subtitle: "Subtitle";
-                  icon: "list-add-symbolic";
-                  primary-button:
-                    .HeFillButton {
-                      label: "Primary";
-                    }
-                  ;
-                }
-
-                .HeContentBlockImageCluster {
-                  title: "Content Block";
-                  subtitle: "Subtitle";
-                  icon: "list-add-symbolic";
-
-                  [top_left]
-                  .HeContentBlockImage {
-                    file: "file:///Users/lleyton/Desktop/no.jpg";
-                  }
-
-                  [top_right]
-                  .HeContentBlockImage {
-                    file: "file:///Users/lleyton/Desktop/no.jpg";
-                  }
-
-                  [bottom_left]
-                  .HeContentBlockImage {
-                    file: "file:///Users/lleyton/Desktop/no.jpg";
-                  }
-
-                  [bottom_right]
-                  .HeContentBlockImage {
-                    file: "file:///Users/lleyton/Desktop/no.jpg";
-                  }
-                }
-
-                Box {
-                  orientation: horizontal;
-                  spacing: 12;
-                    .HeChip {
-                      label: "Chip";
-                    }
-
-                    .HeChip {
-                      label: "Chip";
-                    }
-
-                    .HeChip {
-                      label: "Chip";
-                    }
-
-                    .HeChip {
-                      label: "Chip";
-                    }
-
-                    .HeChip {
-                      label: "Chip";
-                    }
-                }
-
-                .HeBadge {
-                  label: "Badge";
-                  .HePillButton {
-                    label: "Really long string to show the badge above the button here.";
-                    color: orange;
-                  }
-                }
-
-                .HeBadge {
-                  .HeFillButton {
-                    label: "Button";
-                  }
-                }
-
-                .HeModifierBadge {}
-
-                .HeModifierBadge {
-                  label: "Badge";
-                }
-
-                .HeFillButton toast_button {
-                  label: "Toast Button";
-                  color: dark;
-                }
-
-                .HeToast toast {
-                  label: "Toasty! Am I funny yet guys? ...guys?";
-                  default-action: "Boo! Outdated Meme!";
-                }
+            .HeBadge {
+              .HeFillButton {
+                label: "Button";
               }
+            }
+
+            .HeModifierBadge {}
+
+            .HeModifierBadge {
+              label: "Badge";
+            }
+
+            .HeFillButton toast_button {
+              label: "Toast Button";
+              color: dark;
+            }
+
+            .HeToast toast {
+              label: "Toasty! Am I funny yet guys? ...guys?";
+              default-action: "Boo! Outdated Meme!";
             }
           }
         }
