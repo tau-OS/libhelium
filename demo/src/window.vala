@@ -34,7 +34,7 @@ public class Demo.MainWindow : Gtk.ApplicationWindow {
     [GtkChild]
     private unowned Gtk.MenuButton main_menu;
     [GtkChild]
-    private unowned Gtk.Button toast_button;
+    private unowned He.FillButton toast_button;
     [GtkChild]
     private unowned He.Toast toast;
 
