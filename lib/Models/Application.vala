@@ -8,6 +8,7 @@ public class He.Application : Gtk.Application {
     // Ensure all classes listed here are available for use.
     // Remove only if the class is not needed anymore.
     typeof (He.AppBar).ensure ();
+    typeof (He.ApplicationWindow).ensure ();
     typeof (He.Badge).ensure ();
     typeof (He.BottomBar).ensure ();
     typeof (He.Button).ensure ();
@@ -33,11 +34,14 @@ public class He.Application : Gtk.Application {
     typeof (He.ViewMono).ensure ();
     typeof (He.ViewSubTitle).ensure ();
     typeof (He.ViewTitle).ensure ();
+    typeof (He.Window).ensure ();
   }
   
   private void init_style_providers() {
     Gtk.Settings.get_for_display(Gdk.Display.get_default()).gtk_theme_name = "Empty";
-    Gtk.Settings.get_for_display(Gdk.Display.get_default()).gtk_icon_theme_name = "Hydrogen";
+
+    var icon_theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default());
+    icon_theme.set_theme_name ("Hydrogen");
     Gtk.Settings.get_for_display(Gdk.Display.get_default()).gtk_cursor_theme_name = "Hydrogen";
     
     var light = new Gtk.CssProvider();
