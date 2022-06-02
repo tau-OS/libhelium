@@ -26,7 +26,7 @@ public abstract class He.View : Gtk.Box, Gtk.Buildable {
         set {
             if (value != null) {
                 subtitle_label.label = value;
-                title_label.visible = true;
+                subtitle_label.visible = true;
             } else {
                 subtitle_label.visible = false;
             }
