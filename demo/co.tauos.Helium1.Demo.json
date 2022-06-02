@@ -24,6 +24,17 @@
       ]
     },
     {
+      "name": "blueprint-compiler",
+      "buildsystem": "meson",
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://gitlab.gnome.org/jwestman/blueprint-compiler",
+          "branch": "main"
+        }
+      ]
+    },
+    {
       "name": "libhelium",
       "buildsystem": "meson",
       "builddir": true,
