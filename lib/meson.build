@@ -30,7 +30,7 @@ libhelium_sources += files(
 )
 
 # define all the names and versions
-libhelium_gi_name = 'libhelium'
+libhelium_gi_name = 'helium'
 libhelium_gi_version = '1.0'
 
 libhelium_gi = libhelium_gi_name + '-' + libhelium_gi_version
