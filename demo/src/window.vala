@@ -84,6 +84,11 @@ public class Demo.MainWindow : Gtk.ApplicationWindow {
             null
         };
 
+        const string? DESIGNERS[] = {
+            "Lains",
+            null
+        };
+
         Gtk.show_about_dialog (
            this,
            "program-name", "Helium Demo",
@@ -92,7 +97,7 @@ public class Demo.MainWindow : Gtk.ApplicationWindow {
            "comments", _("A demo of the tauOS Application Framework."),
            "copyright", COPYRIGHT,
            "authors", AUTHORS,
-           "artists", null,
+           "artists", DESIGNERS,
            "license-type", Gtk.License.GPL_3_0,
            "wrap-license", false,
            // TRANSLATORS: 'Name <email@domain.com>' or 'Name https://website.example'
