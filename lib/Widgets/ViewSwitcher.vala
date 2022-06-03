@@ -4,29 +4,23 @@ public class He.ViewSwitcher : Gtk.Box, Gtk.Buildable {
     public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (type == "stack") {
             this.append ((Gtk.Widget)child);
-        } else {
+        } else if (type == "stack-title") {
             box.append ((Gtk.Widget)child);
         }
     }
 
-    private string _stack_child_name;
-    public string stack_child_name {
+    private string _stack_child;
+    public string stack_child {
         get {
             // TODO: Figure this out better:
-            //  Gtk.Widget? child = null;
-            //  string child_label = "";
-            //  for (box.get_first_child (); child != null; child = box.get_next_sibling ()) {
-            //      print(((Gtk.ToggleButton) child).get_label ());
-            //      if (((Gtk.ToggleButton) child).get_active ()) {
-            //          child_label = ((Gtk.ToggleButton) child).get_label ();
-            //          _stack_child_name = child_label;
-            //      }
-            //  }
-            return _stack_child_name;
+            string label = "";
+            get_child_label (out label);
+            _stack_child = label;
+            return _stack_child;
         }
 
         set {
-            _stack_child_name = value;
+            _stack_child = value;
         }
     }
 
@@ -35,5 +29,18 @@ public class He.ViewSwitcher : Gtk.Box, Gtk.Buildable {
         this.add_css_class ("viewswitcher");
         this.orientation = Gtk.Orientation.VERTICAL;
         this.append (box);
+    }
+
+    private string get_child_label (out string label) {
+        Gtk.ToggleButton child = null;
+
+        for (box.get_first_child(); child != null; box.get_next_sibling ()) {
+            if (child.active)
+                label = child.get_label ();
+                print (label);
+                return label;
+        }
+
+        return "a";
     }
 }
