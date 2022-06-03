@@ -236,53 +236,30 @@ template DemoMainWindow : .HeApplicationWindow {
               default-action: "Boo! Outdated Meme!";
             }
 
-            .HeViewSwitcher vs {
-              [stack-title]
-              ToggleButton a {
-                label: "Apple";
-                active: true;
-              }
-              [stack-title]
-              ToggleButton {
-                label: "Blueberry";
-                group: a;
-              }
-              [stack-title]
-              ToggleButton {
-                label: "Cherry";
-                group: a;
-              }
+            .HeViewSwitcher {
+              stack: stack;
+            }
+            Stack stack {
+              StackPage {
+                title: "Page 1";
 
-              [stack]
-              Stack {
-                visible-child-name: bind vs.stack-child;
-                StackPage {
-                  name: "Apple";
-                  child:
-                    .HeFillButton {
-                      label: "Stack Button 1";
-                      color: red;
-                    }
-                  ;
-                }
-                StackPage {
-                  name: "Blueberry";
-                  child:
-                    .HeFillButton {
-                      label: "Stack Button 2";
-                      color: blue;
-                    }
-                  ;
-                }
-                StackPage {
-                  name: "Coconut";
-                  child:
-                    .HeFillButton {
-                      label: "Stack Button 3";
-                      color: green;
-                    }
-                  ;
-                }
+                child: Label {
+                  label: "Page 1";
+                };
+              }
+              StackPage {
+                title: "Page 2";
+
+                child: Label {
+                  label: "Page 2";
+                };
+              }
+              StackPage {
+                title: "Page 3";
+
+                child: Label {
+                  label: "Page 3";
+                };
               }
             }
           }
