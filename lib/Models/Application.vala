@@ -33,6 +33,7 @@ public class He.Application : Gtk.Application {
     typeof (He.View).ensure ();
     typeof (He.ViewMono).ensure ();
     typeof (He.ViewSubTitle).ensure ();
+    typeof (He.ViewSwitcher).ensure ();
     typeof (He.ViewTitle).ensure ();
     typeof (He.Window).ensure ();
   }

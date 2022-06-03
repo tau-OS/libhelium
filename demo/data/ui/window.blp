@@ -103,7 +103,6 @@ template DemoMainWindow : .HeApplicationWindow {
 
           .HeViewMono {
             title: "Helium Demo";
-            subtitle: "Have some widgets now";
 
             [view-button]
             .HeDisclosureButton {
@@ -235,6 +234,53 @@ template DemoMainWindow : .HeApplicationWindow {
             .HeToast toast {
               label: "Toasty! Am I funny yet guys? ...guys?";
               default-action: "Boo! Outdated Meme!";
+            }
+
+            .HeViewSwitcher vs {
+              ToggleButton a {
+                label: "Apple";
+                active: true;
+              }
+              ToggleButton {
+                label: "Banana";
+                group: a;
+              }
+              ToggleButton {
+                label: "Cherry";
+                group: a;
+              }
+
+              [stack]
+              Stack {
+                visible-child-name: bind vs.stack-child-name;
+                StackPage {
+                  name: "Apple";
+                  child:
+                    .HeFillButton {
+                      label: "Stack Button 1";
+                      color: dark;
+                    }
+                  ;
+                }
+                StackPage {
+                  name: "Banana";
+                  child:
+                    .HeFillButton {
+                      label: "Stack Button 2";
+                      color: dark;
+                    }
+                  ;
+                }
+                StackPage {
+                  name: "Cherry";
+                  child:
+                    .HeFillButton {
+                      label: "Stack Button 3";
+                      color: dark;
+                    }
+                  ;
+                }
+              }
             }
           }
         }

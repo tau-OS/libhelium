@@ -30,6 +30,7 @@ libhelium_sources += files(
     'Widgets/Toast.vala',
     'Widgets/ViewMono.vala',
     'Widgets/ViewSubTitle.vala',
+    'Widgets/ViewSwitcher.vala',
     'Widgets/ViewTitle.vala',
 )
 
