@@ -37,6 +37,8 @@ public class Demo.MainWindow : He.ApplicationWindow {
     private unowned He.FillButton toast_button;
     [GtkChild]
     private unowned He.Toast toast;
+    [GtkChild]
+    private unowned He.FillButton dialog_button;
 
     public He.Application app { get; construct; }
     public MainWindow (He.Application application) {
@@ -69,6 +71,23 @@ public class Demo.MainWindow : He.ApplicationWindow {
 
         toast_button.clicked.connect (() => {
             toast.send_notification ();
+        });
+
+        dialog_button.clicked.connect (() => {
+            var p_button = new He.FillButton ("Do It!");
+            var s_button = new He.TintButton ("Don't Do It!");
+
+            var dialog = new He.Dialog (
+                                true,
+                                this,
+                                "Title",
+                                "Subtitle",
+                                "An example of info to provide.",
+                                "dialog-information-symbolic",
+                                p_button,
+                                s_button
+                            );
+            dialog.show ();
         });
 
         this.set_size_request (360, 360);

@@ -103,7 +103,7 @@ public class He.ContentBlockImageCluster : Gtk.Box, Gtk.Buildable {
       this.orientation = Gtk.Orientation.HORIZONTAL;
       this.add_css_class ("content-block");
       
-      image.icon_size = ((Gtk.IconSize)64);
+      image.pixel_size = ((Gtk.IconSize)64);
       image.halign = Gtk.Align.START;
       title_label.xalign = 0;
       title_label.add_css_class ("cb-title");

@@ -18,6 +18,7 @@ public class He.Application : Gtk.Application {
     typeof (He.ContentBlockImage).ensure ();
     typeof (He.ContentBlockImageCluster).ensure ();
     typeof (He.Desktop).ensure ();
+    typeof (He.Dialog).ensure ();
     typeof (He.DisclosureButton).ensure ();
     typeof (He.FillButton).ensure ();
     typeof (He.IconicButton).ensure ();

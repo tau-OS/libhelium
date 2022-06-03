@@ -59,7 +59,7 @@ public class He.MiniContentBlock : Gtk.Box {
   }
 
   construct {
-    this.image.icon_size = ((Gtk.IconSize)48);
+    this.image.pixel_size = ((Gtk.IconSize)48);
 
     this.title_label.xalign = 0;
     this.title_label.add_css_class ("cb-title");
