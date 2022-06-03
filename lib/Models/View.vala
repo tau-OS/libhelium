@@ -52,6 +52,7 @@ public abstract class He.View : Gtk.Box, Gtk.Buildable {
         title_box.append (title_label);
         title_box.append (subtitle_label);
 
+        title_button_box.valign = Gtk.Align.START;
         title_button_box.append (title_box);
 
         this.orientation = Gtk.Orientation.VERTICAL;
