@@ -2,8 +2,8 @@ public class He.ViewSwitcher : Gtk.Widget {
     private Gtk.SelectionModel _stack_pages;
     private List<Gtk.ToggleButton> _buttons;
 
-    private Gtk.Stack? _stack;
-    public Gtk.Stack? stack {
+    private Gtk.Stack _stack;
+    public Gtk.Stack stack {
         get { return this._stack; }
         set {
             if (this._stack == value) return;
@@ -16,19 +16,17 @@ public class He.ViewSwitcher : Gtk.Widget {
             this._stack = value;
             this._stack_pages = value.pages;
 
-            if (this._stack_pages != null) {
-                this._stack_pages.selection_changed.connect (on_selected_stack_page_changed);
-                this._stack_pages.items_changed.connect (on_stack_pages_changed);
-            }
+            this._stack_pages.selection_changed.connect (on_selected_stack_page_changed);
+            this._stack_pages.items_changed.connect (on_stack_pages_changed);
         }
     }
 
-    construct {
-        this.add_css_class ("viewswitcher");
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BoxLayout));
+    }
 
-        this.layout_manager = new Gtk.BoxLayout (HORIZONTAL) {
-            spacing = 12
-        };
+    construct {
+        this.add_css_class ("view-switcher");
     }
 
     private void on_stack_pages_changed (uint position, uint removed, uint added) {
@@ -50,7 +48,7 @@ public class He.ViewSwitcher : Gtk.Widget {
 
             this._stack_pages.get_item (position).bind_property ("title", button, "label", SYNC_CREATE);
 
-            button.toggled.connect (() => on_button_toggled (button, position++));
+            button.toggled.connect (() => on_button_toggled (button, position));
             button.set_parent (this);
 
             this._buttons.insert_before (button_link, button);
