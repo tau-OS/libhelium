@@ -141,6 +141,7 @@ public class He.Dialog : He.Window {
         main_box.append(button_box);
 
         this.set_child (main_box);
-        this.set_size_request (400, 400);
+        this.resizable = false;
+        this.set_size_request (360, 400);
     }
 }
