@@ -140,7 +140,10 @@ public class He.Dialog : He.Window {
         main_box.append(info_box);
         main_box.append(button_box);
 
-        this.set_child (main_box);
+        var dialog_handle = new Gtk.WindowHandle ();
+        dialog_handle.set_child (main_box);
+
+        this.set_child (dialog_handle);
         this.resizable = false;
         this.set_size_request (360, 400);
     }
