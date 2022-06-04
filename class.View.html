@@ -105,6 +105,10 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
   
     <a class="method" href="method.View.set_subtitle.html">set_subtitle</a>
   
+    <a class="method" href="method.View.add_child.html">add_child</a>
+  
+    <a class="method" href="method.View.add.html">add</a>
+  
   </div>
 </div>
 
@@ -126,6 +130,15 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 
 
 
+
+<div class="section">
+  <h5>Virtual methods</h5>
+  <div class="links">
+  
+    <a class="method" href="vfunc.View.add_child.html">add_child</a>
+  
+  </div>
+</div>
 
 
 
@@ -207,6 +220,8 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
       <h4 id="descendants">Descendants <a href="#descendants" class="anchor"></a></h4>
       <div class="docblock">
         <ul>
+          <li class="class"><a href="class.ViewDual.html" title="ViewDual">HeViewDual</a></li>
+        
           <li class="class"><a href="class.ViewMono.html" title="ViewMono">HeViewMono</a></li>
         </ul>
       </div>
@@ -271,6 +286,22 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
       
         <div class="">
           <h6><a href="method.View.set_subtitle.html">he_view_set_subtitle</a></h6>
+          <div class="docblock">
+            No description available.
+          </div>
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="method.View.add_child.html">he_view_add_child</a></h6>
+          <div class="docblock">
+            No description available.
+          </div>
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="method.View.add.html">he_view_add</a></h6>
           <div class="docblock">
             No description available.
           </div>
@@ -760,14 +791,63 @@ its value set through g_object_set_property(), g_object_set(), et&nbsp;al.</p>
 
       <div class="docblock">
         <pre><code>struct HeViewClass {
-  /* no available fields */
+  void (* add_child) (
+    HeView* self,
+    GtkBuilder* builder,
+    GObject* child,
+    const gchar* type
+  );
+  
 }</code></pre>
       </div>
 
       
+      <div class="docblock">
+        <h6>Class members</h6>
+
+        <table class="members">
+        
+        <tr>
+          <td style="vertical-align:top"><code>add_child</code></td>
+          <td style="vertical-align:top"><pre><code>void (* add_child) (
+    HeView* self,
+    GtkBuilder* builder,
+    GObject* child,
+    const gchar* type
+  )</code></pre></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td style="vertical-align:top">No description available.</td>
+        </td>
+        
+        </table>
+      </div>
+      
     </div>
     
 
+    
+    <div class="toggle-wrapper methods">
+      <h4 id="virtual-methods">
+        Virtual methods
+        <a href="#virtual-methods" class="anchor"></a>
+      </h4>
+
+      <div class="docblock">
+      
+      <div class="">
+        <h6 id="vfunc-add_child"><a href="vfunc.View.add_child.html">He.ViewClass.add_child</a></h6>
+
+        <div class="docblock">
+          No description available.
+        </div>
+
+          
+      </div>
+      
+      </div>
+    </div>
     
 
     
@@ -807,6 +887,8 @@ its value set through g_object_set_property(), g_object_set(), et&nbsp;al.</p>
       
 
       
+<li class="toc-list-item"><a href="#virtual-methods"><span class="link-text">Virtual methods</span></a></li>
+
 
     </ul>
   </nav>

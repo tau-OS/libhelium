@@ -13,7 +13,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>He.View.get_subtitle</title>
+  <title>He.BannerStyle</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta charset="utf-8" />
@@ -29,10 +29,10 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
   
 
   
-  <meta priority="og:title" content="He.View.get_subtitle"/>
-  <meta priority="og:description" content="Reference for He.View.get_subtitle"/>
-  <meta name="twitter:title" content="He.View.get_subtitle"/>
-  <meta name="twitter:description" content="Reference for He.View.get_subtitle"/>
+  <meta property="og:title" content="He.BannerStyle"/>
+  <meta property="og:description" content="Reference for He.BannerStyle"/>
+  <meta name="twitter:title" content="He.BannerStyle"/>
+  <meta name="twitter:description" content="Reference for He.BannerStyle"/>
 
 
   
@@ -84,27 +84,12 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 <div class="section">
   <h5>Type</h5>
   <div class="links">
-    <a href="class.View.html">View</a>
+    <a class="current" href="enum.BannerStyle.html">BannerStyle</a>
   </div>
 </div>
-<div class="section">
-  <h5>Methods</h5>
-  <div class="links">
-  
-    <a class="method" href="method.View.get_title.html">get_title</a>
-  
-    <a class="method" href="method.View.set_title.html">set_title</a>
-  
-    <a class="method current" href="method.View.get_subtitle.html">get_subtitle</a>
-  
-    <a class="method" href="method.View.set_subtitle.html">set_subtitle</a>
-  
-    <a class="method" href="method.View.add_child.html">add_child</a>
-  
-    <a class="method" href="method.View.add.html">add</a>
-  
-  </div>
-</div>
+
+
+
 
     </nav>
     
@@ -113,44 +98,36 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
     
 <section id="main" class="content">
   <header>
-    <h3>Method</h3>
-    <h1><a href="index.html">He</a><span class="sep"></span><a href="class.View.html">View</a><span class="sep"></span>get_subtitle</h1>
+    <h3>Enumeration</h3>
+    <h1><a href="index.html">He</a><span class="sep"></span>BannerStyle</h1>
   </header>
 
   <section>
     <div class="declaration toggle-wrapper">
       <h4 style="display:flex;" id="declaration">
         Declaration
-        <a class="anchor" href="#declaration"></a>
+        <a href="#declaration" class="anchor"></a>
         
       </h4>
 
-      <div class="docblock c-decl">
-        <pre><code><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="n">gchar</span><span class="o">*</span><span class="w"></span>
-<span class="n">he_view_get_subtitle</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
-<span class="w">  </span><span class="n">HeView</span><span class="o">*</span><span class="w"> </span><span class="n">self</span><span class="w"></span>
-<span class="p">)</span><span class="w"></span>
-</pre></div>
-</code></pre>
+      <div class="docblock">
+        <pre><code>enum He.BannerStyle</code></pre>
       </div>
     </div>
 
     <div class="description toggle-wrapper">
       <h4 style="display:flex;" id="description">
         Description
-        <a class="anchor" href="#description"></a>
+        <a href="#description" class="anchor"></a>
         
       </h4>
 
       <div class="docblock">
-        No description available.
+      No description available.
       </div>
 
       <div class="docblock">
-        <table>
-          
-          
-          
+        <table class="attributes">
           
           
           
@@ -160,34 +137,40 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
       
     </div>
 
-    
-
-    
-    <div class="return-value toggle-wrapper">
-      <h4 id="return-value">
-        Return value
-        <a href="#return-value" class="anchor"></a>
+    <div class="members toggle-wrapper">
+      <h4 id="members">
+        Members
+        <a href="#members" class="anchor"></a>
       </h4>
 
       <div class="docblock">
-        <table class="returns">
-          <tr class="arg-name">
-            <td>Returns:</td>
-            <td><code>const gchar*</code></td>
-          </tr>
-          <tr class="arg-description">
-            <td>&nbsp;</td>
-            <td>No description available.</td>
-          </tr>
-          
-          
-          
-          <tr><td>&nbsp;</td><td title="transfer: none">The data is owned by the instance.</td></tr>
-          
-          <tr><td>&nbsp;</td><td>The value is a NUL terminated UTF-8 string.</td></tr>
-        </table>
+      <table class="enum-members">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      
+        <tr>
+          <td><a id="info" href="#info"><code title="Value: 0">HE_BANNER_STYLE_INFO</code></a></td>
+          <td>No description available.</td>
+        </tr>
+      
+        <tr>
+          <td><a id="warning" href="#warning"><code title="Value: 1">HE_BANNER_STYLE_WARNING</code></a></td>
+          <td>No description available.</td>
+        </tr>
+      
+        <tr>
+          <td><a id="error" href="#error"><code title="Value: 2">HE_BANNER_STYLE_ERROR</code></a></td>
+          <td>No description available.</td>
+        </tr>
+      
+      </table>
       </div>
     </div>
+
+    
+
     
 
   </section>
@@ -195,6 +178,20 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 
 
     
+<div id="toc" class="toc">
+  <nav aria-labelledby="toc-title">
+    <p id="toc-title">Content</p>
+    <ul class="toc-list">
+      <li class="toc-list-item"><a href="#description"><span class="link-text">Description</span></a></li>
+      <li class="toc-list-item"><a href="#members"><span class="link-text">Members</span></a></li>
+      
+
+      
+
+    </ul>
+  </nav>
+</div>
+
 
     <section id="search" class="content hidden"></section>
 

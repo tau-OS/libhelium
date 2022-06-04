@@ -13,7 +13,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>He.ViewMono</title>
+  <title>He.Banner</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta charset="utf-8" />
@@ -29,10 +29,10 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
   
 
   
-  <meta property="og:title" content="He.ViewMono"/>
-  <meta property="og:description" content="Reference for He.ViewMono"/>
-  <meta name="twitter:title" content="He.ViewMono"/>
-  <meta name="twitter:description" content="Reference for He.ViewMono"/>
+  <meta property="og:title" content="He.Banner"/>
+  <meta property="og:description" content="Reference for He.Banner"/>
+  <meta name="twitter:title" content="He.Banner"/>
+  <meta name="twitter:description" content="Reference for He.Banner"/>
 
 
   
@@ -84,7 +84,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 <div class="section">
   <h5>Type</h5>
   <div class="links">
-    <a class="current" href="class.ViewMono.html#description">ViewMono</a>
+    <a class="current" href="class.Banner.html#description">Banner</a>
   </div>
 </div>
 
@@ -93,7 +93,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
   <h5>Constructors</h5>
   <div class="links">
   
-    <a class="ctor" href="ctor.ViewMono.new.html">new</a>
+    <a class="ctor" href="ctor.Banner.new.html">new</a>
   
   </div>
 </div>
@@ -102,7 +102,45 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 
 
 
+<div class="section">
+  <h5>Instance methods</h5>
+  <div class="links">
+  
+    <a class="method" href="method.Banner.get_title.html">get_title</a>
+  
+    <a class="method" href="method.Banner.set_title.html">set_title</a>
+  
+    <a class="method" href="method.Banner.get_description.html">get_description</a>
+  
+    <a class="method" href="method.Banner.set_description.html">set_description</a>
+  
+    <a class="method" href="method.Banner.get_style.html">get_style</a>
+  
+    <a class="method" href="method.Banner.set_style.html">set_style</a>
+  
+    <a class="method" href="method.Banner.add_action_button.html">add_action_button</a>
+  
+    <a class="method" href="method.Banner.remove_action.html">remove_action</a>
+  
+    <a class="method" href="method.Banner.set_banner_style.html">set_banner_style</a>
+  
+  </div>
+</div>
 
+
+
+<div class="section">
+  <h5>Properties</h5>
+  <div class="links">
+  
+    <a class="property" href="property.Banner.title.html">title</a>
+  
+    <a class="property" href="property.Banner.description.html">description</a>
+  
+    <a class="property" href="property.Banner.style.html">style</a>
+  
+  </div>
+</div>
 
 
 
@@ -120,7 +158,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 <section id="main" class="content">
   <header>
     <h3>Class</h3>
-    <h1 aria-label="Name"><a href="index.html">He</a><span class="sep" role="presentation"></span>ViewMono</h1>
+    <h1 aria-label="Name"><a href="index.html">He</a><span class="sep" role="presentation"></span>Banner</h1>
   </header>
 
   <section>
@@ -132,7 +170,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
           
         </h4>
 
-        <pre><code>class He.ViewMono : He.View {
+        <pre><code>class He.Banner : Gtk.Box {
   /* No available fields */
 }</pre></code>
 
@@ -165,10 +203,6 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
         <ul>
         
           
-          <li class="class"><a href="class.View.html" title="View">HeView</a></li>
-          
-        
-          
           <li class="class"><a class="external" href="javascript:void(0)" data-link="class.Box.html" data-namespace="Gtk">GtkBox</a></li>
           
         
@@ -192,6 +226,23 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
     
 
     
+    <div class="toggle-wrapper implements">
+      <h4 id="implements">
+        Implements
+        <a href="#implements" class="anchor"></a>
+      </h4>
+
+      <div class="docblock">
+        <ul>
+        
+          
+          <li class="interface"><a class="external" href="javascript:void(0)" data-link="iface.Buildable.html" data-namespace="Gtk">GtkBuildable</a></li>
+          
+        
+        </ul>
+      </div>
+    </div>
+    
 
     
     <div class="toggle-wrapper constructors">
@@ -203,7 +254,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
       <div class="docblock">
       
         <div class="">
-          <h6><a href="ctor.ViewMono.new.html">he_view_mono_new</a></h6>
+          <h6><a href="ctor.Banner.new.html">he_banner_new</a></h6>
 
           <div class="docblock">
             No description available.
@@ -227,46 +278,80 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 
       <div class="docblock">
       
+        <div class="">
+          <h6><a href="method.Banner.get_title.html">he_banner_get_title</a></h6>
+          <div class="docblock">
+            No description available.
+          </div>
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="method.Banner.set_title.html">he_banner_set_title</a></h6>
+          <div class="docblock">
+            No description available.
+          </div>
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="method.Banner.get_description.html">he_banner_get_description</a></h6>
+          <div class="docblock">
+            No description available.
+          </div>
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="method.Banner.set_description.html">he_banner_set_description</a></h6>
+          <div class="docblock">
+            No description available.
+          </div>
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="method.Banner.get_style.html">he_banner_get_style</a></h6>
+          <div class="docblock">
+            No description available.
+          </div>
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="method.Banner.set_style.html">he_banner_set_style</a></h6>
+          <div class="docblock">
+            No description available.
+          </div>
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="method.Banner.add_action_button.html">he_banner_add_action_button</a></h6>
+          <div class="docblock">
+            No description available.
+          </div>
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="method.Banner.remove_action.html">he_banner_remove_action</a></h6>
+          <div class="docblock">
+            No description available.
+          </div>
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="method.Banner.set_banner_style.html">he_banner_set_banner_style</a></h6>
+          <div class="docblock">
+            No description available.
+          </div>
+          
+        </div>
+      
       </div>
 
-      
-        
-        <div class="toggle-wrapper default-hide ancestor-methods">
-          <h5 style="display:block;">Methods inherited from <a href="class.View.html">HeView</a> (6)</h5><div class="docblock">
-          
-            <h6><a href="method.View.get_title.html">he_view_get_title</a></h6><div class="docblock">
-              No description available.
-            </div>
-            
-          
-            <h6><a href="method.View.set_title.html">he_view_set_title</a></h6><div class="docblock">
-              No description available.
-            </div>
-            
-          
-            <h6><a href="method.View.get_subtitle.html">he_view_get_subtitle</a></h6><div class="docblock">
-              No description available.
-            </div>
-            
-          
-            <h6><a href="method.View.set_subtitle.html">he_view_set_subtitle</a></h6><div class="docblock">
-              No description available.
-            </div>
-            
-          
-            <h6><a href="method.View.add_child.html">he_view_add_child</a></h6><div class="docblock">
-              No description available.
-            </div>
-            
-          
-            <h6><a href="method.View.add.html">he_view_add</a></h6><div class="docblock">
-              No description available.
-            </div>
-            
-          
-          </div>
-        </div>
-        
       
         
         <div class="toggle-wrapper default-hide ancestor-methods"><h5 style="display:block;">Methods inherited from <a class="external" href="javascript:void(0)" data-link="class.Box.html" data-namespace="Gtk">GtkBox</a> (11)</h5>
@@ -363,6 +448,19 @@ in the&nbsp;box.</p>
       
 
       
+        
+        <div class="toggle-wrapper default-hide ancestor-methods"><h5 style="display:block;">Methods inherited from <a class="external" href="javascript:void(0)" data-link="iface.Buildable.html" data-namespace="Gtk">GtkBuildable</a> (1)</h5>
+          <div class="docblock">
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Buildable.get_buildable_id.html">gtk_buildable_get_buildable_id</a></h6>
+            <div class="docblock">
+              <p>Gets the <span class="caps">ID</span> of the <code>buildable</code> object.</p>
+            </div>
+            
+          
+          </div>
+        </div>
+        
+      
     </div>
     
 
@@ -374,25 +472,41 @@ in the&nbsp;box.</p>
       </h4>
 
       
-
+      <div class="docblock">
       
-        
-        <div class="toggle-wrapper default-hide ancestor-properties">
-          <h5 style="display:block;">Properties inherited from <a href="class.View.html">HeView</a> (2)</h5><div class="docblock">
-          
-            <h6><a href="property.View.title.html">He.View:title</a></h6><div class="docblock">
-              No description available.
-            </div>
-            
-          
-            <h6><a href="property.View.subtitle.html">He.View:subtitle</a></h6><div class="docblock">
-              No description available.
-            </div>
-            
-          
+        <div class="">
+          <h6><a href="property.Banner.title.html">He.Banner:title</a></h6>
+
+          <div class="docblock">
+            No description available.
           </div>
+
+          
         </div>
-        
+      
+        <div class="">
+          <h6><a href="property.Banner.description.html">He.Banner:description</a></h6>
+
+          <div class="docblock">
+            No description available.
+          </div>
+
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="property.Banner.style.html">He.Banner:style</a></h6>
+
+          <div class="docblock">
+            No description available.
+          </div>
+
+          
+        </div>
+      
+      </div>
+      
+
       
         
         <div class="toggle-wrapper default-hide ancestor-properties"><h5 style="display:block;">Properties inherited from <a class="external" href="javascript:void(0)" data-link="class.Box.html" data-namespace="Gtk">GtkBox</a> (3)</h5>
@@ -604,6 +718,8 @@ with Pango&nbsp;markup.</p>
       
 
       
+        
+      
 
     </div>
     
@@ -617,8 +733,6 @@ with Pango&nbsp;markup.</p>
 
       
 
-      
-        
       
         
       
@@ -714,6 +828,8 @@ its value set through g_object_set_property(), g_object_set(), et&nbsp;al.</p>
       
 
       
+        
+      
 
     </div>
     
@@ -726,7 +842,7 @@ its value set through g_object_set_property(), g_object_set(), et&nbsp;al.</p>
       </h4>
 
       <div class="docblock">
-        <pre><code>struct HeViewMonoClass {
+        <pre><code>struct HeBannerClass {
   /* no available fields */
 }</code></pre>
       </div>
@@ -755,6 +871,8 @@ its value set through g_object_set_property(), g_object_set(), et&nbsp;al.</p>
       <li class="toc-list-item"><a href="#ancestors"><span class="link-text">Ancestors</span></a></li>
       
       
+      <li class="toc-list-item"><a href="#implements"><span class="link-text">Implements</span></a></li>
+      
       
 <li class="toc-list-item"><a href="#constructors"><span class="link-text">Constructors</span></a></li>
 
@@ -762,8 +880,12 @@ its value set through g_object_set_property(), g_object_set(), et&nbsp;al.</p>
       
 
       
+<li class="toc-list-item"><a href="#methods"><span class="link-text">Methods</span></a></li>
+
 
       
+<li class="toc-list-item"><a href="#properties"><span class="link-text">Properties</span></a></li>
+
 
       
 
