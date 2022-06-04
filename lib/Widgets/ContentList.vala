@@ -55,7 +55,6 @@ public class He.ContentList : Gtk.Widget, Gtk.Buildable {
         if (description_label != null) {
             description_label.unparent ();
         }
-        get_first_child ().unparent ();
     }
 
     construct {
