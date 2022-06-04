@@ -72,7 +72,9 @@ public class He.Banner : Gtk.Box, Gtk.Buildable {
     
     construct {
         this.title_label.add_css_class ("header");
+        this.title_label.xalign = 0;
         this.description_label.add_css_class ("body");
+        this.description_label.xalign = 0;
         this.add_css_class ("banner");
 
         this.text_box.append (title_label);

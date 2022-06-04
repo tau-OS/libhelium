@@ -96,13 +96,32 @@ template DemoMainWindow : .HeApplicationWindow {
         }
 
         .HeBanner banner {
-          title: "Banner";
+          title: "Info Banner";
           description: "Subtitle";
           style: "info";
 
           [action]
-          Button action {
+          .HeTintButton action {
             label: "Action";
+            color: blue;
+          }
+        }
+
+        .HeBanner banner2 {
+          title: "Error Banner";
+          description: "Subtitle";
+          style: "error";
+
+          [action]
+          .HeOutlineButton action2 {
+            label: "Secondary";
+            color: red;
+          }
+
+          [action]
+          .HeTintButton action3 {
+            label: "Action";
+            color: red;
           }
         }
 
