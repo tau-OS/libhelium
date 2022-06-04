@@ -42,6 +42,12 @@ public class He.ContentList : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    ~ContentList () {
+        list.unparent ();
+        text_box.unparent ();
+        get_first_child ().unparent ();
+    }
+
     construct {
         this.title_label.add_css_class ("header");
         this.title_label.xalign = 0;
