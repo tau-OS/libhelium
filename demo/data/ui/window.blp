@@ -268,8 +268,18 @@ template DemoMainWindow : .HeApplicationWindow {
               StackPage {
                 title: "Page 2";
 
-                child: Label {
-                  label: "Page 2";
+                child: .HeViewDual {
+                  title: "Page 2";
+
+                  [left]
+                  Label {
+                    label: "Content A";
+                  }
+
+                  [right]
+                  Label {
+                    label: "Content B";
+                  }
                 };
               }
               StackPage {
