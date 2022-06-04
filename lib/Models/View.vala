@@ -33,12 +33,16 @@ public abstract class He.View : Gtk.Box, Gtk.Buildable {
         }
     }
 
-    public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+    public virtual void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (type == "view-button") {
             title_button_box.append ((Gtk.Widget) child);
         } else {
             box.append ((Gtk.Widget) child);
         }
+    }
+
+    public void add (Gtk.Widget widget) {
+        box.append (widget);
     }
 
     construct {
