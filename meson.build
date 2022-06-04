@@ -61,3 +61,7 @@ subdir('lib')
 if get_option('demo')
     subdir('demo')
 endif
+
+if get_option('documentation')
+    subdir('doc')
+endif
