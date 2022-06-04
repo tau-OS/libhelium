@@ -109,6 +109,21 @@ template DemoMainWindow : .HeApplicationWindow {
               icon-name: "list-add-symbolic";
             }
 
+            .HeBanner banner {
+              title: "Banner";
+              description: "Subtitle";
+              style: "info";
+
+              [action]
+              .HeOutlineButton second_action {
+                label: "Second Action";
+              }
+              [action]
+              .HeTintButton close_action {
+                label: "Close";
+              }
+            }
+
             .HeFillButton {
               label: "Fill";
             }

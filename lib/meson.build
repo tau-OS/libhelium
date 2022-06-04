@@ -10,6 +10,7 @@ libhelium_sources += files(
     'Widgets/AppBar.vala',
     'Widgets/ApplicationWindow.vala',
     'Widgets/Badge.vala',
+    'Widgets/Banner.vala',
     'Widgets/BottomBar.vala',
     'Widgets/Chip.vala',
     'Widgets/ContentBlock.vala',

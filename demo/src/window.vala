@@ -39,6 +39,10 @@ public class Demo.MainWindow : He.ApplicationWindow {
     private unowned He.Toast toast;
     [GtkChild]
     private unowned He.FillButton dialog_button;
+    [GtkChild]
+    private unowned He.TintButton close_action;
+    [GtkChild]
+    private unowned He.Banner banner;
 
     public He.Application app { get; construct; }
     public MainWindow (He.Application application) {
@@ -88,6 +92,11 @@ public class Demo.MainWindow : He.ApplicationWindow {
                                 s_button
                             );
             dialog.show ();
+        });
+
+        close_action.clicked.connect (() => {
+            banner.unparent ();
+            banner.destroy ();
         });
 
         this.set_size_request (360, 360);
