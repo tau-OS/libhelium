@@ -7,11 +7,9 @@ config = configure_file(
   configuration: toml_data
 )
 
-dependency('gi-docgen', version: '>= 2021.1',
-           fallback: ['gi-docgen', 'dummy_dep'],
+gidocgen = find_program('gi-docgen', version: '>= 2021.1',
            native: true,
            required: get_option('documentation'))
-gidocgen = find_program('gi-docgen')
 
 docs_dir = datadir / 'doc'
 
