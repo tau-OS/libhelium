@@ -30,7 +30,8 @@
       "config-opts": [
         "-Ddemo=true",
         "-Dintrospection=true",
-        "-Dvapi=true"
+        "-Dvapi=true",
+        "-Ddocumentation=false"
       ],
       "sources" : [
         {

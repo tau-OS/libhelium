@@ -40,7 +40,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
     [GtkChild]
     private unowned He.FillButton dialog_button;
     [GtkChild]
-    private unowned He.TintButton close_action;
+    private unowned He.TintButton action;
     [GtkChild]
     private unowned He.Banner banner;
 
@@ -94,7 +94,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
             dialog.show ();
         });
 
-        close_action.clicked.connect (() => {
+        action.clicked.connect (() => {
             banner.unparent ();
             banner.destroy ();
         });

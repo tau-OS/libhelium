@@ -95,6 +95,8 @@ public class He.Banner : Gtk.Box, Gtk.Buildable {
     
         this.append (text_box);
         this.append (button_box);
+        this.set_valign (Gtk.Align.START);
+        this.set_vexpand (false);
     }
   }
   

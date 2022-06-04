@@ -95,6 +95,17 @@ template DemoMainWindow : .HeApplicationWindow {
           }
         }
 
+        .HeBanner banner {
+          title: "Banner";
+          description: "Subtitle";
+          style: "info";
+
+          [action]
+          Button action {
+            label: "Action";
+          }
+        }
+
         .HeOverlayButton {
           icon: "list-add-symbolic";
           label: "Add Thing";
@@ -107,21 +118,6 @@ template DemoMainWindow : .HeApplicationWindow {
             [view-button]
             .HeDisclosureButton {
               icon-name: "list-add-symbolic";
-            }
-
-            .HeBanner banner {
-              title: "Banner";
-              description: "Subtitle";
-              style: "info";
-
-              [action]
-              .HeOutlineButton second_action {
-                label: "Second Action";
-              }
-              [action]
-              .HeTintButton close_action {
-                label: "Close";
-              }
             }
 
             .HeFillButton {
@@ -269,8 +265,6 @@ template DemoMainWindow : .HeApplicationWindow {
                 title: "Page 2";
 
                 child: .HeViewDual {
-                  title: "Page 2";
-
                   [left]
                   Label {
                     label: "Content A";
