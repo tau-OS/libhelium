@@ -1,26 +1,38 @@
-valadoc = find_program('valadoc')
+toml_data = configuration_data()
+toml_data.set('VERSION', meson.project_version())
 
-valadoc_vala_dir = 'libhelium-1-vala'
-valadoc_target = custom_target(
-    'valadoc',
+config = configure_file(
+  input: 'libhelium.toml.in',
+  output: 'libhelium.toml',
+  configuration: toml_data
+)
+
+dependency('gi-docgen', version: '>= 2021.1',
+           fallback: ['gi-docgen', 'dummy_dep'],
+           native: true,
+           required: get_option('documentation'))
+gidocgen = find_program('gi-docgen')
+
+docs_dir = datadir / 'doc'
+
+dir = 'libhelium-1'
+target = custom_target(
+    'gidocgen',
     command: [
-        valadoc,
-        '--pkg=glib-2.0',
-        '--pkg=gio-2.0',
-        '--pkg=gio-unix-2.0',
-        '--pkg=gobject-2.0',
-        '--pkg=gtk4',
-        libhelium_sources,
-        '--target-glib=' + glib_min_version,
-        '--package-name=' + meson.project_name(),
-        '--package-version=' + meson.project_version(),
-        '--verbose',
-        '--force',
-        '--use-svg-images',
-        '-o', join_paths(meson.current_build_dir(), valadoc_vala_dir),
+        gidocgen,
+        'generate',
+        '--quiet',
+        '--add-include-path=lib',
+        '--config=@0@'.format(config),
+        '--no-namespace-dir',
+        '--content-dir=@0@'.format(meson.current_source_dir()),
+        '--output-dir=@0@'.format(join_paths(meson.current_build_dir(), dir)),
+        'lib/He-1.gir'
     ],
 
     build_by_default: true,
-    output: valadoc_vala_dir,
+    output: dir,
     depends: libhelium,
+    install: true,
+    install_dir: docs_dir,
 )
