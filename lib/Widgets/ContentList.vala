@@ -43,8 +43,18 @@ public class He.ContentList : Gtk.Widget, Gtk.Buildable {
     }
 
     ~ContentList () {
-        list.unparent ();
-        text_box.unparent ();
+        if (list != null) {
+            list.unparent ();
+        }
+        if (text_box != null) {
+            text_box.unparent ();
+        }
+        if (title_label != null) {
+            title_label.unparent ();
+        }
+        if (description_label != null) {
+            description_label.unparent ();
+        }
         get_first_child ().unparent ();
     }
 
