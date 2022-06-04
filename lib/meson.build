@@ -18,6 +18,7 @@ libhelium_sources += files(
     'Widgets/ContentBlockImageCluster.vala',
     'Widgets/Dialog.vala',
     'Widgets/DisclosureButton.vala',
+    'Widgets/EmptyPage.vala',
     'Widgets/FillButton.vala',
     'Widgets/IconicButton.vala',
     'Widgets/MiniContentBlock.vala',

@@ -243,8 +243,11 @@ template DemoMainWindow : .HeApplicationWindow {
               StackPage {
                 title: "Page 1";
 
-                child: Label {
-                  label: "Page 1";
+                child: .HeEmptyPage {
+                  title: "Empty Page";
+                  description: "This is an empty page.";
+                  icon: "list-add-symbolic";
+                  button: "Pill";
                 };
               }
               StackPage {

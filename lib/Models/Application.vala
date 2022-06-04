@@ -20,6 +20,7 @@ public class He.Application : Gtk.Application {
     typeof (He.Desktop).ensure ();
     typeof (He.Dialog).ensure ();
     typeof (He.DisclosureButton).ensure ();
+    typeof (He.EmptyPage).ensure ();
     typeof (He.FillButton).ensure ();
     typeof (He.IconicButton).ensure ();
     typeof (He.MiniContentBlock).ensure ();
