@@ -17,6 +17,7 @@ public class He.Application : Gtk.Application {
     typeof (He.ContentBlock).ensure ();
     typeof (He.ContentBlockImage).ensure ();
     typeof (He.ContentBlockImageCluster).ensure ();
+    typeof (He.ContentList).ensure ();
     typeof (He.Desktop).ensure ();
     typeof (He.Dialog).ensure ();
     typeof (He.DisclosureButton).ensure ();
@@ -34,6 +35,7 @@ public class He.Application : Gtk.Application {
     typeof (He.Toast).ensure ();
     typeof (He.View).ensure ();
     typeof (He.ViewMono).ensure ();
+    typeof (He.ViewDual).ensure ();
     typeof (He.ViewSubTitle).ensure ();
     typeof (He.ViewSwitcher).ensure ();
     typeof (He.ViewTitle).ensure ();
