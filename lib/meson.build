@@ -49,8 +49,8 @@ libhelium_gi = libhelium_gi_name + '-' + libhelium_gi_version
 libhelium_typelib = libhelium_gi + '.typelib'
 
 include_dir = join_paths(
-    get_option('includedir'),
     get_option('prefix'),
+    get_option('includedir'),
     meson.project_name()
 )
 
