@@ -39,16 +39,14 @@ libhelium_deps = [
 pkgconfig = import('pkgconfig')
 i18n = import('i18n')
 
-if get_option('stylesheet')
-    helium = subproject(
-        'tau-helium',
-        default_options: ['gtk4=true', 'gtk3=false', 'shell=false'],
-        required: true
-     )
-    helium_folder = 'subprojects/tau-helium/Helium/gtk-4.0'
-    generate_gtk4_light = helium.get_variable('generate_gtk4_light')
-    generate_gtk4_dark = helium.get_variable('generate_gtk4_dark')
-endif
+helium = subproject(
+    'tau-helium',
+    default_options: ['gtk4=true', 'gtk3=false', 'shell=false'],
+    required: true
+ )
+helium_folder = 'subprojects/tau-helium/Helium/gtk-4.0'
+generate_gtk4_light = helium.get_variable('generate_gtk4_light')
+generate_gtk4_dark = helium.get_variable('generate_gtk4_dark')
 
 gresource = gnome.compile_resources(
     'gresource',
