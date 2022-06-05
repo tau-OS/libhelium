@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="svg7384" width="16.036" height="16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:osb="http://www.openswatchbook.org/uri/2009/osb" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata id="metadata90">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>elementary Symbolic Icon Theme</dc:title>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <title id="title9167">elementary Symbolic Icon Theme</title>
+ <rect id="rect4164" transform="matrix(.70711 .70711 .70711 -.70711 0 0)" x="11.411" y="-4.1453" width="6.8763" height="6.8763" rx=".87652" ry=".87652" style="color-rendering:auto;color:#fbc02d;fill:#3585dd;image-rendering:auto;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4164-8-7-9-8" d="m10 6.5c-0.22405 0-0.44746 0.08613-0.61914 0.25781l-2.4668 2.4648 1.6895 1.6895c0.78347 0.78348 2.0447 0.78348 2.8281 0l1.6699-1.6699-2.4824-2.4844c-0.17168-0.17168-0.39509-0.25781-0.61914-0.25781z" style="color-rendering:auto;color:#fbc02d;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.1;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4164-8-7-0" d="m10 6.5c-0.22405 0-0.44746 0.08613-0.61914 0.25781l-1.8613 1.8633 1.4375 1.4375c0.58761 0.5876 1.5335 0.5876 2.1211 0l1.4219-1.4199-1.8809-1.8809c-0.17168-0.17168-0.39509-0.25781-0.61914-0.25781z" style="color-rendering:auto;color:#fbc02d;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.1;shape-rendering:auto;solid-color:#000000"/>
+ <rect id="rect4164-0" transform="matrix(.70711 .70711 .70711 -.70711 0 0)" x="7.1812" y=".11012" width="6.8763" height="6.8763" rx=".87652" ry=".87652" style="color-rendering:auto;color:#fbc02d;fill:#844cc8;image-rendering:auto;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4164-8-7-9" d="m7.7422 2.4141-1.9668 1.9668c-0.34336 0.34336-0.34336 0.89492 0 1.2383l2.373 2.373-2.3906 2.3887c-0.34336 0.34336-0.34336 0.89492 0 1.2383l0.97461 0.97461 4.1797-4.1797c0.78348-0.78347 0.78348-2.0447 0-2.8281l-3.1699-3.1719z" style="color-rendering:auto;color:#fbc02d;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.1;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4164-8-7" d="m7.1367 3.0195-1.3613 1.3613c-0.34336 0.34336-0.34336 0.89492 0 1.2383l2.373 2.373-2.3906 2.3887c-0.34336 0.34336-0.34336 0.89492 0 1.2383l0.37109 0.37109 3.9297-3.9297c0.5876-0.58761 0.5876-1.5335 0-2.1211l-2.9219-2.9199z" style="color-rendering:auto;color:#fbc02d;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.1;shape-rendering:auto;solid-color:#000000"/>
+ <rect id="rect4164-8" transform="matrix(.70711 -.70711 .70711 .70711 0 0)" x="-4.8524" y="5.0471" width="6.8763" height="6.8763" rx=".87652" ry=".87652" style="color-rendering:auto;color:#fbc02d;fill:#fbc02d;image-rendering:auto;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000"/>
+</svg>

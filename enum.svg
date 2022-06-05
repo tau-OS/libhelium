@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="svg7384" width="16.036" height="16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata id="metadata90">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>elementary Symbolic Icon Theme</dc:title>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <title id="title9167">elementary Symbolic Icon Theme</title>
+ <path id="rect4162-1-2-3-8-7" d="m3.5556 0c-0.86178 0-1.5556 0.70086-1.5556 1.5714v7.8571c0 0.87057 0.69378 1.5714 1.5556 1.5714h10.889c0.86178 0 1.5556-0.70086 1.5556-1.5714v-7.8571c0-0.87057-0.69378-1.5714-1.5556-1.5714z" style="color-rendering:auto;color:#fbc02d;fill:#fbc02d;image-rendering:auto;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4194-8-1-7-2" d="m4.9819 3v1h8v-1h-8zm0 2v1h8v-1h-8zm0 2v1h8v-1h-8z" style="color-rendering:auto;color:#bebebe;fill:#403757;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.5;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4489" d="m2 4v5.4277c0 0.87057 0.69291 1.5723 1.5547 1.5723h10.891c0.1968 0 0.38167-0.040645 0.55469-0.10742v-4.4434c0-1.3567-1.0074-2.4492-2.2598-2.4492h-10.74z" style="color-rendering:auto;color:#bebebe;fill:#800000;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.1;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4564" d="m2 3v6.4277c0 0.87057 0.69291 1.5723 1.5547 1.5723h10.891c0.86178 0 1.5547-0.7017 1.5547-1.5723v-3.4277c0-1.662-1.338-3-3-3h-11z" style="color-rendering:auto;color:#bebebe;fill:#800000;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.05;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4162-1-2-3-8" d="m1.5556 5c-0.86178 0-1.5556 0.70086-1.5556 1.5714v7.8571c0 0.87057 0.69378 1.5714 1.5556 1.5714h10.889c0.86178 0 1.5556-0.70086 1.5556-1.5714v-7.8571c0-0.87057-0.69378-1.5714-1.5556-1.5714z" style="color-rendering:auto;color:#fbc02d;fill:#fbc02d;image-rendering:auto;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4194-8-1-7" d="m2.9819 8v1h8v-1h-8zm0 2v1h8v-1h-8zm0 2v1h8v-1h-8z" style="color-rendering:auto;color:#bebebe;fill:#403757;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.5;shape-rendering:auto;solid-color:#000000"/>
+</svg>

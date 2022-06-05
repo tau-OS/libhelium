@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="svg7384" width="16.036" height="16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata id="metadata90">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>elementary Symbolic Icon Theme</dc:title>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <title id="title9167">elementary Symbolic Icon Theme</title>
+ <path id="rect4162-1-2-3" d="m2.5736 2c-0.86178 0-1.5556 0.70086-1.5556 1.5714v7.8571c0 0.87057 0.69378 1.5714 1.5556 1.5714h10.889c0.86178 0 1.5556-0.70086 1.5556-1.5714v-7.8571c0-0.87057-0.69378-1.5714-1.5556-1.5714z" style="color-rendering:auto;color:#fbc02d;fill:#fbc02d;image-rendering:auto;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4194-8-1" d="m4 5v1h8v-1h-8zm0 2v1h8v-1h-8zm0 2v1h8v-1h-8z" style="color-rendering:auto;color:#bebebe;fill:#403757;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.5;shape-rendering:auto;solid-color:#000000"/>
+ <path id="path3482-5-7-8" d="m12.5 7c-3.0376 0-5.5 2.4624-5.5 5.5 0 0.16874 0.010516 0.33513 0.025391 0.5h6.4375c0.86178 0 1.5547-0.7017 1.5547-1.5723v-3.8145c-0.75494-0.38984-1.6094-0.61328-2.5176-0.61328z" style="color-rendering:auto;color:#bebebe;fill:#800000;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.05;shape-rendering:auto;solid-color:#000000"/>
+ <path id="path3482-5-7" d="m12.5 8c-2.4853 0-4.5 2.0147-4.5 4.5 0 0.1714 0.032122 0.33358 0.050781 0.5h5.4121c0.86178 0 1.5547-0.7017 1.5547-1.5723v-2.6582c-0.71865-0.48615-1.5846-0.76953-2.5176-0.76953z" style="color-rendering:auto;color:#bebebe;fill:#800000;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.1;shape-rendering:auto;solid-color:#000000"/>
+ <path id="path3482-5" class="error" d="m12.5 8.9965c-1.933 0-3.5 1.567-3.5 3.5s1.567 3.5 3.5 3.5 3.5-1.567 3.5-3.5-1.567-3.5-3.5-3.5z" style="color:#bebebe;fill:#ef2929"/>
+ <path id="path3482-5-0" class="error" d="m10 11.965h5v1.0312h-5z" style="color:#bebebe;fill:#fff"/>
+</svg>

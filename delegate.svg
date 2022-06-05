@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="svg7384" width="16.036" height="16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:osb="http://www.openswatchbook.org/uri/2009/osb" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata id="metadata90">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>elementary Symbolic Icon Theme</dc:title>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <title id="title9167">elementary Symbolic Icon Theme</title>
+ <path id="rect8278" d="m6 3c-0.554 0-1 0.446-1 1v1h-2.207c-0.4393 0-0.79297 0.35366-0.79297 0.79297l2.207 2.207h1.793 1v-1h2v1h1 1.793l2.207-2.207c0-0.4393-0.35366-0.79297-0.79297-0.79297h-2.207v-1c0-0.554-0.446-1-1-1h-4zm0.5 1h3c0.277 0 0.5 0.223 0.5 0.5v0.5h-4v-0.5c0-0.277 0.223-0.5 0.5-0.5zm-4.5 3.207v6c0 0.4393 0.35366 0.79297 0.79297 0.79297h10.414c0.4393 0 0.79297-0.35366 0.79297-0.79297v-6l-1.793 1.793h-3.207v1h-2v-1h-3.207l-1.793-1.793z" style="color-rendering:auto;color:#000000;fill-rule:evenodd;fill:#814cc8;image-rendering:auto;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000"/>
+</svg>

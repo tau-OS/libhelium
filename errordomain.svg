@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="svg7384" width="16.036" height="16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata id="metadata90">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>elementary Symbolic Icon Theme</dc:title>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <title id="title9167">elementary Symbolic Icon Theme</title>
+ <path id="rect4162-1-2-3-8-7" d="m3.5556 0c-0.86178 0-1.5556 0.70086-1.5556 1.5714v7.8571c0 0.87057 0.69378 1.5714 1.5556 1.5714h10.889c0.86178 0 1.5556-0.70086 1.5556-1.5714v-7.8571c0-0.87057-0.69378-1.5714-1.5556-1.5714z" style="color-rendering:auto;color:#fbc02d;fill:#fbc02d;image-rendering:auto;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4194-8-1-7-2" d="m4.9819 3v1h8v-1h-8zm0 2v1h8v-1h-8zm0 2v1h8v-1h-8z" style="color-rendering:auto;color:#bebebe;fill:#403757;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.5;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4489" d="m2 4v5.4277c0 0.87057 0.69291 1.5723 1.5547 1.5723h10.891c0.1968 0 0.38167-0.040645 0.55469-0.10742v-4.4434c0-1.3567-1.0074-2.4492-2.2598-2.4492h-10.74z" style="color-rendering:auto;color:#bebebe;fill:#800000;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.1;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4564" d="m2 3v6.4277c0 0.87057 0.69291 1.5723 1.5547 1.5723h10.891c0.86178 0 1.5547-0.7017 1.5547-1.5723v-3.4277c0-1.662-1.338-3-3-3h-11z" style="color-rendering:auto;color:#bebebe;fill:#800000;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.05;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4162-1-2-3-8" d="m1.5556 5c-0.86178 0-1.5556 0.70086-1.5556 1.5714v7.8571c0 0.87057 0.69378 1.5714 1.5556 1.5714h10.889c0.86178 0 1.5556-0.70086 1.5556-1.5714v-7.8571c0-0.87057-0.69378-1.5714-1.5556-1.5714z" style="color-rendering:auto;color:#fbc02d;fill:#fbc02d;image-rendering:auto;isolation:auto;mix-blend-mode:normal;shape-rendering:auto;solid-color:#000000"/>
+ <path id="rect4194-8-1-7" d="m2.9819 8v1h8v-1h-8zm0 2v1h8v-1h-8zm0 2v1h8v-1h-8z" style="color-rendering:auto;color:#bebebe;fill:#403757;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.5;shape-rendering:auto;solid-color:#000000"/>
+ <path id="path3482-5-7-8" d="m12.5 7c-3.0376 0-5.5 2.4624-5.5 5.5 0 1.3299 0.47215 2.549 1.2578 3.5h4.1875c0.86178 0 1.5547-0.7017 1.5547-1.5723v-3.4277h0.44531c0.86178 0 1.5547-0.7017 1.5547-1.5723v-1.1699c-0.95103-0.78566-2.1701-1.2578-3.5-1.2578z" style="color-rendering:auto;color:#bebebe;fill:#800000;filter-blend-mode:normal;filter-gaussianBlur-deviation:0;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.05;shape-rendering:auto;solid-color:#000000"/>
+ <path id="path3482-5-7" d="m12.5 8c-2.4853 0-4.5 2.0147-4.5 4.5 0 1.4221 0.67303 2.6754 1.7031 3.5h2.7422c0.86178 0 1.5547-0.7017 1.5547-1.5723v-3.4277h0.44531c0.77853 0 1.4147-0.57366 1.5312-1.3262-0.82513-1.0133-2.0679-1.6738-3.4766-1.6738z" style="color-rendering:auto;color:#bebebe;fill:#800000;filter-blend-mode:normal;filter-gaussianBlur-deviation:0;image-rendering:auto;isolation:auto;mix-blend-mode:normal;opacity:.1;shape-rendering:auto;solid-color:#000000"/>
+ <path id="path3482-5" class="error" d="m12.5 8.9965c-1.933 0-3.5 1.567-3.5 3.5s1.567 3.5 3.5 3.5 3.5-1.567 3.5-3.5-1.567-3.5-3.5-3.5z" style="color:#bebebe;fill:#ef2929"/>
+ <path id="path3482-5-0" class="error" d="m10 11.965h5v1.0312h-5z" style="color:#bebebe;fill:#fff"/>
+</svg>
