@@ -34,6 +34,7 @@ public class He.Application : Gtk.Application {
     typeof (He.TintButton).ensure ();
     typeof (He.Toast).ensure ();
     typeof (He.View).ensure ();
+    typeof (He.ViewAux).ensure ();
     typeof (He.ViewMono).ensure ();
     typeof (He.ViewDual).ensure ();
     typeof (He.ViewSubTitle).ensure ();

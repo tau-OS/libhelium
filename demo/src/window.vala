@@ -50,7 +50,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
     [GtkChild]
     private unowned He.FillButton ws_button;
     [GtkChild]
-    private unowned He.WelcomeScreen ws;
+    private unowned He.Window ws;
 
     public He.Application app { get; construct; }
     public MainWindow (He.Application application) {

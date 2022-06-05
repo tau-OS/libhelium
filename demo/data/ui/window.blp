@@ -350,8 +350,18 @@ template DemoMainWindow : .HeApplicationWindow {
               StackPage {
                 title: "Page 3";
 
-                child: Label {
-                  label: "Page 3";
+                child: .HeViewAux {
+                  show-aux: true;
+
+                  [left]
+                  Label {
+                    label: "Content A";
+                  }
+
+                  [right]
+                  Label {
+                    label: "Content B";
+                  }
                 };
               }
             }

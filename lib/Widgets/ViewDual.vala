@@ -1,5 +1,5 @@
 public class He.ViewDual : He.View {
-    private Gtk.Box box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10) {
+    private Gtk.Box box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
         homogeneous = true
     };
     private Gtk.Box left_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
