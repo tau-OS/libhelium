@@ -1,0 +1,30 @@
+name: Package
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  
+jobs:
+  build:
+    uses: tau-OS/github-actions/.github/workflows/build-rpm.yml@main
+    with:
+      name: "libhelium"
+  sign:
+    needs:
+      - build
+    uses: tau-OS/github-actions/.github/workflows/sign-rpm.yml@main
+    if: github.ref == 'refs/heads/main'
+    with:
+      name: "libhelium"
+    secrets:
+      signingKey: ${{ secrets.GPG_PRIVATE_KEY }}
+  upload:
+    needs:
+      - sign
+    uses: tau-OS/github-actions/.github/workflows/upload-rpm.yml@main
+    with:
+      name: "libhelium"
+      tauOSVersion: "1.1"
+    secrets:
+      teleportIdentity: ${{ secrets.TELEPORT_IDENTITY }}
