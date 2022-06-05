@@ -21,7 +21,11 @@ target = custom_target(
         '--verbose',
         '--force',
         '--use-svg-images',
-        '-o', join_paths(meson.current_build_dir())
+        '-o', join_paths(meson.current_build_dir()),
+        '&&',
+        'cp',
+        join_paths(meson.project_source_root () / 'doc' / 'style.css'),
+        meson.current_build_dir()
     ],
 
     build_by_default: true,
