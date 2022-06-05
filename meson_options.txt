@@ -1,4 +1,5 @@
 option('demo', type: 'boolean', value: false, description: 'Include Demo app')
+option('stylesheet', type: 'boolean', value: false, description: 'Include Stylesheet')
 option('introspection', type: 'boolean', value: true, description: 'Generate GObject Introspection data, for use in GObject bindings')
 option('vapi', type: 'boolean', value: true, description: 'Make VAPI files to help with Vala integration')
 option('documentation', type: 'boolean', value: true, description: 'Generate documentation')
