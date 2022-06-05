@@ -13,7 +13,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>He.Window</title>
+  <title>He.WelcomeScreen</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta charset="utf-8" />
@@ -29,10 +29,10 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
   
 
   
-  <meta property="og:title" content="He.Window"/>
-  <meta property="og:description" content="Reference for He.Window"/>
-  <meta name="twitter:title" content="He.Window"/>
-  <meta name="twitter:description" content="Reference for He.Window"/>
+  <meta property="og:title" content="He.WelcomeScreen"/>
+  <meta property="og:description" content="Reference for He.WelcomeScreen"/>
+  <meta name="twitter:title" content="He.WelcomeScreen"/>
+  <meta name="twitter:description" content="Reference for He.WelcomeScreen"/>
 
 
   
@@ -84,7 +84,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 <div class="section">
   <h5>Type</h5>
   <div class="links">
-    <a class="current" href="class.Window.html#description">Window</a>
+    <a class="current" href="class.WelcomeScreen.html#description">WelcomeScreen</a>
   </div>
 </div>
 
@@ -93,7 +93,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
   <h5>Constructors</h5>
   <div class="links">
   
-    <a class="ctor" href="ctor.Window.new.html">new</a>
+    <a class="ctor" href="ctor.WelcomeScreen.new.html">new</a>
   
   </div>
 </div>
@@ -106,9 +106,13 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
   <h5>Instance methods</h5>
   <div class="links">
   
-    <a class="method" href="method.Window.get_has_title.html">get_has_title</a>
+    <a class="method" href="method.WelcomeScreen.get_appname.html">get_appname</a>
   
-    <a class="method" href="method.Window.set_has_title.html">set_has_title</a>
+    <a class="method" href="method.WelcomeScreen.set_appname.html">set_appname</a>
+  
+    <a class="method" href="method.WelcomeScreen.get_description.html">get_description</a>
+  
+    <a class="method" href="method.WelcomeScreen.set_description.html">set_description</a>
   
   </div>
 </div>
@@ -119,7 +123,9 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
   <h5>Properties</h5>
   <div class="links">
   
-    <a class="property" href="property.Window.has-title.html">has-title</a>
+    <a class="property" href="property.WelcomeScreen.appname.html">appname</a>
+  
+    <a class="property" href="property.WelcomeScreen.description.html">description</a>
   
   </div>
 </div>
@@ -140,7 +146,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 <section id="main" class="content">
   <header>
     <h3>Class</h3>
-    <h1 aria-label="Name"><a href="index.html">He</a><span class="sep" role="presentation"></span>Window</h1>
+    <h1 aria-label="Name"><a href="index.html">He</a><span class="sep" role="presentation"></span>WelcomeScreen</h1>
   </header>
 
   <section>
@@ -152,7 +158,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
           
         </h4>
 
-        <pre><code>class He.Window : Gtk.Window {
+        <pre><code>class He.WelcomeScreen : Gtk.Box {
   /* No available fields */
 }</pre></code>
 
@@ -185,7 +191,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
         <ul>
         
           
-          <li class="class"><a class="external" href="javascript:void(0)" data-link="class.Window.html" data-namespace="Gtk">GtkWindow</a></li>
+          <li class="class"><a class="external" href="javascript:void(0)" data-link="class.Box.html" data-namespace="Gtk">GtkBox</a></li>
           
         
           
@@ -206,18 +212,24 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
     
 
     
-    <div class="descendants toggle-wrapper default-hide">
-      <h4 id="descendants">Descendants <a href="#descendants" class="anchor"></a></h4>
+
+    
+    <div class="toggle-wrapper implements">
+      <h4 id="implements">
+        Implements
+        <a href="#implements" class="anchor"></a>
+      </h4>
+
       <div class="docblock">
         <ul>
-          <li class="class"><a href="class.ApplicationWindow.html" title="ApplicationWindow">HeApplicationWindow</a></li>
         
-          <li class="class"><a href="class.Dialog.html" title="Dialog">HeDialog</a></li>
+          
+          <li class="interface"><a class="external" href="javascript:void(0)" data-link="iface.Buildable.html" data-namespace="Gtk">GtkBuildable</a></li>
+          
+        
         </ul>
       </div>
     </div>
-    
-
     
 
     
@@ -230,7 +242,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
       <div class="docblock">
       
         <div class="">
-          <h6><a href="ctor.Window.new.html">he_window_new</a></h6>
+          <h6><a href="ctor.WelcomeScreen.new.html">he_welcome_screen_new</a></h6>
 
           <div class="docblock">
             No description available.
@@ -255,7 +267,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
       <div class="docblock">
       
         <div class="">
-          <h6><a href="method.Window.get_has_title.html">he_window_get_has_title</a></h6>
+          <h6><a href="method.WelcomeScreen.get_appname.html">he_welcome_screen_get_appname</a></h6>
           <div class="docblock">
             No description available.
           </div>
@@ -263,7 +275,23 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
         </div>
       
         <div class="">
-          <h6><a href="method.Window.set_has_title.html">he_window_set_has_title</a></h6>
+          <h6><a href="method.WelcomeScreen.set_appname.html">he_welcome_screen_set_appname</a></h6>
+          <div class="docblock">
+            No description available.
+          </div>
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="method.WelcomeScreen.get_description.html">he_welcome_screen_get_description</a></h6>
+          <div class="docblock">
+            No description available.
+          </div>
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="method.WelcomeScreen.set_description.html">he_welcome_screen_set_description</a></h6>
           <div class="docblock">
             No description available.
           </div>
@@ -274,12 +302,67 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 
       
         
-        <div class="toggle-wrapper default-hide ancestor-methods"><h5 style="display:block;">Methods inherited from <a class="external" href="javascript:void(0)" data-link="class.Window.html" data-namespace="Gtk">GtkWindow</a> (54)</h5>
+        <div class="toggle-wrapper default-hide ancestor-methods"><h5 style="display:block;">Methods inherited from <a class="external" href="javascript:void(0)" data-link="class.Box.html" data-namespace="Gtk">GtkBox</a> (11)</h5>
           <div class="docblock">
-          
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Box.append.html">gtk_box_append</a></h6>
             <div class="docblock">
-              <p>Please see&nbsp;<a class="external" href="javascript:void(0)" data-link="class.Window.html#methods" data-namespace="Gtk">GtkWindow</a>&nbsp;for a full list of methods.</em></p>
+              <p>Adds <code>child</code> as the last child to <code>box</code>.</p>
             </div>
+            
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Box.get_baseline_position.html">gtk_box_get_baseline_position</a></h6>
+            <div class="docblock">
+              <p>Gets the value set by&nbsp;gtk_box_set_baseline_position().</p>
+            </div>
+            
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Box.get_homogeneous.html">gtk_box_get_homogeneous</a></h6>
+            <div class="docblock">
+              <p>Returns whether the box is homogeneous (all children are the
+same&nbsp;size).</p>
+            </div>
+            
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Box.get_spacing.html">gtk_box_get_spacing</a></h6>
+            <div class="docblock">
+              <p>Gets the value set by&nbsp;gtk_box_set_spacing().</p>
+            </div>
+            
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Box.insert_child_after.html">gtk_box_insert_child_after</a></h6>
+            <div class="docblock">
+              <p>Inserts <code>child</code> in the position after <code>sibling</code> in the list
+of <code>box</code> children.</p>
+            </div>
+            
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Box.prepend.html">gtk_box_prepend</a></h6>
+            <div class="docblock">
+              <p>Adds <code>child</code> as the first child to <code>box</code>.</p>
+            </div>
+            
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Box.remove.html">gtk_box_remove</a></h6>
+            <div class="docblock">
+              <p>Removes a child widget from <code>box</code>.</p>
+            </div>
+            
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Box.reorder_child_after.html">gtk_box_reorder_child_after</a></h6>
+            <div class="docblock">
+              <p>Moves <code>child</code> to the position after <code>sibling</code> in the list
+of <code>box</code> children.</p>
+            </div>
+            
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Box.set_baseline_position.html">gtk_box_set_baseline_position</a></h6>
+            <div class="docblock">
+              <p>Sets the baseline position of a&nbsp;box.</p>
+            </div>
+            
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Box.set_homogeneous.html">gtk_box_set_homogeneous</a></h6>
+            <div class="docblock">
+              <p>Sets whether or not all children of <code>box</code> are given equal space
+in the&nbsp;box.</p>
+            </div>
+            
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Box.set_spacing.html">gtk_box_set_spacing</a></h6>
+            <div class="docblock">
+              <p>Sets the number of pixels to place between children of <code>box</code>.</p>
+            </div>
+            
           
           </div>
         </div>
@@ -313,6 +396,19 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
       
 
       
+        
+        <div class="toggle-wrapper default-hide ancestor-methods"><h5 style="display:block;">Methods inherited from <a class="external" href="javascript:void(0)" data-link="iface.Buildable.html" data-namespace="Gtk">GtkBuildable</a> (1)</h5>
+          <div class="docblock">
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Buildable.get_buildable_id.html">gtk_buildable_get_buildable_id</a></h6>
+            <div class="docblock">
+              <p>Gets the <span class="caps">ID</span> of the <code>buildable</code> object.</p>
+            </div>
+            
+          
+          </div>
+        </div>
+        
+      
     </div>
     
 
@@ -327,7 +423,17 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
       <div class="docblock">
       
         <div class="">
-          <h6><a href="property.Window.has-title.html">He.Window:has-title</a></h6>
+          <h6><a href="property.WelcomeScreen.appname.html">He.WelcomeScreen:appname</a></h6>
+
+          <div class="docblock">
+            No description available.
+          </div>
+
+          
+        </div>
+      
+        <div class="">
+          <h6><a href="property.WelcomeScreen.description.html">He.WelcomeScreen:description</a></h6>
 
           <div class="docblock">
             No description available.
@@ -341,126 +447,21 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 
       
         
-        <div class="toggle-wrapper default-hide ancestor-properties"><h5 style="display:block;">Properties inherited from <a class="external" href="javascript:void(0)" data-link="class.Window.html" data-namespace="Gtk">GtkWindow</a> (24)</h5>
+        <div class="toggle-wrapper default-hide ancestor-properties"><h5 style="display:block;">Properties inherited from <a class="external" href="javascript:void(0)" data-link="class.Box.html" data-namespace="Gtk">GtkBox</a> (3)</h5>
           <div class="docblock">
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.application.html">Gtk.Window:application</a></h6>
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Box.baseline-position.html">Gtk.Box:baseline-position</a></h6>
             <div class="docblock">
-              <p>The <code>GtkApplication</code> associated with the&nbsp;window.</p>
+              <p>The position of the baseline aligned widgets if extra space is&nbsp;available.</p>
             </div>
             
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.child.html">Gtk.Window:child</a></h6>
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Box.homogeneous.html">Gtk.Box:homogeneous</a></h6>
             <div class="docblock">
-              <p>The child&nbsp;widget.</p>
+              <p>Whether the children should all be the same&nbsp;size.</p>
             </div>
             
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.decorated.html">Gtk.Window:decorated</a></h6>
+          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Box.spacing.html">Gtk.Box:spacing</a></h6>
             <div class="docblock">
-              <p>Whether the window should have a frame (also known as <em>decorations</em>).</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.default-height.html">Gtk.Window:default-height</a></h6>
-            <div class="docblock">
-              <p>The default height of the&nbsp;window.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.default-widget.html">Gtk.Window:default-widget</a></h6>
-            <div class="docblock">
-              <p>The default&nbsp;widget.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.default-width.html">Gtk.Window:default-width</a></h6>
-            <div class="docblock">
-              <p>The default width of the&nbsp;window.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.deletable.html">Gtk.Window:deletable</a></h6>
-            <div class="docblock">
-              <p>Whether the window frame should have a close&nbsp;button.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.destroy-with-parent.html">Gtk.Window:destroy-with-parent</a></h6>
-            <div class="docblock">
-              <p>If this window should be destroyed when the parent is&nbsp;destroyed.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.display.html">Gtk.Window:display</a></h6>
-            <div class="docblock">
-              <p>The display that will display this&nbsp;window.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.focus-visible.html">Gtk.Window:focus-visible</a></h6>
-            <div class="docblock">
-              <p>Whether &#8216;focus rectangles&#8217; are currently visible in this&nbsp;window.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.focus-widget.html">Gtk.Window:focus-widget</a></h6>
-            <div class="docblock">
-              <p>The focus&nbsp;widget.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.fullscreened.html">Gtk.Window:fullscreened</a></h6>
-            <div class="docblock">
-              <p>Whether the window is&nbsp;fullscreen.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.handle-menubar-accel.html">Gtk.Window:handle-menubar-accel</a></h6>
-            <div class="docblock">
-              <p>Whether the window frame should handle F10 for activating&nbsp;menubars.</p>
-            </div>
-            <div class="docblock"><p>Available since: 4.2</p></div>
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.hide-on-close.html">Gtk.Window:hide-on-close</a></h6>
-            <div class="docblock">
-              <p>If this window should be hidden when the users clicks the close&nbsp;button.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.icon-name.html">Gtk.Window:icon-name</a></h6>
-            <div class="docblock">
-              <p>Specifies the name of the themed icon to use as the window&nbsp;icon.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.is-active.html">Gtk.Window:is-active</a></h6>
-            <div class="docblock">
-              <p>Whether the toplevel is the currently active&nbsp;window.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.maximized.html">Gtk.Window:maximized</a></h6>
-            <div class="docblock">
-              <p>Whether the window is&nbsp;maximized.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.mnemonics-visible.html">Gtk.Window:mnemonics-visible</a></h6>
-            <div class="docblock">
-              <p>Whether mnemonics are currently visible in this&nbsp;window.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.modal.html">Gtk.Window:modal</a></h6>
-            <div class="docblock">
-              <p>If <code>TRUE</code>, the window is&nbsp;modal.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.resizable.html">Gtk.Window:resizable</a></h6>
-            <div class="docblock">
-              <p>If <code>TRUE</code>, users can resize the&nbsp;window.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.startup-id.html">Gtk.Window:startup-id</a></h6>
-            <div class="docblock">
-              <p>A write-only property for setting window&#8217;s startup notification&nbsp;identifier.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.title.html">Gtk.Window:title</a></h6>
-            <div class="docblock">
-              <p>The title of the&nbsp;window.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.titlebar.html">Gtk.Window:titlebar</a></h6>
-            <div class="docblock">
-              <p>The titlebar&nbsp;widget.</p>
-            </div>
-            <div class="docblock"><p>Available since: 4.6</p></div>
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="property.Window.transient-for.html">Gtk.Window:transient-for</a></h6>
-            <div class="docblock">
-              <p>The transient parent of the&nbsp;window.</p>
+              <p>The amount of space between&nbsp;children.</p>
             </div>
             
           
@@ -655,6 +656,8 @@ with Pango&nbsp;markup.</p>
       
 
       
+        
+      
 
     </div>
     
@@ -669,40 +672,6 @@ with Pango&nbsp;markup.</p>
       
 
       
-        
-        <div class="toggle-wrapper default-hide ancestor-signals"><h5 style="display:block;">Signals inherited from <a class="external" href="javascript:void(0)" data-link="class.Window.html" data-namespace="Gtk">GtkWindow</a> (5)</h5>
-          <div class="docblock">
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="signal.Window.activate-default.html">Gtk.Window::activate-default</a></h6>
-            <div class="docblock">
-              <p>Emitted when the user activates the default widget
-of <code>window</code>.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="signal.Window.activate-focus.html">Gtk.Window::activate-focus</a></h6>
-            <div class="docblock">
-              <p>Emitted when the user activates the currently focused
-widget of <code>window</code>.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="signal.Window.close-request.html">Gtk.Window::close-request</a></h6>
-            <div class="docblock">
-              <p>Emitted when the user clicks on the close button of the&nbsp;window.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="signal.Window.enable-debugging.html">Gtk.Window::enable-debugging</a></h6>
-            <div class="docblock">
-              <p>Emitted when the user enables or disables interactive&nbsp;debugging.</p>
-            </div>
-            
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="signal.Window.keys-changed.html">Gtk.Window::keys-changed</a></h6>
-            <div class="docblock">
-              <p>Emitted when the set of accelerators or mnemonics that
-are associated with <code>window</code> changes.</p>
-            </div>
-            
-          
-          </div>
-        </div>
         
       
         
@@ -797,6 +766,8 @@ its value set through g_object_set_property(), g_object_set(), et&nbsp;al.</p>
       
 
       
+        
+      
 
     </div>
     
@@ -809,7 +780,7 @@ its value set through g_object_set_property(), g_object_set(), et&nbsp;al.</p>
       </h4>
 
       <div class="docblock">
-        <pre><code>struct HeWindowClass {
+        <pre><code>struct HeWelcomeScreenClass {
   /* no available fields */
 }</code></pre>
       </div>
@@ -837,6 +808,8 @@ its value set through g_object_set_property(), g_object_set(), et&nbsp;al.</p>
       
       <li class="toc-list-item"><a href="#ancestors"><span class="link-text">Ancestors</span></a></li>
       
+      
+      <li class="toc-list-item"><a href="#implements"><span class="link-text">Implements</span></a></li>
       
       
 <li class="toc-list-item"><a href="#constructors"><span class="link-text">Constructors</span></a></li>
