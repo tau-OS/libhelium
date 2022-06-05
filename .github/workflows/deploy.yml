@@ -17,7 +17,7 @@ jobs:
       - run: npm install -g sass
 
       - name: Install dependencies
-        run: sudo apt install libgtk-4-dev libgee-0.8-dev meson ninja-build valac gi-docgen
+        run: sudo apt install libgtk-4-dev libgee-0.8-dev meson ninja-build valac valadoc
       - name: Build website
         run: meson build
       - name: Build with Ninja
