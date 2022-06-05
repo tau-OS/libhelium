@@ -554,7 +554,7 @@ code {
     display: none;
 }
 
-.site_navigation:nth-child(1) {
+.navi_hr:nth-child(0) {
 	display: none;
 }
 
