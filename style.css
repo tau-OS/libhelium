@@ -16,9 +16,6 @@ a {
     text-decoration: none;
 }
 
-ul.external_link {
-}
-
 .main_optional_parameter {
 	font-style: italic;
 }
@@ -344,9 +341,6 @@ ul.no_bullet li {
 	list-style-type: none;
 }
 
-.main_see_list {
-}
-
 .navi_inline {
 	font-size: 12px;
 	line-height: 21px;
@@ -552,9 +546,16 @@ code {
     background-repeat: no-repeat;
 }
 
-.package_index::before {
-    background-image: url(packages.svg);
-    background-repeat: no-repeat;
+.package_index {
+    display: none;
+}
+
+.navi_main > .package_index {
+    display: none;
+}
+
+.site_navigation:nth-child(1) {
+	display: none;
 }
 
 .property::before,
