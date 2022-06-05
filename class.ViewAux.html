@@ -13,7 +13,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>He.View</title>
+  <title>He.ViewAux</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta charset="utf-8" />
@@ -29,10 +29,10 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
   
 
   
-  <meta property="og:title" content="He.View"/>
-  <meta property="og:description" content="Reference for He.View"/>
-  <meta name="twitter:title" content="He.View"/>
-  <meta name="twitter:description" content="Reference for He.View"/>
+  <meta property="og:title" content="He.ViewAux"/>
+  <meta property="og:description" content="Reference for He.ViewAux"/>
+  <meta name="twitter:title" content="He.ViewAux"/>
+  <meta name="twitter:description" content="Reference for He.ViewAux"/>
 
 
   
@@ -84,10 +84,19 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 <div class="section">
   <h5>Type</h5>
   <div class="links">
-    <a class="current" href="class.View.html#description">View</a>
+    <a class="current" href="class.ViewAux.html#description">ViewAux</a>
   </div>
 </div>
 
+
+<div class="section">
+  <h5>Constructors</h5>
+  <div class="links">
+  
+    <a class="ctor" href="ctor.ViewAux.new.html">new</a>
+  
+  </div>
+</div>
 
 
 
@@ -97,17 +106,9 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
   <h5>Instance methods</h5>
   <div class="links">
   
-    <a class="method" href="method.View.get_title.html">get_title</a>
+    <a class="method" href="method.ViewAux.get_show_aux.html">get_show_aux</a>
   
-    <a class="method" href="method.View.set_title.html">set_title</a>
-  
-    <a class="method" href="method.View.get_subtitle.html">get_subtitle</a>
-  
-    <a class="method" href="method.View.set_subtitle.html">set_subtitle</a>
-  
-    <a class="method" href="method.View.add_child.html">add_child</a>
-  
-    <a class="method" href="method.View.add.html">add</a>
+    <a class="method" href="method.ViewAux.set_show_aux.html">set_show_aux</a>
   
   </div>
 </div>
@@ -118,9 +119,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
   <h5>Properties</h5>
   <div class="links">
   
-    <a class="property" href="property.View.title.html">title</a>
-  
-    <a class="property" href="property.View.subtitle.html">subtitle</a>
+    <a class="property" href="property.ViewAux.show-aux.html">show-aux</a>
   
   </div>
 </div>
@@ -130,15 +129,6 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 
 
 
-
-<div class="section">
-  <h5>Virtual methods</h5>
-  <div class="links">
-  
-    <a class="method" href="vfunc.View.add_child.html">add_child</a>
-  
-  </div>
-</div>
 
 
 
@@ -150,7 +140,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
 <section id="main" class="content">
   <header>
     <h3>Class</h3>
-    <h1 aria-label="Name"><a href="index.html">He</a><span class="sep" role="presentation"></span>View</h1>
+    <h1 aria-label="Name"><a href="index.html">He</a><span class="sep" role="presentation"></span>ViewAux</h1>
   </header>
 
   <section>
@@ -162,7 +152,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
           
         </h4>
 
-        <pre><code>abstract class He.View : Gtk.Box {
+        <pre><code>class He.ViewAux : He.View {
   /* No available fields */
 }</pre></code>
 
@@ -195,6 +185,10 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
         <ul>
         
           
+          <li class="class"><a href="class.View.html" title="View">HeView</a></li>
+          
+        
+          
           <li class="class"><a class="external" href="javascript:void(0)" data-link="class.Box.html" data-namespace="Gtk">GtkBox</a></li>
           
         
@@ -216,39 +210,30 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
     
 
     
-    <div class="descendants toggle-wrapper default-hide">
-      <h4 id="descendants">Descendants <a href="#descendants" class="anchor"></a></h4>
-      <div class="docblock">
-        <ul>
-          <li class="class"><a href="class.ViewAux.html" title="ViewAux">HeViewAux</a></li>
-        
-          <li class="class"><a href="class.ViewDual.html" title="ViewDual">HeViewDual</a></li>
-        
-          <li class="class"><a href="class.ViewMono.html" title="ViewMono">HeViewMono</a></li>
-        </ul>
-      </div>
-    </div>
+
     
 
     
-    <div class="toggle-wrapper implements">
-      <h4 id="implements">
-        Implements
-        <a href="#implements" class="anchor"></a>
+    <div class="toggle-wrapper constructors">
+      <h4 id="constructors">
+        Constructors
+        <a href="#constructors" class="anchor"></a>
       </h4>
 
       <div class="docblock">
-        <ul>
-        
+      
+        <div class="">
+          <h6><a href="ctor.ViewAux.new.html">he_view_aux_new</a></h6>
+
+          <div class="docblock">
+            No description available.
+          </div>
+
           
-          <li class="interface"><a class="external" href="javascript:void(0)" data-link="iface.Buildable.html" data-namespace="Gtk">GtkBuildable</a></li>
-          
-        
-        </ul>
+        </div>
+      
       </div>
     </div>
-    
-
     
 
     
@@ -263,7 +248,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
       <div class="docblock">
       
         <div class="">
-          <h6><a href="method.View.get_title.html">he_view_get_title</a></h6>
+          <h6><a href="method.ViewAux.get_show_aux.html">he_view_aux_get_show_aux</a></h6>
           <div class="docblock">
             No description available.
           </div>
@@ -271,39 +256,7 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
         </div>
       
         <div class="">
-          <h6><a href="method.View.set_title.html">he_view_set_title</a></h6>
-          <div class="docblock">
-            No description available.
-          </div>
-          
-        </div>
-      
-        <div class="">
-          <h6><a href="method.View.get_subtitle.html">he_view_get_subtitle</a></h6>
-          <div class="docblock">
-            No description available.
-          </div>
-          
-        </div>
-      
-        <div class="">
-          <h6><a href="method.View.set_subtitle.html">he_view_set_subtitle</a></h6>
-          <div class="docblock">
-            No description available.
-          </div>
-          
-        </div>
-      
-        <div class="">
-          <h6><a href="method.View.add_child.html">he_view_add_child</a></h6>
-          <div class="docblock">
-            No description available.
-          </div>
-          
-        </div>
-      
-        <div class="">
-          <h6><a href="method.View.add.html">he_view_add</a></h6>
+          <h6><a href="method.ViewAux.set_show_aux.html">he_view_aux_set_show_aux</a></h6>
           <div class="docblock">
             No description available.
           </div>
@@ -312,6 +265,44 @@ SPDX-License-Identifier: Apache-2.0 OR GPL-3.0-or-later
       
       </div>
 
+      
+        
+        <div class="toggle-wrapper default-hide ancestor-methods">
+          <h5 style="display:block;">Methods inherited from <a href="class.View.html">HeView</a> (6)</h5><div class="docblock">
+          
+            <h6><a href="method.View.get_title.html">he_view_get_title</a></h6><div class="docblock">
+              No description available.
+            </div>
+            
+          
+            <h6><a href="method.View.set_title.html">he_view_set_title</a></h6><div class="docblock">
+              No description available.
+            </div>
+            
+          
+            <h6><a href="method.View.get_subtitle.html">he_view_get_subtitle</a></h6><div class="docblock">
+              No description available.
+            </div>
+            
+          
+            <h6><a href="method.View.set_subtitle.html">he_view_set_subtitle</a></h6><div class="docblock">
+              No description available.
+            </div>
+            
+          
+            <h6><a href="method.View.add_child.html">he_view_add_child</a></h6><div class="docblock">
+              No description available.
+            </div>
+            
+          
+            <h6><a href="method.View.add.html">he_view_add</a></h6><div class="docblock">
+              No description available.
+            </div>
+            
+          
+          </div>
+        </div>
+        
       
         
         <div class="toggle-wrapper default-hide ancestor-methods"><h5 style="display:block;">Methods inherited from <a class="external" href="javascript:void(0)" data-link="class.Box.html" data-namespace="Gtk">GtkBox</a> (11)</h5>
@@ -408,19 +399,6 @@ in the&nbsp;box.</p>
       
 
       
-        
-        <div class="toggle-wrapper default-hide ancestor-methods"><h5 style="display:block;">Methods inherited from <a class="external" href="javascript:void(0)" data-link="iface.Buildable.html" data-namespace="Gtk">GtkBuildable</a> (1)</h5>
-          <div class="docblock">
-          <h6><a class="external" href="javascript:void(0)" data-namespace="Gtk" data-link="method.Buildable.get_buildable_id.html">gtk_buildable_get_buildable_id</a></h6>
-            <div class="docblock">
-              <p>Gets the <span class="caps">ID</span> of the <code>buildable</code> object.</p>
-            </div>
-            
-          
-          </div>
-        </div>
-        
-      
     </div>
     
 
@@ -435,17 +413,7 @@ in the&nbsp;box.</p>
       <div class="docblock">
       
         <div class="">
-          <h6><a href="property.View.title.html">He.View:title</a></h6>
-
-          <div class="docblock">
-            No description available.
-          </div>
-
-          
-        </div>
-      
-        <div class="">
-          <h6><a href="property.View.subtitle.html">He.View:subtitle</a></h6>
+          <h6><a href="property.ViewAux.show-aux.html">He.ViewAux:show-aux</a></h6>
 
           <div class="docblock">
             No description available.
@@ -457,6 +425,24 @@ in the&nbsp;box.</p>
       </div>
       
 
+      
+        
+        <div class="toggle-wrapper default-hide ancestor-properties">
+          <h5 style="display:block;">Properties inherited from <a href="class.View.html">HeView</a> (2)</h5><div class="docblock">
+          
+            <h6><a href="property.View.title.html">He.View:title</a></h6><div class="docblock">
+              No description available.
+            </div>
+            
+          
+            <h6><a href="property.View.subtitle.html">He.View:subtitle</a></h6><div class="docblock">
+              No description available.
+            </div>
+            
+          
+          </div>
+        </div>
+        
       
         
         <div class="toggle-wrapper default-hide ancestor-properties"><h5 style="display:block;">Properties inherited from <a class="external" href="javascript:void(0)" data-link="class.Box.html" data-namespace="Gtk">GtkBox</a> (3)</h5>
@@ -668,8 +654,6 @@ with Pango&nbsp;markup.</p>
       
 
       
-        
-      
 
     </div>
     
@@ -683,6 +667,8 @@ with Pango&nbsp;markup.</p>
 
       
 
+      
+        
       
         
       
@@ -778,8 +764,6 @@ its value set through g_object_set_property(), g_object_set(), et&nbsp;al.</p>
       
 
       
-        
-      
 
     </div>
     
@@ -792,64 +776,15 @@ its value set through g_object_set_property(), g_object_set(), et&nbsp;al.</p>
       </h4>
 
       <div class="docblock">
-        <pre><code>struct HeViewClass {
-  void (* add_child) (
-    HeView* self,
-    GtkBuilder* builder,
-    GObject* child,
-    const gchar* type
-  );
-  
+        <pre><code>struct HeViewAuxClass {
+  /* no available fields */
 }</code></pre>
       </div>
 
       
-      <div class="docblock">
-        <h6>Class members</h6>
-
-        <table class="members">
-        
-        <tr>
-          <td style="vertical-align:top"><code>add_child</code></td>
-          <td style="vertical-align:top"><pre><code>void (* add_child) (
-    HeView* self,
-    GtkBuilder* builder,
-    GObject* child,
-    const gchar* type
-  )</code></pre></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td style="vertical-align:top">No description available.</td>
-        </td>
-        
-        </table>
-      </div>
-      
     </div>
     
 
-    
-    <div class="toggle-wrapper methods">
-      <h4 id="virtual-methods">
-        Virtual methods
-        <a href="#virtual-methods" class="anchor"></a>
-      </h4>
-
-      <div class="docblock">
-      
-      <div class="">
-        <h6 id="vfunc-add_child"><a href="vfunc.View.add_child.html">He.ViewClass.add_child</a></h6>
-
-        <div class="docblock">
-          No description available.
-        </div>
-
-          
-      </div>
-      
-      </div>
-    </div>
     
 
     
@@ -870,9 +805,9 @@ its value set through g_object_set_property(), g_object_set(), et&nbsp;al.</p>
       <li class="toc-list-item"><a href="#ancestors"><span class="link-text">Ancestors</span></a></li>
       
       
-      <li class="toc-list-item"><a href="#implements"><span class="link-text">Implements</span></a></li>
       
-      
+<li class="toc-list-item"><a href="#constructors"><span class="link-text">Constructors</span></a></li>
+
 
       
 
@@ -889,8 +824,6 @@ its value set through g_object_set_property(), g_object_set(), et&nbsp;al.</p>
       
 
       
-<li class="toc-list-item"><a href="#virtual-methods"><span class="link-text">Virtual methods</span></a></li>
-
 
     </ul>
   </nav>
