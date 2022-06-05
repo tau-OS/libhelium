@@ -37,8 +37,8 @@ public class He.Badge : Gtk.Box,  Gtk.Buildable {
                 _label = new Gtk.Label (null);
                 box.valign = Gtk.Align.END;
                 box.add_css_class ("badge-info");
-                box.width_request = -1;
-                box.height_request = -1;                
+                box.width_request = 0;
+                box.height_request = 0;                
                 box.append (_label);
             }
 
