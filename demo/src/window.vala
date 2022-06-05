@@ -47,6 +47,10 @@ public class Demo.MainWindow : He.ApplicationWindow {
     private unowned He.TintButton action3;
     [GtkChild]
     private unowned He.Banner banner2;
+    [GtkChild]
+    private unowned He.FillButton ws_button;
+    [GtkChild]
+    private unowned He.WelcomeScreen ws;
 
     public He.Application app { get; construct; }
     public MainWindow (He.Application application) {
@@ -105,6 +109,10 @@ public class Demo.MainWindow : He.ApplicationWindow {
         action3.clicked.connect (() => {
             banner2.unparent ();
             banner2.destroy ();
+        });
+
+        ws_button.clicked.connect (() => {
+            ws.show ();
         });
 
         this.set_size_request (360, 360);

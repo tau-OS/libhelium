@@ -37,6 +37,7 @@ libhelium_sources += files(
     'Widgets/ViewSubTitle.vala',
     'Widgets/ViewSwitcher.vala',
     'Widgets/ViewTitle.vala',
+    'Widgets/WelcomeScreen.vala',
 )
 
 # define all the names and versions
