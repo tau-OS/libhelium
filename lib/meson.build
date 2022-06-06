@@ -14,7 +14,6 @@ libhelium_sources += files(
     'Widgets/BottomBar.vala',
     'Widgets/Chip.vala',
     'Widgets/ContentBlock.vala',
-    'Widgets/ContentBlock.vala',
     'Widgets/ContentBlockImage.vala',
     'Widgets/ContentBlockImageCluster.vala',
     'Widgets/ContentList.vala',
@@ -50,8 +49,7 @@ libhelium_typelib = libhelium_gi + '.typelib'
 
 include_dir = join_paths(
     get_option('prefix'),
-    get_option('includedir'),
-    meson.project_name()
+    get_option('includedir')
 )
 
 # compile shared library, generate GIR, header, and vapi file
@@ -70,7 +68,7 @@ libhelium = library(
         meson.get_compiler('c').find_library('m'),
         meson.get_compiler('vala').find_library('posix')
     ],
-    vala_gir: 'He-1.gir',
+    vala_gir: 'libhelium-1.gir',
     vala_header: 'libhelium-1.h',
     vala_vapi: 'libhelium-1.vapi',
     version: libhelium_gi_version,
@@ -89,7 +87,7 @@ if get_option('introspection')
             '@PLAINNAME@',
             '--output',
             '@OUTPUT@',
-            join_paths(meson.current_build_dir(), 'He-1.gir'),
+            join_paths(meson.current_build_dir(), 'libhelium-1.gir'),
         ],
         input: libhelium,
         output: libhelium_typelib,
@@ -108,8 +106,7 @@ libhelium_dep = declare_dependency(
 libhelium_pc = pkgconfig.generate(
     libhelium,
     name: 'libhelium-1',
-    requires: libhelium_deps,
-    subdirs: ['.'],
+    requires: libhelium_deps
     description: 'tauOS\'s Application Framework',
     version: '1',
     url: 'https://github.com/tau-OS/libhelium',
