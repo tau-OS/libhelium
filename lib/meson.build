@@ -107,7 +107,7 @@ libhelium_dep = declare_dependency(
 
 libhelium_pc = pkgconfig.generate(
     libhelium,
-    name: 'He',
+    name: 'libhelium-1',
     requires: libhelium_deps,
     subdirs: ['.'],
     description: 'tauOS\'s Application Framework',
