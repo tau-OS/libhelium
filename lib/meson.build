@@ -7,6 +7,7 @@ libhelium_sources += files(
     'Models/Window.vala',
     'Utils/Desktop.vala',
     'Utils/Portal.vala',
+    'Utils/Misc.vala',
     'Widgets/AppBar.vala',
     'Widgets/ApplicationWindow.vala',
     'Widgets/Badge.vala',
@@ -38,6 +39,8 @@ libhelium_sources += files(
     'Widgets/ViewSwitcher.vala',
     'Widgets/ViewTitle.vala',
     'Widgets/WelcomeScreen.vala',
+    'Widgets/AlbumPage.vala',
+    'Widgets/Album.vala'
 )
 
 # define all the names and versions

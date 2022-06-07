@@ -42,6 +42,7 @@ public class He.Application : Gtk.Application {
     typeof (He.ViewTitle).ensure ();
     typeof (He.WelcomeScreen).ensure ();
     typeof (He.Window).ensure ();
+    typeof (He.AlbumPage).ensure ();
   }
   
   private void init_style_providers() {

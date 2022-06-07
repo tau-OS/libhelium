@@ -37,367 +37,386 @@ template DemoMainWindow : .HeApplicationWindow {
   default-width: 1000;
   default-height: 600;
 
-  Box main_box {
-    orientation: vertical;
+  // Box main_box {
+  //   orientation: vertical;
 
-    Box {
-      orientation: horizontal;
+    // Box {
+    //   orientation: horizontal;
 
-      .HeSideBar {
-        title: "Sidebar";
-        subtitle: "Subtitle";
+      .HeAlbum {
+        .HeAlbumPage {
+          min_width: 200;
 
-        [titlebar-button]
-        MenuButton main_menu {
-          icon-name: "open-menu";
-        }
-        [titlebar-button]
-        ToggleButton search {
-          icon-name: "system-search";
-        }
-
-        Revealer {
-          reveal-child: bind search.active;
-          margin-bottom: 12;
-
-          SearchEntry {
-          }
-        }
-
-        Box {
-          orientation: vertical;
-          spacing: 6;
-
-          Button {
-            label: "Button";
-          }
-          Button {
-            label: "Button";
-          }
-          Button {
-            label: "Button";
-          }
-        }
-      }
-
-      Separator {
-        orientation: vertical;
-      }
-
-      .HeSideBar {
-        title: "Secondary";
-        subtitle: "Subtitle";
-
-        [titlebar-button]
-        MenuButton {
-          icon-name: "view-more";
-        }
-
-        .HeMiniContentBlock {
-          title: "Mini Content Block";
-          subtitle: "Subtitle";
-          icon: "list-add-symbolic";
-        }
-        .HeMiniContentBlock {
-          title: "Mini Content Block";
-          subtitle: "Subtitle";
-          icon: "list-add-symbolic";
-        }
-        .HeMiniContentBlock {
-          title: "Mini Content Block";
-          subtitle: "Subtitle";
-          icon: "list-add-symbolic";
-        }
-
-        .HeContentList {
-          title: "Content List";
-          description: "Subtitle";
-
-          .HeMiniContentBlock {
-            title: "Mini Content Block";
+          .HeSideBar {
+            title: "Sidebar";
             subtitle: "Subtitle";
-            icon: "list-add-symbolic";
+
+            [titlebar-button]
+            MenuButton main_menu {
+              icon-name: "open-menu";
+            }
+            [titlebar-button]
+            ToggleButton search {
+              icon-name: "system-search";
+            }
+
+            Revealer {
+              reveal-child: bind search.active;
+              margin-bottom: 12;
+
+              SearchEntry {
+              }
+            }
+
+            Box {
+              orientation: vertical;
+              spacing: 6;
+
+              Button {
+                label: "Button";
+              }
+              Button {
+                label: "Button";
+              }
+              Button {
+                label: "Button";
+              }
+            }
           }
-          .HeMiniContentBlock {
-            title: "Mini Content Block";
+        }
+
+        .HeAlbumPage {
+          navigatable: false;
+
+          Separator {
+            orientation: vertical;
+          }
+        }
+
+        .HeAlbumPage {
+          .HeSideBar {
+            title: "Secondary";
             subtitle: "Subtitle";
-            icon: "list-add-symbolic";
-          }
-          .HeMiniContentBlock {
-            title: "Mini Content Block";
-            subtitle: "Subtitle";
-            icon: "list-add-symbolic";
-          }
-        }
-      }
 
-      Separator {
-        orientation: vertical;
-      }
-
-      Box {
-        orientation: vertical;
-
-        .HeAppBar {
-          flat: true;
-          show-buttons: true;
-
-          MenuButton {
-            icon-name: "view-more";
-          }
-        }
-
-        .HeBanner banner {
-          title: "Info Banner";
-          description: "Subtitle";
-          style: "info";
-
-          [action]
-          .HeTintButton action {
-            label: "Action";
-            color: blue;
-          }
-        }
-
-        .HeBanner banner2 {
-          title: "Error Banner";
-          description: "Subtitle";
-          style: "error";
-
-          [action]
-          .HeOutlineButton action2 {
-            label: "Secondary";
-            color: red;
-          }
-
-          [action]
-          .HeTintButton action3 {
-            label: "Action";
-            color: red;
-          }
-        }
-
-        .HeOverlayButton {
-          icon: "list-add-symbolic";
-          label: "Add Thing";
-          secondary-icon: "list-add-symbolic";
-          secondary-color: indigo;
-
-          .HeViewMono {
-            title: "Helium Demo";
-
-            [view-button]
-            .HeDisclosureButton {
-              icon-name: "list-add-symbolic";
-            }
-
-            .HeFillButton {
-              label: "Fill";
-            }
-
-            .HeTintButton {
-              label: "Tint";
-            }
-
-            .HeOutlineButton {
-              label: "Outline";
-            }
-
-            .HeTextButton {
-              label: "Text";
-            }
-
-            .HePillButton {
-              label: "Pill";
-            }
-
-            .HeContentBlock {
-              title: "Content Block";
-              subtitle: "Subtitle";
-              icon: "list-add-symbolic";
-              primary-button:
-                .HeFillButton {
-                  label: "Primary";
-                }
-              ;
-              secondary-button:
-                .HeTintButton {
-                  label: "Secondary";
-                }
-              ;
+            [titlebar-button]
+            MenuButton {
+              icon-name: "view-more";
             }
 
             .HeMiniContentBlock {
               title: "Mini Content Block";
               subtitle: "Subtitle";
               icon: "list-add-symbolic";
-              primary-button:
-                .HeFillButton {
-                  label: "Primary";
-                }
-              ;
             }
-
-            .HeContentBlockImageCluster {
-              title: "Content Block";
+            .HeMiniContentBlock {
+              title: "Mini Content Block";
               subtitle: "Subtitle";
               icon: "list-add-symbolic";
+            }
+            .HeMiniContentBlock {
+              title: "Mini Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+            }
 
-              [top_left]
-              .HeContentBlockImage {
-                file: "file:///Users/lleyton/Desktop/no.jpg";
+            .HeContentList {
+              title: "Content List";
+              description: "Subtitle";
+
+              .HeMiniContentBlock {
+                title: "Mini Content Block";
+                subtitle: "Subtitle";
+                icon: "list-add-symbolic";
               }
-
-              [top_right]
-              .HeContentBlockImage {
-                file: "file:///Users/lleyton/Desktop/no.jpg";
+              .HeMiniContentBlock {
+                title: "Mini Content Block";
+                subtitle: "Subtitle";
+                icon: "list-add-symbolic";
               }
-
-              [bottom_left]
-              .HeContentBlockImage {
-                file: "file:///Users/lleyton/Desktop/no.jpg";
+              .HeMiniContentBlock {
+                title: "Mini Content Block";
+                subtitle: "Subtitle";
+                icon: "list-add-symbolic";
               }
+            }
+          }
+        }
 
-              [bottom_right]
-              .HeContentBlockImage {
-                file: "file:///Users/lleyton/Desktop/no.jpg";
+        .HeAlbumPage {
+          navigatable: false;
+
+          Separator {
+            orientation: vertical;
+          }
+        }
+
+
+        .HeAlbumPage {
+          Box {
+            orientation: vertical;
+
+            .HeAppBar {
+              flat: true;
+              show-buttons: true;
+
+              MenuButton {
+                icon-name: "view-more";
               }
             }
 
-            Box {
-              orientation: horizontal;
-              spacing: 12;
-                .HeChip {
-                  label: "Chip";
+            .HeBanner banner {
+              title: "Info Banner";
+              description: "Subtitle";
+              style: "info";
+
+              [action]
+              .HeTintButton action {
+                label: "Action";
+                color: blue;
+              }
+            }
+
+            .HeBanner banner2 {
+              title: "Error Banner";
+              description: "Subtitle";
+              style: "error";
+
+              [action]
+              .HeOutlineButton action2 {
+                label: "Secondary";
+                color: red;
+              }
+
+              [action]
+              .HeTintButton action3 {
+                label: "Action";
+                color: red;
+              }
+            }
+
+            .HeOverlayButton {
+              icon: "list-add-symbolic";
+              label: "Add Thing";
+              secondary-icon: "list-add-symbolic";
+              secondary-color: indigo;
+
+              .HeViewMono {
+                title: "Helium Demo";
+
+                [view-button]
+                .HeDisclosureButton {
+                  icon-name: "list-add-symbolic";
                 }
 
-                .HeChip {
-                  label: "Chip";
+                .HeFillButton {
+                  label: "Fill";
                 }
 
-                .HeChip {
-                  label: "Chip";
+                .HeTintButton {
+                  label: "Tint";
                 }
 
-                .HeChip {
-                  label: "Chip";
+                .HeOutlineButton {
+                  label: "Outline";
                 }
 
-                .HeChip {
-                  label: "Chip";
+                .HeTextButton {
+                  label: "Text";
                 }
-            }
 
-            .HeBadge {
-              label: "Badge";
-              .HePillButton {
-                label: "Really long string to show the badge above the button here.";
-                color: orange;
-              }
-            }
+                .HePillButton {
+                  label: "Pill";
+                }
 
-            .HeBadge {
-              .HeFillButton {
-                label: "Button";
-              }
-            }
-
-            .HeModifierBadge {}
-
-            .HeModifierBadge {
-              label: "Badge";
-            }
-
-            .HeFillButton toast_button {
-              label: "Toast Button";
-              color: dark;
-            }
-
-            .HeToast toast {
-              label: "Toasty! Am I funny yet guys? ...guys?";
-              default-action: "Boo! Outdated Meme!";
-            }
-
-            .HeViewSwitcher {
-              stack: stack;
-            }
-            Stack stack {
-              StackPage {
-                title: "Page 1";
-
-                child: .HeEmptyPage {
-                  title: "Empty Page";
-                  description: "This is an empty page.";
+                .HeContentBlock {
+                  title: "Content Block";
+                  subtitle: "Subtitle";
                   icon: "list-add-symbolic";
-                  button: "Pill";
-                };
-              }
-              StackPage {
-                title: "Page 2";
+                  primary-button:
+                    .HeFillButton {
+                      label: "Primary";
+                    }
+                  ;
+                  secondary-button:
+                    .HeTintButton {
+                      label: "Secondary";
+                    }
+                  ;
+                }
 
-                child: .HeViewDual {
-                  [left]
-                  Label {
-                    label: "Content A";
+                .HeMiniContentBlock {
+                  title: "Mini Content Block";
+                  subtitle: "Subtitle";
+                  icon: "list-add-symbolic";
+                  primary-button:
+                    .HeFillButton {
+                      label: "Primary";
+                    }
+                  ;
+                }
+
+                .HeContentBlockImageCluster {
+                  title: "Content Block";
+                  subtitle: "Subtitle";
+                  icon: "list-add-symbolic";
+
+                  [top_left]
+                  .HeContentBlockImage {
+                    file: "file:///Users/lleyton/Desktop/no.jpg";
                   }
 
-                  [right]
-                  Label {
-                    label: "Content B";
-                  }
-                };
-              }
-              StackPage {
-                title: "Page 3";
-
-                child: .HeViewAux {
-                  show-aux: true;
-
-                  [left]
-                  Label {
-                    label: "Content A";
+                  [top_right]
+                  .HeContentBlockImage {
+                    file: "file:///Users/lleyton/Desktop/no.jpg";
                   }
 
-                  [right]
-                  Label {
-                    label: "Content B";
+                  [bottom_left]
+                  .HeContentBlockImage {
+                    file: "file:///Users/lleyton/Desktop/no.jpg";
                   }
-                };
+
+                  [bottom_right]
+                  .HeContentBlockImage {
+                    file: "file:///Users/lleyton/Desktop/no.jpg";
+                  }
+                }
+
+                Box {
+                  orientation: horizontal;
+                  spacing: 12;
+                    .HeChip {
+                      label: "Chip";
+                    }
+
+                    .HeChip {
+                      label: "Chip";
+                    }
+
+                    .HeChip {
+                      label: "Chip";
+                    }
+
+                    .HeChip {
+                      label: "Chip";
+                    }
+
+                    .HeChip {
+                      label: "Chip";
+                    }
+                }
+
+                .HeBadge {
+                  label: "Badge";
+                  .HePillButton {
+                    label: "Really long string to show the badge above the button here.";
+                    color: orange;
+                  }
+                }
+
+                .HeBadge {
+                  .HeFillButton {
+                    label: "Button";
+                  }
+                }
+
+                .HeModifierBadge {}
+
+                .HeModifierBadge {
+                  label: "Badge";
+                }
+
+                .HeFillButton toast_button {
+                  label: "Toast Button";
+                  color: dark;
+                }
+
+                .HeToast toast {
+                  label: "Toasty! Am I funny yet guys? ...guys?";
+                  default-action: "Boo! Outdated Meme!";
+                }
+
+                .HeViewSwitcher {
+                  stack: stack;
+                }
+                Stack stack {
+                  StackPage {
+                    title: "Page 1";
+
+                    child: .HeEmptyPage {
+                      title: "Empty Page";
+                      description: "This is an empty page.";
+                      icon: "list-add-symbolic";
+                      button: "Pill";
+                    };
+                  }
+                  StackPage {
+                    title: "Page 2";
+
+                    child: .HeViewDual {
+                      [left]
+                      Label {
+                        label: "Content A";
+                      }
+
+                      [right]
+                      Label {
+                        label: "Content B";
+                      }
+                    };
+                  }
+                  StackPage {
+                    title: "Page 3";
+
+                    child: .HeViewAux {
+                      show-aux: true;
+
+                      [left]
+                      Label {
+                        label: "Content A";
+                      }
+
+                      [right]
+                      Label {
+                        label: "Content B";
+                      }
+                    };
+                  }
+                }
+
+                .HeFillButton dialog_button {
+                  label: "Dialog Button";
+                  color: dark;
+                }
+
+                .HeFillButton ws_button {
+                  label: "Welcome Screen Button";
+                  color: dark;
+                }
               }
             }
 
-            .HeFillButton dialog_button {
-              label: "Dialog Button";
-              color: dark;
-            }
+            .HeBottomBar {
+              title: "Example";
+              description: "3 items";
 
-            .HeFillButton ws_button {
-              label: "Welcome Screen Button";
-              color: dark;
+              [left]
+              .HeIconicButton {
+              icon-name: "list-add-symbolic";
+              }
+
+              [left]
+              .HeIconicButton {
+              icon-name: "list-add-symbolic";
+              }
+
+              [right]
+              .HeIconicButton {
+              icon-name: "list-add-symbolic";
+              }
             }
           }
         }
-
-        .HeBottomBar {
-          title: "Example";
-          description: "3 items";
-
-          [left]
-          .HeIconicButton {
-          icon-name: "list-add-symbolic";
-          }
-
-          [left]
-          .HeIconicButton {
-          icon-name: "list-add-symbolic";
-          }
-
-          [right]
-          .HeIconicButton {
-          icon-name: "list-add-symbolic";
-          }
-        }
-      }
+      // }
     }
-  }
+  // }
 }
