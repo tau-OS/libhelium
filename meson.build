@@ -42,7 +42,7 @@ i18n = import('i18n')
 helium = subproject(
     'tau-helium',
     default_options: ['gtk4=true', 'gtk3=false', 'shell=false'],
-    required: false
+    required: true
  )
 helium_folder = 'subprojects/tau-helium/Helium/gtk-4.0'
 generate_gtk4_light = helium.get_variable('generate_gtk4_light')
