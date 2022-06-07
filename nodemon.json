@@ -1,0 +1,5 @@
+{
+  "ignore": ["builddir"],
+  "ext": "xml,json,desktop,vapi,build,svg,vala,blp",
+  "exec": "cd builddir && meson compile && ./demo/co.tauos.Helium1.Demo"
+}
