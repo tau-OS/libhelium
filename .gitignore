@@ -2,7 +2,6 @@ _build
 subprojects/tau-helium
 subprojects/blueprint-compiler
 .flatpak
-.vscode
 *.log
 *.rpm
 *.tar.gz
