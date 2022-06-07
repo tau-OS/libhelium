@@ -2,10 +2,10 @@ class He.Album : Gtk.Box, Gtk.Buildable {
   private signal void children_updated();
   private signal void minimum_requested_width_changed();
 
-  private List<He.AlbumPageInterface> children = new List<He.AlbumPageInterface>();
+  private GLib.List<He.AlbumPageInterface> children = new GLib.List<He.AlbumPageInterface> ();
   private int minimum_requested_width = 0;
   private bool _folded = false;
-  private Gtk.Window window { get; set; }
+  private He.Window window { get; set; }
 
   private Gtk.Box _box;
   private Gtk.Stack _stack;
@@ -101,11 +101,11 @@ class He.Album : Gtk.Box, Gtk.Buildable {
       var child_width = req.width;
 
       if (child_width > largest_width) {
-        largest_width = child_width;
+        largest_width = child_width + 72; // 72 is the total padding of the child
       }
     }
 
-    this.minimum_requested_width = largest_width;
+    this.minimum_requested_width = largest_width * ((this.children.position (this.children.last ()) - 2)); // -2 is the number of children that are not navigatable
     minimum_requested_width_changed();
   }
 
@@ -120,22 +120,16 @@ class He.Album : Gtk.Box, Gtk.Buildable {
       update_view();
     });
 
-    //  this.notify["window"].connect(() => {
-    //    print("owo");
-    //    if (this._window == null) return;
-
-
-    //    this.notify["allocated-width"].connect(() => {
-    //      update_folded();
-    //      update_view();
-    //    });
-    //  });
+    window.notify["allocated-width"].connect(() => {
+      update_folded();
+      update_view();
+    });
 
     this.notify["parent"].connect(() => {
-      this._window = He.Misc.find_ancestor_of_type<Gtk.Window>(this);
-      if (this._window == null) return;
+      this.window = He.Misc.find_ancestor_of_type<He.Window>(this);
+      if (this.window == null) return;
 
-      window.notify["default-width"].connect(() => {
+      this.window.notify["default-width"].connect(() => {
         update_folded();
         update_view();
       });

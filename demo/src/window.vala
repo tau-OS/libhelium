@@ -115,7 +115,6 @@ public class Demo.MainWindow : He.ApplicationWindow {
             ws.show ();
         });
 
-        this.set_size_request (360, 360);
         this.show ();
     }
 

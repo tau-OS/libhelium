@@ -31,4 +31,8 @@ class He.AlbumPage : Gtk.Box, Gtk.Buildable, He.AlbumPageInterface {
     this.min_width = min_width;
     this.navigatable = navigatable;
   }
+
+  construct {
+    this.homogeneous = true;
+  }
 }
