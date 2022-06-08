@@ -2,7 +2,7 @@ docgen = find_program('valadoc', required: get_option('documentation'))
 
 docs_dir = datadir / 'doc'
 
-dir = 'libhelium'
+dir = 'libhelium-1'
 target = custom_target(
     'valadoc',
     command: [
