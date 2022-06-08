@@ -1,5 +1,6 @@
 libhelium_sources = []
 libhelium_sources += files(
+    'Main.vala',
     'Models/Application.vala',
     'Models/Button.vala',
     'Models/Colors.vala',
