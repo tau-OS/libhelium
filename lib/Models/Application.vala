@@ -1,4 +1,4 @@
-public class He.Application : Gtk.Object, Gtk.Application {
+public class He.Application : Gtk.Application {
   private void init () {
     // He.init ();
     // Ensure that the app has the basics (Gtk and theming) initialized.
