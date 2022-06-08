@@ -116,7 +116,7 @@ public class He.Application : Gtk.Application {
     }
   }
 
-  private void init_provider_from_file (out Gtk.StyleProvider provider, File file) {
+  private void init_provider_from_file (out Gtk.CssProvider provider, File file) {
     if (file.query_exists ()) {
         return;
     }
