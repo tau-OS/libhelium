@@ -118,8 +118,7 @@ public class He.Application : Gtk.Application {
 
   private void init_provider_from_file (Gtk.CssProvider provider, File file) {
     if (file.query_exists (null)) {
-      var provider_from_file = new Gtk.CssProvider ();
-      provider_from_file.load_from_file (file);
+      provider.load_from_file (file);
     }
   }
   
