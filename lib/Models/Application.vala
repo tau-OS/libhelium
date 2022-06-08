@@ -48,7 +48,12 @@ public class He.Application : Gtk.Application {
     File base_file = File.new_for_uri (base_uri);
     Gtk.CssProvider base_provider = new Gtk.CssProvider ();
     init_provider_from_file (base_provider, base_file.get_child ("style.css"));
-    init_provider_from_file (base_provider, base_file.get_child ("style-dark.css"));
+    
+    if (base_file.get_child ("style-dark.css").query_exists (null)) {
+      init_provider_from_file (base_provider, base_file.get_child ("style-dark.css"));
+    } else {
+      warning ("Dark Styling not found. Proceeding anyway.");
+    }
     
     if (base_provider != null) {
         style_provider_set_enabled (base_provider, true);
