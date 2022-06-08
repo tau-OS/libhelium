@@ -41,11 +41,10 @@ libhelium_sources += files(
 )
 
 # define all the names and versions
-libhelium_gi_name = 'He'
-libhelium_gi_version = '1'
+libhelium_gi_name = 'helium'
+libhelium_gi_version = '1.0'
 
 libhelium_gi = libhelium_gi_name + '-' + libhelium_gi_version
-libhelium_gir = libhelium_gi + '.gir'
 libhelium_typelib = libhelium_gi + '.typelib'
 
 include_dir = join_paths(
@@ -61,7 +60,7 @@ typelibdir = get_option('libdir')  / 'girepository-1.0'
 vapidir    = get_option('datadir') / 'vapi'
 
 libhelium = library(
-    'libhelium-1',
+    libhelium_gi,
     gresource,
     libhelium_sources,
     dependencies: [
@@ -69,7 +68,7 @@ libhelium = library(
         meson.get_compiler('c').find_library('m'),
         meson.get_compiler('vala').find_library('posix')
     ],
-    vala_gir: libhelium_gir,
+    vala_gir: 'libhelium-1.gir',
     vala_header: 'libhelium-1.h',
     vala_vapi: 'libhelium-1.vapi',
     version: libhelium_gi_version,
@@ -88,7 +87,7 @@ if get_option('introspection')
             '@PLAINNAME@',
             '--output',
             '@OUTPUT@',
-            join_paths(meson.current_build_dir(), libhelium_gir),
+            join_paths(meson.current_build_dir(), 'libhelium-1.gir'),
         ],
         input: libhelium,
         output: libhelium_typelib,
