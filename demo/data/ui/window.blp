@@ -43,7 +43,7 @@ template DemoMainWindow : .HeApplicationWindow {
       .HeSideBar {
         title: "Sidebar";
         subtitle: "Subtitle";
-        show-buttons: bind album.folded;
+        show-buttons: bind album.folded inverted;
 
         [titlebar-button]
         MenuButton main_menu {
@@ -92,7 +92,7 @@ template DemoMainWindow : .HeApplicationWindow {
       .HeSideBar {
         title: "Secondary";
         subtitle: "Subtitle";
-        show-buttons: bind album.folded;
+        show-buttons: bind album.folded inverted;
 
         [titlebar-button]
         MenuButton {
