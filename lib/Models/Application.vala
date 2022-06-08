@@ -82,7 +82,7 @@ public class He.Application : Gtk.Application {
      * Load the custom css of the application (if any.)
      *
      * This is useful for overriding the base theme. For example,
-     * to override the default theme of the Gtk.Application, you
+     * to override the default theme of the He.Application, you
      * can create a file called style.css (or style-dark.css) in the 
      * application's data folder, and gresource it. This file will
      * be loaded by the application. The file name is based on the
