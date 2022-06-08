@@ -1,4 +1,6 @@
 public class He.Application : Gtk.Application {
+  private Gtk.CssProvider base_provider = new Gtk.CssProvider ();
+
   private void init () {
     // He.init ();
     // Ensure that the app has the basics (Gtk and theming) initialized.
@@ -46,12 +48,9 @@ public class He.Application : Gtk.Application {
   
   private void init_style_providers() {
     // Setup the platform gtk theme, cursor theme and the default icon theme.
-
-    // Gdk.Display.get_default() isn't instantiable, so we can't use it multiple times. Make a variable for it.
-    var gdk_display = Gdk.Display.get_default();
-    Gtk.Settings.get_for_display(gdk_display).gtk_theme_name = "Empty";
-    Gtk.Settings.get_for_display(gdk_display).gtk_icon_theme_name = "Hydrogen";
-    Gtk.Settings.get_for_display(gdk_display).gtk_cursor_theme_name = "Hydrogen";
+    Gtk.Settings.get_for_display(Gdk.Display.get_default()).gtk_theme_name = "Empty";
+    Gtk.Settings.get_for_display(Gdk.Display.get_default()).gtk_icon_theme_name = "Hydrogen";
+    Gtk.Settings.get_for_display(Gdk.Display.get_default()).gtk_cursor_theme_name = "Hydrogen";
 
     // Setup the dark preference theme loading
     var light = new Gtk.CssProvider();
@@ -87,20 +86,21 @@ public class He.Application : Gtk.Application {
      * dark color scheme, the file name is style-dark.css.
      */
     var base_path = this.get_resource_base_path ();
-    if (base_path == null) return;
+    if (base_path == null) {
+        return;
+    }
 
     string base_uri = "resource://" + base_path;
     File base_file = File.new_for_uri (base_uri);
-    
-    var base_provider = new Gtk.CssProvider ();
 
     init_provider_from_file (base_provider, base_file.get_child ("style.css"));
     init_provider_from_file (base_provider, base_file.get_child ("style-dark.css"));
     
-    if (base_provider != null)
-        Gtk.StyleContext.add_provider_for_display (gdk_display,
-                                  base_provider,
-                                  Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+    if (base_provider != null) {
+        Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default(),
+                                                   base_provider,
+                                                   Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+    }
   }
 
   private void init_provider_from_file (Gtk.CssProvider provider, File file) {
@@ -109,10 +109,9 @@ public class He.Application : Gtk.Application {
       provider_from_file.load_from_file (file);
     }
   }
-
-  construct {
-    this.startup.connect(() => {
-      init ();
-    });
+  
+  protected override void startup () {
+        base.startup ();
+        init ();
   }
 }
