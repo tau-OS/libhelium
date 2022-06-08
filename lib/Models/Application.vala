@@ -1,5 +1,4 @@
 public class He.Application : Gtk.Application {
-  private Gtk.CssProvider base_provider = new Gtk.CssProvider ();
   private Gtk.CssProvider light = new Gtk.CssProvider ();
   private Gtk.CssProvider dark = new Gtk.CssProvider ();
   private He.Desktop desktop = new He.Desktop ();
@@ -95,8 +94,9 @@ public class He.Application : Gtk.Application {
 
     string base_uri = "resource://" + base_path;
     File base_file = File.new_for_uri (base_uri);
-    init_provider_from_file (base_provider, base_file.get_child ("style.css"));
-    init_provider_from_file (base_provider, base_file.get_child ("style-dark.css"));
+    Gtk.CssProvider base_provider;
+    init_provider_from_file (out base_provider, base_file.get_child ("style.css"));
+    init_provider_from_file (out base_provider, base_file.get_child ("style-dark.css"));
     
     if (base_provider != null) {
         style_provider_set_enabled (base_provider, true);
@@ -116,11 +116,14 @@ public class He.Application : Gtk.Application {
     }
   }
 
-  private void init_provider_from_file (Gtk.CssProvider provider, File file) {
-    if (file.query_exists (null)) {
-      provider.load_from_file (file);
+  private void init_provider_from_file (out Gtk.StyleProvider provider, File file) {
+    if (file.query_exists ()) {
+        return;
     }
-  }
+
+    provider = new Gtk.CssProvider ();
+    provider.load_from_file (file);
+ }
   
   protected override void startup () {
     base.startup ();
