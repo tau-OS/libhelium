@@ -100,7 +100,7 @@ public class He.Application : Gtk.Application {
     if (base_provider != null)
         Gtk.StyleContext.add_provider_for_display (gdk_display,
                                   base_provider,
-                                  999);
+                                  Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
   }
 
   private void init_provider_from_file (Gtk.CssProvider provider, File file) {
