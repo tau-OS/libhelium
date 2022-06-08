@@ -34,14 +34,16 @@ using Gtk 4.0;
 
 template DemoMainWindow : .HeApplicationWindow {
   visible: true;
+  default-width: 500;
 
-  .HeAlbum {
+  .HeAlbum album {
     .HeAlbumPage {
       min_width: 200;
 
       .HeSideBar {
         title: "Sidebar";
         subtitle: "Subtitle";
+        show-buttons: bind album.folded;
 
         [titlebar-button]
         MenuButton main_menu {
@@ -90,6 +92,7 @@ template DemoMainWindow : .HeApplicationWindow {
       .HeSideBar {
         title: "Secondary";
         subtitle: "Subtitle";
+        show-buttons: bind album.folded;
 
         [titlebar-button]
         MenuButton {

@@ -5,10 +5,18 @@ class He.Album : Gtk.Box, Gtk.Buildable {
   private GLib.List<He.AlbumPageInterface> children = new GLib.List<He.AlbumPageInterface> ();
   private int minimum_requested_width = 0;
   private bool _folded = false;
+  public bool folded {
+    get { return _folded; }
+    set {
+      _folded = value;
+    }
+  }
   private He.Window window { get; set; }
 
-  private Gtk.Box _box;
-  private Gtk.Stack _stack;
+  private Gtk.Box _box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+  private Gtk.Stack _stack = new Gtk.Stack ();
+
+  private Gtk.Stack main_stack = new Gtk.Stack ();
 
   public void append(He.AlbumPageInterface widget) {
     this.children.append(widget);
@@ -47,8 +55,10 @@ class He.Album : Gtk.Box, Gtk.Buildable {
   }
 
   private void update_folded() {
-    print("min: %d, current: %d\n", minimum_requested_width, this.get_width());
-    if (this.get_width() < this.minimum_requested_width) {
+    // 200 is a magic number, but it seems to work well
+    if (this.get_width() < this.minimum_requested_width + 200 || 
+        this.get_width() < this.minimum_requested_width - 200 || 
+        this.get_width() <= this.minimum_requested_width ) {
       this._folded = true;
     } else {
       this._folded = false;
@@ -56,35 +66,29 @@ class He.Album : Gtk.Box, Gtk.Buildable {
   }
 
   private void update_view() {
-    if (this._box != null) {
-      base.remove(this._box);
-      this._box.destroy();
-      this._box = null;
-    }
-
-    if (this._stack != null) {
-      base.remove(this._stack);
-      this._stack.destroy();
-      this._stack = null;
-    }
-
     if (this._folded) {
-      this._stack = new Gtk.Stack();
-      base.append(this._stack);
-
+      main_stack.set_visible_child (_stack);
       foreach (var child in this.children) {
-        if (!child.navigatable) continue;
+        if (this._box != null) {
+          child.unparent ();
+        }
         this._stack.add_child(child);
+        this._stack.set_visible_child(child);
       }
-
+      this.queue_allocate();
+      this.add_css_class ("folded");
+      this.remove_css_class ("unfolded");
     } else {
-      this._box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
-      base.append(this._box);
-
+      main_stack.set_visible_child (_box);
       foreach (var child in this.children) {
+        if (this._stack != null) {
+          child.unparent ();
+        }
         this._box.append(child);
       }
-
+      this.queue_resize();
+      this.add_css_class ("unfolded");
+      this.remove_css_class ("folded");
     }
   }
 
@@ -100,12 +104,10 @@ class He.Album : Gtk.Box, Gtk.Buildable {
       child.get_preferred_size(out req, null);
       var child_width = req.width;
 
-      if (child_width > largest_width) {
-        largest_width = child_width + 72; // 72 is the total padding of the child
-      }
+      largest_width = child_width;
     }
 
-    this.minimum_requested_width = largest_width * ((this.children.position (this.children.last ()) - 2)); // -2 is the number of children that are not navigatable
+    this.minimum_requested_width = (largest_width + 72) * ((this.children.position (this.children.last ()) - 2)); // -2 is the number of children that are not navigatable
     minimum_requested_width_changed();
   }
 
@@ -117,12 +119,6 @@ class He.Album : Gtk.Box, Gtk.Buildable {
 
     this.minimum_requested_width_changed.connect(() => {
       update_folded();
-      update_view();
-    });
-
-    window.notify["allocated-width"].connect(() => {
-      update_folded();
-      update_view();
     });
 
     this.notify["parent"].connect(() => {
@@ -138,5 +134,11 @@ class He.Album : Gtk.Box, Gtk.Buildable {
     update_minimum_requested_width();
     update_folded();
     update_view();
+
+    main_stack.add_child(this._box);
+    main_stack.add_child(this._stack);
+    base.append (main_stack);
+
+    this.add_css_class ("unfolded");
   }
 }
