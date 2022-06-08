@@ -4,8 +4,8 @@ public class He.ContentBlock : Gtk.Box, Gtk.Buildable {
     private Gtk.Image image = new Gtk.Image();
     private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
     private Gtk.Box button_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 24);
-    private He.TintButton _secondary_button;
-    private He.FillButton _primary_button;
+    private He.Button _secondary_button;
+    private He.Button _primary_button;
 
     public string title {
         get {
@@ -35,12 +35,19 @@ public class He.ContentBlock : Gtk.Box, Gtk.Buildable {
         }
     }
 
-    public He.TintButton secondary_button {
+    public GLib.Icon gicon {
+        set {
+            image.set_from_gicon (value);
+        }
+    }
+
+    public He.Button secondary_button {
         set {
             if (_secondary_button != null) {
                 button_box.remove (_secondary_button);
             }
 
+            value.add_css_class ("tint-button");
             value.add_css_class ("pill");
             _secondary_button = value;
             button_box.prepend(_secondary_button);
@@ -51,7 +58,7 @@ public class He.ContentBlock : Gtk.Box, Gtk.Buildable {
         }
     }
 
-    public He.FillButton primary_button {
+    public He.Button primary_button {
         get {
             return _primary_button;
         }
@@ -61,13 +68,14 @@ public class He.ContentBlock : Gtk.Box, Gtk.Buildable {
                 button_box.remove (_primary_button);
             }
 
+            value.add_css_class ("fill-button");
             value.add_css_class ("pill");
             _primary_button = value;
             button_box.append (_primary_button);
         }
     }
 
-    public ContentBlock(string title, string subtitle, string icon, He.FillButton primary_button, He.TintButton secondary_button) {
+    public ContentBlock(string title, string subtitle, string icon, He.Button primary_button, He.Button secondary_button) {
         this.title = title;
         this.subtitle = subtitle;
         this.icon = icon;

@@ -3,7 +3,7 @@ public class He.MiniContentBlock : Gtk.Box {
   private Gtk.Label subtitle_label = new Gtk.Label(null);
   private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 6);
   private Gtk.Image image = new Gtk.Image();
-  private He.FillButton _primary_button;
+  private He.Button _primary_button;
   private Gtk.Box btn_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
 
   public string title {
@@ -40,7 +40,7 @@ public class He.MiniContentBlock : Gtk.Box {
       }
   }
 
-  public He.FillButton primary_button {
+  public He.Button primary_button {
     get {
         return _primary_button;
     }
@@ -52,13 +52,12 @@ public class He.MiniContentBlock : Gtk.Box {
 
         value.hexpand = true;
         value.halign = Gtk.Align.END;
-        value.add_css_class ("pill");
         _primary_button = value;
         btn_box.append (_primary_button);
     }
   }
 
-  public MiniContentBlock(string title, string subtitle, He.FillButton primary_button) {
+  public MiniContentBlock(string title, string subtitle, He.Button primary_button) {
     this.title = title;
     this.subtitle = subtitle;
     this.primary_button = primary_button;
