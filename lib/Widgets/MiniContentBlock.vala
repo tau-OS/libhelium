@@ -4,6 +4,7 @@ public class He.MiniContentBlock : Gtk.Box {
   private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 6);
   private Gtk.Image image = new Gtk.Image();
   private He.FillButton _primary_button;
+  private Gtk.Box btn_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
 
   public string title {
     get {
@@ -33,6 +34,12 @@ public class He.MiniContentBlock : Gtk.Box {
       }
   }
 
+  public GLib.Icon gicon {
+      set {
+          image.set_from_gicon (value);
+      }
+  }
+
   public He.FillButton primary_button {
     get {
         return _primary_button;
@@ -40,21 +47,20 @@ public class He.MiniContentBlock : Gtk.Box {
 
     set {
         if (_primary_button != null) {
-            this.remove (_primary_button);
+            btn_box.remove (_primary_button);
         }
 
         value.hexpand = true;
         value.halign = Gtk.Align.END;
         value.add_css_class ("pill");
         _primary_button = value;
-        this.append (_primary_button);
+        btn_box.append (_primary_button);
     }
   }
 
-  public MiniContentBlock(string title, string subtitle, string icon, He.FillButton primary_button) {
+  public MiniContentBlock(string title, string subtitle, He.FillButton primary_button) {
     this.title = title;
     this.subtitle = subtitle;
-    this.icon = icon;
     this.primary_button = primary_button;
   }
 
@@ -65,6 +71,8 @@ public class He.MiniContentBlock : Gtk.Box {
     this.title_label.add_css_class ("cb-title");
     this.subtitle_label.xalign = 0;
     this.subtitle_label.add_css_class ("cb-subtitle");
+    this.subtitle_label.wrap = true;
+    this.subtitle_label.ellipsize = Pango.EllipsizeMode.END;
 
     this.info_box.append(this.title_label);
     this.info_box.append(this.subtitle_label);
@@ -72,6 +80,7 @@ public class He.MiniContentBlock : Gtk.Box {
     
     this.append(this.image);
     this.append(this.info_box);
+    this.append(this.btn_box);
 
     this.spacing = 18;
     this.add_css_class ("mini-content-block");
