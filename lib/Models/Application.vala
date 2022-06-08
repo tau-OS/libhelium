@@ -52,10 +52,7 @@ public class He.Application : Gtk.Application {
     Gtk.Settings.get_for_display(gdk_display).gtk_theme_name = "Empty";
     Gtk.Settings.get_for_display(gdk_display).gtk_icon_theme_name = "Hydrogen";
     Gtk.Settings.get_for_display(gdk_display).gtk_cursor_theme_name = "Hydrogen";
-    var icon_theme = Gtk.IconTheme.get_for_display (gdk_display);
-    icon_theme.set_custom_theme("Hydrogen");
 
-    
     // Setup the dark preference theme loading
     var light = new Gtk.CssProvider();
     light.load_from_resource("/co/tauos/helium/gtk.css");
@@ -102,7 +99,7 @@ public class He.Application : Gtk.Application {
     
     if (base_style_provider != null)
     this.get_style_context ().add_provider_for_display (gdk_display,
-                              base_style_provider,
+                              base_provider,
                               999);
   }
 
