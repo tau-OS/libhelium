@@ -68,6 +68,8 @@ public abstract class He.View : Gtk.Box, Gtk.Buildable {
         box.spacing = 6;
         box.orientation = Gtk.Orientation.VERTICAL;
 
+        title_box.valign = Gtk.Align.CENTER;
+
         if (title != null) {
             title_box.append (title_label);
             title_box.append (subtitle_label);

@@ -29,6 +29,7 @@ public class He.ViewSwitcher : Gtk.Widget {
 
     construct {
         this.add_css_class ("view-switcher");
+        this.valign = Gtk.Align.CENTER;
     }
 
     private void on_stack_pages_changed (uint position, uint removed, uint added) {
