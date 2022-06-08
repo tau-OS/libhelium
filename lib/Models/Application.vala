@@ -52,7 +52,7 @@ public class He.Application : Gtk.Application {
     Gtk.Settings.get_for_display(gdk_display).gtk_theme_name = "Empty";
     Gtk.Settings.get_for_display(gdk_display).gtk_icon_theme_name = "Hydrogen";
     Gtk.Settings.get_for_display(gdk_display).gtk_cursor_theme_name = "Hydrogen";
-    var icon_theme = Gtk.IconTheme.get_default();
+    var icon_theme = Gtk.IconTheme.get_for_display (gdk_display);
     icon_theme.set_custom_theme("Hydrogen");
 
     
@@ -94,6 +94,8 @@ public class He.Application : Gtk.Application {
 
     string base_uri = "resource://" + base_path;
     File base_file = File.new_for_uri (base_uri);
+    
+    var base_provider = new Gtk.CssProvider ();
 
     init_provider_from_file (base_provider, base_file.get_child ("style.css"));
     init_provider_from_file (base_provider, base_file.get_child ("style-dark.css"));
