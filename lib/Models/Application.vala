@@ -1,4 +1,4 @@
-public class He.Application : Gtk.Application {
+public class He.Application : Gtk.Object, Gtk.Application {
   private void init () {
     // He.init ();
     // Ensure that the app has the basics (Gtk and theming) initialized.
@@ -98,7 +98,7 @@ public class He.Application : Gtk.Application {
     init_provider_from_file (base_provider, base_file.get_child ("style-dark.css"));
     
     if (base_provider != null)
-        add_provider_for_display (gdk_display,
+        Gtk.StyleContext.add_provider_for_display (gdk_display,
                                   base_provider,
                                   999);
   }
