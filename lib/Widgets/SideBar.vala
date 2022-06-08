@@ -22,6 +22,18 @@ public class He.SideBar : Gtk.Box, Gtk.Buildable {
         }
     }
 
+    private bool _show_buttons;
+    public bool show_buttons {
+        get {
+            return _show_buttons;
+        }
+        set {
+            _show_buttons = value;
+
+            titlebar.show_buttons = _show_buttons;
+        }
+    }
+
     public SideBar(string title, string subtitle) {
         this.title = title;
         this.subtitle = subtitle;
@@ -41,8 +53,6 @@ public class He.SideBar : Gtk.Box, Gtk.Buildable {
         this.width_request = 200;
         this.hexpand = false;
         this.hexpand_set = true;
-
-        titlebar.show_buttons = false;
         titlebar.flat = true;
 
         box.margin_start = box.margin_end = 18;

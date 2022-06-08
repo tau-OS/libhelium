@@ -34,18 +34,16 @@ using Gtk 4.0;
 
 template DemoMainWindow : .HeApplicationWindow {
   visible: true;
-  default-width: 1000;
-  default-height: 600;
+  default-width: 500;
 
-  Box main_box {
-    orientation: vertical;
-
-    Box {
-      orientation: horizontal;
+  .HeAlbum album {
+    .HeAlbumPage {
+      min_width: 200;
 
       .HeSideBar {
         title: "Sidebar";
         subtitle: "Subtitle";
+        show-buttons: bind album.folded;
 
         [titlebar-button]
         MenuButton main_menu {
@@ -64,29 +62,37 @@ template DemoMainWindow : .HeApplicationWindow {
           }
         }
 
-        Box {
-          orientation: vertical;
-          spacing: 6;
-
-          Button {
-            label: "Button";
-          }
-          Button {
-            label: "Button";
-          }
-          Button {
-            label: "Button";
-          }
+        .HeMiniContentBlock {
+          title: "Mini Content Block";
+          subtitle: "Subtitle";
+          icon: "list-add-symbolic";
+        }
+        .HeMiniContentBlock {
+          title: "Mini Content Block";
+          subtitle: "Subtitle";
+          icon: "list-add-symbolic";
+        }
+        .HeMiniContentBlock {
+          title: "Mini Content Block";
+          subtitle: "Subtitle";
+          icon: "list-add-symbolic";
         }
       }
+    }
+
+    .HeAlbumPage {
+      navigatable: false;
 
       Separator {
         orientation: vertical;
       }
+    }
 
+    .HeAlbumPage {
       .HeSideBar {
         title: "Secondary";
         subtitle: "Subtitle";
+        show-buttons: bind album.folded;
 
         [titlebar-button]
         MenuButton {
@@ -130,11 +136,18 @@ template DemoMainWindow : .HeApplicationWindow {
           }
         }
       }
+    }
+
+    .HeAlbumPage {
+      navigatable: false;
 
       Separator {
         orientation: vertical;
       }
+    }
 
+
+    .HeAlbumPage {
       Box {
         orientation: vertical;
 
