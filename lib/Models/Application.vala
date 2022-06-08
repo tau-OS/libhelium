@@ -99,7 +99,7 @@ public class He.Application : Gtk.Application {
     init_provider_from_file (base_provider, base_file.get_child ("style-dark.css"));
   }
 
-  private void init_provider_from_file (GtkStyleProvider provider, File file) {
+  private void init_provider_from_file (Gtk.CssProvider provider, File file) {
     if (file.query_exists (null)) {
       var provider_from_file = new Gtk.CssProvider ();
       provider_from_file.load_from_file (file);
