@@ -34,6 +34,30 @@ public class He.SideBar : Gtk.Box, Gtk.Buildable {
         }
     }
 
+    private bool _show_back;
+    public bool show_back {
+        get {
+            return _show_back;
+        }
+        set {
+            _show_back = value;
+
+            titlebar.show_back = _show_back;
+        }
+    }
+
+    private Gtk.Stack _stack;
+    public Gtk.Stack stack {
+        get {
+            return _stack;
+        }
+
+        set {
+            _stack = value;
+            titlebar.stack = _stack;
+        }
+    }
+
     public SideBar(string title, string subtitle) {
         this.title = title;
         this.subtitle = subtitle;

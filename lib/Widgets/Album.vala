@@ -18,12 +18,12 @@ class He.Album : Gtk.Box, Gtk.Buildable {
 
   private Gtk.Stack main_stack = new Gtk.Stack ();
 
-  public void append(He.AlbumPageInterface widget) {
+  public new void append(He.AlbumPageInterface widget) {
     this.children.append(widget);
     children_updated();
   }
 
-  public void insert_child_after(He.AlbumPageInterface widget, He.AlbumPageInterface sibling) {
+  public new void insert_child_after(He.AlbumPageInterface widget, He.AlbumPageInterface sibling) {
     var index = this.children.index(sibling);
     if (index == -1) {
       return;
@@ -33,17 +33,17 @@ class He.Album : Gtk.Box, Gtk.Buildable {
     children_updated();
   }
 
-  public void prepend(He.AlbumPageInterface widget) {
+  public new void prepend(He.AlbumPageInterface widget) {
     this.children.prepend(widget);
     children_updated();
   }
 
-  public void remove(He.AlbumPageInterface widget) {
+  public new void remove(He.AlbumPageInterface widget) {
     this.children.remove(widget);
     children_updated();
   }
 
-  public void reorder_child_after(He.AlbumPageInterface widget, He.AlbumPageInterface sibling) {
+  public new void reorder_child_after(He.AlbumPageInterface widget, He.AlbumPageInterface sibling) {
     var index = this.children.index(sibling);
     if (index == -1) {
       return;
