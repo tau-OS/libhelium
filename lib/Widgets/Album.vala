@@ -15,6 +15,9 @@ class He.Album : Gtk.Box, Gtk.Buildable {
 
   private Gtk.Box _box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
   private Gtk.Stack _stack = new Gtk.Stack ();
+  public Gtk.Stack stack {
+    get { return _stack; }
+  }
 
   private Gtk.Stack main_stack = new Gtk.Stack ();
 
@@ -72,7 +75,9 @@ class He.Album : Gtk.Box, Gtk.Buildable {
         if (this._box != null) {
           child.unparent ();
         }
-        this._stack.add_child(child);
+        if (child.navigatable) {
+          this._stack.add_child(child);
+        }
         this._stack.set_visible_child(child);
       }
       this.queue_allocate();

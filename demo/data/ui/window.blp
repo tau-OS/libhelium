@@ -45,7 +45,7 @@ template DemoMainWindow : .HeApplicationWindow {
         subtitle: "Subtitle";
         show-buttons: bind album.folded inverted;
         show-back: false;
-        stack: stack;
+        stack: bind album.stack;
 
         [titlebar-button]
         MenuButton main_menu {
@@ -96,7 +96,7 @@ template DemoMainWindow : .HeApplicationWindow {
         subtitle: "Subtitle";
         show-buttons: bind album.folded inverted;
         show-back: bind album.folded;
-        stack: stack;
+        stack: bind album.stack;
 
         [titlebar-button]
         MenuButton {
@@ -159,7 +159,7 @@ template DemoMainWindow : .HeApplicationWindow {
           flat: true;
           show-buttons: true;
           show-back: bind album.folded;
-          stack: stack;
+          stack: bind album.stack;
 
           MenuButton {
             icon-name: "view-more";

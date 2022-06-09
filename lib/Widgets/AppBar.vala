@@ -1,25 +1,12 @@
 public class He.AppBar : Gtk.Box, Gtk.Buildable {
     public Gtk.HeaderBar? title;
     private Gtk.Button back_button = new Gtk.Button ();
-    private Gtk.SelectionModel pages;
-    private GLib.List<He.AlbumPage> _albumpages;
-    private unowned GLib.List<He.AlbumPage> ap_link;
 
     private Gtk.Stack _stack;
     public Gtk.Stack stack {
-        get {
-            return _stack;
-        }
-
+        get { return this._stack; }
         set {
-            if (this.pages != null) {
-                this.pages.items_changed.disconnect (on_pages_changed);
-            }
-
-            _stack = value;
-            pages = value.pages;
-
-            pages.items_changed.connect (on_pages_changed);
+            this._stack = value;
         }
     }
 
@@ -82,14 +69,11 @@ public class He.AppBar : Gtk.Box, Gtk.Buildable {
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
         back_button.clicked.connect (() => {
-            stack.set_visible_child (ap_link.data);
+            var selected_page = stack.pages.get_selection ();
+            stack.pages.select_item (int.max (((int)selected_page.get_nth (0) - 1), 0), true);
         });
         title.pack_start (back_button);
 
         this.append (title);
-    }
-
-    private void on_pages_changed (uint position, uint removed, uint added) {
-        ap_link = this._albumpages.nth (position - 1);
     }
 }
