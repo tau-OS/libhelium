@@ -1,4 +1,4 @@
-class He.Album : Gtk.Box, Gtk.Buildable {
+class He.Album : Gtk.Widget, Gtk.Buildable {
   private signal void children_updated();
   private signal void minimum_requested_width_changed();
 
@@ -116,6 +116,10 @@ class He.Album : Gtk.Box, Gtk.Buildable {
     minimum_requested_width_changed();
   }
 
+  static construct {
+    set_layout_manager_type (typeof (Gtk.BoxLayout));
+  }
+
   construct {
     this.children_updated.connect(() => {
       update_minimum_requested_width();
@@ -142,7 +146,7 @@ class He.Album : Gtk.Box, Gtk.Buildable {
 
     main_stack.add_child(this._box);
     main_stack.add_child(this._stack);
-    base.append (main_stack);
+    main_stack.set_parent (this);
 
     this.add_css_class ("unfolded");
   }
