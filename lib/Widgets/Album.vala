@@ -62,9 +62,9 @@ class He.Album : Gtk.Box, Gtk.Buildable {
     if (this.get_width() < this.minimum_requested_width + 200 || 
         this.get_width() < this.minimum_requested_width - 200 || 
         this.get_width() <= this.minimum_requested_width ) {
-      this._folded = true;
+      this.folded = true;
     } else {
-      this._folded = false;
+      this.folded = false;
     }
   }
 

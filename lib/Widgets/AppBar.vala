@@ -34,11 +34,7 @@ public class He.AppBar : Gtk.Box, Gtk.Buildable {
         set {
             _show_buttons = value;
 
-            if (_show_buttons) {
-                title.set_decoration_layout (":maximize,close");
-            } else {
-                title.set_decoration_layout (":");
-            }
+            title.set_show_title_buttons (value);
         }
     }
 
