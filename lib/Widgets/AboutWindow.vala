@@ -101,7 +101,8 @@ public class He.AboutWindow : He.Window {
       report_button.color = value;
       more_info_button.color = value;
       version_badge.color = value;
-      // TODO: Do License Link
+      if (_color != He.Colors.NONE) license_link.remove_css_class (_color.to_css_class());
+      if (value != He.Colors.NONE) license_link.add_css_class (value.to_css_class());
     }
   }
 
@@ -202,6 +203,7 @@ public class He.AboutWindow : He.Window {
     text_box.append(translators_label);
     
     license_link.remove_css_class("text-button");
+    license_link.remove_css_class("link");
     license_link.add_css_class("link-button");
     license_box.append(license_label);
     license_box.append(license_link);
