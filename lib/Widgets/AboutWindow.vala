@@ -213,8 +213,25 @@ public class He.AboutWindow : He.Window {
     button_box.append(translate_app_button);
     button_box.append(report_button);
     button_box.append(more_info_button);
+
+    translate_app_button.clicked.connect(() => {
+      Gtk.show_uri_full.begin(this.parent, translate_url, Gdk.CURRENT_TIME, null);
+    });
+
+    report_button.clicked.connect(() => {
+      Gtk.show_uri_full.begin(this.parent, issue_url, Gdk.CURRENT_TIME, null);
+    });
+
+    more_info_button.clicked.connect(() => {
+      Gtk.show_uri_full.begin(this.parent, more_info_url, Gdk.CURRENT_TIME, null);
+    });
     
     this.set_child(window_overlay);
+  }
+
+  ~AboutWindow() {
+    this.unparent();
+    this.window_overlay.dispose();
   }
 
   public AboutWindow(
