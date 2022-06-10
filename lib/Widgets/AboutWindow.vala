@@ -1,6 +1,7 @@
 public class He.AboutWindow : He.Window {
   private He.AppBar app_bar = new He.AppBar();
-  private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+  private Gtk.Overlay window_overlay = new Gtk.Overlay();
+  private Gtk.Box about_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 30);
   private Gtk.Box content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
   private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
   private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
@@ -10,13 +11,13 @@ public class He.AboutWindow : He.Window {
 
   private Gtk.Label title_label = new Gtk.Label (null);
 
-  private Gtk.Box developers_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+  private Gtk.Box developers_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 2);
   private Gtk.Label developers_copyright = new Gtk.Label (null);
   private Gtk.Label developers_label = new Gtk.Label (null);
 
   private Gtk.Label translators_label = new Gtk.Label (null);
 
-  private Gtk.Box license_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+  private Gtk.Box license_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 2);
   private Gtk.Label license_label = new Gtk.Label ("This program is licensed under");
   private Gtk.LinkButton license_link = new Gtk.LinkButton ("https://hololive.moe");
 
@@ -99,8 +100,8 @@ public class He.AboutWindow : He.Window {
       translate_app_button.color = value;
       report_button.color = value;
       more_info_button.color = value;
+      version_badge.color = value;
       // TODO: Do License Link
-      // TODO: Do Version Badge
     }
   }
 
@@ -135,7 +136,7 @@ public class He.AboutWindow : He.Window {
     get { return translators; }
     set { 
       translators = value;
-      translators_label.set_text ("Translated By: " + string.join (", ", translators));
+      translators_label.set_text ("Translated By: " + string.joinv (", ", translators));
     }
   }
 
@@ -144,7 +145,7 @@ public class He.AboutWindow : He.Window {
     get { return developers; }
     set { 
       developers = value;
-      developers_label.set_text (string.join (", ", developers));
+      developers_label.set_text (string.joinv (", ", developers));
     }
   }
 
@@ -166,44 +167,53 @@ public class He.AboutWindow : He.Window {
     this.set_modal(true);
 
     this.resizable = false;
+
+    this.app_bar.valign = Gtk.Align.START;
+    this.app_bar.show_back = false;
     this.app_bar.flat = true;
 
-    main_box.append(app_bar);
-    main_box.append(content_box);
-    main_box.append(button_box);
+    window_overlay.add_overlay(app_bar);
+    window_overlay.set_child(about_box);
 
+    about_box.add_css_class("dialog-content");
+    about_box.append(content_box);
+    about_box.append(button_box);
+    
+    icon_image.valign = Gtk.Align.START;
     icon_image.pixel_size = 128;
-
-    content_box.add_css_class("dialog-content");
+    
     content_box.append(icon_image);
     content_box.append(info_box);
-
+    
     info_box.append(title_box);
     info_box.append(text_box);
-
+    
+    version_badge.tinted = true;
+    version_badge.margin_end = 18;
     title_label.add_css_class ("display");
     title_box.append(title_label);
     title_box.append(version_badge);
-
-    developers_box.homogeneous = true;
+    
     developers_box.append(developers_copyright);
     developers_box.append(developers_label);
-
+    
     text_box.append(developers_box);
+    translators_label.xalign = 0;
     text_box.append(translators_label);
-
-    license_box.homogeneous = true;
+    
+    license_link.remove_css_class("text-button");
+    license_link.add_css_class("link-button");
     license_box.append(license_label);
     license_box.append(license_link);
-
+    
     text_box.append(license_box);
-
-    button_box.halign = Gtk.Align.CENTER;
+    
+    button_box.homogeneous = true;
     button_box.append(translate_app_button);
     button_box.append(report_button);
     button_box.append(more_info_button);
-
-    this.set_child(main_box);
+    
+    this.set_child(window_overlay);
   }
 
   public AboutWindow(

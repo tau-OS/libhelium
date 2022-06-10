@@ -1,6 +1,38 @@
 public class He.ModifierBadge : Gtk.Box {
     private Gtk.Label _label;
 
+    private He.Colors _color;
+
+    public He.Colors color {
+        set {
+            if (_color != He.Colors.NONE) this.remove_css_class (_color.to_css_class());
+            if (value != He.Colors.NONE) this.add_css_class (value.to_css_class());
+
+            _color = value;
+        }
+
+        get {
+            return _color;
+        }
+    }
+
+    private bool _tinted = false;
+    public bool tinted {
+        get {
+            return _tinted;
+        }
+        set {
+            _tinted = value;
+
+            if (value) {
+                this.add_css_class ("tint-badge");
+            } else {
+                this.remove_css_class ("tint-badge");
+            }
+        }
+    }
+
+
     public string? label {
         get {
           return _label?.get_text();
@@ -69,6 +101,7 @@ public class He.ModifierBadge : Gtk.Box {
     }
 
     construct {
+        this.color = He.Colors.YELLOW;
         this.height_request = 16;
         this.add_css_class ("modifier-badge");
         this.hexpand = false;

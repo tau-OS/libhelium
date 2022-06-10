@@ -153,7 +153,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
             "Helium Demo",
             "co.tauos.Helium1.Demo",
             Config.VERSION,
-            "icon",
+            "libhelium",
             "https:/fyralabs.com",
             "https:/fyralabs.com",
             "https:/fyralabs.com",
