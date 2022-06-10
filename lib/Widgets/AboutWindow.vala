@@ -11,14 +11,14 @@ public class He.AboutWindow : He.Window {
 
   private Gtk.Label title_label = new Gtk.Label (null);
 
-  private Gtk.Box developers_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 2);
+  private Gtk.Box developers_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
   private Gtk.Label developers_copyright = new Gtk.Label (null);
   private Gtk.Label developers_label = new Gtk.Label (null);
 
   private Gtk.Label translators_label = new Gtk.Label (null);
 
-  private Gtk.Box license_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 2);
-  private Gtk.Label license_label = new Gtk.Label ("This program is licensed under");
+  private Gtk.Box license_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+  private Gtk.Label license_label = new Gtk.Label ("This program is licensed under ");
   private Gtk.LinkButton license_link = new Gtk.LinkButton ("https://hololive.moe");
 
   private Gtk.Image icon_image = new Gtk.Image ();
@@ -154,7 +154,7 @@ public class He.AboutWindow : He.Window {
     get { return _copyright_year; }
     set {
       _copyright_year = value;
-      developers_copyright.set_text ("© " + "%04d".printf(value));
+      developers_copyright.set_text ("© " + "%04d ".printf(value));
     }
   }
 
