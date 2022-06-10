@@ -1,4 +1,4 @@
-public class He.Badge : Gtk.Box,  Gtk.Buildable {
+public class He.Badge : Gtk.Widget,  Gtk.Buildable {
     private Gtk.Overlay overlay = new Gtk.Overlay ();
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Label _label;
@@ -46,6 +46,10 @@ public class He.Badge : Gtk.Box,  Gtk.Buildable {
         }
     }
 
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BinLayout));
+    }
+
     construct {
         box.valign = Gtk.Align.START;
         box.halign = Gtk.Align.END;
@@ -55,6 +59,10 @@ public class He.Badge : Gtk.Box,  Gtk.Buildable {
 
         overlay.add_overlay (box);
 
-        this.append(overlay);
+        overlay.set_parent (this);
+    }
+
+    ~Badge () {
+        this.overlay.unparent ();
     }
 }

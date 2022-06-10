@@ -8,24 +8,8 @@ public class He.Dialog : He.Window {
     private He.TintButton _secondary_button;
     private He.FillButton _primary_button;
     private He.TextButton _cancel_button;
+    private Gtk.WindowHandle dialog_handle = new Gtk.WindowHandle ();
 
-    public new bool modal {
-        get {
-            return modal;
-        }
-        set {
-            set_modal (value);
-        }
-    }
-
-    public new Gtk.Window? parent_widget {
-        get {
-            return parent_widget;
-        }
-        set {
-            set_transient_for (value);
-        }
-    }
 
     public new string title {
         get {
@@ -100,15 +84,20 @@ public class He.Dialog : He.Window {
         }
     }
 
-    public Dialog(bool modal, Gtk.Window? parent_widget, string title, string subtitle, string info, string icon, He.FillButton? primary_button, He.TintButton? secondary_button) {
+    public Dialog(bool modal, Gtk.Window? parent, string title, string subtitle, string info, string icon, He.FillButton? primary_button, He.TintButton? secondary_button) {
         this.modal = modal;
-        this.parent_widget = parent_widget;
+        this.parent = parent;
         this.title = title;
         this.subtitle = subtitle;
         this.info = info;
         this.icon = icon;
         this.primary_button = primary_button;
         this.secondary_button = secondary_button;
+    }
+
+    ~Dialog() {
+        this.unparent();
+        this.dialog_handle.dispose();
     }
 
     construct {
@@ -139,8 +128,6 @@ public class He.Dialog : He.Window {
         main_box.margin_end = main_box.margin_start = main_box.margin_top = main_box.margin_bottom = 24;
         main_box.append(info_box);
         main_box.append(button_box);
-
-        var dialog_handle = new Gtk.WindowHandle ();
         dialog_handle.set_child (main_box);
 
         this.set_child (dialog_handle);

@@ -1,4 +1,4 @@
-public class He.OverlayButton : Gtk.Box, Gtk.Buildable {
+public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
     private Gtk.Button button = new Gtk.Button();
     private Gtk.Box button_content = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box button_row = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 18);
@@ -201,6 +201,10 @@ public class He.OverlayButton : Gtk.Box, Gtk.Buildable {
         if (secondary_icon != null) this.secondary_icon = secondary_icon;
     }
 
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BinLayout));
+    }
+
     construct {
         button_content.append(image);
         button.set_child(button_content);
@@ -219,10 +223,7 @@ public class He.OverlayButton : Gtk.Box, Gtk.Buildable {
         });
 
         overlay.add_overlay(button_row);
-        overlay.vexpand = true;
-        overlay.hexpand = true;
-
-        this.append(overlay);
+        overlay.set_parent (this);
         
         button.clicked.connect(() => {
             clicked();
@@ -232,5 +233,7 @@ public class He.OverlayButton : Gtk.Box, Gtk.Buildable {
         this.color = He.Colors.GREEN;
         this.secondary_color = He.Colors.BLUE;
         this.alignment = Alignment.RIGHT;
+        this.vexpand = true;
+        this.hexpand = true;
     }
 }

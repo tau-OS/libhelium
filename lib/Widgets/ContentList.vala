@@ -67,6 +67,7 @@ public class He.ContentList : Gtk.Widget, Gtk.Buildable {
             spacing = 12,
         };
         this.layout_manager = layout;
+        this.margin_top = 6;
 
         this.text_box.append (title_label);
         this.text_box.append (description_label);

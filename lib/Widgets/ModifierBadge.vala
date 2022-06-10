@@ -1,4 +1,4 @@
-public class He.ModifierBadge : Gtk.Box {
+public class He.ModifierBadge : Gtk.Widget {
     private Gtk.Label _label;
 
     private He.Colors _color;
@@ -41,13 +41,13 @@ public class He.ModifierBadge : Gtk.Box {
         set {
             if (value == null) {
                 this._label = null;
-                this.remove(_label);
+                _label.unparent();
                 return;
             }
 
             if (_label == null) {
                 _label = new Gtk.Label(null);
-                this.append(_label);
+                _label.set_parent (this);
             }
 
             _label.set_text (value);
@@ -100,6 +100,10 @@ public class He.ModifierBadge : Gtk.Box {
         }
     }
 
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BinLayout));
+    }
+
     construct {
         this.color = He.Colors.YELLOW;
         this.height_request = 16;
@@ -108,5 +112,9 @@ public class He.ModifierBadge : Gtk.Box {
         this.vexpand = false;
         this.valign = Gtk.Align.CENTER;
         this.alignment = Alignment.RIGHT;
+    }
+
+    ~ModifierBadge() {
+        this._label?.unparent();
     }
 }

@@ -1,4 +1,4 @@
-public class He.ContentBlock : Gtk.Box, Gtk.Buildable {
+public class He.ContentBlock : Gtk.Widget, Gtk.Buildable {
     private Gtk.Label title_label = new Gtk.Label(null);
     private Gtk.Label subtitle_label = new Gtk.Label(null);
     private Gtk.Image image = new Gtk.Image();
@@ -83,8 +83,11 @@ public class He.ContentBlock : Gtk.Box, Gtk.Buildable {
         this.secondary_button = secondary_button;
     }
 
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BoxLayout));
+    }
+
     construct {
-        this.orientation = Gtk.Orientation.VERTICAL;
         this.add_css_class ("content-block");
         
         image.pixel_size = ((Gtk.IconSize)64);
@@ -99,8 +102,17 @@ public class He.ContentBlock : Gtk.Box, Gtk.Buildable {
         info_box.append(subtitle_label);
 
         button_box.halign = Gtk.Align.END;
+        button_box.hexpand = true;
 
-        this.append(info_box);
-        this.append(button_box);
+        var box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+        box.append(info_box);
+        box.append(button_box);
+        box.set_parent(this);
+    }
+
+    ~ContentBlock() {
+        this.info_box.unparent();
+        this.button_box.unparent();
+        this.dispose();
     }
 }

@@ -1,4 +1,5 @@
-public class He.Banner : Gtk.Box, Gtk.Buildable {
+public class He.Banner : Gtk.Widget, Gtk.Buildable {
+    private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box text_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
     private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
   
@@ -29,7 +30,7 @@ public class He.Banner : Gtk.Box, Gtk.Buildable {
         if (strcmp (type, "action") == 0) {
             add_action_button ((Gtk.Widget) child);
         } else {
-            this.append ((Gtk.Widget) child);
+            main_box.append ((Gtk.Widget) child);
         }
     }
   
@@ -69,6 +70,10 @@ public class He.Banner : Gtk.Box, Gtk.Buildable {
         this.title = title;
         this.description = description;
     }
+
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BoxLayout));
+    }
     
     construct {
         this.title_label.add_css_class ("header");
@@ -79,9 +84,6 @@ public class He.Banner : Gtk.Box, Gtk.Buildable {
 
         this.text_box.append (title_label);
         this.text_box.append (description_label);
-    
-        var center_layout = new Gtk.CenterLayout();
-        this.layout_manager = center_layout;
 
         this.text_box.set_halign (Gtk.Align.START);
         this.text_box.set_margin_top (5);
@@ -89,16 +91,21 @@ public class He.Banner : Gtk.Box, Gtk.Buildable {
         this.button_box.set_halign (Gtk.Align.END);
         this.button_box.set_valign (Gtk.Align.END);
         this.button_box.set_vexpand (true);
-    
-        center_layout.set_start_widget(text_box);
-        center_layout.set_end_widget(button_box);
+        this.button_box.set_hexpand (true);
 
         button_box.set_visible (false);
-    
-        this.append (text_box);
-        this.append (button_box);
+
+        main_box.append (text_box);
+        main_box.append (button_box);
+        main_box.homogeneous = true;
+        main_box.set_parent (this);
+
         this.set_valign (Gtk.Align.START);
         this.set_vexpand (false);
     }
-  }
+
+    ~Banner () {
+        this.main_box.unparent ();
+    }
+}
   

@@ -1,4 +1,4 @@
-public abstract class He.View : Gtk.Box, Gtk.Buildable {
+public abstract class He.View : Gtk.Widget, Gtk.Buildable {
     private He.ViewTitle title_label = new He.ViewTitle();
     private He.ViewSubTitle subtitle_label = new He.ViewSubTitle();
     private He.ViewSwitcher titleswitcher = new He.ViewSwitcher();
@@ -59,6 +59,10 @@ public abstract class He.View : Gtk.Box, Gtk.Buildable {
         box.append (widget);
     }
 
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BoxLayout));
+    }
+
     construct {
         title_label.visible = false;
         subtitle_label.visible = false;
@@ -83,14 +87,15 @@ public abstract class He.View : Gtk.Box, Gtk.Buildable {
 
         title_button_box.valign = Gtk.Align.START;
         title_button_box.append (title_box);
-        this.append (title_button_box);
 
         var scroll = new Gtk.ScrolledWindow ();
         scroll.hscrollbar_policy = Gtk.PolicyType.NEVER;
         scroll.vexpand = true;
         scroll.set_child (box);
 
-        this.orientation = Gtk.Orientation.VERTICAL;
-        this.append (scroll);
+        var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        main_box.append (title_button_box);
+        main_box.append (scroll);
+        main_box.set_parent (this);
     }
 }

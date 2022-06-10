@@ -1,37 +1,6 @@
 using Gtk 4.0;
 //using He 1;
 
-.HeWindow ws {
-  has-title: true;
-  modal: true;
-  transient-for: DemoMainWindow;
-
-  .HeWelcomeScreen {
-    appname: "Helium Demo";
-    description: "This is a welcome screen.";
-
-    [action]
-    .HeTextButton {
-      label: "Action";
-    }
-
-    [action]
-    .HeTextButton {
-      label: "Action";
-    }
-
-    [action-button]
-    .HePillButton {
-      label: "Action";
-    }
-
-    [action-button]
-    .HePillButton {
-      label: "Action";
-    }
-  }
-}
-
 template DemoMainWindow : .HeApplicationWindow {
   visible: true;
   default-width: 500;

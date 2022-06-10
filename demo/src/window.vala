@@ -49,8 +49,6 @@ public class Demo.MainWindow : He.ApplicationWindow {
     private unowned He.Banner banner2;
     [GtkChild]
     private unowned He.FillButton ws_button;
-    [GtkChild]
-    private unowned He.Window ws;
 
     public He.Application app { get; construct; }
     public MainWindow (He.Application application) {
@@ -112,43 +110,39 @@ public class Demo.MainWindow : He.ApplicationWindow {
         });
 
         ws_button.clicked.connect (() => {
-            ws.show ();
+            var ws = new He.Window ();
+            ws.has_title = true;
+            ws.modal = true;
+            ws.parent = this;
+            ws.has_back_button = false;
+
+            var ws_welcome = new He.WelcomeScreen ("Helium Demo", "This is a welcome screen.");
+
+            var button1 = new He.TextButton ("Do thing");
+            ((Gtk.Label)button1.get_child ()).xalign = 0;
+            var button2 = new He.TextButton ("Don't do thing");
+            ((Gtk.Label)button2.get_child ()).xalign = 0;
+            var button3 = new He.PillButton ("Open");
+            button3.icon = "document-open-symbolic";
+            button3.color = He.Colors.NONE;
+            var button4 = new He.PillButton ("New");
+            button4.icon = "list-add-symbolic";
+            button4.color = He.Colors.GREEN;
+
+            ws_welcome.add_child (builder, ((Gtk.Widget) button1), "action");
+            ws_welcome.add_child (builder, ((Gtk.Widget) button2), "action");
+            ws_welcome.add_child (builder, ((Gtk.Widget) button3), "action-button");
+            ws_welcome.add_child (builder, ((Gtk.Widget) button4), "action-button");
+            ws.set_child (ws_welcome);
+
+            ws.present ();
         });
 
         this.show ();
     }
 
     public void action_about () {
-        //  const string COPYRIGHT = "Copyright \xc2\xa9 2022 Fyra Labs\n";
-
-        //  const string? AUTHORS[] = {
-        //      "Lains",
-        //      "Lea",
-        //      null
-        //  };
-
-        //  const string? DESIGNERS[] = {
-        //      "Lains",
-        //      null
-        //  };
-
-        //  Gtk.show_about_dialog (
-        //     this,
-        //     "program-name", "Helium Demo",
-        //     "logo-icon-name", "libhelium",
-        //     "version", Config.VERSION,
-        //     "comments", _("A demo of the tauOS Application Framework."),
-        //     "copyright", COPYRIGHT,
-        //     "authors", AUTHORS,
-        //     "artists", DESIGNERS,
-        //     "license-type", Gtk.License.GPL_3_0,
-        //     "wrap-license", false,
-        //     // TRANSLATORS: 'Name <email@domain.com>' or 'Name https://website.example'
-        //     "translator-credits", _("translator-credits"),
-        //     null
-        //  );
-
-        new He.AboutWindow(
+        var about = new He.AboutWindow (
             this,
             "Helium Demo",
             "co.tauos.Helium1.Demo",
@@ -161,7 +155,8 @@ public class Demo.MainWindow : He.ApplicationWindow {
             {"Lains", "Lea"},
             2022,
             He.AboutWindow.Licenses.GPLv3,
-            He.Colors.PURPLE
-        ).present ();
+            He.Colors.INDIGO
+        );
+        about.present ();
     }
 }

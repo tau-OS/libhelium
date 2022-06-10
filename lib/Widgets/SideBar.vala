@@ -1,4 +1,4 @@
-public class He.SideBar : Gtk.Box, Gtk.Buildable {
+public class He.SideBar : Gtk.Widget, Gtk.Buildable {
     private He.AppBar titlebar = new He.AppBar();
     private He.ViewTitle title_label = new He.ViewTitle();
     private He.ViewSubTitle subtitle_label = new He.ViewSubTitle();
@@ -71,9 +71,11 @@ public class He.SideBar : Gtk.Box, Gtk.Buildable {
         }
     }
 
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BoxLayout));
+    }
+
     construct {
-        this.orientation = Gtk.Orientation.VERTICAL;
-        this.spacing = 0;
         this.hexpand = false;
         this.hexpand_set = true;
         titlebar.flat = true;
@@ -81,9 +83,13 @@ public class He.SideBar : Gtk.Box, Gtk.Buildable {
         box.margin_start = box.margin_end = 18;
         box.orientation = Gtk.Orientation.VERTICAL;
 
-        this.append (titlebar);
-        this.append (title_label);
-        this.append (subtitle_label);
-        this.append (box);
+        var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        main_box.hexpand = true;
+        main_box.append (titlebar);
+        main_box.append (title_label);
+        main_box.append (subtitle_label);
+        main_box.append (box);
+
+        main_box.set_parent (this);
     }
 }

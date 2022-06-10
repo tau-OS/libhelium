@@ -73,5 +73,7 @@ public class He.EmptyPage : Gtk.Widget {
         this.vexpand = true;
     }
 
-    
+    ~EmptyPage() {
+        box.unparent();
+    }
 }

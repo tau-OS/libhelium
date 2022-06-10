@@ -150,4 +150,8 @@ class He.Album : Gtk.Widget, Gtk.Buildable {
 
     this.add_css_class ("unfolded");
   }
+
+  ~Album() {
+    this.main_stack.unparent();
+  }
 }

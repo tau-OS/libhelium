@@ -24,6 +24,6 @@ public class He.ViewTitle : Gtk.Widget, Gtk.Buildable {
     }
 
     static construct {
-        set_layout_manager_type (typeof (Gtk.BoxLayout));
+        set_layout_manager_type (typeof (Gtk.BinLayout));
     }
 }

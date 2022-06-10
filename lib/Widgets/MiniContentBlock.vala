@@ -1,4 +1,4 @@
-public class He.MiniContentBlock : Gtk.Box {
+public class He.MiniContentBlock : Gtk.Widget {
   private Gtk.Label title_label = new Gtk.Label(null);
   private Gtk.Label subtitle_label = new Gtk.Label(null);
   private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 6);
@@ -65,6 +65,10 @@ public class He.MiniContentBlock : Gtk.Box {
     this.primary_button = primary_button;
   }
 
+  static construct {
+    set_layout_manager_type (typeof (Gtk.BoxLayout));
+  }
+
   construct {
     this.image.pixel_size = ((Gtk.IconSize)32);
 
@@ -79,11 +83,13 @@ public class He.MiniContentBlock : Gtk.Box {
     this.info_box.append(this.subtitle_label);
     this.info_box.valign = Gtk.Align.CENTER;
     
-    this.append(this.image);
-    this.append(this.info_box);
-    this.append(this.btn_box);
+    var box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 18);
+    box.append(this.image);
+    box.append(this.info_box);
+    box.append(this.btn_box);
 
-    this.spacing = 18;
+    box.set_parent(this);
+
     this.add_css_class ("mini-content-block");
   }
 }

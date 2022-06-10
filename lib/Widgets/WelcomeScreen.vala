@@ -1,8 +1,9 @@
-public class He.WelcomeScreen : Gtk.Box, Gtk.Buildable {
+public class He.WelcomeScreen : Gtk.Widget, Gtk.Buildable {
     private Gtk.Box action_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
     private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
     private Gtk.Label description_label = new Gtk.Label ("");
     private Gtk.Label appname_label = new Gtk.Label ("");
+    private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
 
     private string _appname;
     public string appname {
@@ -39,12 +40,14 @@ public class He.WelcomeScreen : Gtk.Box, Gtk.Buildable {
     }
 
     ~WelcomeScreen () {
-        get_first_child ().unparent ();
-        this.unparent ();
+        this.main_box.unparent ();
+    }
+
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BoxLayout));
     }
 
     construct {
-        var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
         main_box.add_css_class ("content-block");
         main_box.hexpand = true;
 
@@ -70,7 +73,7 @@ public class He.WelcomeScreen : Gtk.Box, Gtk.Buildable {
         main_box.append (description_label);
         main_box.append (button_box);
 
-        this.append (main_box);
+        main_box.set_parent (this);
         this.set_size_request (360, 400);
         this.margin_top = this.margin_bottom = 6;
         this.margin_start = this.margin_end = 12;
