@@ -1,4 +1,4 @@
-public class He.ViewSubTitle : Gtk.Box, Gtk.Buildable {
+public class He.ViewSubTitle : Gtk.Widget, Gtk.Buildable {
     private Gtk.Label? _label;
     public string? label {
         set {
@@ -20,6 +20,10 @@ public class He.ViewSubTitle : Gtk.Box, Gtk.Buildable {
         _label.margin_end = 12;
         _label.margin_bottom = 12;
 
-        this.append (_label);
+        _label.set_parent (this);
+    }
+
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BoxLayout));
     }
 }

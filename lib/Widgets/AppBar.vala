@@ -1,4 +1,4 @@
-public class He.AppBar : Gtk.Box, Gtk.Buildable {
+public class He.AppBar : Gtk.Widget, Gtk.Buildable {
     public Gtk.HeaderBar? title;
     private Gtk.Button back_button = new Gtk.Button ();
 
@@ -70,6 +70,10 @@ public class He.AppBar : Gtk.Box, Gtk.Buildable {
         });
         title.pack_start (back_button);
 
-        this.append (title);
+        title.set_parent (this);
+    }
+
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BoxLayout));
     }
 }
