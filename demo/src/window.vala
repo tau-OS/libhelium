@@ -119,33 +119,49 @@ public class Demo.MainWindow : He.ApplicationWindow {
     }
 
     public void action_about () {
-        const string COPYRIGHT = "Copyright \xc2\xa9 2022 Fyra Labs\n";
+        //  const string COPYRIGHT = "Copyright \xc2\xa9 2022 Fyra Labs\n";
 
-        const string? AUTHORS[] = {
-            "Lains",
-            "Lea",
-            null
-        };
+        //  const string? AUTHORS[] = {
+        //      "Lains",
+        //      "Lea",
+        //      null
+        //  };
 
-        const string? DESIGNERS[] = {
-            "Lains",
-            null
-        };
+        //  const string? DESIGNERS[] = {
+        //      "Lains",
+        //      null
+        //  };
 
-        Gtk.show_about_dialog (
-           this,
-           "program-name", "Helium Demo",
-           "logo-icon-name", "libhelium",
-           "version", Config.VERSION,
-           "comments", _("A demo of the tauOS Application Framework."),
-           "copyright", COPYRIGHT,
-           "authors", AUTHORS,
-           "artists", DESIGNERS,
-           "license-type", Gtk.License.GPL_3_0,
-           "wrap-license", false,
-           // TRANSLATORS: 'Name <email@domain.com>' or 'Name https://website.example'
-           "translator-credits", _("translator-credits"),
-           null
-        );
+        //  Gtk.show_about_dialog (
+        //     this,
+        //     "program-name", "Helium Demo",
+        //     "logo-icon-name", "libhelium",
+        //     "version", Config.VERSION,
+        //     "comments", _("A demo of the tauOS Application Framework."),
+        //     "copyright", COPYRIGHT,
+        //     "authors", AUTHORS,
+        //     "artists", DESIGNERS,
+        //     "license-type", Gtk.License.GPL_3_0,
+        //     "wrap-license", false,
+        //     // TRANSLATORS: 'Name <email@domain.com>' or 'Name https://website.example'
+        //     "translator-credits", _("translator-credits"),
+        //     null
+        //  );
+
+        new He.AboutWindow(
+            this,
+            "Helium Demo",
+            "co.tauos.Helium1.Demo",
+            Config.VERSION,
+            "icon",
+            "https:/fyralabs.com",
+            "https:/fyralabs.com",
+            "https:/fyralabs.com",
+            {"Lains", "Lea"},
+            {"Lains", "Lea"},
+            2022,
+            He.AboutWindow.Licenses.GPLv3,
+            He.Colors.PURPLE
+        ).present ();
     }
 }
