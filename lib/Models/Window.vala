@@ -53,5 +53,6 @@ public class He.Window : Gtk.Window {
 
     construct {
         has_title = false;
+        has_back_button = false;
     }
 }
