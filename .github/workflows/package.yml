@@ -6,25 +6,55 @@ on:
   workflow_dispatch:
   
 jobs:
-  build:
+  build-x86_64:
     uses: tau-OS/github-actions/.github/workflows/build-rpm.yml@main
     with:
       name: "libhelium"
-  sign:
+      buildVariant: x86_64
+  sign-x86_64:
     needs:
-      - build
+      - build-x86_64
     uses: tau-OS/github-actions/.github/workflows/sign-rpm.yml@main
     if: github.ref == 'refs/heads/main'
     with:
       name: "libhelium"
+      buildVariant: x86_64
     secrets:
       signingKey: ${{ secrets.GPG_PRIVATE_KEY }}
-  upload:
+  upload-x86_64:
     needs:
-      - sign
+      - sign-x86_64
     uses: tau-OS/github-actions/.github/workflows/upload-rpm.yml@main
     with:
       name: "libhelium"
       tauOSVersion: "1.1"
+      buildVariant: x86_64
+    secrets:
+      teleportIdentity: ${{ secrets.TELEPORT_IDENTITY }}
+
+  build-aarch64:
+    uses: tau-OS/github-actions/.github/workflows/build-rpm.yml@main
+    with:
+      name: "libhelium"
+      buildVariant: aarch64
+      runsOn: ARM64
+  sign-aarch64:
+    needs:
+      - build-aarch64
+    uses: tau-OS/github-actions/.github/workflows/sign-rpm.yml@main
+    if: github.ref == 'refs/heads/main'
+    with:
+      name: "libhelium"
+      buildVariant: aarch64
+    secrets:
+      signingKey: ${{ secrets.GPG_PRIVATE_KEY }}
+  upload-aarch64:
+    needs:
+      - sign-aarch64
+    uses: tau-OS/github-actions/.github/workflows/upload-rpm.yml@main
+    with:
+      name: "libhelium"
+      tauOSVersion: "1.1"
+      buildVariant: aarch64
     secrets:
       teleportIdentity: ${{ secrets.TELEPORT_IDENTITY }}
