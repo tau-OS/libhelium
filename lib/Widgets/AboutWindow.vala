@@ -207,7 +207,8 @@ public class He.AboutWindow : He.Window {
     license_box.append(license_link);
     
     text_box.append(license_box);
-    
+
+    button_box.valign = Gtk.Align.CENTER;
     button_box.homogeneous = true;
     button_box.append(translate_app_button);
     button_box.append(report_button);
