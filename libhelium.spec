@@ -65,11 +65,11 @@ rm -rf %{buildroot}%{_datadir}/themes/*
 %files
 %license licenses/LICENSE
 %doc README.md
-%{_libdir}/libHe-1.so.1*
+%{_libdir}/libhelium-1.so.1*
 %{_libdir}/girepository-1.0
 
 %files devel
-%{_libdir}/libHe-1.so.so*
+%{_libdir}/libhelium-1.so*
 %{_includedir}/*
 %{_datadir}/gir-1.0/*
 %{_libdir}/pkgconfig/*
