@@ -78,7 +78,7 @@ libhelium = library(
     ],
 
     vala_gir: libhelium_gir,
-    vala_header: 'libhelium-1.h',
+    vala_header: 'libhelium.h',
     vala_vapi: 'libhelium-1.vapi',
 
     version: libhelium_gi_version,
