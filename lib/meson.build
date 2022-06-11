@@ -46,8 +46,8 @@ libhelium_sources += files(
 )
 
 # define all the names and versions
-libhelium_gi_name = 'Helium'
-libhelium_gi_version = '1.0'
+libhelium_gi_name = 'He'
+libhelium_gi_version = '1'
 
 libhelium_gi = libhelium_gi_name + '-' + libhelium_gi_version
 libhelium_gir = libhelium_gi + '.gir'
