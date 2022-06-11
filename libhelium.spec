@@ -1,7 +1,7 @@
 Summary:        The Application Framework for tauOS apps
 Name:           libhelium
 Version:        1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        LGPLv2+
 URL:            https://tauos.co
 Source0:        %{name}-%{version}.tar.gz
@@ -65,11 +65,11 @@ rm -rf %{buildroot}%{_datadir}/themes/*
 %files
 %license licenses/LICENSE
 %doc README.md
-%{_libdir}/libhelium-1.0.so.1*
+%{_libdir}/libHe-1.so.1*
 %{_libdir}/girepository-1.0
 
 %files devel
-%{_libdir}/libhelium-1.0.so*
+%{_libdir}/libHe-1.so.so*
 %{_includedir}/*
 %{_datadir}/gir-1.0/*
 %{_libdir}/pkgconfig/*
