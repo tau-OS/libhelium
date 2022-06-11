@@ -77,7 +77,7 @@ libhelium = library(
         meson.get_compiler('vala').find_library('posix')
     ],
 
-    vala_gir: libhelium_gir',
+    vala_gir: libhelium_gir,
     vala_header: 'libhelium-1.h',
     vala_vapi: 'libhelium-1.vapi',
 
