@@ -1,6 +1,7 @@
 class He.Album : Gtk.Widget, Gtk.Buildable {
   private signal void children_updated();
   private signal void minimum_requested_width_changed();
+  private uint _tick_callback;
 
   private GLib.List<He.AlbumPageInterface> children = new GLib.List<He.AlbumPageInterface> ();
   private int minimum_requested_width = 0;
@@ -59,9 +60,14 @@ class He.Album : Gtk.Widget, Gtk.Buildable {
 
   private void update_folded() {
     // 200 is a magic number, but it seems to work well
-    if (this.get_width() < this.minimum_requested_width + 200 || 
-        this.get_width() < this.minimum_requested_width - 200 || 
-        this.get_width() <= this.minimum_requested_width ) {
+    //  if (this.get_width() < this.minimum_requested_width + 200 || 
+    //      this.get_width() < this.minimum_requested_width - 200 || 
+    //      this.get_width() <= this.minimum_requested_width ) {
+    //    this.folded = true;
+    //  } else {
+    //    this.folded = false;
+    //  }
+    if (this.get_width() < this.minimum_requested_width) {
       this.folded = true;
     } else {
       this.folded = false;
@@ -102,17 +108,17 @@ class He.Album : Gtk.Widget, Gtk.Buildable {
   }
 
   private void update_minimum_requested_width() {
-    var largest_width = 0;
+    var width = 0;
 
     foreach (var child in this.children) {
-      Gtk.Requisition req;
-      child.get_preferred_size(out req, null);
-      var child_width = req.width;
+      var min_width = 0;
+      child.measure(Gtk.Orientation.HORIZONTAL, -1, out min_width, null, null, null);
 
-      largest_width = child_width;
+      width += min_width;
     }
 
-    this.minimum_requested_width = (largest_width + 72) * ((this.children.position (this.children.last ()) - 2)); // -2 is the number of children that are not navigatable
+    this.minimum_requested_width = width;
+
     minimum_requested_width_changed();
   }
 
@@ -130,14 +136,8 @@ class He.Album : Gtk.Widget, Gtk.Buildable {
       update_folded();
     });
 
-    this.notify["parent"].connect(() => {
-      this.window = He.Misc.find_ancestor_of_type<He.Window>(this);
-      if (this.window == null) return;
-
-      this.window.notify["default-width"].connect(() => {
-        update_folded();
-        update_view();
-      });
+    this._tick_callback = this.add_tick_callback(() => {
+      update_folded();
     });
 
     update_minimum_requested_width();
@@ -152,6 +152,7 @@ class He.Album : Gtk.Widget, Gtk.Buildable {
   }
 
   ~Album() {
+    this.remove_tick_callback(this._tick_callback);
     this.main_stack.unparent();
   }
 }
