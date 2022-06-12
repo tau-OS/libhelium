@@ -33,6 +33,8 @@
           <li class="property"><a href="He.AppBar.stack.html">stack</a></li>
           <li class="creation_method"><a href="He.AppBar.AppBar.html">AppBar</a></li>
           <li class="method"><a href="He.AppBar.add_child.html">add_child</a></li>
+          <li class="method"><a href="He.AppBar.append.html">append</a></li>
+          <li class="method"><a href="He.AppBar.remove.html">remove</a></li>
           <li class="field"><a href="He.AppBar.title.html">title</a></li>
         </ul>
       </div>
@@ -48,6 +50,10 @@
 
         <h2 class="main_title">Description:</h2>
         <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span class="class">AppBar</span></b> : <span class="main_type"><span class="abstract_class">Widget</span></span>, <span class="main_type"><span class="interface">Buildable</span></span>
+        </div>
+        <div class="description">
+          <p>An AppBar is the header bar of an Window. It usually provides controls to manage the window, as well as optional children for more 
+            granular control.</p>
         </div><br/>
         <div class="namespace_note"><b>Namespace:</b> <a href="He.html">He</a>
         </div>
@@ -58,19 +64,19 @@
         <ul class="navi_inline">
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">bool</span></span> <b><a href="He.AppBar.flat.html" class="property">flat</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
             </span>
-            <div class="leaf_brief_description">
+            <div class="leaf_brief_description"><span class="brief_description">Whether the AppBar is flat, i.e. has no bottom border.</span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">bool</span></span> <b><a href="He.AppBar.show_back.html" class="property">show_back</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
             </span>
-            <div class="leaf_brief_description">
+            <div class="leaf_brief_description"><span class="brief_description">Whether the back button is shown.</span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">bool</span></span> <b><a href="He.AppBar.show_buttons.html" class="property">show_buttons</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
             </span>
-            <div class="leaf_brief_description">
+            <div class="leaf_brief_description"><span class="brief_description">Whether the close, minimize and maximize buttons are shown.</span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><span class="class">Stack</span></span> <b><a href="He.AppBar.stack.html" class="property">stack</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
             </span>
-            <div class="leaf_brief_description">
+            <div class="leaf_brief_description"><span class="brief_description">The stack that the AppBar is associated with.</span>
             </div></li>
         </ul>
         <h3 class="main_title">Creation methods:</h3>
@@ -84,14 +90,25 @@
         <ul class="navi_inline">
           <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">void</span> <b><a href="He.AppBar.add_child.html" class="method">add_child</a></b> (<span class="main_type"><span class="class">Builder</span></span> builder, <span class="main_type"><span class="class">Object</span></span> child, <span class="main_basic_type"><span class="class">string</span></span>? type)
             </span>
-            <div class="leaf_brief_description">
+            <div class="leaf_brief_description"><span class="brief_description">Add a child to the AppBar, should only be used in the context of a UI 
+                or Blueprint file. There should be no need to use this method in code. Please note that an AppBar should only have at most three 
+                children.</span>
+            </div></li>
+          <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">void</span> <b><a href="He.AppBar.append.html" class="method">append</a></b> (<span class="main_type"><span class="abstract_class">Widget</span></span> child)
+            </span>
+            <div class="leaf_brief_description"><span class="brief_description">Append a child to the AppBar. Please note that an AppBar should only 
+                have at most three children.</span>
+            </div></li>
+          <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">void</span> <b><a href="He.AppBar.remove.html" class="method">remove</a></b> (<span class="main_type"><span class="abstract_class">Widget</span></span> child)
+            </span>
+            <div class="leaf_brief_description"><span class="brief_description">Remove a child from the AppBar.</span>
             </div></li>
         </ul>
         <h3 class="main_title">Fields:</h3>
         <ul class="navi_inline">
           <li class="field"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><span class="class">HeaderBar</span></span>? <b><a href="He.AppBar.title.html" class="field">title</a></b>
             </span>
-            <div class="leaf_brief_description">
+            <div class="leaf_brief_description"><span class="brief_description">The title displayed in the AppBar.</span>
             </div></li>
         </ul>
         <h3 class="main_title">Inherited Members:</h3>
