@@ -5,10 +5,14 @@ public class He.Dialog : He.Window {
     private Gtk.Image image = new Gtk.Image();
     private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 24);
     private Gtk.Box button_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 24);
+    private Gtk.WindowHandle dialog_handle = new Gtk.WindowHandle ();
     private He.TintButton _secondary_button;
     private He.FillButton _primary_button;
-    private He.TextButton _cancel_button;
-    private Gtk.WindowHandle dialog_handle = new Gtk.WindowHandle ();
+
+    /**
+     * The cancel button in the dialog.
+     */
+    public He.TextButton _cancel_button;
 
     /**
      * Sets the title of the dialog.
