@@ -27,6 +27,7 @@
         </ul>
         <hr class="navi_hr"/>
         <ul class="navi_main">
+          <li class="virtual_property"><a href="He.IconicButton.color.html">color</a></li>
           <li class="property"><a href="He.IconicButton.icon.html">icon</a></li>
           <li class="creation_method"><a href="He.IconicButton.IconicButton.html">IconicButton</a></li>
         </ul>
@@ -38,11 +39,12 @@
         <img class="main_diagram" usemap="#He.IconicButton" alt="Object hierarchy for IconicButton" src="img/He.IconicButton.svg"/>
 
       <map id="He.IconicButton" name="He.IconicButton">
-<area shape="rect" id="node1" href="He.IconicButton.html" title="He.IconicButton" alt="" coords="428,389,571,437"/>
+<area shape="rect" id="node1" href="He.IconicButton.html" title="He.IconicButton" alt="" coords="428,485,571,533"/>
+<area shape="rect" id="node2" href="He.Button.html" title="He.Button" alt="" coords="451,389,548,437"/>
 </map>
 
         <h2 class="main_title">Description:</h2>
-        <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span class="class">IconicButton</span></b> : <span class="main_type"><span class="class">Button</span></span>, <span class="main_type"><span class="interface">Buildable</span></span>
+        <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span class="class">IconicButton</span></b> : <span class="main_type"><a href="He.Button.html" class="abstract_class">Button</a></span>
         </div>
         <div class="description">
           <p>An Iconic Button is used in a <a href="He.BottomBar.html" class="class">BottomBar</a> to display an action.</p>
@@ -54,6 +56,10 @@
         <h2 class="main_title">Content:</h2>
         <h3 class="main_title">Properties:</h3>
         <ul class="navi_inline">
+          <li class="virtual_property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">override</span> <span class="main_type"><a href="He.Colors.html" class="enum">Colors</a></span> <b><a href="He.IconicButton.color.html" class="virtual_property">color</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
+            </span>
+            <div class="leaf_brief_description"><span class="brief_description">The color of the button.</span>
+            </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span> <b><a href="He.IconicButton.icon.html" class="property">icon</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
             </span>
             <div class="leaf_brief_description"><span class="brief_description">The icon name to display.</span>
@@ -68,8 +74,27 @@
         </ul>
         <h3 class="main_title">Inherited Members:</h3>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-113')">All known members inherited from class Gtk.Button</div>
-          <div class="content" id="box-content-113">
+          <div class="headline" onclick="toggle_box (this, 'box-content-126')">All known members inherited from class He.Button</div>
+          <div class="content" id="box-content-126">
+            <div class="column">
+              <ul class="navi_inline">
+                <li class="abstract_property"><a href="He.Button.color.html">color</a></li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul class="navi_inline">
+                <li class="property"><a href="He.Button.icon.html">icon</a></li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul class="navi_inline">
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="headline" onclick="toggle_box (this, 'box-content-127')">All known members inherited from class Gtk.Button</div>
+          <div class="content" id="box-content-127">
             <div class="column">
               <ul class="navi_inline">
                 <li class="signal">activate</li>
@@ -102,8 +127,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-114')">All known members inherited from class Gtk.Widget</div>
-          <div class="content" id="box-content-114">
+          <div class="headline" onclick="toggle_box (this, 'box-content-128')">All known members inherited from class Gtk.Widget</div>
+          <div class="content" id="box-content-128">
             <div class="column">
               <ul class="navi_inline">
                 <li class="method">action_set_enabled</li>
@@ -343,8 +368,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-115')">All known members inherited from class GLib.Object</div>
-          <div class="content" id="box-content-115">
+          <div class="headline" onclick="toggle_box (this, 'box-content-129')">All known members inherited from class GLib.Object</div>
+          <div class="content" id="box-content-129">
             <div class="column">
               <ul class="navi_inline">
                 <li class="method">@get</li>
@@ -410,8 +435,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-116')">All known members inherited from interface Gtk.Buildable</div>
-          <div class="content" id="box-content-116">
+          <div class="headline" onclick="toggle_box (this, 'box-content-130')">All known members inherited from interface Gtk.Buildable</div>
+          <div class="content" id="box-content-130">
             <div class="column">
               <ul class="navi_inline">
                 <li class="abstract_method">add_child</li>
@@ -437,8 +462,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-117')">All known members inherited from interface Gtk.Accessible</div>
-          <div class="content" id="box-content-117">
+          <div class="headline" onclick="toggle_box (this, 'box-content-131')">All known members inherited from interface Gtk.Accessible</div>
+          <div class="content" id="box-content-131">
             <div class="column">
               <ul class="navi_inline">
                 <li class="abstract_property">accessible_role</li>
@@ -465,8 +490,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-118')">All known members inherited from interface Gtk.Actionable</div>
-          <div class="content" id="box-content-118">
+          <div class="headline" onclick="toggle_box (this, 'box-content-132')">All known members inherited from interface Gtk.Actionable</div>
+          <div class="content" id="box-content-132">
             <div class="column">
               <ul class="navi_inline">
                 <li class="abstract_property">action_name</li>

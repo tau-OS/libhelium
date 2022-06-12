@@ -27,6 +27,7 @@
         </ul>
         <hr class="navi_hr"/>
         <ul class="navi_main">
+          <li class="virtual_property"><a href="He.Chip.color.html">color</a></li>
           <li class="creation_method"><a href="He.Chip.Chip.html">Chip</a></li>
         </ul>
       </div>
@@ -37,11 +38,12 @@
         <img class="main_diagram" usemap="#He.Chip" alt="Object hierarchy for Chip" src="img/He.Chip.svg"/>
 
       <map id="He.Chip" name="He.Chip">
-<area shape="rect" id="node1" href="He.Chip.html" title="He.Chip" alt="" coords="399,389,482,437"/>
+<area shape="rect" id="node1" href="He.Chip.html" title="He.Chip" alt="" coords="458,485,541,533"/>
+<area shape="rect" id="node2" href="He.Button.html" title="He.Button" alt="" coords="451,389,548,437"/>
 </map>
 
         <h2 class="main_title">Description:</h2>
-        <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span class="class">Chip</span></b> : <span class="main_type"><span class="class">Button</span></span>
+        <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span class="class">Chip</span></b> : <span class="main_type"><a href="He.Button.html" class="abstract_class">Button</a></span>
         </div>
         <div class="description">
           <p>A Chip is an element that can facilitate entering information, making selections, filtering content, or triggering actions.</p>
@@ -51,6 +53,13 @@
         <div class="package_note"><b>Package:</b> <a href="index.htm">libhelium</a>
         </div>
         <h2 class="main_title">Content:</h2>
+        <h3 class="main_title">Properties:</h3>
+        <ul class="navi_inline">
+          <li class="virtual_property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">override</span> <span class="main_type"><a href="He.Colors.html" class="enum">Colors</a></span> <b><a href="He.Chip.color.html" class="virtual_property">color</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
+            </span>
+            <div class="leaf_brief_description"><span class="brief_description">The color of the button.</span>
+            </div></li>
+        </ul>
         <h3 class="main_title">Creation methods:</h3>
         <ul class="navi_inline">
           <li class="creation_method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <b><a href="He.Chip.Chip.html" class="creation_method">Chip</a></b> (<span class="main_basic_type"><span class="class">string</span></span> label)
@@ -60,8 +69,27 @@
         </ul>
         <h3 class="main_title">Inherited Members:</h3>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-63')">All known members inherited from class Gtk.Button</div>
-          <div class="content" id="box-content-63">
+          <div class="headline" onclick="toggle_box (this, 'box-content-71')">All known members inherited from class He.Button</div>
+          <div class="content" id="box-content-71">
+            <div class="column">
+              <ul class="navi_inline">
+                <li class="abstract_property"><a href="He.Button.color.html">color</a></li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul class="navi_inline">
+                <li class="property"><a href="He.Button.icon.html">icon</a></li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul class="navi_inline">
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="headline" onclick="toggle_box (this, 'box-content-72')">All known members inherited from class Gtk.Button</div>
+          <div class="content" id="box-content-72">
             <div class="column">
               <ul class="navi_inline">
                 <li class="signal">activate</li>
@@ -94,8 +122,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-64')">All known members inherited from class Gtk.Widget</div>
-          <div class="content" id="box-content-64">
+          <div class="headline" onclick="toggle_box (this, 'box-content-73')">All known members inherited from class Gtk.Widget</div>
+          <div class="content" id="box-content-73">
             <div class="column">
               <ul class="navi_inline">
                 <li class="method">action_set_enabled</li>
@@ -335,8 +363,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-65')">All known members inherited from class GLib.Object</div>
-          <div class="content" id="box-content-65">
+          <div class="headline" onclick="toggle_box (this, 'box-content-74')">All known members inherited from class GLib.Object</div>
+          <div class="content" id="box-content-74">
             <div class="column">
               <ul class="navi_inline">
                 <li class="method">@get</li>
@@ -402,8 +430,35 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-66')">All known members inherited from interface Gtk.Accessible</div>
-          <div class="content" id="box-content-66">
+          <div class="headline" onclick="toggle_box (this, 'box-content-75')">All known members inherited from interface Gtk.Buildable</div>
+          <div class="content" id="box-content-75">
+            <div class="column">
+              <ul class="navi_inline">
+                <li class="abstract_method">add_child</li>
+                <li class="abstract_method">custom_finished</li>
+                <li class="abstract_method">custom_tag_end</li>
+                <li class="abstract_method">custom_tag_start</li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul class="navi_inline">
+                <li class="method">get_buildable_id</li>
+                <li class="abstract_method">get_id</li>
+                <li class="abstract_method">get_internal_child</li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul class="navi_inline">
+                <li class="abstract_method">parser_finished</li>
+                <li class="abstract_method">set_buildable_property</li>
+                <li class="abstract_method">set_id</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="headline" onclick="toggle_box (this, 'box-content-76')">All known members inherited from interface Gtk.Accessible</div>
+          <div class="content" id="box-content-76">
             <div class="column">
               <ul class="navi_inline">
                 <li class="abstract_property">accessible_role</li>
@@ -430,8 +485,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-67')">All known members inherited from interface Gtk.Actionable</div>
-          <div class="content" id="box-content-67">
+          <div class="headline" onclick="toggle_box (this, 'box-content-77')">All known members inherited from interface Gtk.Actionable</div>
+          <div class="content" id="box-content-77">
             <div class="column">
               <ul class="navi_inline">
                 <li class="abstract_property">action_name</li>
@@ -450,33 +505,6 @@
               <ul class="navi_inline">
                 <li class="abstract_method">set_action_target_value</li>
                 <li class="method">set_detailed_action_name</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-68')">All known members inherited from interface Gtk.Buildable</div>
-          <div class="content" id="box-content-68">
-            <div class="column">
-              <ul class="navi_inline">
-                <li class="abstract_method">add_child</li>
-                <li class="abstract_method">custom_finished</li>
-                <li class="abstract_method">custom_tag_end</li>
-                <li class="abstract_method">custom_tag_start</li>
-              </ul>
-            </div>
-            <div class="column">
-              <ul class="navi_inline">
-                <li class="method">get_buildable_id</li>
-                <li class="abstract_method">get_id</li>
-                <li class="abstract_method">get_internal_child</li>
-              </ul>
-            </div>
-            <div class="column">
-              <ul class="navi_inline">
-                <li class="abstract_method">parser_finished</li>
-                <li class="abstract_method">set_buildable_property</li>
-                <li class="abstract_method">set_id</li>
               </ul>
             </div>
           </div>
