@@ -12,7 +12,7 @@ public class He.Dialog : He.Window {
     /**
      * The cancel button in the dialog.
      */
-    public He.TextButton _cancel_button;
+    public He.TextButton cancel_button;
 
     /**
      * Sets the title of the dialog.
