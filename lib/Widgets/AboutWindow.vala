@@ -217,8 +217,11 @@ public class He.AboutWindow : He.Window {
     more_info_button.clicked.connect(() => {
       Gtk.show_uri_full.begin(this.parent, more_info_url, Gdk.CURRENT_TIME, null);
     });
+
+    var window_handle = new Gtk.WindowHandle ();
+    window_handle.set_child (window_overlay);
     
-    this.set_child(window_overlay);
+    this.set_child(window_handle);
   }
 
   ~AboutWindow() {

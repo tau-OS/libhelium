@@ -34,6 +34,7 @@ public class He.ViewAux : He.View {
     }
 
     construct {
+        box.hexpand = true;
         box.append (left_box);
 
         var separator = new Gtk.Separator (Gtk.Orientation.VERTICAL);
@@ -48,8 +49,6 @@ public class He.ViewAux : He.View {
         revealer.set_transition_type (Gtk.RevealerTransitionType.CROSSFADE);
         revealer.set_child (right_box);
         box.append (revealer_box);
-
-        box.set_size_request (200, -1);
         
         this.add (box);
     }
