@@ -75,7 +75,7 @@ public class He.Dialog : He.Window {
 
             _secondary_button = value;
             button_box.prepend(_secondary_button);
-            button_box.reorder_child_after (_secondary_button, _cancel_button);
+            button_box.reorder_child_after (_secondary_button, cancel_button);
         }
 
         get {
@@ -162,7 +162,7 @@ public class He.Dialog : He.Window {
         });
 
         button_box.homogeneous = true;
-        button_box.append (_cancel_button);
+        button_box.append (cancel_button);
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 24);
         main_box.vexpand = true;
