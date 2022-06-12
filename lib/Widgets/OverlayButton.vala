@@ -1,7 +1,7 @@
 /**
  * An OverlayButton is a widget that can be used to show action buttons above the widget that is being overlaid.
  */
-public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
+public class He.OverlayButton : He.Bin, Gtk.Buildable {
     private Gtk.Button button = new Gtk.Button();
     private Gtk.Box button_content = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box button_row = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 18);
@@ -224,7 +224,7 @@ public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
     /**
     * Add a child to the overlay button, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
     */
-    public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+    public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         this.child = (Gtk.Widget) child;
     }
 

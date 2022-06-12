@@ -1,7 +1,7 @@
 /**
  * A ContentBlock displays a single block of content, which contains an icon, text and optional buttons.
  */
-public class He.ContentBlock : Gtk.Widget, Gtk.Buildable {
+public class He.ContentBlock : He.Bin, Gtk.Buildable {
     private Gtk.Label title_label = new Gtk.Label(null);
     private Gtk.Label subtitle_label = new Gtk.Label(null);
     private Gtk.Image image = new Gtk.Image();

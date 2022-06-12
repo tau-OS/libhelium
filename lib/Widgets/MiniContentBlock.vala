@@ -1,7 +1,7 @@
 /**
 * A MiniContentBlock is a content block that is used to display content in a small area.
 */
-public class He.MiniContentBlock : Gtk.Widget {
+public class He.MiniContentBlock : He.Bin {
     private Gtk.Label title_label = new Gtk.Label(null);
     private Gtk.Label subtitle_label = new Gtk.Label(null);
     private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 6);

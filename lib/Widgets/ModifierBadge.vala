@@ -1,7 +1,7 @@
 /**
  * A ModiferBadge is a badge that can be used to show that the state of something has changed.
  */
-public class He.ModifierBadge : Gtk.Widget {
+public class He.ModifierBadge : He.Bin {
     private Gtk.Label _label;
     private He.Colors _color;
 

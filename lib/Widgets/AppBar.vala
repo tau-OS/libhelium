@@ -1,7 +1,7 @@
 /**
 * An AppBar is the header bar of an Window. It usually provides controls to manage the window, as well as optional children for more granular control.
 */
-public class He.AppBar : Gtk.Widget, Gtk.Buildable {
+public class He.AppBar : He.Bin {
     /**
     * The title displayed in the AppBar.
     */
@@ -72,7 +72,7 @@ public class He.AppBar : Gtk.Widget, Gtk.Buildable {
     * Add a child to the AppBar, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
     * Please note that an AppBar should only have at most three children.
     */
-    public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+    public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         title.pack_end ((Gtk.Widget)child);
     }
 

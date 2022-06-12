@@ -1,7 +1,7 @@
 /**
  * A ViewSwitcher is a switcher that controls a stack's views.
  */
-public class He.ViewSwitcher : Gtk.Widget {
+public class He.ViewSwitcher : He.Bin {
     private Gtk.SelectionModel _stack_pages;
     private List<Gtk.ToggleButton> _buttons;
 

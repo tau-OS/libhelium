@@ -1,4 +1,4 @@
-public class He.Toast : Gtk.Widget {
+public class He.Toast : He.Bin {
     /**
      * Emitted when the Toast is closed by activating the close button
      */

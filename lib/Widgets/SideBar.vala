@@ -1,7 +1,7 @@
 /**
 * A SideBar is a complementary component containing its own AppBar, title, subtitle, and elements.
 */
-public class He.SideBar : Gtk.Widget, Gtk.Buildable {
+public class He.SideBar : He.Bin, Gtk.Buildable {
     private He.AppBar titlebar = new He.AppBar();
     private He.ViewTitle title_label = new He.ViewTitle();
     private He.ViewSubTitle subtitle_label = new He.ViewSubTitle();
@@ -89,7 +89,7 @@ public class He.SideBar : Gtk.Widget, Gtk.Buildable {
     /**
     * Add a child to the sidebar, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
     */
-    public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+    public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (type == "titlebar-button") {
             titlebar.title.pack_end ((Gtk.Widget) child);
         } else {

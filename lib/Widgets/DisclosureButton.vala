@@ -1,8 +1,22 @@
-public class He.DisclosureButton : Gtk.Button, Gtk.Buildable {
+public class He.DisclosureButton : He.Button {
+  private He.Colors _color;
+  /**
+   * The color of the button.
+   */
+  public override He.Colors color {
+      set {
+          _color = He.Colors.NONE;
+      }
+
+      get {
+          return _color;
+      }
+  }
+
   /**
    * Sets the icon of the button.
    */
-  public string icon {
+  public new string icon {
     get {
       return this.get_icon_name ();
     }

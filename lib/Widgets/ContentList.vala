@@ -1,4 +1,4 @@
-public class He.ContentList : Gtk.Widget, Gtk.Buildable {
+public class He.ContentList : He.Bin, Gtk.Buildable {
     private Gtk.Box text_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
     private Gtk.ListBox list = new Gtk.ListBox ();
 
@@ -24,7 +24,7 @@ public class He.ContentList : Gtk.Widget, Gtk.Buildable {
     /**
      * Adds a new item to the content list, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
      */
-    public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+    public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (((Gtk.Widget) child).get_type () == typeof (He.ContentBlock)) {
             list.append ((Gtk.Widget) child);
         } else if (((Gtk.Widget) child).get_type () == typeof (He.MiniContentBlock)) {

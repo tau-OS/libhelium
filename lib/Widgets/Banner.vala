@@ -1,4 +1,4 @@
-public class He.Banner : Gtk.Widget, Gtk.Buildable {
+public class He.Banner : He.Bin, Gtk.Buildable {
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box text_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
     private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
@@ -26,7 +26,7 @@ public class He.Banner : Gtk.Widget, Gtk.Buildable {
         ERROR
     }
   
-    public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+    public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (strcmp (type, "action") == 0) {
             add_action_button ((Gtk.Widget) child);
         } else {

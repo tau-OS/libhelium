@@ -1,7 +1,7 @@
 /**
  * A ViewSubTitle is a view's subtitle.
  */
-public class He.ViewSubTitle : Gtk.Widget, Gtk.Buildable {
+public class He.ViewSubTitle : He.Bin, Gtk.Buildable {
     private Gtk.Label? _label;
     /**
      * Sets the subtitle text.

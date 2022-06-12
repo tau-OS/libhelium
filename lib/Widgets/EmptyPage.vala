@@ -1,7 +1,7 @@
 /**
  * An EmptyPage is a page that is used to display a message and a button when there is no data to display.
  */
-public class He.EmptyPage : Gtk.Widget {
+public class He.EmptyPage : He.Bin {
     private string _title;
     private string _description;
     private string _icon;

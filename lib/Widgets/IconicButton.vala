@@ -1,17 +1,31 @@
 /**
  * An Iconic Button is used in a {@link BottomBar} to display an action.
  */
-public class He.IconicButton : Gtk.Button, Gtk.Buildable {
+public class He.IconicButton : He.Button {
   /**
    * The icon name to display.
    */
-  public string icon {
+  public new string icon {
     get {
       return this.get_icon_name ();
     }
     set {
       this.set_icon_name (value);
     }
+  }
+
+  private He.Colors _color;
+  /**
+   * The color of the button.
+   */
+  public override He.Colors color {
+      set {
+          _color = He.Colors.NONE;
+      }
+
+      get {
+          return _color;
+      }
   }
 
   /**
@@ -25,5 +39,6 @@ public class He.IconicButton : Gtk.Button, Gtk.Buildable {
   construct {
     this.add_css_class ("flat");
     this.valign = Gtk.Align.CENTER;
+    this.color = He.Colors.NONE;
   }
 }

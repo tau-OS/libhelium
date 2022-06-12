@@ -5,10 +5,11 @@ namespace He {
     
         // Ensure all classes listed here are available for use.
         // Remove only if the class is not needed anymore.
-        typeof (He.AppBar).ensure ();
         typeof (He.AboutWindow).ensure ();
+        typeof (He.AppBar).ensure ();
         typeof (He.ApplicationWindow).ensure ();
         typeof (He.Badge).ensure ();
+        typeof (He.Bin).ensure ();
         typeof (He.BottomBar).ensure ();
         typeof (He.Button).ensure ();
         typeof (He.Chip).ensure ();
@@ -34,8 +35,8 @@ namespace He {
         typeof (He.Toast).ensure ();
         typeof (He.View).ensure ();
         typeof (He.ViewAux).ensure ();
-        typeof (He.ViewMono).ensure ();
         typeof (He.ViewDual).ensure ();
+        typeof (He.ViewMono).ensure ();
         typeof (He.ViewSubTitle).ensure ();
         typeof (He.ViewSwitcher).ensure ();
         typeof (He.ViewTitle).ensure ();
