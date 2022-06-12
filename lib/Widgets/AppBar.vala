@@ -72,7 +72,7 @@ public class He.AppBar : He.Bin {
     * Add a child to the AppBar, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
     * Please note that an AppBar should only have at most three children.
     */
-    public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+    public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         title.pack_end ((Gtk.Widget)child);
     }
 
