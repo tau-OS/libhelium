@@ -5,13 +5,7 @@ class He.Album : Gtk.Widget, Gtk.Buildable {
 
   private GLib.List<He.AlbumPageInterface> children = new GLib.List<He.AlbumPageInterface> ();
   private int minimum_requested_width = 0;
-  private bool _folded = false;
-  public bool folded {
-    get { return _folded; }
-    set {
-      _folded = value;
-    }
-  }
+  public bool folded { get; set; default = false; }
   private He.Window window { get; set; }
 
   private Gtk.Box _box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -59,15 +53,7 @@ class He.Album : Gtk.Widget, Gtk.Buildable {
   }
 
   private void update_folded() {
-    // 200 is a magic number, but it seems to work well
-    //  if (this.get_width() < this.minimum_requested_width + 200 || 
-    //      this.get_width() < this.minimum_requested_width - 200 || 
-    //      this.get_width() <= this.minimum_requested_width ) {
-    //    this.folded = true;
-    //  } else {
-    //    this.folded = false;
-    //  }
-    if (this.get_width() < this.minimum_requested_width) {
+    if (this.get_width() < this.minimum_requested_width + 200 || this.get_width() < this.minimum_requested_width - 200 ||  this.get_width() <= this.minimum_requested_width) {
       this.folded = true;
     } else {
       this.folded = false;
@@ -75,7 +61,7 @@ class He.Album : Gtk.Widget, Gtk.Buildable {
   }
 
   private void update_view() {
-    if (this._folded) {
+    if (this.folded) {
       main_stack.set_visible_child (_stack);
       foreach (var child in this.children) {
         if (this._box != null) {
@@ -129,20 +115,21 @@ class He.Album : Gtk.Widget, Gtk.Buildable {
   construct {
     this.children_updated.connect(() => {
       update_minimum_requested_width();
-      update_view();
-    });
-
-    this.minimum_requested_width_changed.connect(() => {
-      update_folded();
     });
 
     this._tick_callback = this.add_tick_callback(() => {
       update_folded();
+
+      return true;
     });
 
-    update_minimum_requested_width();
-    update_folded();
+    this.notify["folded"].connect(() => {
+      update_view();
+    });
+
     update_view();
+
+    update_minimum_requested_width();
 
     main_stack.add_child(this._box);
     main_stack.add_child(this._stack);
