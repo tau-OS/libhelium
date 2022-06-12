@@ -1,3 +1,6 @@
+/**
+* A FillButton is a solid button with a label. It is more round and larger than a FillButton.
+*/
 public class He.PillButton : He.Button {
     private He.Colors _color;
 
@@ -14,6 +17,10 @@ public class He.PillButton : He.Button {
         }
     }
 
+    /**
+    * Creates a new PillButton.
+    * @param label The label of the button.
+    */
     public PillButton(string label) {
         this.label = label;
     }

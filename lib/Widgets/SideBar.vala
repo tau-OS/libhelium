@@ -1,9 +1,15 @@
+/**
+* A SideBar is a complementary component containing its own AppBar, title, subtitle, and elements.
+*/
 public class He.SideBar : Gtk.Widget, Gtk.Buildable {
     private He.AppBar titlebar = new He.AppBar();
     private He.ViewTitle title_label = new He.ViewTitle();
     private He.ViewSubTitle subtitle_label = new He.ViewSubTitle();
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
+    /**
+    * The title of the SideBar.
+    */
     public string title {
         get {
             return title_label.label;
@@ -13,6 +19,9 @@ public class He.SideBar : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+    * The subtitle of the SideBar.
+    */
     public string subtitle {
         get {
             return subtitle_label.label;
@@ -23,6 +32,9 @@ public class He.SideBar : Gtk.Widget, Gtk.Buildable {
     }
 
     private bool _show_buttons;
+    /**
+    * Whether the SideBar should show the buttons.
+    */
     public bool show_buttons {
         get {
             return _show_buttons;
@@ -35,6 +47,9 @@ public class He.SideBar : Gtk.Widget, Gtk.Buildable {
     }
 
     private bool _show_back;
+    /**
+    * Whether the back button should be shown.
+    */
     public bool show_back {
         get {
             return _show_back;
@@ -47,6 +62,9 @@ public class He.SideBar : Gtk.Widget, Gtk.Buildable {
     }
 
     private Gtk.Stack _stack;
+    /**
+    * The stack that the SideBar's AppBar is attached to.
+    */
     public Gtk.Stack stack {
         get {
             return _stack;
@@ -58,11 +76,19 @@ public class He.SideBar : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+    * Create a new SideBar.
+    * @param title The title of the SideBar.
+    * @param subtitle The subtitle of the SideBar.
+    */
     public SideBar(string title, string subtitle) {
         this.title = title;
         this.subtitle = subtitle;
     }
 
+    /**
+    * Add a child to the sidebar, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+    */
     public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (type == "titlebar-button") {
             titlebar.title.pack_end ((Gtk.Widget) child);

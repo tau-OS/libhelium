@@ -1,3 +1,6 @@
+/**
+* A TintButton is similar to a FillButton, except that the color of the button has a tinted appearance. In addition, the TintButton also support icons.
+*/
 public class He.TintButton : He.Button {
     private He.Colors _color;
 
@@ -14,10 +17,18 @@ public class He.TintButton : He.Button {
         }
     }
 
+    /**
+    * Create a new TintButton.
+    * @param label The text to display on the button.
+    */
     public TintButton(string label) {
         this.label = label;
     }
 
+    /**
+    * Create a new TintButton from an icon.
+    * @param icon The icon to display on the button.
+    */
     public TintButton.from_icon(string icon) {
         this.icon = icon;
     }

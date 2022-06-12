@@ -1,3 +1,6 @@
+/**
+* An AboutWindow is a window that displays information about the application.
+*/
 public class He.AboutWindow : He.Window {
   private He.AppBar app_bar = new He.AppBar();
   private Gtk.Overlay window_overlay = new Gtk.Overlay();
@@ -29,6 +32,9 @@ public class He.AboutWindow : He.Window {
 
   private He.ModifierBadge version_badge = new He.ModifierBadge ("");
 
+  /**
+  * An enum of commonly used licenses to be used in AboutWindow.
+  */
   public enum Licenses {
     GPLv3,
     MIT,
@@ -38,6 +44,9 @@ public class He.AboutWindow : He.Window {
     WTFPL,
     PROPRIETARY;
 
+    /**
+    * Returns the license url for the license.
+    */
     public string get_url() {
       switch (this) {
         case Licenses.GPLv3:
@@ -59,6 +68,9 @@ public class He.AboutWindow : He.Window {
       }
     }
 
+    /**
+    * Returns the license name for the license.
+    */
     public string get_name() {
       switch (this) {
         case Licenses.GPLv3:
@@ -82,6 +94,10 @@ public class He.AboutWindow : He.Window {
   }
 
   private He.Colors _color;
+
+  /**
+  * The theme color of the AboutWindow.
+  */
   public He.Colors color {
     get {
       return _color;
@@ -99,6 +115,9 @@ public class He.AboutWindow : He.Window {
 
 
   private Licenses _license;
+  /**
+  * The license shown in the AboutWindow.
+  */
   public Licenses license {
     get { return _license; }
     set {
@@ -108,22 +127,34 @@ public class He.AboutWindow : He.Window {
     }
   }
 
+  /**
+  * The version shown in the AboutWindow.
+  */
   public string version {
     get { return version_badge.label; }
     set { version_badge.label = value; }
   }
 
+  /**
+  * The name of the application shown in the AboutWindow.
+  */
   public string app_name {
     get { return title_label.get_text (); }
     set { title_label.set_text (value); }
   }
 
+  /**
+    The icon shown in the AboutWindow.
+  */
   public string icon {
     get { return icon_image.get_icon_name (); }
     set { icon_image.set_from_icon_name (value); }
   }
 
   private string[] translators;
+  /**
+  * The translators shown in the AboutWindow.
+  */
   public string[] translator_names {
     get { return translators; }
     set { 
@@ -133,6 +164,9 @@ public class He.AboutWindow : He.Window {
   }
 
   private string[] developers;
+  /**
+  * The developers shown in the AboutWindow.
+  */
   public string[] developer_names {
     get { return developers; }
     set { 
@@ -142,6 +176,9 @@ public class He.AboutWindow : He.Window {
   }
 
   private int _copyright_year;
+  /**
+  * The copyright year shown in the AboutWindow.
+  */
   public int copyright_year {
     get { return _copyright_year; }
     set {
@@ -150,9 +187,22 @@ public class He.AboutWindow : He.Window {
     }
   }
 
+
+  /**
+  * Your application's reverse-domain name.
+  */
   public string app_id;
+  /**
+  * A URL where contributors can help translate the application.
+  */
   public string translate_url;
+  /**
+  * A URL where users can report a problem with the application.
+  */
   public string issue_url;
+  /**
+  * A URL where users can get more information about the application.
+  */
   public string more_info_url;
 
   construct {
@@ -229,6 +279,22 @@ public class He.AboutWindow : He.Window {
     this.window_overlay.dispose();
   }
 
+  /**
+  * Creates a new AboutWindow.
+  * @param parent The parent window.
+  * @param app_name Your application's name.
+  * @param app_id Your application's reverse-domain name.
+  * @param version Your application's version.
+  * @param icon Your application's icon.
+  * @param translate_url A URL where contributors can help translate the application.
+  * @param issue_url A URL where users can report a problem with the application.
+  * @param more_info_url A URL where users can get more information about the application.
+  * @param translators Your application's translators.
+  * @param developers Your application's developers.
+  * @param copyright_year Your application's copyright year.  
+  * @param license Your application's license.
+  * @param color The color of the AboutWindow.
+  */
   public AboutWindow(
     Gtk.Window parent,
     string app_name,
@@ -259,5 +325,3 @@ public class He.AboutWindow : He.Window {
     this.color = color;
   }
 }
-
-// TODO: FIX THE FUCKING LINK

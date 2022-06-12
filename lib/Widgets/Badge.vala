@@ -1,8 +1,14 @@
+/**
+* A Badge is a small status indicator that can be used to provide additional information about an object.
+*/
 public class He.Badge : Gtk.Widget,  Gtk.Buildable {
     private Gtk.Overlay overlay = new Gtk.Overlay ();
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Label _label;
 
+    /**
+    * The child of the badge.
+    */
     public Gtk.Widget? child {
         get {
             return overlay.get_child();
@@ -13,6 +19,9 @@ public class He.Badge : Gtk.Widget,  Gtk.Buildable {
         }
     }
 
+    /**
+    * Add a child to the badge, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+    */
   public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
     this.child = (Gtk.Widget) child;
   }

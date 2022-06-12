@@ -1,3 +1,6 @@
+/**
+* A TextButton is a button that displays text. It has a transparent background.
+*/
 public class He.TextButton : He.Button {
   private He.Colors _color;
 
@@ -14,10 +17,18 @@ public class He.TextButton : He.Button {
       }
   }
 
+  /**
+  * Creates a new TextButton.
+  * @param label The text to display on the button.
+  */
   public TextButton(string label) {
       this.label = label;
   }
 
+  /**
+  * Creates a new TextButton from an icon.
+  * @param icon The icon to display on the button.
+  */
   public TextButton.from_icon(string icon) {
     this.icon = icon;
   }

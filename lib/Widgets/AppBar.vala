@@ -1,8 +1,17 @@
+/**
+* An AppBar is the header bar of an Window. It usually provides controls to manage the window, as well as optional children for more granular control.
+*/
 public class He.AppBar : Gtk.Widget, Gtk.Buildable {
+    /**
+    * The title displayed in the AppBar.
+    */
     public Gtk.HeaderBar? title;
     private Gtk.Button back_button = new Gtk.Button ();
 
     private Gtk.Stack _stack;
+    /**
+    * The stack that the AppBar is associated with.
+    */
     public Gtk.Stack stack {
         get { return this._stack; }
         set {
@@ -11,6 +20,9 @@ public class He.AppBar : Gtk.Widget, Gtk.Buildable {
     }
 
     private bool _flat;
+    /**
+    * Whether the AppBar is flat, i.e. has no bottom border.
+    */
     public bool flat {
         get {
             return _flat;
@@ -27,6 +39,9 @@ public class He.AppBar : Gtk.Widget, Gtk.Buildable {
     }
 
     private bool _show_buttons;
+    /**
+    * Whether the close, minimize and maximize buttons are shown.
+    */
     public bool show_buttons {
         get {
             return _show_buttons;
@@ -39,6 +54,9 @@ public class He.AppBar : Gtk.Widget, Gtk.Buildable {
     }
 
     private bool _show_back;
+    /**
+    * Whether the back button is shown.
+    */
     public bool show_back {
         get {
             return _show_back;
@@ -50,8 +68,29 @@ public class He.AppBar : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+    * Add a child to the AppBar, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+    * Please note that an AppBar should only have at most three children.
+    */
     public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         title.pack_end ((Gtk.Widget)child);
+    }
+
+    /**
+    * Append a child to the AppBar.
+    * Please note that an AppBar should only have at most three children.
+    * @param child The child to append.
+    */
+    public void append(Gtk.Widget child) {
+        title.pack_end (child);
+    }
+
+    /**
+    * Remove a child from the AppBar.
+    * @param child The child to remove.
+    */
+    public void remove(Gtk.Widget child) {
+        title.remove (child);
     }
 
     construct {

@@ -1,3 +1,6 @@
+/**
+* A WelcomeScreen is a screen that presents options and actions before displaying the main application.
+*/
 public class He.WelcomeScreen : Gtk.Widget, Gtk.Buildable {
     private Gtk.Box action_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
     private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
@@ -6,6 +9,9 @@ public class He.WelcomeScreen : Gtk.Widget, Gtk.Buildable {
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
 
     private string _appname;
+    /**
+    * The name of the application.
+    */
     public string appname {
         get { return _appname; }
         set {
@@ -16,6 +22,9 @@ public class He.WelcomeScreen : Gtk.Widget, Gtk.Buildable {
     }
 
     private string _description;
+    /**
+    * The application description.
+    */
     public string description {
         get { return _description; }
         set {
@@ -25,6 +34,9 @@ public class He.WelcomeScreen : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+    * Add a child to the welcome screen, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+    */
     public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (type == "action") {
             ((Gtk.Button) child).set_label (((Gtk.Button) child).get_label () + " →");
@@ -34,6 +46,11 @@ public class He.WelcomeScreen : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+    * Construct a new WelcomeScreen.
+    * @param appname The name of the application.
+    * @param description The application description.
+    */
     public WelcomeScreen (string appname, string description) {
         this.appname = appname;
         this.description = description;

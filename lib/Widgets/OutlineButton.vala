@@ -1,3 +1,6 @@
+/**
+* An Outline button is a transparent FillButton with a border.
+*/
 public class He.OutlineButton : He.Button {
     private He.Colors _color;
 
@@ -14,6 +17,10 @@ public class He.OutlineButton : He.Button {
         }
     }
 
+    /**
+    * Creates a new OutlineButton.
+    * @param label The label of the button.
+    */
     public OutlineButton(string label) {
         this.label = label;
     }
