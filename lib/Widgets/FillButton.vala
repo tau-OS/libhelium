@@ -4,6 +4,9 @@
 public class He.FillButton : He.Button {
     private He.Colors _color;
 
+    /**
+     * The color of the button.
+     */
     public override He.Colors color {
         set {
             if (_color != He.Colors.NONE) this.remove_css_class (_color.to_css_class());

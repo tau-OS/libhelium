@@ -1,3 +1,6 @@
+/**
+ * A ContentBlockImageCluster is a cluster of images that are rendered together in the same content block.
+ */
 public class He.ContentBlockImageCluster : Gtk.Box, Gtk.Buildable {
   private Gtk.Label title_label = new Gtk.Label(null);
   private Gtk.Label subtitle_label = new Gtk.Label(null);
@@ -5,6 +8,9 @@ public class He.ContentBlockImageCluster : Gtk.Box, Gtk.Buildable {
   private Gtk.Grid grid = new Gtk.Grid();
   private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
 
+  /**
+   * The title of the cluster.
+   */
   public string title {
       get {
           return title_label.get_text ();
@@ -14,6 +20,9 @@ public class He.ContentBlockImageCluster : Gtk.Box, Gtk.Buildable {
       }
   }
 
+  /**
+   * The subtitle of the cluster.
+   */
   public string subtitle {
       get {
           return subtitle_label.get_text ();
@@ -23,6 +32,9 @@ public class He.ContentBlockImageCluster : Gtk.Box, Gtk.Buildable {
       }
   }
 
+  /**
+   * The image of the cluster.
+   */
   public string icon {
       get {
           return image.get_icon_name ();
@@ -33,7 +45,9 @@ public class He.ContentBlockImageCluster : Gtk.Box, Gtk.Buildable {
       }
   }
 
-  // please don't tell me that I can just rely on the value of the enum, I already know that, but I don't want to
+  /**
+   * The position of the cluster image in the cluster.
+   */
   public enum ImagePosition {
     TOP_LEFT,
     BOTTOM_LEFT,
@@ -65,6 +79,11 @@ public class He.ContentBlockImageCluster : Gtk.Box, Gtk.Buildable {
     }
   }
 
+  /** 
+   * Sets an image to be displayed in the cluster.
+   * @param image The image to display.
+    * @param position The position of the image in the cluster.
+   */
   public void set_image(He.ContentBlockImage image, ImagePosition position) {
     image.requested_height = 64;
     image.requested_width = 64;
@@ -72,6 +91,10 @@ public class He.ContentBlockImageCluster : Gtk.Box, Gtk.Buildable {
     this.grid.attach(image, position.get_column(), position.get_row(), 1, 1);
   }
 
+  /**
+   * Removes an image from the cluster.
+   * @param image The image to remove.
+   */
   public void remove_image(He.ContentBlockImage image) {
     this.grid.remove(image);
   }
@@ -82,6 +105,10 @@ public class He.ContentBlockImageCluster : Gtk.Box, Gtk.Buildable {
       this.icon = icon;
   }
 
+  /**
+   * Adds an image child to the cluster. The image will be displayed in the cluster in the position specified by the position type.
+   * Should only be used in UI or Blueprint files.
+   */
   public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
     switch (type) {
       case "top_left":

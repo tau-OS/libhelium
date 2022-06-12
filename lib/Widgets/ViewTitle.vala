@@ -1,5 +1,11 @@
+/**
+ * A ViewTitle is a widget that displays a view's title.
+ */
 public class He.ViewTitle : Gtk.Widget, Gtk.Buildable {
     private Gtk.Label? _label;
+    /**
+     * Sets the title of the view.
+     */
     public string? label {
         set {
             _label.set_text(value);
@@ -8,7 +14,7 @@ public class He.ViewTitle : Gtk.Widget, Gtk.Buildable {
         get {
             return _label.get_text();
         }
-    }
+    }   
 
     construct {
         _label = new Gtk.Label ("");

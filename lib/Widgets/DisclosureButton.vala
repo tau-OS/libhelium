@@ -1,4 +1,7 @@
 public class He.DisclosureButton : Gtk.Button, Gtk.Buildable {
+  /**
+   * Sets the icon of the button.
+   */
   public string icon {
     get {
       return this.get_icon_name ();
@@ -8,6 +11,10 @@ public class He.DisclosureButton : Gtk.Button, Gtk.Buildable {
     }
   }
 
+  /** 
+   * Creates a new DisclosureButton.
+   * @param icon The name of the icon to use.
+   */
   public DisclosureButton(string icon) {
     this.icon = icon;
   }

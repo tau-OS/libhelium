@@ -1,8 +1,14 @@
+/**
+ * A ContentBlockImage component is used to render an image inside a ContentBlock.
+ */
 public class He.ContentBlockImage : Gtk.Widget, Gtk.Buildable {
     private string _file;
     private int _requested_height;
     private int _requested_width;
 
+    /**
+     * The file path of the image. 
+     */
     public string file {
         get {
             return _file;
@@ -17,6 +23,9 @@ public class He.ContentBlockImage : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+     * The height of the image. 
+     */
     public int requested_height {
         get {
             return _requested_height;
@@ -27,6 +36,9 @@ public class He.ContentBlockImage : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+     * The width of the image. 
+     */
     public int requested_width {
         get {
             return _requested_width;

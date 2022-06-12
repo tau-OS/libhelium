@@ -89,6 +89,9 @@ class He.Album : Gtk.Widget, Gtk.Buildable {
     }
   }
 
+  /**
+   * Add a child to the welcome screen, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+   */
   public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
     this.append((He.AlbumPageInterface) child);
   }

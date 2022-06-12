@@ -1,8 +1,13 @@
+/**
+ * A ModiferBadge is a badge that can be used to show that the state of something has changed.
+ */
 public class He.ModifierBadge : Gtk.Widget {
     private Gtk.Label _label;
-
     private He.Colors _color;
 
+    /**
+     * The color of the badge.
+     */
     public He.Colors color {
         set {
             if (_color != He.Colors.NONE) this.remove_css_class (_color.to_css_class());
@@ -16,6 +21,9 @@ public class He.ModifierBadge : Gtk.Widget {
         }
     }
 
+    /**
+     * If the badge is tinted. If false, the badge will be solid.
+     */
     private bool _tinted = false;
     public bool tinted {
         get {
@@ -33,6 +41,9 @@ public class He.ModifierBadge : Gtk.Widget {
     }
 
 
+    /**
+     * The text of the badge.
+     */
     public string? label {
         get {
           return _label?.get_text();
@@ -54,15 +65,25 @@ public class He.ModifierBadge : Gtk.Widget {
         }
     }
 
+    /**
+     * Creates a new ModifierBadge.
+     * @param label The text of the badge.
+     */
     public ModifierBadge(string? label) {
         this.label = label;
     }
   
+    /** 
+     * The alignment of the badge in a enum.
+     */
     public enum Alignment {
         LEFT,
         CENTER,
         RIGHT;
 
+        /**
+         * Returns the alignment as a Gtk.Alignment.
+         */
         public Gtk.Align to_gtk_align() {
             switch (this) {
                 case LEFT:
@@ -76,6 +97,10 @@ public class He.ModifierBadge : Gtk.Widget {
             }
         }
 
+        /**
+         * Sets the alignment from a Gtk.Align.
+         * @param align The alignment to set.
+         */
         public static Alignment from_gtk_align(Gtk.Align align) {
             switch (align) {
                 case Gtk.Align.START:
@@ -90,6 +115,9 @@ public class He.ModifierBadge : Gtk.Widget {
         }
     }
 
+    /**
+     * The alignment of the badge.
+     */
     public Alignment alignment {
         set {
             this.set_halign(value.to_gtk_align());

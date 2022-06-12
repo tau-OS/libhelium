@@ -1,3 +1,6 @@
+/**
+ * An OverlayButton is a widget that can be used to show action buttons above the widget that is being overlaid.
+ */
 public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
     private Gtk.Button button = new Gtk.Button();
     private Gtk.Box button_content = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
@@ -11,11 +14,17 @@ public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
     public signal void clicked();
     public signal void secondary_clicked();
 
+    /**
+     * The size of the button as an enum.
+     */
     public enum Size {
         SMALL,
         MEDIUM,
         LARGE;
 
+        /**
+         * Returns the string representation of the enum as a CSS class to be used.
+         */
         public string? to_css_class() {
             switch (this) {
                 case SMALL:
@@ -30,11 +39,17 @@ public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+     * The alignment of the button.
+     */
     public enum Alignment {
         LEFT,
         CENTER,
         RIGHT;
 
+        /**
+         * Returns the string representation of the enum as an alignment to be used.
+         */
         public Gtk.Align to_gtk_align() {
             switch (this) {
                 case LEFT:
@@ -48,6 +63,10 @@ public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
             }
         }
         
+        /**
+         * Returns the string representation of the enum as an alignment.
+         * @param align The alignment to use.
+         */
         public static Alignment from_gtk_align(Gtk.Align align) {
             switch (align) {
                 case Gtk.Align.START:
@@ -63,6 +82,9 @@ public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
     }
 
     private Size? _size;
+    /**
+     * The size of the button.
+     */
     public Size size {
         set {
             if (_size != null && _size != Size.MEDIUM) button.remove_css_class (_size.to_css_class());
@@ -77,6 +99,9 @@ public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
     }
 
     private He.Colors _color;
+    /**
+     * The color of the button.
+     */
     public He.Colors color {
         set {
             if (_color != He.Colors.NONE) button.remove_css_class (_color.to_css_class());
@@ -91,6 +116,9 @@ public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
     }
 
     private He.Colors _secondary_color;
+    /**
+     * The color of the secondary button.
+     */
     public He.Colors secondary_color {
         set {
             if (_color != He.Colors.NONE) secondary_button.remove_css_class (_secondary_color.to_css_class());
@@ -104,6 +132,9 @@ public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+     * The secondary button icon.
+     */
     public string? secondary_icon {
         set {
             if (value == null) {
@@ -134,6 +165,9 @@ public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+     * The primary button icon.
+     */
     public string icon {
         set {
             image.set_from_icon_name(value);
@@ -144,6 +178,9 @@ public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+     * The primary button label.
+     */
     public string? label {
         set {
             if (value == null) {
@@ -171,6 +208,9 @@ public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+     * The widget to be overlaid.
+     */
     public Gtk.Widget? child {
         get {
             return overlay.get_child();
@@ -181,10 +221,16 @@ public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+    * Add a child to the overlay button, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+    */
     public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         this.child = (Gtk.Widget) child;
     }
 
+    /**
+     * The alignment of the button.
+     */
     public Alignment alignment {
         set {
             button_row.set_halign(value.to_gtk_align());
@@ -195,6 +241,12 @@ public class He.OverlayButton : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+     * Creates a new OverlayButton.
+     * @param icon The icon of the button.
+     * @param label The label of the button.
+     * @param secondary_icon The icon of the secondary button.
+     */
     public OverlayButton(string icon, string? label, string? secondary_icon) {
         this.icon = icon;
         if (label != null) this.label = label;

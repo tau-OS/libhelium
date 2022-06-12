@@ -5,15 +5,25 @@ public class He.ContentList : Gtk.Widget, Gtk.Buildable {
     private Gtk.Label title_label = new Gtk.Label (null);
     private Gtk.Label description_label = new Gtk.Label (null);
 
+    /**
+     * The title of the content list.
+     */
     public string title {
         get { return title_label.get_text (); }
         set { title_label.set_text (value); }
     }
+
+    /**
+     * The description of the content list.
+     */
     public string description {
         get { return description_label.get_text (); }
         set { description_label.set_text (value); }
     }
 
+    /**
+     * Adds a new item to the content list, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+     */
     public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (((Gtk.Widget) child).get_type () == typeof (He.ContentBlock)) {
             list.append ((Gtk.Widget) child);
@@ -24,6 +34,10 @@ public class He.ContentList : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+     * Adds a new item to the content list.
+     * @param child The item to add.
+     */
     public void add (Gtk.Widget child) {
         if (child.get_type () == typeof (He.ContentBlock)) {
             list.append (child);
@@ -34,6 +48,10 @@ public class He.ContentList : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+     * Removes an item from the content list.
+     * @param child The item to remove.
+     */
     public void remove (Gtk.Widget child) {
         if (child.get_parent () == this) {
             child.unparent ();

@@ -10,7 +10,9 @@ public class He.Dialog : He.Window {
     private He.TextButton _cancel_button;
     private Gtk.WindowHandle dialog_handle = new Gtk.WindowHandle ();
 
-
+    /**
+     * Sets the title of the dialog.
+     */
     public new string title {
         get {
             return title_label.get_text ();
@@ -20,6 +22,9 @@ public class He.Dialog : He.Window {
         }
     }
 
+    /**
+     * Sets the subtitle of the dialog.
+     */
     public string subtitle {
         get {
             return subtitle_label.get_text ();
@@ -29,6 +34,9 @@ public class He.Dialog : He.Window {
         }
     }
 
+    /**
+     * Sets the info text of the dialog.
+     */
     public string info {
         get {
             return info_label.get_text ();
@@ -38,6 +46,9 @@ public class He.Dialog : He.Window {
         }
     }
 
+    /**
+     * Sets the icon of the dialog.
+     */
     public string icon {
         get {
             return image.get_icon_name ();
@@ -49,6 +60,9 @@ public class He.Dialog : He.Window {
         }
     }
 
+    /**
+     * Sets the secondary button of the dialog.
+     */
     public He.TintButton secondary_button {
         set {
             if (_secondary_button != null) {
@@ -65,6 +79,9 @@ public class He.Dialog : He.Window {
         }
     }
 
+    /**
+     * Sets the primary button of the dialog.
+     */
     public He.FillButton primary_button {
         get {
             return _primary_button;
@@ -84,6 +101,17 @@ public class He.Dialog : He.Window {
         }
     }
 
+    /**
+     * Creates a new dialog.
+     * @param modal Whether the dialog is modal.
+     * @param parent The parent window of the dialog.
+     * @param title The title of the dialog.
+     * @param subtitle The subtitle of the dialog.
+     * @param info The info text of the dialog.
+     * @param icon The icon of the dialog.
+     * @param primary_button The primary button of the dialog.
+     * @param secondary_button The secondary button of the dialog.
+     */
     public Dialog(bool modal, Gtk.Window? parent, string title, string subtitle, string info, string icon, He.FillButton? primary_button, He.TintButton? secondary_button) {
         this.modal = modal;
         this.parent = parent;

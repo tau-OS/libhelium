@@ -1,3 +1,6 @@
+/**
+ * A ContentBlock displays a single block of content, which contains an icon, text and optional buttons.
+ */
 public class He.ContentBlock : Gtk.Widget, Gtk.Buildable {
     private Gtk.Label title_label = new Gtk.Label(null);
     private Gtk.Label subtitle_label = new Gtk.Label(null);
@@ -7,6 +10,10 @@ public class He.ContentBlock : Gtk.Widget, Gtk.Buildable {
     private He.Button _secondary_button;
     private He.Button _primary_button;
 
+    /** 
+     * Sets the title of the content block.
+     * @param title The title of the content block.
+     */
     public string title {
         get {
             return title_label.get_text ();
@@ -16,6 +23,10 @@ public class He.ContentBlock : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /** 
+     * Sets the subtitle of the content block.
+     * @param subtitle The subtitle of the content block.
+     */
     public string subtitle {
         get {
             return subtitle_label.get_text ();
@@ -25,6 +36,10 @@ public class He.ContentBlock : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /** 
+     * Sets the icon of the content block.
+     * @param icon The icon of the content block.
+     */
     public string icon {
         get {
             return image.get_icon_name ();
@@ -34,13 +49,17 @@ public class He.ContentBlock : Gtk.Widget, Gtk.Buildable {
             image.set_from_icon_name (value);
         }
     }
-
+    
     public GLib.Icon gicon {
         set {
             image.set_from_gicon (value);
         }
     }
 
+    /** 
+     * Sets the secondary button of the content block.
+     * @param secondary_button The secondary button of the content block.
+     */
     public He.Button secondary_button {
         set {
             if (_secondary_button != null) {
@@ -58,6 +77,10 @@ public class He.ContentBlock : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /** 
+     * Sets the primary button of the content block.
+     * @param primary_button The primary button of the content block.
+     */
     public He.Button primary_button {
         get {
             return _primary_button;
@@ -75,6 +98,14 @@ public class He.ContentBlock : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /** 
+     * Constructs a new ContentBlock.
+     * @param title The title of the content block.
+     * @param subtitle The subtitle of the content block.
+     * @param icon The icon of the content block.
+     * @param secondary_button The secondary button of the content block.
+     * @param primary_button The primary button of the content block.
+     */
     public ContentBlock(string title, string subtitle, string icon, He.Button primary_button, He.Button secondary_button) {
         this.title = title;
         this.subtitle = subtitle;

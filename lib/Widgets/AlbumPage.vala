@@ -22,6 +22,9 @@ class He.AlbumPage : Gtk.Box, Gtk.Buildable, He.AlbumPageInterface {
   public int min_width { get; set; }
   public bool navigatable { get; set; default = true; }
 
+  /**
+   * Add a child to the welcome screen, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+   */
   public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
     this.child = (Gtk.Widget)child;
   }

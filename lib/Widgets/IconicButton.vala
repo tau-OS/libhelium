@@ -1,4 +1,10 @@
+/**
+ * An Iconic Button is used in a {@link BottomBar} to display an action.
+ */
 public class He.IconicButton : Gtk.Button, Gtk.Buildable {
+  /**
+   * The icon name to display.
+   */
   public string icon {
     get {
       return this.get_icon_name ();
@@ -8,6 +14,10 @@ public class He.IconicButton : Gtk.Button, Gtk.Buildable {
     }
   }
 
+  /**
+   * Constructs a new IconicButton.
+   * @param icon The icon name to display.
+   */
   public IconicButton(string icon) {
     this.icon = icon;
   }

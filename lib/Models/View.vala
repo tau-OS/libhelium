@@ -47,6 +47,9 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+     * Add a child to the welcome screen, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+     */
     public virtual void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (type == "view-button") {
             title_button_box.append ((Gtk.Widget) child);

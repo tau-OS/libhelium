@@ -1,16 +1,22 @@
+/**
+ * An EmptyPage is a page that is used to display a message and a button when there is no data to display.
+ */
 public class He.EmptyPage : Gtk.Widget {
     private string _title;
     private string _description;
     private string _icon;
     private string _button;
 
-    public He.PillButton action_button = new He.PillButton("");
     private Gtk.Label title_label = new Gtk.Label(null);
     private Gtk.Label description_label = new Gtk.Label(null);
     private Gtk.Image icon_image = new Gtk.Image();
     private Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 24);
     private Gtk.Box box_title = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
+    private He.PillButton action_button = new He.PillButton("");
 
+    /**
+     * Sets the title of the empty page.
+     */
     public string title {
         get {
             return _title;
@@ -21,6 +27,9 @@ public class He.EmptyPage : Gtk.Widget {
         }
     }
 
+    /**
+     * Sets the description of the empty page.
+     */
     public string description {
         get {
             return _description;
@@ -31,6 +40,9 @@ public class He.EmptyPage : Gtk.Widget {
         }
     }
 
+    /**
+     * Sets the icon of the empty page.
+     */
     public string icon {
         get {
             return _icon;
@@ -41,6 +53,9 @@ public class He.EmptyPage : Gtk.Widget {
         }
     }
 
+    /**
+     * Sets the button of the empty page.
+     */
     public string button {
         get {
             return _button;

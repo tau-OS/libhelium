@@ -1,12 +1,23 @@
 public class He.Toast : Gtk.Widget {
+    /**
+     * Emitted when the Toast is closed by activating the close button
+     */
     public signal void closed ();
+
+    /**
+     * Emitted when the default action button is activated
+     */
     public signal void action ();
+
     private Gtk.Revealer revealer;
     private Gtk.Label notification_label;
     private Gtk.Button default_action_button;
     private uint timeout_id;
 
     private string _label;
+    /**
+     * The notification text label to be displayed inside of #this
+     */
     public string label {
         get {
             return _label;
@@ -19,6 +30,9 @@ public class He.Toast : Gtk.Widget {
         }
     }
 
+    /**
+     * The default action button label to be displayed inside of #this
+     */
     private string _default_action;
     public string default_action {
         get {
@@ -39,6 +53,10 @@ public class He.Toast : Gtk.Widget {
         set_layout_manager_type (typeof (Gtk.BinLayout));
     }
 
+    /**
+     * Creates a new Toast.
+     * @param label The title of the Toast
+     */
     public Toast (string label) {
         Object (label: label);
     }
@@ -132,6 +150,10 @@ public class He.Toast : Gtk.Widget {
             timeout_id = 0;
         }
     }
+
+    /**
+     * Shows the Toast.
+     */
     public void send_notification () {
         if (!revealer.child_revealed) {
             revealer.reveal_child = true;

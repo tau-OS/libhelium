@@ -1,9 +1,12 @@
 /**
-* A FillButton is a solid button with a label. It is more round and larger than a FillButton.
+* A PillButton is a solid button with a label. It is more round and larger than a FillButton.
 */
 public class He.PillButton : He.Button {
     private He.Colors _color;
 
+    /**
+     * The color of the button.
+     */
     public override He.Colors color {
         set {
             if (_color != He.Colors.NONE) this.remove_css_class (_color.to_css_class());
