@@ -172,6 +172,7 @@ public class He.Dialog : He.Window {
         this.set_child (dialog_handle);
         this.resizable = false;
         this.set_size_request (360, 400);
+        this.set_default_size (360, 400);
         this.has_title = false;
     }
 }
