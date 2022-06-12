@@ -147,8 +147,8 @@ public class He.Dialog : He.Window {
         info_box.append(subtitle_label);
         info_box.append(info_label);
 
-        _cancel_button = new He.TextButton ("Cancel");
-        _cancel_button.clicked.connect (() => {
+        cancel_button = new He.TextButton ("Cancel");
+        cancel_button.clicked.connect (() => {
             this.close ();
         });
 
