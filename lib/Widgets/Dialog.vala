@@ -136,19 +136,19 @@ public class He.Dialog : He.Window {
         image.valign = Gtk.Align.CENTER;
         title_label.add_css_class ("view-title");
         title_label.wrap = true;
-        title_label.wrap_mode = Pango.Wrap.WORD;
+        title_label.wrap_mode = Pango.WrapMode.WORD;
         title_label.use_markup = true;
         subtitle_label.xalign = 0;
         subtitle_label.add_css_class ("view-subtitle");
         subtitle_label.wrap = true;
-        subtitle_label.wrap_mode = Pango.Wrap.WORD;
+        subtitle_label.wrap_mode = Pango.WrapMode.WORD;
         subtitle_label.use_markup = true;
         info_label.add_css_class ("body");
         info_label.xalign = 0;
         info_label.vexpand = true;
         info_label.valign = Gtk.Align.START;
         info_label.wrap = true;
-        info_label.wrap_mode = Pango.Wrap.WORD;
+        info_label.wrap_mode = Pango.WrapMode.WORD;
         info_label.use_markup = true;
         
         info_box.append(image);
