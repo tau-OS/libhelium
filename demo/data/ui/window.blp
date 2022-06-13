@@ -8,6 +8,7 @@ template DemoMainWindow : .HeApplicationWindow {
   .HeAlbum album {
     .HeAlbumPage {
       min_width: 200;
+      navigatable: true;
 
       .HeSideBar {
         title: "Sidebar";
@@ -60,6 +61,9 @@ template DemoMainWindow : .HeApplicationWindow {
     }
 
     .HeAlbumPage {
+      min_width: 200;
+      navigatable: true;
+
       .HeSideBar {
         title: "Secondary";
         subtitle: "Subtitle";
@@ -121,6 +125,7 @@ template DemoMainWindow : .HeApplicationWindow {
 
 
     .HeAlbumPage {
+      navigatable: true;
       Box {
         orientation: vertical;
 
@@ -277,10 +282,12 @@ template DemoMainWindow : .HeApplicationWindow {
 
                     .HeBadge {
                       label: "Badge";
-                      .HePillButton {
-                        label: "Really long string to show the badge above the button here.";
-                        color: orange;
-                      }
+                      child:
+                        .HePillButton {
+                          label: "Really long string to show the badge above the button here.";
+                          color: orange;
+                        }
+                      ;
                     }
 
                     .HeBadge {
