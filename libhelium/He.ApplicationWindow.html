@@ -27,6 +27,9 @@
         </ul>
         <hr class="navi_hr"/>
         <ul class="navi_main">
+          <li class="property"><a href="He.ApplicationWindow.has_back_button.html">has_back_button</a></li>
+          <li class="property"><a href="He.ApplicationWindow.has_title.html">has_title</a></li>
+          <li class="property"><a href="He.ApplicationWindow.modal.html">modal</a></li>
           <li class="creation_method"><a href="He.ApplicationWindow.ApplicationWindow.html">ApplicationWindow</a></li>
         </ul>
       </div>
@@ -37,12 +40,11 @@
         <img class="main_diagram" usemap="#He.ApplicationWindow" alt="Object hierarchy for ApplicationWindow" src="img/He.ApplicationWindow.svg"/>
 
       <map id="He.ApplicationWindow" name="He.ApplicationWindow">
-<area shape="rect" id="node1" href="He.ApplicationWindow.html" title="He.ApplicationWindow" alt="" coords="394,485,589,533"/>
-<area shape="rect" id="node2" href="He.Window.html" title="He.Window" alt="" coords="436,389,547,437"/>
+<area shape="rect" id="node1" href="He.ApplicationWindow.html" title="He.ApplicationWindow" alt="" coords="543,485,737,533"/>
 </map>
 
         <h2 class="main_title">Description:</h2>
-        <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span class="class">ApplicationWindow</span></b> : <span class="main_type"><a href="He.Window.html" class="class">Window</a></span>
+        <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span class="class">ApplicationWindow</span></b> : <span class="main_type"><span class="class">ApplicationWindow</span></span>
         </div>
         <div class="description">
           <p>An ApplicationWindow is a Window for holding the main content of an application.</p>
@@ -52,6 +54,21 @@
         <div class="package_note"><b>Package:</b> <a href="index.htm">libhelium</a>
         </div>
         <h2 class="main_title">Content:</h2>
+        <h3 class="main_title">Properties:</h3>
+        <ul class="navi_inline">
+          <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">bool</span></span> <b><a href="He.ApplicationWindow.has_back_button.html" class="property">has_back_button</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
+            </span>
+            <div class="leaf_brief_description">
+            </div></li>
+          <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">bool</span></span> <b><a href="He.ApplicationWindow.has_title.html" class="property">has_title</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
+            </span>
+            <div class="leaf_brief_description">
+            </div></li>
+          <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">bool</span></span> <b><a href="He.ApplicationWindow.modal.html" class="property">modal</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
+            </span>
+            <div class="leaf_brief_description">
+            </div></li>
+        </ul>
         <h3 class="main_title">Creation methods:</h3>
         <ul class="navi_inline">
           <li class="creation_method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <b><a href="He.ApplicationWindow.ApplicationWindow.html" class="creation_method">ApplicationWindow</a></b> (<span class="main_type"><a href="He.Application.html" class="class">Application</a></span> app)
@@ -61,22 +78,24 @@
         </ul>
         <h3 class="main_title">Inherited Members:</h3>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-46')">All known members inherited from class He.Window</div>
+          <div class="headline" onclick="toggle_box (this, 'box-content-46')">All known members inherited from class Gtk.ApplicationWindow</div>
           <div class="content" id="box-content-46">
             <div class="column">
               <ul class="navi_inline">
-                <li class="property"><a href="He.Window.has_back_button.html">has_back_button</a></li>
-                <li class="property"><a href="He.Window.has_title.html">has_title</a></li>
+                <li class="method">get_help_overlay</li>
+                <li class="method">get_id</li>
               </ul>
             </div>
             <div class="column">
               <ul class="navi_inline">
-                <li class="property"><a href="He.Window.modal.html">modal</a></li>
+                <li class="method">get_show_menubar</li>
+                <li class="method">set_help_overlay</li>
               </ul>
             </div>
             <div class="column">
               <ul class="navi_inline">
-                <li class="property"><a href="He.Window.parent.html">parent</a></li>
+                <li class="method">set_show_menubar</li>
+                <li class="property">show_menubar</li>
               </ul>
             </div>
           </div>
@@ -495,8 +514,60 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-50')">All known members inherited from interface Gtk.Accessible</div>
+          <div class="headline" onclick="toggle_box (this, 'box-content-50')">All known members inherited from interface GLib.ActionGroup</div>
           <div class="content" id="box-content-50">
+            <div class="column">
+              <ul class="navi_inline">
+                <li class="signal">action_added</li>
+                <li class="signal">action_enabled_changed</li>
+                <li class="signal">action_removed</li>
+                <li class="signal">action_state_changed</li>
+                <li class="abstract_method">activate_action</li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul class="navi_inline">
+                <li class="abstract_method">change_action_state</li>
+                <li class="abstract_method">get_action_enabled</li>
+                <li class="abstract_method">get_action_parameter_type</li>
+                <li class="abstract_method">get_action_state</li>
+                <li class="abstract_method">get_action_state_hint</li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul class="navi_inline">
+                <li class="abstract_method">get_action_state_type</li>
+                <li class="abstract_method">has_action</li>
+                <li class="abstract_method">list_actions</li>
+                <li class="virtual_method">query_action</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="headline" onclick="toggle_box (this, 'box-content-51')">All known members inherited from interface GLib.ActionMap</div>
+          <div class="content" id="box-content-51">
+            <div class="column">
+              <ul class="navi_inline">
+                <li class="abstract_method">add_action</li>
+                <li class="method">add_action_entries</li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul class="navi_inline">
+                <li class="abstract_method">lookup_action</li>
+              </ul>
+            </div>
+            <div class="column">
+              <ul class="navi_inline">
+                <li class="abstract_method">remove_action</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="headline" onclick="toggle_box (this, 'box-content-52')">All known members inherited from interface Gtk.Accessible</div>
+          <div class="content" id="box-content-52">
             <div class="column">
               <ul class="navi_inline">
                 <li class="abstract_property">accessible_role</li>
@@ -523,8 +594,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-51')">All known members inherited from interface Gtk.Buildable</div>
-          <div class="content" id="box-content-51">
+          <div class="headline" onclick="toggle_box (this, 'box-content-53')">All known members inherited from interface Gtk.Buildable</div>
+          <div class="content" id="box-content-53">
             <div class="column">
               <ul class="navi_inline">
                 <li class="abstract_method">add_child</li>
@@ -550,8 +621,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-52')">All known members inherited from interface Gtk.Native</div>
-          <div class="content" id="box-content-52">
+          <div class="headline" onclick="toggle_box (this, 'box-content-54')">All known members inherited from interface Gtk.Native</div>
+          <div class="content" id="box-content-54">
             <div class="column">
               <ul class="navi_inline">
                 <li class="static_method">get_for_surface</li>
@@ -573,8 +644,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-53')">All known members inherited from interface Gtk.Root</div>
-          <div class="content" id="box-content-53">
+          <div class="headline" onclick="toggle_box (this, 'box-content-55')">All known members inherited from interface Gtk.Root</div>
+          <div class="content" id="box-content-55">
             <div class="column">
               <ul class="navi_inline">
                 <li class="method">get_display</li>
@@ -593,8 +664,8 @@
           </div>
         </div>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-54')">All known members inherited from interface Gtk.ShortcutManager</div>
-          <div class="content" id="box-content-54">
+          <div class="headline" onclick="toggle_box (this, 'box-content-56')">All known members inherited from interface Gtk.ShortcutManager</div>
+          <div class="content" id="box-content-56">
             <div class="column">
               <ul class="navi_inline">
                 <li class="abstract_method">add_controller</li>
