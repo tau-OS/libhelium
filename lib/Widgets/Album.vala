@@ -1,54 +1,22 @@
 class He.Album : He.Bin, Gtk.Buildable {
   private signal void children_updated();
   private signal void minimum_requested_width_changed();
+
   private uint _tick_callback;
-
-  private GLib.List<He.AlbumPageInterface> children = new GLib.List<He.AlbumPageInterface> ();
   private int minimum_requested_width = 0;
-  public bool folded { get; set; default = false; }
-  private He.Window window { get; set; }
 
+  private GLib.List<He.AlbumPage> children = new GLib.List<He.AlbumPage> ();
   private Gtk.Box _box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+  private Gtk.Stack main_stack = new Gtk.Stack ();
+
+  public bool folded { get; set; default = false; }
   private Gtk.Stack _stack = new Gtk.Stack ();
   public Gtk.Stack stack {
     get { return _stack; }
   }
 
-  private Gtk.Stack main_stack = new Gtk.Stack ();
-
-  public new void append(He.AlbumPageInterface widget) {
+  public new void append(He.AlbumPage widget) {
     this.children.append(widget);
-    children_updated();
-  }
-
-  public new void insert_child_after(He.AlbumPageInterface widget, He.AlbumPageInterface sibling) {
-    var index = this.children.index(sibling);
-    if (index == -1) {
-      return;
-    }
-
-    this.children.insert(widget, index);
-    children_updated();
-  }
-
-  public new void prepend(He.AlbumPageInterface widget) {
-    this.children.prepend(widget);
-    children_updated();
-  }
-
-  public new void remove(He.AlbumPageInterface widget) {
-    this.children.remove(widget);
-    children_updated();
-  }
-
-  public new void reorder_child_after(He.AlbumPageInterface widget, He.AlbumPageInterface sibling) {
-    var index = this.children.index(sibling);
-    if (index == -1) {
-      return;
-    }
-
-    this.children.remove(widget);
-    this.children.insert(widget, index);
     children_updated();
   }
 
@@ -70,7 +38,8 @@ class He.Album : He.Bin, Gtk.Buildable {
         if (child.navigatable) {
           this._stack.add_child(child);
         }
-        this._stack.set_visible_child(child);
+        if (child.get_root().visible)
+          this._stack.set_visible_child(child);
       }
       this.queue_allocate();
       this.add_css_class ("folded");
@@ -93,14 +62,14 @@ class He.Album : He.Bin, Gtk.Buildable {
    * Add a child to the welcome screen, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
    */
   public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-    this.append((He.AlbumPageInterface) child);
+    this.append((He.AlbumPage) child);
   }
 
   private void update_minimum_requested_width() {
     var width = 0;
+    var min_width = 0;
 
     foreach (var child in this.children) {
-      var min_width = 0;
       child.measure(Gtk.Orientation.HORIZONTAL, -1, out min_width, null, null, null);
 
       width += min_width;
