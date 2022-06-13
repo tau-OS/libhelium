@@ -69,18 +69,23 @@ class He.Album : He.Bin, Gtk.Buildable {
   }
   
   private void update_minimum_requested_width() {
-    var width = 0;
-    var min_width = 0;
+    var res_width = 0;
+    var width = this.get_width();
     
     foreach (var child in this.children) {
-      child.measure(Gtk.Orientation.HORIZONTAL, -1, out min_width, null, null, null);
-      
-      width += min_width;
+      int visible_size = int.max (get_page_size (child), (int) (width));
+      res_width += visible_size;
     }
     
-    this.minimum_requested_width = width;
+    this.minimum_requested_width = (res_width + 200);
     
     minimum_requested_width_changed();
+  }
+
+  private int get_page_size (Gtk.Widget w) {
+    Gtk.Requisition req;
+    w.get_preferred_size(out req, null);
+    return req.width;
   }
   
   private new void append(He.AlbumPage widget) {
@@ -89,8 +94,7 @@ class He.Album : He.Bin, Gtk.Buildable {
   }
   
   private void update_folded() {
-    //TODO: This is a hack to get the album to fold correctly.
-    if (this.get_width() < this.minimum_requested_width + 187 || this.get_width() == this.minimum_requested_width) {
+    if (this.get_width() < this.minimum_requested_width) {
       this.folded = true;
     } else {
       this.folded = false;
