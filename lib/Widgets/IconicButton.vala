@@ -14,6 +14,20 @@ public class He.IconicButton : He.Button {
     }
   }
 
+  /**
+   * The tooltip text to display.
+   */
+  private string _tooltip;
+  public new string tooltip {
+    get {
+      return this.get_tooltip_text ();
+    }
+    set {
+      _tooltip = value;
+      this.set_tooltip_text (_tooltip);
+    }
+  }
+
   private He.Colors _color;
   /**
    * The color of the button.

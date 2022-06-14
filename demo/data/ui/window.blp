@@ -436,20 +436,24 @@ template DemoMainWindow : .HeApplicationWindow {
           title: "Example";
           description: "3 items";
           menu_model: bottombar_menu;
+          collapse_actions: bind album.folded;
 
           [left]
           .HeIconicButton {
-          icon-name: "list-add-symbolic";
+            icon-name: "list-add-symbolic";
+            tooltip: "Add";
           }
 
           [left]
           .HeIconicButton {
-          icon-name: "list-add-symbolic";
+            icon-name: "list-add-symbolic";
+            tooltip: "Add";
           }
 
           [right]
           .HeIconicButton {
-          icon-name: "list-add-symbolic";
+            icon-name: "list-add-symbolic";
+            tooltip: "Add";
           }
         }
       }

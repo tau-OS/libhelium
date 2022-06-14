@@ -12,6 +12,13 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
   private Gtk.Label description_label = new Gtk.Label (null);
 
   private Gtk.MenuButton menu = new Gtk.MenuButton ();
+  private Gtk.MenuButton fold_menu = new Gtk.MenuButton ();
+
+  private GLib.List<Gtk.Widget> left_children = new GLib.List<Gtk.Widget> ();
+  private GLib.List<Gtk.Widget> right_children = new GLib.List<Gtk.Widget> ();
+
+  private Gtk.Box fmenu_box_l = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+  private Gtk.Box fmenu_box_r = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
   /**
    * The title of the bottom bar.
@@ -77,6 +84,97 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
   }
 
   /**
+   * Whether to collapse actions into a menu.
+   */
+  private bool _collapse_actions;
+  public bool collapse_actions {
+    get { return _collapse_actions; }
+    set {
+      _collapse_actions = value;
+
+      var fmenu_image = new Gtk.Image ();
+      fmenu_image.set_from_icon_name ("view-more-symbolic");
+      fmenu_image.set_pixel_size (16);
+
+      fold_menu.set_direction (Gtk.ArrowType.UP);
+      fold_menu.halign = Gtk.Align.CENTER;
+      fold_menu.valign = Gtk.Align.CENTER;
+      fold_menu.add_css_class ("flat");
+      fold_menu.set_child (fmenu_image);
+
+      Gtk.Popover fmenu = new Gtk.Popover ();
+      Gtk.Box fmenu_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+      Gtk.Separator fmenu_separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
+
+      fmenu_box.append (fmenu_box_l);
+      fmenu_box.append (fmenu_separator);
+      fmenu_box.append (fmenu_box_r);
+
+      if (_collapse_actions) {
+        foreach (var child in left_children) {
+          if (this.left_box != null) {
+            child.unparent ();
+          }
+
+          var child_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+          var child_image = new Gtk.Image ();
+          child_image.set_from_icon_name (((Gtk.Button)child).get_icon_name ());
+          var child_label = new Gtk.Label (child.get_tooltip_text ());
+          child_box.append (child_image);
+          child_box.append (child_label);
+
+          var child_button = new Gtk.Button ();
+          child_button.add_css_class ("flat");
+          child_button.set_child (child_box);
+
+          fmenu_box_l.append (child_button);
+        }
+
+        foreach (var child in right_children) {
+          if (this.right_box != null) {
+            child.unparent ();
+          }
+
+          var child_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+          var child_image = new Gtk.Image ();
+          child_image.set_from_icon_name (((Gtk.Button)child).get_icon_name ());
+          var child_label = new Gtk.Label (child.get_tooltip_text ());
+          child_box.append (child_image);
+          child_box.append (child_label);
+
+          var child_button = new Gtk.Button ();
+          child_button.add_css_class ("flat");
+          child_button.set_child (child_box);
+
+          fmenu_box_r.append (child_button);
+        }
+
+        fmenu.set_child (fmenu_box);
+        fold_menu.set_popover (fmenu);
+
+        this.left_box.append (fold_menu);
+      } else {
+        foreach (var child in left_children) {
+          if (this.fmenu_box_l != null) {
+            child.unparent ();
+          }
+
+          this.left_box.append (child);
+        }
+
+        foreach (var child in right_children) {
+          if (this.fmenu_box_r != null) {
+            child.unparent ();
+          }
+
+          this.right_box.append (child);
+        }
+        this.left_box.remove (fold_menu);
+      }
+    }
+  }
+
+  /**
    * An enum to define the position of the bottom bar actions.
    */
   public enum Position {
@@ -87,13 +185,13 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
   /**
    * Add a child to the bottombar, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
    */
-  public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+  public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
       if (strcmp (type, "left") == 0) {
-        left_box.append ((Gtk.Widget)child);
+        left_children.append ((Gtk.Widget)child);
       } else if (strcmp (type, "right") == 0) {
-        right_box.append ((Gtk.Widget)child);
+        right_children.append ((Gtk.Widget)child);
       } else {
-        left_box.append ((Gtk.Widget)child);
+        left_children.append ((Gtk.Widget)child);
       }
   }
 
