@@ -78,20 +78,12 @@ libhelium = library(
     ],
 
     vala_header: 'libhelium-1.h',
+    vala_vapi: 'libhelium-1.vapi',
     vala_gir: 'He-1.gir',
 
     version: libhelium_gi_version,
     install: true,
-    install_dir: [true, include_dir, girdir],
-)
-
-libhelium_vapi = gnome.generate_vapi(
-         'libhelium-1',
-         sources: 'He-1.gir',
-        packages: [ 'gio-2.0', 'gtk4' ],
-         install: true,
-     install_dir: vapidir,
-   metadata_dirs: [ meson.current_source_dir() ],
+    install_dir: [true, include_dir, vapidir, girdir],
 )
 
 if get_option('introspection')
