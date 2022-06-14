@@ -65,7 +65,8 @@ libdir     = get_option('libdir')
 typelibdir = get_option('libdir')  / 'girepository-1.0'
 vapidir    = get_option('datadir') / 'vapi'
 
-libhelium_gir = gnome.generate_gir(libadwaita,
+libhelium_gir = gnome.generate_gir(
+             libhelium,
              sources: libhelium_sources,
            nsversion: '1',
            namespace: 'He',
