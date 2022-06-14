@@ -82,7 +82,7 @@ libhelium = library(
 
     version: libhelium_gi_version,
     install: true,
-    install_dir: [true, include_dir, vapidir, girdir],
+    install_dir: [true, include_dir, girdir],
 )
 
 libhelium_vapi = gnome.generate_vapi(
