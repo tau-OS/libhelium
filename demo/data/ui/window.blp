@@ -1,6 +1,12 @@
 using Gtk 4.0;
 //using He 1;
 
+menu bottombar_menu {
+  item (_("Menu Item"))
+  item (_("Menu Item"))
+  item (_("Menu Item"))
+}
+
 template DemoMainWindow : .HeApplicationWindow {
   visible: true;
   default-width: 500;
@@ -429,6 +435,7 @@ template DemoMainWindow : .HeApplicationWindow {
         .HeBottomBar {
           title: "Example";
           description: "3 items";
+          menu_model: bottombar_menu;
 
           [left]
           .HeIconicButton {

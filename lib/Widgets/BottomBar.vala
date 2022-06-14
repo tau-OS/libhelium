@@ -3,13 +3,15 @@
  * It may have up to 5 actions on each side.
  * It has title and description labels, which can be part of a menu's label.
  */
-public class He.BottomBar : Gtk.Box, Gtk.Buildable {
+public class He.BottomBar : He.Bin, Gtk.Buildable {
   private Gtk.Box left_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
   private Gtk.Box center_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
   private Gtk.Box right_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
 
   private Gtk.Label title_label = new Gtk.Label (null);
   private Gtk.Label description_label = new Gtk.Label (null);
+
+  private Gtk.MenuButton menu = new Gtk.MenuButton ();
 
   /**
    * The title of the bottom bar.
@@ -27,6 +29,52 @@ public class He.BottomBar : Gtk.Box, Gtk.Buildable {
     set { description_label.set_text (value); }
   }
 
+  /**
+   * The menu_model of the bottom bar.
+   * If a menu_model is set, show it on the center widget of the bottom bar.
+   */
+  public GLib.MenuModel menu_model {
+    get { 
+        return menu.get_menu_model ();
+    }
+    set { 
+      menu.set_menu_model (value);
+
+      if (value != null) {
+        if (this.center_box != null) {
+          var childs = this.center_box.get_first_child ();
+          while (childs != null) {
+            childs.unparent ();
+            childs = this.center_box.get_first_child ();
+          }
+        }
+
+        center_box.append (menu);
+
+        var menu_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+        menu_box.append (title_label);
+        menu_box.append (description_label);
+
+        var menu_image = new Gtk.Image ();
+        menu_image.set_from_icon_name ("pan-up-symbolic");
+        menu_image.set_pixel_size (10);
+
+        var menu_arrow_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+        menu_arrow_box.append (menu_box);
+        menu_arrow_box.append (menu_image);
+
+        menu.set_child (menu_arrow_box);
+        menu.set_direction (Gtk.ArrowType.UP);
+        menu.halign = Gtk.Align.CENTER;
+        menu.valign = Gtk.Align.CENTER;
+        menu.add_css_class ("flat");
+      } else {
+        this.center_box.remove (menu);
+        this.center_box.append(title_label);
+        this.center_box.append(description_label);
+      }
+    }
+  }
 
   /**
    * An enum to define the position of the bottom bar actions.
@@ -58,27 +106,26 @@ public class He.BottomBar : Gtk.Box, Gtk.Buildable {
     this.title = title;
     this.description = description;
   }
+
+  static construct {
+    set_layout_manager_type (typeof (Gtk.BoxLayout));
+  }
   
   construct {
     this.title_label.add_css_class ("title");
     this.description_label.add_css_class ("dim-label");
     this.add_css_class ("bottom-bar");
 
-    this.center_box.append(title_label);
-    this.center_box.append(description_label);
     this.center_box.homogeneous = true;
+    this.center_box.hexpand = true;
     this.center_box.margin_start = this.center_box.margin_end = 18;
 
-    var center_layout = new Gtk.CenterLayout();
-    this.layout_manager = center_layout;
+    var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+    box.append(left_box);
+    box.append(center_box);
+    box.append(right_box);
 
-    center_layout.set_start_widget(left_box);
-    center_layout.set_center_widget(center_box);
-    center_layout.set_end_widget(right_box);
-
-    this.append(left_box);
-    this.append(center_box);
-    this.append(right_box);
+    box.set_parent (this);
   }
 
   /**
