@@ -1,3 +1,6 @@
+/**
+ * A Dialog is a modal window that asks the user for input or shows a message.
+ */
 public class He.Dialog : He.Window {
     private Gtk.Label title_label = new Gtk.Label(null);
     private Gtk.Label subtitle_label = new Gtk.Label(null);
