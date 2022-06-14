@@ -4,10 +4,23 @@
 public class He.ApplicationWindow : Gtk.ApplicationWindow {
     /**
     * Creates a new ApplicationWindow.
-    * @param application The application associated with this window.
+    * @param app The application associated with this window.
     */
     public ApplicationWindow (He.Application app) {
         Object (application: app);
+
+        var base_path = app.get_resource_base_path ();
+        if (base_path == null) {
+            return;
+        }
+
+        string base_uri = "resource://" + base_path;
+        File base_file = File.new_for_uri (base_uri);
+
+        if (base_file.get_child ("gtk/help-overlay.ui").query_exists (null)) {
+            Gtk.Builder builder = new Gtk.Builder.from_file (base_path + "/gtk/help-overlay.ui");
+            this.set_help_overlay (builder.get_object ("help_overlay") as Gtk.ShortcutsWindow);
+        }
     }
 
     private new He.AppBar title = new He.AppBar ();
