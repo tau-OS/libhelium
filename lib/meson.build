@@ -65,6 +65,25 @@ libdir     = get_option('libdir')
 typelibdir = get_option('libdir')  / 'girepository-1.0'
 vapidir    = get_option('datadir') / 'vapi'
 
+libhelium = library(
+    'libhelium-1',
+
+    gresource,
+    libhelium_sources,
+
+    dependencies: [
+        libhelium_deps,
+        meson.get_compiler('c').find_library('m'),
+        meson.get_compiler('vala').find_library('posix')
+    ],
+
+    vala_header: 'libhelium-1.h',
+
+    version: libhelium_gi_version,
+    install: true,
+    install_dir: [true, include_dir, vapidir, girdir],
+)
+
 libhelium_gir = gnome.generate_gir(
              libhelium,
              sources: libhelium_sources,
@@ -109,25 +128,6 @@ if get_option('introspection')
         install_dir: join_paths(get_option('libdir'), 'girepository-1.0'),
     )
 endif
-
-libhelium = library(
-    'libhelium-1',
-
-    gresource,
-    libhelium_sources,
-
-    dependencies: [
-        libhelium_deps,
-        meson.get_compiler('c').find_library('m'),
-        meson.get_compiler('vala').find_library('posix')
-    ],
-
-    vala_header: 'libhelium-1.h',
-
-    version: libhelium_gi_version,
-    install: true,
-    install_dir: [true, include_dir, vapidir, girdir],
-)
 
 libhelium_dep = declare_dependency(
     dependencies: libhelium_deps,
