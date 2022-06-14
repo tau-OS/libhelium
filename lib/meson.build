@@ -105,7 +105,7 @@ if get_option('introspection')
             '@PLAINNAME@',
             '--output',
             '@OUTPUT@',
-            join_paths(meson.current_build_dir(), libhelium_gir),
+            join_paths(meson.current_build_dir(), 'He-1.gir'),
         ],
         input: libhelium,
         output: libhelium_typelib,
