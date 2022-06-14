@@ -1,3 +1,6 @@
+/**
+ * A Disclosure Button is a view-based button that acts on said view.
+ */
 public class He.DisclosureButton : He.Button {
   private He.Colors _color;
   /**

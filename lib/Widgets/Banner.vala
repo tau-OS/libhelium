@@ -1,31 +1,52 @@
+/**
+ * A Banner is a widget that displays a message to the user and provides a way for the user to act on the message.
+ */
 public class He.Banner : He.Bin, Gtk.Buildable {
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box text_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
     private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-  
+
     private Gtk.Label title_label = new Gtk.Label (null);
     private Gtk.Label description_label = new Gtk.Label (null);
+
     private Style _style = Style.INFO;
   
+    /**
+     * The title of the banner
+     */
     public string title {
         get { return title_label.get_text (); }
         set { title_label.set_text (value); }
     }
+
+    /**
+     * The description of the banner
+     */
     public string description {
         get { return description_label.get_text (); }
         set { description_label.set_text (value); }
     }
+
+    /**
+     * The style of the banner
+     */
     public Style style {
         get { return _style; }
         set { set_banner_style (value); }
     }
   
+    /**
+     * An enum representing the style of the banner.
+     */
     public enum Style {
         INFO,
         WARNING,
         ERROR
     }
   
+    /**
+     * Add a child to the banner, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+     */
     public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (strcmp (type, "action") == 0) {
             add_action_button ((Gtk.Widget) child);
@@ -34,6 +55,10 @@ public class He.Banner : He.Bin, Gtk.Buildable {
         }
     }
   
+    /**
+     * Add a button to the banner.
+     * @param button The button to add to the banner.
+     */
     public void add_action_button (Gtk.Widget widget) {
         if (button_box.get_first_child () == null) {
             button_box.set_visible (true);
@@ -42,6 +67,10 @@ public class He.Banner : He.Bin, Gtk.Buildable {
         button_box.append (widget);
     }
   
+    /**
+     * Remove a button from the banner.
+     * @param widget The button to remove.
+     */
     public void remove_action (Gtk.Widget widget) {
         button_box.remove (widget);
 
@@ -50,6 +79,10 @@ public class He.Banner : He.Bin, Gtk.Buildable {
         }
     }
 
+    /**
+     * Set the banner style.
+     * @param style The style to set the banner to.
+     */
     public void set_banner_style (Style style) {
         this.remove_css_class ("info");
         this.remove_css_class ("warning");
@@ -66,6 +99,11 @@ public class He.Banner : He.Bin, Gtk.Buildable {
         this._style = style;
     }
   
+    /**
+     * Construct a new banner.
+     * @param title The title of the banner.
+     * @param description The description of the banner.
+     */
     public Banner (string title, string description) {
         this.title = title;
         this.description = description;
