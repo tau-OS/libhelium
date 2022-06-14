@@ -66,7 +66,7 @@ typelibdir = get_option('libdir')  / 'girepository-1.0'
 vapidir    = get_option('datadir') / 'vapi'
 
 libhelium = library(
-    'libhelium-1',
+    'helium-1',
 
     gresource,
     libhelium_sources,
@@ -78,7 +78,7 @@ libhelium = library(
     ],
 
     vala_header: 'helium-1.h',
-    vala_vapi: 'libhelium-1.vapi',
+    vala_vapi: 'helium-1.vapi',
     vala_gir: 'He-1.gir',
 
     version: libhelium_gi_version,
