@@ -77,7 +77,7 @@ libhelium = library(
         meson.get_compiler('vala').find_library('posix')
     ],
 
-    vala_header: 'libhelium-1.h',
+    vala_header: 'helium-1.h',
     vala_vapi: 'libhelium-1.vapi',
     vala_gir: 'He-1.gir',
 
@@ -115,7 +115,7 @@ libhelium_dep = declare_dependency(
 
 libhelium_pc = pkgconfig.generate(
     libhelium,
-    name: 'libhelium',
+    name: 'helium',
     requires: libhelium_deps,
     description: 'tauOS\'s Application Framework',
     version: '1',
