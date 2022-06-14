@@ -51,7 +51,6 @@ libhelium_gi_name = 'He'
 libhelium_gi_version = '1'
 
 libhelium_gi = libhelium_gi_name + '-' + libhelium_gi_version
-libhelium_gir = libhelium_gi + '.gir'
 libhelium_typelib = libhelium_gi + '.typelib'
 
 include_dir = join_paths(
@@ -66,25 +65,27 @@ libdir     = get_option('libdir')
 typelibdir = get_option('libdir')  / 'girepository-1.0'
 vapidir    = get_option('datadir') / 'vapi'
 
-libhelium = library(
-    'helium-1',
+libhelium_gir = gnome.generate_gir(libadwaita,
+             sources: libhelium_sources,
+           nsversion: '1',
+           namespace: 'He',
+     export_packages: 'libhelium-1',
+       symbol_prefix: 'he',
+   identifier_prefix: 'He',
+           link_with: libhelium,
+            includes: ['Gio-2.0', 'Gtk-4.0'],
+             install: true,
+     install_dir_gir: girdir,
+ install_dir_typelib: typelibdir,
+)
 
-    gresource,
-    libhelium_sources,
-
-    dependencies: [
-        libhelium_deps,
-        meson.get_compiler('c').find_library('m'),
-        meson.get_compiler('vala').find_library('posix')
-    ],
-
-    vala_gir: libhelium_gir,
-    vala_header: 'libhelium-1.h',
-    vala_vapi: 'libhelium-1.vapi',
-
-    version: libhelium_gi_version,
-    install: true,
-    install_dir: [true, include_dir, vapidir, girdir],
+libhelium_vapi = gnome.generate_vapi(
+         'libhelium-1',
+         sources: libhelium,
+        packages: [ 'gio-2.0', 'gtk4' ],
+         install: true,
+     install_dir: vapidir,
+   metadata_dirs: [ meson.current_source_dir() ],
 )
 
 if get_option('introspection')
@@ -108,6 +109,27 @@ if get_option('introspection')
     )
 endif
 
+libhelium = library(
+    'libhelium-1',
+
+    gresource,
+    libhelium_sources,
+
+    dependencies: [
+        libhelium_deps,
+        meson.get_compiler('c').find_library('m'),
+        meson.get_compiler('vala').find_library('posix')
+    ],
+
+    vala_gir: libhelium_gir,
+    vala_header: 'libhelium-1.h',
+    vala_vapi: libhelium_vapi,
+
+    version: libhelium_gi_version,
+    install: true,
+    install_dir: [true, include_dir, vapidir, girdir],
+)
+
 libhelium_dep = declare_dependency(
     dependencies: libhelium_deps,
     include_directories: [include_directories('.')],
@@ -116,7 +138,7 @@ libhelium_dep = declare_dependency(
 
 libhelium_pc = pkgconfig.generate(
     libhelium,
-    name: 'libhelium-1',
+    name: 'libhelium',
     requires: libhelium_deps,
     description: 'tauOS\'s Application Framework',
     version: '1',
