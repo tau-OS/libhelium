@@ -12,7 +12,6 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
 
     /** 
      * Sets the title of the content block.
-     * @param title The title of the content block.
      */
     public string title {
         get {
@@ -25,7 +24,6 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
 
     /** 
      * Sets the subtitle of the content block.
-     * @param subtitle The subtitle of the content block.
      */
     public string subtitle {
         get {
@@ -38,7 +36,6 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
 
     /** 
      * Sets the icon of the content block.
-     * @param icon The icon of the content block.
      */
     public string icon {
         get {
@@ -58,7 +55,6 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
 
     /** 
      * Sets the secondary button of the content block.
-     * @param secondary_button The secondary button of the content block.
      */
     public He.Button secondary_button {
         set {
@@ -79,7 +75,6 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
 
     /** 
      * Sets the primary button of the content block.
-     * @param primary_button The primary button of the content block.
      */
     public He.Button primary_button {
         get {
@@ -103,10 +98,10 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
      * @param title The title of the content block.
      * @param subtitle The subtitle of the content block.
      * @param icon The icon of the content block.
-     * @param secondary_button The secondary button of the content block.
      * @param primary_button The primary button of the content block.
+     * @param secondary_button The secondary button of the content block.
      */
-    public ContentBlock(string title, string subtitle, string icon, He.Button primary_button, He.Button secondary_button) {
+    public ContentBlock (string title, string subtitle, string icon, He.Button primary_button, He.Button secondary_button) {
         this.title = title;
         this.subtitle = subtitle;
         this.icon = icon;

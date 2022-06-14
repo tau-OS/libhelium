@@ -18,7 +18,7 @@ public class He.Chip : He.Button {
 
   /**
   * Creates a new Chip.
-  * @param text The text to display in the chip.
+  * @param label The text to display in the chip.
   */
   public Chip(string label) {
     this.label = label;
