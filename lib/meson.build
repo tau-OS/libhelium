@@ -86,6 +86,7 @@ libhelium = library(
 
 libhelium_gir = gnome.generate_gir(
              libhelium,
+             sources: libhelium_sources,
            nsversion: '1',
            namespace: 'He',
      export_packages: 'libhelium-1',
@@ -100,6 +101,7 @@ libhelium_gir = gnome.generate_gir(
 
 libhelium_vapi = gnome.generate_vapi(
          'libhelium-1',
+         sources: libhelium_gir,
         packages: [ 'gio-2.0', 'gtk4' ],
          install: true,
      install_dir: vapidir,
