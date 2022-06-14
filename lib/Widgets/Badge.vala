@@ -60,11 +60,11 @@ public class He.Badge : He.Bin {
         box.add_css_class ("badge");
 
         overlay.add_overlay (box);
-
         overlay.set_parent (this);
     }
 
     ~Badge () {
         this.overlay.unparent ();
+        this.box.unparent ();
     }
 }
