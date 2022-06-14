@@ -1,3 +1,6 @@
+/**
+ * An application.
+ */
 public class He.Application : Gtk.Application {
   private Gtk.CssProvider light = new Gtk.CssProvider ();
   private Gtk.CssProvider dark = new Gtk.CssProvider ();

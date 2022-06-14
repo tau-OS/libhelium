@@ -3,25 +3,24 @@
 */
 public class He.AboutWindow : He.Window {
   private He.AppBar app_bar = new He.AppBar();
+
   private Gtk.Overlay window_overlay = new Gtk.Overlay();
+
   private Gtk.Box about_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 30);
   private Gtk.Box content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
   private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
   private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-
   private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
   private Gtk.Box text_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+  private Gtk.Box developers_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+  private Gtk.Box license_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 
   private Gtk.Label title_label = new Gtk.Label (null);
-
-  private Gtk.Box developers_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
   private Gtk.Label developers_copyright = new Gtk.Label (null);
   private Gtk.Label developers_label = new Gtk.Label (null);
-
   private Gtk.Label translators_label = new Gtk.Label (null);
-
-  private Gtk.Box license_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
   private Gtk.Label license_label = new Gtk.Label ("This program is licensed under ");
+
   private Gtk.LinkButton license_link = new Gtk.LinkButton ("https://hololive.moe");
 
   private Gtk.Image icon_image = new Gtk.Image ();
@@ -64,7 +63,7 @@ public class He.AboutWindow : He.Window {
         case Licenses.PROPRIETARY:
           return "https://choosealicense.com/no-permission";
         default:
-          return "https://hololive.moe/";
+          return "about:blank";
       }
     }
 
@@ -88,7 +87,7 @@ public class He.AboutWindow : He.Window {
         case Licenses.PROPRIETARY:
           return "a proprietary license";
         default:
-          return "Hololive";
+          return "N/A";
       }
     }
   }

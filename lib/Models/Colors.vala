@@ -1,3 +1,6 @@
+/**
+ * An enum that maps colors to internal CSS classes as per HIG.
+ */
 public enum He.Colors {
     NONE = 0,
     RED = 1,
@@ -13,6 +16,9 @@ public enum He.Colors {
     LIGHT = 11,
     DARK = 12;
 
+    /**
+     * Returns the CSS class name for the color.
+     */
     public string to_css_class() {
         switch (this) {
             case RED:
@@ -56,6 +62,9 @@ public enum He.Colors {
         }
     }
 
+    /**
+     * Returns the color name.
+     */
     public string to_string() {
         return this.to_css_class();
     }

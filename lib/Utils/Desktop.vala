@@ -1,15 +1,23 @@
+/**
+ * Helper class to deal with desktop-specific settings.
+ */
 [SingleInstance]
 public class He.Desktop : Object {
     private Portal.Settings? portal = null;
 
+    /**
+     * The color scheme preference enum, which is used to determine the color scheme of the desktop.
+     */
     public enum ColorScheme {
         NO_PREFERENCE,
         DARK,
         LIGHT
     }
 
+    /**
+     * The color scheme preference.
+     */
     private ColorScheme? _prefers_color_scheme = null;
-
     public ColorScheme prefers_color_scheme {
         get {
             if (_prefers_color_scheme == null) {

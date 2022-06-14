@@ -1,3 +1,6 @@
+/**
+ * A helper widget that implements a View that displays items.
+ */
 public abstract class He.View : Gtk.Widget, Gtk.Buildable {
     private He.ViewTitle title_label = new He.ViewTitle();
     private He.ViewSubTitle subtitle_label = new He.ViewSubTitle();
@@ -6,6 +9,9 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
     private Gtk.Box title_button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
+    /**
+     * The title of the view.
+     */
     public string title {
         get {
             return title_label.label;
@@ -19,6 +25,10 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
             }
         }
     }
+
+    /**
+     * The stack of the view.
+     */
     public Gtk.Stack stack {
         get {
             return stack;
@@ -33,6 +43,9 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+     * The subtitle of the view.
+     */
     public string subtitle {
         get {
             return subtitle_label.label;
@@ -58,6 +71,9 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+     * Add a child directly to the view. Used only in code.
+     */
     public void add (Gtk.Widget widget) {
         box.append (widget);
     }

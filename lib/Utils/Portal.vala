@@ -1,3 +1,6 @@
+/**
+ * A namespace of functions for working with the Desktop Portal.
+ */
 namespace He.Portal {
     private const string DBUS_DESKTOP_PATH = "/org/freedesktop/portal/desktop";
     private const string DBUS_DESKTOP_NAME = "org.freedesktop.portal.Desktop";

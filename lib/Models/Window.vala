@@ -1,6 +1,14 @@
+/**
+ * A Window is a container that has an {@link AppBar} and can be moved, resized, and closed.
+ * It may be a top-level window or a dialog. The title bar can be made always visible.
+ * Has an optional back button. The back button is only visible if has_back_button is true.
+ */
 public class He.Window : Gtk.Window {
     private new He.AppBar title = new He.AppBar ();
 
+    /**
+     * The parent window of this window. If this is null, then this is a top-level window.
+     */
     private new Gtk.Window? _parent;
     public new Gtk.Window? parent {
         get {
@@ -12,6 +20,9 @@ public class He.Window : Gtk.Window {
         }
     }
 
+    /**
+     * If this is a modal window.
+     */
     private new bool _modal;
     public new bool modal {
         get {
@@ -23,6 +34,9 @@ public class He.Window : Gtk.Window {
         }
     }
 
+    /**
+     * If the window has a title bar.
+     */
     private bool _has_title;
     public bool has_title {
         get {
@@ -40,6 +54,9 @@ public class He.Window : Gtk.Window {
         }
     }
 
+    /**
+     * If the window has a back button.
+     */
     private new bool _has_back_button;
     public new bool has_back_button {
         get {
