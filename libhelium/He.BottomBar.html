@@ -29,6 +29,7 @@
         <ul class="navi_main">
           <li class="enum"><a href="He.BottomBar.Position.html">Position</a></li>
           <li class="property"><a href="He.BottomBar.description.html">description</a></li>
+          <li class="property"><a href="He.BottomBar.menu_model.html">menu_model</a></li>
           <li class="property"><a href="He.BottomBar.title.html">title</a></li>
           <li class="creation_method"><a href="He.BottomBar.BottomBar.html">BottomBar</a></li>
           <li class="method"><a href="He.BottomBar.add_child.html">add_child</a></li>
@@ -46,11 +47,12 @@
         <img class="main_diagram" usemap="#He.BottomBar" alt="Object hierarchy for BottomBar" src="img/He.BottomBar.svg"/>
 
       <map id="He.BottomBar" name="He.BottomBar">
-<area shape="rect" id="node1" href="He.BottomBar.html" title="He.BottomBar" alt="" coords="435,389,564,437"/>
+<area shape="rect" id="node1" href="He.BottomBar.html" title="He.BottomBar" alt="" coords="537,389,666,437"/>
+<area shape="rect" id="node2" href="He.Bin.html" title="He.Bin" alt="" coords="527,293,601,341"/>
 </map>
 
         <h2 class="main_title">Description:</h2>
-        <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span class="class">BottomBar</span></b> : <span class="main_type"><span class="class">Box</span></span>, <span class="main_type"><span class="interface">Buildable</span></span>
+        <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span class="class">BottomBar</span></b> : <span class="main_type"><a href="He.Bin.html" class="abstract_class">Bin</a></span>, <span class="main_type"><span class="interface">Buildable</span></span>
         </div>
         <div class="description">
           <p>A BottomBar is a toolbar made to make actions on content more visible. It may have up to 5 actions on each side. It has title and 
@@ -71,6 +73,11 @@
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span> <b><a href="He.BottomBar.description.html" class="property">description</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
             </span>
             <div class="leaf_brief_description"><span class="brief_description">The description of the bottom bar.</span>
+            </div></li>
+          <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><span class="abstract_class">MenuModel</span></span> <b><a href="He.BottomBar.menu_model.html" class="property">menu_model</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
+            </span>
+            <div class="leaf_brief_description"><span class="brief_description">The menu_model of the bottom bar. If a menu_model is set, show it on 
+                the center widget of the bottom bar.</span>
             </div></li>
           <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span> <b><a href="He.BottomBar.title.html" class="property">title</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
             </span>
@@ -114,32 +121,21 @@
         </ul>
         <h3 class="main_title">Inherited Members:</h3>
         <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-67')">All known members inherited from class Gtk.Box</div>
+          <div class="headline" onclick="toggle_box (this, 'box-content-67')">All known members inherited from class He.Bin</div>
           <div class="content" id="box-content-67">
             <div class="column">
               <ul class="navi_inline">
-                <li class="method">append</li>
-                <li class="property">baseline_position</li>
-                <li class="method">get_baseline_position</li>
-                <li class="method">get_homogeneous</li>
-                <li class="method">get_spacing</li>
+                <li class="virtual_method"><a href="He.Bin.add_child.html">add_child</a></li>
               </ul>
             </div>
             <div class="column">
               <ul class="navi_inline">
-                <li class="property">homogeneous</li>
-                <li class="method">insert_child_after</li>
-                <li class="method">prepend</li>
-                <li class="method">remove</li>
-                <li class="method">reorder_child_after</li>
+                <li class="method"><a href="He.Bin.grab_focus.html">grab_focus</a></li>
               </ul>
             </div>
             <div class="column">
               <ul class="navi_inline">
-                <li class="method">set_baseline_position</li>
-                <li class="method">set_homogeneous</li>
-                <li class="method">set_spacing</li>
-                <li class="property">spacing</li>
+                <li class="method"><a href="He.Bin.grab_focus_child.html">grab_focus_child</a></li>
               </ul>
             </div>
           </div>
@@ -503,26 +499,6 @@
                 <li class="method">update_relation_value</li>
                 <li class="method">update_state</li>
                 <li class="method">update_state_value</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="box">
-          <div class="headline" onclick="toggle_box (this, 'box-content-72')">All known members inherited from interface Gtk.Orientable</div>
-          <div class="content" id="box-content-72">
-            <div class="column">
-              <ul class="navi_inline">
-                <li class="method">get_orientation</li>
-              </ul>
-            </div>
-            <div class="column">
-              <ul class="navi_inline">
-                <li class="abstract_property">orientation</li>
-              </ul>
-            </div>
-            <div class="column">
-              <ul class="navi_inline">
-                <li class="method">set_orientation</li>
               </ul>
             </div>
           </div>
