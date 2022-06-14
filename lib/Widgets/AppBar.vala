@@ -10,7 +10,7 @@ public class He.AppBar : He.Bin {
 
     private Gtk.Stack _stack;
     /**
-    * The stack that the AppBar is associated with.
+    * The stack that the AppBar is associated with. This is used to determine the back button's functionality.
     */
     public Gtk.Stack stack {
         get { return this._stack; }
