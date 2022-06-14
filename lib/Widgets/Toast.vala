@@ -1,3 +1,6 @@
+/**
+ * A Toast is a widget containing a quick little message for the user with an optional action button.
+ */
 public class He.Toast : He.Bin {
     /**
      * Emitted when the Toast is closed by activating the close button
