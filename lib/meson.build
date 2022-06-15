@@ -51,6 +51,7 @@ libhelium_gi_name = 'He'
 libhelium_gi_version = '1'
 
 libhelium_gi = libhelium_gi_name + '-' + libhelium_gi_version
+libhelium_gir = libhelium_gi + '.gir'
 libhelium_typelib = libhelium_gi + '.typelib'
 
 include_dir = join_paths(
@@ -60,13 +61,11 @@ include_dir = join_paths(
 
 # compile shared library, generate GIR, header, and vapi file
 datadir    = get_option('datadir')
-girdir     = get_option('datadir') / 'gir-1.0'
 libdir     = get_option('libdir')
 typelibdir = get_option('libdir')  / 'girepository-1.0'
-vapidir    = get_option('datadir') / 'vapi'
 
 libhelium = library(
-    'helium-1',
+    'libhelium-1',
 
     gresource,
     libhelium_sources,
@@ -77,13 +76,23 @@ libhelium = library(
         meson.get_compiler('vala').find_library('posix')
     ],
 
-    vala_header: 'helium-1.h',
-    vala_vapi: 'helium-1.vapi',
-    vala_gir: 'He-1.gir',
+    vala_gir: libhelium_gir,
+    vala_header: 'libhelium-1.h',
+    vala_vapi: 'libhelium-1.vapi',
 
     version: libhelium_gi_version,
     install: true,
-    install_dir: [true, include_dir, vapidir, girdir],
+    install_dir: [true, include_dir, true, true],
+    name_prefix: ''
+)
+
+pkg = import('pkgconfig')
+pkg.generate(
+    libhelium,
+    requires: libhelium_deps,
+    description: 'tauOS\'s Application Framework',
+    version: '1',
+    url: 'https://github.com/tau-OS/libhelium',
 )
 
 if get_option('introspection')
@@ -93,11 +102,9 @@ if get_option('introspection')
         libhelium_typelib,
         command: [
             g_ir_compiler,
-            '--shared-library',
-            '@PLAINNAME@',
-            '--output',
-            '@OUTPUT@',
-            join_paths(meson.current_build_dir(), 'He-1.gir'),
+            '--shared-library=@PLAINNAME@',
+            '--output=@OUTPUT@',
+            join_paths(meson.current_build_dir(), libhelium_gir),
         ],
         input: libhelium,
         output: libhelium_typelib,
@@ -111,13 +118,4 @@ libhelium_dep = declare_dependency(
     dependencies: libhelium_deps,
     include_directories: [include_directories('.')],
     link_with: libhelium,
-)
-
-libhelium_pc = pkgconfig.generate(
-    libhelium,
-    name: 'helium',
-    requires: libhelium_deps,
-    description: 'tauOS\'s Application Framework',
-    version: '1',
-    url: 'https://github.com/tau-OS/libhelium',
 )
