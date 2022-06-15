@@ -57,7 +57,7 @@ public class He.Banner : He.Bin, Gtk.Buildable {
   
     /**
      * Add a button to the banner.
-     * @param button The button to add to the banner.
+     * @param widget The button to add to the banner.
      */
     public void add_action_button (Gtk.Widget widget) {
         if (button_box.get_first_child () == null) {
