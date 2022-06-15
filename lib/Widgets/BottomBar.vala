@@ -200,10 +200,15 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    * @param title The title of the bottom bar.
    * @param description The description of the bottom bar.
    */
-  public BottomBar(string title, string description) {
+  public BottomBar.with_details (string title, string description) {
     this.title = title;
     this.description = description;
   }
+
+  /**
+   * Create a new bottom bar.
+   */
+  public BottomBar () {}
 
   static construct {
     set_layout_manager_type (typeof (Gtk.BoxLayout));

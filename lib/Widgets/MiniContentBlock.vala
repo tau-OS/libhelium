@@ -83,11 +83,16 @@ public class He.MiniContentBlock : He.Bin {
     * @param subtitle The subtitle of the content block.
     * @param primary_button The primary button of the content block.
     */
-    public MiniContentBlock(string title, string subtitle, He.Button primary_button) {
+    public MiniContentBlock.with_details (string? title, string? subtitle, He.Button? primary_button) {
         this.title = title;
         this.subtitle = subtitle;
         this.primary_button = primary_button;
     }
+
+     /**
+      * Constructs a new MiniContentBlock.
+      */
+    public MiniContentBlock () {}
     
     static construct {
         set_layout_manager_type (typeof (Gtk.BoxLayout));
