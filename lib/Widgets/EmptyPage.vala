@@ -12,7 +12,13 @@ public class He.EmptyPage : He.Bin {
     private Gtk.Image icon_image = new Gtk.Image();
     private Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 24);
     private Gtk.Box box_title = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
-    private He.PillButton action_button = new He.PillButton("");
+
+    /**
+     * The action button of the empty page.
+     * Can connect to the clicked signal to get notified when the button is clicked.
+     * e.g. action_button.clicked.connect(() => { ... });
+     */
+    public He.PillButton action_button = new He.PillButton("");
 
     /**
      * Sets the title of the empty page.
