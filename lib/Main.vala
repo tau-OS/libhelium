@@ -28,6 +28,8 @@ namespace He {
         typeof (He.EmptyPage).ensure ();
         typeof (He.FillButton).ensure ();
         typeof (He.IconicButton).ensure ();
+        typeof (He.Latch).ensure ();
+        typeof (He.LatchLayout).ensure ();
         typeof (He.MiniContentBlock).ensure ();
         typeof (He.ModifierBadge).ensure ();
         typeof (He.OutlineButton).ensure ();

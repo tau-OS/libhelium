@@ -165,28 +165,31 @@ template DemoMainWindow : .HeApplicationWindow {
                 title: "Buttons";
 
                 child:
-                  Box {
-                    orientation: vertical;
-                    spacing: 12;
+                  .HeLatch {
+                    Box {
+                      orientation: vertical;
+                      spacing: 12;
+                      width-request: 400;
 
-                    .HeFillButton {
-                      label: "Fill";
-                    }
+                      .HeFillButton {
+                        label: "Fill";
+                      }
 
-                    .HeTintButton {
-                      label: "Tint";
-                    }
+                      .HeTintButton {
+                        label: "Tint";
+                      }
 
-                    .HeOutlineButton {
-                      label: "Outline";
-                    }
+                      .HeOutlineButton {
+                        label: "Outline";
+                      }
 
-                    .HeTextButton {
-                      label: "Text";
-                    }
+                      .HeTextButton {
+                        label: "Text";
+                      }
 
-                    .HePillButton {
-                      label: "Pill";
+                      .HePillButton {
+                        label: "Pill";
+                      }
                     }
                   }
                 ;
