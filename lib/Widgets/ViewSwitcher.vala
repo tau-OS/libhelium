@@ -83,6 +83,11 @@ public class He.ViewSwitcher : He.Bin {
     }
 
     private void on_button_toggled (Gtk.ToggleButton button) {
+        // Don't do anything if this stack has 1 or less items
+        if (this._stack_pages.get_n_items () <= 1) {
+            return;
+        }
+
         unowned int position = this._buttons.index (button);
         if (button.active) {
             this._stack_pages.select_item (position, true);
