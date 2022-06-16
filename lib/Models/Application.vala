@@ -88,4 +88,9 @@ public class He.Application : Gtk.Application {
     init_style_providers ();
     init_app_providers ();
   }
+
+  public Application(string? application_id, ApplicationFlags flags) {
+    this.application_id = application_id;
+    this.flags = flags;
+  }
 }
