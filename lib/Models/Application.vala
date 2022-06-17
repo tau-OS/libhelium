@@ -62,6 +62,20 @@ public class He.Application : Gtk.Application {
         style_provider_set_enabled (base_provider, true);
     }
   }
+
+  private void setup_accent_color () {
+    var accent_color = desktop.accent_color;
+    var color = Gdk.RGBA ();
+    color.red = accent_color.red;
+    color.green = accent_color.green;
+    color.blue = accent_color.blue;
+    color.alpha = 1;
+
+    var css = "* { color: " + color.to_string () + "; }";
+    var provider = new Gtk.CssProvider ();
+    provider.load_from_data (css.data);
+    style_provider_set_enabled (provider, true);
+  }
   
   private void style_provider_set_enabled (Gtk.CssProvider provider, bool enabled) {
     Gdk.Display display = Gdk.Display.get_default ();
