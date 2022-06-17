@@ -101,6 +101,7 @@ public class He.Application : Gtk.Application {
     He.init ();
     init_style_providers ();
     init_app_providers ();
+    setup_accent_color ();
   }
 
   public Application(string? application_id, ApplicationFlags flags) {
