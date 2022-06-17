@@ -5,6 +5,7 @@ namespace He {
     
         // Ensure all classes listed here are available for use.
         // Remove only if the class is not needed anymore.
+        typeof (He.Animation).ensure ();
         typeof (He.Application).ensure ();
         typeof (He.AboutWindow).ensure ();
         typeof (He.Album).ensure ();

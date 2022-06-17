@@ -13,22 +13,39 @@ class He.LatchLayout : Gtk.LayoutManager, Gtk.Orientable {
         }
     }
 
-    private double lerp (double a, double b) {
-        return a + (b - a);
+    private double lerp (double a, double b, double t) {
+        return a + (b - a) * t;
+    }
+
+    private double inverse_lerp (double a, double b, double t) {
+        return (t - a) / (b - a);
     }
 
     private int latch_size_from_child (int min, int nat) {
         int max = 0, lower = 0, upper = 0;
+        double progress;
 
         lower = int.max (int.min (tightening_threshold, maximum_size), min);
         max = int.max (lower, maximum_size);
         upper = lower + 3 * (max - lower);
 
-        return (int) Math.ceil (lerp (lower, upper));
+        if (nat <= lower)
+            progress = 0;
+        else if (nat >= max)
+            progress = 1;
+        else {
+            double ease = inverse_lerp (lower, max, nat);
+
+            progress = 1 + Math.cbrt (ease - 1);
+        }
+
+
+        return (int) Math.ceil (lerp (lower, upper, progress));
     }
 
     private int child_size_from_latch (Gtk.Widget child, int for_size, int maximum_size, int lower_threshold) {
         int min = 0, nat = 0, max = 0, lower = 0, upper = 0;
+        double progress;
 
         child.measure (orientation, -1, out min, out nat, null, null);
 
@@ -49,8 +66,11 @@ class He.LatchLayout : Gtk.LayoutManager, Gtk.Orientable {
 
         if (for_size >= upper)
             return max;
+        
+        progress = inverse_lerp (lower, upper, for_size);
 
-        return (int) lerp (lower, max);
+        var anime = new He.Animation ();
+        return (int) lerp (lower, max, anime.animation(HE_ANIMATION_EASE_IN_CUBIC, 3, progress));
     }
 
     public override Gtk.SizeRequestMode get_request_mode (Gtk.Widget widget) {
