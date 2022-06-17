@@ -71,7 +71,7 @@ public class He.Application : Gtk.Application {
     color.blue = accent_color.blue;
     color.alpha = 1;
 
-    var css = "* { color: " + color.to_string () + "; }";
+    var css = "@define-color accent_bg_color " + color.to_string ();
     var provider = new Gtk.CssProvider ();
     provider.load_from_data (css.data);
     style_provider_set_enabled (provider, true);
