@@ -66,40 +66,44 @@ public class He.Desktop : Object {
         }
         private set {
             _accent_color = value;
+            if (_accent_color == null) {
+                setup_accent_color ();
+            }
         }
     }
     
     private void setup_accent_color () {
         try {
             portal = Portal.Settings.get ();
-            Gdk.RGBA color_portal = {};
 
             float cr, cg, cb = 0;
             
             // The accent color is stored as a Gdk.RGBA in the GVariant format "(ddd)"
             // where r,g,b,a are floats between 0.0 and 1.0.
-            portal.read (
+            var accent = portal.read (
                 "org.freedesktop.appearance",
                 "accent-color"
-            ).get_variant ().get ("(ddd)", out cr, out cg, out cb);
+            ).get_variant ();
+            
+            VariantIter iter = accent.iterator ();
+            iter.next ("d", out cr);
+            iter.next ("d", out cg);
+            iter.next ("d", out cb);
 
-            color_portal.red = (float)cr;
-            color_portal.green = (float)cg;
-            color_portal.blue = (float)cb;
-            color_portal.alpha = 1;
+            accent_color = hexcode (cr, cg, cb);
 
-            accent_color = hexcode(color_portal.red, color_portal.green, color_portal.blue);
+            warning ("accent color is %s", accent_color);
             
             portal.setting_changed.connect ((scheme, key, value) => {
                 if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
-                    value.get_variant ().get ("(ddd)", out cr, out cg, out cb);
+                    accent = value.get_variant ();
+                    iter = accent.iterator ();
+                    iter.next ("d", out cr);
+                    iter.next ("d", out cg);
+                    iter.next ("d", out cb);
+                    accent_color = hexcode (cr, cg, cb);
 
-                    color_portal.red = (float)cr;
-                    color_portal.green = (float)cg;
-                    color_portal.blue = (float)cb;
-                    color_portal.alpha = 1;
-
-                    accent_color = hexcode(color_portal.red, color_portal.green, color_portal.blue);
+                    warning ("accent color changed to %s", accent_color);
                 }
             });
             

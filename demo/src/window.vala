@@ -124,10 +124,8 @@ public class Demo.MainWindow : He.ApplicationWindow {
             ((Gtk.Label)button2.get_child ()).xalign = 0;
             var button3 = new He.PillButton ("Open");
             button3.icon = "document-open-symbolic";
-            button3.color = He.Colors.NONE;
             var button4 = new He.PillButton ("New");
             button4.icon = "list-add-symbolic";
-            button4.color = He.Colors.GREEN;
 
             ws_welcome.add_child (builder, ((Gtk.Widget) button1), "action");
             ws_welcome.add_child (builder, ((Gtk.Widget) button2), "action");
@@ -155,7 +153,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
             {"Lains", "Lea"},
             2022,
             He.AboutWindow.Licenses.GPLv3,
-            He.Colors.INDIGO
+            He.Colors.NONE
         );
         about.present ();
     }

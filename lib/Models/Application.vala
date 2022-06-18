@@ -72,7 +72,7 @@ public class He.Application : Gtk.Application {
 
   private void setup_accent_color () {
     var accent_color = desktop.accent_color;
-    warning ("%s", accent_color);
+    warning ("Accent color is %s", accent_color);
 
     var css = @"
       @define-color accent_bg_color $accent_color;
@@ -80,11 +80,14 @@ public class He.Application : Gtk.Application {
     ";
     Gtk.CssProvider provider = new Gtk.CssProvider ();
     provider.load_from_data (css.data);
-    style_provider_set_enabled (provider, true);
+
+    if (provider != null) {
+        style_provider_set_enabled (provider, true);
+    }
 
     desktop.notify["accent-color"].connect (() => {
         var accent_colors = desktop.accent_color;
-        warning ("%s", accent_colors);
+        warning ("Accent color is changed to %s", accent_colors);
     
         var csss = @"
           @define-color accent_bg_color $accent_colors;
@@ -92,7 +95,10 @@ public class He.Application : Gtk.Application {
         ";
         var providers = new Gtk.CssProvider ();
         providers.load_from_data (csss.data);
-        style_provider_set_enabled (providers, true);
+
+        if (providers != null) {
+          style_provider_set_enabled (providers, true);
+        }
     });
   }
   

@@ -282,8 +282,6 @@ public class He.OverlayButton : He.Bin, Gtk.Buildable {
         });
         
         this.size = Size.MEDIUM;
-        this.color = He.Colors.GREEN;
-        this.secondary_color = He.Colors.BLUE;
         this.alignment = Alignment.RIGHT;
         this.vexpand = true;
         this.hexpand = true;
