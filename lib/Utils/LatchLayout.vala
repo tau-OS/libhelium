@@ -1,6 +1,30 @@
 class He.LatchLayout : Gtk.LayoutManager, Gtk.Orientable {
-    public int tightening_threshold { get; set; default = 400; }
-    public int maximum_size { get; set; default = 600; }
+    private int _tightening_threshold;
+    public int tightening_threshold { 
+        get {
+            return _tightening_threshold;
+        }
+        set {
+            _tightening_threshold = value;
+            this.layout_changed ();
+        }
+    }
+
+    private int _maximum_size;
+    public int maximum_size { 
+        get {
+            return _maximum_size;
+        }
+        set {
+            _maximum_size = value;
+            this.layout_changed ();
+        }
+    }
+
+    construct {
+        this.tightening_threshold = 400;
+        this.maximum_size = 600;
+    }
 
     private Gtk.Orientation _orientation;
     public Gtk.Orientation orientation {
@@ -38,7 +62,6 @@ class He.LatchLayout : Gtk.LayoutManager, Gtk.Orientable {
 
             progress = 1 + Math.cbrt (ease - 1);
         }
-
 
         return (int) Math.ceil (lerp (lower, upper, progress));
     }
