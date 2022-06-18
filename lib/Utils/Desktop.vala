@@ -82,17 +82,29 @@ public class He.Desktop : Object {
                 "accent-color"
             ).get ("(ddd)", out cr, out cg, out cb);
 
-            accent_color.red = cr;
-            accent_color.green = cg;
-            accent_color.blue = cb;
+            if (cr != accent_color.red || cg != accent_color.green || cb != accent_color.blue) {
+                accent_color.red = cr;
+                accent_color.green = cg;
+                accent_color.blue = cb;
+            } else {
+                warning ("accent color unchanged");
+                accent_color = Gdk.RGBA ();
+                accent_color.parse ("rgba(0.55, 0.34, 0.75, 1.0)");
+            }
             
             portal.setting_changed.connect ((scheme, key, value) => {
                 if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
                     value.get ("(ddd)", out cr, out cg, out cb);
 
-                    accent_color.red = cr;
-                    accent_color.green = cg;
-                    accent_color.blue = cb;
+                    if (cr != accent_color.red || cg != accent_color.green || cb != accent_color.blue) {
+                        accent_color.red = cr;
+                        accent_color.green = cg;
+                        accent_color.blue = cb;
+                    } else {
+                        warning ("accent color unchanged");
+                        accent_color = Gdk.RGBA ();
+                        accent_color.parse ("rgba(0.55, 0.34, 0.75, 1.0)");
+                    }
                 }
             });
             
@@ -100,8 +112,7 @@ public class He.Desktop : Object {
         } catch (Error e) {
             debug ("%s", e.message);
         }
-        
-        // If we can't get the accent color, use the default.
+
         accent_color = Gdk.RGBA ();
         accent_color.parse ("rgba(0.55, 0.34, 0.75, 1.0)");
     }
