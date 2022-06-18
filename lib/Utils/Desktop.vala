@@ -81,7 +81,7 @@ public class He.Desktop : Object {
             portal.read (
                 "org.freedesktop.appearance",
                 "accent-color"
-            ).get ("(ddd)", out cr, out cg, out cb);
+            ).get_variant ().get ("(ddd)", out cr, out cg, out cb);
 
             color_portal.red = (float)cr;
             color_portal.green = (float)cg;
@@ -92,7 +92,7 @@ public class He.Desktop : Object {
             
             portal.setting_changed.connect ((scheme, key, value) => {
                 if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
-                    value.get ("(ddd)", out cr, out cg, out cb);
+                    value.get_variant ().get ("(ddd)", out cr, out cg, out cb);
 
                     color_portal.red = (float)cr;
                     color_portal.green = (float)cg;
@@ -108,6 +108,7 @@ public class He.Desktop : Object {
             debug ("%s", e.message);
         }
 
+        // If we can't get the accent color, use the default.
         accent_color = "#8C56BF";
     }
 
