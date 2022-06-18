@@ -72,18 +72,11 @@ public class He.Application : Gtk.Application {
 
   private void setup_accent_color () {
     var accent_color = desktop.accent_color;
-    var color = Gdk.RGBA ();
-    color.red = accent_color.red;
-    color.green = accent_color.green;
-    color.blue = accent_color.blue;
-    color.alpha = 1;
-
-    string color_str = color.to_string ();
-    warning ("%s", color_str);
+    warning ("%s", accent_color);
 
     var css = @"
-      @define-color accent_bg_color $color_str;
-      @define-color accent_color $color_str;
+      @define-color accent_bg_color $accent_color;
+      @define-color accent_color $accent_color;
     ";
     Gtk.CssProvider provider = new Gtk.CssProvider ();
     provider.load_from_data (css.data);
@@ -91,17 +84,11 @@ public class He.Application : Gtk.Application {
 
     desktop.notify["accent-color"].connect (() => {
         var accent_colors = desktop.accent_color;
-        var colors = Gdk.RGBA ();
-        colors.red = accent_colors.red;
-        colors.green = accent_colors.green;
-        colors.blue = accent_colors.blue;
-        colors.alpha = 1;
-    
-        string color_strs = color.to_string ();
+        warning ("%s", accent_colors);
     
         var csss = @"
-          @define-color accent_bg_color $color_str;
-          @define-color accent_color $color_str;
+          @define-color accent_bg_color $accent_colors;
+          @define-color accent_color $accent_colors;
         ";
         var providers = new Gtk.CssProvider ();
         providers.load_from_data (csss.data);
@@ -133,10 +120,8 @@ public class He.Application : Gtk.Application {
     He.init ();
     init_style_providers ();
 
-    if (desktop.accent_color_found)
-        setup_accent_color ();
-    else
-        init_app_providers ();
+    setup_accent_color ();
+    init_app_providers ();
   }
 
   public Application(string? application_id, ApplicationFlags flags) {

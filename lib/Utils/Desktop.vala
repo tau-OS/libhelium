@@ -4,8 +4,6 @@
 [SingleInstance]
 public class He.Desktop : Object {
     private Portal.Settings? portal = null;
-
-    public bool accent_color_found;
     
     /**
     * The color scheme preference enum, which is used to determine the color scheme of the desktop.
@@ -58,8 +56,8 @@ public class He.Desktop : Object {
     /**
     * The accent color preference.
     */
-    private Gdk.RGBA? _accent_color = null;
-    public Gdk.RGBA accent_color {
+    private string? _accent_color;
+    public string accent_color {
         get {
             if (_accent_color == null) {
                 setup_accent_color ();
@@ -89,9 +87,8 @@ public class He.Desktop : Object {
             color_portal.green = (float)cg;
             color_portal.blue = (float)cb;
             color_portal.alpha = 1;
-            accent_color_found = true;
 
-            accent_color = color_portal;
+            accent_color = hexcode(color_portal.red, color_portal.green, color_portal.blue);
             
             portal.setting_changed.connect ((scheme, key, value) => {
                 if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
@@ -102,7 +99,7 @@ public class He.Desktop : Object {
                     color_portal.blue = (float)cb;
                     color_portal.alpha = 1;
 
-                    accent_color = color_portal;
+                    accent_color = hexcode(color_portal.red, color_portal.green, color_portal.blue);
                 }
             });
             
@@ -111,7 +108,14 @@ public class He.Desktop : Object {
             debug ("%s", e.message);
         }
 
-        accent_color.parse ("#8C56BF");
-        accent_color_found = false;
+        accent_color = "#8C56BF";
+    }
+
+    private string hexcode (float r, float g, float b) {
+        return "#" + "%02x%02x%02x".printf (
+            (int)(r * 255),
+            (int)(g * 255),
+            (int)(b * 255)
+        );
     }
 }
