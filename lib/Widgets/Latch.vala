@@ -75,6 +75,11 @@ public class He.Latch : Gtk.Widget, Gtk.Buildable, Gtk.Orientable, Gtk.Scrollabl
         set_layout_manager_type (typeof (He.LatchLayout));
     }
 
+    construct {
+        this.tightening_threshold = 400;
+        this.maximum_size = 600;
+    }
+
     /**
      * Add a child to the latch, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
      */

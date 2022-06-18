@@ -20,8 +20,4 @@ public abstract class He.Button : Gtk.Button, Gtk.Buildable {
             return icon_name;
         }
     }
-
-    construct {
-        this.color = He.Colors.PURPLE;
-    }
 }

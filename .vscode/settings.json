@@ -7,6 +7,10 @@
     ".flatpak/**": true,
     "_build/**": true
   },
-  "mesonbuild.configureOnOpen": true,
-  "mesonbuild.configureOptions": ["-Ddemo=true"]
+  "mesonbuild.configureOnOpen": false,
+  "mesonbuild.configureOptions": [
+    "-Ddemo=true"
+  ],
+  "mesonbuild.buildFolder": "_build",
+  "mesonbuild.mesonPath": "/var/home/lains/Projects/tauos/libhelium/.flatpak/meson.sh"
 }

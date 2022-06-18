@@ -4,6 +4,8 @@
 [SingleInstance]
 public class He.Desktop : Object {
     private Portal.Settings? portal = null;
+
+    public bool accent_color_found;
     
     /**
     * The color scheme preference enum, which is used to determine the color scheme of the desktop.
@@ -72,8 +74,9 @@ public class He.Desktop : Object {
     private void setup_accent_color () {
         try {
             portal = Portal.Settings.get ();
+            Gdk.RGBA color_portal = {};
 
-            float cr, cg, cb = (float)0.0;
+            float cr, cg, cb = 0;
             
             // The accent color is stored as a Gdk.RGBA in the GVariant format "(ddd)"
             // where r,g,b,a are floats between 0.0 and 1.0.
@@ -82,29 +85,24 @@ public class He.Desktop : Object {
                 "accent-color"
             ).get ("(ddd)", out cr, out cg, out cb);
 
-            if (cr != accent_color.red || cg != accent_color.green || cb != accent_color.blue) {
-                accent_color.red = cr;
-                accent_color.green = cg;
-                accent_color.blue = cb;
-            } else {
-                warning ("accent color unchanged");
-                accent_color = Gdk.RGBA ();
-                accent_color.parse ("rgba(0.55, 0.34, 0.75, 1.0)");
-            }
+            color_portal.red = (float)cr;
+            color_portal.green = (float)cg;
+            color_portal.blue = (float)cb;
+            color_portal.alpha = 1;
+            accent_color_found = true;
+
+            accent_color = color_portal;
             
             portal.setting_changed.connect ((scheme, key, value) => {
                 if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
                     value.get ("(ddd)", out cr, out cg, out cb);
 
-                    if (cr != accent_color.red || cg != accent_color.green || cb != accent_color.blue) {
-                        accent_color.red = cr;
-                        accent_color.green = cg;
-                        accent_color.blue = cb;
-                    } else {
-                        warning ("accent color unchanged");
-                        accent_color = Gdk.RGBA ();
-                        accent_color.parse ("rgba(0.55, 0.34, 0.75, 1.0)");
-                    }
+                    color_portal.red = (float)cr;
+                    color_portal.green = (float)cg;
+                    color_portal.blue = (float)cb;
+                    color_portal.alpha = 1;
+
+                    accent_color = color_portal;
                 }
             });
             
@@ -113,7 +111,7 @@ public class He.Desktop : Object {
             debug ("%s", e.message);
         }
 
-        accent_color = Gdk.RGBA ();
-        accent_color.parse ("rgba(0.55, 0.34, 0.75, 1.0)");
+        accent_color.parse ("#8C56BF");
+        accent_color_found = false;
     }
 }

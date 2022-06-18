@@ -14,18 +14,22 @@ public class He.Application : Gtk.Application {
     if (desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK) {
       style_provider_set_enabled (dark, true);
       style_provider_set_enabled (light, false);
+      init_app_providers ();
     } else {
       style_provider_set_enabled (light, true);
       style_provider_set_enabled (dark, false);
+      init_app_providers ();
     }
     
     desktop.notify["prefers-color-scheme"].connect (() => {
       if (desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK) {
         style_provider_set_enabled (dark, true);
         style_provider_set_enabled (light, false);
+        init_app_providers ();
       } else {
         style_provider_set_enabled (light, true);
         style_provider_set_enabled (dark, false);
+        init_app_providers ();
       }
     });
   }
@@ -50,12 +54,15 @@ public class He.Application : Gtk.Application {
     string base_uri = "resource://" + base_path;
     File base_file = File.new_for_uri (base_uri);
     Gtk.CssProvider base_provider = new Gtk.CssProvider ();
-    init_provider_from_file (base_provider, base_file.get_child ("style.css"));
     
     if (base_file.get_child ("style-dark.css").query_exists (null)) {
-      init_provider_from_file (base_provider, base_file.get_child ("style-dark.css"));
+        if (desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK) {
+            init_provider_from_file (base_provider, base_file.get_child ("style-dark.css"));
+        } else {
+            init_provider_from_file (base_provider, base_file.get_child ("style.css"));
+        }
     } else {
-      warning ("Dark Styling not found. Proceeding anyway.");
+        warning ("Dark Styling not found. Proceeding anyway.");
     }
     
     if (base_provider != null) {
@@ -72,14 +79,34 @@ public class He.Application : Gtk.Application {
     color.alpha = 1;
 
     string color_str = color.to_string ();
+    warning ("%s", color_str);
 
     var css = @"
       @define-color accent_bg_color $color_str;
       @define-color accent_color $color_str;
     ";
-    var provider = new Gtk.CssProvider ();
+    Gtk.CssProvider provider = new Gtk.CssProvider ();
     provider.load_from_data (css.data);
     style_provider_set_enabled (provider, true);
+
+    desktop.notify["accent-color"].connect (() => {
+        var accent_colors = desktop.accent_color;
+        var colors = Gdk.RGBA ();
+        colors.red = accent_colors.red;
+        colors.green = accent_colors.green;
+        colors.blue = accent_colors.blue;
+        colors.alpha = 1;
+    
+        string color_strs = color.to_string ();
+    
+        var csss = @"
+          @define-color accent_bg_color $color_str;
+          @define-color accent_color $color_str;
+        ";
+        var providers = new Gtk.CssProvider ();
+        providers.load_from_data (csss.data);
+        style_provider_set_enabled (providers, true);
+    });
   }
   
   private void style_provider_set_enabled (Gtk.CssProvider provider, bool enabled) {
@@ -105,8 +132,11 @@ public class He.Application : Gtk.Application {
     base.startup ();
     He.init ();
     init_style_providers ();
-    setup_accent_color ();
-    init_app_providers ();
+
+    if (desktop.accent_color_found)
+        setup_accent_color ();
+    else
+        init_app_providers ();
   }
 
   public Application(string? application_id, ApplicationFlags flags) {
