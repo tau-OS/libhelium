@@ -83,6 +83,7 @@ public class He.Application : Gtk.Application {
 
     if (provider != null) {
         style_provider_set_enabled (provider, true);
+        init_style_providers ();
     }
 
     desktop.notify["accent-color"].connect (() => {
@@ -98,6 +99,7 @@ public class He.Application : Gtk.Application {
 
         if (providers != null) {
           style_provider_set_enabled (providers, true);
+          init_style_providers ();
         }
     });
   }
@@ -125,9 +127,8 @@ public class He.Application : Gtk.Application {
     base.startup ();
     He.init ();
     init_style_providers ();
-
-    setup_accent_color ();
     init_app_providers ();
+    setup_accent_color ();
   }
 
   public Application(string? application_id, ApplicationFlags flags) {
