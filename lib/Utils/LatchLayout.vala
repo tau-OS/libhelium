@@ -69,8 +69,7 @@ class He.LatchLayout : Gtk.LayoutManager, Gtk.Orientable {
         
         progress = inverse_lerp (lower, upper, for_size);
 
-        var anime = new He.Animation ();
-        return (int) lerp (lower, max, anime.animation(HE_ANIMATION_EASE_IN_CUBIC, 3, progress));
+        return (int) lerp (lower, max, He.Animation.ease_in_cubic (3, progress));
     }
 
     public override Gtk.SizeRequestMode get_request_mode (Gtk.Widget widget) {
