@@ -36,6 +36,14 @@ public class He.DisclosureButton : He.Button {
     this.icon = icon;
   }
 
+  /**
+   * Create a new DisclosureButton from an icon.
+   * @param icon The icon to display on the button.
+   */
+    public DisclosureButton.from_icon(string icon) {
+      this.icon = icon;
+  }
+
   construct {
     this.add_css_class ("disclosure-button");
     this.valign = Gtk.Align.CENTER;

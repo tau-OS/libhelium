@@ -13,6 +13,8 @@ libhelium_sources += files(
     'Utils/Misc.vala',
     'Utils/LatchLayout.vala',
     'Widgets/AboutWindow.vala',
+    'Widgets/Album.vala',
+    'Widgets/AlbumPage.vala',
     'Widgets/AppBar.vala',
     'Widgets/ApplicationWindow.vala',
     'Widgets/Badge.vala',
@@ -34,7 +36,12 @@ libhelium_sources += files(
     'Widgets/OutlineButton.vala',
     'Widgets/OverlayButton.vala',
     'Widgets/PillButton.vala',
+    'Widgets/SettingsPage.vala',
+    'Widgets/SettingsWindow.vala',
     'Widgets/SideBar.vala',
+    'Widgets/Tab.vala',
+    'Widgets/TabPage.vala',
+    'Widgets/TabSwitcher.vala',
     'Widgets/TextButton.vala',
     'Widgets/TintButton.vala',
     'Widgets/Toast.vala',
@@ -45,8 +52,6 @@ libhelium_sources += files(
     'Widgets/ViewSwitcher.vala',
     'Widgets/ViewTitle.vala',
     'Widgets/WelcomeScreen.vala',
-    'Widgets/AlbumPage.vala',
-    'Widgets/Album.vala'
 )
 
 # define all the names and versions

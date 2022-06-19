@@ -25,10 +25,12 @@ public class Demo.MainWindow : He.ApplicationWindow {
     public SimpleActionGroup actions { get; construct; }
     public const string ACTION_PREFIX = "win.";
     public const string ACTION_ABOUT = "action_about";
+    public const string ACTION_SETTINGS = "action_settings";
     public static Gee.MultiMap<string, string> action_accelerators = new Gee.HashMultiMap<string, string> ();
 
     private const GLib.ActionEntry[] ACTION_ENTRIES = {
           {ACTION_ABOUT, action_about },
+          {ACTION_SETTINGS, action_settings },
     };
 
     [GtkChild]
@@ -156,5 +158,10 @@ public class Demo.MainWindow : He.ApplicationWindow {
             He.Colors.NONE
         );
         about.present ();
+    }
+
+    public void action_settings () {
+        var settings = new He.SettingsWindow (this);
+        settings.present ();
     }
 }
