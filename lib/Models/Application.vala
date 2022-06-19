@@ -4,6 +4,7 @@
 public class He.Application : Gtk.Application {
   private Gtk.CssProvider light = new Gtk.CssProvider ();
   private Gtk.CssProvider dark = new Gtk.CssProvider ();
+  private Gtk.CssProvider accent = new Gtk.CssProvider ();
   private He.Desktop desktop = new He.Desktop ();
   
   private void init_style_providers () {
@@ -21,6 +22,8 @@ public class He.Application : Gtk.Application {
       init_app_providers ();
     }
     
+    style_provider_set_enabled (accent, true);
+
     desktop.notify["prefers-color-scheme"].connect (() => {
       if (desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK) {
         style_provider_set_enabled (dark, true);
@@ -78,13 +81,7 @@ public class He.Application : Gtk.Application {
       @define-color accent_bg_color $accent_color;
       @define-color accent_color $accent_color;
     ";
-    Gtk.CssProvider provider = new Gtk.CssProvider ();
-    provider.load_from_data (css.data);
-
-    if (provider != null) {
-        style_provider_set_enabled (provider, true);
-        init_style_providers ();
-    }
+    accent.load_from_data (css.data);
 
     desktop.notify["accent-color"].connect (() => {
         var accent_colors = desktop.accent_color;
@@ -94,13 +91,7 @@ public class He.Application : Gtk.Application {
           @define-color accent_bg_color $accent_colors;
           @define-color accent_color $accent_colors;
         ";
-        var providers = new Gtk.CssProvider ();
-        providers.load_from_data (csss.data);
-
-        if (providers != null) {
-          style_provider_set_enabled (providers, true);
-          init_style_providers ();
-        }
+        accent.load_from_data (csss.data);
     });
   }
   

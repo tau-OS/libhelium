@@ -76,7 +76,7 @@ public class He.Desktop : Object {
         try {
             portal = Portal.Settings.get ();
 
-            float cr, cg, cb = 0;
+            double cr, cg, cb = 0;
             
             // The accent color is stored as a Gdk.RGBA in the GVariant format "(ddd)"
             // where r,g,b,a are floats between 0.0 and 1.0.
@@ -116,7 +116,7 @@ public class He.Desktop : Object {
         accent_color = "#8C56BF";
     }
 
-    private string hexcode (float r, float g, float b) {
+    private string hexcode (double r, double g, double b) {
         return "#" + "%02x%02x%02x".printf (
             (int)(r * 255),
             (int)(g * 255),
