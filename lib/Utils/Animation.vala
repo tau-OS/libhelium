@@ -3,7 +3,7 @@
  * Copyright (C) 2018 Purism SPC
  *
  * The following code is a derivative work of the code from the libadwaita project, 
- * which is licensed LGPLv2. This code is upgraded to the terms of GPLv3 while keeping
+ * which is licensed LGPLv2. This code is relicensed to the terms of GPLv3 while keeping
  * the original attribution.
  *
  * Additionally, sourced from:
