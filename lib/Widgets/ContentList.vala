@@ -1,3 +1,6 @@
+/**
+ * A Content List is a list of content blocks with an optional title and description.
+ */
 public class He.ContentList : He.Bin, Gtk.Buildable {
     private Gtk.Box text_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
     private Gtk.ListBox list = new Gtk.ListBox ();

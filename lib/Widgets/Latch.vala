@@ -1,3 +1,6 @@
+/**
+ * A Latch is a widget that can be used to make its child grow up to a maximum specified size.
+ */
 public class He.Latch : Gtk.Widget, Gtk.Buildable, Gtk.Orientable, Gtk.Scrollable {
     /**
      * Sets the tightness of the latch.
