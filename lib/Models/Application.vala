@@ -79,7 +79,7 @@ public class He.Application : Gtk.Application {
 
     var css = @"
       @define-color accent_bg_color $accent_color;
-      @define-color accent_color $accent_color;
+      @define-color accent_color lighten($accent_color, 1.1);
     ";
     accent.load_from_data (css.data);
 
@@ -89,7 +89,7 @@ public class He.Application : Gtk.Application {
     
         var csss = @"
           @define-color accent_bg_color $accent_colors;
-          @define-color accent_color $accent_colors;
+          @define-color accent_color lighten($accent_colors, 1.1);
         ";
         accent.load_from_data (csss.data);
     });
