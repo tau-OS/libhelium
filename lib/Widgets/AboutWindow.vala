@@ -21,7 +21,7 @@ public class He.AboutWindow : He.Window {
   private Gtk.Label translators_label = new Gtk.Label (null);
   private Gtk.Label license_label = new Gtk.Label ("This program is licensed under ");
 
-  private Gtk.LinkButton license_link = new Gtk.LinkButton ("https://hololive.moe");
+  private Gtk.LinkButton license_link = new Gtk.LinkButton ("about:blank");
 
   private Gtk.Image icon_image = new Gtk.Image ();
 
@@ -158,7 +158,13 @@ public class He.AboutWindow : He.Window {
     get { return translators; }
     set { 
       translators = value;
-      translators_label.set_text ("Translated By: " + string.joinv (", ", translators));
+      if (translators.length > 0) {
+        translators_label.set_text ("Translated By: " + string.joinv (", ", translators));
+        translators_label.visible = true;
+      } else {
+        translators_label.set_text ("");
+        translators_label.visible = false;
+      }
     }
   }
 
@@ -170,7 +176,13 @@ public class He.AboutWindow : He.Window {
     get { return developers; }
     set { 
       developers = value;
-      developers_label.set_text (string.joinv (", ", developers));
+      if (developers.length > 0) {
+        developers_label.set_text (string.joinv (", ", developers));
+        developers_label.visible = true;
+      } else {
+        developers_label.set_text ("");
+        developers_label.visible = false;
+      }
     }
   }
 
@@ -182,7 +194,13 @@ public class He.AboutWindow : He.Window {
     get { return _copyright_year; }
     set {
       _copyright_year = value;
-      developers_copyright.set_text ("© " + "%04d ".printf(value));
+      if (value > 0) {
+        developers_copyright.set_text ("Copyright © " + value.to_string () + " ");
+        developers_copyright.visible = true;
+      } else {
+        developers_copyright.set_text ("");
+        developers_copyright.visible = false;
+      }
     }
   }
 
@@ -234,11 +252,14 @@ public class He.AboutWindow : He.Window {
     title_box.append(title_label);
     title_box.append(version_badge);
     
+    developers_copyright.visible = false;
+    developers_label.visible = false;
     developers_box.append(developers_copyright);
     developers_box.append(developers_label);
     
     text_box.append(developers_box);
     translators_label.xalign = 0;
+    translators_label.visible = false;
     text_box.append(translators_label);
     
     license_link.remove_css_class("text-button");

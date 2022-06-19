@@ -151,7 +151,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
             "https:/fyralabs.com",
             "https:/fyralabs.com",
             "https:/fyralabs.com",
-            {"Lains", "Lea"},
+            {},
             {"Lains", "Lea"},
             2022,
             He.AboutWindow.Licenses.GPLv3,

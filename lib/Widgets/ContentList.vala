@@ -10,7 +10,15 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
      */
     public string title {
         get { return title_label.get_text (); }
-        set { title_label.set_text (value); }
+        set {
+            title_label.set_text (value);
+            title_label.set_visible (value != null);
+            if (value != null) {
+                this.margin_top = 18;
+            } else {
+                this.margin_top = 0;
+            }
+        }
     }
 
     /**
@@ -18,7 +26,10 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
      */
     public string description {
         get { return description_label.get_text (); }
-        set { description_label.set_text (value); }
+        set { 
+            description_label.set_text (value); 
+            description_label.set_visible (value != null);
+        }
     }
 
     /**
@@ -85,7 +96,6 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
             spacing = 12,
         };
         this.layout_manager = layout;
-        this.margin_top = 6;
 
         this.text_box.append (title_label);
         this.text_box.append (description_label);
