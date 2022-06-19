@@ -6,6 +6,12 @@
  * which is licensed LGPLv2. This code is upgraded to the terms of GPLv3 while keeping
  * the original attribution.
  *
+ * Additionally, sourced from:
+ *   https://gitlab.gnome.org/GNOME/clutter/-/blob/a236494ea7f31848b4a459dad41330f225137832/clutter/clutter-easing.c
+ *   https://gitlab.gnome.org/GNOME/clutter/-/blob/a236494ea7f31848b4a459dad41330f225137832/clutter/clutter-enums.h
+ *
+ * Copyright (C) 2011  Intel Corporation
+ *
  */
 
 /**
