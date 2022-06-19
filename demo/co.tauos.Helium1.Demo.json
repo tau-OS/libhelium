@@ -16,7 +16,10 @@
             "buildsystem" : "meson",
             "builddir" : true,
             "config-opts" : [
-                "czz"
+                "-Ddemo=true",
+                "-Dintrospection=true",
+                "-Dvapi=true",
+                "-Ddocumentation=false"
             ],
             "sources" : [
                 {
