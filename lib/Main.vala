@@ -1,5 +1,7 @@
 namespace He {
     private void init () {
+        Gdk.Display display = Gdk.Display.get_default ();
+
         // Ensure that the app has Gtk initialized.
         Gtk.init ();
     
@@ -36,6 +38,11 @@ namespace He {
         typeof (He.OverlayButton).ensure ();
         typeof (He.PillButton).ensure ();
         typeof (He.SideBar).ensure ();
+        typeof (He.SettingsPage).ensure ();
+        typeof (He.SettingsWindow).ensure ();
+        typeof (He.Tab).ensure ();
+        typeof (He.TabPage).ensure ();
+        typeof (He.TabSwitcher).ensure ();
         typeof (He.TextButton).ensure ();
         typeof (He.TintButton).ensure ();
         typeof (He.Toast).ensure ();
@@ -50,9 +57,9 @@ namespace He {
         typeof (He.Window).ensure ();
     
         // Setup the platform gtk theme, cursor theme and the default icon theme.
-        Gtk.Settings.get_for_display(Gdk.Display.get_default()).gtk_theme_name = "Empty";
-        Gtk.Settings.get_for_display(Gdk.Display.get_default()).gtk_icon_theme_name = "Hydrogen";
-        Gtk.Settings.get_for_display(Gdk.Display.get_default()).gtk_cursor_theme_name = "Hydrogen";
-        Gtk.Settings.get_for_display(Gdk.Display.get_default()).gtk_font_name = "Manrope";
+        Gtk.Settings.get_for_display(display).gtk_theme_name        = "Empty";
+        Gtk.Settings.get_for_display(display).gtk_icon_theme_name   = "Hydrogen";
+        Gtk.Settings.get_for_display(display).gtk_cursor_theme_name = "Hydrogen";
+        Gtk.Settings.get_for_display(display).gtk_font_name         = "Manrope 10";
     }
 }
