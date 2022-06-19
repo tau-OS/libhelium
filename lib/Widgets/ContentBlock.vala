@@ -18,7 +18,12 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
             return title_label.get_text ();
         }
         set {
-            title_label.set_text (value);
+            if (value != null) {
+                title_label.set_visible (true);
+                title_label.set_text (value);
+            } else {
+                title_label.set_visible (false);
+            }
         }
     }
 
@@ -30,7 +35,12 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
             return subtitle_label.get_text ();
         }
         set {
-            subtitle_label.set_text (value);
+            if (value != null) {
+                subtitle_label.set_visible (true);
+                subtitle_label.set_text (value);
+            } else {
+                subtitle_label.set_visible (false);
+            }
         }
     }
 
@@ -43,13 +53,23 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
         }
 
         set {
-            image.set_from_icon_name (value);
+            if (value == null) {
+                image.set_visible (false);
+            } else {
+                image.set_visible (true);
+                image.set_from_icon_name (value);
+            }
         }
     }
     
     public GLib.Icon gicon {
         set {
-            image.set_from_gicon (value);
+            if (value == null) {
+                image.set_visible (false);
+            } else {
+                image.set_visible (true);
+                image.set_from_gicon (value);
+            }
         }
     }
 
@@ -118,10 +138,16 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
         
         image.pixel_size = ((Gtk.IconSize)64);
         image.halign = Gtk.Align.START;
+        image.valign = Gtk.Align.CENTER;
+        image.set_visible (false);
+
         title_label.xalign = 0;
         title_label.add_css_class ("cb-title");
+        title_label.set_visible (false);
+
         subtitle_label.xalign = 0;
         subtitle_label.add_css_class ("cb-subtitle");
+        subtitle_label.set_visible (false);
         
         info_box.append(image);
         info_box.append(title_label);

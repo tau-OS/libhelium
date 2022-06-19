@@ -9,49 +9,66 @@ public class He.MiniContentBlock : He.Bin {
     private He.Button _primary_button;
     private Gtk.Box btn_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
     
-    /**
-    * The title of the content block.
-    */
-    public string title {
+    /** 
+     * Sets the title of the content block.
+     */
+     public string title {
         get {
             return title_label.get_text ();
         }
         set {
-            title_label.set_text (value);
+            if (value != null) {
+                title_label.set_visible (true);
+                title_label.set_text (value);
+            } else {
+                title_label.set_visible (false);
+            }
         }
     }
-    
-    /**
-    * The subtitle of the content block.
-    */
+
+    /** 
+     * Sets the subtitle of the content block.
+     */
     public string subtitle {
         get {
             return subtitle_label.get_text ();
         }
         set {
-            subtitle_label.set_text (value);
+            if (value != null) {
+                subtitle_label.set_visible (true);
+                subtitle_label.set_text (value);
+            } else {
+                subtitle_label.set_visible (false);
+            }
         }
     }
-    
-    /**
-    * The icon of the content block.
-    */
+
+    /** 
+     * Sets the icon of the content block.
+     */
     public string icon {
         get {
             return image.get_icon_name ();
         }
-        
+
         set {
-            image.set_from_icon_name (value);
+            if (value == null) {
+                image.set_visible (false);
+            } else {
+                image.set_visible (true);
+                image.set_from_icon_name (value);
+            }
         }
     }
     
-    /**
-    * Another way to set the icon of the content block using a GLib.Icon.
-    */
     public GLib.Icon gicon {
         set {
-            image.set_from_gicon (value);
+            if (value == null) {
+                image.set_visible (false);
+            } else {
+                image.set_visible (true);
+                image.set_from_gicon (value);
+            }
         }
     }
     
@@ -100,13 +117,19 @@ public class He.MiniContentBlock : He.Bin {
     
     construct {
         this.image.pixel_size = ((Gtk.IconSize)32);
-        
+        this.image.set_valign (Gtk.Align.CENTER);
+        this.image.set_halign (Gtk.Align.START);
+        this.image.set_visible (false);
+
         this.title_label.xalign = 0;
         this.title_label.add_css_class ("cb-title");
+        this.title_label.set_visible (false);
+
         this.subtitle_label.xalign = 0;
         this.subtitle_label.add_css_class ("cb-subtitle");
         this.subtitle_label.wrap = true;
         this.subtitle_label.ellipsize = Pango.EllipsizeMode.END;
+        this.subtitle_label.set_visible (false);
         
         this.info_box.append(this.title_label);
         this.info_box.append(this.subtitle_label);
