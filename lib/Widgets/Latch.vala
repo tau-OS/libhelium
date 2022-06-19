@@ -1,3 +1,13 @@
+/*
+ * Copyright (C) 2022 Fyra Labs
+ * Copyright (C) 2018 Purism SPC
+ *
+ * The following code is a derivative work of the code from the libadwaita project, 
+ * which is licensed LGPLv2. This code is upgraded to the terms of GPLv3 while keeping
+ * the original attribution.
+ *
+ */
+
 /**
  * A Latch is a widget that can be used to make its child grow up to a maximum specified size.
  */
