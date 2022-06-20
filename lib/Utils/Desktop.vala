@@ -113,7 +113,11 @@ public class He.Desktop : Object {
         }
 
         // If we can't get the accent color, use the default.
-        accent_color = "#8C56BF";
+        if (ColorScheme.DARK == prefers_color_scheme) {
+            accent_color = "#BEA0DB";
+        } else {
+            accent_color = "#8C56BF";
+        }
     }
 
     private string hexcode (double r, double g, double b) {
