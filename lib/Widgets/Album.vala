@@ -80,12 +80,10 @@ class He.Album : He.Bin, Gtk.Buildable {
     }
 
     sizes[0].data = this.main_stack;
-    sizes[0].minimum_size = res_width;
-    sizes[0].natural_size = width;
+    sizes[0].minimum_size = get_page_size (this.main_stack);
 
     sizes[1].data = this;
-    sizes[1].minimum_size = width;
-    sizes[1].natural_size = width;
+    sizes[1].minimum_size = res_width;
 
     var dist = Gtk.distribute_natural_allocation (200, sizes);
 
@@ -123,6 +121,7 @@ class He.Album : He.Bin, Gtk.Buildable {
         if (child.navigatable) {
           this._stack.add_child(child);
           this._stack.set_visible_child(child);
+          ((Gtk.BoxLayout)child.get_layout_manager ()).homogeneous = true;
         }
       }
       this.queue_allocate();
@@ -135,6 +134,7 @@ class He.Album : He.Bin, Gtk.Buildable {
           child.unparent ();
         }
         this._box.append(child);
+        ((Gtk.BoxLayout)child.get_layout_manager ()).homogeneous = false;
       }
       this.queue_resize();
       this.add_css_class ("unfolded");

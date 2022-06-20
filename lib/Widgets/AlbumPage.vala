@@ -64,6 +64,6 @@ class He.AlbumPage : Gtk.Widget, Gtk.Buildable, He.AlbumPageInterface {
   }
 
   static construct {
-    set_layout_manager_type (typeof (Gtk.BinLayout));
+    set_layout_manager_type (typeof (Gtk.BoxLayout));
   }
 }
