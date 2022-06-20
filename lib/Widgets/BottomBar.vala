@@ -90,21 +90,23 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
   public bool collapse_actions {
     get { return _collapse_actions; }
     set {
+      // TODO: Refactor this thing
       _collapse_actions = value;
 
       var fmenu_image = new Gtk.Image ();
       fmenu_image.set_from_icon_name ("view-more-symbolic");
       fmenu_image.set_pixel_size (16);
-
-      fold_menu.set_direction (Gtk.ArrowType.UP);
-      fold_menu.halign = Gtk.Align.CENTER;
-      fold_menu.valign = Gtk.Align.CENTER;
-      fold_menu.add_css_class ("flat");
       fold_menu.set_child (fmenu_image);
 
       Gtk.Popover fmenu = new Gtk.Popover ();
       Gtk.Box fmenu_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
       Gtk.Separator fmenu_separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
+
+      fmenu_box_l.destroy();
+      fmenu_box_r.destroy();
+
+      fmenu_box_l = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+      fmenu_box_r = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
 
       fmenu_box.append (fmenu_box_l);
       fmenu_box.append (fmenu_separator);
@@ -112,9 +114,9 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
 
       if (_collapse_actions) {
         foreach (var child in left_children) {
-          if (this.left_box != null) {
-            child.unparent ();
-          }
+          child.unparent ();
+
+          warning("nya adding %s", child.get_tooltip_text());
 
           var child_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
           var child_image = new Gtk.Image ();
@@ -131,9 +133,7 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
         }
 
         foreach (var child in right_children) {
-          if (this.right_box != null) {
-            child.unparent ();
-          }
+          child.unparent ();
 
           var child_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
           var child_image = new Gtk.Image ();
@@ -155,17 +155,13 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
         this.left_box.append (fold_menu);
       } else {
         foreach (var child in left_children) {
-          if (this.fmenu_box_l != null) {
-            child.unparent ();
-          }
+          child.unparent ();
 
           this.left_box.append (child);
         }
 
         foreach (var child in right_children) {
-          if (this.fmenu_box_r != null) {
-            child.unparent ();
-          }
+          child.unparent ();
 
           this.right_box.append (child);
         }
@@ -227,6 +223,11 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
     box.append(left_box);
     box.append(center_box);
     box.append(right_box);
+
+    fold_menu.set_direction (Gtk.ArrowType.UP);
+    fold_menu.halign = Gtk.Align.CENTER;
+    fold_menu.valign = Gtk.Align.CENTER;
+    fold_menu.add_css_class ("flat");
 
     box.set_parent (this);
   }
