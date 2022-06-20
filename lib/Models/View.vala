@@ -61,6 +61,23 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
     }
 
     /**
+     * Whether the view child has margins or is full-bleed.
+     */
+    public bool has_margins {
+        get {
+            return box.margin_top > 0 || 
+                   box.margin_bottom > 0 ||
+                   box.margin_left > 0 ||
+                   box.margin_right > 0;
+        }
+        set {
+            box.margin_bottom = value ? 18 : 0;
+            box.margin_end = value ? 18 : 0;
+            box.margin_start = value ? 18 : 0;
+        }
+    }
+
+    /**
      * Add a child to the welcome screen, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
      */
     public virtual void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
@@ -86,8 +103,6 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
         title_label.visible = false;
         subtitle_label.visible = false;
         titleswitcher.visible = false;
-
-        box.margin_start = box.margin_end = box.margin_bottom = 18;
         box.spacing = 6;
         box.orientation = Gtk.Orientation.VERTICAL;
 
