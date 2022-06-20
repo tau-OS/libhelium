@@ -71,15 +71,21 @@ class He.Album : He.Bin, Gtk.Buildable {
   private void update_minimum_requested_width() {
     var res_width = 0;
     var width = this.get_width();
+
+    Gtk.RequestedSize[] sizes = new Gtk.RequestedSize[2];
     
     foreach (var child in this.children) {
       int visible_size = int.max (get_page_size (child), (int) (width));
       res_width += visible_size;
     }
-    
-    Gtk.RequestedSize[] sizes = new Gtk.RequestedSize[1];
+
+    sizes[0].data = this.main_stack;
     sizes[0].minimum_size = res_width;
     sizes[0].natural_size = width;
+
+    sizes[1].data = this;
+    sizes[1].minimum_size = width;
+    sizes[1].natural_size = width;
 
     var dist = Gtk.distribute_natural_allocation (200, sizes);
 
