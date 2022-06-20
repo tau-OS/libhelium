@@ -64,12 +64,6 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
      * Whether the view child has margins or is full-bleed.
      */
     public bool has_margins {
-        get {
-            return box.margin_top > 0 || 
-                   box.margin_bottom > 0 ||
-                   box.margin_left > 0 ||
-                   box.margin_right > 0;
-        }
         set {
             box.margin_bottom = value ? 18 : 0;
             box.margin_end = value ? 18 : 0;
