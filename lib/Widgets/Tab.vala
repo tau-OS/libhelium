@@ -102,11 +102,9 @@
     construct {
         _label = new Gtk.Label (null);
         _label.hexpand = true;
-        _label.tooltip_text = label;
         _label.ellipsize = Pango.EllipsizeMode.END;
 
         var close_button = new Gtk.Button.from_icon_name ("window-close");
-        close_button.tooltip_text = "Close Tab";
         close_button.valign = Gtk.Align.CENTER;
         close_button.add_css_class ("tab-button");
 
@@ -136,7 +134,7 @@
         page_container = new TabPage (this);
 
         this.set_hexpand (true);
-        this.add_css_class ("tab");
+        this.add_css_class ("tab-child");
     }
 
     static construct {
