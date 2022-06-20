@@ -122,6 +122,7 @@
         notebook.set_scrollable (true);
         notebook.set_show_border (false);
         _tab_bar_behavior = TabBarBehavior.ALWAYS;
+        notebook.add_css_class ("tab-holder");
 
         var add_button = new He.DisclosureButton.from_icon ("list-add-symbolic");
         add_button.margin_top = 6;
@@ -157,6 +158,8 @@
         notebook.page_removed.connect (on_page_removed);
 
         notebook.set_parent (this);
+
+        notebook.hexpand = true;
     }
 
     static construct {

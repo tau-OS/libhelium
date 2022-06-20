@@ -136,6 +136,7 @@
         page_container = new TabPage (this);
 
         this.set_hexpand (true);
+        this.add_css_class ("tab");
     }
 
     static construct {

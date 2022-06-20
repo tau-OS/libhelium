@@ -51,6 +51,8 @@ public class Demo.MainWindow : He.ApplicationWindow {
     private unowned He.Banner banner2;
     [GtkChild]
     private unowned He.FillButton ws_button;
+    [GtkChild]
+    private unowned Gtk.Box extra_box;
 
     public He.Application app { get; construct; }
     public MainWindow (He.Application application) {
@@ -138,7 +140,26 @@ public class Demo.MainWindow : He.ApplicationWindow {
             ws.present ();
         });
 
+        var switcher = new He.TabSwitcher ();
+        switcher.hexpand = true;
+        switcher.insert_tab (new He.Tab ("Tab 1", new He.FillButton ("Tab 1")), 0);
+        switcher.insert_tab (new He.Tab ("Tab 2", new He.FillButton ("Tab 2")), 1);
+        switcher.insert_tab (new He.Tab ("Tab 3", new He.FillButton ("Tab 3")), 2);
+        extra_box.append (switcher);
+
+        switcher.new_tab_requested.connect (on_new_tab_requested);
+
         this.show ();
+    }
+
+    private void on_new_tab_requested () {
+        new_tab (Environment.get_home_dir ());
+    }
+
+    private He.Tab new_tab (string label) {
+        var view = new He.ViewMono ();
+        var tab = new He.Tab (label, view);
+        return tab;
     }
 
     public void action_about () {
