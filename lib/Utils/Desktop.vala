@@ -71,6 +71,25 @@ public class He.Desktop : Object {
             }
         }
     }
+
+    /**
+     * The foreground color that pairs well with the accent color.
+     */
+    private string? _foreground;
+    public string foreground {
+        get {
+            if (_foreground == null) {
+                setup_accent_color ();
+            }
+            return _foreground;
+        }
+        private set {
+            _foreground = value;
+            if (_foreground == null) {
+                setup_accent_color ();
+            }
+        }
+    }
     
     private void setup_accent_color () {
         try {
@@ -90,9 +109,15 @@ public class He.Desktop : Object {
             iter.next ("d", out cg);
             iter.next ("d", out cb);
 
-            accent_color = hexcode (cr, cg, cb);
-
-            warning ("accent color is %s", accent_color);
+            if (ColorScheme.DARK == prefers_color_scheme) {
+                accent_color = hexcode (cr, cg, cb);
+                var fg_color = He.Misc.fix_fg_contrast (cr, cg, cb, 1.0, 1.0, 1.0);
+                foreground = hexcode (fg_color[0], fg_color[1], fg_color[1]);
+            } else {
+                accent_color = hexcode (cr, cg, cb);
+                var fg_color = He.Misc.fix_fg_contrast (cr, cg, cb, 0.0, 0.0, 0.0);
+                foreground = hexcode (fg_color[0], fg_color[1], fg_color[1]);
+            }
             
             portal.setting_changed.connect ((scheme, key, value) => {
                 if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
@@ -101,9 +126,15 @@ public class He.Desktop : Object {
                     iter.next ("d", out cr);
                     iter.next ("d", out cg);
                     iter.next ("d", out cb);
-                    accent_color = hexcode (cr, cg, cb);
-
-                    warning ("accent color changed to %s", accent_color);
+                    if (ColorScheme.DARK == prefers_color_scheme) {
+                        accent_color = hexcode (cr, cg, cb);
+                        var fg_color = He.Misc.fix_fg_contrast (cr*255, cg*255, cb*255, 255, 255, 255);
+                        foreground = hexcode (fg_color[0]/255, fg_color[1]/255, fg_color[1]/255);
+                    } else {
+                        accent_color = hexcode (cr, cg, cb);
+                        var fg_color = He.Misc.fix_fg_contrast (cr*255, cg*255, cb*255, 0, 0, 0);
+                        foreground = hexcode (fg_color[0]/255, fg_color[1]/255, fg_color[1]/255);
+                    }
                 }
             });
             
@@ -115,8 +146,12 @@ public class He.Desktop : Object {
         // If we can't get the accent color, use the default.
         if (ColorScheme.DARK == prefers_color_scheme) {
             accent_color = "#BEA0DB";
+            var fg_color = He.Misc.fix_fg_contrast (190, 160, 219, 255, 255, 255);
+            foreground = hexcode (fg_color[0]/255, fg_color[1]/255, fg_color[1]/255);
         } else {
             accent_color = "#8C56BF";
+            var fg_color = He.Misc.fix_fg_contrast (140, 86, 191, 0, 0, 0);
+            foreground = hexcode (fg_color[0]/255, fg_color[1]/255, fg_color[1]/255);
         }
     }
 
