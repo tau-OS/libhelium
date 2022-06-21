@@ -30,7 +30,9 @@ jobs:
       tauOSVersion: "1.1"
       buildVariant: x86_64
     secrets:
-      teleportIdentity: ${{ secrets.TELEPORT_IDENTITY }}
+      repoIP: ${{ secrets.REPO_IP }}
+      repoKnownHosts: ${{ secrets.REPO_KNOWN_HOSTS }}
+      repoPrivateKey: ${{ secrets.REPO_PRIVATE_KEY }}
 
   build-aarch64:
     uses: tau-OS/github-actions/.github/workflows/build-rpm.yml@main
@@ -57,4 +59,6 @@ jobs:
       tauOSVersion: "1.1"
       buildVariant: aarch64
     secrets:
-      teleportIdentity: ${{ secrets.TELEPORT_IDENTITY }}
+      repoIP: ${{ secrets.REPO_IP }}
+      repoKnownHosts: ${{ secrets.REPO_KNOWN_HOSTS }}
+      repoPrivateKey: ${{ secrets.REPO_PRIVATE_KEY }}
