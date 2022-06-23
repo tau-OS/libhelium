@@ -135,8 +135,6 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
         foreach (var child in left_children) {
           child.unparent ();
 
-          warning("nya adding %s", child.get_tooltip_text());
-
           var child_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
           var child_image = new Gtk.Image ();
           child_image.set_from_icon_name (((Gtk.Button)child).get_icon_name ());

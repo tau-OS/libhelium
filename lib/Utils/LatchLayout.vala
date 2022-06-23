@@ -136,6 +136,9 @@ class He.LatchLayout : Gtk.LayoutManager, Gtk.Orientable {
             minimum = int.max (minimum, child_min);
             natural = int.max (natural, child_nat);
 
+            minimum_baseline = -1;
+            natural_baseline = -1;
+
             if (child_min_baseline > -1)
                 minimum_baseline = int.max (minimum_baseline, child_min_baseline);
             if (child_nat_baseline > -1)

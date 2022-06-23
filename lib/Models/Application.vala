@@ -145,6 +145,8 @@ public class He.Application : Gtk.Application {
     base.startup ();
     He.init ();
     init_style_providers ();
+    // TODO: Enable when accents are standarized
+    //  setup_accent_color ();
   }
 
   public Application(string? application_id, ApplicationFlags flags) {
