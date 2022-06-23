@@ -8,8 +8,8 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
   private Gtk.Box center_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
   private Gtk.Box right_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
 
-  private Gtk.Label title_label = new Gtk.Label (null);
-  private Gtk.Label description_label = new Gtk.Label (null);
+  private Gtk.Label title_label = new Gtk.Label ("");
+  private Gtk.Label description_label = new Gtk.Label ("");
 
   private Gtk.MenuButton menu = new Gtk.MenuButton ();
   private Gtk.MenuButton fold_menu = new Gtk.MenuButton ();
@@ -218,6 +218,16 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
     this.center_box.homogeneous = true;
     this.center_box.hexpand = true;
     this.center_box.margin_start = this.center_box.margin_end = 18;
+    this.center_box.append(title_label);
+    this.center_box.append(description_label);
+
+    foreach (var child in left_children) {
+      this.left_box.append (child);
+    }
+
+    foreach (var child in right_children) {
+      this.right_box.append (child);
+    }
 
     var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     box.append(left_box);
