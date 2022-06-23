@@ -102,6 +102,23 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
     }
   }
 
+  private Gtk.Widget create_menu_button(Gtk.Widget child) {
+    child.unparent ();
+
+    var child_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+    var child_image = new Gtk.Image ();
+    child_image.set_from_icon_name (((Gtk.Button)child).get_icon_name ());
+    var child_label = new Gtk.Label (child.get_tooltip_text ());
+    child_box.append (child_image);
+    child_box.append (child_label);
+
+    var child_button = new Gtk.Button ();
+    child_button.add_css_class ("flat");
+    child_button.set_child (child_box);
+
+    return child_button;
+  }
+
   /**
    * Whether to collapse actions into a menu.
    */
@@ -133,37 +150,11 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
 
       if (_collapse_actions) {
         foreach (var child in left_children) {
-          child.unparent ();
-
-          var child_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-          var child_image = new Gtk.Image ();
-          child_image.set_from_icon_name (((Gtk.Button)child).get_icon_name ());
-          var child_label = new Gtk.Label (child.get_tooltip_text ());
-          child_box.append (child_image);
-          child_box.append (child_label);
-
-          var child_button = new Gtk.Button ();
-          child_button.add_css_class ("flat");
-          child_button.set_child (child_box);
-
-          fmenu_box_l.append (child_button);
+          fmenu_box_l.append (create_menu_button(child));
         }
 
         foreach (var child in right_children) {
-          child.unparent ();
-
-          var child_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-          var child_image = new Gtk.Image ();
-          child_image.set_from_icon_name (((Gtk.Button)child).get_icon_name ());
-          var child_label = new Gtk.Label (child.get_tooltip_text ());
-          child_box.append (child_image);
-          child_box.append (child_label);
-
-          var child_button = new Gtk.Button ();
-          child_button.add_css_class ("flat");
-          child_button.set_child (child_box);
-
-          fmenu_box_r.append (child_button);
+          fmenu_box_r.append (create_menu_button(child));
         }
 
         fmenu.set_child (fmenu_box);
