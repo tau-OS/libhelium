@@ -1,3 +1,22 @@
+/*
+* Copyright (c) 2022 Fyra Labs
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation; either
+* version 3 of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public
+* License along with this program; if not, write to the
+* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+* Boston, MA 02110-1301 USA
+*/
+
 /**
 * An Album is a helper widget to making an app responsive.
 */
@@ -28,7 +47,9 @@ class He.Album : He.Bin, Gtk.Buildable {
   
   /**
   * Add a child to the album, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
-  */
+  *
+ * @since 1.0
+ */
   public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
     this.append((He.AlbumPage) child);
   }

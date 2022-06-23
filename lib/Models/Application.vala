@@ -1,3 +1,22 @@
+/*
+* Copyright (c) 2022 Fyra Labs
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation; either
+* version 3 of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public
+* License along with this program; if not, write to the
+* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+* Boston, MA 02110-1301 USA
+*/
+
 /**
  * An application.
  */
@@ -48,7 +67,9 @@ public class He.Application : Gtk.Application {
      * be loaded by the application. The file name is based on the
      * color scheme preference. For example, if the user prefers the
      * dark color scheme, the file name is style-dark.css.
-     */
+     *
+ * @since 1.0
+ */
     var base_path = get_resource_base_path ();
     if (base_path == null) {
         return;

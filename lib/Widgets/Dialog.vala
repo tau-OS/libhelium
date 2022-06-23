@@ -1,3 +1,22 @@
+/*
+* Copyright (c) 2022 Fyra Labs
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public
+* License as published by the Free Software Foundation; either
+* version 3 of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* General Public License for more details.
+*
+* You should have received a copy of the GNU General Public
+* License along with this program; if not, write to the
+* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+* Boston, MA 02110-1301 USA
+*/
+
 /**
  * A Dialog is a modal window that asks the user for input or shows a message.
  */
@@ -118,7 +137,9 @@ public class He.Dialog : He.Window {
      * @param icon The icon of the dialog.
      * @param primary_button The primary button of the dialog.
      * @param secondary_button The secondary button of the dialog.
-     */
+     *
+ * @since 1.0
+ */
     public Dialog(bool modal, Gtk.Window? parent, string title, string subtitle, string info, string icon, He.FillButton? primary_button, He.TintButton? secondary_button) {
         this.modal = modal;
         this.parent = parent;
