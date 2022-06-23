@@ -36,12 +36,7 @@ public abstract class He.Bin : Gtk.Widget, Gtk.Buildable {
         }
     }
 
-    /**
-     * Grabs the widget's focus.
-     * @param widget The widget to grab the focus for.
-     * returns true if the grab was successful, false otherwise.
-     */
-    public new bool grab_focus (Gtk.Widget? widget) {
+    private new bool grab_focus (Gtk.Widget? widget) {
         if (widget.get_focusable () == false) {
             return false;
         }
@@ -50,14 +45,7 @@ public abstract class He.Bin : Gtk.Widget, Gtk.Buildable {
         return true;
     }
 
-    /**
-     * Grabs the widget's child focus.
-     * @param widget The widget to assess the child to grab the focus for.
-     * returns true if the grab was successful, false otherwise.
-     *
- * @since 1.0
- */
-    public new bool grab_focus_child (Gtk.Widget? widget) {
+    private new bool grab_focus_child (Gtk.Widget? widget) {
         Gtk.Widget child;
 
         for (
