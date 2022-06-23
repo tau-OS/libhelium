@@ -1,7 +1,7 @@
 /**
 * A MiniContentBlock is a content block that is used to display content in a small area.
 */
-public class He.MiniContentBlock : He.Bin {
+public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
     private Gtk.Label title_label = new Gtk.Label(null);
     private Gtk.Label subtitle_label = new Gtk.Label(null);
     private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 6);
@@ -104,6 +104,13 @@ public class He.MiniContentBlock : He.Bin {
         this.title = title;
         this.subtitle = subtitle;
         this.primary_button = primary_button;
+    }
+
+    /**
+     * Add a child to the ContentBlock, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+     */
+    public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+        btn_box.append ((Gtk.Widget)child);
     }
 
      /**

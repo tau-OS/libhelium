@@ -129,6 +129,13 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
         this.secondary_button = secondary_button;
     }
 
+    /**
+     * Add a child to the ContentBlock, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+     */
+    public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+        button_box.append ((Gtk.Widget)child);
+    }
+
     static construct {
         set_layout_manager_type (typeof (Gtk.BoxLayout));
     }
