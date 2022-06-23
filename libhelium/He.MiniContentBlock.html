@@ -34,6 +34,7 @@
           <li class="property"><a href="He.MiniContentBlock.title.html">title</a></li>
           <li class="creation_method"><a href="He.MiniContentBlock.MiniContentBlock.html">MiniContentBlock</a></li>
           <li class="creation_method"><a href="He.MiniContentBlock.MiniContentBlock.with_details.html">MiniContentBlock.with_details</a></li>
+          <li class="virtual_method"><a href="He.MiniContentBlock.add_child.html">add_child</a></li>
         </ul>
       </div>
       <div class="site_content">
@@ -43,12 +44,12 @@
         <img class="main_diagram" usemap="#He.MiniContentBlock" alt="Object hierarchy for MiniContentBlock" src="img/He.MiniContentBlock.svg"/>
 
       <map id="He.MiniContentBlock" name="He.MiniContentBlock">
-<area shape="rect" id="node1" href="He.MiniContentBlock.html" title="He.MiniContentBlock" alt="" coords="419,389,603,437"/>
-<area shape="rect" id="node2" href="He.Bin.html" title="He.Bin" alt="" coords="473,293,548,341"/>
+<area shape="rect" id="node1" href="He.MiniContentBlock.html" title="He.MiniContentBlock" alt="" coords="509,389,693,437"/>
+<area shape="rect" id="node2" href="He.Bin.html" title="He.Bin" alt="" coords="527,293,601,341"/>
 </map>
 
         <h2 class="main_title">Description:</h2>
-        <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span class="class">MiniContentBlock</span></b> : <span class="main_type"><a href="He.Bin.html" class="abstract_class">Bin</a></span>
+        <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span class="class">MiniContentBlock</span></b> : <span class="main_type"><a href="He.Bin.html" class="abstract_class">Bin</a></span>, <span class="main_type"><span class="interface">Buildable</span></span>
         </div>
         <div class="description">
           <p>A MiniContentBlock is a content block that is used to display content in a small area.</p>
@@ -90,6 +91,14 @@
           <li class="creation_method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <b><a href="He.MiniContentBlock.MiniContentBlock.with_details.html" class="creation_method">MiniContentBlock.with_details</a></b> (<span class="main_basic_type"><span class="class">string</span></span>? title, <span class="main_basic_type"><span class="class">string</span></span>? subtitle, <span class="main_type"><a href="He.Button.html" class="abstract_class">Button</a></span>? primary_button)
             </span>
             <div class="leaf_brief_description"><span class="brief_description">Constructs a new MiniContentBlock.</span>
+            </div></li>
+        </ul>
+        <h3 class="main_title">Methods:</h3>
+        <ul class="navi_inline">
+          <li class="virtual_method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">override</span> <span class="main_keyword">void</span> <b><a href="He.MiniContentBlock.add_child.html" class="virtual_method">add_child</a></b> (<span class="main_type"><span class="class">Builder</span></span> builder, <span class="main_type"><span class="class">Object</span></span> child, <span class="main_basic_type"><span class="class">string</span></span>? type)
+            </span>
+            <div class="leaf_brief_description"><span class="brief_description">Add a child to the ContentBlock, should only be used in the context of
+                a UI or Blueprint file. There should be no need to use this method in code.</span>
             </div></li>
         </ul>
         <h3 class="main_title">Inherited Members:</h3>

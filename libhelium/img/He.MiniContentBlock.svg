@@ -13,8 +13,8 @@
 <g id="node1" class="node">
 <title>He.MiniContentBlock</title>
 <g id="a_node1"><a xlink:href="He.MiniContentBlock.html" xlink:title="He.MiniContentBlock">
-<polygon fill="none" stroke="black" stroke-width="2" points="448,-36 310,-36 310,0 448,0 448,-36"/>
-<text text-anchor="middle" x="379" y="-14.3" font-family="Times" font-size="14.00">He.MiniContentBlock</text>
+<polygon fill="none" stroke="black" stroke-width="2" points="516,-36 378,-36 378,0 516,0 516,-36"/>
+<text text-anchor="middle" x="447" y="-14.3" font-family="Times" font-size="14.00">He.MiniContentBlock</text>
 </a>
 </g>
 </g>
@@ -22,16 +22,16 @@
 <g id="node2" class="node">
 <title>He.Bin</title>
 <g id="a_node2"><a xlink:href="He.Bin.html" xlink:title="He.Bin">
-<polygon fill="none" stroke="black" stroke-width="2" points="407,-108 351,-108 351,-72 407,-72 407,-108"/>
-<text text-anchor="middle" x="379" y="-86.3" font-family="Times" font-size="14.00">He.Bin</text>
+<polygon fill="none" stroke="black" stroke-width="2" points="447,-108 391,-108 391,-72 447,-72 447,-108"/>
+<text text-anchor="middle" x="419" y="-86.3" font-family="Times" font-size="14.00">He.Bin</text>
 </a>
 </g>
 </g>
 <!-- He.Bin&#45;&gt;He.MiniContentBlock -->
 <g id="edge1" class="edge">
 <title>He.Bin&#45;&gt;He.MiniContentBlock</title>
-<path fill="none" stroke="black" d="M379,-61.67C379,-53.05 379,-43.79 379,-36.1"/>
-<polygon fill="black" stroke="black" points="375.5,-61.7 379,-71.7 382.5,-61.7 375.5,-61.7"/>
+<path fill="none" stroke="black" d="M429.71,-62.23C433.22,-53.46 437.02,-43.96 440.16,-36.1"/>
+<polygon fill="black" stroke="black" points="426.39,-61.11 425.92,-71.7 432.88,-63.71 426.39,-61.11"/>
 </g>
 <!-- Gtk.Widget -->
 <g id="node3" class="node">
@@ -42,8 +42,8 @@
 <!-- Gtk.Widget&#45;&gt;He.Bin -->
 <g id="edge2" class="edge">
 <title>Gtk.Widget&#45;&gt;He.Bin</title>
-<path fill="none" stroke="black" d="M357.86,-134.51C362.16,-125.67 366.84,-116.04 370.69,-108.1"/>
-<polygon fill="black" stroke="black" points="354.63,-133.17 353.4,-143.7 360.92,-136.23 354.63,-133.17"/>
+<path fill="none" stroke="black" d="M370.63,-136.76C380.61,-127.32 391.81,-116.72 400.92,-108.1"/>
+<polygon fill="black" stroke="black" points="368.15,-134.28 363.29,-143.7 372.96,-139.37 368.15,-134.28"/>
 </g>
 <!-- GLib.InitiallyUnowned -->
 <g id="node4" class="node">
@@ -87,11 +87,17 @@
 <polygon fill="none" stroke="black" points="521.5,-252 428.5,-252 428.5,-216 521.5,-216 521.5,-252"/>
 <text text-anchor="middle" x="475" y="-230.3" font-family="Times" font-size="14.00">Gtk.Buildable</text>
 </g>
+<!-- Gtk.Buildable&#45;&gt;He.MiniContentBlock -->
+<g id="edge9" class="edge">
+<title>Gtk.Buildable&#45;&gt;He.MiniContentBlock</title>
+<path fill="none" stroke="black" d="M472.19,-205.6C468.81,-173.52 462.73,-118.8 456,-72 454.27,-59.99 451.98,-46.51 450.14,-36.15"/>
+<polygon fill="black" stroke="black" points="468.72,-205.99 473.24,-215.57 475.68,-205.26 468.72,-205.99"/>
+</g>
 <!-- Gtk.Buildable&#45;&gt;He.Bin -->
 <g id="edge8" class="edge">
 <title>Gtk.Buildable&#45;&gt;He.Bin</title>
-<path fill="none" stroke="black" d="M457.8,-207.56C438.4,-178.86 407.37,-132.96 390.62,-108.19"/>
-<polygon fill="black" stroke="black" points="454.92,-209.55 463.42,-215.87 460.72,-205.63 454.92,-209.55"/>
+<path fill="none" stroke="black" d="M464.52,-206.44C453.18,-177.67 435.42,-132.64 425.78,-108.19"/>
+<polygon fill="black" stroke="black" points="461.32,-207.85 468.25,-215.87 467.83,-205.28 461.32,-207.85"/>
 </g>
 <!-- Gtk.Buildable&#45;&gt;Gtk.Widget -->
 <g id="edge6" class="edge">
