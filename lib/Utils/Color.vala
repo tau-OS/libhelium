@@ -34,7 +34,7 @@ namespace He.Color.LabConstants {
 
     public const double t0 = 0.137931034;  // 4 / 29
     public const double t1 = 0.206896552;  // 6 / 29
-    public const double t2 = 0.12841855;   // 3 * t1 * t1
+    public const double t2 = 0.128418550;   // 3 * t1 * t1
     public const double t3 = 0.008856452;  // t1 * t1 * t1
 }
 
@@ -42,17 +42,19 @@ namespace He.Color.LabConstants {
  * Miscellaneous color related functions
  */
 namespace He.Color {
+  // Not true black because it's too harsh.
   public const RGBColor BLACK = {
-      0,
-      0,
-      0
-    };
+      45,
+      45,
+      45
+  };
 
+  // Not true white because it's too harsh.
   public const RGBColor WHITE = {
-      255,
-      255,
-      255
-    };
+      240,
+      240,
+      242
+  };
 
   public struct RGBColor {
     public int r;
@@ -84,8 +86,8 @@ namespace He.Color {
   // https://cs.github.com/gka/chroma.js/blob/cd1b3c0926c7a85cbdc3b1453b3a94006de91a92/src/io/lab/lab2rgb.js#L10
 
   public double rgb_value_to_xyz(double v) {
-    if ((v /= 255) <= 0.04045) return v / 12.92;
-    return Math.pow((v + 0.055) / 1.055, 2.4);
+    if ((v /= 255) <= 0.04045) return v / 12.92000;
+    return Math.pow((v + 0.05500) / 1.05500, 2.40000);
   }
 
   public double xyz_value_to_lab(double v) {
@@ -154,7 +156,7 @@ namespace He.Color {
   }
 
   int xyz_value_to_rgb_value(double value) {
-    return (int) (255 * (value <= 0.00304 ? 12.92 * value : 1.055 * Math.pow(value, 1 / 2.4) - 0.055));
+    return (int) (255 * (value <= 0.00304 ? 12.92 * value : 1.05500 * Math.pow(value, 1 / 2.4) - 0.05500));
   }
 
   double lab_value_to_xyz_value(double value) {
@@ -201,7 +203,7 @@ namespace He.Color {
         // D65 white point
         XYZColor result = {
           convert(x) * 0.95047,
-          convert(y) * 1.0,
+          convert(y) * 1.00000,
           convert(z) * 1.08883
         };
 
