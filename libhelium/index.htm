@@ -21,6 +21,8 @@
         <ul class="navi_main">
           <li class="namespace"><a href="He.html">He</a></li>
           <li class="namespace"><a href="He.Animation.html">He.Animation</a></li>
+          <li class="namespace"><a href="He.Color.html">He.Color</a></li>
+          <li class="namespace"><a href="He.Color.LabConstants.html">He.Color.LabConstants</a></li>
           <li class="namespace"><a href="He.Misc.html">He.Misc</a></li>
         </ul>
       </div>
@@ -262,6 +264,109 @@
               <div class="leaf_brief_description">
               </div></li>
             <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">double</span></span> <b><a href="He.Animation.linear.html" class="method">linear</a></b> (<span class="main_basic_type"><span class="struct">double</span></span> t, <span class="main_basic_type"><span class="struct">double</span></span> d)
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+          </ul>
+          <li class="namespace"><a href="He.Color.html">Color</a> - <span class="brief_description">Miscellaneous color related functions</span></li>
+          <h3 class="main_title">Structs:</h3>
+          <ul class="navi_inline">
+            <li class="struct"><a href="He.Color.LABColor.html">LABColor</a></li>
+            <li class="struct"><a href="He.Color.LCHColor.html">LCHColor</a></li>
+            <li class="struct"><a href="He.Color.RGBColor.html">RGBColor</a></li>
+            <li class="struct"><a href="He.Color.XYZColor.html">XYZColor</a></li>
+          </ul>
+          <h3 class="main_title">Constants:</h3>
+          <ul class="navi_inline">
+            <li class="constant"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">const</span> <span class="main_type"><a href="He.Color.RGBColor.html" class="struct">RGBColor</a></span> <b><a href="He.Color.BLACK.html" class="constant">BLACK</a></b>
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="constant"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">const</span> <span class="main_type"><a href="He.Color.RGBColor.html" class="struct">RGBColor</a></span> <b><a href="He.Color.WHITE.html" class="constant">WHITE</a></b>
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+          </ul>
+          <h3 class="main_title">Methods:</h3>
+          <ul class="navi_inline">
+            <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">double</span></span> <b><a href="He.Color.contrast_ratio.html" class="method">contrast_ratio</a></b> (<span class="main_basic_type"><span class="struct">double</span></span> luma1, <span class="main_basic_type"><span class="struct">double</span></span> luma2)
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">double</span></span> <b><a href="He.Color.contrast_ratio_for_lch.html" class="method">contrast_ratio_for_lch</a></b> (<span class="main_type"><a href="He.Color.LCHColor.html" class="struct">LCHColor</a></span> color1, <span class="main_type"><a href="He.Color.LCHColor.html" class="struct">LCHColor</a></span> color2)
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><a href="He.Color.LCHColor.html" class="struct">LCHColor</a></span> <b><a href="He.Color.derive_contasting_color.html" class="method">derive_contasting_color</a></b> (<span class="main_type"><a href="He.Color.LCHColor.html" class="struct">LCHColor</a></span> color, <span class="main_basic_type"><span class="struct">double</span></span>? contrast, <span class="main_basic_type"><span class="struct">bool</span></span>? lighten)
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><a href="He.Color.RGBColor.html" class="struct">RGBColor</a></span> <b><a href="He.Color.lab_to_rgb.html" class="method">lab_to_rgb</a></b> (<span class="main_type"><a href="He.Color.LABColor.html" class="struct">LABColor</a></span> color)
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><a href="He.Color.XYZColor.html" class="struct">XYZColor</a></span> <b><a href="He.Color.lab_to_xyz.html" class="method">lab_to_xyz</a></b> (<span class="main_type"><a href="He.Color.LABColor.html" class="struct">LABColor</a></span> color)
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><a href="He.Color.LABColor.html" class="struct">LABColor</a></span> <b><a href="He.Color.lch_to_lab.html" class="method">lch_to_lab</a></b> (<span class="main_type"><a href="He.Color.LCHColor.html" class="struct">LCHColor</a></span> color)
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><a href="He.Color.LABColor.html" class="struct">LABColor</a></span> <b><a href="He.Color.rgb_to_lab.html" class="method">rgb_to_lab</a></b> (<span class="main_type"><a href="He.Color.RGBColor.html" class="struct">RGBColor</a></span> color)
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><a href="He.Color.LCHColor.html" class="struct">LCHColor</a></span> <b><a href="He.Color.rgb_to_lch.html" class="method">rgb_to_lch</a></b> (<span class="main_type"><a href="He.Color.RGBColor.html" class="struct">RGBColor</a></span> color)
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_type"><a href="He.Color.XYZColor.html" class="struct">XYZColor</a></span> <b><a href="He.Color.rgb_to_xyz.html" class="method">rgb_to_xyz</a></b> (<span class="main_type"><a href="He.Color.RGBColor.html" class="struct">RGBColor</a></span> color)
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">double</span></span> <b><a href="He.Color.rgb_value_to_xyz.html" class="method">rgb_value_to_xyz</a></b> (<span class="main_basic_type"><span class="struct">int</span></span> v)
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="struct">double</span></span> <b><a href="He.Color.xyz_value_to_lab.html" class="method">xyz_value_to_lab</a></b> (<span class="main_basic_type"><span class="struct">double</span></span> v)
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+          </ul>
+          <li class="namespace"><a href="He.Color.LabConstants.html">LabConstants</a> - <span class="brief_description">Miscellaneous constants for 
+              the Lab colorspace</span></li>
+          <h3 class="main_title">Constants:</h3>
+          <ul class="navi_inline">
+            <li class="constant"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">const</span> <span class="main_basic_type"><span class="struct">double</span></span> <b><a href="He.Color.LabConstants.Kn.html" class="constant">Kn</a></b>
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="constant"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">const</span> <span class="main_basic_type"><span class="struct">double</span></span> <b><a href="He.Color.LabConstants.Xn.html" class="constant">Xn</a></b>
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="constant"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">const</span> <span class="main_basic_type"><span class="struct">double</span></span> <b><a href="He.Color.LabConstants.Yn.html" class="constant">Yn</a></b>
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="constant"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">const</span> <span class="main_basic_type"><span class="struct">double</span></span> <b><a href="He.Color.LabConstants.Zn.html" class="constant">Zn</a></b>
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="constant"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">const</span> <span class="main_basic_type"><span class="struct">double</span></span> <b><a href="He.Color.LabConstants.t0.html" class="constant">t0</a></b>
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="constant"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">const</span> <span class="main_basic_type"><span class="struct">double</span></span> <b><a href="He.Color.LabConstants.t1.html" class="constant">t1</a></b>
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="constant"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">const</span> <span class="main_basic_type"><span class="struct">double</span></span> <b><a href="He.Color.LabConstants.t2.html" class="constant">t2</a></b>
+              </span>
+              <div class="leaf_brief_description">
+              </div></li>
+            <li class="constant"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">const</span> <span class="main_basic_type"><span class="struct">double</span></span> <b><a href="He.Color.LabConstants.t3.html" class="constant">t3</a></b>
               </span>
               <div class="leaf_brief_description">
               </div></li>
