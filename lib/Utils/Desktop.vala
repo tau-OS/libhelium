@@ -150,7 +150,7 @@ public class He.Desktop : Object {
             var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
 
             var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
-            accent_color = hexcode ((double) derived_accent_as_rgb_fg.r / 255, (double) derived_accent_as_rgb_fg.g / 255, (double) derived_accent_as_rgb_fg.b / 255);
+            accent_color = hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
             foreground = hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
 
 
@@ -175,7 +175,7 @@ public class He.Desktop : Object {
                     derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
         
                     derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
-                    accent_color = hexcode ((double) derived_accent_as_rgb_fg.r / 255, (double) derived_accent_as_rgb_fg.g / 255, (double) derived_accent_as_rgb_fg.b / 255);
+                    accent_color = hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
                     foreground = hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
                 }
             });
@@ -188,9 +188,9 @@ public class He.Desktop : Object {
         // If we can't get the accent color, use the default.
         if (ColorScheme.DARK == prefers_color_scheme) {
             He.Color.RGBColor rgb_color = {
-                (int) (0.725 * 255),
-                (int) (0.627 * 255),
-                (int) (0.859 * 255)
+                (int) (0.72 * 255),
+                (int) (0.63 * 255),
+                (int) (0.86 * 255)
             };
 
             var lch_color = He.Color.rgb_to_lch (rgb_color);
@@ -205,13 +205,14 @@ public class He.Desktop : Object {
 
             var rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
 
-            accent_color = "#BEA0DB";
-            foreground = hexcode ((double) rgb_fg.r / 255, (double) rgb_fg.g / 255, (double) rgb_fg.b / 255); 
+            var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
+            accent_color = hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
+            foreground = hexcode ((double) rgb_fg.r, (double) rgb_fg.g, (double) rgb_fg.b); 
         } else {
             He.Color.RGBColor rgb_color = {
-                (int) (0.549 * 255),
-                (int) (0.337 * 255),
-                (int) (0.749 * 255)
+                (int) (0.55 * 255),
+                (int) (0.34 * 255),
+                (int) (0.75 * 255)
             };
 
             var lch_color = He.Color.rgb_to_lch (rgb_color);
@@ -226,17 +227,17 @@ public class He.Desktop : Object {
 
             var rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
 
-            accent_color = "#8C56BF";
-            var fg_color = He.Misc.fix_fg_contrast (140, 86, 191, 0, 0, 0);
-            foreground = hexcode ((double) rgb_fg.r / 255, (double) rgb_fg.g / 255, (double) rgb_fg.b / 255); 
+            var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
+            accent_color = hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
+            foreground = hexcode ((double) rgb_fg.r, (double) rgb_fg.g, (double) rgb_fg.b); 
         }
     }
 
     private string hexcode (double r, double g, double b) {
-        return "#" + "%x%x%x".printf (
-            (int)(r/255),
-            (int)(g/255),
-            (int)(b/255)
-        ).substring(0,6);
+        return "#" + "%02x%02x%02x".printf (
+            (int)r,
+            (int)g,
+            (int)b
+        );
     }
 }
