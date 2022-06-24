@@ -133,12 +133,13 @@ public class He.Desktop : Object {
             // from https://github.com/wash2/hue-chroma-accent
 
             He.Color.RGBColor rgb_color = {
-                (int) cr * 255,
-                (int) cg * 255,
-                (int) cb * 255
+                (int) (cr * 255),
+                (int) (cg * 255),
+                (int) (cb * 255)
             };
 
             var lch_color = He.Color.rgb_to_lch (rgb_color);
+            warning("%f %f %f", lch_color.l, lch_color.c, lch_color.h);
             lch_color.l = ColorScheme.DARK == prefers_color_scheme ? 0 : 108.8840;
 
             var derived_fg = ColorScheme.DARK == prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
@@ -187,9 +188,9 @@ public class He.Desktop : Object {
         // If we can't get the accent color, use the default.
         if (ColorScheme.DARK == prefers_color_scheme) {
             He.Color.RGBColor rgb_color = {
-                (int) 0.725 * 255,
-                (int) 0.627 * 255,
-                (int) 0.859 * 255
+                (int) (0.725 * 255),
+                (int) (0.627 * 255),
+                (int) (0.859 * 255)
             };
 
             var lch_color = He.Color.rgb_to_lch (rgb_color);
@@ -208,9 +209,9 @@ public class He.Desktop : Object {
             foreground = hexcode ((double) rgb_fg.r / 255, (double) rgb_fg.g / 255, (double) rgb_fg.b / 255); 
         } else {
             He.Color.RGBColor rgb_color = {
-                (int) 0.549 * 255,
-                (int) 0.337 * 255,
-                (int) 0.749 * 255
+                (int) (0.549 * 255),
+                (int) (0.337 * 255),
+                (int) (0.749 * 255)
             };
 
             var lch_color = He.Color.rgb_to_lch (rgb_color);
