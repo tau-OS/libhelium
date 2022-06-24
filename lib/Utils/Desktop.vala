@@ -187,13 +187,48 @@ public class He.Desktop : Object {
 
         // If we can't get the accent color, use the default.
         if (ColorScheme.DARK == prefers_color_scheme) {
+            He.Color.RGBColor rgb_color = {
+                (int) 0.725 * 255,
+                (int) 0.627 * 255,
+                (int) 0.859 * 255
+            };
+
+            var lch_color = He.Color.rgb_to_lch (rgb_color);
+            lch_color.l = ColorScheme.DARK == prefers_color_scheme ? 0 : 108.8840;
+
+            var derived_fg = ColorScheme.DARK == prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
+            var fg_contrast = ColorScheme.DARK == prefers_color_scheme ? 12.0 : 7.0;
+            var bg_contrast = ColorScheme.DARK == prefers_color_scheme ? 3.0 : 1.3;
+
+            var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
+            var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
+
+            var rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
+
             accent_color = "#BEA0DB";
-            var fg_color = He.Misc.fix_fg_contrast (190, 160, 219, 255, 255, 255);
-            foreground = hexcode (fg_color[0]/255, fg_color[1]/255, fg_color[1]/255);
+            foreground = hexcode ((double) rgb_fg.r / 255, (double) rgb_fg.g / 255, (double) rgb_fg.b / 255); 
         } else {
+            He.Color.RGBColor rgb_color = {
+                (int) 0.549 * 255,
+                (int) 0.337 * 255,
+                (int) 0.749 * 255
+            };
+
+            var lch_color = He.Color.rgb_to_lch (rgb_color);
+            lch_color.l = ColorScheme.DARK == prefers_color_scheme ? 0 : 108.8840;
+
+            var derived_fg = ColorScheme.DARK == prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
+            var fg_contrast = ColorScheme.DARK == prefers_color_scheme ? 12.0 : 7.0;
+            var bg_contrast = ColorScheme.DARK == prefers_color_scheme ? 3.0 : 1.3;
+
+            var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
+            var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
+
+            var rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
+
             accent_color = "#8C56BF";
             var fg_color = He.Misc.fix_fg_contrast (140, 86, 191, 0, 0, 0);
-            foreground = hexcode (fg_color[0]/255, fg_color[1]/255, fg_color[1]/255);
+            foreground = hexcode ((double) rgb_fg.r / 255, (double) rgb_fg.g / 255, (double) rgb_fg.b / 255); 
         }
     }
 
