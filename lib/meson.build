@@ -12,6 +12,7 @@ libhelium_sources += files(
     'Utils/Portal.vala',
     'Utils/Misc.vala',
     'Utils/LatchLayout.vala',
+    'Utils/Color.vala',
     'Widgets/AboutWindow.vala',
     'Widgets/Album.vala',
     'Widgets/AlbumPage.vala',

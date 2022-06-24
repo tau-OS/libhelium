@@ -130,16 +130,31 @@ public class He.Desktop : Object {
             iter.next ("d", out cg);
             iter.next ("d", out cb);
 
-            if (ColorScheme.DARK == prefers_color_scheme) {
-                accent_color = hexcode (cr, cg, cb);
-                var fg_color = He.Misc.fix_fg_contrast (cr, cg, cb, 1.0, 1.0, 1.0);
-                foreground = hexcode (fg_color[0], fg_color[1], fg_color[1]);
-            } else {
-                accent_color = hexcode (cr, cg, cb);
-                var fg_color = He.Misc.fix_fg_contrast (cr, cg, cb, 0.0, 0.0, 0.0);
-                foreground = hexcode (fg_color[0], fg_color[1], fg_color[1]);
-            }
-            
+            // from https://github.com/wash2/hue-chroma-accent
+
+            He.Color.RGBColor rgb_color = {
+                (int) cr * 255,
+                (int) cg * 255,
+                (int) cb * 255
+            };
+
+            var lch_color = He.Color.rgb_to_lch (rgb_color);
+            lch_color.l = ColorScheme.DARK == prefers_color_scheme ? 0 : 108.8840;
+
+            var derived_fg = ColorScheme.DARK == prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
+            var fg_contrast = ColorScheme.DARK == prefers_color_scheme ? 12.0 : 7.0;
+            var bg_contrast = ColorScheme.DARK == prefers_color_scheme ? 3.0 : 1.3;
+
+            var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
+            var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
+
+            var rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
+
+            accent_color = hexcode (cr, cg, cb); 
+            foreground = hexcode ((double) rgb_fg.r / 255, (double) rgb_fg.g / 255, (double) rgb_fg.b / 255);
+
+            // pain pekora
+
             portal.setting_changed.connect ((scheme, key, value) => {
                 if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
                     accent = value.get_variant ();
@@ -147,15 +162,21 @@ public class He.Desktop : Object {
                     iter.next ("d", out cr);
                     iter.next ("d", out cg);
                     iter.next ("d", out cb);
-                    if (ColorScheme.DARK == prefers_color_scheme) {
-                        accent_color = hexcode (cr, cg, cb);
-                        var fg_color = He.Misc.fix_fg_contrast (cr*255, cg*255, cb*255, 255, 255, 255);
-                        foreground = hexcode (fg_color[0]/255, fg_color[1]/255, fg_color[1]/255);
-                    } else {
-                        accent_color = hexcode (cr, cg, cb);
-                        var fg_color = He.Misc.fix_fg_contrast (cr*255, cg*255, cb*255, 0, 0, 0);
-                        foreground = hexcode (fg_color[0]/255, fg_color[1]/255, fg_color[1]/255);
-                    }
+
+                    lch_color = He.Color.rgb_to_lch (rgb_color);
+                    lch_color.l = ColorScheme.DARK == prefers_color_scheme ? 0 : 108.8840;
+        
+                    derived_fg = ColorScheme.DARK == prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
+                    fg_contrast = ColorScheme.DARK == prefers_color_scheme ? 12.0 : 7.0;
+                    bg_contrast = ColorScheme.DARK == prefers_color_scheme ? 3.0 : 1.3;
+        
+                    derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
+                    derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
+        
+                    rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
+        
+                    accent_color = hexcode (cr, cg, cb); 
+                    foreground = hexcode ((double) rgb_fg.r / 255, (double) rgb_fg.g / 255, (double) rgb_fg.b / 255);        
                 }
             });
             
