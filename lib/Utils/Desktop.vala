@@ -233,10 +233,10 @@ public class He.Desktop : Object {
     }
 
     private string hexcode (double r, double g, double b) {
-        return "#" + "%02x%02x%02x".printf (
-            (int)(r * 255),
-            (int)(g * 255),
-            (int)(b * 255)
-        );
+        return "#" + "%x%x%x".printf (
+            (int)(r/255),
+            (int)(g/255),
+            (int)(b/255)
+        ).substring(0,6);
     }
 }
