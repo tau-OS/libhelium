@@ -30,7 +30,7 @@ namespace He.Color.LabConstants {
     // D65 standard referent
     public const double Xn = 0.950470;
     public const double Yn = 1;
-    public const double Zn = 1088830;
+    public const double Zn = 1.088830;
 
     public const double t0 = 0.137931034;  // 4 / 29
     public const double t1 = 0.206896552;  // 6 / 29
@@ -83,13 +83,13 @@ namespace He.Color {
   // https://github.com/gka/chroma.js/blob/75ea5d8a5480c90ef1c7830003ac63c2d3a15c03/src/io/lab/lab-constants.js
   // https://cs.github.com/gka/chroma.js/blob/cd1b3c0926c7a85cbdc3b1453b3a94006de91a92/src/io/lab/lab2rgb.js#L10
 
-  public double rgb_value_to_xyz(int v) {
+  public double rgb_value_to_xyz(double v) {
     if ((v /= 255) <= 0.04045) return v / 12.92;
     return Math.pow((v + 0.055) / 1.055, 2.4);
   }
 
   public double xyz_value_to_lab(double v) {
-    if (v > He.Color.LabConstants.t3) return Math.pow(v, 1 / 3);
+    if (v > He.Color.LabConstants.t3) return Math.pow(v, 1d / 3d);
     return v / He.Color.LabConstants.t2 + He.Color.LabConstants.t0;
   }
 
@@ -97,6 +97,9 @@ namespace He.Color {
     var r = rgb_value_to_xyz(color.r);
     var g = rgb_value_to_xyz(color.g);
     var b = rgb_value_to_xyz(color.b);
+
+    warning("rgb_color: %d %d %d", color.r, color.g, color.b);
+    warning("xyz_color: %f, %f, %f", r, g, b);
 
     var x = xyz_value_to_lab((0.4124564 * r + 0.3575761 * g + 0.1804375 * b) / He.Color.LabConstants.Xn);
     var y = xyz_value_to_lab((0.2126729 * r + 0.7151522 * g + 0.0721750 * b) / He.Color.LabConstants.Yn);
@@ -107,18 +110,20 @@ namespace He.Color {
       y,
       z
     };
+
+    warning("xyz_color (after labification): %f, %f, %f", x, y, z);
     
     return result;
   }
 
   public LABColor rgb_to_lab(RGBColor color) {
     var xyz_color = rgb_to_xyz(color);
-    var l = 116 * xyz_color.y - 16;
+    var l = 116d * xyz_color.y - 16d;
 
     LABColor result = {
       l < 0 ? 0 : l,
-      500 * (xyz_color.x - xyz_color.y),
-      200 * (xyz_color.y - xyz_color.z)
+      500d * (xyz_color.x - xyz_color.y),
+      200d * (xyz_color.y - xyz_color.z)
     };
 
     return result;
@@ -126,6 +131,8 @@ namespace He.Color {
 
   public LCHColor rgb_to_lch(RGBColor color) {
     var lab_color = rgb_to_lab(color);
+
+    warning("lab_color: %f, %f, %f", lab_color.l, lab_color.a, lab_color.b);
     
     LCHColor result = {
       lab_color.l,
