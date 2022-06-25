@@ -34,24 +34,18 @@ public class He.Application : Gtk.Application {
     if (desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK) {
       style_provider_set_enabled (dark, true);
       style_provider_set_enabled (light, false);
-      init_app_providers ();
     } else {
       style_provider_set_enabled (light, true);
       style_provider_set_enabled (dark, false);
-      init_app_providers ();
     }
-
-    style_provider_set_enabled (accent, true);
 
     desktop.notify["prefers-color-scheme"].connect (() => {
       if (desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK) {
         style_provider_set_enabled (dark, true);
         style_provider_set_enabled (light, false);
-        init_app_providers ();
       } else {
         style_provider_set_enabled (light, true);
         style_provider_set_enabled (dark, false);
-        init_app_providers ();
       }
     });
   }
@@ -68,8 +62,8 @@ public class He.Application : Gtk.Application {
      * color scheme preference. For example, if the user prefers the
      * dark color scheme, the file name is style-dark.css.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     var base_path = get_resource_base_path ();
     if (base_path == null) {
         return;
@@ -106,6 +100,9 @@ public class He.Application : Gtk.Application {
       @define-color accent_color lighten($accent_color, 1.1);
     ";
     accent.load_from_data (css.data);
+    style_provider_set_enabled (accent, true);
+    init_style_providers ();
+    init_app_providers ();
 
     desktop.notify["accent-color"].connect (() => {
         var accent_color2 = desktop.accent_color;
@@ -119,6 +116,9 @@ public class He.Application : Gtk.Application {
           @define-color accent_color lighten($accent_color2, 1.1);
         ";
         accent.load_from_data (css2.data);
+        style_provider_set_enabled (accent, true);
+        init_style_providers ();
+        init_app_providers ();
     });
   }
   
@@ -144,7 +144,6 @@ public class He.Application : Gtk.Application {
   protected override void startup () {
     base.startup ();
     He.init ();
-    init_style_providers ();
     // TODO: Enable when accents are standarized
     setup_accent_color ();
   }
