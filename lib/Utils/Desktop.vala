@@ -145,7 +145,6 @@ public class He.Desktop : Object {
             var fg_contrast = ColorScheme.DARK == prefers_color_scheme ? 12.0 : 7.0;
             var bg_contrast = ColorScheme.DARK == prefers_color_scheme ? 3.0 : 1.3;
 
-            var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
             var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
 
             var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
@@ -167,10 +166,7 @@ public class He.Desktop : Object {
                     derived_fg = ColorScheme.DARK == prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
                     fg_contrast = ColorScheme.DARK == prefers_color_scheme ? 12.0 : 7.0;
                     bg_contrast = ColorScheme.DARK == prefers_color_scheme ? 3.0 : 1.3;
-        
-                    derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
                     derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
-        
                     derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
         
                     accent_color = hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
@@ -197,10 +193,7 @@ public class He.Desktop : Object {
             var derived_fg = ColorScheme.DARK == prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
             var fg_contrast = ColorScheme.DARK == prefers_color_scheme ? 12.0 : 7.0;
             var bg_contrast = ColorScheme.DARK == prefers_color_scheme ? 3.0 : 1.3;
-
-            var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
             var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
-
             var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
 
             accent_color = hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
@@ -218,10 +211,7 @@ public class He.Desktop : Object {
             var derived_fg = ColorScheme.DARK == prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
             var fg_contrast = ColorScheme.DARK == prefers_color_scheme ? 12.0 : 7.0;
             var bg_contrast = ColorScheme.DARK == prefers_color_scheme ? 3.0 : 1.3;
-
-            var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
             var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
-
             var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
 
             accent_color = hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
