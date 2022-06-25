@@ -94,12 +94,14 @@ public class He.Application : Gtk.Application {
     var accent_color = desktop.accent_color;
     warning ("accent color is %s", accent_color);
     var foreground = desktop.foreground;
-    warning ("accent foreground is %s", foreground);
+    warning ("foreground is %s", foreground);
+    var accent_foreground = desktop.accent_foreground;
+    warning ("accent foreground is %s", accent_foreground);
 
     var css = @"
       @define-color accent_bg_color $accent_color;
       @define-color accent_fg_color $foreground;
-      @define-color accent_color lighten($accent_color, 1.1);
+      @define-color accent_color $accent_foreground;
     ";
     accent.load_from_data (css.data);
     init_style_providers ();
@@ -109,12 +111,14 @@ public class He.Application : Gtk.Application {
         var accent_color2 = desktop.accent_color;
         warning ("accent color is changed to %s", accent_color2);
         var foreground2 = desktop.foreground;
-        warning ("accent foreground is %s", foreground2);
+        warning ("foreground is %s", foreground2);
+        var accent_foreground2 = desktop.accent_foreground;
+        warning ("accent foreground is %s", accent_foreground2);
     
         var css2 = @"
           @define-color accent_bg_color $accent_color2;
           @define-color accent_fg_color $foreground2;
-          @define-color accent_color lighten($accent_color2, 1.1);
+          @define-color accent_color $accent_foreground2;
         ";
         accent.load_from_data (css2.data);
         init_style_providers ();
