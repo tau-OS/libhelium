@@ -39,6 +39,8 @@ public class He.Application : Gtk.Application {
       style_provider_set_enabled (dark, false);
     }
 
+    style_provider_set_enabled (accent, true);
+
     desktop.notify["prefers-color-scheme"].connect (() => {
       if (desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK) {
         style_provider_set_enabled (dark, true);
@@ -100,7 +102,6 @@ public class He.Application : Gtk.Application {
       @define-color accent_color lighten($accent_color, 1.1);
     ";
     accent.load_from_data (css.data);
-    style_provider_set_enabled (accent, true);
     init_style_providers ();
     init_app_providers ();
 
@@ -116,7 +117,6 @@ public class He.Application : Gtk.Application {
           @define-color accent_color lighten($accent_color2, 1.1);
         ";
         accent.load_from_data (css2.data);
-        style_provider_set_enabled (accent, true);
         init_style_providers ();
         init_app_providers ();
     });

@@ -139,7 +139,6 @@ public class He.Desktop : Object {
             };
 
             var lch_color = He.Color.rgb_to_lch (rgb_color);
-            warning("%f %f %f", lch_color.l, lch_color.c, lch_color.h);
             lch_color.l = ColorScheme.DARK == prefers_color_scheme ? 0 : 108.8840;
 
             var derived_fg = ColorScheme.DARK == prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
@@ -149,12 +148,10 @@ public class He.Desktop : Object {
             var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
             var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
 
-            var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
-            accent_color = hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
+            var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
+
+            accent_color = hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
             foreground = hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
-
-
-            // pain pekora
 
             portal.setting_changed.connect ((scheme, key, value) => {
                 if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
@@ -174,8 +171,9 @@ public class He.Desktop : Object {
                     derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
                     derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
         
-                    derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
-                    accent_color = hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
+                    derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
+        
+                    accent_color = hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
                     foreground = hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
                 }
             });
@@ -203,8 +201,9 @@ public class He.Desktop : Object {
             var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
             var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
 
-            var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
-            accent_color = hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
+            var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
+
+            accent_color = hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
             foreground = hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
         } else {
             He.Color.RGBColor rgb_color = {
@@ -223,9 +222,10 @@ public class He.Desktop : Object {
             var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
             var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
 
-            var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
-            accent_color = hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
-            foreground = hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b); 
+            var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
+
+            accent_color = hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
+            foreground = hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
         }
     }
 
