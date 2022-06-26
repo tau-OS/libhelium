@@ -17,8 +17,8 @@
 /**
  * Useful utilties for doing animations.
  *
- * @since 1.0
- */
+     * @since 1.0
+     */
 namespace He.Animation {
     public delegate double AnimationFunction (double t, double d);
 

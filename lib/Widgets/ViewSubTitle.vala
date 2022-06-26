@@ -25,8 +25,8 @@ public class He.ViewSubTitle : He.Bin, Gtk.Buildable {
     /**
      * Sets the subtitle text.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public string? label {
         set {
             _label.set_text(value);

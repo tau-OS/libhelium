@@ -334,8 +334,8 @@ public class He.AboutWindow : He.Window {
   * @param license Your application's license.
   * @param color The color of the AboutWindow.
   *
- * @since 1.0
- */
+     * @since 1.0
+     */
   public AboutWindow(
     Gtk.Window parent,
     string app_name,

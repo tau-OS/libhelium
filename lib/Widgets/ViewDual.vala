@@ -31,8 +31,8 @@ public class He.ViewDual : He.View {
     /**
      * Adds children to either the left or right side of the view, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (type == "left") {
             left_box.append ((Gtk.Widget) child);

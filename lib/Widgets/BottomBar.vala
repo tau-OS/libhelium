@@ -297,8 +297,8 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    * @param after The iconicbutton of the action after which the action is.
    * @param position The position of the action.
    *
- * @since 1.0
- */
+     * @since 1.0
+     */
   public void reorder_button_after(He.IconicButton icon, He.IconicButton after, Position position) {
     var box = position == Position.LEFT ? left_box : right_box;
     box.insert_child_after(icon, after);

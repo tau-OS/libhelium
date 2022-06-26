@@ -25,8 +25,8 @@ public class He.ViewTitle : He.Bin, Gtk.Buildable {
     /**
      * Sets the title of the view.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public string? label {
         set {
             _label.set_text(value);

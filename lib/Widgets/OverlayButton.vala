@@ -266,8 +266,8 @@ public class He.OverlayButton : He.Bin, Gtk.Buildable {
      * @param label The label of the button.
      * @param secondary_icon The icon of the secondary button.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public OverlayButton(string icon, string? label, string? secondary_icon) {
         this.icon = icon;
         if (label != null) this.label = label;

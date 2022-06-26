@@ -58,8 +58,8 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
     /**
      * The width of the image. 
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public int requested_width {
         get {
             return _requested_width;

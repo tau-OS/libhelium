@@ -39,8 +39,8 @@ public class He.Chip : He.Button {
   * Creates a new Chip.
   * @param label The text to display in the chip.
   *
- * @since 1.0
- */
+     * @since 1.0
+     */
   public Chip(string label) {
     this.label = label;
   }

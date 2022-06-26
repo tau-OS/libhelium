@@ -106,8 +106,8 @@
     /**
      * Create a new Tab
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public Tab (string? label = null, Gtk.Widget? page = null) {
         Object (
             label: label

@@ -43,8 +43,8 @@ public class He.ViewAux : He.View {
     /**
      * Adds a widget to ViewAux whether it is the main view or the side pane, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (type == "left") {
             left_box.append ((Gtk.Widget) child);

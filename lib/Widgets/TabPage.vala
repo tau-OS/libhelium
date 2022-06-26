@@ -38,8 +38,8 @@
     /**
      * Create a new Tab Page. This should be handled automatically by the Tab generation code.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public TabPage (Tab tab) {
         Object (
             tab: tab

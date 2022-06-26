@@ -137,8 +137,8 @@ public class He.ModifierBadge : He.Bin {
     /**
      * The alignment of the badge.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public Alignment alignment {
         set {
             this.set_halign(value.to_gtk_align());

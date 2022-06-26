@@ -76,8 +76,8 @@ public class He.Window : Gtk.Window {
     /**
      * If the window has a back button.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     private new bool _has_back_button;
     public new bool has_back_button {
         get {

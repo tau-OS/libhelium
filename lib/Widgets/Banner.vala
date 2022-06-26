@@ -123,8 +123,8 @@ public class He.Banner : He.Bin, Gtk.Buildable {
      * @param title The title of the banner.
      * @param description The description of the banner.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public Banner (string title, string description) {
         this.title = title;
         this.description = description;

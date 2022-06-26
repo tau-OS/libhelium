@@ -108,8 +108,8 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
     /**
     * Add a child to the sidebar, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
     *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (type == "titlebar-button") {
             titlebar.title.pack_end ((Gtk.Widget) child);

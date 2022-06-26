@@ -28,8 +28,8 @@ public class He.ViewSwitcher : He.Bin {
     /**
      * The stack that is controlled by this switcher.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public Gtk.Stack stack {
         get { return this._stack; }
         set {

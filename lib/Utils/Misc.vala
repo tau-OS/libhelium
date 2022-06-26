@@ -107,8 +107,8 @@ namespace He.Misc {
    * @param green2 The green component of the foreground color.
    * @param blue2 The blue component of the foreground color.
    *
- * @since 1.0
- */
+     * @since 1.0
+     */
   public double[] fix_fg_contrast (double red, double green, double blue, double red2, double green2, double blue2) {
     var bg_luminance = get_luminance (red, green, blue);
     var fg_luminance = get_luminance (red2, green2, blue2);

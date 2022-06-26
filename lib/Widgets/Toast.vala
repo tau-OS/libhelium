@@ -176,8 +176,8 @@ public class He.Toast : He.Bin {
     /**
      * Shows the Toast.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public void send_notification () {
         if (!revealer.child_revealed) {
             revealer.reveal_child = true;

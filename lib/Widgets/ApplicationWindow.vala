@@ -25,8 +25,8 @@ public class He.ApplicationWindow : Gtk.ApplicationWindow {
     * Creates a new ApplicationWindow.
     * @param app The application associated with this window.
     *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public ApplicationWindow (He.Application app) {
         Object (application: app);
 

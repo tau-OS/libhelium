@@ -66,8 +66,8 @@
     /**
      * Create a new Settingss Window.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public SettingsWindow (Gtk.Window? parent) {
         this.parent = parent;
     }

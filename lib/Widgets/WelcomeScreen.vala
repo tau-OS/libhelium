@@ -70,8 +70,8 @@ public class He.WelcomeScreen : He.Bin {
     * @param appname The name of the application.
     * @param description The application description.
     *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public WelcomeScreen (string appname, string description) {
         this.appname = appname;
         this.description = description;

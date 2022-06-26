@@ -43,8 +43,8 @@ public class He.PillButton : He.Button {
     * Creates a new PillButton.
     * @param label The label of the button.
     *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public PillButton(string label) {
         this.label = label;
     }

@@ -108,8 +108,8 @@ public class He.AppBar : He.Bin {
     * Remove a child from the AppBar.
     * @param child The child to remove.
     *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public void remove(Gtk.Widget child) {
         title.remove (child);
     }

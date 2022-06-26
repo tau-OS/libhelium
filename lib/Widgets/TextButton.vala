@@ -51,8 +51,8 @@ public class He.TextButton : He.Button {
      * Creates a new TextButton from an icon.
      * @param icon The icon to display on the button.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public TextButton.from_icon(string icon) {
         this.icon = icon;
     }

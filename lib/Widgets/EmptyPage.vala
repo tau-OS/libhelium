@@ -81,8 +81,8 @@ public class He.EmptyPage : He.Bin {
     /**
      * Sets the button of the empty page.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public string button {
         get {
             return _button;

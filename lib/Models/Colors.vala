@@ -84,8 +84,8 @@ public enum He.Colors {
     /**
      * Returns the color name.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public string to_string() {
         return this.to_css_class();
     }

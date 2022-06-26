@@ -51,8 +51,8 @@ public class He.TintButton : He.Button {
     * Create a new TintButton from an icon.
     * @param icon The icon to display on the button.
     *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public TintButton.from_icon(string icon) {
         this.icon = icon;
     }

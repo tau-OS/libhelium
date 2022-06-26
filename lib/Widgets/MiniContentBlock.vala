@@ -135,8 +135,8 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
      /**
       * Constructs a new MiniContentBlock.
       *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public MiniContentBlock () {}
     
     static construct {

@@ -43,8 +43,8 @@ public class He.OutlineButton : He.Button {
     * Creates a new OutlineButton.
     * @param label The label of the button.
     *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public OutlineButton(string label) {
         this.label = label;
     }

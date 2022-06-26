@@ -65,8 +65,8 @@ public class He.IconicButton : He.Button {
    * Constructs a new IconicButton.
    * @param icon The icon name to display.
    *
- * @since 1.0
- */
+     * @since 1.0
+     */
   public IconicButton(string icon) {
     this.icon = icon;
   }

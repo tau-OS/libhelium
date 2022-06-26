@@ -43,8 +43,8 @@ public class He.FillButton : He.Button {
     * Creates a new FillButton.
     * @param label The label of the button.
     *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public FillButton(string label) {
         this.label = label;
     }

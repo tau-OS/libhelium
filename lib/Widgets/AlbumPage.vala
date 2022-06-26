@@ -76,8 +76,8 @@ class He.AlbumPage : Gtk.Widget, Gtk.Buildable, He.AlbumPageInterface {
   /**
    * Constructs a new AlbumPage.
    *
- * @since 1.0
- */
+     * @since 1.0
+     */
   public AlbumPage (Gtk.Widget child, int min_width, bool navigatable) {
     this.child = child;
     this.min_width = min_width;

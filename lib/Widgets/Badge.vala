@@ -28,8 +28,8 @@ public class He.Badge : He.Bin {
     /**
     * The child of the badge.
     *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public Gtk.Widget? child {
         get {
             return overlay.get_child();

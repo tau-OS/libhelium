@@ -138,8 +138,8 @@ public class He.Dialog : He.Window {
      * @param primary_button The primary button of the dialog.
      * @param secondary_button The secondary button of the dialog.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public Dialog(bool modal, Gtk.Window? parent, string title, string subtitle, string info, string icon, He.FillButton? primary_button, He.TintButton? secondary_button) {
         this.modal = modal;
         this.parent = parent;

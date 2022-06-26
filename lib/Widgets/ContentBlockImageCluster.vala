@@ -128,8 +128,8 @@ public class He.ContentBlockImageCluster : He.Bin {
   * Adds an image child to the cluster. The image will be displayed in the cluster in the position specified by the position type.
   * Should only be used in UI or Blueprint files.
   *
- * @since 1.0
- */
+     * @since 1.0
+     */
   public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
     switch (type) {
       case "top_left":

@@ -50,8 +50,8 @@ public class He.SettingsPage : He.Bin, Gtk.Buildable {
     /**
      * Create a new Settings Page.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public SettingsPage (string title) {
         this.title = title;
     }

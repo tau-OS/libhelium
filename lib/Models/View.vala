@@ -110,8 +110,8 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
     /**
      * Add a child directly to the view. Used only in code.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public void add (Gtk.Widget widget) {
         box.append (widget);
     }

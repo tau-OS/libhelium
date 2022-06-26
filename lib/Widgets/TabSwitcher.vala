@@ -132,8 +132,8 @@
     /**
      * Create a new TabSwitcher
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public TabSwitcher () {
         handle_events ();
     }
