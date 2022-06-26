@@ -132,7 +132,7 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
         list.add_css_class ("content-list");
 
         foreach (var child in children) {
-            list.add (child);
+            list.append (child);
         }
 
         text_box.set_parent (this);
