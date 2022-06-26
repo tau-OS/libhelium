@@ -131,9 +131,11 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
         list.set_selection_mode (Gtk.SelectionMode.NONE);
         list.add_css_class ("content-list");
 
-        foreach (var child in children) {
-            list.append (child);
-        }
+        Timeout.add(1, () => {
+            foreach (var child in this.children) {
+                list.append (child);
+            }
+        });
 
         text_box.set_parent (this);
         list.set_parent (this);
