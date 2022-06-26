@@ -22,7 +22,16 @@
  */
 public class He.ContentList : He.Bin, Gtk.Buildable {
     private Gtk.Box text_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-    private Gtk.ListBox list = new Gtk.ListBox ();
+
+    /**
+     * A List of all the children of the content list.
+     */
+    public List<Gtk.Widget> children = new List<Gtk.Widget> ();
+
+    /**
+     * The internal content list.
+     */
+    public Gtk.ListBox list = new Gtk.ListBox ();
 
     private Gtk.Label title_label = new Gtk.Label (null);
     private Gtk.Label description_label = new Gtk.Label (null);
@@ -60,10 +69,13 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
     public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (((Gtk.Widget) child).get_type () == typeof (He.ContentBlock)) {
             list.append ((Gtk.Widget) child);
+            children.append ((Gtk.Widget) child);
         } else if (((Gtk.Widget) child).get_type () == typeof (He.MiniContentBlock)) {
             list.append ((Gtk.Widget) child);
+            children.append ((Gtk.Widget) child);
         } else {
             ((Gtk.Widget) child).set_parent (this);
+            children.append ((Gtk.Widget) child);
         }
     }
 
@@ -74,10 +86,13 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
     public void add (Gtk.Widget child) {
         if (child.get_type () == typeof (He.ContentBlock)) {
             list.append (child);
+            children.append (child);
         } else if (child.get_type () == typeof (He.MiniContentBlock)) {
             list.append (child);
+            children.append (child);
         } else {
             child.set_parent (this);
+            children.append (child);
         }
     }
 
@@ -85,13 +100,15 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
      * Removes an item from the content list.
      * @param child The item to remove.
      *
- * @since 1.0
- */
+     * @since 1.0
+     */
     public void remove (Gtk.Widget child) {
         if (child.get_parent () == this) {
+            children.remove (child);
             child.unparent ();
         } else if (child.get_parent ().get_parent () == list) {
             list.remove (child);
+            children.remove (child);
         }
     }
 
