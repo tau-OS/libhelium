@@ -8,8 +8,7 @@ conf.set_quoted('LOCALEDIR', join_paths(get_option('prefix'), get_option('locale
 configure_file(output: 'config.h', configuration: conf)
 config_h_dir = include_directories('.')
 
-example_sources = [helium_demo_resources]
-example_sources += files(
+example_sources = files(
 	'src/main.vala',
 	'src/window.vala'
 )
