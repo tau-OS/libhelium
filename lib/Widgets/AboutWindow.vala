@@ -258,6 +258,7 @@ public class He.AboutWindow : He.Window {
     
     icon_image.valign = Gtk.Align.START;
     icon_image.pixel_size = 128;
+    icon_image.add_css_class("icon-dropshadow");
     
     content_box.append(icon_image);
     content_box.append(info_box);
