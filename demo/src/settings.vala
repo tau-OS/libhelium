@@ -23,8 +23,12 @@ public class Demo.SettingsWindow : He.SettingsWindow {
 
   [GtkChild]
   unowned Gtk.ColorButton clr_btn;
-  
-  construct {
+
+  public SettingsWindow(MainWindow window) {
+    base(window);
+    _window = window;
+
+
     Gdk.RGBA default_color = {
       0.5490f,
       0.3372f,
@@ -37,14 +41,11 @@ public class Demo.SettingsWindow : He.SettingsWindow {
       // do thing with color
       var color = clr_btn.rgba;
 
+      clr_btn.set_rgba(color);
+
       He.Color.RGBColor rgb_color = He.Color.from_gdk_rgba(color);
       
       this._window.app.default_accent_color = rgb_color;
     });
-  }
-
-  public SettingsWindow(MainWindow window) {
-    base(window);
-    _window = window;
   }
 }

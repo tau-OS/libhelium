@@ -177,9 +177,9 @@ namespace He.Color {
     var b = xyz_value_to_rgb_value(0.0556434 * x - 0.2040259 * y + 1.0572252 * z);
 
     RGBColor result = {
-      r,
-      g,
-      b
+      r.clamp(0, 255),
+      g.clamp(0, 255),
+      b.clamp(0, 255)
     };
 
     return result;
