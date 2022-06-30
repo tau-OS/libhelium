@@ -34,7 +34,7 @@ namespace He.Misc {
     return null;
   }
 
-  private double contrast_ratio (double red, double green, double blue, double red2, double green2, double blue2) {
+  public double contrast_ratio (double red, double green, double blue, double red2, double green2, double blue2) {
       // From WCAG 2.0 https://www.w3.org/TR/WCAG20/#contrast-ratiodef
       var bg_luminance = get_luminance (red, green, blue);
       var fg_luminance = get_luminance (red2, green2, blue2);
