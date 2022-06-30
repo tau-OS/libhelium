@@ -1,0 +1,15 @@
+using Gtk 4.0;
+
+template DemoSettingsWindow : .HeSettingsWindow {
+  .HeContentList {
+    title: "Appearance";
+    hexpand: true;
+    .HeMiniContentBlock {
+      title: "Default Accent Color";
+      subtitle: "Demo of the accent color function.";
+
+      ColorButton clr_btn {
+      }
+    }
+  }
+}

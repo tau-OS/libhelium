@@ -287,4 +287,33 @@ namespace He.Color {
       }
     }
   }
+
+  private string hexcode (double r, double g, double b) {
+    return "#" + "%02x%02x%02x".printf (
+        (int)r,
+        (int)g,
+        (int)b
+    );
+  }
+
+  public Gdk.RGBA to_gdk_rgba (RGBColor color) {
+    Gdk.RGBA result = {
+      (float)color.r / 255.0f,
+      (float)color.g / 255.0f,
+      (float)color.b / 255.0f,
+      1.0f
+    };
+
+    return result;
+  }
+
+  public RGBColor from_gdk_rgba (Gdk.RGBA color) {
+    RGBColor result = {
+      (int)(color.red * 255),
+      (int)(color.green * 255),
+      (int)(color.blue * 255),
+    };
+
+    return result;
+  }
 }

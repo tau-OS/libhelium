@@ -83,10 +83,10 @@
         appbar.hexpand = true;
 
         switcher.stack = stack;
-        switcher.set_margin_start (12);
-        switcher.set_margin_end (12);
-        stack.set_margin_start (12);
-        stack.set_margin_end (12);
+        switcher.set_margin_start (18);
+        switcher.set_margin_end (18);
+        stack.set_margin_start (18);
+        stack.set_margin_end (18);
 
         box.append (appbar);
         box.append (switcher);

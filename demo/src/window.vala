@@ -182,7 +182,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
     }
 
     public void action_settings () {
-        var settings = new He.SettingsWindow (this);
+        var settings = new Demo.SettingsWindow (this);
         settings.present ();
     }
 }

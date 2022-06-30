@@ -34,7 +34,7 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
     /**
      * The title of the content list.
      */
-    public string title {
+    public string? title {
         get { return title_label.get_text (); }
         set {
             title_label.set_text (value);
@@ -50,7 +50,7 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
     /**
      * The description of the content list.
      */
-    public string description {
+    public string? description {
         get { return description_label.get_text (); }
         set { 
             description_label.set_text (value); 
@@ -115,13 +115,16 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
     }
 
     construct {
+        this.title_label.set_visible (false);
+        this.description_label.set_visible (false);
+
         this.title_label.add_css_class ("header");
         this.title_label.xalign = 0;
         this.description_label.add_css_class ("body");
         this.description_label.xalign = 0;
 
         var layout = new Gtk.BoxLayout (Gtk.Orientation.VERTICAL) {
-            spacing = 12,
+            spacing = 6,
         };
         this.layout_manager = layout;
 

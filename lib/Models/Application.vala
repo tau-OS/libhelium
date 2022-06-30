@@ -21,10 +21,115 @@
  * An application.
  */
 public class He.Application : Gtk.Application {
+  private He.Color.RGBColor default_dark_accent = {
+    (int) (0.7450 * 255),
+    (int) (0.6270 * 255),
+    (int) (0.8590 * 255)
+  };
+
+  private He.Color.RGBColor default_light_accent = {
+    (int) (0.5490 * 255),
+    (int) (0.3370 * 255),
+    (int) (0.7490 * 255)
+  };
+
+  /**
+  * A default accent color if the user has not set one.
+  */
+  public He.Color.RGBColor? default_accent_color { get; set; }
+
   private Gtk.CssProvider light = new Gtk.CssProvider ();
   private Gtk.CssProvider dark = new Gtk.CssProvider ();
   private Gtk.CssProvider accent = new Gtk.CssProvider ();
   private He.Desktop desktop = new He.Desktop ();
+
+
+  /**
+  * The applied accent color.
+  */
+  private string? _accent_color;
+  public string accent_color {
+      get {
+          return _accent_color;
+      }
+      private set {
+          _accent_color = value;
+      }
+  }
+
+  /**
+  * The foreground color that pairs well with the accent color.
+  *
+  * @since 1.0
+  */
+  private string? _foreground;
+  public string foreground {
+      get {
+          return _foreground;
+      }
+      private set {
+          _foreground = value;
+      }
+  }
+
+  /**
+  * The foreground accent color, used for text.
+  *
+  * @since 1.0
+  */
+  private string? _accent_foreground;
+  public string accent_foreground {
+      get {
+          return _accent_foreground;
+      }
+      private set {
+          _accent_foreground = value;
+      }
+  }
+
+  private void update_accent_color() {
+    He.Color.RGBColor rgb_color;
+
+    if (desktop.accent_color == null) {
+      if (default_accent_color != null) {
+        rgb_color = default_accent_color;
+      } else {
+        rgb_color = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? default_dark_accent : default_light_accent;
+      }
+    } else {
+      rgb_color = desktop.accent_color;
+    }
+
+    var lch_color = He.Color.rgb_to_lch (rgb_color);
+    lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 108.8840;
+
+    var derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
+    var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 8.0 : 7.0;
+    var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 10.0 : 9.0;
+
+    var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
+    var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
+
+    var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
+    var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
+
+    accent_color = Color.hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
+    accent_foreground = Color.hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
+    foreground = Color.hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
+
+    warning ("accent color is %s", accent_color);
+    warning ("accent foreground is %s", accent_foreground);
+    warning ("foreground is %s", foreground);
+
+    var css = @"
+      @define-color accent_bg_color $accent_color;
+      @define-color accent_fg_color $foreground;
+      @define-color accent_color $accent_foreground;
+    ";
+    accent.load_from_data (css.data);
+    init_style_providers ();
+    init_app_providers ();
+}
   
   private void init_style_providers () {
     // Setup the dark preference theme loading
@@ -43,9 +148,11 @@ public class He.Application : Gtk.Application {
 
     desktop.notify["prefers-color-scheme"].connect (() => {
       if (desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK) {
+        update_accent_color();
         style_provider_set_enabled (dark, true);
         style_provider_set_enabled (light, false);
       } else {
+        update_accent_color();
         style_provider_set_enabled (light, true);
         style_provider_set_enabled (dark, false);
       }
@@ -91,38 +198,14 @@ public class He.Application : Gtk.Application {
   }
 
   private void setup_accent_color () {
-    var accent_color = desktop.accent_color;
-    warning ("accent color is %s", accent_color);
-    var foreground = desktop.foreground;
-    warning ("foreground is %s", foreground);
-    var accent_foreground = desktop.accent_foreground;
-    warning ("accent foreground is %s", accent_foreground);
-
-    var css = @"
-      @define-color accent_bg_color $accent_color;
-      @define-color accent_fg_color $foreground;
-      @define-color accent_color $accent_foreground;
-    ";
-    accent.load_from_data (css.data);
-    init_style_providers ();
-    init_app_providers ();
+    update_accent_color();
 
     desktop.notify["accent-color"].connect (() => {
-        var accent_color2 = desktop.accent_color;
-        warning ("accent color is changed to %s", accent_color2);
-        var foreground2 = desktop.foreground;
-        warning ("foreground is %s", foreground2);
-        var accent_foreground2 = desktop.accent_foreground;
-        warning ("accent foreground is %s", accent_foreground2);
-    
-        var css2 = @"
-          @define-color accent_bg_color $accent_color2;
-          @define-color accent_fg_color $foreground2;
-          @define-color accent_color $accent_foreground2;
-        ";
-        accent.load_from_data (css2.data);
-        init_style_providers ();
-        init_app_providers ();
+      update_accent_color();
+    });
+
+    this.notify["default-accent-color"].connect(() => {
+      update_accent_color();
     });
   }
   

@@ -163,7 +163,12 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
         this.info_box.append(this.subtitle_label);
         this.info_box.valign = Gtk.Align.CENTER;
         
+        this.btn_box.halign = Gtk.Align.END;
+        this.btn_box.hexpand = true;
+        this.btn_box.valign = Gtk.Align.CENTER;
+
         var box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 18);
+        box.hexpand = true;
         box.append(this.image);
         box.append(this.info_box);
         box.append(this.btn_box);

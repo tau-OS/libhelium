@@ -39,9 +39,6 @@ public class He.Desktop : Object {
     private ColorScheme? _prefers_color_scheme = null;
     public ColorScheme prefers_color_scheme {
         get {
-            if (_prefers_color_scheme == null) {
-                setup_prefers_color_scheme ();
-            }
             return _prefers_color_scheme;
         }
         private set {
@@ -75,61 +72,13 @@ public class He.Desktop : Object {
     /**
     * The accent color preference.
     */
-    private string? _accent_color;
-    public string accent_color {
+    private He.Color.RGBColor? _accent_color;
+    public He.Color.RGBColor? accent_color {
         get {
-            if (_accent_color == null) {
-                setup_accent_color ();
-            }
             return _accent_color;
         }
         private set {
             _accent_color = value;
-            if (_accent_color == null) {
-                setup_accent_color ();
-            }
-        }
-    }
-
-    /**
-     * The foreground color that pairs well with the accent color.
-     *
-     * @since 1.0
-     */
-    private string? _foreground;
-    public string foreground {
-        get {
-            if (_foreground == null) {
-                setup_accent_color ();
-            }
-            return _foreground;
-        }
-        private set {
-            _foreground = value;
-            if (_foreground == null) {
-                setup_accent_color ();
-            }
-        }
-    }
-
-    /**
-     * The foreground accent color, used for text.
-     *
-     * @since 1.0
-     */
-    private string? _accent_foreground;
-    public string accent_foreground {
-        get {
-            if (_accent_foreground == null) {
-                setup_accent_color ();
-            }
-            return _accent_foreground;
-        }
-        private set {
-            _accent_foreground = value;
-            if (_accent_foreground == null) {
-                setup_accent_color ();
-            }
         }
     }
     
@@ -159,22 +108,7 @@ public class He.Desktop : Object {
                 (int) (cb * 255)
             };
 
-            var lch_color = He.Color.rgb_to_lch (rgb_color);
-            lch_color.l = ColorScheme.DARK == prefers_color_scheme ? 0 : 108.8840;
-
-            var derived_fg = ColorScheme.DARK == prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-            var fg_contrast = ColorScheme.DARK == prefers_color_scheme ? 8.0 : 7.0;
-            var bg_contrast = ColorScheme.DARK == prefers_color_scheme ? 10.0 : 9.0;
-
-            var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
-            var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
-
-            var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
-            var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
-
-            accent_color = hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
-            accent_foreground = hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
-            foreground = hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
+            accent_color = rgb_color;
 
             portal.setting_changed.connect ((scheme, key, value) => {
                 if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
@@ -184,22 +118,13 @@ public class He.Desktop : Object {
                     iter.next ("d", out cg);
                     iter.next ("d", out cb);
 
-                    lch_color = He.Color.rgb_to_lch (rgb_color);
-                    lch_color.l = ColorScheme.DARK == prefers_color_scheme ? 0 : 108.8840;
-        
-                    derived_fg = ColorScheme.DARK == prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-                    fg_contrast = ColorScheme.DARK == prefers_color_scheme ? 8.0 : 7.0;
-                    bg_contrast = ColorScheme.DARK == prefers_color_scheme ? 10.0 : 9.0;
-        
-                    derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
-                    derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
-        
-                    derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
-                    derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
-        
-                    accent_color = hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
-                    accent_foreground = hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
-                    foreground = hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
+                    rgb_color = {
+                        (int) (cr * 255),
+                        (int) (cg * 255),
+                        (int) (cb * 255)
+                    };
+
+                    accent_color = rgb_color;
                 }
             });
             
@@ -208,61 +133,13 @@ public class He.Desktop : Object {
             debug ("%s", e.message);
         }
 
-        // If we can't get the accent color, use the default.
-        if (ColorScheme.DARK == prefers_color_scheme) {
-            He.Color.RGBColor rgb_color = {
-                (int) (0.7450 * 255),
-                (int) (0.6270 * 255),
-                (int) (0.8590 * 255)
-            };
+        accent_color = null;
 
-            var lch_color = He.Color.rgb_to_lch (rgb_color);
-            lch_color.l = 0;
-
-            var derived_fg = He.Color.BLACK;
-            var fg_contrast = 8.0;
-            var bg_contrast = 10.0;
-
-            var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
-            var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
-
-            var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
-            var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
-
-            accent_color = hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
-            accent_foreground = hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
-            foreground = hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
-        } else {
-            He.Color.RGBColor rgb_color = {
-                (int) (0.5490 * 255),
-                (int) (0.3370 * 255),
-                (int) (0.7490 * 255)
-            };
-
-            var lch_color = He.Color.rgb_to_lch (rgb_color);
-            lch_color.l = 108.8840;
-
-            var derived_fg = He.Color.WHITE;
-            var fg_contrast = 7.0;
-            var bg_contrast = 9.0;
-
-            var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
-            var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
-
-            var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
-            var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
-
-            accent_color = hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
-            accent_foreground = hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
-            foreground = hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
-        }
+        //  update_accent_color(ColorScheme.DARK == prefers_color_scheme ? default_dark_accent : default_light_accent);
     }
 
-    private string hexcode (double r, double g, double b) {
-        return "#" + "%02x%02x%02x".printf (
-            (int)r,
-            (int)g,
-            (int)b
-        );
+    construct {
+        setup_prefers_color_scheme ();
+        setup_accent_color ();
     }
 }

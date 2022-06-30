@@ -10,7 +10,8 @@ config_h_dir = include_directories('.')
 
 example_sources = files(
 	'src/main.vala',
-	'src/window.vala'
+	'src/window.vala',
+	'src/settings.vala'
 )
 
 executable(
