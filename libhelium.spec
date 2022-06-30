@@ -40,7 +40,7 @@ for writing applications with libhelium.
 
 %build
 %meson \
-    -Ddemo=true \
+    -Ddemo=false \
     -Ddocumentation=false \
     --wrap-mode=default
 %meson_build
