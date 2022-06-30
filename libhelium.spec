@@ -1,7 +1,7 @@
 Summary:        The Application Framework for tauOS apps
 Name:           libhelium
 Version:        1.0
-Release:        15%{?dist}
+Release:        16%{?dist}
 License:        GPLv3
 URL:            https://tauos.co
 Source0:        %{name}-%{version}.tar.gz
@@ -35,13 +35,6 @@ Requires:       libhelium = %{version}-%{release}
 This package contains the libraries and header files that are needed
 for writing applications with libhelium.
 
-%package demo
-Summary:        Demo app written with libhelium
-Requires:       libhelium = %{version}-%{release}
-
-%description demo
-This package contains a demo app written with libhelium.
-
 %prep
 %autosetup
 
@@ -74,11 +67,6 @@ rm -rf %{buildroot}%{_datadir}/themes/*
 %{_datadir}/gir-1.0/*
 %{_libdir}/pkgconfig/*
 %{_datadir}/vala/*
-
-%files demo
-%{_bindir}/co.tauos.Helium1.Demo
-%{_datadir}/applications/co.tauos.Helium1.Demo.desktop
-%{_datadir}/icons/hicolor/*/apps/libhelium*.svg
 
 %changelog
 * Tue Jun 14 2022 Jamie Murphy <jamie@fyralabs.com> - 1.0-6
