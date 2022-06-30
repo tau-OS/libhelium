@@ -4,8 +4,6 @@ blueprints = custom_target('blueprints',
     'ui/menu.blp',
     'ui/settings.blp',
   ),
-  install: true,
-  install_dir: '.',
   output: '.',
   command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
 )
