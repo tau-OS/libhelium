@@ -110,10 +110,9 @@ public class He.Desktop : Object {
 
             accent_color = rgb_color;
 
-            portal.setting_changed.connect ((scheme, key, value) => {
+            portal.setting_changed.connect ((scheme, key, val) => {
                 if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
-                    accent = value.get_variant ();
-                    iter = accent.iterator ();
+                    iter = val.iterator ();
                     iter.next ("d", out cr);
                     iter.next ("d", out cg);
                     iter.next ("d", out cb);

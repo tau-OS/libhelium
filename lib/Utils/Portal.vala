@@ -40,6 +40,6 @@ namespace He.Portal {
         public abstract HashTable<string, HashTable<string, Variant>> read_all (string[] namespaces) throws DBusError, IOError;
         public abstract Variant read (string namespace, string key) throws DBusError, IOError;
 
-        public signal void setting_changed (string namespace, string key, Variant value);
+        public signal void setting_changed (string namespace, string key, Variant val);
     }
 }
