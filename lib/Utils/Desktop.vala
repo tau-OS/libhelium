@@ -55,12 +55,6 @@ public class He.Desktop : Object {
                 "color-scheme"
             ).get_variant ().get_uint32 ();
             
-            portal.setting_changed.connect ((scheme, key, value) => {
-                if (scheme == "org.freedesktop.appearance" && key == "color-scheme") {
-                    prefers_color_scheme = (ColorScheme) value.get_uint32 ();
-                }
-            });
-            
             return;
         } catch (Error e) {
             debug ("%s", e.message);
@@ -109,23 +103,6 @@ public class He.Desktop : Object {
             };
 
             accent_color = rgb_color;
-
-            portal.setting_changed.connect ((scheme, key, val) => {
-                if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
-                    iter = val.iterator ();
-                    iter.next ("d", out cr);
-                    iter.next ("d", out cg);
-                    iter.next ("d", out cb);
-
-                    rgb_color = {
-                        (int) (cr * 255),
-                        (int) (cg * 255),
-                        (int) (cb * 255)
-                    };
-
-                    accent_color = rgb_color;
-                }
-            });
             
             return;
         } catch (Error e) {
@@ -133,12 +110,35 @@ public class He.Desktop : Object {
         }
 
         accent_color = null;
+    }
 
-        //  update_accent_color(ColorScheme.DARK == prefers_color_scheme ? default_dark_accent : default_light_accent);
+    private void init_handle_settings_change() {
+        portal.setting_changed.connect ((scheme, key, val) => {
+            if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
+                double cr, cg, cb = 0;
+                var iter = val.iterator ();
+                iter.next ("d", out cr);
+                iter.next ("d", out cg);
+                iter.next ("d", out cb);
+
+                He.Color.RGBColor rgb_color = {
+                    (int) (cr * 255),
+                    (int) (cg * 255),
+                    (int) (cb * 255)
+                };
+
+                accent_color = rgb_color;
+            }
+
+            if (scheme == "org.freedesktop.appearance" && key == "color-scheme") {
+                prefers_color_scheme = (ColorScheme) val.get_uint32 ();
+            }
+        });
     }
 
     construct {
         setup_prefers_color_scheme ();
         setup_accent_color ();
+        init_handle_settings_change ();
     }
 }

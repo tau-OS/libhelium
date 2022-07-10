@@ -127,8 +127,6 @@ public class He.Application : Gtk.Application {
       @define-color accent_color $accent_foreground;
     ";
     accent.load_from_data (css.data);
-    init_style_providers ();
-    init_app_providers ();
 }
   
   private void init_style_providers () {
@@ -197,7 +195,7 @@ public class He.Application : Gtk.Application {
     }
   }
 
-  private void setup_accent_color () {
+  private void init_accent_color () {
     update_accent_color();
 
     desktop.notify["accent-color"].connect (() => {
@@ -231,8 +229,10 @@ public class He.Application : Gtk.Application {
   protected override void startup () {
     base.startup ();
     He.init ();
-    // TODO: Enable when accents are standarized
-    setup_accent_color ();
+
+    init_accent_color ();
+    init_style_providers ();
+    init_app_providers ();
   }
 
   public Application(string? application_id, ApplicationFlags flags) {
