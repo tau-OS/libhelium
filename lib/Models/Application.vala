@@ -21,6 +21,11 @@
  * An application.
  */
 public class He.Application : Gtk.Application {
+  private int STYLE_PROVIDER_PRIORITY_PLATFORM = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1;
+  private int STYLE_PROVIDER_PRIORITY_ACCENT = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2;
+  private int STYLE_PROVIDER_PRIORITY_USER_LIGHT = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 3;
+  private int STYLE_PROVIDER_PRIORITY_USER_DARK = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 4;
+
   private He.Color.RGBColor default_dark_accent = {
     (int) (0.7450 * 255),
     (int) (0.6270 * 255),
@@ -41,6 +46,8 @@ public class He.Application : Gtk.Application {
   private Gtk.CssProvider light = new Gtk.CssProvider ();
   private Gtk.CssProvider dark = new Gtk.CssProvider ();
   private Gtk.CssProvider accent = new Gtk.CssProvider ();
+  private Gtk.CssProvider user_light = new Gtk.CssProvider ();
+  private Gtk.CssProvider user_dark = new Gtk.CssProvider ();
   private He.Desktop desktop = new He.Desktop ();
 
 
@@ -134,26 +141,22 @@ public class He.Application : Gtk.Application {
     light.load_from_resource ("/co/tauos/helium/gtk.css");
     dark.load_from_resource ("/co/tauos/helium/gtk-dark.css");
 
-    if (desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK) {
-      style_provider_set_enabled (dark, true);
-      style_provider_set_enabled (light, false);
-    } else {
-      style_provider_set_enabled (light, true);
-      style_provider_set_enabled (dark, false);
-    }
+    style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
+    style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
 
-    style_provider_set_enabled (accent, true);
+    style_provider_set_enabled (accent, true, STYLE_PROVIDER_PRIORITY_ACCENT);
+
+    style_provider_set_enabled (user_light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_LIGHT);
+    style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
 
     desktop.notify["prefers-color-scheme"].connect (() => {
-      if (desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK) {
         update_accent_color();
-        style_provider_set_enabled (dark, true);
-        style_provider_set_enabled (light, false);
-      } else {
-        update_accent_color();
-        style_provider_set_enabled (light, true);
-        style_provider_set_enabled (dark, false);
-      }
+
+        style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
+        style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
+
+        style_provider_set_enabled (user_light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_LIGHT);
+        style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
     });
   }
 
@@ -178,21 +181,9 @@ public class He.Application : Gtk.Application {
 
     string base_uri = "resource://" + base_path;
     File base_file = File.new_for_uri (base_uri);
-    Gtk.CssProvider base_provider = new Gtk.CssProvider ();
     
-    if (base_file.get_child ("style-dark.css").query_exists (null)) {
-        if (desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK) {
-            init_provider_from_file (base_provider, base_file.get_child ("style-dark.css"));
-        } else {
-            init_provider_from_file (base_provider, base_file.get_child ("style.css"));
-        }
-    } else {
-        warning ("Dark Styling not found. Proceeding anyway.");
-    }
-    
-    if (base_provider != null) {
-        style_provider_set_enabled (base_provider, true);
-    }
+    init_provider_from_file (user_light, base_file.get_child ("style.css"));
+    init_provider_from_file (user_dark, base_file.get_child ("style-dark.css"));
   }
 
   private void init_accent_color () {
@@ -207,14 +198,14 @@ public class He.Application : Gtk.Application {
     });
   }
   
-  private void style_provider_set_enabled (Gtk.CssProvider provider, bool enabled) {
+  private void style_provider_set_enabled (Gtk.CssProvider provider, bool enabled, int priority) {
     Gdk.Display display = Gdk.Display.get_default ();
 
     if (display == null)
       return;
 
     if (enabled) {
-      Gtk.StyleContext.add_provider_for_display (display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+      Gtk.StyleContext.add_provider_for_display (display, provider, priority);
     } else {
       Gtk.StyleContext.remove_provider_for_display (display, provider);
     }
@@ -231,8 +222,8 @@ public class He.Application : Gtk.Application {
     He.init ();
 
     init_accent_color ();
-    init_style_providers ();
     init_app_providers ();
+    init_style_providers ();
   }
 
   public Application(string? application_id, ApplicationFlags flags) {
