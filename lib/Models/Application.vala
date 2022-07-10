@@ -23,7 +23,7 @@
 public class He.Application : Gtk.Application {
   private int STYLE_PROVIDER_PRIORITY_PLATFORM = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1;
   private int STYLE_PROVIDER_PRIORITY_ACCENT = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2;
-  private int STYLE_PROVIDER_PRIORITY_USER_LIGHT = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 3;
+  private int STYLE_PROVIDER_PRIORITY_USER_BASE = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 3;
   private int STYLE_PROVIDER_PRIORITY_USER_DARK = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 4;
 
   private He.Color.RGBColor default_dark_accent = {
@@ -46,7 +46,7 @@ public class He.Application : Gtk.Application {
   private Gtk.CssProvider light = new Gtk.CssProvider ();
   private Gtk.CssProvider dark = new Gtk.CssProvider ();
   private Gtk.CssProvider accent = new Gtk.CssProvider ();
-  private Gtk.CssProvider user_light = new Gtk.CssProvider ();
+  private Gtk.CssProvider user_base = new Gtk.CssProvider ();
   private Gtk.CssProvider user_dark = new Gtk.CssProvider ();
   private He.Desktop desktop = new He.Desktop ();
 
@@ -146,7 +146,7 @@ public class He.Application : Gtk.Application {
 
     style_provider_set_enabled (accent, true, STYLE_PROVIDER_PRIORITY_ACCENT);
 
-    style_provider_set_enabled (user_light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_LIGHT);
+    style_provider_set_enabled (user_base, true, STYLE_PROVIDER_PRIORITY_USER_BASE);
     style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
 
     desktop.notify["prefers-color-scheme"].connect (() => {
@@ -154,8 +154,6 @@ public class He.Application : Gtk.Application {
 
         style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
         style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
-
-        style_provider_set_enabled (user_light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_LIGHT);
         style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
     });
   }
@@ -182,7 +180,7 @@ public class He.Application : Gtk.Application {
     string base_uri = "resource://" + base_path;
     File base_file = File.new_for_uri (base_uri);
     
-    init_provider_from_file (user_light, base_file.get_child ("style.css"));
+    init_provider_from_file (user_base, base_file.get_child ("style.css"));
     init_provider_from_file (user_dark, base_file.get_child ("style-dark.css"));
   }
 
