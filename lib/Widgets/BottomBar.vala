@@ -23,6 +23,10 @@
  * It has title and description labels, which can be part of a menu's label.
  */
 public class He.BottomBar : He.Bin, Gtk.Buildable {
+  private Gtk.Box box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+  private Gtk.Box left_fmenu_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
+  private Gtk.Box right_fmenu_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
+
   private Gtk.Box left_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
   private Gtk.Box center_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
   private Gtk.Box right_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
@@ -33,11 +37,13 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
   private Gtk.MenuButton menu = new Gtk.MenuButton ();
   private Gtk.MenuButton fold_menu = new Gtk.MenuButton ();
 
-  private GLib.List<Gtk.Widget> left_children = new GLib.List<Gtk.Widget> ();
-  private GLib.List<Gtk.Widget> right_children = new GLib.List<Gtk.Widget> ();
-
-  private Gtk.Box fmenu_box_l = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-  private Gtk.Box fmenu_box_r = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+  private Gtk.Popover fmenu = new Gtk.Popover ();
+  private Gtk.Box fmenu_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+  private Gtk.Box fmenu_box_l = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+  private Gtk.Box fmenu_box_r = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+  private Gtk.Separator fmenu_separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
+  private Gtk.Image fmenu_image = new Gtk.Image ();
+  private Gee.HashMap<Gtk.Widget, Gtk.Widget> button_to_mbutton = new Gee.HashMap<Gtk.Widget, Gtk.Widget> ();
 
   /**
    * The title of the bottom bar.
@@ -103,8 +109,6 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
   }
 
   private Gtk.Widget create_menu_button(Gtk.Widget child) {
-    child.unparent ();
-
     var child_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
     var child_image = new Gtk.Image ();
     child_image.set_from_icon_name (((Gtk.Button)child).get_icon_name ());
@@ -129,51 +133,18 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
       // TODO: Refactor this thing
       _collapse_actions = value;
 
-      var fmenu_image = new Gtk.Image ();
-      fmenu_image.set_from_icon_name ("view-more-symbolic");
-      fmenu_image.set_pixel_size (16);
-      fold_menu.set_child (fmenu_image);
-
-      Gtk.Popover fmenu = new Gtk.Popover ();
-      Gtk.Box fmenu_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
-      Gtk.Separator fmenu_separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
-
-      fmenu_box_l.destroy();
-      fmenu_box_r.destroy();
-
-      fmenu_box_l = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
-      fmenu_box_r = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
-
-      fmenu_box.append (fmenu_box_l);
-      fmenu_box.append (fmenu_separator);
-      fmenu_box.append (fmenu_box_r);
-
       if (_collapse_actions) {
-        foreach (var child in left_children) {
-          fmenu_box_l.append (create_menu_button(child));
-        }
+        this.box.remove(left_box);
+        this.box.prepend(left_fmenu_box);
 
-        foreach (var child in right_children) {
-          fmenu_box_r.append (create_menu_button(child));
-        }
-
-        fmenu.set_child (fmenu_box);
-        fold_menu.set_popover (fmenu);
-
-        this.left_box.append (fold_menu);
+        this.box.remove(right_box);
+        this.box.append(right_fmenu_box);
       } else {
-        foreach (var child in left_children) {
-          child.unparent ();
+        this.box.remove(left_fmenu_box);
+        this.box.prepend(left_box);
 
-          this.left_box.append (child);
-        }
-
-        foreach (var child in right_children) {
-          child.unparent ();
-
-          this.right_box.append (child);
-        }
-        this.left_box.remove (fold_menu);
+        this.box.remove(right_fmenu_box);
+        this.box.append(right_box);
       }
     }
   }
@@ -190,12 +161,12 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    * Add a child to the bottombar, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
    */
   public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-      if (strcmp (type, "left") == 0) {
-        left_children.append ((Gtk.Widget)child);
-      } else if (strcmp (type, "right") == 0) {
-        right_children.append ((Gtk.Widget)child);
+      if (type == "left") {
+        this.append_button((He.IconicButton)child, Position.LEFT);
+      } else if (type == "right") {
+        this.append_button((He.IconicButton)child, Position.RIGHT);
       } else {
-        left_children.append ((Gtk.Widget)child);
+        this.append_button((He.IconicButton)child, Position.LEFT);
       }
   }
 
@@ -229,15 +200,6 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
     this.center_box.append(title_label);
     this.center_box.append(description_label);
 
-    foreach (var child in left_children) {
-      this.left_box.append (child);
-    }
-
-    foreach (var child in right_children) {
-      this.right_box.append (child);
-    }
-
-    var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     box.append(left_box);
     box.append(center_box);
     box.append(right_box);
@@ -246,6 +208,19 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
     fold_menu.halign = Gtk.Align.CENTER;
     fold_menu.valign = Gtk.Align.CENTER;
     fold_menu.add_css_class ("flat");
+
+    fmenu_image.set_from_icon_name ("view-more-symbolic");
+    fmenu_image.set_pixel_size (16);
+    fold_menu.set_child (fmenu_image);
+
+    fmenu_box.append (fmenu_box_l);
+    fmenu_box.append (fmenu_separator);
+    fmenu_box.append (fmenu_box_r);
+
+    fmenu.set_child (fmenu_box);
+    fold_menu.set_popover (fmenu);
+
+    left_fmenu_box.append(fold_menu);
 
     box.set_parent (this);
   }
@@ -257,7 +232,14 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    */
   public void append_button(He.IconicButton icon, Position position) {
     var box = position == Position.LEFT ? left_box : right_box;
+    var fmenu_box = position == Position.LEFT ? fmenu_box_l : fmenu_box_r;
+
+    var menu_button = create_menu_button(icon);
+
     box.append(icon);
+    fmenu_box.append(menu_button);
+
+    button_to_mbutton[icon] = menu_button;
   }
 
   /**
@@ -267,7 +249,14 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    */
   public void prepend_button(He.IconicButton icon, Position position) {
     var box = position == Position.LEFT ? left_box : right_box;
+    var fmenu_box = position == Position.LEFT ? fmenu_box_l : fmenu_box_r;
+
+    var menu_button = create_menu_button(icon);
+
     box.prepend(icon);
+    fmenu_box.prepend(menu_button);
+
+    button_to_mbutton[icon] = menu_button;
   }
 
   /**
@@ -277,7 +266,11 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    */
   public void remove_button(He.IconicButton icon, Position position) {
     var box = position == Position.LEFT ? left_box : right_box;
+    var fmenu_box = position == Position.LEFT ? fmenu_box_l : fmenu_box_r;
+
     box.remove(icon);
+    fmenu_box.remove(button_to_mbutton[icon]);
+    button_to_mbutton.unset(icon);
   }
 
   /**
@@ -288,19 +281,31 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    */
   public void insert_button_after(He.IconicButton icon, He.IconicButton after, Position position) {
     var box = position == Position.LEFT ? left_box : right_box;
+    var fmenu_box = position == Position.LEFT ? fmenu_box_l : fmenu_box_r;
+
+    var menu_button = create_menu_button(icon);
+
     box.insert_child_after(icon, after);
+    fmenu_box.insert_child_after(menu_button, button_to_mbutton[after]);
+
+    button_to_mbutton[icon] = menu_button;
   }
 
   /**
    * Reorder an action based on another action.
    * @param icon The iconicbutton of the action.
-   * @param after The iconicbutton of the action after which the action is.
+   * @param sibling The iconicbutton of the action after which the action is.
    * @param position The position of the action.
    *
      * @since 1.0
      */
-  public void reorder_button_after(He.IconicButton icon, He.IconicButton after, Position position) {
+  public void reorder_button_after(He.IconicButton icon, He.IconicButton sibling, Position position) {
     var box = position == Position.LEFT ? left_box : right_box;
-    box.insert_child_after(icon, after);
+    var fmenu_box = position == Position.LEFT ? fmenu_box_l : fmenu_box_r;
+
+    var menu_button = create_menu_button(icon);
+
+    box.reorder_child_after(icon, sibling);
+    fmenu_box.reorder_child_after(button_to_mbutton[icon], button_to_mbutton[sibling]);
   }
 }
