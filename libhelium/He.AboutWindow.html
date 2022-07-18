@@ -41,6 +41,9 @@
           <li class="property"><a href="He.AboutWindow.translator_names.html">translator_names</a></li>
           <li class="property"><a href="He.AboutWindow.version.html">version</a></li>
           <li class="creation_method"><a href="He.AboutWindow.AboutWindow.html">AboutWindow</a></li>
+          <li class="field"><a href="He.AboutWindow._issue_url.html">_issue_url</a></li>
+          <li class="field"><a href="He.AboutWindow._more_info_url.html">_more_info_url</a></li>
+          <li class="field"><a href="He.AboutWindow._translate_url.html">_translate_url</a></li>
         </ul>
       </div>
       <div class="site_content">
@@ -96,7 +99,7 @@
             </span>
             <div class="leaf_brief_description">
             </div></li>
-          <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span> <b><a href="He.AboutWindow.issue_url.html" class="property">issue_url</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
+          <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span>? <b><a href="He.AboutWindow.issue_url.html" class="property">issue_url</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
             </span>
             <div class="leaf_brief_description"><span class="brief_description">A URL where users can report a problem with the application.</span>
             </div></li>
@@ -104,12 +107,12 @@
             </span>
             <div class="leaf_brief_description"><span class="brief_description">The license shown in the AboutWindow.</span>
             </div></li>
-          <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span> <b><a href="He.AboutWindow.more_info_url.html" class="property">more_info_url</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
+          <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span>? <b><a href="He.AboutWindow.more_info_url.html" class="property">more_info_url</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
             </span>
             <div class="leaf_brief_description"><span class="brief_description">A URL where users can get more information about the application.
               </span>
             </div></li>
-          <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span> <b><a href="He.AboutWindow.translate_url.html" class="property">translate_url</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
+          <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span>? <b><a href="He.AboutWindow.translate_url.html" class="property">translate_url</a></b> { <span class="main_keyword">get</span>; <span class="main_keyword">set</span>; }
             </span>
             <div class="leaf_brief_description"><span class="brief_description">A URL where contributors can help translate the application.</span>
             </div></li>
@@ -124,9 +127,24 @@
         </ul>
         <h3 class="main_title">Creation methods:</h3>
         <ul class="navi_inline">
-          <li class="creation_method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <b><a href="He.AboutWindow.AboutWindow.html" class="creation_method">AboutWindow</a></b> (<span class="main_type"><span class="class">Window</span></span> parent, <span class="main_basic_type"><span class="class">string</span></span> app_name, <span class="main_basic_type"><span class="class">string</span></span> app_id, <span class="main_basic_type"><span class="class">string</span></span> version, <span class="main_basic_type"><span class="class">string</span></span> icon, <span class="main_basic_type"><span class="class">string</span></span> translate_url, <span class="main_basic_type"><span class="class">string</span></span> issue_url, <span class="main_basic_type"><span class="class">string</span></span> more_info_url, <span class="main_basic_type"><span class="class">string</span></span>[] translators, <span class="main_basic_type"><span class="class">string</span></span>[] developers, <span class="main_basic_type"><span class="struct">int</span></span> copyright_year, <span class="main_type"><a href="He.AboutWindow.Licenses.html" class="enum">Licenses</a></span> license, <span class="main_type"><a href="He.Colors.html" class="enum">Colors</a></span> color)
+          <li class="creation_method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <b><a href="He.AboutWindow.AboutWindow.html" class="creation_method">AboutWindow</a></b> (<span class="main_type"><span class="class">Window</span></span> parent, <span class="main_basic_type"><span class="class">string</span></span> app_name, <span class="main_basic_type"><span class="class">string</span></span> app_id, <span class="main_basic_type"><span class="class">string</span></span> version, <span class="main_basic_type"><span class="class">string</span></span> icon, <span class="main_basic_type"><span class="class">string</span></span>? translate_url, <span class="main_basic_type"><span class="class">string</span></span>? issue_url, <span class="main_basic_type"><span class="class">string</span></span>? more_info_url, <span class="main_basic_type"><span class="class">string</span></span>[] translators, <span class="main_basic_type"><span class="class">string</span></span>[] developers, <span class="main_basic_type"><span class="struct">int</span></span> copyright_year, <span class="main_type"><a href="He.AboutWindow.Licenses.html" class="enum">Licenses</a></span> license, <span class="main_type"><a href="He.Colors.html" class="enum">Colors</a></span> color)
             </span>
             <div class="leaf_brief_description"><span class="brief_description">Creates a new AboutWindow.</span>
+            </div></li>
+        </ul>
+        <h3 class="main_title">Fields:</h3>
+        <ul class="navi_inline">
+          <li class="field"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span>? <b><a href="He.AboutWindow._issue_url.html" class="field">_issue_url</a></b>
+            </span>
+            <div class="leaf_brief_description">
+            </div></li>
+          <li class="field"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span>? <b><a href="He.AboutWindow._more_info_url.html" class="field">_more_info_url</a></b>
+            </span>
+            <div class="leaf_brief_description">
+            </div></li>
+          <li class="field"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><span class="class">string</span></span>? <b><a href="He.AboutWindow._translate_url.html" class="field">_translate_url</a></b>
+            </span>
+            <div class="leaf_brief_description">
             </div></li>
         </ul>
         <h3 class="main_title">Inherited Members:</h3>
