@@ -1,7 +1,7 @@
 Summary:        The Application Framework for tauOS apps
 Name:           libhelium
 Version:        1.0
-Release:        23%{?dist}
+Release:        24%{?dist}
 License:        GPLv3
 URL:            https://tauos.co
 Source0:        %{name}-%{version}.tar.gz
