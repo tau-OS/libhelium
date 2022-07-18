@@ -223,6 +223,9 @@ public class He.AboutWindow : He.Window {
     }
   }
 
+  public string? _translate_url;
+  public string? _issue_url;
+  public string? _more_info_url;
 
   /**
   * Your application's reverse-domain name.
@@ -231,15 +234,45 @@ public class He.AboutWindow : He.Window {
   /**
   * A URL where contributors can help translate the application.
   */
-  public string translate_url { get; set; }
+  public string? translate_url {
+    get { return _translate_url; }
+    set {
+      _translate_url = value;
+      if (value != null) {
+        translate_app_button.visible = true;
+      } else {
+        translate_app_button.visible = false;
+      }
+    }
+  }
   /**
   * A URL where users can report a problem with the application.
   */
-  public string issue_url { get; set; }
+  public string? issue_url {
+    get { return _issue_url; }
+    set {
+      _issue_url = value;
+      if (value != null) {
+        report_button.visible = true;
+      } else {
+        report_button.visible = false;
+      }
+    }
+  }
   /**
   * A URL where users can get more information about the application.
   */
-  public string more_info_url { get; set; }
+  public string? more_info_url {
+    get { return _more_info_url; }
+    set {
+      _more_info_url = value;
+      if (value != null) {
+        more_info_button.visible = true;
+      } else {
+        more_info_button.visible = false;
+      }
+    }
+  }
 
   construct {
     this.set_modal(true);
@@ -343,9 +376,9 @@ public class He.AboutWindow : He.Window {
     string app_id,
     string version,
     string icon,
-    string translate_url,
-    string issue_url,
-    string more_info_url,
+    string? translate_url,
+    string? issue_url,
+    string? more_info_url,
     string[] translators,
     string[] developers,
     int copyright_year,
