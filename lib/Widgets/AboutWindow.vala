@@ -227,19 +227,19 @@ public class He.AboutWindow : He.Window {
   /**
   * Your application's reverse-domain name.
   */
-  public string app_id { get; set; };
+  public string app_id { get; set; }
   /**
   * A URL where contributors can help translate the application.
   */
-  public string translate_url { get; set; };
+  public string translate_url { get; set; }
   /**
   * A URL where users can report a problem with the application.
   */
-  public string issue_url { get; set; };
+  public string issue_url { get; set; }
   /**
   * A URL where users can get more information about the application.
   */
-  public string more_info_url { get; set; };
+  public string more_info_url { get; set; }
 
   construct {
     this.set_modal(true);
