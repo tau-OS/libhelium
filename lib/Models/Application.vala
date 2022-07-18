@@ -54,8 +54,8 @@ public class He.Application : Gtk.Application {
   /**
   * The applied accent color.
   */
-  private string? _accent_color;
-  public string accent_color {
+  private He.Color.RGBColor? _accent_color;
+  public He.Color.RGBColor accent_color {
       get {
           return _accent_color;
       }
@@ -69,8 +69,8 @@ public class He.Application : Gtk.Application {
   *
   * @since 1.0
   */
-  private string? _foreground;
-  public string foreground {
+  private He.Color.RGBColor? _foreground;
+  public He.Color.RGBColor foreground {
       get {
           return _foreground;
       }
@@ -84,8 +84,8 @@ public class He.Application : Gtk.Application {
   *
   * @since 1.0
   */
-  private string? _accent_foreground;
-  public string accent_foreground {
+  private He.Color.RGBColor? _accent_foreground;
+  public He.Color.RGBColor accent_foreground {
       get {
           return _accent_foreground;
       }
@@ -120,18 +120,22 @@ public class He.Application : Gtk.Application {
     var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
     var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
 
-    accent_color = Color.hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
-    accent_foreground = Color.hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
-    foreground = Color.hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
+    this.accent_color = derived_accent_as_rgb_bg;
+    this.accent_foreground = derived_accent_as_rgb_fg;
+    this.foreground = derived_fg;
 
-    warning ("accent color is %s", accent_color);
-    warning ("accent foreground is %s", accent_foreground);
-    warning ("foreground is %s", foreground);
+    var accent_color_hex = Color.hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
+    var accent_foreground_hex = Color.hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
+    var foreground_hex = Color.hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
+
+    warning ("accent color is %s", accent_color_hex);
+    warning ("accent foreground is %s", accent_foreground_hex);
+    warning ("foreground is %s", foreground_hex);
 
     var css = @"
-      @define-color accent_bg_color $accent_color;
-      @define-color accent_fg_color $foreground;
-      @define-color accent_color $accent_foreground;
+      @define-color accent_bg_color $accent_color_hex;
+      @define-color accent_fg_color $accent_foreground_hex;
+      @define-color accent_color $foreground_hex;
     ";
     accent.load_from_data (css.data);
 }
