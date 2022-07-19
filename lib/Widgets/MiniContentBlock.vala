@@ -90,6 +90,17 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
             }
         }
     }
+
+    public Gdk.Paintable paintable {
+        set {
+            if (value == null) {
+                image.set_visible (false);
+            } else {
+                image.set_visible (true);
+                image.set_from_paintable (value);
+            }
+        }
+    }
     
     /**
     * The primary button of the content block.
