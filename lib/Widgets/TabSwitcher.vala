@@ -89,6 +89,21 @@
     }
 
     /**
+     * Allow tab dragging. This also allows reordering in general,
+     * but...who cares about that
+     */
+    bool _allow_drag = true;
+    public bool allow_drag {
+        get { return _allow_drag; }
+        set {
+            _allow_drag = value;
+            foreach (var tab in tabs) {
+                notebook.set_tab_reorderable (tab.page_container, value);
+            }
+        }
+    }
+
+    /**
      * The current visible tab
      */
     public Tab current {
@@ -103,6 +118,7 @@
      */
     public uint insert_tab (Tab tab, int index) {
         index = this.notebook.insert_page (tab.page_container, tab, index <= -1 ? n_tabs : index);
+        notebook.set_tab_reorderable (tab.page_container, allow_drag);
         tab.get_parent ().add_css_class ("tab");
         tab.set_size_request (tab_width, -1);
         return index;
