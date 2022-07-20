@@ -82,15 +82,18 @@
     internal signal void closed ();
     internal signal void close_others ();
     internal signal void close_others_right ();
+    internal signal void duplicate ();
 
     public SimpleActionGroup actions { get; construct; }
     private const string ACTION_CLOSE = "action-close";
     private const string ACTION_CLOSE_OTHER = "action-close-other";
     private const string ACTION_CLOSE_RIGHT = "action-close-right";
+    private const string ACTION_DUPLICATE = "action-duplicate";
     private const ActionEntry[] ENTRIES = {
         { ACTION_CLOSE, action_close },
         { ACTION_CLOSE_OTHER, action_close_other },
-        { ACTION_CLOSE_RIGHT, action_close_right }
+        { ACTION_CLOSE_RIGHT, action_close_right },
+        { ACTION_DUPLICATE, action_duplicate },
     };
 
     private void action_close () {
@@ -101,6 +104,9 @@
     }
     private void action_close_right () {
         close_others_right ();
+    }
+    private void action_duplicate () {
+        duplicate ();
     }
 
     /**
@@ -149,6 +155,7 @@
         menu.append ("Close", @"$(label).action-close");
         menu.append ("Close Others", @"$(label).action-close-other");
         menu.append ("Close Tab to the Right", @"$(label).action-close-right");
+        menu.append ("Duplicate", @"$(label).action-duplicate");
 
         popover.set_menu_model (menu);
 
@@ -175,7 +182,7 @@
 
         click.pressed.connect ((n_press, x, y) => {
             if (n_press != 1) {
-                print ("duplication");
+                duplicate ();
             } else if (click.get_current_button () == Gdk.BUTTON_SECONDARY) {
                 Gdk.Rectangle rect = {(int)x,
                                       (int)y,

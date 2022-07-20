@@ -74,6 +74,21 @@
     }
 
     /**
+     * Allow tab duplication
+     */
+    bool _allow_duplication = false;
+    public bool allow_duplicate_tabs {
+        get { return _allow_duplication; }
+        set {
+            _allow_duplication = value;
+
+            foreach (var tab in tabs) {
+                // TODO set tab duplicate action
+            }
+        }
+    }
+
+    /**
      * The current visible tab
      */
     public Tab current {
@@ -117,6 +132,7 @@
     public signal void tab_added (Tab tab);
     public signal void tab_removed (Tab tab);
     public signal void tab_switched (Tab? old_tab, Tab new_tab);
+    public signal void tab_duplicated (Tab duplicated_tab);
     public signal void new_tab_requested ();
 
     public SimpleActionGroup actions { get; construct; }
@@ -247,12 +263,14 @@
         tab.closed.connect (on_tab_closed);
         tab.close_others.connect (on_close_others);
         tab.close_others_right.connect (on_close_others_right);
+        tab.duplicate.connect (on_duplicate);
     }
 
     private void remove_callbacks (Tab tab) {
         tab.closed.disconnect (on_tab_closed);
         tab.close_others.disconnect (on_close_others);
         tab.close_others_right.disconnect (on_close_others_right);
+        tab.duplicate.disconnect (on_duplicate);
     }
 
     private void on_close_others (Tab clicked_tab) {
@@ -283,6 +301,10 @@
 
         if (pos != -1 && tab.page.get_parent () != null)
             tab.page.unparent ();
+    }
+
+    private void on_duplicate (Tab tab) {
+        tab_duplicated (tab);
     }
 
     private void update_tabs_visibility () {
