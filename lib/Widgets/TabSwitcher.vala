@@ -234,6 +234,7 @@
         notebook.set_parent (this);
 
         notebook.hexpand = true;
+	notebook.vexpand = true;
     }
 
     static construct {
