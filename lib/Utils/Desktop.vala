@@ -89,6 +89,12 @@ public class He.Desktop : Object {
                 "accent-color"
             ).get_variant ();
             
+            if (accent.get_type().equal(VariantType.UINT32)) {
+                accent_color = null;
+
+                return;
+            }
+
             VariantIter iter = accent.iterator ();
             iter.next ("d", out cr);
             iter.next ("d", out cg);
@@ -115,6 +121,12 @@ public class He.Desktop : Object {
     private void init_handle_settings_change() {
         portal.setting_changed.connect ((scheme, key, val) => {
             if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
+                if (val.get_type().equal(VariantType.UINT32)) {
+                    accent_color = null;
+
+                    return;
+                }
+
                 double cr, cg, cb = 0;
                 var iter = val.iterator ();
                 iter.next ("d", out cr);
