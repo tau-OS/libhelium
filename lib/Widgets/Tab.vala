@@ -42,6 +42,57 @@
         }
     }
 
+    private bool _is_current_tab = false;
+    internal bool is_current_tab {
+        set {
+            _is_current_tab = value;
+            //  update_close_button_visibility ();
+        }
+    }
+
+    /**
+     * Whether a Tab is pinned or not
+     */
+    private bool _pinned = false;
+    public bool pinned {
+        get { return _pinned; }
+        set {
+            if (can_pin) {
+                if (value != _pinned) {
+                    if (value) {
+                        _label.set_visible (false);
+
+                        menu.remove (4);
+                        pin_menuitem.set_label ("Unpin");
+                        menu.insert_item (4, pin_menuitem);
+                    } else {
+                        _label.set_visible (true);
+
+                        menu.remove (4);
+                        pin_menuitem.set_label ("Pin");
+                        menu.insert_item (4, pin_menuitem);
+                    }
+
+                    _pinned = value;
+                    update_close_btn_visibility ();
+                    this.pin ();
+                }
+            }
+        }
+    }
+
+    private bool _pinnable = true;
+    public bool can_pin {
+        get { return _pinnable; }
+        set {
+            if (!value) {
+                pinned = false;
+            }
+
+            _pinnable = value;
+        }
+    }
+
     /**
      * The TabPage to hold children, to appear when this tab is active
      **/
@@ -60,14 +111,6 @@
     }
     internal TabPage page_container;
 
-    private bool _is_current_tab = false;
-        internal bool is_current_tab {
-            set {
-                _is_current_tab = value;
-                //  update_close_button_visibility ();
-            }
-        }
-
     He.TabSwitcher tab_switcher {
         get { return (get_parent () as Gtk.Notebook)?.get_parent () as He.TabSwitcher; }
     }
@@ -76,6 +119,10 @@
      * The menu appearing when the tab is clicked
      */
     public GLib.Menu menu { get; private set; }
+    private MenuItem pin_menuitem;
+
+    private Gtk.Button close_button;
+
     private Gtk.CenterBox tab_layout;
     private Gtk.PopoverMenu popover { get; set; }
 
@@ -83,17 +130,20 @@
     internal signal void close_others ();
     internal signal void close_others_right ();
     internal signal void duplicate ();
+    internal signal void pin ();
 
     public SimpleActionGroup actions { get; construct; }
     private const string ACTION_CLOSE = "action-close";
     private const string ACTION_CLOSE_OTHER = "action-close-other";
     private const string ACTION_CLOSE_RIGHT = "action-close-right";
     private const string ACTION_DUPLICATE = "action-duplicate";
+    private const string ACTION_PIN = "action-pin";
     private const ActionEntry[] ENTRIES = {
         { ACTION_CLOSE, action_close },
         { ACTION_CLOSE_OTHER, action_close_other },
         { ACTION_CLOSE_RIGHT, action_close_right },
         { ACTION_DUPLICATE, action_duplicate },
+        { ACTION_PIN, action_pin },
     };
 
     private void action_close () {
@@ -107,6 +157,9 @@
     }
     private void action_duplicate () {
         duplicate ();
+    }
+    private void action_pin () {
+        pinned = !pinned;
     }
 
     /**
@@ -131,7 +184,7 @@
         _label.hexpand = true;
         _label.ellipsize = Pango.EllipsizeMode.END;
 
-        var close_button = new Gtk.Button.from_icon_name ("window-close");
+        close_button = new Gtk.Button.from_icon_name ("window-close");
         close_button.valign = Gtk.Align.CENTER;
         close_button.add_css_class ("tab-button");
 
@@ -156,6 +209,12 @@
         menu.append ("Close Others", @"$(label).action-close-other");
         menu.append ("Close Tab to the Right", @"$(label).action-close-right");
         menu.append ("Duplicate", @"$(label).action-duplicate");
+
+        if (can_pin) {
+            pin_menuitem = new MenuItem ("Pin", @"$(label).pin");
+            // We manually insert this item so I can remove and modify it later
+            menu.insert_item (4, pin_menuitem);
+        }
 
         popover.set_menu_model (menu);
 
@@ -192,5 +251,13 @@
                 popover.popup ();
             }
         });
+    }
+
+    private void update_close_btn_visibility () {
+        if (pinned) {
+            close_button.set_visible (false);
+        } else {
+            close_button.set_visible (true);
+        }
     }
 }

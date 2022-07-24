@@ -104,6 +104,20 @@
     }
 
     /**
+     * Allow tab pinning
+     */
+    bool _allow_pin = true;
+    public bool allow_pinning {
+        get { return _allow_pin; }
+        set {
+            _allow_pin = value;
+            foreach (var tab in tabs) {
+                tab.can_pin = value;
+            }
+        }
+    }
+
+    /**
      * The current visible tab
      */
     public Tab current {
@@ -119,8 +133,15 @@
     public uint insert_tab (Tab tab, int index) {
         index = this.notebook.insert_page (tab.page_container, tab, index <= -1 ? n_tabs : index);
         notebook.set_tab_reorderable (tab.page_container, allow_drag);
+
+        tab.can_pin = allow_pinning;
+        tab.pinned = false;
+
         tab.get_parent ().add_css_class ("tab");
         tab.set_size_request (tab_width, -1);
+
+        recalc_order ();
+
         return index;
     }
 
@@ -275,11 +296,38 @@
         update_tabs_visibility ();
     }
 
+    private void recalc_order () {
+        if (n_tabs == 0)
+            return;
+
+        var pinned_tabs = 0;
+        for (var i = 0; i < this.notebook.get_n_pages (); i++) {
+            if ((this.notebook.get_nth_page (i) as TabPage)?.tab.pinned) {
+                pinned_tabs++;
+            }
+        }
+
+        for (var p = 0; p < pinned_tabs; p++) {
+            int sel = p;
+            for (var i = p; i < this.notebook.get_n_pages (); i++) {
+                if ((this.notebook.get_nth_page (i) as TabPage)?.tab.pinned) {
+                    sel = i;
+                    break;
+                }
+            }
+
+            if (sel != p) {
+                this.notebook.reorder_child (this.notebook.get_nth_page (sel), p);
+            }
+        }
+    }
+
     private void insert_callbacks (Tab tab) {
         tab.closed.connect (on_tab_closed);
         tab.close_others.connect (on_close_others);
         tab.close_others_right.connect (on_close_others_right);
         tab.duplicate.connect (on_duplicate);
+        tab.pin.connect (on_pin);
     }
 
     private void remove_callbacks (Tab tab) {
@@ -287,6 +335,7 @@
         tab.close_others.disconnect (on_close_others);
         tab.close_others_right.disconnect (on_close_others_right);
         tab.duplicate.disconnect (on_duplicate);
+        tab.pin.disconnect (on_pin);
     }
 
     private void on_close_others (Tab clicked_tab) {
@@ -321,6 +370,13 @@
 
     private void on_duplicate (Tab tab) {
         tab_duplicated (tab);
+    }
+
+    private void on_pin (Tab tab) {
+        if (!allow_pinning)
+            return;
+
+        recalc_order ();
     }
 
     private void update_tabs_visibility () {
