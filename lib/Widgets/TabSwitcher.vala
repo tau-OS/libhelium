@@ -120,16 +120,30 @@
     /**
      * Allow tab closing
      */
-     bool _allow_close = true;
-     public bool allow_closing {
-         get { return _allow_close; }
-         set {
-             _allow_close = value;
-             foreach (var tab in tabs) {
-                 tab.can_close = value;
-             }
-         }
-     }
+    bool _allow_close = true;
+    public bool allow_closing {
+        get { return _allow_close; }
+        set {
+            _allow_close = value;
+            foreach (var tab in tabs) {
+                tab.can_close = value;
+            }
+        }
+    }
+
+    /**
+     * Allow moving tabs to new windows
+     */
+    bool _allow_window = false;
+    public bool allow_new_window {
+        get { return _allow_window; }
+        set {
+            _allow_close = value;
+            foreach (var tab in tabs) {
+                notebook.set_tab_detachable (tab.page_container, value);
+            }
+        }
+    }
 
     /**
      * The current visible tab
@@ -147,6 +161,7 @@
     public uint insert_tab (Tab tab, int index) {
         index = this.notebook.insert_page (tab.page_container, tab, index <= -1 ? n_tabs : index);
         notebook.set_tab_reorderable (tab.page_container, allow_drag);
+        notebook.set_tab_detachable (tab.page_container, allow_new_window);
 
         tab.can_pin = allow_pinning;
         tab.pinned = false;
@@ -240,11 +255,13 @@
             notebook.switch_page.disconnect (on_switch_page);
             notebook.page_added.disconnect (on_page_added);
             notebook.page_removed.disconnect (on_page_removed);
+            notebook.create_window.disconnect (on_create_window);
         });
 
         notebook.switch_page.connect (on_switch_page);
         notebook.page_added.connect (on_page_added);
         notebook.page_removed.connect (on_page_removed);
+        notebook.create_window.connect (on_create_window);
 
         notebook.set_parent (this);
 
@@ -312,6 +329,11 @@
         update_tabs_visibility ();
     }
 
+    unowned Gtk.Notebook on_create_window (Gtk.Widget page) {
+        recalc_order ();
+        return (Gtk.Notebook) null;
+    }
+
     private void recalc_order () {
         if (n_tabs == 0)
             return;
@@ -344,6 +366,7 @@
         tab.close_others_right.connect (on_close_others_right);
         tab.duplicate.connect (on_duplicate);
         tab.pin.connect (on_pin);
+        tab.new_window.connect (on_new_window);
     }
 
     private void remove_callbacks (Tab tab) {
@@ -352,6 +375,7 @@
         tab.close_others_right.disconnect (on_close_others_right);
         tab.duplicate.disconnect (on_duplicate);
         tab.pin.disconnect (on_pin);
+        tab.new_window.disconnect (on_new_window);
     }
 
     private void on_close_others (Tab clicked_tab) {
@@ -379,7 +403,7 @@
         // Verify we aren't already trying to close a tab
         if (Signal.has_handler_pending (
             this,
-            "close-tab-requested",
+            Signal.lookup ("close-tab-requested", typeof (TabSwitcher)),
             0,
             true
         )) {
@@ -403,6 +427,10 @@
             return;
 
         recalc_order ();
+    }
+
+    private void on_new_window (Tab tab) {
+        notebook.create_window (tab.page_container);
     }
 
     private void update_tabs_visibility () {

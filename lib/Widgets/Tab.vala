@@ -62,15 +62,15 @@
                     if (value) {
                         _label.set_visible (false);
 
-                        menu.remove (4);
+                        menu.remove (5);
                         pin_menuitem.set_label ("Unpin");
-                        menu.insert_item (4, pin_menuitem);
+                        menu.insert_item (5, pin_menuitem);
                     } else {
                         _label.set_visible (true);
 
-                        menu.remove (4);
+                        menu.remove (5);
                         pin_menuitem.set_label ("Pin");
-                        menu.insert_item (4, pin_menuitem);
+                        menu.insert_item (5, pin_menuitem);
                     }
 
                     _pinned = value;
@@ -97,7 +97,7 @@
     public bool can_close {
         get { return _closable; }
         set {
-            if (valule == _closable)
+            if (value == _closable)
                 return;
 
             _closable = value;
@@ -143,6 +143,7 @@
     internal signal void close_others_right ();
     internal signal void duplicate ();
     internal signal void pin ();
+    internal signal void new_window ();
 
     public SimpleActionGroup actions { get; construct; }
     private const string ACTION_CLOSE = "action-close";
@@ -150,12 +151,14 @@
     private const string ACTION_CLOSE_RIGHT = "action-close-right";
     private const string ACTION_DUPLICATE = "action-duplicate";
     private const string ACTION_PIN = "action-pin";
+    private const string ACTION_NEW_WINDOW = "action-new-window";
     private const ActionEntry[] ENTRIES = {
         { ACTION_CLOSE, action_close },
         { ACTION_CLOSE_OTHER, action_close_other },
         { ACTION_CLOSE_RIGHT, action_close_right },
         { ACTION_DUPLICATE, action_duplicate },
         { ACTION_PIN, action_pin },
+        { ACTION_NEW_WINDOW, action_new_window },
     };
 
     private void action_close () {
@@ -172,6 +175,9 @@
     }
     private void action_pin () {
         pinned = !pinned;
+    }
+    private void action_new_window () {
+        
     }
 
     /**
@@ -217,6 +223,8 @@
         actions.add_action_entries (ENTRIES, this);
         this.insert_action_group (label, actions);
 
+        // TODO: Will need to mark this as unsensitive with 1 tab
+        menu.append ("Open in New Window", @"$(label).action-new-window");
         menu.append ("Close", @"$(label).action-close");
         menu.append ("Close Others", @"$(label).action-close-other");
         menu.append ("Close Tab to the Right", @"$(label).action-close-right");
@@ -225,7 +233,7 @@
         if (can_pin) {
             pin_menuitem = new MenuItem ("Pin", @"$(label).pin");
             // We manually insert this item so I can remove and modify it later
-            menu.insert_item (4, pin_menuitem);
+            menu.insert_item (5, pin_menuitem);
         }
 
         popover.set_menu_model (menu);
@@ -266,9 +274,7 @@
     }
 
     private void update_close_btn_visibility () {
-        close_button.visible = !can_close;
-
-        if (pinned || !closable) {
+        if (pinned || !can_close) {
             close_button.set_visible (false);
         } else {
             close_button.set_visible (true);
