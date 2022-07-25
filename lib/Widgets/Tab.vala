@@ -177,7 +177,7 @@
         pinned = !pinned;
     }
     private void action_new_window () {
-        
+        new_window ();
     }
 
     /**

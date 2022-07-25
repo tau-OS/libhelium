@@ -198,6 +198,7 @@
     public signal void tab_added (Tab tab);
     public signal void tab_removed (Tab tab);
     public signal void tab_switched (Tab? old_tab, Tab new_tab);
+    public signal void tab_moved (Tab tab);
     public signal void tab_duplicated (Tab duplicated_tab);
     public signal void new_tab_requested ();
     public signal bool close_tab_requested (Tab tab);
@@ -330,6 +331,8 @@
     }
 
     unowned Gtk.Notebook on_create_window (Gtk.Widget page) {
+        var tab = notebook.get_tab_label (page) as Tab;
+        tab_moved (tab);
         recalc_order ();
         return (Gtk.Notebook) null;
     }
@@ -400,16 +403,6 @@
     }
 
     private void on_tab_closed (Tab tab) {
-        // Verify we aren't already trying to close a tab
-        if (Signal.has_handler_pending (
-            this,
-            Signal.lookup ("close-tab-requested", typeof (TabSwitcher)),
-            0,
-            true
-        )) {
-            return;
-        }
-
         if (!close_tab_requested (tab)) {
             return;
         }
