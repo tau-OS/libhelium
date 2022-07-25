@@ -46,7 +46,7 @@
     internal bool is_current_tab {
         set {
             _is_current_tab = value;
-            //  update_close_button_visibility ();
+            update_close_btn_visibility ();
         }
     }
 
@@ -90,6 +90,18 @@
             }
 
             _pinnable = value;
+        }
+    }
+
+    private bool _closable = true;
+    public bool can_close {
+        get { return _closable; }
+        set {
+            if (valule == _closable)
+                return;
+
+            _closable = value;
+            update_close_btn_visibility ();
         }
     }
 
@@ -254,7 +266,9 @@
     }
 
     private void update_close_btn_visibility () {
-        if (pinned) {
+        close_button.visible = !can_close;
+
+        if (pinned || !closable) {
             close_button.set_visible (false);
         } else {
             close_button.set_visible (true);

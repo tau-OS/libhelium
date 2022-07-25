@@ -118,6 +118,20 @@
     }
 
     /**
+     * Allow tab closing
+     */
+     bool _allow_close = true;
+     public bool allow_closing {
+         get { return _allow_close; }
+         set {
+             _allow_close = value;
+             foreach (var tab in tabs) {
+                 tab.can_close = value;
+             }
+         }
+     }
+
+    /**
      * The current visible tab
      */
     public Tab current {
@@ -171,6 +185,7 @@
     public signal void tab_switched (Tab? old_tab, Tab new_tab);
     public signal void tab_duplicated (Tab duplicated_tab);
     public signal void new_tab_requested ();
+    public signal void close_tab_requested ();
 
     public SimpleActionGroup actions { get; construct; }
     private const string ACTION_NEW_TAB = "action-new-tab";
@@ -361,6 +376,16 @@
     }
 
     private void on_tab_closed (Tab tab) {
+        // Verify we aren't already trying to close a tab
+        if (Signal.has_handler_pending (
+            this,
+            "close-tab-requested",
+            0,
+            true
+        )) {
+            return;
+        }
+        
         var pos = get_tab_position (tab);
 
         remove_tab (tab);
