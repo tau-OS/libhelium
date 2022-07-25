@@ -200,7 +200,7 @@
     public signal void tab_switched (Tab? old_tab, Tab new_tab);
     public signal void tab_duplicated (Tab duplicated_tab);
     public signal void new_tab_requested ();
-    public signal void close_tab_requested (Tab tab);
+    public signal bool close_tab_requested (Tab tab);
 
     public SimpleActionGroup actions { get; construct; }
     private const string ACTION_NEW_TAB = "action-new-tab";
@@ -410,7 +410,9 @@
             return;
         }
 
-        close_tab_requested (tab);
+        if (!close_tab_requested (tab)) {
+            return;
+        }
         
         var pos = get_tab_position (tab);
 
