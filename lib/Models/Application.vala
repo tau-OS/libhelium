@@ -111,7 +111,7 @@ public class He.Application : Gtk.Application {
     lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 108.8840;
 
     var derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-    var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 8.0 : 7.0;
+    var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 12.0 : 7.0;
     var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 10.0 : 9.0;
 
     var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
@@ -133,9 +133,9 @@ public class He.Application : Gtk.Application {
     warning ("accent foreground is %s", accent_foreground_hex);
 
     var css = @"
+      @define-color accent_color $accent_foreground_hex;
       @define-color accent_bg_color $accent_color_hex;
       @define-color accent_fg_color $foreground_hex;
-      @define-color accent_color $accent_foreground_hex;
     ";
     accent.load_from_data (css.data);
 }

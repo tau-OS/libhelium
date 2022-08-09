@@ -44,7 +44,7 @@ subproject('blueprint-compiler')
 
 helium = subproject(
     'tau-helium',
-    default_options: ['gtk4=true', 'gtk3=false', 'shell=false'],
+    default_options: ['gtk4=true', 'shell=false'],
     required: true
  )
 helium_folder = 'subprojects/tau-helium/Helium/gtk-4.0'
