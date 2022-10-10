@@ -2,9 +2,9 @@ name: Package
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
-  
+
 jobs:
   build-x86_64:
     uses: tau-OS/github-actions/.github/workflows/build-rpm.yml@main
@@ -27,7 +27,7 @@ jobs:
     uses: tau-OS/github-actions/.github/workflows/upload-rpm.yml@main
     with:
       name: "libhelium"
-      tauOSVersion: "1.1"
+      tauOSVersion: "1"
       buildVariant: x86_64
     secrets:
       repoIP: ${{ secrets.REPO_IP }}
@@ -56,7 +56,7 @@ jobs:
     uses: tau-OS/github-actions/.github/workflows/upload-rpm.yml@main
     with:
       name: "libhelium"
-      tauOSVersion: "1.1"
+      tauOSVersion: "1"
       buildVariant: aarch64
     secrets:
       repoIP: ${{ secrets.REPO_IP }}
