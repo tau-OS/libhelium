@@ -26,17 +26,12 @@ class He.Album : He.Bin, Gtk.Buildable {
   
   private uint _tick_callback;
   private int minimum_requested_width = 0;
-  
-  private GLib.List<He.AlbumPage> children = new GLib.List<He.AlbumPage> ();
+
+  private GLib.List<Gtk.Revealer> children = new GLib.List<Gtk.Revealer>();
   private Gtk.Box _box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-  private Gtk.Stack main_stack = new Gtk.Stack ();
-  
-  /**
-  * The folded state of the album.
-  */
-  public bool folded { get; set; default = false; }
-  
-  
+
+  private int to_finish_unrevealing = 0;
+
   /**
   * The stack of album pages.
   */
@@ -45,6 +40,11 @@ class He.Album : He.Bin, Gtk.Buildable {
     get { return _stack; }
   }
   
+  /**
+  * The folded state of the album.
+  */
+  public bool folded { get; set; default = false; }
+
   /**
   * Add a child to the album, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
   *
@@ -77,16 +77,13 @@ class He.Album : He.Bin, Gtk.Buildable {
     
     update_minimum_requested_width();
     
-    main_stack.add_child(this._box);
-    main_stack.add_child(this._stack);
-    main_stack.set_parent (this);
+    _box.set_parent(this);
     
     this.add_css_class ("unfolded");
   }
   
   ~Album() {
     this.remove_tick_callback(this._tick_callback);
-    this.main_stack.unparent();
   }
   
   private void update_minimum_requested_width() {
@@ -123,7 +120,22 @@ class He.Album : He.Bin, Gtk.Buildable {
   }
   
   private new void append(He.AlbumPage widget) {
-    this.children.append(widget);
+    var revealer = new Gtk.Revealer();
+    revealer.set_child(widget);
+    revealer.set_reveal_child(true);
+    this._box.append(revealer);
+    this.children.append(revealer);
+    revealer.notify["child-revealed"].connect(() => {
+        if (!revealer.get_reveal_child()) {
+            widget.set_visible(false);
+            to_finish_unrevealing--;
+
+            if (to_finish_unrevealing == 0) {
+                stackify();
+            }
+        }
+    });
+
     children_updated();
   }
   
@@ -137,32 +149,109 @@ class He.Album : He.Bin, Gtk.Buildable {
   
   private void update_view() {
     if (this.folded) {
-      main_stack.set_visible_child (_stack);
+      Gtk.Revealer visible_child = null;
       foreach (var child in this.children) {
-        if (this._box != null) {
-          child.unparent ();
-        }
-        if (child.navigatable) {
-          this._stack.add_child(child);
-          this._stack.set_visible_child(child);
-          ((Gtk.BoxLayout)child.get_layout_manager ()).homogeneous = true;
+        var page = (He.AlbumPage) child.get_child();
+
+        if (page.navigatable) {
+          visible_child = child;
+          ((Gtk.BoxLayout)page.get_layout_manager ()).homogeneous = true;
         }
       }
-      this.queue_allocate();
-      this.add_css_class ("folded");
-      this.remove_css_class ("unfolded");
+
+     to_finish_unrevealing = 0;
+
+     var visible_child_index = children.index(visible_child);
+     for (var i = 0; i < children.length(); i++) {
+        var child = children.nth_data(i);
+
+        if (i == visible_child_index) {
+            child.set_transition_type(Gtk.RevealerTransitionType.NONE);
+            continue;
+        }
+
+        if (i < visible_child_index) {
+            child.set_transition_type(Gtk.RevealerTransitionType.SLIDE_RIGHT);
+        } else if (i > visible_child_index) {
+            child.set_transition_type(Gtk.RevealerTransitionType.SLIDE_LEFT);
+        }
+
+        child.set_reveal_child(false);
+        to_finish_unrevealing++;
+    }
+
+        this.add_css_class ("folded");
+        this.remove_css_class ("unfolded");
     } else {
-      main_stack.set_visible_child (_box);
-      foreach (var child in this.children) {
-        if (this._stack != null) {
-          child.unparent ();
-        }
+        to_finish_unrevealing = -1;
+      var visible_child = (Gtk.Revealer) _stack.get_visible_child();
+      var visible_child_index = children.index(visible_child);
+
+          _stack.set_transition_type(Gtk.StackTransitionType.NONE);
+
+            this._stack.unparent();
+      this._box.set_parent(this);
+
+     for (var i = 0; i < children.length(); i++) {
+        var child = children.nth_data(i);
+
+        child.unparent();
+
+        var page = (He.AlbumPage) child.get_child();
+        ((Gtk.BoxLayout)page.get_layout_manager ()).homogeneous = false;
+        page.set_visible(false);
+        child.set_reveal_child(false);
+
         this._box.append(child);
-        ((Gtk.BoxLayout)child.get_layout_manager ()).homogeneous = false;
-      }
+
+        if (i == visible_child_index) {
+            child.set_transition_type(Gtk.RevealerTransitionType.NONE);
+            page.set_visible(true);
+            child.set_reveal_child(true);
+        }
+
+        if (i < visible_child_index) {
+            child.set_transition_type(Gtk.RevealerTransitionType.SLIDE_LEFT);
+        } else if (i > visible_child_index) {
+            child.set_transition_type(Gtk.RevealerTransitionType.SLIDE_RIGHT);
+        }
+     }
+
+     foreach (var child in children) {
+        var page = (He.AlbumPage) child.get_child();
+        page.set_visible(true);
+        child.set_reveal_child(true);
+    }
+
       this.queue_resize();
       this.add_css_class ("unfolded");
       this.remove_css_class ("folded");
     }
+  }
+
+  private void stackify() {
+
+      this._box.unparent();
+      this._stack.set_parent(this);
+
+      foreach (var child in this.children) {
+        var page = (He.AlbumPage) child.get_child();
+
+        page.set_visible(true);
+
+
+        child.unparent ();
+
+        child.set_transition_type(Gtk.RevealerTransitionType.NONE);
+        child.set_reveal_child(true);
+
+        if (page.navigatable) {
+          this._stack.add_child(child);
+          this._stack.set_visible_child(child);
+          ((Gtk.BoxLayout)page.get_layout_manager ()).homogeneous = true;
+        }
+      }
+
+          _stack.set_transition_type(Gtk.StackTransitionType.OVER_LEFT_RIGHT);
   }
 }
