@@ -17,7 +17,7 @@
 * Boston, MA 02110-1301 USA
 */
 
-interface He.AlbumPageInterface : Gtk.Widget {
+public interface He.AlbumPageInterface : Gtk.Widget {
   public abstract int min_width { get; set; }
   public abstract bool navigatable { get; set; }
 }
