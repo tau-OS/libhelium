@@ -228,6 +228,28 @@ public class He.Album : He.Bin, Gtk.Buildable {
       this.remove_css_class ("folded");
     }
   }
+  
+/**
+ * Sets the widget currently visible on the album.
+ *
+ * @since 1.0
+ */
+ public void set_visible_child (Gtk.Widget? visible_child) {
+ 	var page = find_page_for_widget (visible_child);
+  	stack.set_visible_child (page);
+ }
+ 
+ private He.AlbumPage find_page_for_widget (Gtk.Widget? widget) {
+    He.AlbumPage page;
+	foreach (var child in this.children) {
+		page = (He.AlbumPage) child.get_child();
+
+		if (page.child == widget)
+			return page;
+	}
+	
+	return null;
+ }
 
   private void stackify() {
 
