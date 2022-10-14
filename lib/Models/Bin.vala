@@ -21,7 +21,16 @@
  * A helper class for subclassing custom widgets.
  */
 public abstract class He.Bin : Gtk.Widget, Gtk.Buildable {
-    private Gtk.Widget? child;
+    private Gtk.Widget? _child;
+    public Gtk.Widget child {
+      get {
+        return _child;
+      }
+      set {
+        if (value == child) {return;}
+        _child = value;
+      }
+    }
 
     /**
     * Add a child to the Bin, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
