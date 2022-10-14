@@ -25,7 +25,7 @@ interface He.AlbumPageInterface : Gtk.Widget {
 /**
  * An AlbumPage is a widget that holds a single view, for use in an Album.
  */
-class He.AlbumPage : Gtk.Widget, Gtk.Buildable, He.AlbumPageInterface {
+public class He.AlbumPage : Gtk.Widget, Gtk.Buildable, He.AlbumPageInterface {
 
   /**
    * The child widget of the AlbumPage.
