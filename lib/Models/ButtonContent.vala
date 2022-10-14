@@ -22,7 +22,7 @@
  *
  * @since 1.0
  */
-public abstract class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
+public class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
 	private Gtk.Box box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
 	private Gtk.Label lbl = new Gtk.Label ("");
 	private Gtk.Image image = new Gtk.Image ();
