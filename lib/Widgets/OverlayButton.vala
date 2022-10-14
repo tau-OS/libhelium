@@ -230,7 +230,7 @@ public class He.OverlayButton : He.Bin, Gtk.Buildable {
     /**
      * The widget to be overlaid.
      */
-    public Gtk.Widget? child {
+    public new Gtk.Widget? child {
         get {
             return overlay.get_child();
         }

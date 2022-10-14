@@ -30,7 +30,7 @@ public class He.Badge : He.Bin {
     *
      * @since 1.0
      */
-    public Gtk.Widget? child {
+    public new Gtk.Widget? child {
         get {
             return overlay.get_child();
         }

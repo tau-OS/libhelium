@@ -38,11 +38,11 @@ public abstract class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
      */
     public string icon {
         set {
-            image.set_icon_name(value);
+            image.set_from_icon_name(value);
         }
 
         owned get {
-            return image.icon_name;
+            return image.get_icon_name ();
         }
     }
     

@@ -248,7 +248,7 @@ public class He.Album : He.Bin, Gtk.Buildable {
 			return page;
 	}
 	
-	return null;
+	return (He.AlbumPage)null;
  }
 
   private void stackify() {
