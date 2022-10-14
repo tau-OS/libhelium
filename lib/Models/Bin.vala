@@ -21,6 +21,8 @@
  * A helper class for subclassing custom widgets.
  */
 public abstract class He.Bin : Gtk.Widget, Gtk.Buildable {
+    private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+
     private Gtk.Widget? _child;
     public Gtk.Widget child {
       get {
@@ -36,36 +38,21 @@ public abstract class He.Bin : Gtk.Widget, Gtk.Buildable {
     * Add a child to the Bin, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
     */
     public virtual void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-        this.child = (Gtk.Widget) child;
+        box.append ((Gtk.Widget) child);
+    }
+    
+    construct {
+        box.set_parent (this);
+    }
+    
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BoxLayout));
     }
 
     ~Bin () {
         if (this.child != null) {
             this.child.unparent ();
         }
-    }
-
-    private new bool grab_focus (Gtk.Widget? widget) {
-        if (widget.get_focusable () == false) {
-            return false;
-        }
-
-        widget.get_root ().set_focus (widget);
-        return true;
-    }
-
-    private new bool grab_focus_child (Gtk.Widget? widget) {
-        Gtk.Widget child;
-
-        for (
-             child = widget.get_first_child ();
-             child != null;
-             child = widget.get_next_sibling ()) {
-            if (child.grab_focus ()) {
-                return true;
-            }
-        }
-
-        return false;
+        box.unparent ();
     }
 }
