@@ -42,7 +42,9 @@ public abstract class He.Bin : Gtk.Widget, Gtk.Buildable {
     }
     
     construct {
-        box.set_parent (this);
+        var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        main_box.append (box);
+        main_box.set_parent (this);
     }
     
     static construct {
