@@ -24,7 +24,7 @@
  */
 public abstract class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
 	private Gtk.Box box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
-	private Gtk.Label label = new Gtk.Label ("");
+	private Gtk.Label lbl = new Gtk.Label ("");
 	private Gtk.Image image = new Gtk.Label ("");
     /**
      * The color of the button.
@@ -52,17 +52,17 @@ public abstract class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
      */
     public string label {
         set {
-            label.set_label(value);
+            lbl.set_label(value);
         }
 
         owned get {
-            return label.label;
+            return lbl.label;
         }
     }
     
     construct {
     	box.append (image);
-    	box.append (label);
+    	box.append (lbl);
     	box.set_parent (this);
     }
     
