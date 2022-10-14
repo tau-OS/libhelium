@@ -25,7 +25,11 @@ public class He.AppBar : He.Bin {
     * The title displayed in the AppBar.
     */
     public Gtk.HeaderBar? title;
-    private Gtk.Button back_button = new Gtk.Button ();
+    
+    /**
+    * The button to go back one view displayed in the AppBar.
+    */
+    public Gtk.Button back_button = new Gtk.Button ();
 
     private Gtk.Stack _stack;
     /**
