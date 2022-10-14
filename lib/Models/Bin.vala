@@ -27,7 +27,7 @@ public abstract class He.Bin : Gtk.Widget, Gtk.Buildable {
         return _child;
       }
       set {
-        if (value == child) {return;}
+        if (value == _child) {return;}
         _child = value;
       }
     }
