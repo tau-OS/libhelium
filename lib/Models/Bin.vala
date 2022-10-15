@@ -41,11 +41,11 @@ public abstract class He.Bin : Gtk.Widget, Gtk.Buildable {
         if (child is Gtk.Widget) {
         	box.append ((Gtk.Widget) child);
         } else {
-        	base.add_child (builder, child, type)
+        	base.add_child (builder, child, type);
         }
     }
     
-    public Bin () {
+    Bin () {
     }
     
     construct {
