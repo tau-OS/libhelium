@@ -98,6 +98,10 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
             children.remove (child);
         }
     }
+    
+    public ContentList () {
+    	base ();
+    }
 
     ~ContentList () {
         if (list != null) {

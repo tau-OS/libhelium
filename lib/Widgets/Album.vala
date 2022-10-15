@@ -54,6 +54,10 @@ public class He.Album : He.Bin, Gtk.Buildable {
     this.append((He.AlbumPage) child);
   }
   
+  public Album () {
+  	base ();
+  }
+  
   static construct {
     set_layout_manager_type (typeof (Gtk.BoxLayout));
   }

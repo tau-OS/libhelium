@@ -68,6 +68,10 @@ public class He.Badge : He.Bin {
             _label.set_text (value);
         }
     }
+    
+    public Badge () {
+    	base ();
+    }
 
     static construct {
         set_layout_manager_type (typeof (Gtk.BinLayout));

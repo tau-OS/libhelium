@@ -103,6 +103,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
     public SideBar(string title, string subtitle) {
         this.title = title;
         this.subtitle = subtitle;
+        base ();
     }
 
     /**

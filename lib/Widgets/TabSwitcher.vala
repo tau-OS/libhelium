@@ -220,6 +220,7 @@
      */
     public TabSwitcher () {
         handle_events ();
+        base ();
     }
 
     construct {

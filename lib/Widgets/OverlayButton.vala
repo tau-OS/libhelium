@@ -272,6 +272,7 @@ public class He.OverlayButton : He.Bin, Gtk.Buildable {
         this.icon = icon;
         if (label != null) this.label = label;
         if (secondary_icon != null) this.secondary_icon = secondary_icon;
+        base ();
     }
 
     static construct {

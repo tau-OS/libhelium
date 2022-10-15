@@ -92,6 +92,10 @@ public class He.EmptyPage : He.Bin {
             action_button.label = value;
         }
     }
+    
+    public EmptyPage () {
+    	base ();
+    }
 
     construct {
         title_label.add_css_class("view-title");

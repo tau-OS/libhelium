@@ -128,6 +128,7 @@ public class He.Banner : He.Bin, Gtk.Buildable {
     public Banner (string title, string description) {
         this.title = title;
         this.description = description;
+        base ();
     }
 
     static construct {

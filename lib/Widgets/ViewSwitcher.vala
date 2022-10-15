@@ -49,6 +49,10 @@ public class He.ViewSwitcher : He.Bin {
             on_stack_pages_changed (0, 0, this._stack_pages.get_n_items ());
         }
     }
+    
+    ViewSwitcher () {
+    	base ();
+    }
 
     static construct {
         set_layout_manager_type (typeof (Gtk.BoxLayout));

@@ -75,6 +75,7 @@ public class He.WelcomeScreen : He.Bin {
     public WelcomeScreen (string appname, string description) {
         this.appname = appname;
         this.description = description;
+        base ();
     }
 
     ~WelcomeScreen () {

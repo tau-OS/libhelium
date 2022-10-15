@@ -36,6 +36,10 @@ public class He.ViewTitle : He.Bin, Gtk.Buildable {
             return _label.get_text();
         }
     }   
+    
+    ViewTitle () {
+    	base ();
+    }
 
     construct {
         _label = new Gtk.Label ("");

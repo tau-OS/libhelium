@@ -117,6 +117,10 @@ public class He.AppBar : He.Bin {
     public void remove(Gtk.Widget child) {
         title.remove (child);
     }
+    
+    public AppBar () {
+    	base ();
+    }
 
     construct {
         title = new Gtk.HeaderBar ();

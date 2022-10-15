@@ -178,12 +178,15 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
   public BottomBar.with_details (string title, string description) {
     this.title = title;
     this.description = description;
+    base ();
   }
 
   /**
    * Create a new bottom bar.
    */
-  public BottomBar () {}
+  public BottomBar () {
+  	base ();
+  }
 
   static construct {
     set_layout_manager_type (typeof (Gtk.BoxLayout));

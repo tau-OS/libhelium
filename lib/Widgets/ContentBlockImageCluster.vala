@@ -122,6 +122,7 @@ public class He.ContentBlockImageCluster : He.Bin {
     this.title = title;
     this.subtitle = subtitle;
     this.icon = icon;
+    base ();
   }
   
   /**

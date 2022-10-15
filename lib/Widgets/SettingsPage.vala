@@ -54,6 +54,7 @@ public class He.SettingsPage : He.Bin, Gtk.Buildable {
      */
     public SettingsPage (string title) {
         this.title = title;
+        base ();
     }
 
     static construct {

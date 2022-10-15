@@ -90,6 +90,7 @@ public class He.ModifierBadge : He.Bin {
      */
     public ModifierBadge(string? label) {
         this.label = label;
+        base ();
     }
   
     /** 

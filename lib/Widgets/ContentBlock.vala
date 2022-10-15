@@ -146,6 +146,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
         this.icon = icon;
         this.primary_button = primary_button;
         this.secondary_button = secondary_button;
+        base ();
     }
 
     /**
