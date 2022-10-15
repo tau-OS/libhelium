@@ -238,20 +238,20 @@ public class He.Album : He.Bin, Gtk.Buildable {
      * @since 1.0
      */
     public void set_visible_child (Gtk.Widget? visible_child) {
- 	var page = find_page_for_widget (visible_child);
-  	this._stack.set_visible_child (page);
+ 	    var page = find_page_for_widget (visible_child);
+  	    this._stack.set_visible_child (page);
     }
 
     private He.AlbumPage find_page_for_widget (Gtk.Widget? widget) {
         He.AlbumPage page;
-	foreach (var child in this.children) {
-	    page = (He.AlbumPage) child.get_child();
+        foreach (var child in this.children) {
+            page = (He.AlbumPage) child.get_child();
 
-	    if (page.child == widget)
-	        return page;
-	}
+            if (page.child == widget)
+                return page;
+        }
 
-	return (He.AlbumPage)null;
+	    return (He.AlbumPage)null;
     }
 
     private void stackify() {
