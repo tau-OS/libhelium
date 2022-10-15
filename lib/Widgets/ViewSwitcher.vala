@@ -50,7 +50,7 @@ public class He.ViewSwitcher : He.Bin {
         }
     }
     
-    ViewSwitcher () {
+    public ViewSwitcher () {
     	base ();
     }
 
