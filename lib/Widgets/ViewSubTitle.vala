@@ -37,7 +37,7 @@ public class He.ViewSubTitle : He.Bin, Gtk.Buildable {
         }
     }
     
-    ViewSubtitle () {
+    ViewSubTitle () {
     	base ();
     }
 
