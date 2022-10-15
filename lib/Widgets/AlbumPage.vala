@@ -40,11 +40,11 @@ public class He.AlbumPage : Gtk.Widget, Gtk.Buildable, He.AlbumPageInterface {
       _child = value;
       _child.set_parent(this);
       if (navigatable) {
-        if (this.min_width != 0) {
-          this.hexpand = true;
-        }
+        this.compute_expand (Gtk.Orientation.HORIZONTAL);
+        this.compute_expand (Gtk.Orientation.VERTICAL);
       } else {
-        this.hexpand_set = true;
+        this.hexpand = false;
+        this.vexpand = false;
       }
     }
 
