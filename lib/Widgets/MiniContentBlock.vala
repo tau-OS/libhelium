@@ -134,6 +134,7 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
         this.title = title;
         this.subtitle = subtitle;
         this.primary_button = primary_button;
+        base ();
     }
 
     /**
@@ -148,7 +149,9 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
       *
      * @since 1.0
      */
-    public MiniContentBlock () {}
+    public MiniContentBlock () {
+        base ();
+    }
     
     static construct {
         set_layout_manager_type (typeof (Gtk.BoxLayout));
