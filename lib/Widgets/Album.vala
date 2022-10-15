@@ -20,7 +20,7 @@
 /**
 * An Album is a helper widget to making an app responsive.
 */
-class He.Album : He.Bin, Gtk.Buildable {
+public class He.Album : He.Bin, Gtk.Buildable {
   private signal void children_updated();
   private signal void minimum_requested_width_changed();
   
@@ -52,6 +52,10 @@ class He.Album : He.Bin, Gtk.Buildable {
      */
   public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
     this.append((He.AlbumPage) child);
+  }
+  
+  public Album () {
+      base ();
   }
   
   static construct {
