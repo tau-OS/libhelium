@@ -20,7 +20,7 @@
 /**
  * A helper class for subclassing custom widgets.
  */
-public abstract class He.Bin : Gtk.Widget, Gtk.Buildable {
+public class He.Bin : Gtk.Widget, Gtk.Buildable {
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
     private Gtk.Widget? _child;
@@ -45,7 +45,7 @@ public abstract class He.Bin : Gtk.Widget, Gtk.Buildable {
         }
     }
     
-    Bin () {
+    public Bin () {
     }
     
     construct {
