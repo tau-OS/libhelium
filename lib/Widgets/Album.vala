@@ -158,9 +158,6 @@ public class He.Album : He.Bin, Gtk.Buildable {
 
                 if (page.navigatable) {
                     visible_child = child;
-                    page.hexpand = true;
-                    page.compute_expand (Gtk.Orientation.HORIZONTAL);
-                    page.compute_expand (Gtk.Orientation.VERTICAL);
                 }
             }
 
@@ -203,9 +200,6 @@ public class He.Album : He.Bin, Gtk.Buildable {
                   child.unparent();
 
                   var page = (He.AlbumPage) child.get_child();
-                  page.hexpand = true;
-                  page.compute_expand (Gtk.Orientation.HORIZONTAL);
-                  page.compute_expand (Gtk.Orientation.VERTICAL);
                   page.set_visible(false);
                   child.set_reveal_child(false);
 
@@ -267,7 +261,6 @@ public class He.Album : He.Bin, Gtk.Buildable {
             if (page.navigatable) {
                 this._stack.add_child(child);
                 this._stack.set_visible_child(child);
-                page.hexpand = true;
             }
         }
 
