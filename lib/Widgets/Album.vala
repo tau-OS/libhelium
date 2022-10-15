@@ -236,7 +236,7 @@ public class He.Album : He.Bin, Gtk.Buildable {
  */
  public void set_visible_child (Gtk.Widget? visible_child) {
  	var page = find_page_for_widget (visible_child);
-  	stack.set_visible_child (page);
+  	this._stack.set_visible_child (page);
  }
  
  private He.AlbumPage find_page_for_widget (Gtk.Widget? widget) {
@@ -274,6 +274,6 @@ public class He.Album : He.Bin, Gtk.Buildable {
         }
       }
 
-          _stack.set_transition_type(Gtk.StackTransitionType.OVER_LEFT_RIGHT);
+      _stack.set_transition_type(Gtk.StackTransitionType.OVER_LEFT_RIGHT);
   }
 }

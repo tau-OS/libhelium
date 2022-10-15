@@ -41,8 +41,7 @@ public class He.AlbumPage : Gtk.Widget, Gtk.Buildable, He.AlbumPageInterface {
       _child.set_parent(this);
       if (navigatable) {
         if (this.min_width != 0) {
-          _child.set_size_request(this.min_width, -1);
-          this.hexpand_set = true;
+          this.hexpand = true;
         }
       } else {
         this.hexpand_set = true;

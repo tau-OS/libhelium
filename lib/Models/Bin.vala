@@ -38,7 +38,14 @@ public abstract class He.Bin : Gtk.Widget, Gtk.Buildable {
     * Add a child to the Bin, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
     */
     public virtual void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-        box.append ((Gtk.Widget) child);
+        if (child is Gtk.Widget) {
+        	box.append ((Gtk.Widget) child);
+        } else {
+        	base.add_child (builder, child, type)
+        }
+    }
+    
+    public Bin () {
     }
     
     construct {
