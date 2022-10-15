@@ -42,6 +42,7 @@ public class He.AlbumPage : Gtk.Widget, Gtk.Buildable, He.AlbumPageInterface {
       if (navigatable) {
         this.compute_expand (Gtk.Orientation.HORIZONTAL);
         this.compute_expand (Gtk.Orientation.VERTICAL);
+        this.hexpand = true;
       } else {
         this.hexpand = false;
         this.vexpand = false;
