@@ -17,72 +17,48 @@
 * Boston, MA 02110-1301 USA
 */
 
-public interface He.AlbumPageInterface : Gtk.Widget {
-  public abstract int min_width { get; set; }
-  public abstract bool navigatable { get; set; }
-}
-
 /**
  * An AlbumPage is a widget that holds a single view, for use in an Album.
  */
-public class He.AlbumPage : Gtk.Widget, Gtk.Buildable, He.AlbumPageInterface {
-
+public class He.AlbumPage : Object {
   /**
    * The child widget of the AlbumPage.
    */
   private Gtk.Widget _child;
   public Gtk.Widget child {
-    set {
-      if (_child != null) {
-        _child.unparent();
-      }
-
-      _child = value;
-      _child.set_parent(this);
-      if (navigatable) {
-        _child.compute_expand (Gtk.Orientation.HORIZONTAL);
-        _child.hexpand = true;
-        ((Gtk.BoxLayout)this.get_layout_manager ()).homogeneous = true;
-      } else {
-        _child.hexpand = false;
-        ((Gtk.BoxLayout)this.get_layout_manager ()).homogeneous = false;
-      }
-    }
-
     get {
       return _child;
     }
   }
 
   /**
-   * The minimum width of the AlbumPage.
-   */
-  public int min_width { get; set; }
-
-  /**
    * Whether the AlbumPage is navigatable.
    */
-  public bool navigatable { get; set; }
+  private bool _navigatable;
+  public bool navigatable { 
+    get {
+      return _navigatable;
+    }
+    set {
+        if (value == _navigatable)
+            return;
 
-  /**
-   * Add a child to the welcome screen, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
-   */
-  public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-    this.child = (Gtk.Widget)child;
+        _navigatable = value;
+        if (child != null && child.get_parent () != null) {
+            He.Album album = ((He.Album) child.get_parent ());
+            if (this == album.visible_child) {
+                album.set_visible_child (null);
+            }
+        }
+    }
   }
-
-  /**
-   * Constructs a new AlbumPage.
-   *
-     * @since 1.0
-     */
-  public AlbumPage (Gtk.Widget child, int min_width, bool navigatable) {
-    this.child = child;
-    this.min_width = min_width;
-    this.navigatable = navigatable;
+  
+  public AlbumPage () {
+    navigatable = true;
   }
-
-  static construct {
-    set_layout_manager_type (typeof (Gtk.BoxLayout));
+  
+  ~AlbumPage () {
+    child.unparent ();
+    this.unparent ();
   }
 }
