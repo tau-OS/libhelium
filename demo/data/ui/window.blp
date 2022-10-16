@@ -9,19 +9,19 @@ menu bottombar_menu {
 
 template DemoMainWindow : .HeApplicationWindow {
   visible: true;
-  default-width: 660;
-
+  default-height: 600;
   .HeAlbum album {
+    visible-child: main_box;
     .HeAlbumPage {
-      min_width: 200;
       navigatable: true;
-
+      child:
       .HeSideBar {
         title: "Sidebar";
         subtitle: "Subtitle";
         show-buttons: bind album.folded;
         show-back: false;
         stack: bind album.stack;
+        width-request: 200;
 
         [titlebar-button]
         MenuButton main_menu {
@@ -56,26 +56,28 @@ template DemoMainWindow : .HeApplicationWindow {
           icon: "list-add-symbolic";
         }
       }
+      ;
     }
 
     .HeAlbumPage {
       navigatable: false;
-
+      child:
       Separator {
         orientation: vertical;
       }
+      ;
     }
 
     .HeAlbumPage {
-      min_width: 200;
       navigatable: true;
-
+      child:
       .HeSideBar {
         title: "Secondary";
         subtitle: "Subtitle";
         show-buttons: bind album.folded;
         show-back: bind album.folded;
         stack: bind album.stack;
+        width-request: 200;
 
         [titlebar-button]
         MenuButton {
@@ -119,39 +121,38 @@ template DemoMainWindow : .HeApplicationWindow {
           }
         }
       }
+      ;
     }
 
     .HeAlbumPage {
       navigatable: false;
-
+      child:
       Separator {
         orientation: vertical;
       }
+      ;
     }
 
-
-    .HeAlbumPage {
+    .HeAlbumPage main_box {
       navigatable: true;
-      Box {
+      child:
+        Box {
         orientation: vertical;
+          .HeAppBar {
+            flat: true;
+            show-buttons: true;
+            show-back: bind album.folded;
+            stack: bind album.stack;
 
-        .HeAppBar {
-          flat: true;
-          show-buttons: true;
-          show-back: bind album.folded;
-          stack: bind album.stack;
-
-          MenuButton {
-            icon-name: "view-more";
+            MenuButton {
+              icon-name: "view-more";
+            }
           }
-        }
 
-        .HeOverlayButton {
-          icon: "list-add-symbolic";
-          label: "Add Thing";
-          secondary-icon: "list-add-symbolic";
-
-          .HeLatch {
+          .HeOverlayButton {
+            icon: "list-add-symbolic";
+            label: "Add Thing";
+            secondary-icon: "list-add-symbolic";
             .HeViewMono {
               stack: stack;
               hexpand: true;
@@ -381,7 +382,7 @@ template DemoMainWindow : .HeApplicationWindow {
                       .HeBanner banner {
                         title: "Info Banner";
                         description: "Subtitle";
-                        style: "info";
+                        style: info;
 
                         [action]
                         .HeTintButton action {
@@ -393,7 +394,7 @@ template DemoMainWindow : .HeApplicationWindow {
                       .HeBanner banner2 {
                         title: "Error Banner";
                         description: "Subtitle";
-                        style: "error";
+                        style: error;
 
                         [action]
                         .HeOutlineButton action2 {
@@ -433,33 +434,30 @@ template DemoMainWindow : .HeApplicationWindow {
               }
             }
           }
-        }
+          .HeBottomBar {
+            title: "Example";
+            description: "3 items";
 
-        .HeBottomBar {
-          title: "Example";
-          description: "3 items";
-          menu_model: bottombar_menu;
-          collapse_actions: bind album.folded;
+            [left]
+            .HeIconicButton {
+              icon-name: "list-add-symbolic";
+              tooltip: "Add";
+            }
 
-          [left]
-          .HeIconicButton {
-            icon-name: "list-add-symbolic";
-            tooltip: "Add";
-          }
+            [left]
+            .HeIconicButton {
+              icon-name: "list-add-symbolic";
+              tooltip: "Add";
+            }
 
-          [left]
-          .HeIconicButton {
-            icon-name: "list-add-symbolic";
-            tooltip: "Add";
-          }
-
-          [right]
-          .HeIconicButton {
-            icon-name: "list-add-symbolic";
-            tooltip: "Add";
+            [right]
+            .HeIconicButton {
+              icon-name: "list-add-symbolic";
+              tooltip: "Add";
+            }
           }
         }
-      }
+      ;
     }
   }
 }

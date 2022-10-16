@@ -91,6 +91,7 @@ public class He.Latch : Gtk.Widget, Gtk.Buildable, Gtk.Orientable, Gtk.Scrollabl
     construct {
         this.tightening_threshold = 400;
         this.maximum_size = 600;
+        this.orientation = Gtk.Orientation.HORIZONTAL;
     }
 
     /**

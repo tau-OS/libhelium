@@ -15,12 +15,170 @@
  */
 
 /**
- * Useful utilties for doing animations.
+ * Useful utilities for doing animations.
  *
-     * @since 1.0
-     */
-namespace He.Animation {
+ * @since 1.0
+ */
+
+public abstract class He.AnimationTarget : Object {
+    public double value { get; set; }
+
+    AnimationTarget () {
+    }
+}
+
+public class He.CallbackAnimationTarget : He.AnimationTarget {
+    public delegate void AnimationTargetFunc (double value);
+
+    public CallbackAnimationTarget (owned AnimationTargetFunc callback) { base (); }
+}
+
+public class He.TimedAnimation : He.Animation {
+    public TimedAnimation (Gtk.Widget? widget, double from, double to, uint duration, He.AnimationTarget target) {
+        base (widget, to, from, duration, target);
+    }
+
+    public double calculate_value (He.Animation animation, uint t) {
+        double iteration, progress;
+        bool reverse = false;
+
+        if (duration == 0)
+            return to;
+
+        progress = GLib.Math.modf (((double) t / duration), out iteration);
+
+        if (alternate)
+            reverse = ((int) iteration % 2) != 0 ? true : false;
+
+        if (reverse)
+            reverse = !reverse;
+
+        if (t >= estimate_duration (animation))
+            return alternate == reverse ? to : from;
+
+        progress = reverse ? (1 - progress) : progress;
+
+        value = animation.ease_out_cubic (value, progress);
+
+        return animation.lerp (from, to, value);
+    }
+
+    public new uint estimate_duration (He.Animation animation) {
+        if (repeat_count == 0)
+            return (uint) 0xffffffff;
+
+        return duration * repeat_count;
+    }
+}
+
+public enum He.AnimationState {
+  HE_ANIMATION_IDLE,
+  HE_ANIMATION_PAUSED,
+  HE_ANIMATION_PLAYING,
+  HE_ANIMATION_FINISHED,
+}
+
+public class He.Animation : Object {
+    public double from { get; set; }
+    public double to { get; set; }
+    public uint duration { get; set; } /* ms */
+    public uint repeat_count { get; set; }
+    public bool reverse { get; set; }
+    public bool alternate { get; set; }
+    public new double value { get; set; }
+    public Gtk.Widget widget { get; set; }
+    public He.AnimationTarget target { get; set; }
+    public He.AnimationState state { get; set; }
+
+    int64 start_time; /* ms */
+    int64 paused_time;
+    uint  tick_cb_id;
+
+    public Animation (Gtk.Widget? widget, double from, double to, uint duration, He.AnimationTarget target) {
+        this.from = from;
+        this.to = to;
+        this.duration = duration;
+        this.widget = widget;
+        this.target = target;
+    }
+
     public delegate double AnimationFunction (double t, double d);
+
+    public uint estimate_duration (He.Animation animation) {
+        if (repeat_count == 0)
+            return (uint) 0xffffffff;
+
+        return duration * repeat_count;
+    }
+
+    public void play () {
+        if (this.state == He.AnimationState.HE_ANIMATION_PLAYING) {
+            critical ("Trying to play animation %p, but it's already playing", this);
+            return;
+        }
+
+        this.state = He.AnimationState.HE_ANIMATION_PLAYING;
+
+        if (!this.widget.get_mapped ()) {
+            skip ();
+            return;
+        }
+
+        this.start_time += this.widget.get_frame_clock ().get_frame_time () / 1000;
+        this.start_time -= this.paused_time;
+
+        if (this.tick_cb_id != 0)
+            return;
+
+        this.tick_cb_id  = this.widget.add_tick_callback     (tick_cb);
+
+    }
+
+    public bool tick_cb (Gtk.Widget widget, Gdk.FrameClock frame_clock) {
+        int64 frame_time = frame_clock.get_frame_time () / 1000; /* ms */
+        uint duration = estimate_duration (this);
+        uint t = (uint) (frame_time - start_time);
+
+        if (t >= duration && duration != (uint) 0xffffffff) {
+            skip ();
+
+            return GLib.Source.REMOVE;
+        }
+
+        value = t;
+
+        return GLib.Source.CONTINUE;
+    }
+
+
+    public void skip () {
+        bool was_playing;
+
+        if (this.state == HE_ANIMATION_FINISHED)
+            return;
+
+        was_playing = this.state == HE_ANIMATION_PLAYING;
+
+        this.state = HE_ANIMATION_FINISHED;
+
+        stop_animation ();
+
+        value = estimate_duration (this);
+
+        this.start_time = 0;
+        this.paused_time = 0;
+    }
+
+    public void stop_animation () {
+      if (this.tick_cb_id != 0) {
+        this.widget.remove_tick_callback (this.tick_cb_id);
+        this.tick_cb_id = 0;
+      }
+    }
+
+    public double lerp (double a, double b, double t) {
+      return a * (1.0 - t) + b * t;
+    }
 
     public double linear (double t, double d) {
         return t / d;
@@ -128,7 +286,7 @@ namespace He.Animation {
     public double ease_in_out_sine (double t, double d) {
         return -0.5 * (Math.cos (Math.PI * t / d) - 1);
     }
-    
+
     public double ease_in_expo (double t, double d) {
         return (t == 0) ? 0.0 : Math.pow (2, 10 * (t / d - 1));
     }

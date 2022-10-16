@@ -26,10 +26,17 @@ namespace He {
     
         // Ensure all classes listed here are available for use.
         // Remove only if the class is not needed anymore.
+        typeof (He.Animation).ensure ();
+        typeof (He.TimedAnimation).ensure ();
+        typeof (He.AnimationTarget).ensure ();
+        typeof (He.AnimationState).ensure ();
+        typeof (He.FoldThresholdPolicy).ensure ();
+        typeof (He.CallbackAnimationTarget).ensure ();
         typeof (He.Application).ensure ();
         typeof (He.AboutWindow).ensure ();
         typeof (He.Album).ensure ();
-        typeof (He.AlbumPage).ensure ();
+        typeof (He.AlbumPages).ensure ();
+		typeof (He.AlbumPage).ensure ();
         typeof (He.AppBar).ensure ();
         typeof (He.ApplicationWindow).ensure ();
         typeof (He.Badge).ensure ();

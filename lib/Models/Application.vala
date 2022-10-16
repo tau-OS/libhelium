@@ -128,10 +128,6 @@ public class He.Application : Gtk.Application {
     var foreground_hex = Color.hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
     var accent_foreground_hex = Color.hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
 
-    warning ("accent color is %s", accent_color_hex);
-    warning ("foreground is %s", foreground_hex);
-    warning ("accent foreground is %s", accent_foreground_hex);
-
     var css = @"
       @define-color accent_color $accent_foreground_hex;
       @define-color accent_bg_color $accent_color_hex;

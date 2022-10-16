@@ -30,6 +30,8 @@ class He.LatchLayout : Gtk.LayoutManager, Gtk.Orientable {
         }
     }
 
+    public He.Animation anime;
+
     construct {
         this.tightening_threshold = 400;
         this.maximum_size = 600;
@@ -100,8 +102,7 @@ class He.LatchLayout : Gtk.LayoutManager, Gtk.Orientable {
             return max;
         
         progress = inverse_lerp (lower, upper, for_size);
-
-        return (int) lerp (lower, max, He.Animation.ease_in_cubic (3, progress));
+        return (int) lerp (lower, max, anime.ease_in_cubic (3, progress));
     }
 
     public override Gtk.SizeRequestMode get_request_mode (Gtk.Widget widget) {
@@ -133,15 +134,16 @@ class He.LatchLayout : Gtk.LayoutManager, Gtk.Orientable {
                                out child_min_baseline, out child_nat_baseline);
             }
 
-            minimum = int.max (minimum, child_min);
-            natural = int.max (natural, child_nat);
+            if (minimum != -1) {
+                minimum = int.max (minimum, child_min);
+            }
+            if (natural != -1) {
+                natural = int.max (natural, child_nat);
+            }
 
-            minimum_baseline = -1;
-            natural_baseline = -1;
-
-            if (child_min_baseline > -1)
+            if (minimum_baseline != -1 && child_min_baseline > -1)
                 minimum_baseline = int.max (minimum_baseline, child_min_baseline);
-            if (child_nat_baseline > -1)
+            if (natural_baseline != -1 && child_nat_baseline > -1)
                 natural_baseline = int.max (natural_baseline, child_nat_baseline);
         }
     }

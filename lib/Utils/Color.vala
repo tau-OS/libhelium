@@ -100,9 +100,6 @@ namespace He.Color {
     var g = rgb_value_to_xyz(color.g);
     var b = rgb_value_to_xyz(color.b);
 
-    warning("rgb_color: %d %d %d", color.r, color.g, color.b);
-    warning("xyz_color: %f, %f, %f", r, g, b);
-
     var x = xyz_value_to_lab((0.4124564 * r + 0.3575761 * g + 0.1804375 * b) / He.Color.LabConstants.Xn);
     var y = xyz_value_to_lab((0.2126729 * r + 0.7151522 * g + 0.0721750 * b) / He.Color.LabConstants.Yn);
     var z = xyz_value_to_lab((0.0193339 * r + 0.1191920 * g + 0.9503041 * b) / He.Color.LabConstants.Zn);
@@ -112,8 +109,6 @@ namespace He.Color {
       y,
       z
     };
-
-    warning("xyz_color (after labification): %f, %f, %f", x, y, z);
     
     return result;
   }
@@ -133,8 +128,6 @@ namespace He.Color {
 
   public LCHColor rgb_to_lch(RGBColor color) {
     var lab_color = rgb_to_lab(color);
-
-    warning("lab_color: %f, %f, %f", lab_color.l, lab_color.a, lab_color.b);
     
     LCHColor result = {
       lab_color.l,

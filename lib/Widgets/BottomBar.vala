@@ -312,3 +312,4 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
     fmenu_box.reorder_child_after(button_to_mbutton[icon], button_to_mbutton[sibling]);
   }
 }
+

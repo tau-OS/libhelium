@@ -16,7 +16,6 @@ libhelium_sources += files(
     'Utils/Color.vala',
     'Widgets/AboutWindow.vala',
     'Widgets/Album.vala',
-    'Widgets/AlbumPage.vala',
     'Widgets/AppBar.vala',
     'Widgets/ApplicationWindow.vala',
     'Widgets/Badge.vala',
