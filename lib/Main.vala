@@ -30,7 +30,6 @@ namespace He {
         typeof (He.AboutWindow).ensure ();
         typeof (He.Album).ensure ();
         typeof (He.AlbumPage).ensure ();
-        typeof (He.AlbumPageInterface).ensure ();
         typeof (He.AppBar).ensure ();
         typeof (He.ApplicationWindow).ensure ();
         typeof (He.Badge).ensure ();
