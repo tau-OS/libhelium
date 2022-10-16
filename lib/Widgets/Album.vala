@@ -208,7 +208,7 @@ public class He.Album : He.Bin, Gtk.Buildable {
 
         if (i == visible_child_index) {
             child.set_transition_type(Gtk.RevealerTransitionType.NONE);
-            page.set_visible(true);
+            page.child.set_visible(true);
             child.set_reveal_child(true);
         }
 
