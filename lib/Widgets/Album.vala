@@ -125,13 +125,13 @@ public class He.Album : He.Bin, Gtk.Buildable {
   
   private new void append(He.AlbumPage widget) {
     var revealer = new Gtk.Revealer();
-    revealer.set_child(widget);
+    revealer.set_child(widget.child);
     revealer.set_reveal_child(true);
     this._box.append(revealer);
     this.children.append(revealer);
     revealer.notify["child-revealed"].connect(() => {
         if (!revealer.get_reveal_child()) {
-            widget.set_visible(false);
+            widget.child.set_visible(false);
             to_finish_unrevealing--;
 
             if (to_finish_unrevealing == 0) {
@@ -159,7 +159,6 @@ public class He.Album : He.Bin, Gtk.Buildable {
 
         if (page.navigatable) {
           visible_child = child;
-          ((Gtk.BoxLayout)page.get_layout_manager ()).homogeneous = true;
         }
       }
 
@@ -202,8 +201,7 @@ public class He.Album : He.Bin, Gtk.Buildable {
         child.unparent();
 
         var page = (He.AlbumPage) child.get_child();
-        ((Gtk.BoxLayout)page.get_layout_manager ()).homogeneous = false;
-        page.set_visible(false);
+        page.child.set_visible(false);
         child.set_reveal_child(false);
 
         this._box.append(child);
@@ -223,7 +221,7 @@ public class He.Album : He.Bin, Gtk.Buildable {
 
      foreach (var child in children) {
         var page = (He.AlbumPage) child.get_child();
-        page.set_visible(true);
+        page.child.set_visible(true);
         child.set_reveal_child(true);
     }
 
@@ -243,8 +241,8 @@ public class He.Album : He.Bin, Gtk.Buildable {
           foreach (var child in this.children) {
               var page = (He.AlbumPage) child.get_child();
 
-              if (page.navigatable && page == visible_child) {
-                  this._stack.set_visible_child(page);
+              if (page.navigatable && page.child == visible_child) {
+                  this._stack.set_visible_child(page.child);
               }
           }
       }
@@ -258,7 +256,7 @@ public class He.Album : He.Bin, Gtk.Buildable {
       foreach (var child in this.children) {
         var page = (He.AlbumPage) child.get_child();
 
-        page.set_visible(true);
+        page.child.set_visible(true);
 
 
         child.unparent ();
@@ -269,7 +267,6 @@ public class He.Album : He.Bin, Gtk.Buildable {
         if (page.navigatable) {
           this._stack.add_child(child);
           this._stack.set_visible_child(child);
-          ((Gtk.BoxLayout)page.get_layout_manager ()).homogeneous = true;
         }
       }
 
