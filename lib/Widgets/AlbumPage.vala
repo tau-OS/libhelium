@@ -29,6 +29,12 @@ public class He.AlbumPage : Object {
     get {
       return _child;
     }
+    set {
+      if (value == _child)
+          return;
+
+      _child = value;
+    }
   }
 
   /**
