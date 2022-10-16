@@ -46,9 +46,7 @@ public class He.AlbumPage : Object {
         _navigatable = value;
         if (child != null && child.get_parent () != null) {
             He.Album album = ((He.Album) child.get_parent ());
-            if (this == album.visible_child) {
-                album.set_visible_child (null);
-            }
+            album.set_visible_child (null);
         }
     }
   }
@@ -59,6 +57,6 @@ public class He.AlbumPage : Object {
   
   ~AlbumPage () {
     child.unparent ();
-    this.unparent ();
+    this.dispose ();
   }
 }
