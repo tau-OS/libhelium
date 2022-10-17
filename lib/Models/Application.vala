@@ -111,18 +111,22 @@ public class He.Application : Gtk.Application {
     lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 108.8840;
 
     var derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
+    var derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
     var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 12.0 : 7.0;
     var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 10.0 : 9.0;
 
     var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
-    var derived_bg = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
+    var derived_bg_c = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
 
-    var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg));
+    var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg_c));
     var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
 
     this.accent_color = derived_accent_as_rgb_bg;
     this.foreground = derived_fg;
     this.accent_foreground = derived_accent_as_rgb_fg;
+
+    var base_foreground_hex = Color.hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
+    var base_background_hex = Color.hexcode ((double) derived_bg.r, (double) derived_bg.g, (double) derived_bg.b);
 
     var accent_color_hex = Color.hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
     var foreground_hex = Color.hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
@@ -132,6 +136,8 @@ public class He.Application : Gtk.Application {
       @define-color accent_color $accent_foreground_hex;
       @define-color accent_bg_color $accent_color_hex;
       @define-color accent_fg_color $foreground_hex;
+      @define-color window_bg_color mix($base_background_hex, $accent_color_hex, 0.02);
+      @define-color headerbar_bg_color darken(mix($base_background_hex, $accent_color_hex, 0.02), 0.98);
     ";
     accent.load_from_data (css.data);
 }

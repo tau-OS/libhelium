@@ -297,6 +297,10 @@ public class He.Album : Gtk.Widget, Gtk.Orientable, Gtk.Buildable {
         this.add_css_class ("unfolded");
     }
 
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BoxLayout));
+    }
+
     /**
      * Add a child to the album, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
      *
