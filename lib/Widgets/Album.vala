@@ -783,10 +783,14 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
         int child_nat, max_nat, sum_nat;
         He.AlbumPage page;
         unowned GLib.List<He.AlbumPage> l;
-
         visible_children = 0;
         child_min = max_min = visible_min = last_visible_min = 0;
         child_nat = max_nat = sum_nat = 0;
+        natural = 0;
+        minimum = 0;
+        minimum_baseline = -1;
+        natural_baseline = -1;
+
         for (l = children; l != null; l = l.next) {
             page = l.data;
             visible_children++;

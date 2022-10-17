@@ -111,6 +111,10 @@ class He.LatchLayout : Gtk.LayoutManager, Gtk.Orientable {
 
     public override void measure (Gtk.Widget widget, Gtk.Orientation orientation, int for_size, out int minimum, out int natural, out int minimum_baseline, out int natural_baseline) {
         Gtk.Widget child;
+        natural = 0;
+        minimum = 0;
+        minimum_baseline = -1;
+        natural_baseline = -1;
         for (child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
             int child_min = 0;
             int child_nat = 0;

@@ -306,7 +306,7 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
     var box = position == Position.LEFT ? left_box : right_box;
     var fmenu_box = position == Position.LEFT ? fmenu_box_l : fmenu_box_r;
 
-    var menu_button = create_menu_button(icon);
+    create_menu_button(icon);
 
     box.reorder_child_after(icon, sibling);
     fmenu_box.reorder_child_after(button_to_mbutton[icon], button_to_mbutton[sibling]);
