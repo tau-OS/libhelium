@@ -137,6 +137,7 @@ public class He.Application : Gtk.Application {
       @define-color accent_bg_color $accent_color_hex;
       @define-color accent_fg_color $foreground_hex;
       @define-color window_bg_color mix($base_background_hex, $accent_color_hex, 0.02);
+      @define-color view_bg_color mix($base_background_hex, $accent_color_hex, 0.02);
       @define-color headerbar_bg_color darken(mix($base_background_hex, $accent_color_hex, 0.02), 0.98);
     ";
     accent.load_from_data (css.data);
