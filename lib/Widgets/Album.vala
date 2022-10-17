@@ -67,7 +67,11 @@ public class He.AlbumPage : Object {
 }
 
 public class He.AlbumPages : Object, GLib.ListModel, Gtk.SelectionModel {
-	public He.Album album;
+	public He.Album album { get; set; }
+
+	public AlbumPages (He.Album? album) {
+		this.album = album;
+	}
 
 	public uint get_n_items () {
 		return album.children.length ();
@@ -83,10 +87,6 @@ public class He.AlbumPages : Object, GLib.ListModel, Gtk.SelectionModel {
 
 		return page;
 	}
-
- 	public AlbumPages (He.Album? album) {
- 		this.album = album;
- 	}
 
  	public bool is_selected (uint position) {
 		He.AlbumPage page;
@@ -121,111 +121,70 @@ public enum He.FoldThresholdPolicy {
   NATURAL,
 }
 
+public enum He.AlbumTransitionType {
+    OVER,
+    UNDER,
+    SLIDE,
+}
+
 /**
 * An Album is a helper widget to making an app responsive.
 */
-public class He.Album : Gtk.Widget, Gtk.Buildable {
-    // for ltr
+public class He.Album : Gtk.Widget, Gtk.Orientable, Gtk.Buildable {
     public unowned GLib.List<He.AlbumPage> children;
-    // For rtl
     public unowned GLib.List<He.AlbumPage> children_reversed;
+    public He.AlbumPage visible_child;
+    public He.AlbumPage last_visible_child;
+    public He.AlbumPages pages;
+    public He.Animation anime;
+    public He.AnimationTarget target;
 
-    private He.AlbumPage _visible_child;
-    public He.AlbumPage visible_child {
-        get { return _visible_child; }
+    private He.AlbumTransitionType _transition_type;
+    public He.AlbumTransitionType transition_type {
+        get { return _transition_type; }
         set {
-            Gtk.Root root;
-            Gtk.Widget focus;
-            bool contains_focus = false;
-            uint old_pos = 0;
-            uint new_pos = 0;
-            unowned GLib.List<He.AlbumPage> l;
+          unowned GLib.List<He.AlbumPage> l;
 
-            if (this.in_destruction ())
+          if (_transition_type == SLIDE)
+            return;
+          if (_transition_type == value)
+            return;
+
+          _transition_type = value;
+
+          for (l = children; l != null; l = l.next) {
+            He.AlbumPage page = l.data;
+
+            if (transition_type == OVER)
+              page.child.insert_before (this, null);
+            else
+              page.child.insert_after (this, null);
+          }
+       }
+    }
+
+    private bool _homogeneous;
+    public bool homogeneous {
+        get { return _homogeneous; }
+        set {
+            if (_homogeneous == value)
                 return;
 
-            if (value != null) {
-                for (l = children; l != null; l = l.next) {
-                  He.AlbumPage p = l.data;
-
-                  if (this.get_visible ()) {
-                    _visible_child = p;
-                    break;
-                  }
-                }
-            }
-
-            if (_visible_child == value)
-                return;
-
-            if (pages != null) {
-                uint position = 0;
-
-                for (l = children, position = 0; l != null; l = l.next, position++) {
-                  He.AlbumPage p = l.data;
-                  if (p == value) {
-                    old_pos = position;
-                  } else if (p == value) {
-                    new_pos = position;
-                  }
-                }
-            }
-
-            root = this.get_root ();
-            if (root != null) {
-                focus = root.get_focus ();
-            } else {
-                focus = null;
-            }
-
-            if (focus != null &&
-                value != null &&
-                value.child != null &&
-                focus.is_ancestor (value.child)) {
-                contains_focus = true;
-            }
-
-            if (value != null && value.child != null) {
-                if (this.is_visible ()) {
-                  last_visible_child = value;
-                } else {
-                  value.child.set_child_visible (!folded);
-                }
-            }
-
-            _visible_child = value;
-
-            if (value != null) {
-                value.child.set_child_visible (true);
-
-                if (contains_focus) {
-                  if (value.last_focus != null) {
-                    _visible_child.last_focus.grab_focus ();
-                  } else {
-                    _visible_child.child.child_focus (Gtk.DirectionType.TAB_FORWARD);
-                  }
-                }
-            }
-
-            if (folded) {
-                if (homogeneous) {
-                  this.queue_allocate ();
-                } else {
-                  this.queue_resize ();
-                }
-            }
-
-            if (pages != null) {
-                if (old_pos == 0 && new_pos == 0) {
-                } else if (old_pos == 0) {
-                  pages.selection_changed (new_pos, 1);
-                } else if (new_pos == 0) {
-                  pages.selection_changed (old_pos, 1);
-                } else {
-                  pages.selection_changed (uint.min (old_pos, new_pos), uint.max (old_pos, new_pos) - uint.min (old_pos, new_pos) + 1);
-                }
-            }
+            _homogeneous = value;
+            this.queue_resize ();
         }
+    }
+
+    private Gtk.Orientation _orientation;
+    public Gtk.Orientation orientation {
+    	get { return _orientation; }
+    	set {
+    		if (_orientation == value)
+    			return;
+
+    		_orientation = value;
+    		this.queue_resize ();
+    	}
     }
 
     private string _visible_child_name;
@@ -241,10 +200,6 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
             this.visible_child = page;
         }
     }
-
-    public He.AlbumPage last_visible_child;
-    public He.AlbumPages pages;
-    public He.Animation anime;
     
     private He.FoldThresholdPolicy _fold_threshold_policy;
     public He.FoldThresholdPolicy fold_threshold_policy {
@@ -265,23 +220,22 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
             return _folded;
         }
         set {
-            start_mode_transition (folded ? 0.0 : 1.0);
+        	if (_folded == value)
+        		return;
 
-            if (value) {
+        	_folded = value;
+
+            start_mode_transition (value ? 0.0 : 1.0);
+
+            if (_folded) {
                 this.add_css_class ("folded");
                 this.remove_css_class ("unfolded");
-                _folded = value;
             } else {
                 this.remove_css_class ("folded");
                 this.add_css_class ("unfolded");
-                _folded = value;
             }
         }
     }
-
-    public bool homogeneous;
-    public Gtk.Orientation orientation;
-    public He.AnimationTarget target;
 
     struct ModeTransition {
         public uint duration;
@@ -316,28 +270,17 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
             if (_can_unfold == value)
                 return;
 
-            this.queue_allocate ();
             _can_unfold = value;
+            this.queue_allocate ();
         }
     }
 
-    /**
-     * Add a child to the album, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
-     *
-     * @since 1.0
-     */
-    public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-        add_page (((He.AlbumPage) child), children != null ? children.last ().data : null);
-    }
-
-    public Album () {
-        this.set_overflow (Gtk.Overflow.HIDDEN);
-        this.add_css_class ("unfolded");
-    }
-
+    public Album () { }
     construct {
         can_unfold = true;
+        folded = false;
         homogeneous = true;
+        transition_type = OVER;
 
         pages = new He.AlbumPages (this);
 
@@ -346,6 +289,121 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
 
         fold_threshold_policy = MINIMUM;
         overflow = Gtk.Overflow.HIDDEN;
+        this.add_css_class ("unfolded");
+    }
+
+    /**
+     * Add a child to the album, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+     *
+     * @since 1.0
+     */
+    public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+    	if (child.get_type () == typeof(He.AlbumPage)) {
+        	add_page (((He.AlbumPage) child), children != null ? children.last ().data : null);
+        } else {
+            ((He.Album) this).add_child (builder, child, type);
+        }
+    }
+
+    public void set_visible_child (He.AlbumPage? page) {
+    	Gtk.Root root;
+        Gtk.Widget focus;
+        bool contains_focus = false;
+        uint old_pos = 0;
+        uint new_pos = 0;
+
+        if (this.in_destruction ())
+            return;
+
+        if (page != null) {
+        	unowned GLib.List<He.AlbumPage> l;
+            for (l = children; l != null; l = l.next) {
+              He.AlbumPage p = l.data;
+
+              if (this.get_visible ()) {
+                set_visible_child (p);
+                break;
+              }
+            }
+        }
+
+        if (page == visible_child)
+            return;
+
+        if (pages != null) {
+        	unowned GLib.List<He.AlbumPage> l;
+            uint position = 0;
+
+            for (l = children, position = 0; l != null; l = l.next, position++) {
+              He.AlbumPage p = l.data;
+              if (p == visible_child) {
+                old_pos = position;
+              } else if (p == page) {
+                new_pos = position;
+              }
+            }
+        }
+
+        root = this.get_root ();
+        if (root != null) {
+            focus = root.get_focus ();
+        } else {
+            focus = null;
+        }
+
+        if (focus != null &&
+            page != null &&
+            page.child != null &&
+            focus.is_ancestor (page.child)) {
+            contains_focus = true;
+
+            visible_child.last_focus.remove_weak_pointer (visible_child.last_focus);
+            visible_child.last_focus = focus;
+            visible_child.last_focus.add_weak_pointer (visible_child.last_focus);
+        }
+
+        if (visible_child != null && visible_child.child != null) {
+            if (this.is_visible ()) {
+              last_visible_child = visible_child;
+            } else {
+              this.set_child_visible (!folded);
+            }
+        }
+
+        visible_child = page;
+
+        if (page != null) {
+            this.set_child_visible (true);
+
+            if (contains_focus) {
+              if (page.last_focus != null) {
+                page.last_focus.grab_focus ();
+              } else {
+                this.child_focus (Gtk.DirectionType.TAB_FORWARD);
+              }
+            }
+        }
+
+        if (folded) {
+            if (homogeneous) {
+              this.queue_allocate ();
+            } else {
+              this.queue_resize ();
+            }
+        }
+
+        if (pages != null) {
+            if (old_pos == 0 && new_pos == 0) {
+            	// Sorry nothing
+            } else if (old_pos == Gtk.INVALID_LIST_POSITION) {
+              pages.selection_changed (new_pos, 1);
+            } else if (new_pos == Gtk.INVALID_LIST_POSITION) {
+              pages.selection_changed (old_pos, 1);
+            } else {
+              pages.selection_changed (uint.min (old_pos, new_pos),
+              						   uint.max (old_pos, new_pos) - uint.min (old_pos, new_pos) + 1);
+            }
+        }
     }
 
     public void mode_transition_cb (double value) {
@@ -416,12 +474,12 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
     public void update_child_visible (He.AlbumPage page) {
         bool enabled;
 
-        enabled = page.child.get_visible ();
+        enabled = this.get_visible ();
 
         if (visible_child == null && enabled)
-            visible_child = page;
+            set_visible_child (page);
         else if (visible_child == page && !enabled)
-            visible_child = null;
+            set_visible_child (null);
 
         if (page == last_visible_child) {
             last_visible_child.child.set_child_visible (false);
@@ -619,9 +677,10 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
           int i = 0, position = 0;
           bool under;
           Gtk.TextDirection direction;
+          Gtk.Orientation orientation = this.get_orientation ();
+          Gtk.RequestedSize[] sizes;
 
           visible_child = this.visible_child;
-
           if (visible_child == null)
             return;
 
@@ -631,11 +690,11 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
           for (children = directed_children; children != null; children = children.next) {
             page = children.data;
 
-            page.visible = page.child != null && page.child.get_visible ();
+            page.visible = page.child != null && this.get_visible ();
 
             if (page.visible) {
               n_visible_children++;
-              if (page.child.compute_expand (orientation))
+              if (this.compute_expand (orientation))
                 n_expand_children++;
             }
             else {
@@ -644,7 +703,7 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
             }
           }
 
-          Gtk.RequestedSize[] sizes = new Gtk.RequestedSize[n_visible_children];
+          sizes = new Gtk.RequestedSize[n_visible_children];
 
           min_size = 0;
           if (orientation == Gtk.Orientation.HORIZONTAL) {
@@ -679,11 +738,9 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
             extra_size = int.max (min_size, height);
           }
 
-          if (extra_size >= 0) {
-            extra_size -= min_size;
-            extra_size = int.max (0, extra_size);
-            extra_size = Gtk.distribute_natural_allocation (extra_size, sizes);
-          }
+          extra_size -= min_size;
+          extra_size = int.max (0, extra_size);
+          extra_size = Gtk.distribute_natural_allocation (extra_size, sizes);
 
           if (n_expand_children > 0) {
             per_child_extra = extra_size / n_expand_children;
@@ -701,7 +758,7 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
 
             allocated_size = sizes[i].minimum_size;
 
-            if (page.child.compute_expand (orientation)) {
+            if (this.compute_expand (orientation)) {
               allocated_size += per_child_extra;
 
               if (n_extra_widgets > 0) {
@@ -735,54 +792,65 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
         }
 
         direction = this.get_direction ();
-        under = ((direction == Gtk.TextDirection.LTR) || (direction == Gtk.TextDirection.RTL));
 
-        for (children = directed_children; children != null; children = children.next) {
-            page = children.data;
+        if (orientation == Gtk.Orientation.HORIZONTAL) {
+        	under = ((direction == Gtk.TextDirection.LTR) || (direction == Gtk.TextDirection.RTL));
 
-            if (page == visible_child)
-              break;
+            for (children = directed_children; children != null; children = children.next) {
+                page = children.data;
 
-            if (!page.visible)
-              continue;
+                if (page == visible_child)
+                  break;
 
-            if (under)
-              continue;
+                if (!page.visible)
+                  continue;
 
-            if (orientation == Gtk.Orientation.HORIZONTAL)
-              page.alloc.x -= start_pad;
-            else
-              page.alloc.y -= start_pad;
+                if (under)
+                  continue;
+
+                if (orientation == Gtk.Orientation.HORIZONTAL)
+                  page.alloc.x -= start_pad;
+                else
+                  page.alloc.y -= start_pad;
+            }
+
+            mode_transition.start_progress = under ? mode_transition.current_pos : 1;
         }
 
-        mode_transition.start_progress = under ? mode_transition.current_pos : 1;
+		if (orientation == Gtk.Orientation.HORIZONTAL) {
+        	under = ((direction == Gtk.TextDirection.LTR) || (direction == Gtk.TextDirection.RTL));
 
-        under = ((direction == Gtk.TextDirection.LTR) || (direction == Gtk.TextDirection.RTL));
+            for (children = directed_children.last(); children != null; children = children.prev) {
+                page = children.data;
 
-          for (children = directed_children.last(); children != null; children = children.prev) {
-            page = children.data;
+                if (page == visible_child)
+                  break;
 
-            if (page == visible_child)
-              break;
+                if (!page.visible)
+                  continue;
 
-            if (!page.visible)
-              continue;
+                if (orientation == Gtk.Orientation.HORIZONTAL)
+                  page.alloc.x += end_pad;
+                else
+                  page.alloc.y += end_pad;
+            }
 
-            if (orientation == Gtk.Orientation.HORIZONTAL)
-              page.alloc.x += end_pad;
-            else
-              page.alloc.y += end_pad;
-          }
+            mode_transition.end_progress = under ? mode_transition.current_pos : 1;
+        }
 
+		if (orientation == Gtk.Orientation.HORIZONTAL) {
           visible_child.alloc.x -= start_pad;
           visible_child.alloc.width += start_pad + end_pad;
+        } else {
+          visible_child.alloc.y -= start_pad;
+          visible_child.alloc.height += start_pad + end_pad;
+        }
     }
     public override void measure (Gtk.Orientation orientation, int for_size, out int minimum, out int natural, out int minimum_baseline, out int natural_baseline) {
+        unowned GLib.List<He.AlbumPage> l;
         int visible_children;
         int child_min, max_min, visible_min, last_visible_min;
         int child_nat, max_nat, sum_nat;
-        He.AlbumPage page;
-        unowned GLib.List<He.AlbumPage> l;
         visible_children = 0;
         child_min = max_min = visible_min = last_visible_min = 0;
         child_nat = max_nat = sum_nat = 0;
@@ -790,9 +858,14 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
         minimum = 0;
         minimum_baseline = -1;
         natural_baseline = -1;
+        bool same_orientation;
 
         for (l = children; l != null; l = l.next) {
-            page = l.data;
+            He.AlbumPage page = l.data;
+
+            if (page.child == null || !page.child.get_visible ())
+      			continue;
+
             visible_children++;
 
             page.child.measure (orientation, for_size, out child_min, out child_nat, null, null);
@@ -804,11 +877,16 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
 
         if (visible_child != null)
             visible_child.child.measure (orientation, for_size, out visible_min, null, null, null);
-        if (last_visible_child != null)
+        if (last_visible_child != null) {
             visible_child.child.measure (orientation, for_size, out last_visible_min, null, null, null);
+        } else {
+			last_visible_min = visible_min;
+	    }
+
+	    same_orientation = orientation == this.get_orientation ();
 
         if (minimum != -1) {
-            if (homogeneous) {
+            if (same_orientation || homogeneous) {
               minimum = max_min;
             } else {
               minimum = int.parse ("%f".printf(anime.lerp (last_visible_min, visible_min, mode_transition.current_pos)));
@@ -817,7 +895,7 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
         }
 
         if (natural != -1) {
-            if (can_unfold) {
+            if (same_orientation && can_unfold) {
               natural = sum_nat;
             } else {
               natural = max_nat;
@@ -831,12 +909,17 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
     }
 
     public override void size_allocate (int width, int height, int baseline) {
-        He.AlbumPage page;
-        unowned GLib.List<He.AlbumPage> l;
+        unowned GLib.List<He.AlbumPage> l, directed_children;
+        Gtk.Orientation orientation = this.get_orientation ();
+        bool folded;
 
-        for (l = children; l != null; l = l.next) {
-            page = l.data;
+        directed_children = get_directed_children ();
+
+        for (l = directed_children; l != null; l = l.next) {
+        	He.AlbumPage page = l.data;
+
             page.child.get_preferred_size (out page.min, out page.nat);
+            page.alloc.x = page.alloc.y = page.alloc.width = page.alloc.height = 0;
             page.visible = false;
         }
 
@@ -847,37 +930,58 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
                 min_max_size = 0,
                 visible_children = 0;
 
-            for (l = children; l != null; l = l.next) {
-                page = l.data;
+            if (orientation == Gtk.Orientation.HORIZONTAL) {
+		        for (l = children; l != null; l = l.next) {
+		        	He.AlbumPage page = l.data;
 
-                if (page.nat.width <= 0)
-                  continue;
+		            if (page.nat.width <= 0)
+		              continue;
 
-                nat_box_size += page.nat.width;
-                min_box_size += page.min.width;
-                nat_max_size = int.max (nat_max_size, page.nat.width);
-                min_max_size = int.max (min_max_size, page.min.width);
-                visible_children++;
-            }
+		            nat_box_size += page.nat.width;
+		            min_box_size += page.min.width;
+		            nat_max_size = int.max (nat_max_size, page.nat.width);
+		            min_max_size = int.max (min_max_size, page.min.width);
+		            visible_children++;
+		        }
 
-            if (this.fold_threshold_policy == NATURAL)
-                folded = visible_children > 1 && width < nat_box_size;
-            else
-                folded = visible_children > 1 && width < min_box_size;
+		        if (this.fold_threshold_policy == NATURAL) {
+		            folded = visible_children > 1 && width < nat_box_size;
+		        } else {
+		            folded = visible_children > 1 && width < min_box_size;
+		        }
+		    } else {
+		    	for (l = children; l != null; l = l.next) {
+					He.AlbumPage page = l.data;
+
+					if (page.nat.height <= 0)
+					  continue;
+
+					nat_box_size += page.nat.height;
+					min_box_size += page.min.height;
+					nat_max_size = int.max (nat_max_size, page.nat.height);
+					min_max_size = int.max (min_max_size, page.min.height);
+					visible_children++;
+				  }
+
+				  if (fold_threshold_policy == NATURAL)
+					folded = visible_children > 1 && height < nat_box_size;
+				  else
+					folded = visible_children > 1 && height < min_box_size;
+		    	}
         } else {
             folded = true;
         }
 
-        /* Allocate size to the children. */
+        this.folded = folded;
+
         if (folded) {
             size_allocate_folded (width, height);
         } else {
             size_allocate_unfolded (width, height);
         }
 
-        /* Apply visibility and allocation. */
-        for (l = children; l != null; l = l.next) {
-            page = l.data;
+        for (l = directed_children; l != null; l = l.next) {
+            He.AlbumPage page = l.data;
             page.child.set_child_visible (page.visible);
             page.child.size_allocate (page.alloc.x, page.alloc.y, baseline);
             page.child.show ();
@@ -885,22 +989,48 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
     }
 
     public He.AlbumPage get_top_overlap_child () {
+        bool is_rtl;
+
         if (last_visible_child == null)
             return visible_child;
 
- 		var direction = this.get_direction ();
- 		bool is_rtl = direction == Gtk.TextDirection.RTL;
-        bool start = is_rtl;
-        return start ? last_visible_child : visible_child;
+        is_rtl = this.get_direction () == Gtk.TextDirection.RTL;
+
+ 		switch (transition_type) {
+          case SLIDE:
+            /* Nothing overlaps in this case */
+            return (He.AlbumPage)null;
+          case OVER:
+            return is_rtl ? visible_child : last_visible_child;
+          case UNDER:
+            return is_rtl ? last_visible_child : visible_child;
+        }
+
+        return (He.AlbumPage)null;
     }
 
     public override void snapshot (Gtk.Snapshot snapshot) {
         Gdk.Rectangle shadow_rect = Gdk.Rectangle ();
-        bool is_vertical = this.orientation == Gtk.Orientation.VERTICAL;
-        bool is_rtl = this.get_direction () == Gtk.TextDirection.RTL;
-        He.AlbumPage overlap_child = get_top_overlap_child ();
-        He.AlbumPage page;
-        unowned GLib.List<He.AlbumPage> l;
+        He.AlbumPage overlap_child;
+        bool is_vertical;
+        bool is_rtl;
+        bool is_over;
+        bool is_transition;
+        unowned GLib.List<He.AlbumPage> stacked_children, l;
+
+        overlap_child = get_top_overlap_child ();
+
+        if (transition_type == SLIDE || overlap_child == null) {
+    		this.snapshot (snapshot);
+
+			return;
+		}
+
+        is_vertical = this.orientation == Gtk.Orientation.VERTICAL;
+        is_rtl = this.get_direction () == Gtk.TextDirection.RTL;
+
+        stacked_children = transition_type == UNDER ? children_reversed : children;
+        is_over = transition_type == OVER;
 
         shadow_rect.x = 0;
         shadow_rect.y = 0;
@@ -908,9 +1038,14 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
         shadow_rect.height = this.get_height ();
 
         if (is_vertical) {
-            shadow_rect.height = overlap_child.alloc.y;
+        	if (!is_over) {
+               shadow_rect.y = overlap_child.alloc.y + overlap_child.alloc.height;
+      		   shadow_rect.height -= shadow_rect.y;
+        	} else {
+        	   shadow_rect.height = overlap_child.alloc.y;
+        	}
         } else {
-            if (is_rtl) {
+        	if (is_over == is_rtl) {
               shadow_rect.x = overlap_child.alloc.x + overlap_child.alloc.width;
               shadow_rect.width -= shadow_rect.x;
             } else {
@@ -923,16 +1058,22 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
                                                    shadow_rect.width,
                                                    shadow_rect.height));
 
-        for (l = children; l != null; l = l.next) {
-            page = l.data;
+		for (l = stacked_children; l != null; l = l.next) {
+            He.AlbumPage page = l.data;
+
             if (page == overlap_child) {
                 snapshot.pop ();
 
                 if (is_vertical) {
-                    shadow_rect.y = overlap_child.alloc.y;
-                    shadow_rect.height = this.get_height () - shadow_rect.y;
+                	if (!is_over) {
+                		shadow_rect.height = shadow_rect.y;
+          				shadow_rect.y = 0;
+          			} else {
+                    	shadow_rect.y = overlap_child.alloc.y;
+                    	shadow_rect.height = this.get_height () - shadow_rect.y;
+                    }
                 } else {
-                    if (is_rtl) {
+                	if (is_over == is_rtl) {
                       shadow_rect.width = shadow_rect.x;
                       shadow_rect.x = 0;
                     } else {
@@ -953,6 +1094,22 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
     }
 
     public void add_page (He.AlbumPage? page, He.AlbumPage? sibling_page) {
+    	unowned GLib.List<He.AlbumPage> l;
+
+    	if (page.child == null)
+    		return;
+
+    	if (page.name != null) {
+			for (l = children; l != null; l = l.next) {
+			  He.AlbumPage p = l.data;
+
+			  if (p.name != null && strcmp (p.name, page.name) != 0) {
+				warning ("While adding page: duplicate child name in HeAlbum: %s", page.name);
+				break;
+			  }
+			}
+		}
+
         if (sibling_page == null) {
             children.prepend (page);
             children_reversed.append (page);
@@ -964,11 +1121,15 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
             children_reversed.insert (page, ((int)length) - sibling_pos - 1);
         }
 
-        page.child.insert_after (this, sibling_page.child);
+        page.child.set_child_visible (false);
+
+        if (transition_type == OVER)
+            page.child.insert_before (this, sibling_page != null ? sibling_page.child : null);
+        else
+            page.child.insert_after (this, sibling_page.child);
 
         if (pages != null) {
             int position = children.index (page);
-
             pages.items_changed (position, 0, 1);
         }
 
@@ -980,6 +1141,40 @@ public class He.Album : Gtk.Widget, Gtk.Buildable {
         if (!folded || homogeneous || visible_child == page)
             this.queue_resize ();
     }
+
+    public void album_remove (Gtk.Widget child, bool in_dispose) {
+		He.AlbumPage page;
+		bool was_visible;
+
+		page = find_page_for_widget (child);
+		if (page == null)
+		    return;
+
+		children.remove (page);
+		children_reversed.remove (page);
+
+		child.notify["visible"].disconnect (child_visibility_notify_cb);
+
+		was_visible = child.get_visible ();
+
+		page.child.dispose ();
+
+		if (visible_child == page)
+		{
+		  if (in_dispose)
+			visible_child = null;
+		  else
+			set_visible_child (null);
+		}
+
+		if (last_visible_child == page)
+		    last_visible_child = null;
+
+		child.unparent ();
+
+		if (was_visible)
+		    this.queue_resize ();
+	}
 
     public void child_visibility_notify_cb (Object obj, ParamSpec pspec) {
         He.AlbumPage page;

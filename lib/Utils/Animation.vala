@@ -72,10 +72,10 @@ public class He.TimedAnimation : He.Animation {
 }
 
 public enum He.AnimationState {
-  HE_ANIMATION_IDLE,
-  HE_ANIMATION_PAUSED,
-  HE_ANIMATION_PLAYING,
-  HE_ANIMATION_FINISHED,
+  IDLE,
+  PAUSED,
+  PLAYING,
+  FINISHED,
 }
 
 public class He.Animation : Object {
@@ -112,12 +112,12 @@ public class He.Animation : Object {
     }
 
     public void play () {
-        if (this.state == He.AnimationState.HE_ANIMATION_PLAYING) {
+        if (this.state == He.AnimationState.PLAYING) {
             critical ("Trying to play animation %p, but it's already playing", this);
             return;
         }
 
-        this.state = He.AnimationState.HE_ANIMATION_PLAYING;
+        this.state = He.AnimationState.PLAYING;
 
         if (!this.widget.get_mapped ()) {
             skip ();
@@ -154,12 +154,12 @@ public class He.Animation : Object {
     public void skip () {
         bool was_playing;
 
-        if (this.state == HE_ANIMATION_FINISHED)
+        if (this.state == FINISHED)
             return;
 
-        was_playing = this.state == HE_ANIMATION_PLAYING;
+        was_playing = this.state == PLAYING;
 
-        this.state = HE_ANIMATION_FINISHED;
+        this.state = FINISHED;
 
         stop_animation ();
 
