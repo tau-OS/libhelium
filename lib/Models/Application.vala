@@ -143,11 +143,13 @@ public class He.Application : Gtk.Application {
       @define-color accent_color $accent_foreground_hex;
       @define-color accent_bg_color $accent_color_hex;
       @define-color accent_fg_color $foreground_hex;
+
       @define-color window_bg_color mix($base_background_hex, $accent_color_hex, 0.02);
       @define-color view_bg_color lighten(mix($base_background_hex, $accent_color_hex, 0.02), 0.04);
       @define-color headerbar_bg_color darken(mix($base_background_hex, $accent_color_hex, 0.02), 0.98);
       @define-color popover_bg_color mix($base_background_hex, $accent_color_hex, 0.02);
       @define-color card_bg_color mix($card_background_hex, $accent_color_hex, 0.02);
+
       @define-color window_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
       @define-color view_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
       @define-color headerbar_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
