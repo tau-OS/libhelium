@@ -10,14 +10,12 @@ menu bottombar_menu {
 template DemoMainWindow : .HeApplicationWindow {
   visible: true;
   default-height: 600;
-  .HeAlbum album {
-    .HeAlbumPage {
-      navigatable: true;
-      child:
+  Gtk.Box album {
+    Gtk.Box {
       .HeSideBar {
         title: "Sidebar";
         subtitle: "Subtitle";
-        show-buttons: bind album.folded;
+        show-buttons: false;
         show-back: false;
         stack: bind album.stack;
         width-request: 200;
@@ -55,26 +53,20 @@ template DemoMainWindow : .HeApplicationWindow {
           icon: "list-add-symbolic";
         }
       }
-      ;
     }
 
-    .HeAlbumPage {
-      navigatable: false;
-      child:
+    Gtk.Box {
       Separator {
         orientation: vertical;
       }
-      ;
     }
 
-    .HeAlbumPage {
-      navigatable: true;
-      child:
+    Gtk.Box {
       .HeSideBar {
         title: "Secondary";
         subtitle: "Subtitle";
-        show-buttons: bind album.folded;
-        show-back: bind album.folded;
+        show-buttons: false;
+        show-back: false;
         stack: bind album.stack;
         width-request: 200;
 
@@ -120,27 +112,21 @@ template DemoMainWindow : .HeApplicationWindow {
           }
         }
       }
-      ;
     }
 
-    .HeAlbumPage {
-      navigatable: false;
-      child:
+    Gtk.Box {
       Separator {
         orientation: vertical;
       }
-      ;
     }
 
-    .HeAlbumPage main_box {
-      navigatable: true;
-      child:
+    Gtk.Box main_box {
         Box {
         orientation: vertical;
           .HeAppBar {
             flat: true;
             show-buttons: true;
-            show-back: bind album.folded;
+            show-back: false;
             stack: bind album.stack;
 
             MenuButton {
@@ -456,7 +442,6 @@ template DemoMainWindow : .HeApplicationWindow {
             }
           }
         }
-      ;
     }
   }
 }
