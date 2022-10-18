@@ -112,6 +112,10 @@ public class He.Application : Gtk.Application {
 
     var derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
     var derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
+
+    var derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
+    var derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
+
     var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 12.0 : 7.0;
     var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 10.0 : 9.0;
 
@@ -128,6 +132,9 @@ public class He.Application : Gtk.Application {
     var base_foreground_hex = Color.hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
     var base_background_hex = Color.hexcode ((double) derived_bg.r, (double) derived_bg.g, (double) derived_bg.b);
 
+    var card_foreground_hex = Color.hexcode ((double) derived_card_fg.r, (double) derived_card_fg.g, (double) derived_card_fg.b);
+    var card_background_hex = Color.hexcode ((double) derived_card_bg.r, (double) derived_card_bg.g, (double) derived_card_bg.b);
+
     var accent_color_hex = Color.hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
     var foreground_hex = Color.hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
     var accent_foreground_hex = Color.hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
@@ -139,6 +146,13 @@ public class He.Application : Gtk.Application {
       @define-color window_bg_color mix($base_background_hex, $accent_color_hex, 0.02);
       @define-color view_bg_color lighten(mix($base_background_hex, $accent_color_hex, 0.02), 0.04);
       @define-color headerbar_bg_color darken(mix($base_background_hex, $accent_color_hex, 0.02), 0.98);
+      @define-color popover_bg_color mix($base_background_hex, $accent_color_hex, 0.02);
+      @define-color card_bg_color mix($card_background_hex, $accent_color_hex, 0.02);
+      @define-color window_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
+      @define-color view_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
+      @define-color headerbar_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
+      @define-color popover_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
+      @define-color card_fg_color mix($card_foreground_hex, $accent_color_hex, 0.02);
     ";
     accent.load_from_data (css.data);
 }

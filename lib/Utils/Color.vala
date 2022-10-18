@@ -56,6 +56,19 @@ namespace He.Color {
       242
   };
 
+  // Colors used for cards or elements atop the bg.
+  public const RGBColor CARD_BLACK = {
+      34,
+      38,
+      43
+  };
+
+  public const RGBColor CARD_WHITE = {
+      250,
+      250,
+      250
+  };
+
   public struct RGBColor {
     public int r;
     public int g;
