@@ -1,5 +1,6 @@
 using Gtk 4.0;
-//using He 1;
+using He 1;
+using Bis 1;
 
 menu bottombar_menu {
   item (_("Menu Item"))
@@ -7,15 +8,16 @@ menu bottombar_menu {
   item (_("Menu Item"))
 }
 
-template DemoMainWindow : .HeApplicationWindow {
+template DemoMainWindow : He.ApplicationWindow {
   visible: true;
   default-height: 600;
-  Gtk.Box album {
-    Gtk.Box {
-      .HeSideBar {
+   Bis.Album album {
+    Bis.AlbumPage {
+      child:
+      He.SideBar {
         title: "Sidebar";
         subtitle: "Subtitle";
-        show-buttons: false;
+        show-buttons: bind album.folded;
         show-back: false;
         stack: bind album.stack;
         width-request: 200;
@@ -37,36 +39,41 @@ template DemoMainWindow : .HeApplicationWindow {
           }
         }
 
-        .HeMiniContentBlock {
+        He.MiniContentBlock {
           title: "Mini Content Block";
           subtitle: "Subtitle";
           icon: "list-add-symbolic";
         }
-        .HeMiniContentBlock {
+        He.MiniContentBlock {
           title: "Mini Content Block";
           subtitle: "Subtitle";
           icon: "list-add-symbolic";
         }
-        .HeMiniContentBlock {
+        He.MiniContentBlock {
           title: "Mini Content Block";
           subtitle: "Subtitle";
           icon: "list-add-symbolic";
         }
       }
+      ;
     }
 
-    Gtk.Box {
+    Bis.AlbumPage {
+      navigatable: false;
+      child:
       Separator {
         orientation: vertical;
       }
+      ;
     }
 
-    Gtk.Box {
-      .HeSideBar {
+    Bis.AlbumPage {
+      child:
+      He.SideBar {
         title: "Secondary";
         subtitle: "Subtitle";
-        show-buttons: false;
-        show-back: false;
+        show-buttons: bind album.folded;
+        show-back: bind album.folded;
         stack: bind album.stack;
         width-request: 200;
 
@@ -75,373 +82,379 @@ template DemoMainWindow : .HeApplicationWindow {
           icon-name: "view-more";
         }
 
-        .HeMiniContentBlock {
+        He.MiniContentBlock {
           title: "Mini Content Block";
           subtitle: "Subtitle";
           icon: "list-add-symbolic";
         }
-        .HeMiniContentBlock {
+        He.MiniContentBlock {
           title: "Mini Content Block";
           subtitle: "Subtitle";
           icon: "list-add-symbolic";
         }
-        .HeMiniContentBlock {
+        He.MiniContentBlock {
           title: "Mini Content Block";
           subtitle: "Subtitle";
           icon: "list-add-symbolic";
         }
 
-        .HeContentList {
+        He.ContentList {
           title: "Content List";
           description: "Subtitle";
 
-          .HeMiniContentBlock {
+          He.MiniContentBlock {
             title: "Mini Content Block";
             subtitle: "Subtitle";
             icon: "list-add-symbolic";
           }
-          .HeMiniContentBlock {
+          He.MiniContentBlock {
             title: "Mini Content Block";
             subtitle: "Subtitle";
             icon: "list-add-symbolic";
           }
-          .HeMiniContentBlock {
+          He.MiniContentBlock {
             title: "Mini Content Block";
             subtitle: "Subtitle";
             icon: "list-add-symbolic";
           }
         }
       }
+      ;
     }
 
-    Gtk.Box {
+    Bis.AlbumPage {
+      navigatable: false;
+      child:
       Separator {
         orientation: vertical;
       }
+      ;
     }
 
-    Gtk.Box main_box {
-        Box {
-        orientation: vertical;
-          .HeAppBar {
-            flat: true;
-            show-buttons: true;
-            show-back: false;
-            stack: bind album.stack;
+    Bis.AlbumPage {
+      child:
+      Gtk.Box main_box {
+      orientation: vertical;
+        He.AppBar {
+          flat: true;
+          show-buttons: true;
+          show-back: bind album.folded;
+          stack: bind album.stack;
 
-            MenuButton {
-              icon-name: "view-more";
-            }
+          MenuButton {
+            icon-name: "view-more";
           }
+        }
 
-          .HeOverlayButton {
-            icon: "list-add-symbolic";
-            label: "Add Thing";
-            secondary-icon: "list-add-symbolic";
-            .HeViewMono {
-              stack: stack;
-              hexpand: true;
-              halign: center;
+        He.OverlayButton {
+          icon: "list-add-symbolic";
+          label: "Add Thing";
+          secondary-icon: "list-add-symbolic";
+          He.ViewMono {
+            stack: stack;
+            hexpand: true;
+            halign: center;
 
-              [view-button]
-              .HeDisclosureButton {
-                icon-name: "list-add-symbolic";
+            [view-button]
+            He.DisclosureButton {
+              icon-name: "list-add-symbolic";
+            }
+
+            Stack stack {
+              StackPage {
+                title: "Buttons";
+
+                child:
+                  Box {
+                    orientation: vertical;
+                    spacing: 12;
+
+                    He.FillButton {
+                      label: "Fill";
+                    }
+
+                    He.TintButton {
+                      label: "Tint";
+                    }
+
+                    He.OutlineButton {
+                      label: "Outline";
+                    }
+
+                    He.TextButton {
+                      label: "Text";
+                    }
+
+                    He.PillButton {
+                      label: "Pill";
+                    }
+                  }
+                ;
               }
+              StackPage {
+                title: "Content Blocks";
 
-              Stack stack {
-                StackPage {
-                  title: "Buttons";
+                child:
+                  Box {
+                    orientation: vertical;
+                    spacing: 12;
 
-                  child:
-                    Box {
-                      orientation: vertical;
-                      spacing: 12;
-
-                      .HeFillButton {
-                        label: "Fill";
-                      }
-
-                      .HeTintButton {
-                        label: "Tint";
-                      }
-
-                      .HeOutlineButton {
-                        label: "Outline";
-                      }
-
-                      .HeTextButton {
-                        label: "Text";
-                      }
-
-                      .HePillButton {
-                        label: "Pill";
-                      }
-                    }
-                  ;
-                }
-                StackPage {
-                  title: "Content Blocks";
-
-                  child:
-                    Box {
-                      orientation: vertical;
-                      spacing: 12;
-
-                      .HeContentBlock {
-                        title: "Content Block";
-                        subtitle: "Subtitle";
-                        icon: "list-add-symbolic";
-                        primary-button:
-                          .HeFillButton {
-                            label: "Primary";
-                          }
-                        ;
-                        secondary-button:
-                          .HeTintButton {
-                            label: "Secondary";
-                          }
-                        ;
-                      }
-
-                      .HeMiniContentBlock {
-                        title: "Mini Content Block";
-                        subtitle: "Subtitle";
-                        icon: "list-add-symbolic";
-                        primary-button:
-                          .HeFillButton {
-                            label: "Primary";
-                          }
-                        ;
-                      }
-
-                      .HeContentBlockImageCluster {
-                        title: "Image Content Block";
-                        subtitle: "Subtitle";
-                        icon: "list-add-symbolic";
-
-                        [top_left]
-                        .HeContentBlockImage {
-                          file: "resource:///co/tauos/Helium1/Demo/mountain.jpg";
+                    He.ContentBlock {
+                      title: "Content Block";
+                      subtitle: "Subtitle";
+                      icon: "list-add-symbolic";
+                      primary-button:
+                        He.FillButton {
+                          label: "Primary";
                         }
-
-                        [top_right]
-                        .HeContentBlockImage {
-                          file: "resource:///co/tauos/Helium1/Demo/sand.jpg";
-                        }
-
-                        [bottom_left]
-                        .HeContentBlockImage {
-                          file: "resource:///co/tauos/Helium1/Demo/snow.jpg";
-                        }
-
-                        [bottom_right]
-                        .HeContentBlockImage {
-                          file: "resource:///co/tauos/Helium1/Demo/stone.jpg";
-                        }
-                      }
-                    }
-                  ;
-                }
-                StackPage {
-                  title: "Badges";
-
-                  child:
-                    Box {
-                      orientation: vertical;
-                      spacing: 12;
-
-                      Box {
-                        orientation: horizontal;
-                        spacing: 12;
-                          .HeChip {
-                            label: "Chip";
-                          }
-
-                          .HeChip {
-                            label: "Chip";
-                          }
-
-                          .HeChip {
-                            label: "Chip";
-                          }
-
-                          .HeChip {
-                            label: "Chip";
-                          }
-
-                          .HeChip {
-                            label: "Chip";
-                          }
-                      }
-
-                      .HeBadge {
-                        label: "Badge";
-                        child:
-                          .HePillButton {
-                            label: "Really long string to show the badge above the button here.";
-                            color: orange;
-                          }
-                        ;
-                      }
-
-                      .HeBadge {
-                        .HeFillButton {
-                          label: "Button";
-                        }
-                      }
-
-                      .HeModifierBadge {}
-
-                      .HeModifierBadge {
-                        label: "Badge";
-                      }
-                    }
-                  ;
-                }
-                StackPage {
-                  title: "Views";
-
-                  child:
-                      Box {
-                        orientation: vertical;
-                        spacing: 12;
-
-                        .HeViewSwitcher {
-                          stack: view_stack;
-                        }
-                        Stack view_stack {
-                          StackPage {
-                            title: "Mono View";
-
-                            child: .HeEmptyPage {
-                              title: "Empty Page";
-                              description: "This is an empty page.";
-                              icon: "list-add-symbolic";
-                              button: "Pill";
-                            };
-                          }
-                          StackPage {
-                            title: "Dual View";
-
-                            child: .HeViewDual {
-                              [left]
-                              Label {
-                                label: "Content A";
-                              }
-
-                              [right]
-                              Label {
-                                label: "Content B";
-                              }
-                            };
-                          }
-                          StackPage {
-                            title: "Aux View";
-
-                            child: .HeViewAux {
-                              show-aux: true;
-
-                              [left]
-                              Label {
-                                label: "Content A";
-                              }
-
-                              [right]
-                              Label {
-                                label: "Content B";
-                              }
-                            };
-                          }
-                        }
-                      }
-                  ;
-                }
-                StackPage {
-                  title: "Extras";
-
-                  child:
-                    Box extra_box {
-                      orientation: vertical;
-                      spacing: 12;
-
-                      .HeBanner banner {
-                        title: "Info Banner";
-                        description: "Subtitle";
-                        style: info;
-
-                        [action]
-                        .HeTintButton action {
-                          label: "Action";
-                          color: blue;
-                        }
-                      }
-
-                      .HeBanner banner2 {
-                        title: "Error Banner";
-                        description: "Subtitle";
-                        style: error;
-
-                        [action]
-                        .HeOutlineButton action2 {
+                      ;
+                      secondary-button:
+                        He.TintButton {
                           label: "Secondary";
-                          color: red;
                         }
+                      ;
+                    }
 
-                        [action]
-                        .HeTintButton action3 {
-                          label: "Action";
-                          color: red;
+                    He.MiniContentBlock {
+                      title: "Mini Content Block";
+                      subtitle: "Subtitle";
+                      icon: "list-add-symbolic";
+                      primary-button:
+                        He.FillButton {
+                          label: "Primary";
                         }
+                      ;
+                    }
+
+                    He.ContentBlockImageCluster {
+                      title: "Image Content Block";
+                      subtitle: "Subtitle";
+                      icon: "list-add-symbolic";
+
+                      [top_left]
+                      He.ContentBlockImage {
+                        file: "resource:///co/tauos/Helium1/Demo/mountain.jpg";
                       }
 
-                      .HeFillButton dialog_button {
-                        label: "Dialog Button";
-                        color: dark;
+                      [top_right]
+                      He.ContentBlockImage {
+                        file: "resource:///co/tauos/Helium1/Demo/sand.jpg";
                       }
 
-                      .HeFillButton ws_button {
-                        label: "Welcome Screen Button";
-                        color: dark;
+                      [bottom_left]
+                      He.ContentBlockImage {
+                        file: "resource:///co/tauos/Helium1/Demo/snow.jpg";
                       }
 
-                      .HeFillButton toast_button {
-                        label: "Toast Button";
-                        color: dark;
-                      }
-
-                      .HeToast toast {
-                        label: "Toasty! Am I funny yet guys? ...guys?";
-                        default-action: "Boo! Outdated Meme!";
+                      [bottom_right]
+                      He.ContentBlockImage {
+                        file: "resource:///co/tauos/Helium1/Demo/stone.jpg";
                       }
                     }
-                  ;
-                }
+                  }
+                ;
               }
-            }
-          }
-          .HeBottomBar {
-            title: "Example";
-            description: "3 items";
+              StackPage {
+                title: "Badges";
 
-            [left]
-            .HeIconicButton {
-              icon-name: "list-add-symbolic";
-              tooltip: "Add";
-            }
+                child:
+                  Box {
+                    orientation: vertical;
+                    spacing: 12;
 
-            [left]
-            .HeIconicButton {
-              icon-name: "list-add-symbolic";
-              tooltip: "Add";
-            }
+                    Box {
+                      orientation: horizontal;
+                      spacing: 12;
+                        He.Chip {
+                          label: "Chip";
+                        }
 
-            [right]
-            .HeIconicButton {
-              icon-name: "list-add-symbolic";
-              tooltip: "Add";
+                        He.Chip {
+                          label: "Chip";
+                        }
+
+                        He.Chip {
+                          label: "Chip";
+                        }
+
+                        He.Chip {
+                          label: "Chip";
+                        }
+
+                        He.Chip {
+                          label: "Chip";
+                        }
+                    }
+
+                    He.Badge {
+                      label: "Badge";
+                      child:
+                        He.PillButton {
+                          label: "Really long string to show the badge above the button here.";
+                          color: orange;
+                        }
+                      ;
+                    }
+
+                    He.Badge {
+                      He.FillButton {
+                        label: "Button";
+                      }
+                    }
+
+                    He.ModifierBadge {}
+
+                    He.ModifierBadge {
+                      label: "Badge";
+                    }
+                  }
+                ;
+              }
+              StackPage {
+                title: "Views";
+
+                child:
+                    Box {
+                      orientation: vertical;
+                      spacing: 12;
+
+                      He.ViewSwitcher {
+                        stack: view_stack;
+                      }
+                      Stack view_stack {
+                        StackPage {
+                          title: "Mono View";
+
+                          child: He.EmptyPage {
+                            title: "Empty Page";
+                            description: "This is an empty page.";
+                            icon: "list-add-symbolic";
+                            button: "Pill";
+                          };
+                        }
+                        StackPage {
+                          title: "Dual View";
+
+                          child: He.ViewDual {
+                            [left]
+                            Label {
+                              label: "Content A";
+                            }
+
+                            [right]
+                            Label {
+                              label: "Content B";
+                            }
+                          };
+                        }
+                        StackPage {
+                          title: "Aux View";
+
+                          child: He.ViewAux {
+                            show-aux: true;
+
+                            [left]
+                            Label {
+                              label: "Content A";
+                            }
+
+                            [right]
+                            Label {
+                              label: "Content B";
+                            }
+                          };
+                        }
+                      }
+                    }
+                ;
+              }
+              StackPage {
+                title: "Extras";
+
+                child:
+                  Box extra_box {
+                    orientation: vertical;
+                    spacing: 12;
+
+                    He.Banner banner {
+                      title: "Info Banner";
+                      description: "Subtitle";
+                      style: info;
+
+                      [action]
+                      He.TintButton action {
+                        label: "Action";
+                        color: blue;
+                      }
+                    }
+
+                    He.Banner banner2 {
+                      title: "Error Banner";
+                      description: "Subtitle";
+                      style: error;
+
+                      [action]
+                      He.OutlineButton action2 {
+                        label: "Secondary";
+                        color: red;
+                      }
+
+                      [action]
+                      He.TintButton action3 {
+                        label: "Action";
+                        color: red;
+                      }
+                    }
+
+                    He.FillButton dialog_button {
+                      label: "Dialog Button";
+                      color: dark;
+                    }
+
+                    He.FillButton ws_button {
+                      label: "Welcome Screen Button";
+                      color: dark;
+                    }
+
+                    He.FillButton toast_button {
+                      label: "Toast Button";
+                      color: dark;
+                    }
+
+                    He.Toast toast {
+                      label: "Toasty! Am I funny yet guys? ...guys?";
+                      default-action: "Boo! Outdated Meme!";
+                    }
+                  }
+                ;
+              }
             }
           }
         }
+        He.BottomBar {
+          title: "Example";
+          description: "3 items";
+
+          [left]
+          He.IconicButton {
+            icon-name: "list-add-symbolic";
+            tooltip: "Add";
+          }
+
+          [left]
+          He.IconicButton {
+            icon-name: "list-add-symbolic";
+            tooltip: "Add";
+          }
+
+          [right]
+          He.IconicButton {
+            icon-name: "list-add-symbolic";
+            tooltip: "Add";
+          }
+        }
+      }
+      ;
     }
   }
 }

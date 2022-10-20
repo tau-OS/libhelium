@@ -8,11 +8,14 @@ libhelium_sources += files(
     'Models/Colors.vala',
     'Models/View.vala',
     'Models/Window.vala',
+    'Utils/Animation.vala',
     'Utils/Desktop.vala',
     'Utils/Portal.vala',
     'Utils/Misc.vala',
+    'Utils/LatchLayout.vala',
     'Utils/Color.vala',
     'Widgets/AboutWindow.vala',
+    'Widgets/Album.vala',
     'Widgets/AppBar.vala',
     'Widgets/ApplicationWindow.vala',
     'Widgets/Badge.vala',
@@ -28,6 +31,7 @@ libhelium_sources += files(
     'Widgets/EmptyPage.vala',
     'Widgets/FillButton.vala',
     'Widgets/IconicButton.vala',
+    'Widgets/Latch.vala',
     'Widgets/MiniContentBlock.vala',
     'Widgets/ModifierBadge.vala',
     'Widgets/OutlineButton.vala',
@@ -120,7 +124,10 @@ if get_option('introspection')
 endif
 
 libhelium_dep = declare_dependency(
-    dependencies: libhelium_deps,
+    dependencies: [
+    	libhelium_deps,
+    	dependency('libbismuth-1')
+    ],
     include_directories: [include_directories('.')],
     link_with: libhelium,
 )

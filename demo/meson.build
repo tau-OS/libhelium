@@ -18,8 +18,7 @@ executable(
 	'co.tauos.Helium1.Demo',
 	helium_demo_resources,
 	sources: example_sources,
-	dependencies: [libhelium_dep],
+	dependencies:  libhelium_dep,
 	vala_args: [meson.project_source_root() + '/demo/src/config.vapi'],
 	install: true,
-
 )

@@ -34,6 +34,8 @@ public class Demo.Application : He.Application {
 
         base.startup ();
 
+        Bis.init ();
+
         add_action_entries (app_entries, this);
     }
     protected override void activate () {

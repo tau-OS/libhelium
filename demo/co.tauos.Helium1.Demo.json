@@ -8,7 +8,8 @@
         "--device=dri",
         "--share=ipc",
         "--socket=wayland",
-        "--socket=fallback-x11"
+        "--socket=fallback-x11",
+        "--filesystem=xdg-run/gvfsd"
     ],
     "modules" : [
         {
