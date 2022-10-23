@@ -27,12 +27,6 @@ add_project_arguments(
     language: ['vala']
 )
 
-bismuth = subproject(
-    'libbismuth',
-    default_options: ['vapi=true', 'introspection=enabled'],
-    required: true
-)
-
 libhelium_deps = [
     dependency('gio-2.0', version: '>=' + glib_min_version),
     gio_os_dep,
@@ -40,6 +34,7 @@ libhelium_deps = [
     dependency('gobject-2.0', version: '>=' + glib_min_version),
     dependency('gee-0.8'),
     dependency('gtk4', version: '>=4.4'),
+    dependency('libbismuth', fallback: [ 'libbismuth', 'libbismuth_dep' ], version: '>=1.0.0'),
 ]
 
 pkgconfig = import('pkgconfig')
