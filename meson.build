@@ -27,6 +27,12 @@ add_project_arguments(
     language: ['vala']
 )
 
+bismuth = subproject(
+    'libbismuth',
+    default_options: ['vapi=true', 'introspection=enabled'],
+    required: true
+)
+
 libhelium_deps = [
     dependency('gio-2.0', version: '>=' + glib_min_version),
     gio_os_dep,
