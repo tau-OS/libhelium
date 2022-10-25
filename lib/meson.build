@@ -94,7 +94,7 @@ libhelium = library(
 pkg = import('pkgconfig')
 pkg.generate(
     libhelium,
-    requires: libhelium_deps,
+    requires: ['gtk4', 'libbismuth-1'],
     description: 'tauOS\'s Application Framework',
     version: '1',
     url: 'https://github.com/tau-OS/libhelium',
