@@ -154,6 +154,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
         this.hexpand = false;
         this.hexpand_set = true;
         titlebar.flat = true;
+        has_margins = true;
 
         title_label.visible = false;
         subtitle_label.visible = false;
