@@ -27,26 +27,36 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
     /**
-    * The title of the SideBar.
-    */
-    public string title {
+     * The title of the sidebar.
+     */
+     public string title {
         get {
             return title_label.label;
         }
         set {
-            title_label.label = value;
+            if (value != null) {
+                title_label.label = value;
+                title_label.visible = true;
+            } else {
+                title_label.visible = false;
+            }
         }
     }
 
     /**
-    * The subtitle of the SideBar.
-    */
-    public string subtitle {
+     * The title of the sidebar.
+     */
+     public string subtitle {
         get {
             return subtitle_label.label;
         }
         set {
-            subtitle_label.label = value;
+            if (value != null) {
+                subtitle_label.label = value;
+                subtitle_label.visible = true;
+            } else {
+                subtitle_label.visible = false;
+            }
         }
     }
 
@@ -96,6 +106,23 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
     }
 
     /**
+     * Whether the view child has margins or is full-bleed.
+     */
+     public bool has_margins {
+        get {
+            return box.margin_top > 0 || 
+                   box.margin_bottom > 0 ||
+                   box.margin_start > 0 ||
+                   box.margin_end > 0;
+        }
+        set {
+            box.margin_bottom = value ? 18 : 0;
+            box.margin_end = value ? 18 : 0;
+            box.margin_start = value ? 18 : 0;
+        }
+    }
+
+    /**
     * Create a new SideBar.
     * @param title The title of the SideBar.
     * @param subtitle The subtitle of the SideBar.
@@ -128,7 +155,9 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
         this.hexpand_set = true;
         titlebar.flat = true;
 
-        box.margin_start = box.margin_end = 18;
+        title_label.visible = false;
+        subtitle_label.visible = false;
+
         box.orientation = Gtk.Orientation.VERTICAL;
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
