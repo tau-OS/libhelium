@@ -49,7 +49,7 @@ public class He.ViewTitle : He.Bin, Gtk.Buildable {
         _label.margin_top = 6;
         _label.margin_start = 18;
         _label.margin_end = 12;
-        _label.margin_bottom = 12;
+        _label.margin_bottom = 6;
 
         _label.set_parent (this);
     }
