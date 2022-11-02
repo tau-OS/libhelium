@@ -76,8 +76,9 @@ public enum He.Colors {
             case DARK:
                 return "graviton-dark";
 
+            case NONE:
             default:
-                return "nya";
+                return "";
         }
     }
 
