@@ -110,7 +110,7 @@ public class He.Application : Gtk.Application {
     var lch_color = He.Color.rgb_to_lch (rgb_color);
     lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 108.8840;
 
-    var derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
+    var derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
     var derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
 
     var derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
@@ -122,6 +122,7 @@ public class He.Application : Gtk.Application {
     var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
     var derived_bg_c = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
 
+    var derived_accent_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
     var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg_c));
     var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
 
@@ -136,13 +137,13 @@ public class He.Application : Gtk.Application {
     var card_background_hex = Color.hexcode ((double) derived_card_bg.r, (double) derived_card_bg.g, (double) derived_card_bg.b);
 
     var accent_color_hex = Color.hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
-    var foreground_hex = Color.hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
-    var accent_foreground_hex = Color.hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
+    var accent_foreground_hex = Color.hexcode ((double) derived_accent_fg.r, (double) derived_accent_fg.g, (double) derived_accent_fg.b);
+    var accent_color_foreground_hex = Color.hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
 
     var css = @"
-      @define-color accent_color $accent_foreground_hex;
+      @define-color accent_color $accent_color_foreground_hex;
       @define-color accent_bg_color $accent_color_hex;
-      @define-color accent_fg_color $foreground_hex;
+      @define-color accent_fg_color $accent_foreground_hex;
 
       @define-color window_bg_color mix($base_background_hex, $accent_color_hex, 0.02);
       @define-color view_bg_color shade(mix($base_background_hex, $accent_color_hex, 0.02), 1.04);
