@@ -315,15 +315,15 @@ template DemoMainWindow : He.ApplicationWindow {
 
                 child:
                     Box {
-                      orientation: vertical;
                       spacing: 12;
 
-                      He.ViewSwitcher {
+                      He.NavigationRail {
                         stack: view_stack;
                       }
                       Stack view_stack {
                         StackPage {
                           title: "Mono View";
+                          icon-name: "list-add-symbolic";
 
                           child: He.EmptyPage {
                             title: "Empty Page";
@@ -334,6 +334,7 @@ template DemoMainWindow : He.ApplicationWindow {
                         }
                         StackPage {
                           title: "Dual View";
+                          icon-name: "list-add-symbolic";
 
                           child: He.ViewDual {
                             [left]
@@ -349,6 +350,7 @@ template DemoMainWindow : He.ApplicationWindow {
                         }
                         StackPage {
                           title: "Aux View";
+                          icon-name: "list-add-symbolic";
 
                           child: He.ViewAux {
                             show-aux: true;
