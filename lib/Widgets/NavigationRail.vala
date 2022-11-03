@@ -85,6 +85,7 @@
                 margin_end = 12,
                 margin_start = 12
             };
+            button.add_css_class ("navigation-rail-button");
 
             var button_child_image = new Gtk.Image ();
             this._stack_pages.get_item (position).bind_property ("icon-name", button_child_image, "icon-name", SYNC_CREATE);
