@@ -21,6 +21,9 @@
 * An AppBar is the header bar of an Window. It usually provides controls to manage the window, as well as optional children for more granular control.
 */
 public class He.AppBar : He.Bin {
+    private Gtk.Label viewtitle = new Gtk.Label ("");
+    private Gtk.Box control_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+
     /**
     * The title displayed in the AppBar.
     */
@@ -39,6 +42,57 @@ public class He.AppBar : He.Bin {
         get { return this._stack; }
         set {
             this._stack = value;
+        }
+    }
+
+    private Gtk.ScrolledWindow _scroller;
+    private Gtk.Adjustment vadj;
+    /**
+    * The ScrolledWindow that the AppBar is associated with. This is used to move the view's title to the AppBar and unsetting flatness.
+    */
+    public Gtk.ScrolledWindow scroller {
+        get { return this._scroller; }
+        set {
+            this._scroller = value;
+            vadj = this._scroller.get_vadjustment ();
+            if (vadj.value != 0) {
+                viewtitle.set_visible (true);
+                flat = false;
+            } else {
+                viewtitle.set_visible (false);
+                if (flat == false) {
+                    flat = true;
+                }
+            }
+            vadj.value_changed.connect ((a) => {
+                if (a.value != 0) {
+                    viewtitle.set_visible (true);
+                    flat = false;
+                } else {
+                    viewtitle.set_visible (false);
+                    if (flat == false) {
+                        flat = true;
+                    }
+                }
+            });
+        }
+    }
+
+    private string _viewtitle_label;
+    /**
+    * The title to the left on the AppBar.
+    */
+    public string viewtitle_label {
+        get { return this._viewtitle_label; }
+        set {
+            this._viewtitle_label = value;
+
+            if (viewtitle_label != null) {
+                viewtitle = new Gtk.Label (_viewtitle_label);
+                control_box.append (viewtitle);
+            } else {
+                control_box.remove (viewtitle);
+            }
         }
     }
 
@@ -136,7 +190,11 @@ public class He.AppBar : He.Bin {
             var selected_page = stack.pages.get_selection ();
             stack.pages.select_item (int.max (((int)selected_page.get_nth (0) - 1), 0), true);
         });
-        title.pack_start (back_button);
+        control_box.append (back_button);
+
+        viewtitle.set_visible (false);
+
+        title.pack_start (control_box);
 
         title.set_parent (this);
     }

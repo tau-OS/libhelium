@@ -105,6 +105,36 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
         }
     }
 
+    private Gtk.ScrolledWindow _scroller;
+    private Gtk.Adjustment vadj;
+    /**
+    * The stack that the SideBar's AppBar is attached to.
+    */
+    public Gtk.ScrolledWindow scroller {
+        get {
+            return _scroller;
+        }
+
+        set {
+            _scroller = value;
+            titlebar.scroller = _scroller;
+
+            vadj = this._scroller.get_vadjustment ();
+            if (vadj.value != 0) {
+                title_label.set_visible (true);
+            } else {
+                title_label.set_visible (false);
+            }
+            vadj.value_changed.connect ((a) => {
+                if (a.value != 0) {
+                    title_label.set_visible (true);
+                } else {
+                    title_label.set_visible (false);
+                }
+            });
+        }
+    }
+
     /**
      * Whether the view child has margins or is full-bleed.
      */
@@ -116,7 +146,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
                    box.margin_end > 0;
         }
         set {
-            box.margin_bottom = value ? 18 : 0;
+            box.margin_bottom = value ? 12 : 0;
             box.margin_end = value ? 18 : 0;
             box.margin_start = value ? 18 : 0;
         }

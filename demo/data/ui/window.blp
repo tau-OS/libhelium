@@ -343,8 +343,45 @@ template DemoMainWindow : He.ApplicationWindow {
                             }
 
                             [right]
-                            Label {
-                              label: "Content B";
+                            .HeSideBar {
+                              scroller: bind sdw;
+                              title: "Content B";
+                              show-buttons: bind album.folded;
+                              show-back: bind album.folded;
+                              stack: bind album.stack;
+                              width-request: 200;
+                              vexpand: true;
+
+                              Gtk.ScrolledWindow sdw {
+                                vexpand: true;
+                                hscrollbar-policy: never;
+
+                                Box {
+                                  spacing: 6;
+                                  orientation: vertical;
+
+                                  He.ContentBlock {
+                                    title: "Content Block";
+                                    subtitle: "Subtitle";
+                                    icon: "list-add-symbolic";
+                                  }
+                                  He.ContentBlock {
+                                    title: "Content Block";
+                                    subtitle: "Subtitle";
+                                    icon: "list-add-symbolic";
+                                  }
+                                  He.ContentBlock {
+                                    title: "Content Block";
+                                    subtitle: "Subtitle";
+                                    icon: "list-add-symbolic";
+                                  }
+                                  He.ContentBlock {
+                                    title: "Content Block";
+                                    subtitle: "Subtitle";
+                                    icon: "list-add-symbolic";
+                                  }
+                                }
+                              }
                             }
                           };
                         }
