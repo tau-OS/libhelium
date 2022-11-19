@@ -37,8 +37,10 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
             if (value != null) {
                 title_label.label = value;
                 title_label.visible = true;
+                titlebar.viewtitle_label = value;
             } else {
                 title_label.visible = false;
+                titlebar.viewtitle_label = "";
             }
         }
     }
@@ -121,15 +123,15 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
 
             vadj = this._scroller.get_vadjustment ();
             if (vadj.value != 0) {
-                title_label.set_visible (true);
-            } else {
                 title_label.set_visible (false);
+            } else {
+                title_label.set_visible (true);
             }
             vadj.value_changed.connect ((a) => {
                 if (a.value != 0) {
-                    title_label.set_visible (true);
-                } else {
                     title_label.set_visible (false);
+                } else {
+                    title_label.set_visible (true);
                 }
             });
         }

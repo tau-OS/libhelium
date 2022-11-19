@@ -19,7 +19,6 @@ template DemoMainWindow : He.ApplicationWindow {
         subtitle: "Subtitle";
         show-buttons: bind album.folded;
         show-back: false;
-        stack: bind album.stack;
         width-request: 200;
 
         [titlebar-button]
@@ -74,7 +73,6 @@ template DemoMainWindow : He.ApplicationWindow {
         subtitle: "Subtitle";
         show-buttons: bind album.folded;
         show-back: bind album.folded;
-        stack: bind album.stack;
         width-request: 200;
 
         [titlebar-button]
@@ -139,7 +137,6 @@ template DemoMainWindow : He.ApplicationWindow {
           flat: true;
           show-buttons: true;
           show-back: bind album.folded;
-          stack: bind album.stack;
 
           MenuButton {
             icon-name: "view-more";
@@ -346,9 +343,6 @@ template DemoMainWindow : He.ApplicationWindow {
                             .HeSideBar {
                               scroller: bind sdw;
                               title: "Content B";
-                              show-buttons: bind album.folded;
-                              show-back: bind album.folded;
-                              stack: bind album.stack;
                               width-request: 200;
                               vexpand: true;
 

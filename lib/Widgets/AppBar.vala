@@ -193,6 +193,7 @@ public class He.AppBar : He.Bin {
         control_box.append (back_button);
 
         viewtitle.set_visible (false);
+        viewtitle.add_css_class ("title");
 
         title.pack_start (control_box);
 
