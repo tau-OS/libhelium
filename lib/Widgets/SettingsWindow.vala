@@ -25,7 +25,7 @@
     private Gtk.Stack stack = new Gtk.Stack ();
     private He.AppBar appbar = new He.AppBar ();
     private He.ViewSwitcher switcher = new He.ViewSwitcher ();
-    private He.ViewTitle viewtitle = new He.ViewTitle ();
+    private Gtk.Label viewtitle = new Gtk.Label (null);
 
     /**
      * Add ContentList or SettingsPage children to this window
@@ -76,6 +76,13 @@
         this.stack.pages.items_changed.connect (on_pages_changed);
 
         viewtitle.label = "Settings";
+        viewtitle.add_css_class ("view-title");
+        viewtitle.xalign = 0;
+        viewtitle.valign = Gtk.Align.CENTER;
+        viewtitle.margin_top = 6;
+        viewtitle.margin_start = 18;
+        viewtitle.margin_end = 12;
+        viewtitle.margin_bottom = 6;
 
         appbar.show_buttons = true;
         appbar.flat = true;

@@ -20,6 +20,7 @@
 /**
  * A ViewSubTitle is a view's subtitle.
  */
+[Version (deprecated = true)]
 public class He.ViewSubTitle : He.Bin, Gtk.Buildable {
     private Gtk.Label? _label;
     /**

@@ -20,6 +20,7 @@
 /**
  * A ViewTitle is a widget that displays a view's title.
  */
+[Version (deprecated = true)]
 public class He.ViewTitle : He.Bin, Gtk.Buildable {
     private Gtk.Label? _label;
     /**

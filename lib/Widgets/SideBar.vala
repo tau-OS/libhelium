@@ -22,8 +22,8 @@
 */
 public class He.SideBar : He.Bin, Gtk.Buildable {
     private He.AppBar titlebar = new He.AppBar();
-    private He.ViewTitle title_label = new He.ViewTitle();
-    private He.ViewSubTitle subtitle_label = new He.ViewSubTitle();
+    private Gtk.Label title_label = new Gtk.Label(null);
+    private Gtk.Label subtitle_label = new Gtk.Label(null);
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
     /**
@@ -189,8 +189,23 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
         has_margins = true;
 
         title_label.visible = false;
-        subtitle_label.visible = false;
+        title_label.add_css_class ("view-title");
+        title_label.xalign = 0;
+        title_label.valign = Gtk.Align.CENTER;
+        title_label.margin_top = 6;
+        title_label.margin_start = 18;
+        title_label.margin_end = 12;
+        title_label.margin_bottom = 6;
 
+        subtitle_label.visible = false;
+        subtitle_label.add_css_class ("view-subtitle");
+        subtitle_label.xalign = 0;
+        subtitle_label.valign = Gtk.Align.CENTER;
+        subtitle_label.margin_top = 6;
+        subtitle_label.margin_start = 18;
+        subtitle_label.margin_end = 12;
+        subtitle_label.margin_bottom = 6;
+        
         box.orientation = Gtk.Orientation.VERTICAL;
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
