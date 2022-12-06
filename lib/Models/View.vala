@@ -122,7 +122,9 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
 
     construct {
         title_label.visible = false;
+        title_label.margin_start = 0;
         subtitle_label.visible = false;
+        subtitle_label.margin_start = 0;
         titleswitcher.visible = false;
         box.spacing = 6;
         box.orientation = Gtk.Orientation.VERTICAL;
