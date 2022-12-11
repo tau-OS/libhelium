@@ -1,6 +1,7 @@
 _build
 subprojects/tau-helium
 subprojects/blueprint-compiler
+subprojects/libbismuth
 .flatpak
 *.log
 *.rpm
