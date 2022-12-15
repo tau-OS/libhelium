@@ -62,7 +62,6 @@
         this.add_css_class ("navigation-rail");
         this.valign = Gtk.Align.CENTER;
         ((Gtk.BoxLayout)this.get_layout_manager ()).orientation = Gtk.Orientation.VERTICAL;
-        ((Gtk.BoxLayout)this.get_layout_manager ()).spacing = 6;
     }
 
     private void on_stack_pages_changed (uint position, uint removed, uint added) {
@@ -81,9 +80,7 @@
             unowned var button_link = this._buttons.nth (position);
             
             var button = new Gtk.ToggleButton () {
-                active = this._stack_pages.is_selected (position),
-                margin_end = 12,
-                margin_start = 12
+                active = this._stack_pages.is_selected (position)
             };
             button.add_css_class ("navigation-rail-button");
 
@@ -93,7 +90,7 @@
             var button_child_label = new Gtk.Label ("");
             this._stack_pages.get_item (position).bind_property ("title", button_child_label, "label", SYNC_CREATE);
 
-            var button_child = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
+            var button_child = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             button_child.append (button_child_image);
             button_child.append (button_child_label);
 
