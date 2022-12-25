@@ -108,7 +108,7 @@ public class He.Application : Gtk.Application {
     }
 
     var lch_color = He.Color.rgb_to_lch (rgb_color);
-    lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 108.8840;
+    lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 109.0;
 
     var derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
     var derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
@@ -145,17 +145,17 @@ public class He.Application : Gtk.Application {
       @define-color accent_bg_color $accent_color_hex;
       @define-color accent_fg_color $accent_foreground_hex;
 
-      @define-color window_bg_color mix($base_background_hex, $accent_color_hex, 0.02);
-      @define-color view_bg_color shade(mix($base_background_hex, $accent_color_hex, 0.02), 1.04);
-      @define-color headerbar_bg_color shade(mix($base_background_hex, $accent_color_hex, 0.02), 0.96);
-      @define-color popover_bg_color mix($base_background_hex, $accent_color_hex, 0.02);
-      @define-color card_bg_color mix($card_background_hex, $accent_color_hex, 0.02);
+      @define-color window_bg_color $base_background_hex;
+      @define-color view_bg_color $base_background_hex;
+      @define-color headerbar_bg_color shade($base_background_hex, 0.96);
+      @define-color popover_bg_color $base_background_hex;
+      @define-color card_bg_color $card_background_hex;
 
-      @define-color window_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
-      @define-color view_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
-      @define-color headerbar_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
-      @define-color popover_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
-      @define-color card_fg_color mix($card_foreground_hex, $accent_color_hex, 0.02);
+      @define-color window_fg_color $base_foreground_hex;
+      @define-color view_fg_color $base_foreground_hex;
+      @define-color headerbar_fg_color $base_foreground_hex;
+      @define-color popover_fg_color $base_foreground_hex;
+      @define-color card_fg_color $card_foreground_hex;
     ";
     accent.load_from_data (css.data);
 }
