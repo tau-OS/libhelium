@@ -152,7 +152,7 @@ public class He.Application : Gtk.Application {
       @define-color card_bg_color $card_background_hex;
 
       @define-color window_fg_color $base_foreground_hex;
-      @define-color view_fg_color $card_foreground_hex;
+      @define-color view_fg_color $base_foreground_hex;
       @define-color headerbar_fg_color $base_foreground_hex;
       @define-color popover_fg_color $base_foreground_hex;
       @define-color card_fg_color $card_foreground_hex;
