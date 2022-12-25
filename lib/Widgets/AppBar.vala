@@ -57,9 +57,11 @@ public class He.AppBar : He.Bin {
             vadj = this._scroller.get_vadjustment ();
             if (vadj.value != 0) {
                 viewtitle.set_visible (true);
+                viewtitle.add_css_class ("title");
                 flat = false;
             } else {
                 viewtitle.set_visible (false);
+                viewtitle.remove_css_class ("title");
                 if (flat == false) {
                     flat = true;
                 }
@@ -67,9 +69,11 @@ public class He.AppBar : He.Bin {
             vadj.value_changed.connect ((a) => {
                 if (a.value != 0) {
                     viewtitle.set_visible (true);
+                    viewtitle.add_css_class ("title");
                     flat = false;
                 } else {
                     viewtitle.set_visible (false);
+                    viewtitle.remove_css_class ("title");
                     if (flat == false) {
                         flat = true;
                     }
@@ -193,7 +197,6 @@ public class He.AppBar : He.Bin {
         control_box.append (back_button);
 
         viewtitle.set_visible (false);
-        viewtitle.add_css_class ("title");
 
         title.pack_start (control_box);
 
