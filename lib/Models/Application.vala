@@ -146,13 +146,13 @@ public class He.Application : Gtk.Application {
       @define-color accent_fg_color $accent_foreground_hex;
 
       @define-color window_bg_color $base_background_hex;
-      @define-color view_bg_color $base_background_hex;
+      @define-color view_bg_color $card_background_hex;
       @define-color headerbar_bg_color shade($base_background_hex, 0.96);
       @define-color popover_bg_color $base_background_hex;
       @define-color card_bg_color $card_background_hex;
 
       @define-color window_fg_color $base_foreground_hex;
-      @define-color view_fg_color $base_foreground_hex;
+      @define-color view_fg_color $card_foreground_hex;
       @define-color headerbar_fg_color $base_foreground_hex;
       @define-color popover_fg_color $base_foreground_hex;
       @define-color card_fg_color $card_foreground_hex;
