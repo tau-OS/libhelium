@@ -3,7 +3,7 @@ project(
     'vala', 'c',
     license: 'GPL-3-or-later',
     meson_version: '>= 0.56.0',
-    version: '1.1.0',
+    version: '1.2.5',
     default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
 )
 
@@ -33,8 +33,7 @@ libhelium_deps = [
     dependency('glib-2.0', version: '>=' + glib_min_version),
     dependency('gobject-2.0', version: '>=' + glib_min_version),
     dependency('gee-0.8'),
-    dependency('gtk4', version: '>=4.4'),
-    dependency('libbismuth-1', fallback: [ 'libbismuth', 'libbismuth_dep' ], version: '>=1.0.0'),
+    dependency('gtk4', version: '>=4.4')
 ]
 
 pkgconfig = import('pkgconfig')
