@@ -121,8 +121,7 @@ endif
 
 libhelium_dep = declare_dependency(
     dependencies: [
-    	libhelium_deps,
-    	dependency('libbismuth-1')
+    	libhelium_deps
     ],
     include_directories: [include_directories('.')],
     link_with: libhelium,
