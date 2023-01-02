@@ -21,6 +21,9 @@ target = custom_target(
         '--verbose',
         '--force',
         '--use-svg-images',
+        # If documentation is true, we'll generate a GIR file with valadoc, independent of the main build
+        '--gir',
+        libhelium_gir,
         '-o', join_paths(meson.current_build_dir()),
         '&&',
         'cp',
