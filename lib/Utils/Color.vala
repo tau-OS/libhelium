@@ -16,8 +16,6 @@
 * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 * Boston, MA 02110-1301 USA
 */
-
-
 // Taken from https://github.com/gka/chroma.js/blob/75ea5d8a5480c90ef1c7830003ac63c2d3a15c03/src/io/lab/lab-constants.js
 
 /**
@@ -42,11 +40,25 @@ namespace He.Color.LabConstants {
  * Miscellaneous color related functions
  */
 namespace He.Color {
-  // Not true black because it's too harsh.
+  // True Black for Harsh Dark Mode.
+  public const RGBColor HARSH_BLACK = {
+      0,
+      0,
+      0
+  };
+
+  // Medium black for Medium Dark Mode.
   public const RGBColor BLACK = {
       45,
       45,
       45
+  };
+  
+  // Softer black for Soft Dark Mode
+  public const RGBColor SOFT_BLACK = {
+      90,
+      90,
+      90
   };
 
   // Not true white because it's too harsh.
@@ -55,12 +67,26 @@ namespace He.Color {
       240,
       242
   };
+  
+  // Colors used for cards or elements atop the bg when Harsh Dark Mode.
+  public const RGBColor HARSH_CARD_BLACK = {
+      32,
+      32,
+      32
+  };
 
-  // Colors used for cards or elements atop the bg.
+  // Colors used for cards or elements atop the bg when Medium Dark Mode.
   public const RGBColor CARD_BLACK = {
-      34,
-      38,
-      43
+      61,
+      61,
+      61
+  };
+  
+  // Colors used for cards or elements atop the bg when Soft Dark Mode.
+  public const RGBColor SOFT_CARD_BLACK = {
+      106,
+      106,
+      106
   };
 
   public const RGBColor CARD_WHITE = {
