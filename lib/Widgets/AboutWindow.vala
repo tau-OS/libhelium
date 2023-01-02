@@ -162,7 +162,7 @@ public class He.AboutWindow : He.Window {
   }
 
   /**
-    The icon shown in the AboutWindow.
+  *  The icon shown in the AboutWindow.
   */
   public string icon {
     get { return icon_image.get_icon_name (); }
@@ -175,7 +175,7 @@ public class He.AboutWindow : He.Window {
   */
   public string[] translator_names {
     get { return translators; }
-    set { 
+    set {
       translators = value;
       if (translators.length > 0) {
         translators_label.set_text ("Translated By: " + string.joinv (", ", translators));
@@ -193,7 +193,7 @@ public class He.AboutWindow : He.Window {
   */
   public string[] developer_names {
     get { return developers; }
-    set { 
+    set {
       developers = value;
       if (developers.length > 0) {
         developers_label.set_text (string.joinv (", ", developers));
@@ -288,39 +288,39 @@ public class He.AboutWindow : He.Window {
     about_box.add_css_class("dialog-content");
     about_box.append(content_box);
     about_box.append(button_box);
-    
+
     icon_image.valign = Gtk.Align.START;
     icon_image.pixel_size = 128;
     icon_image.add_css_class("icon-dropshadow");
-    
+
     content_box.append(icon_image);
     content_box.append(info_box);
-    
+
     info_box.append(title_box);
     info_box.append(text_box);
-    
+
     version_badge.tinted = true;
     version_badge.margin_end = 18;
     title_label.add_css_class ("display");
     title_box.append(title_label);
     title_box.append(version_badge);
-    
+
     developers_copyright.visible = false;
     developers_label.visible = false;
     developers_box.append(developers_copyright);
     developers_box.append(developers_label);
-    
+
     text_box.append(developers_box);
     translators_label.xalign = 0;
     translators_label.visible = false;
     text_box.append(translators_label);
-    
+
     license_link.remove_css_class("text-button");
     license_link.remove_css_class("link");
     license_link.add_css_class("link-button");
     license_box.append(license_label);
     license_box.append(license_link);
-    
+
     text_box.append(license_box);
 
     button_box.valign = Gtk.Align.CENTER;
@@ -343,7 +343,7 @@ public class He.AboutWindow : He.Window {
 
     var window_handle = new Gtk.WindowHandle ();
     window_handle.set_child (window_overlay);
-    
+
     this.set_child(window_handle);
   }
 
@@ -364,7 +364,7 @@ public class He.AboutWindow : He.Window {
   * @param more_info_url A URL where users can get more information about the application.
   * @param translators Your application's translators.
   * @param developers Your application's developers.
-  * @param copyright_year Your application's copyright year.  
+  * @param copyright_year Your application's copyright year.
   * @param license Your application's license.
   * @param color The color of the AboutWindow.
   *
