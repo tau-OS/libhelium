@@ -114,17 +114,17 @@ public class He.Application : Gtk.Application {
     He.Color.RGBColor derived_bg;
     He.Color.RGBColor derived_card_fg;
     He.Color.RGBColor derived_card_bg;
-    if (desktop.dark_mode_strength = Desktop.DarkModeStrength.MEDIUM) {
+    if (desktop.dark_mode_strength == Desktop.DarkModeStrength.MEDIUM) {
       derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
       derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
       derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
-    } else if (desktop.dark_mode_strength = Desktop.DarkModeStrength.SOFT) {
+    } else if (desktop.dark_mode_strength == Desktop.DarkModeStrength.SOFT) {
       derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.SOFT_BLACK;
       derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.SOFT_BLACK : He.Color.WHITE;
       derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.SOFT_CARD_BLACK : He.Color.CARD_WHITE;
       derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.SOFT_CARD_BLACK : He.Color.CARD_WHITE;
-    } else if (desktop.dark_mode_strength = Desktop.DarkModeStrength.HARSH) {
+    } else if (desktop.dark_mode_strength == Desktop.DarkModeStrength.HARSH) {
       derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.HARSH_BLACK;
       derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.HARSH_BLACK : He.Color.WHITE;
       derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.HARSH_CARD_BLACK : He.Color.CARD_WHITE;
@@ -142,11 +142,11 @@ public class He.Application : Gtk.Application {
     He.Color.RGBColor derived_accent_fg;
     var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
     var derived_bg_c = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
-    if (dark_mode_strength = Desktop.DarkModeStrength.MEDIUM) {
+    if (desktop.dark_mode_strength == Desktop.DarkModeStrength.MEDIUM) {
       derived_accent_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-    } else if (dark_mode_strength = Desktop.DarkModeStrength.SOFT) {
+    } else if (desktop.dark_mode_strength == Desktop.DarkModeStrength.SOFT) {
       derived_accent_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.SOFT_BLACK : He.Color.WHITE;
-    } else if (dark_mode_strength = Desktop.DarkModeStrength.HARSH) {
+    } else if (desktop.dark_mode_strength == Desktop.DarkModeStrength.HARSH) {
       derived_accent_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.HARSH_BLACK : He.Color.WHITE;
     } else {
       derived_accent_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
