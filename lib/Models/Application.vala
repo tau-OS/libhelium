@@ -242,6 +242,10 @@ public class He.Application : Gtk.Application {
     desktop.notify["accent-color"].connect (() => {
       update_accent_color();
     });
+    
+    desktop.notify["dark-mode-strength"].connect (() => {
+      update_accent_color();
+    });
 
     this.notify["default-accent-color"].connect(() => {
       update_accent_color();
