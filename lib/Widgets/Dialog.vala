@@ -26,6 +26,7 @@ public class He.Dialog : He.Window {
     private Gtk.Label info_label = new Gtk.Label(null);
     private Gtk.Image image = new Gtk.Image();
     private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 24);
+    private Gtk.Box child_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 6);
     private Gtk.Box button_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 24);
     private Gtk.WindowHandle dialog_handle = new Gtk.WindowHandle ();
     private He.TintButton _secondary_button;
@@ -128,6 +129,26 @@ public class He.Dialog : He.Window {
     }
 
     /**
+     * Add a child to the Dialog, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+     *
+     * @since 1.0
+     */
+    public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+        child_box.append ((Gtk.Widget)child);
+        child_box.visible = true;
+    }
+
+    /**
+     * Add a child directly to the Dialog. Used only in code.
+     *
+     * @since 1.0
+     */
+    public void set_child (Gtk.Widget widget) {
+        child_box.append (widget);
+        child_box.visible = true;
+    }
+
+    /**
      * Creates a new dialog.
      * @param modal Whether the dialog is modal.
      * @param parent The parent window of the dialog.
@@ -186,10 +207,13 @@ public class He.Dialog : He.Window {
         button_box.homogeneous = true;
         button_box.prepend (cancel_button);
 
+        child_box.visible = false;
+
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 24);
         main_box.vexpand = true;
         main_box.margin_end = main_box.margin_start = main_box.margin_top = main_box.margin_bottom = 24;
         main_box.append(info_box);
+        main_box.append(child_box);
         main_box.append(button_box);
         dialog_handle.set_child (main_box);
 
