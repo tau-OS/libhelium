@@ -129,21 +129,11 @@ public class He.Dialog : He.Window {
     }
 
     /**
-     * Add a child to the Dialog, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
-     *
-     * @since 1.0
-     */
-    public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-        child_box.append ((Gtk.Widget)child);
-        child_box.visible = true;
-    }
-
-    /**
      * Add a child directly to the Dialog. Used only in code.
      *
      * @since 1.0
      */
-    public void set_child (Gtk.Widget widget) {
+    public override void set_child (Gtk.Widget widget) {
         child_box.append (widget);
         child_box.visible = true;
     }
