@@ -9,6 +9,7 @@ configure_file(output: 'config.h', configuration: conf)
 config_h_dir = include_directories('.')
 
 example_deps = libhelium_deps
+example_deps += dependency('libhelium-1')
 example_deps += dependency('libbismuth-1', fallback: [ 'libbismuth', 'libbismuth_dep' ], version: '>=1.0.0')
 
 example_sources = files(

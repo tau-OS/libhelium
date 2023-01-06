@@ -133,7 +133,7 @@ public class He.Dialog : He.Window {
      *
      * @since 1.0
      */
-    public new void set_child (Gtk.Widget widget) {
+    public void add_child (Gtk.Widget widget) {
         child_box.append (widget);
         child_box.visible = true;
     }
@@ -177,6 +177,7 @@ public class He.Dialog : He.Window {
         subtitle_label.ellipsize = Pango.EllipsizeMode.END;
         subtitle_label.wrap = true;
         subtitle_label.wrap_mode = Pango.WrapMode.WORD;
+        subtitle_label.lines = 2;
         info_label.add_css_class ("body");
         info_label.xalign = 0;
         info_label.vexpand = true;
