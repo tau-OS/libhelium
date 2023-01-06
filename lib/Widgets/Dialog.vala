@@ -133,7 +133,7 @@ public class He.Dialog : He.Window {
      *
      * @since 1.0
      */
-    public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+    public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         child_box.append ((Gtk.Widget)child);
         child_box.visible = true;
     }
