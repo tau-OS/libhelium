@@ -43,6 +43,11 @@ public class He.Application : Gtk.Application {
   */
   public He.Color.RGBColor? default_accent_color { get; set; }
 
+  private He.Color.RGBColor? derived_fg { get; set; }
+  private He.Color.RGBColor? derived_bg { get; set; }
+  private He.Color.RGBColor? derived_card_fg { get; set; }
+  private He.Color.RGBColor? derived_card_bg { get; set; }
+
   private Gtk.CssProvider light = new Gtk.CssProvider ();
   private Gtk.CssProvider dark = new Gtk.CssProvider ();
   private Gtk.CssProvider accent = new Gtk.CssProvider ();
@@ -109,11 +114,6 @@ public class He.Application : Gtk.Application {
 
     var lch_color = He.Color.rgb_to_lch (rgb_color);
     lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 109.0;
-    
-    He.Color.RGBColor derived_fg;
-    He.Color.RGBColor derived_bg;
-    He.Color.RGBColor derived_card_fg;
-    He.Color.RGBColor derived_card_bg;
     if (Desktop.DarkModeStrength.MEDIUM == desktop.dark_mode_strength) {
       derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
@@ -203,11 +203,15 @@ public class He.Application : Gtk.Application {
 
     desktop.notify["prefers-color-scheme"].connect (() => {
         update_accent_color();
-        
-        desktop.notify["dark-mode-strength"].connect (() => {
-            update_accent_color();
-        });
 
+        style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
+        style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
+        style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
+    });
+    
+    desktop.notify["dark-mode-strength"].connect (() => {
+        update_accent_color();
+        
         style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
         style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
         style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
