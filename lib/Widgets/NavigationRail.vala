@@ -149,6 +149,7 @@
             return;
         } else {
             button_child_image.icon_name = this._stack_pages.get_item (position).icon_name;
+            return;
         }
 
         this._stack_pages.unselect_item (position);
