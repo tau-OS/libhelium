@@ -314,6 +314,10 @@ template DemoMainWindow : He.ApplicationWindow {
                     Box {
                       spacing: 12;
 
+                      .HeViewChooser {
+                        stack: view_stack;
+                      }
+
                       He.NavigationRail {
                         stack: view_stack;
                       }

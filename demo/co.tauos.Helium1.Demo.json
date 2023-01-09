@@ -27,6 +27,12 @@
                     "type" : "git",
                     "url" : "https://github.com/tau-OS/libhelium.git",
                     "branch" : "main"
+                },
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/jwestman/blueprint-compiler.git",
+                    "branch": "main",
+                    "dest": "./subprojects/blueprint-compiler"
                 }
             ]
         }

@@ -44,6 +44,7 @@ libhelium_sources += files(
     'Widgets/TintButton.vala',
     'Widgets/Toast.vala',
     'Widgets/ViewAux.vala',
+    'Widgets/ViewChooser.vala',
     'Widgets/ViewDual.vala',
     'Widgets/ViewMono.vala',
     'Widgets/ViewSubTitle.vala',
