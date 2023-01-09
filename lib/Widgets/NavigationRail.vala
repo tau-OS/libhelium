@@ -23,6 +23,7 @@
  public class He.NavigationRail : He.Bin {
     private Gtk.SelectionModel _stack_pages;
     private List<Gtk.ToggleButton> _buttons;
+    private Gtk.Image button_child_image;
 
     private Gtk.Stack _stack;
     /**
@@ -50,6 +51,22 @@
         }
     }
     
+    private Gtk.Orientation _orientation;
+    /**
+     * The orientation of this switcher.
+     *
+     * @since 1.0
+     */
+    public Gtk.Orientation orientation {
+        get { return this._orientation; }
+        set {
+            if (this._orientation == value) return;
+
+            this._orientation = value;
+            ((Gtk.BoxLayout)this.get_layout_manager ()).orientation = value;
+        }
+    }
+    
     public NavigationRail () {
     	base ();
     }
@@ -61,7 +78,6 @@
     construct {
         this.add_css_class ("navigation-rail");
         this.valign = Gtk.Align.CENTER;
-        ((Gtk.BoxLayout)this.get_layout_manager ()).orientation = Gtk.Orientation.VERTICAL;
     }
 
     private void on_stack_pages_changed (uint position, uint removed, uint added) {
@@ -84,8 +100,7 @@
             };
             button.add_css_class ("navigation-rail-button");
 
-            var button_child_image = new Gtk.Image ();
-            this._stack_pages.get_item (position).bind_property ("icon-name", button_child_image, "icon-name", SYNC_CREATE);
+            button_child_image = new Gtk.Image ();
 
             var button_child_label = new Gtk.Label ("");
             this._stack_pages.get_item (position).bind_property ("title", button_child_label, "label", SYNC_CREATE);
@@ -126,7 +141,10 @@
         unowned int position = this._buttons.index (button);
         if (button.active) {
             this._stack_pages.select_item (position, true);
+            button_child_image.icon_name = this._stack_pages.get_item (position).icon_name + "-filled";
             return;
+        } else {
+            button_child_image.icon_name = this._stack_pages.get_item (position).icon_name;
         }
 
         this._stack_pages.unselect_item (position);
