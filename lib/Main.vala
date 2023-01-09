@@ -64,6 +64,7 @@ namespace He {
         typeof (He.Toast).ensure ();
         typeof (He.View).ensure ();
         typeof (He.ViewAux).ensure ();
+        typeof (He.ViewChooser).ensure ();
         typeof (He.ViewDual).ensure ();
         typeof (He.ViewMono).ensure ();
         typeof (He.ViewSubTitle).ensure ();
