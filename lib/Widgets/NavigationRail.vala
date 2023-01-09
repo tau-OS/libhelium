@@ -141,7 +141,7 @@
         unowned int position = this._buttons.index (button);
         if (button.active) {
             this._stack_pages.select_item (position, true);
-            if (button_child_image.icon_name.contains ("-symbolic") {
+            if (button_child_image.icon_name.contains ("-symbolic")) {
                 button_child_image.icon_name = this._stack_pages.get_item (position).icon_name.replace ("-symbolic","-filled-symbolic");
             } else {
                 button_child_image.icon_name = this._stack_pages.get_item (position).icon_name + "-filled-symbolic";
