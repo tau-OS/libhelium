@@ -143,8 +143,10 @@
         if (button.active) {
             this._stack_pages.select_item (position, true);
             if (((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.contains ("-symbolic")) {
+                ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled","");
                 ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-symbolic","-filled-symbolic");
             } else {
+                ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled","");
                 ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name + "-filled-symbolic";
             }
         } else {
