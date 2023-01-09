@@ -118,14 +118,6 @@
                 button.set_group ((Gtk.ToggleButton) this._buttons.nth_data (0));
             }
 
-            if (button.active) {
-                if (((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.contains ("-symbolic")) {
-                    ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-symbolic","-filled-symbolic");
-                } else {
-                    ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name + "-filled-symbolic";
-                }
-            }
-
             this._buttons.insert_before (button_link, button);
 
             position++;
@@ -155,11 +147,8 @@
             } else {
                 ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name + "-filled-symbolic";
             }
-            return;
-        }
-        if (!(button.active)) {
+        } else {
             ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled","");
-            return;
         }
 
         this._stack_pages.unselect_item (position);
