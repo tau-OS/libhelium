@@ -144,7 +144,7 @@
             if (button_child_image.icon_name.contains ("-symbolic") {
                 button_child_image.icon_name = this._stack_pages.get_item (position).icon_name.replace ("-symbolic","-filled-symbolic");
             } else {
-                button_child_image.icon_name = this._stack_pages.get_item (position).icon_name + "-symbolic-filled";
+                button_child_image.icon_name = this._stack_pages.get_item (position).icon_name + "-filled-symbolic";
             }
             return;
         } else {
