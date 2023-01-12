@@ -79,6 +79,7 @@
 
         var menu = new Gtk.MenuButton ();
         menu.add_css_class ("flat");
+        menu.add_css_class ("view-chooser");
         menu.popover = menu_popover;
         menu.child = menu_child_box;
 
