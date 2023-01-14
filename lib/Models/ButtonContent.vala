@@ -25,7 +25,7 @@
 public class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
 	private Gtk.Box box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
 	private Gtk.Label lbl = new Gtk.Label ("");
-	private Gtk.Image image = new Gtk.Image ();
+	public Gtk.Image image = new Gtk.Image ();
 
     /**
      * The icon of the Button.
