@@ -118,8 +118,6 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
             value.hexpand = true;
             value.halign = Gtk.Align.END;
             _primary_button = value;
-            value.add_css_class ("fill-button");
-            value.add_css_class ("pill");
             btn_box.append (_primary_button);
         }
     }

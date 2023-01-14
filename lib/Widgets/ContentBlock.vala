@@ -125,8 +125,6 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
                 button_box.remove (_primary_button);
             }
 
-            value.add_css_class ("fill-button");
-            value.add_css_class ("pill");
             _primary_button = value;
             button_box.append (_primary_button);
         }
