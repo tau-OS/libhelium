@@ -176,9 +176,9 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    * @param description The description of the bottom bar.
    */
   public BottomBar.with_details (string title, string description) {
+    base ();
     this.title = title;
     this.description = description;
-    base ();
   }
 
   /**

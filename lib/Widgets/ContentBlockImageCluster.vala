@@ -119,10 +119,10 @@ public class He.ContentBlockImageCluster : He.Bin {
   }
   
   public ContentBlockImageCluster(string title, string subtitle, string icon) {
+    base ();
     this.title = title;
     this.subtitle = subtitle;
     this.icon = icon;
-    base ();
   }
   
   /**

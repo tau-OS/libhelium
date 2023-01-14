@@ -89,8 +89,8 @@ public class He.ModifierBadge : He.Bin {
      * @param label The text of the badge.
      */
     public ModifierBadge(string? label) {
-        this.label = label;
         base ();
+        this.label = label;
     }
   
     /** 

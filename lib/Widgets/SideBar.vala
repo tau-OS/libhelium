@@ -160,9 +160,9 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
     * @param subtitle The subtitle of the SideBar.
     */
     public SideBar(string title, string subtitle) {
+        base ();
         this.title = title;
         this.subtitle = subtitle;
-        base ();
     }
 
     /**

@@ -139,12 +139,12 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
      * @param secondary_button The secondary button of the content block.
      */
     public ContentBlock (string title, string subtitle, string icon, He.Button primary_button, He.Button secondary_button) {
+        base ();
         this.title = title;
         this.subtitle = subtitle;
         this.icon = icon;
         this.primary_button = primary_button;
         this.secondary_button = secondary_button;
-        base ();
     }
 
     /**

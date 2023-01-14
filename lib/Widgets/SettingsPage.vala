@@ -53,8 +53,8 @@ public class He.SettingsPage : He.Bin, Gtk.Buildable {
      * @since 1.0
      */
     public SettingsPage (string title) {
-        this.title = title;
         base ();
+        this.title = title;
     }
 
     static construct {

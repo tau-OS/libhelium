@@ -219,8 +219,8 @@
      * @since 1.0
      */
     public TabSwitcher () {
-        handle_events ();
         base ();
+        handle_events ();
     }
 
     construct {
