@@ -77,6 +77,5 @@ namespace He {
         Gtk.Settings.get_for_display(display).gtk_theme_name        = "Empty";
         Gtk.Settings.get_for_display(display).gtk_icon_theme_name   = "Hydrogen";
         Gtk.Settings.get_for_display(display).gtk_cursor_theme_name = "Hydrogen";
-        Gtk.Settings.get_for_display(display).gtk_font_name         = "Manrope 10";
     }
 }
