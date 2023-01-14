@@ -3,7 +3,7 @@ project(
     'vala', 'c',
     license: 'GPL-3-or-later',
     meson_version: '>= 0.56.0',
-    version: '1.2.6',
+    version: '1.2.21',
     default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
 )
 

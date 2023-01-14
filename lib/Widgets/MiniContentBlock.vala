@@ -131,10 +131,10 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
     * @param primary_button The primary button of the content block.
     */
     public MiniContentBlock.with_details (string? title, string? subtitle, He.Button? primary_button) {
+        base ();
         this.title = title;
         this.subtitle = subtitle;
         this.primary_button = primary_button;
-        base ();
     }
 
     /**
