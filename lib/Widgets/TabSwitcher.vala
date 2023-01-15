@@ -287,9 +287,7 @@
         popover.set_parent (this);
 
         click.pressed.connect ((n_press, x, y) => {
-            if (n_press != 1) {
-                new_tab_requested ();
-            } else if (click.get_current_button () == Gdk.BUTTON_SECONDARY) {
+            if (click.get_current_button () == Gdk.BUTTON_SECONDARY) {
                 Gdk.Rectangle rect = {(int)x,
                                       (int)y,
                                       0,
