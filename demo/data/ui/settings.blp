@@ -1,10 +1,11 @@
 using Gtk 4.0;
+using He 1;
 
-template DemoSettingsWindow : .HeSettingsWindow {
-  .HeContentList {
+template DemoSettingsWindow : He.SettingsWindow {
+  He.ContentList {
     title: "Appearance";
     hexpand: true;
-    .HeMiniContentBlock {
+    He.MiniContentBlock {
       title: "Default Accent Color";
       subtitle: "Demo of the accent color function.";
 

@@ -30,6 +30,7 @@ namespace He {
         typeof (He.AboutWindow).ensure ();
         typeof (He.AppBar).ensure ();
         typeof (He.ApplicationWindow).ensure ();
+        typeof (He.Avatar).ensure ();
         typeof (He.Badge).ensure ();
         typeof (He.Bin).ensure ();
         typeof (He.BottomBar).ensure ();

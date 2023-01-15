@@ -30,6 +30,19 @@ template DemoMainWindow : He.ApplicationWindow {
           icon-name: "system-search";
         }
 
+        [titlebar-button]
+        $HeAvatar avy {
+          image: "resource:///co/tauos/Helium1/Demo/sand.jpg";
+          size: 32;
+        }
+
+        [titlebar-button]
+        $HeAvatar avy2 {
+          text: "EF";
+          image: "";
+          size: 32;
+        }
+
         Revealer {
           reveal-child: bind search.active;
           margin-bottom: 12;
@@ -314,7 +327,7 @@ template DemoMainWindow : He.ApplicationWindow {
                     Box {
                       spacing: 12;
 
-                      .HeViewChooser {
+                      $HeViewChooser {
                         stack: view_stack;
                       }
 
