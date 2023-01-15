@@ -81,6 +81,17 @@ public class He.Avatar : He.Bin {
             this.set_size_request (value, value);
             img.pixel_size = value;
             img_blur.pixel_size = value;
+
+            var css_provider_label = new Gtk.CssProvider ();
+            css_provider_label.load_from_data ("""
+                .avatar-label { 
+                    font-size: %0.2fpx;
+                    font-weight: 700;
+                    color: @accent_fg_color;
+                }
+            """.printf((_size / 16) * 7.5).data); // calc the font size based on avatar size
+            var context_label = label.get_style_context ();
+            context_label.add_provider (css_provider_label, 69);
         }
     }
 
@@ -129,7 +140,8 @@ public class He.Avatar : He.Bin {
         label = new Gtk.Label ("");
         label.halign = Gtk.Align.CENTER;
         label.valign = Gtk.Align.CENTER;
-        label.add_css_class ("heading");
+        label.add_css_class ("dim-label");
+        label.add_css_class ("avatar-label");
 
         var overlay = new Gtk.Overlay ();
         overlay.set_child (ioverlay);

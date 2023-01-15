@@ -11,6 +11,7 @@ menu bottombar_menu {
 template DemoMainWindow : He.ApplicationWindow {
   visible: true;
   default-height: 600;
+  default-width: 600;
    Bis.Album album {
     Bis.AlbumPage {
       child:
@@ -33,13 +34,6 @@ template DemoMainWindow : He.ApplicationWindow {
         [titlebar-button]
         $HeAvatar avy {
           image: "resource:///co/tauos/Helium1/Demo/sand.jpg";
-          size: 32;
-        }
-
-        [titlebar-button]
-        $HeAvatar avy2 {
-          text: "EF";
-          image: "";
           size: 32;
         }
 
@@ -326,93 +320,119 @@ template DemoMainWindow : He.ApplicationWindow {
                 child:
                     Box {
                       spacing: 12;
+                      orientation: vertical;
 
                       $HeViewChooser {
                         stack: view_stack;
                       }
 
-                      He.NavigationRail {
-                        stack: view_stack;
-                      }
-                      Stack view_stack {
-                        StackPage {
-                          title: "Mono View";
-                          icon-name: "clock-symbolic";
-
-                          child: He.EmptyPage {
-                            title: "Empty Page";
-                            description: "This is an empty page.";
-                            icon: "list-add-symbolic";
-                            button: "Pill";
-                          };
+                      Box {
+                        He.NavigationRail {
+                          stack: view_stack;
                         }
-                        StackPage {
-                          title: "Dual View";
-                          icon-name: "timer-symbolic";
+                        Stack view_stack {
+                          StackPage {
+                            title: "Mono View";
+                            icon-name: "clock-symbolic";
 
-                          child: He.ViewDual {
-                            [left]
-                            Label {
-                              label: "Content A";
-                            }
+                            child: He.EmptyPage {
+                              title: "Empty Page";
+                              description: "This is an empty page.";
+                              icon: "list-add-symbolic";
+                              button: "Pill";
+                            };
+                          }
+                          StackPage {
+                            title: "Dual View";
+                            icon-name: "timer-symbolic";
 
-                            [right]
-                            He.SideBar {
-                              scroller: bind sdw;
-                              title: "Content B";
-                              width-request: 200;
-                              vexpand: true;
+                            child: He.ViewDual {
+                              [left]
+                              Box {
+                                spacing: 12;
+                                margin-top: 12;
+                                orientation: vertical;
 
-                              Gtk.ScrolledWindow sdw {
+                                $HeAvatar {
+                                  text: "EF";
+                                  image: "";
+                                  size: 32;
+                                }
+                                $HeAvatar {
+                                  text: "KV";
+                                  image: "";
+                                  size: 48;
+                                }
+                                $HeAvatar {
+                                  text: "MP";
+                                  image: "";
+                                  size: 64;
+                                }
+                                $HeAvatar {
+                                  text: "SW";
+                                  image: "";
+                                  size: 96;
+                                }
+                              }
+
+                              [right]
+                              He.SideBar {
+                                scroller: bind sdw;
+                                title: "Content B";
+                                width-request: 200;
                                 vexpand: true;
-                                hscrollbar-policy: never;
 
-                                Box {
-                                  spacing: 6;
-                                  orientation: vertical;
+                                Gtk.ScrolledWindow sdw {
+                                  vexpand: true;
+                                  hscrollbar-policy: never;
 
-                                  He.ContentBlock {
-                                    title: "Content Block";
-                                    subtitle: "Subtitle";
-                                    icon: "list-add-symbolic";
-                                  }
-                                  He.ContentBlock {
-                                    title: "Content Block";
-                                    subtitle: "Subtitle";
-                                    icon: "list-add-symbolic";
-                                  }
-                                  He.ContentBlock {
-                                    title: "Content Block";
-                                    subtitle: "Subtitle";
-                                    icon: "list-add-symbolic";
-                                  }
-                                  He.ContentBlock {
-                                    title: "Content Block";
-                                    subtitle: "Subtitle";
-                                    icon: "list-add-symbolic";
+                                  Box {
+                                    spacing: 6;
+                                    orientation: vertical;
+
+                                    He.ContentBlock {
+                                      title: "Content Block";
+                                      subtitle: "Subtitle";
+                                      icon: "list-add-symbolic";
+                                    }
+                                    He.ContentBlock {
+                                      title: "Content Block";
+                                      subtitle: "Subtitle";
+                                      icon: "list-add-symbolic";
+                                    }
+                                    He.ContentBlock {
+                                      title: "Content Block";
+                                      subtitle: "Subtitle";
+                                      icon: "list-add-symbolic";
+                                    }
+                                    He.ContentBlock {
+                                      title: "Content Block";
+                                      subtitle: "Subtitle";
+                                      icon: "list-add-symbolic";
+                                    }
                                   }
                                 }
                               }
-                            }
-                          };
-                        }
-                        StackPage {
-                          title: "Aux View";
-                          icon-name: "stopwatch-symbolic";
+                            };
+                          }
+                          StackPage {
+                            title: "Aux View";
+                            icon-name: "stopwatch-symbolic";
 
-                          child: He.ViewAux {
-                            show-aux: true;
+                            child: He.ViewAux {
+                              show-aux: true;
 
-                            [left]
-                            Label {
-                              label: "Content A";
-                            }
+                              [left]
+                              Label {
+                                label: "Content A";
+                              }
 
-                            [right]
-                            Label {
-                              label: "Content B";
-                            }
-                          };
+                              [right]
+                              Label {
+                                label: "Content B";
+                              }
+                            };
+                          }
                         }
                       }
                     }
