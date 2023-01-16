@@ -84,9 +84,9 @@ namespace He.Color {
   
   // Colors used for cards or elements atop the bg when Soft Dark Mode.
   public const RGBColor SOFT_CARD_BLACK = {
-      71,
-      71,
-      71
+      90,
+      90,
+      90
   };
 
   public const RGBColor CARD_WHITE = {
