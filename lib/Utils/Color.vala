@@ -56,9 +56,9 @@ namespace He.Color {
   
   // Softer black for Soft Dark Mode
   public const RGBColor SOFT_BLACK = {
-      90,
-      90,
-      90
+      61,
+      61,
+      61
   };
 
   // Not true white because it's too harsh.
@@ -70,9 +70,9 @@ namespace He.Color {
   
   // Colors used for cards or elements atop the bg when Harsh Dark Mode.
   public const RGBColor HARSH_CARD_BLACK = {
-      32,
-      32,
-      32
+      45,
+      45,
+      45
   };
 
   // Colors used for cards or elements atop the bg when Medium Dark Mode.
@@ -84,9 +84,9 @@ namespace He.Color {
   
   // Colors used for cards or elements atop the bg when Soft Dark Mode.
   public const RGBColor SOFT_CARD_BLACK = {
-      106,
-      106,
-      106
+      71,
+      71,
+      71
   };
 
   public const RGBColor CARD_WHITE = {
