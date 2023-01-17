@@ -41,9 +41,9 @@ public class He.SettingsPage : He.Bin, Gtk.Buildable {
     }
 
     /**
-     * Add a Content List to this page
+     * Add a Settings List to this page
      */
-    public void add_list (He.ContentList list) {
+    public void add_list (He.SettingsList list) {
         box.append (list);
     }
     

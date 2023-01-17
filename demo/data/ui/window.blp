@@ -103,24 +103,39 @@ template DemoMainWindow : He.ApplicationWindow {
           icon: "list-add-symbolic";
         }
 
-        He.ContentList {
-          title: "Content List";
+        $HeSettingsList {
+          title: "Settings List";
           description: "Subtitle";
 
-          He.MiniContentBlock {
-            title: "Mini Content Block";
+          $HeSettingsRow {
+            title: "Settings Row";
             subtitle: "Subtitle";
             icon: "list-add-symbolic";
+            activatable-widget: miniswitch;
+
+            Switch miniswitch {
+
+            }
           }
-          He.MiniContentBlock {
-            title: "Mini Content Block";
+          $HeSettingsRow {
+            title: "Settings Row";
             subtitle: "Subtitle";
             icon: "list-add-symbolic";
+            activatable-widget: miniswitch2;
+
+            Switch miniswitch2 {
+
+            }
           }
-          He.MiniContentBlock {
-            title: "Mini Content Block";
+          $HeSettingsRow {
+            title: "Settings Row";
             subtitle: "Subtitle";
             icon: "list-add-symbolic";
+            activatable-widget: miniswitch3;
+
+            Switch miniswitch3 {
+
+            }
           }
         }
       }

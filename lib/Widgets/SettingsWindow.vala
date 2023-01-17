@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2022 Fyra Labs
+* Copyright (c) 2022-2023 Fyra Labs
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -18,7 +18,7 @@
 */
 
 /**
- * A modal window that accepts ContentLists or SettingsPages
+ * A modal window that accepts SettingsLists or SettingsPages
  */
  public class He.SettingsWindow : He.Window, Gtk.Buildable {
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -28,11 +28,11 @@
     private Gtk.Label viewtitle = new Gtk.Label (null);
 
     /**
-     * Add ContentList or SettingsPage children to this window
+     * Add SettingsList or SettingsPage children to this window
      */
     public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-        if (child.get_type () == typeof (He.ContentList)) {
-            add_list (child as He.ContentList);
+        if (child.get_type () == typeof (He.SettingsList)) {
+            add_list (child as He.SettingsList);
         } else if (child.get_type () == typeof (He.SettingsPage)) {
             add_page (child as He.SettingsPage);
         } else {
@@ -52,9 +52,9 @@
     }
 
     /**
-     * Add a Content List to this window
+     * Add a Settings List to this window
      */
-    public void add_list (He.ContentList list) {
+    public void add_list (He.SettingsList list) {
         if (list.title == null || list.title == "") {
             list.title = @"Page $(stack.pages.get_n_items () + 1)";
         }
@@ -64,7 +64,7 @@
     }
 
     /**
-     * Create a new Settingss Window.
+     * Create a new Settings Window.
      *
      * @since 1.0
      */

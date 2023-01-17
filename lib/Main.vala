@@ -56,6 +56,8 @@ namespace He {
         typeof (He.PillButton).ensure ();
         typeof (He.SideBar).ensure ();
         typeof (He.SettingsPage).ensure ();
+        typeof (He.SettingsList).ensure ();
+        typeof (He.SettingsRow).ensure ();
         typeof (He.SettingsWindow).ensure ();
         typeof (He.Tab).ensure ();
         typeof (He.TabPage).ensure ();

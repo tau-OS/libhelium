@@ -35,6 +35,8 @@ libhelium_sources += files(
     'Widgets/OutlineButton.vala',
     'Widgets/OverlayButton.vala',
     'Widgets/PillButton.vala',
+    'Widgets/SettingsRow.vala',
+    'Widgets/SettingsList.vala',
     'Widgets/SettingsPage.vala',
     'Widgets/SettingsWindow.vala',
     'Widgets/SideBar.vala',
