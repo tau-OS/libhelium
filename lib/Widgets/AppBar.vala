@@ -221,7 +221,7 @@ public class He.AppBar : He.Bin {
 
             title.set_visible (value);
 
-            if (!value) {
+            if (!value && _flat) {
                 top_box.margin_top = 36;
             } else {
                 top_box.margin_top = 0;
