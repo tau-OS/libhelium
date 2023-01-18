@@ -34,6 +34,8 @@ jobs:
         with:
           node-version: 14
       - run: npm install -g sass
+      - name: Update repos
+        run: sudo apt update
       - name: Install dependencies
         run: sudo apt install libgtk-4-dev libgee-0.8-dev meson ninja-build valac valadoc
       - name: Build website
