@@ -153,6 +153,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
         if (type == "titlebar-button") {
             titlebar.btn_box.append ((Gtk.Widget) child);
             ((Gtk.Widget) child).add_css_class ("disclosure-button");
+            ((Gtk.Widget) child).remove_css_class ("image-button");
         } else {
             box.append ((Gtk.Widget) child);
         }
