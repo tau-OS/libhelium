@@ -21,18 +21,26 @@
 * An AppBar is the header bar of an Window. It usually provides controls to manage the window, as well as optional children for more granular control.
 */
 public class He.AppBar : He.Bin {
+    private Gtk.Label viewtitle_mini = new Gtk.Label ("");
     private Gtk.Label viewtitle = new Gtk.Label ("");
+    private Gtk.Label viewsubtitle = new Gtk.Label ("");
+    private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
     private Gtk.Box control_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
-
-    /**
-    * The title displayed in the AppBar.
-    */
-    public Gtk.HeaderBar? title;
+    private Gtk.Box win_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+    private Gtk.Box sub_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+    private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
+    private Gtk.Box labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+    private Gtk.WindowControls title;
     
     /**
     * The button to go back one view displayed in the AppBar.
     */
     public Gtk.Button back_button = new Gtk.Button ();
+
+    /**
+    * The button box in the AppBar, shows below and to the right side of the title, or alongside the window controls, based on scrollers.
+    */
+    public Gtk.Box btn_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
 
     private Gtk.Stack _stack;
     /**
@@ -56,24 +64,44 @@ public class He.AppBar : He.Bin {
             this._scroller = value;
             vadj = this._scroller.get_vadjustment ();
             if (vadj.value != 0) {
-                viewtitle.set_visible (true);
-                viewtitle.add_css_class ("title");
+                viewtitle_mini.set_visible (true);
+                viewtitle.set_visible (false);
+                viewsubtitle.set_visible (false);
+                sub_box.set_visible (false);
+                sub_box.remove (btn_box);
+                title_box.append (btn_box);
+                viewtitle_mini.add_css_class ("title");
                 flat = false;
             } else {
-                viewtitle.set_visible (false);
-                viewtitle.remove_css_class ("title");
+                viewtitle_mini.set_visible (false);
+                viewtitle.set_visible (true);
+                viewsubtitle.set_visible (true);
+                sub_box.set_visible (true);
+                title_box.remove (btn_box);
+                sub_box.append (btn_box);
+                viewtitle_mini.remove_css_class ("title");
                 if (flat == false) {
                     flat = true;
                 }
             }
             vadj.value_changed.connect ((a) => {
                 if (a.value != 0) {
-                    viewtitle.set_visible (true);
-                    viewtitle.add_css_class ("title");
+                    viewtitle_mini.set_visible (true);
+                    viewtitle.set_visible (false);
+                    viewsubtitle.set_visible (false);
+                    sub_box.set_visible (false);
+                    sub_box.remove (btn_box);
+                    title_box.append (btn_box);
+                    viewtitle_mini.add_css_class ("title");
                     flat = false;
                 } else {
-                    viewtitle.set_visible (false);
-                    viewtitle.remove_css_class ("title");
+                    viewtitle_mini.set_visible (false);
+                    viewtitle.set_visible (true);
+                    viewsubtitle.set_visible (true);
+                    sub_box.set_visible (true);
+                    title_box.remove (btn_box);
+                    sub_box.append (btn_box);
+                    viewtitle_mini.remove_css_class ("title");
                     if (flat == false) {
                         flat = true;
                     }
@@ -92,10 +120,31 @@ public class He.AppBar : He.Bin {
             this._viewtitle_label = value;
 
             if (viewtitle_label != null) {
-                viewtitle = new Gtk.Label (_viewtitle_label);
-                control_box.append (viewtitle);
+                viewtitle_mini = new Gtk.Label (_viewtitle_label);
+                viewtitle.label = _viewtitle_label;
+                control_box.append (viewtitle_mini);
             } else {
-                control_box.remove (viewtitle);
+                viewtitle.label = null;
+                control_box.remove (viewtitle_mini);
+            }
+        }
+    }
+
+    private string _viewsubtitle_label;
+    /**
+    * The title to the left on the AppBar.
+    */
+    public string viewsubtitle_label {
+        get { return this._viewsubtitle_label; }
+        set {
+            this._viewsubtitle_label = value;
+
+            if (viewsubtitle_label != null) {
+                viewsubtitle.label = _viewsubtitle_label;
+                viewsubtitle.visible = true;
+            } else {
+                viewsubtitle.label = null;
+                viewsubtitle.visible = false;
             }
         }
     }
@@ -112,9 +161,11 @@ public class He.AppBar : He.Bin {
             _flat = value;
 
             if (_flat) {
-                title.add_css_class ("flat");
+                main_box.add_css_class ("flat-appbar");
+                main_box.remove_css_class ("appbar");
             } else {
-                title.remove_css_class ("flat");
+                main_box.add_css_class ("appbar");
+                main_box.remove_css_class ("flat-appbar");
             }
         }
     }
@@ -130,7 +181,7 @@ public class He.AppBar : He.Bin {
         set {
             _show_buttons = value;
 
-            title.set_show_title_buttons (value);
+            title.set_visible (value);
         }
     }
 
@@ -154,7 +205,7 @@ public class He.AppBar : He.Bin {
     * Please note that an AppBar should only have at most three children.
     */
     public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-        title.pack_end ((Gtk.Widget)child);
+        btn_box.prepend ((Gtk.Widget)child);
     }
 
     /**
@@ -163,7 +214,7 @@ public class He.AppBar : He.Bin {
     * @param child The child to append.
     */
     public void append(Gtk.Widget child) {
-        title.pack_end (child);
+        btn_box.append (child);
     }
 
     /**
@@ -173,7 +224,7 @@ public class He.AppBar : He.Bin {
      * @since 1.0
      */
     public void remove(Gtk.Widget child) {
-        title.remove (child);
+        btn_box.remove (child);
     }
     
     public AppBar () {
@@ -181,12 +232,13 @@ public class He.AppBar : He.Bin {
     }
 
     construct {
-        title = new Gtk.HeaderBar ();
-        title.hexpand = true;
+        title = new Gtk.WindowControls (Gtk.PackType.END);
+        title.valign = Gtk.Align.CENTER;
+        win_box.prepend (title);
+        viewsubtitle.visible = false;
+        title_box.halign = Gtk.Align.END;
+        win_box.halign = Gtk.Align.END;
 
-        // Remove default gtk title here because HIG
-        var title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-        title.set_title_widget (title_box);
 
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
@@ -195,12 +247,46 @@ public class He.AppBar : He.Bin {
             stack.pages.select_item (int.max (((int)selected_page.get_nth (0) - 1), 0), true);
         });
         control_box.append (back_button);
+        control_box.halign = Gtk.Align.START;
+        control_box.hexpand = true;
 
+        viewtitle = new Gtk.Label ("");
+        viewtitle.halign = Gtk.Align.START;
+        viewtitle.margin_start = 10;
+        viewtitle.add_css_class ("view-title");
         viewtitle.set_visible (false);
 
-        title.pack_start (control_box);
+        viewsubtitle = new Gtk.Label ("");
+        viewsubtitle.halign = Gtk.Align.START;
+        viewsubtitle.margin_start = 10;
+        viewsubtitle.add_css_class ("view-subtitle");
+        viewsubtitle.set_visible (false);
 
-        title.set_parent (this);
+        var top_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+        top_box.hexpand = true;
+        top_box.append (control_box);
+        top_box.append (title_box);
+        top_box.append (win_box);
+
+        labels_box.homogeneous = true;
+        labels_box.hexpand = true;
+        labels_box.append (viewtitle);
+        labels_box.append (viewsubtitle);
+
+        btn_box.valign = Gtk.Align.END;
+        btn_box.margin_end = 6;
+
+        sub_box.append (labels_box);
+        sub_box.append (btn_box);
+
+        main_box.append (top_box);
+        main_box.append (sub_box);
+
+        var winhandle = new Gtk.WindowHandle ();
+        winhandle.set_child (main_box);
+        winhandle.set_parent (this);
+        winhandle.hexpand = true;
+
     }
 
     static construct {

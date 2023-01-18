@@ -17,24 +17,25 @@ template DemoMainWindow : He.ApplicationWindow {
       child:
       He.SideBar {
         title: "Sidebar";
-        subtitle: "Subtitle";
         show-buttons: bind album.folded;
         show-back: false;
         width-request: 200;
+        scroller: s;
 
         [titlebar-button]
-        MenuButton main_menu {
-          icon-name: "open-menu";
+        $HeAvatar avy {
+          image: "resource:///co/tauos/Helium1/Demo/sand.jpg";
+          size: 32;
         }
+
         [titlebar-button]
         ToggleButton search {
           icon-name: "system-search";
         }
 
         [titlebar-button]
-        $HeAvatar avy {
-          image: "resource:///co/tauos/Helium1/Demo/sand.jpg";
-          size: 32;
+        MenuButton main_menu {
+          icon-name: "open-menu";
         }
 
         Revealer {
@@ -45,20 +46,59 @@ template DemoMainWindow : He.ApplicationWindow {
           }
         }
 
-        He.MiniContentBlock {
-          title: "Mini Content Block";
-          subtitle: "Subtitle";
-          icon: "list-add-symbolic";
-        }
-        He.MiniContentBlock {
-          title: "Mini Content Block";
-          subtitle: "Subtitle";
-          icon: "list-add-symbolic";
-        }
-        He.MiniContentBlock {
-          title: "Mini Content Block";
-          subtitle: "Subtitle";
-          icon: "list-add-symbolic";
+        ScrolledWindow s {
+          vexpand: true;
+          hscrollbar-policy: never;
+
+          Box {
+            orientation: vertical;
+
+            He.MiniContentBlock {
+              title: "Mini Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+            }
+            He.MiniContentBlock {
+              title: "Mini Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+            }
+            He.MiniContentBlock {
+              title: "Mini Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+            }
+            He.MiniContentBlock {
+              title: "Mini Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+            }
+            He.MiniContentBlock {
+              title: "Mini Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+            }
+            He.MiniContentBlock {
+              title: "Mini Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+            }
+            He.MiniContentBlock {
+              title: "Mini Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+            }
+            He.MiniContentBlock {
+              title: "Mini Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+            }
+            He.MiniContentBlock {
+              title: "Mini Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+            }
+          }
         }
       }
       ;
@@ -81,60 +121,70 @@ template DemoMainWindow : He.ApplicationWindow {
         show-buttons: bind album.folded;
         show-back: bind album.folded;
         width-request: 200;
+        scroller: z;
 
         [titlebar-button]
         MenuButton {
           icon-name: "view-more";
         }
 
-        He.MiniContentBlock {
-          title: "Mini Content Block";
-          subtitle: "Subtitle";
-          icon: "list-add-symbolic";
-        }
-        He.MiniContentBlock {
-          title: "Mini Content Block";
-          subtitle: "Subtitle";
-          icon: "list-add-symbolic";
-        }
-        He.MiniContentBlock {
-          title: "Mini Content Block";
-          subtitle: "Subtitle";
-          icon: "list-add-symbolic";
-        }
+        ScrolledWindow z {
+          vexpand: true;
+          hscrollbar-policy: never;
 
-        $HeSettingsList {
-          title: "Settings List";
-          description: "Subtitle";
+          Box {
+            orientation: vertical;
 
-          $HeSettingsRow {
-            title: "Settings Row";
-            subtitle: "Subtitle";
-            icon: "list-add-symbolic";
-            activatable-widget: miniswitch;
-
-            Switch miniswitch {
-
+            He.MiniContentBlock {
+              title: "Mini Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
             }
-          }
-          $HeSettingsRow {
-            title: "Settings Row";
-            subtitle: "Subtitle";
-            icon: "list-add-symbolic";
-            activatable-widget: miniswitch2;
-
-            Switch miniswitch2 {
-
+            He.MiniContentBlock {
+              title: "Mini Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
             }
-          }
-          $HeSettingsRow {
-            title: "Settings Row";
-            subtitle: "Subtitle";
-            icon: "list-add-symbolic";
-            activatable-widget: miniswitch3;
+            He.MiniContentBlock {
+              title: "Mini Content Block";
+              subtitle: "Subtitle";
+              icon: "list-add-symbolic";
+            }
 
-            Switch miniswitch3 {
+            $HeSettingsList {
+              title: "Settings List";
+              description: "Subtitle";
 
+              $HeSettingsRow {
+                title: "Settings Row";
+                subtitle: "Subtitle";
+                icon: "list-add-symbolic";
+                activatable-widget: miniswitch;
+
+                Switch miniswitch {
+
+                }
+              }
+              $HeSettingsRow {
+                title: "Settings Row";
+                subtitle: "Subtitle";
+                icon: "list-add-symbolic";
+                activatable-widget: miniswitch2;
+
+                Switch miniswitch2 {
+
+                }
+              }
+              $HeSettingsRow {
+                title: "Settings Row";
+                subtitle: "Subtitle";
+                icon: "list-add-symbolic";
+                activatable-widget: miniswitch3;
+
+                Switch miniswitch3 {
+
+                }
+              }
             }
           }
         }

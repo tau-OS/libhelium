@@ -22,8 +22,6 @@
 */
 public class He.SideBar : He.Bin, Gtk.Buildable {
     private He.AppBar titlebar = new He.AppBar();
-    private Gtk.Label title_label = new Gtk.Label(null);
-    private Gtk.Label subtitle_label = new Gtk.Label(null);
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
     /**
@@ -31,15 +29,12 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
      */
      public string title {
         get {
-            return title_label.label;
+            return titlebar.viewtitle_label;
         }
         set {
             if (value != null) {
-                title_label.label = value;
-                title_label.visible = true;
                 titlebar.viewtitle_label = value;
             } else {
-                title_label.visible = false;
                 titlebar.viewtitle_label = "";
             }
         }
@@ -50,14 +45,13 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
      */
      public string subtitle {
         get {
-            return subtitle_label.label;
+            return titlebar.viewsubtitle_label;
         }
         set {
             if (value != null) {
-                subtitle_label.label = value;
-                subtitle_label.visible = true;
+                titlebar.viewsubtitle_label = value;
             } else {
-                subtitle_label.visible = false;
+                titlebar.viewsubtitle_label = "";
             }
         }
     }
@@ -108,7 +102,6 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
     }
 
     private Gtk.ScrolledWindow _scroller;
-    private Gtk.Adjustment vadj;
     /**
     * The stack that the SideBar's AppBar is attached to.
     */
@@ -120,20 +113,6 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
         set {
             _scroller = value;
             titlebar.scroller = _scroller;
-
-            vadj = this._scroller.get_vadjustment ();
-            if (vadj.value != 0) {
-                title_label.set_visible (false);
-            } else {
-                title_label.set_visible (true);
-            }
-            vadj.value_changed.connect ((a) => {
-                if (a.value != 0) {
-                    title_label.set_visible (false);
-                } else {
-                    title_label.set_visible (true);
-                }
-            });
         }
     }
 
@@ -172,7 +151,8 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
      */
     public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (type == "titlebar-button") {
-            titlebar.title.pack_end ((Gtk.Widget) child);
+            titlebar.btn_box.append ((Gtk.Widget) child);
+            ((Gtk.Widget) child).add_css_class ("disclosure-button");
         } else {
             box.append ((Gtk.Widget) child);
         }
@@ -187,32 +167,12 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
         this.hexpand_set = true;
         titlebar.flat = true;
         has_margins = true;
-
-        title_label.visible = false;
-        title_label.add_css_class ("view-title");
-        title_label.xalign = 0;
-        title_label.valign = Gtk.Align.CENTER;
-        title_label.margin_top = 6;
-        title_label.margin_start = 18;
-        title_label.margin_end = 12;
-        title_label.margin_bottom = 6;
-
-        subtitle_label.visible = false;
-        subtitle_label.add_css_class ("view-subtitle");
-        subtitle_label.xalign = 0;
-        subtitle_label.valign = Gtk.Align.CENTER;
-        subtitle_label.margin_top = 6;
-        subtitle_label.margin_start = 18;
-        subtitle_label.margin_end = 12;
-        subtitle_label.margin_bottom = 6;
         
         box.orientation = Gtk.Orientation.VERTICAL;
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
         main_box.hexpand = true;
         main_box.append (titlebar);
-        main_box.append (title_label);
-        main_box.append (subtitle_label);
         main_box.append (box);
 
         main_box.set_parent (this);
