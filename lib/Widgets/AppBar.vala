@@ -24,6 +24,7 @@ public class He.AppBar : He.Bin {
     private Gtk.Label viewtitle_mini = new Gtk.Label ("");
     private Gtk.Label viewtitle = new Gtk.Label ("");
     private Gtk.Label viewsubtitle = new Gtk.Label ("");
+    private Gtk.Box top_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
     private Gtk.Box control_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
     private Gtk.Box win_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -64,8 +65,13 @@ public class He.AppBar : He.Bin {
             this._scroller = value;
             vadj = this._scroller.get_vadjustment ();
             if (vadj.value != 0) {
-                viewtitle_mini.set_visible (true);
-                viewtitle.set_visible (false);
+                if (viewtitle_widget != null) {
+                    viewtitle_widget.set_visible (false);
+                } else {
+                    viewtitle_mini.set_visible (true);
+                    viewtitle_mini.label = _viewtitle_label;
+                    viewtitle.set_visible (false);
+                }
                 viewsubtitle.set_visible (false);
                 sub_box.set_visible (false);
                 sub_box.remove (btn_box);
@@ -73,8 +79,13 @@ public class He.AppBar : He.Bin {
                 viewtitle_mini.add_css_class ("title");
                 flat = false;
             } else {
-                viewtitle_mini.set_visible (false);
-                viewtitle.set_visible (true);
+                if (viewtitle_widget != null) {
+                    viewtitle_widget.set_visible (true);
+                } else {
+                    viewtitle_mini.set_visible (false);
+                    viewtitle_mini.label = "";
+                    viewtitle.set_visible (true);
+                }
                 viewsubtitle.set_visible (true);
                 sub_box.set_visible (true);
                 title_box.remove (btn_box);
@@ -86,8 +97,13 @@ public class He.AppBar : He.Bin {
             }
             vadj.value_changed.connect ((a) => {
                 if (a.value != 0) {
-                    viewtitle_mini.set_visible (true);
-                    viewtitle.set_visible (false);
+                    if (viewtitle_widget != null) {
+                        viewtitle_widget.set_visible (false);
+                    } else {
+                        viewtitle_mini.set_visible (true);
+                        viewtitle_mini.label = _viewtitle_label;
+                        viewtitle.set_visible (false);
+                    }
                     viewsubtitle.set_visible (false);
                     sub_box.set_visible (false);
                     sub_box.remove (btn_box);
@@ -95,8 +111,13 @@ public class He.AppBar : He.Bin {
                     viewtitle_mini.add_css_class ("title");
                     flat = false;
                 } else {
-                    viewtitle_mini.set_visible (false);
-                    viewtitle.set_visible (true);
+                    if (viewtitle_widget != null) {
+                        viewtitle_widget.set_visible (true);
+                    } else {
+                        viewtitle_mini.set_visible (false);
+                        viewtitle_mini.label = "";
+                        viewtitle.set_visible (true);
+                    }
                     viewsubtitle.set_visible (true);
                     sub_box.set_visible (true);
                     title_box.remove (btn_box);
@@ -119,13 +140,30 @@ public class He.AppBar : He.Bin {
         set {
             this._viewtitle_label = value;
 
-            if (viewtitle_label != null) {
-                viewtitle_mini = new Gtk.Label (_viewtitle_label);
+            if (viewtitle_label != null && viewtitle_widget == null) {
                 viewtitle.label = _viewtitle_label;
                 control_box.append (viewtitle_mini);
             } else {
                 viewtitle.label = null;
                 control_box.remove (viewtitle_mini);
+            }
+        }
+    }
+
+    private Gtk.Widget? _viewtitle_widget;
+    /**
+    * The title widget to the left on the AppBar. If this is set, the other title (not subtitle) props won't work, and the mini title on collapsed state won't show.
+    */
+    public Gtk.Widget? viewtitle_widget {
+        get { return this._viewtitle_widget; }
+        set {
+            this._viewtitle_widget = value;
+
+            if (viewtitle_widget != null) {
+                _viewtitle_widget.margin_start = 10; // make it flush with subtitle
+                labels_box.prepend (_viewtitle_widget);
+            } else {
+                labels_box.remove (_viewtitle_widget);
             }
         }
     }
@@ -182,6 +220,13 @@ public class He.AppBar : He.Bin {
             _show_buttons = value;
 
             title.set_visible (value);
+
+            if (!value) {
+                top_box.margin_top = 36;
+            } else {
+                top_box.margin_top = 0;
+            }
+
         }
     }
 
@@ -246,6 +291,7 @@ public class He.AppBar : He.Bin {
 
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
+        back_button.add_css_class ("flat");
         back_button.clicked.connect (() => {
             var selected_page = stack.pages.get_selection ();
             stack.pages.select_item (int.max (((int)selected_page.get_nth (0) - 1), 0), true);
@@ -266,7 +312,6 @@ public class He.AppBar : He.Bin {
         viewsubtitle.add_css_class ("view-subtitle");
         viewsubtitle.set_visible (false);
 
-        var top_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
         top_box.hexpand = true;
         top_box.append (control_box);
         top_box.append (title_box);

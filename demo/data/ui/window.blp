@@ -205,13 +205,24 @@ template DemoMainWindow : He.ApplicationWindow {
       child:
       Gtk.Box main_box {
       orientation: vertical;
-        He.AppBar {
+        $HeAppBar {
           flat: true;
           show-buttons: true;
           show-back: bind album.folded;
+          viewtitle-widget:
+            He.ViewSwitcher vs {
+              stack: stack;
+              margin-start: 10;
+            }
+          ;
+          viewsubtitle-label: "Subtitle";
 
           MenuButton {
             icon-name: "view-more";
+          }
+
+          He.DisclosureButton {
+            icon-name: "list-add-symbolic";
           }
         }
 
@@ -220,14 +231,8 @@ template DemoMainWindow : He.ApplicationWindow {
           label: "Add Thing";
           secondary-icon: "list-add-symbolic";
           He.ViewMono {
-            stack: stack;
             hexpand: true;
             halign: center;
-
-            [view-button]
-            He.DisclosureButton {
-              icon-name: "list-add-symbolic";
-            }
 
             Stack stack {
               StackPage {

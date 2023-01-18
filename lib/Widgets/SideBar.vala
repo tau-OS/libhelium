@@ -32,10 +32,26 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
             return titlebar.viewtitle_label;
         }
         set {
-            if (value != null) {
+            if (value != null && titlewidget == null) {
                 titlebar.viewtitle_label = value;
             } else {
-                titlebar.viewtitle_label = "";
+                titlebar.viewtitle_label = null;
+            }
+        }
+    }
+
+    /**
+     * The title widget of the sidebar.
+     */
+     public Gtk.Widget? titlewidget {
+        get {
+            return titlebar.viewtitle_widget;
+        }
+        set {
+            if (value != null) {
+                titlebar.viewtitle_widget = value;
+            } else {
+                titlebar.viewtitle_widget = null;
             }
         }
     }
@@ -51,7 +67,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
             if (value != null) {
                 titlebar.viewsubtitle_label = value;
             } else {
-                titlebar.viewsubtitle_label = "";
+                titlebar.viewsubtitle_label = null;
             }
         }
     }
