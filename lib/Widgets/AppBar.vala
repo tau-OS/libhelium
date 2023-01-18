@@ -78,7 +78,10 @@ public class He.AppBar : He.Bin {
                 title_box.append (btn_box);
                 viewtitle_mini.add_css_class ("title");
                 flat = false;
-                top_box.margin_top = 0;
+                if (!_show_buttons)
+                    top_box.margin_top = 0;
+                else
+                    top_box.margin_top = 0;
             } else {
                 if (viewtitle_widget != null) {
                     viewtitle_widget.set_visible (true);
@@ -95,7 +98,10 @@ public class He.AppBar : He.Bin {
                 if (flat == false) {
                     flat = true;
                 }
-                top_box.margin_top = 36;
+                if (!_show_buttons)
+                    top_box.margin_top = 36;
+                else
+                    top_box.margin_top = 0;
             }
             vadj.value_changed.connect ((a) => {
                 if (a.value != 0) {
@@ -112,7 +118,10 @@ public class He.AppBar : He.Bin {
                     title_box.append (btn_box);
                     viewtitle_mini.add_css_class ("title");
                     flat = false;
-                    top_box.margin_top = 0;
+                    if (!show_buttons)
+                        top_box.margin_top = 0;
+                    else
+                        top_box.margin_top = 0;
                 } else {
                     if (viewtitle_widget != null) {
                         viewtitle_widget.set_visible (true);
@@ -129,7 +138,10 @@ public class He.AppBar : He.Bin {
                     if (flat == false) {
                         flat = true;
                     }
-                    top_box.margin_top = 36;
+                    if (!_show_buttons)
+                        top_box.margin_top = 36;
+                    else
+                        top_box.margin_top = 0;
                 }
             });
         }
@@ -285,7 +297,6 @@ public class He.AppBar : He.Bin {
         title_box.halign = Gtk.Align.END;
         win_box.halign = Gtk.Align.END;
 
-
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
         back_button.add_css_class ("flat");
@@ -310,7 +321,6 @@ public class He.AppBar : He.Bin {
         viewsubtitle.set_visible (false);
 
         top_box.hexpand = true;
-        top_box.margin_top = 0;
         top_box.append (control_box);
         top_box.append (title_box);
         top_box.append (win_box);
@@ -334,6 +344,7 @@ public class He.AppBar : He.Bin {
         winhandle.set_parent (this);
         winhandle.hexpand = true;
 
+        show_buttons = true;
     }
 
     static construct {
