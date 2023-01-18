@@ -310,6 +310,7 @@ public class He.AppBar : He.Bin {
         viewsubtitle.set_visible (false);
 
         top_box.hexpand = true;
+        top_box.margin_top = 0;
         top_box.append (control_box);
         top_box.append (title_box);
         top_box.append (win_box);
