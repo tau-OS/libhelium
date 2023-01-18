@@ -8,6 +8,7 @@ project(
 )
 
 gnome = import('gnome')
+fs = import('fs')
 
 add_project_arguments(
     '-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()),
@@ -46,16 +47,14 @@ helium = subproject(
     'tau-helium',
     default_options: ['gtk4=true', 'shell=false'],
     required: true
- )
-helium_folder = 'subprojects/tau-helium/Helium/gtk-4.0'
+)
 generate_gtk4_light = helium.get_variable('generate_gtk4_light')
 generate_gtk4_dark = helium.get_variable('generate_gtk4_dark')
 
 gresource = gnome.compile_resources(
     'gresource',
     'data' / 'gresource.xml',
-    source_dir: [meson.current_build_dir() / helium_folder,
-                 meson.current_source_dir()  / helium_folder],
+    source_dir: [fs.parent(generate_gtk4_light.full_path()), fs.parent(generate_gtk4_dark.full_path()), fs.parent(helium.get_variable('assets_dir'))],
     dependencies: [generate_gtk4_light, generate_gtk4_dark],
 )
 
