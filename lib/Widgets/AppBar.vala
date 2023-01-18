@@ -205,6 +205,12 @@ public class He.AppBar : He.Bin {
                 main_box.add_css_class ("appbar");
                 main_box.remove_css_class ("flat-appbar");
             }
+
+            if (_flat && !_show_buttons) {
+                top_box.margin_top = 36;
+            } else {
+                top_box.margin_top = 0;
+            }
         }
     }
 
@@ -220,13 +226,7 @@ public class He.AppBar : He.Bin {
             _show_buttons = value;
 
             title.set_visible (value);
-
-            if (!value && _flat) {
-                top_box.margin_top = 36;
-            } else {
-                top_box.margin_top = 0;
-            }
-
+            top_box.margin_top = 0;
         }
     }
 
