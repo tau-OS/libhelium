@@ -32,6 +32,7 @@ public class He.AppBar : He.Bin {
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
     private Gtk.Box labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
     private Gtk.WindowControls title;
+    private bool flat;
     
     /**
     * The button to go back one view displayed in the AppBar.
@@ -203,27 +204,6 @@ public class He.AppBar : He.Bin {
         }
     }
 
-    private bool _flat;
-    /**
-    * Whether the AppBar is flat, i.e. has no bottom border.
-    */
-    public bool flat {
-        get {
-            return _flat;
-        }
-        set {
-            _flat = value;
-
-            if (_flat) {
-                main_box.add_css_class ("flat-appbar");
-                main_box.remove_css_class ("appbar");
-            } else {
-                main_box.add_css_class ("appbar");
-                main_box.remove_css_class ("flat-appbar");
-            }
-        }
-    }
-
     private bool _show_buttons;
     /**
     * Whether the close, minimize and maximize buttons are shown.
@@ -345,6 +325,7 @@ public class He.AppBar : He.Bin {
         winhandle.hexpand = true;
 
         show_buttons = true;
+        flat = true;
     }
 
     static construct {
