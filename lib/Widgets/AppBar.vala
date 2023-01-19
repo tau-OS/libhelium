@@ -333,6 +333,7 @@ public class He.AppBar : He.Bin {
 
         show_buttons = true;
         flat = true;
+        main_box.add_css_class ("flat-appbar");
     }
 
     static construct {
