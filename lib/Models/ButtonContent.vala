@@ -33,7 +33,8 @@ public class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
      */
     public string icon {
         set {
-            image.set_from_icon_name(value);
+            if (value != null)
+                image.set_from_icon_name(value);
         }
 
         owned get {
@@ -47,7 +48,8 @@ public class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
      */
     public string label {
         set {
-            lbl.set_label(value);
+            if (value != null)
+                lbl.set_label(value);
         }
 
         owned get {

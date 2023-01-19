@@ -11,7 +11,7 @@ menu bottombar_menu {
 template DemoMainWindow : He.ApplicationWindow {
   visible: true;
   default-height: 600;
-  default-width: 600;
+  default-width: 1550;
    Bis.Album album {
     Bis.AlbumPage {
       child:
@@ -21,6 +21,7 @@ template DemoMainWindow : He.ApplicationWindow {
         show-back: false;
         width-request: 200;
         scroller: s;
+        has-margins: false;
 
         [titlebar-button]
         $HeAvatar avy {
@@ -41,6 +42,8 @@ template DemoMainWindow : He.ApplicationWindow {
         Revealer {
           reveal-child: bind search.active;
           margin-bottom: 12;
+          margin-start: 18;
+          margin-end: 18;
 
           SearchEntry {
           }
@@ -52,6 +55,9 @@ template DemoMainWindow : He.ApplicationWindow {
 
           Box {
             orientation: vertical;
+            margin-start: 18;
+            margin-end: 18;
+            margin-bottom: 18;
 
             He.MiniContentBlock {
               title: "Mini Content Block";
@@ -100,15 +106,6 @@ template DemoMainWindow : He.ApplicationWindow {
             }
           }
         }
-      }
-      ;
-    }
-
-    Bis.AlbumPage {
-      navigatable: false;
-      child:
-      Separator {
-        orientation: vertical;
       }
       ;
     }
@@ -135,22 +132,6 @@ template DemoMainWindow : He.ApplicationWindow {
           Box {
             orientation: vertical;
 
-            He.MiniContentBlock {
-              title: "Mini Content Block";
-              subtitle: "Subtitle";
-              icon: "list-add-symbolic";
-            }
-            He.MiniContentBlock {
-              title: "Mini Content Block";
-              subtitle: "Subtitle";
-              icon: "list-add-symbolic";
-            }
-            He.MiniContentBlock {
-              title: "Mini Content Block";
-              subtitle: "Subtitle";
-              icon: "list-add-symbolic";
-            }
-
             $HeSettingsList {
               title: "Settings List";
               description: "Subtitle";
@@ -169,10 +150,22 @@ template DemoMainWindow : He.ApplicationWindow {
                 title: "Settings Row";
                 subtitle: "Subtitle";
                 icon: "list-add-symbolic";
-                activatable-widget: miniswitch2;
 
-                Switch miniswitch2 {
-
+                $HeSegmentedButton {
+                  [segment]
+                  ToggleButton tb {
+                    label: "Option 1";
+                  }
+                  [segment]
+                  ToggleButton {
+                    label: "Option 2";
+                    group: tb;
+                  }
+                  [segment]
+                  ToggleButton {
+                    label: "Option 3";
+                    group: tb;
+                  }
                 }
               }
               $HeSettingsRow {
@@ -193,18 +186,14 @@ template DemoMainWindow : He.ApplicationWindow {
     }
 
     Bis.AlbumPage {
-      navigatable: false;
-      child:
-      Separator {
-        orientation: vertical;
-      }
-      ;
-    }
-
-    Bis.AlbumPage {
       child:
       Gtk.Box main_box {
       orientation: vertical;
+
+        styles [
+          "main-view",
+        ]
+
         $HeAppBar {
           show-buttons: true;
           show-back: bind album.folded;
@@ -214,7 +203,7 @@ template DemoMainWindow : He.ApplicationWindow {
               margin-start: 10;
             }
           ;
-          viewsubtitle-label: "Subtitle";
+          viewsubtitle-label: ""; // this does a double-storey AppBar like the HIG :)
 
           MenuButton {
             icon-name: "view-more";

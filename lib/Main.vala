@@ -54,6 +54,7 @@ namespace He {
         typeof (He.OutlineButton).ensure ();
         typeof (He.OverlayButton).ensure ();
         typeof (He.PillButton).ensure ();
+        typeof (He.SegmentedButton).ensure ();
         typeof (He.SideBar).ensure ();
         typeof (He.SettingsPage).ensure ();
         typeof (He.SettingsList).ensure ();

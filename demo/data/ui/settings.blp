@@ -2,12 +2,12 @@ using Gtk 4.0;
 using He 1;
 
 template DemoSettingsWindow : He.SettingsWindow {
-  He.ContentList {
+  He.SettingsList {
     title: "Appearance";
-    hexpand: true;
-    He.MiniContentBlock {
+    He.SettingsRow {
       title: "Default Accent Color";
       subtitle: "Demo of the accent color function.";
+      activatable-widget: clr_btn;
 
       ColorButton clr_btn {
       }
