@@ -18,10 +18,9 @@
 */
 
 /**
- * A SegmentedButton is a group of buttons that selects a setting
- * or chooses a view in a small space. Does not work with stacks
- * of less than 2 elements. The developer supplies the stack, and or
- * buttons as child for further coding in their app.
+ * A SegmentedButton is a group of buttons that selects a setting.
+ * The developer supplies the buttons as children for further coding
+ * in their app.
  */
  public class He.SegmentedButton : Gtk.Box {
     /**
