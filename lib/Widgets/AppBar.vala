@@ -32,7 +32,14 @@ public class He.AppBar : He.Bin {
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
     private Gtk.Box labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
     private Gtk.WindowControls title;
-    private bool flat;
+
+    /**
+    * The flatness of the He.AppBar
+    *
+    * Deprecated for code use. Will break if set manually!
+    */
+    [Version (deprecated = true)]
+    public bool flat;
     
     /**
     * The button to go back one view displayed in the AppBar.
