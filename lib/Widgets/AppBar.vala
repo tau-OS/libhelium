@@ -85,7 +85,8 @@ public class He.AppBar : He.Bin {
                 sub_box.remove (btn_box);
                 title_box.append (btn_box);
                 viewtitle_mini.add_css_class ("title");
-                flat = false;
+                main_box.add_css_class ("appbar");
+                main_box.remove_css_class ("flat-appbar");
                 if (!_show_buttons)
                     top_box.margin_top = 0;
                 else
@@ -103,9 +104,8 @@ public class He.AppBar : He.Bin {
                 title_box.remove (btn_box);
                 sub_box.append (btn_box);
                 viewtitle_mini.remove_css_class ("title");
-                if (flat == false) {
-                    flat = true;
-                }
+                main_box.add_css_class ("flat-appbar");
+                main_box.remove_css_class ("appbar");
                 if (!_show_buttons)
                     top_box.margin_top = 36;
                 else
@@ -125,8 +125,9 @@ public class He.AppBar : He.Bin {
                     sub_box.remove (btn_box);
                     title_box.append (btn_box);
                     viewtitle_mini.add_css_class ("title");
-                    flat = false;
-                    if (!show_buttons)
+                    main_box.add_css_class ("appbar");
+                    main_box.remove_css_class ("flat-appbar");
+                    if (!_show_buttons)
                         top_box.margin_top = 0;
                     else
                         top_box.margin_top = 0;
@@ -143,9 +144,8 @@ public class He.AppBar : He.Bin {
                     title_box.remove (btn_box);
                     sub_box.append (btn_box);
                     viewtitle_mini.remove_css_class ("title");
-                    if (flat == false) {
-                        flat = true;
-                    }
+                    main_box.add_css_class ("flat-appbar");
+                    main_box.remove_css_class ("appbar");
                     if (!_show_buttons)
                         top_box.margin_top = 36;
                     else
