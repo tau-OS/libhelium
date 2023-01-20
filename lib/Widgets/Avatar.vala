@@ -104,9 +104,38 @@ public class He.Avatar : He.Bin {
         }
         set {
             _text = value;
-            label.label = _text;
+            label.label = extract_initials (_text).to_string ();
         }
     }
+
+    private unichar extract_initials (string t) {
+        unichar i;
+        string p = t.up (-1);
+        string n = p._strip ().normalize ();
+        unichar u;
+        string q = "";
+
+        if (n == null)
+            return ' ';
+
+        i = ' ';
+
+        u = n.get_char ();
+
+        StringBuilder builder = new StringBuilder ();
+        builder.append_unichar (i);
+
+        q = n.rchr (-1, ' ');
+        if (q != "") {
+            u = q.next_char ().get_char ();
+
+            if (u != 0)
+                builder.append_unichar (i);
+        }
+
+        return i;
+    }
+
     
     /**
     * Creates a new Avatar.
