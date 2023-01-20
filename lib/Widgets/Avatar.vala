@@ -111,7 +111,7 @@ public class He.Avatar : He.Bin {
     private unichar extract_initials (string t) {
         unichar i;
         string p = t.up (-1);
-        string n = p._strip ().normalize ();
+        string n = p._strip ().normalize (-1, GLib.NormalizeMode.DEFAULT_COMPOSE);
         unichar u;
         string q = "";
 
