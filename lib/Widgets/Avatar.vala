@@ -104,33 +104,29 @@ public class He.Avatar : He.Bin {
         }
         set {
             _text = value;
-            label.label = extract_initials (_text).to_string ();
+            label.label = extract_initials (_text);
         }
     }
 
-    private unichar extract_initials (string t) {
-        unichar i;
+    private string extract_initials (string t) {
+        string i = "";
         string p = t.up (-1);
         string n = p._strip ().normalize (-1, GLib.NormalizeMode.DEFAULT_COMPOSE);
-        unichar u;
+        string u;
         string q = "";
 
         if (n == null)
-            return ' ';
+            return "";
 
-        i = ' ';
-
-        u = n.get_char ();
-
-        StringBuilder builder = new StringBuilder ();
-        builder.append_unichar (i);
+        u = n;
+        i += u;
 
         q = n.rchr (-1, ' ');
         if (q != "") {
-            u = q.next_char ().get_char ();
+            u = q;
 
-            if (u != 0)
-                builder.append_unichar (i);
+            if (u != "")
+                i += u;
         }
 
         return i;
