@@ -109,27 +109,18 @@ public class He.Avatar : He.Bin {
     }
 
     private string extract_initials (string t) {
-        string i = "";
-        string p = t.up (-1);
-        string n = p._strip ().normalize (-1, GLib.NormalizeMode.DEFAULT_COMPOSE);
-        string u;
-        string q = "";
+        string ret = "";
 
-        if (n == null)
+        if (t.length == 0)
             return "";
-
-        u = n;
-        i += u;
-
-        q = n.rchr (-1, ' ');
-        if (q != "") {
-            u = q;
-
-            if (u != "")
-                i += u;
-        }
-
-        return i;
+ 
+        ret += t[0].to_string ().up ();
+ 
+        for (int i = 1; i < t.length - 1; i++)
+            if (t[i] == ' ')
+                ret += t[i+1].to_string ().up ();
+        
+        return ret;
     }
 
     
