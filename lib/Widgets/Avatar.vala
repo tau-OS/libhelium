@@ -104,7 +104,12 @@ public class He.Avatar : He.Bin {
         }
         set {
             _text = value;
-            label.label = extract_initials (_text);
+            if (image == null) {
+                label.label = extract_initials (_text);
+                label.visible = true;
+            } else {
+                label.visible = false;
+            }
         }
     }
 
@@ -148,6 +153,8 @@ public class He.Avatar : He.Bin {
         img_blur.add_css_class ("avatar-blur");
         img_blur.halign = Gtk.Align.CENTER;
         img_blur.valign = Gtk.Align.CENTER;
+        
+        label.visible = false;
 
         var ioverlay = new Gtk.Overlay ();
         ioverlay.set_child (img_blur);
