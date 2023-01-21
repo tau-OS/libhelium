@@ -45,7 +45,12 @@ public class He.Dialog : He.Window {
             return title_label.get_text ();
         }
         set {
-            title_label.set_markup (value);
+            if (value != null) {
+                title_label.set_markup (value);
+                title_label.visible = true;
+            } else {
+                title_label.visible = false;
+            }
         }
     }
 
@@ -57,7 +62,12 @@ public class He.Dialog : He.Window {
             return subtitle_label.get_text ();
         }
         set {
-            subtitle_label.set_markup (value);
+            if (value != null) {
+                subtitle_label.set_markup (value);
+                subtitle_label.visible = true;
+            } else {
+                subtitle_label.visible = false;
+            }
         }
     }
 
@@ -69,7 +79,12 @@ public class He.Dialog : He.Window {
             return info_label.get_text ();
         }
         set {
-            info_label.set_markup (value);
+            if (value != null) {
+                info_label.set_markup (value);
+                info_label.visible = true;
+            } else {
+                info_label.visible = false;
+            }
         }
     }
 
@@ -172,18 +187,21 @@ public class He.Dialog : He.Window {
         title_label.add_css_class ("view-title");
         title_label.wrap = true;
         title_label.wrap_mode = Pango.WrapMode.WORD;
+        title_label.visible = false;
         subtitle_label.xalign = 0;
         subtitle_label.add_css_class ("view-subtitle");
         subtitle_label.ellipsize = Pango.EllipsizeMode.END;
         subtitle_label.wrap = true;
         subtitle_label.wrap_mode = Pango.WrapMode.WORD;
         subtitle_label.lines = 2;
+        subtitle_label.visible = false;
         info_label.add_css_class ("body");
         info_label.xalign = 0;
         info_label.vexpand = true;
         info_label.valign = Gtk.Align.START;
         info_label.wrap = true;
         info_label.wrap_mode = Pango.WrapMode.WORD;
+        info_label.visible = false;
         
         info_box.append(image);
         info_box.append(title_label);
@@ -210,8 +228,8 @@ public class He.Dialog : He.Window {
 
         this.set_child (dialog_handle);
         this.resizable = false;
-        this.set_size_request (360, 400);
-        this.set_default_size (360, 400);
+        this.set_size_request (360, 360);
+        this.set_default_size (360, 360);
         this.has_title = false;
     }
 }
