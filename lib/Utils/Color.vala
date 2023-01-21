@@ -65,7 +65,7 @@ namespace He.Color {
   public const RGBColor WHITE = {
       240,
       240,
-      242
+      240
   };
   
   // Colors used for cards or elements atop the bg when Harsh Dark Mode.
