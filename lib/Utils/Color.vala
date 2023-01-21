@@ -70,9 +70,9 @@ namespace He.Color {
   
   // Colors used for cards or elements atop the bg when Harsh Dark Mode.
   public const RGBColor HARSH_CARD_BLACK = {
-      45,
-      45,
-      45
+      30,
+      30,
+      30
   };
 
   // Colors used for cards or elements atop the bg when Medium Dark Mode.
