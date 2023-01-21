@@ -180,10 +180,10 @@ public class He.Application : Gtk.Application {
       @define-color card_bg_color mix($card_background_hex, $accent_color_hex, 0.02);
 
       @define-color window_fg_color mix($base_foreground_hex, $accent_color_hex, 0.01);
-      @define-color view_fg_color mix($card_foreground_hex, $accent_color_hex, 0.02);
+      @define-color view_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
       @define-color headerbar_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
       @define-color popover_fg_color mix($base_foreground_hex, $accent_color_hex, 0.01);
-      @define-color card_fg_color mix($card_foreground_hex, $accent_color_hex, 0.02);
+      @define-color card_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
 
       @define-color destructive_bg_color mix(@destructive_bg_color, $accent_color_hex, 0.01);
       @define-color destructive_fg_color mix(@destructive_fg_color, $accent_color_hex, 0.01);
