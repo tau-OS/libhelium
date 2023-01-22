@@ -136,8 +136,8 @@ public class He.Application : Gtk.Application {
       derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
     }
 
-    var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 13.6 : 15.2;
-    var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 2.1 : 2.2;
+    var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 15.2 : 13.6;
+    var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 2.0 : 2.2;
 
     He.Color.RGBColor derived_accent_fg;
     var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
