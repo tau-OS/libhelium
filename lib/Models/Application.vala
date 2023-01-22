@@ -137,7 +137,7 @@ public class He.Application : Gtk.Application {
     }
 
     var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 15.2 : 7.6;
-    var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 1.3 : 5.6;
+    var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 9.2 : 5.6;
 
     He.Color.RGBColor derived_accent_fg;
     var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
