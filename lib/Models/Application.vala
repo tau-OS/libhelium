@@ -136,8 +136,8 @@ public class He.Application : Gtk.Application {
       derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
     }
 
-    var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 15.8 : 7.72;
-    var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 3.0 : 1.1;
+    var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 15.85 : 7.72;
+    var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 3.23 : 4.52;
 
     He.Color.RGBColor derived_accent_fg;
     var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
@@ -173,21 +173,21 @@ public class He.Application : Gtk.Application {
       @define-color accent_bg_color $accent_color_hex;
       @define-color accent_fg_color $accent_foreground_hex;
 
-      @define-color window_bg_color mix($base_background_hex, $accent_color_hex, 0.09);
-      @define-color view_bg_color mix($card_background_hex, $accent_color_hex, 0.05);
-      @define-color headerbar_bg_color shade(mix($base_background_hex, $accent_color_hex, 0.09), 0.96);
-      @define-color popover_bg_color mix($base_background_hex, $accent_color_hex, 0.09);
-      @define-color card_bg_color mix($card_background_hex, $accent_color_hex, 0.05);
+      @define-color window_bg_color mix(mix($card_background_hex, $accent_color_hex, 0.01), $accent_color_hex, 0.08);
+      @define-color view_bg_color mix($card_background_hex, $accent_color_hex, 0.01);
+      @define-color headerbar_bg_color shade(mix(mix($card_background_hex, $accent_color_hex, 0.01), $accent_color_hex, 0.08), 0.96);
+      @define-color popover_bg_color mix(mix($card_background_hex, $accent_color_hex, 0.01), $accent_color_hex, 0.11);
+      @define-color card_bg_color mix(mix($card_background_hex, $accent_color_hex, 0.01), $accent_color_hex, 0.08);
 
-      @define-color window_fg_color mix($base_foreground_hex, $accent_color_hex, 0.09);
+      @define-color window_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
       @define-color view_fg_color mix($base_foreground_hex, $accent_color_hex, 0.05);
-      @define-color headerbar_fg_color mix($base_foreground_hex, $accent_color_hex, 0.09);
-      @define-color popover_fg_color mix($base_foreground_hex, $accent_color_hex, 0.09);
+      @define-color headerbar_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
+      @define-color popover_fg_color mix($base_foreground_hex, $accent_color_hex, 0.02);
       @define-color card_fg_color mix($base_foreground_hex, $accent_color_hex, 0.05);
 
-      @define-color destructive_bg_color mix(@destructive_bg_color, $accent_color_hex, 0.02);
-      @define-color destructive_fg_color mix(@destructive_fg_color, $accent_color_hex, 0.02);
-      @define-color destructive_color mix(@destructive_color, $accent_color_foreground_hex, 0.02);
+      @define-color destructive_bg_color mix(@destructive_bg_color, $accent_color_hex, 0.05);
+      @define-color destructive_fg_color mix(@destructive_fg_color, $accent_color_hex, 0.05);
+      @define-color destructive_color mix(@destructive_color, $accent_color_foreground_hex, 0.05);
 
       @define-color suggested_bg_color mix(@suggested_bg_color, $accent_color_hex, 0.05);
       @define-color suggested_fg_color mix(@suggested_fg_color, $accent_color_hex, 0.05);
@@ -201,7 +201,7 @@ public class He.Application : Gtk.Application {
       @define-color success_fg_color mix(@success_fg_color, $accent_color_hex, 0.05);
       @define-color success_color mix(@success_color, $accent_color_foreground_hex, 0.05);
 
-      @define-color borders alpha(mix($card_foreground_hex, $accent_color_hex, 0.02), 0.09);
+      @define-color borders alpha(mix($card_foreground_hex, $accent_color_hex, 0.02), 0.2);
     ";
     accent.load_from_data (css.data);
 }
