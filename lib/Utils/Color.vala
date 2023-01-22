@@ -30,10 +30,10 @@ namespace He.Color.LabConstants {
     public const double Yn = 1.0114135331;
     public const double Zn = 1.1190554598;
 
-    public const double t0 = 0.137931034;  // 4 / 29
-    public const double t1 = 0.206896552;  // 6 / 29
-    public const double t2 = 0.128418550;   // 3 * t1 * t1
-    public const double t3 = 0.008856452;  // t1 * t1 * t1
+    public const double t0 = 0.1379310345;  // 4 / 29
+    public const double t1 = 0.2068965523;  // 6 / 29
+    public const double t2 = 0.1284185508;   // 3 * t1 * t1
+    public const double t3 = 0.0088564521;  // t1 * t1 * t1
 }
 
 /**
@@ -61,11 +61,10 @@ namespace He.Color {
       61
   };
 
-  // Not true white because it's too harsh.
   public const RGBColor WHITE = {
-      240,
-      240,
-      240
+      255,
+      255,
+      255
   };
   
   // Colors used for cards or elements atop the bg when Harsh Dark Mode.
@@ -90,9 +89,9 @@ namespace He.Color {
   };
 
   public const RGBColor CARD_WHITE = {
-      250,
-      250,
-      250
+      240,
+      240,
+      240
   };
 
   public struct RGBColor {
