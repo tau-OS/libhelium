@@ -113,7 +113,7 @@ public class He.Application : Gtk.Application {
     }
 
     var lch_color = He.Color.rgb_to_lch (rgb_color);
-    lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 109.0;
+    lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 100.0;
     if (Desktop.DarkModeStrength.MEDIUM == desktop.dark_mode_strength) {
       derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
@@ -136,8 +136,8 @@ public class He.Application : Gtk.Application {
       derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
     }
 
-    var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 12.0 : 7.0;
-    var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 10.0 : 9.0;
+    var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 15.8 : 7.72;
+    var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 3.0 : 1.1;
 
     He.Color.RGBColor derived_accent_fg;
     var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
