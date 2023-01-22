@@ -26,9 +26,9 @@ namespace He.Color.LabConstants {
     public const double Kn = 18;
 
     // D65 standard referent
-    public const double Xn = 0.950470;
-    public const double Yn = 1;
-    public const double Zn = 1.088830;
+    public const double Xn = 0.9570855264;
+    public const double Yn = 1.0114135331;
+    public const double Zn = 1.1190554598;
 
     public const double t0 = 0.137931034;  // 4 / 29
     public const double t1 = 0.206896552;  // 6 / 29
