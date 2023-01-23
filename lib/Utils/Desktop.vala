@@ -115,8 +115,8 @@ public class He.Desktop : Object {
         }
     }
 
-    private Gdk.RGBA? _wallpaper_accent_color;
-    public Gdk.RGBA? wallpaper_accent_color {
+    private He.Color.RGBColor? _wallpaper_accent_color;
+    public He.Color.RGBColor? wallpaper_accent_color {
         get {
             return _wallpaper_accent_color;
         }
@@ -145,12 +145,7 @@ public class He.Desktop : Object {
                 }
 
                 if (accent.get_uint32() == 1) { // Wallpaper
-                    He.Color.RGBColor rgb_color = {
-                        (int) (wallpaper_accent_color.red * 255),
-                        (int) (wallpaper_accent_color.green * 255),
-                        (int) (wallpaper_accent_color.blue * 255)
-                    };
-                    accent_color = rgb_color;
+                    accent_color = wallpaper_accent_color;
                     return;
                 }
             }
@@ -187,9 +182,7 @@ public class He.Desktop : Object {
                     return;
                 }
                 if (val.get_type().equal(VariantType.UINT32) && val.get_uint32() == 1) { // Wallpaper
-                    He.Color.RGBColor rgb_color = He.Color.from_gdk_rgba (wallpaper_accent_color);
-    
-                    accent_color = rgb_color;
+                    accent_color = wallpaper_accent_color;
                     return;
                 }
 
