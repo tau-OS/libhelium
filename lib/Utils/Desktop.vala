@@ -114,6 +114,16 @@ public class He.Desktop : Object {
             _accent_color = value;
         }
     }
+
+    private Gdk.RGBA? _wallpaper_accent_color;
+    public Gdk.RGBA? wallpaper_accent_color {
+        get {
+            return _wallpaper_accent_color;
+        }
+        set {
+            _wallpaper_accent_color = value;
+        }
+    }
     
     private void setup_accent_color () {
         try {
@@ -128,9 +138,20 @@ public class He.Desktop : Object {
                 "accent-color"
             ).get_variant ();
             
-            if (accent.get_type().equal(VariantType.UINT32)) {
+            if (accent.get_uint32() = 0) { // Multicolor
                 accent_color = null;
 
+                return;
+            }
+
+            if (accent.get_uint32() = 1) { // Wallpaper
+                He.Color.RGBColor rgb_color = {
+                    (int) (wallpaper_accent_color.red * 255),
+                    (int) (wallpaper_accent_color.green * 255),
+                    (int) (wallpaper_accent_color.blue * 255)
+                };
+
+                accent_color = rgb_color;
                 return;
             }
 
