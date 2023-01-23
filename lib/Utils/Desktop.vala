@@ -142,9 +142,7 @@ public class He.Desktop : Object {
                 if (accent.get_uint32() == 0) { // Multicolor
                     accent_color = null;
                     return;
-                }
-
-                if (accent.get_uint32() == 1) { // Wallpaper
+                } else if (accent.get_uint32() == -1) { // Wallpaper
                     accent_color = wallpaper_accent_color;
                     return;
                 }
