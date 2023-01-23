@@ -138,33 +138,39 @@ public class He.Desktop : Object {
                 "accent-color"
             ).get_variant ();
             
-            if (accent.get_type().equal(VariantType.UINT32) && accent.get_uint32() == 0) { // Multicolor
-                accent_color = null;
+            if (accent.get_type().equal(VariantType.UINT32)) {
+                if (accent.get_uint32() == 0) { // Multicolor
+                    accent_color = null;
+                    return;
+                }
 
-                return;
-            } else if (accent.get_type().equal(VariantType.UINT32) && accent.get_uint32() == 1) { // Wallpaper
-                He.Color.RGBColor rgb_color = He.Color.from_gdk_rgba (wallpaper_accent_color);
-
-                accent_color = rgb_color;
-                return;
-            } else {
-                VariantIter iter = accent.iterator ();
-                iter.next ("d", out cr);
-                iter.next ("d", out cg);
-                iter.next ("d", out cb);
-
-                // from https://github.com/wash2/hue-chroma-accent
-
-                He.Color.RGBColor rgb_color = {
-                    (int) (cr * 255),
-                    (int) (cg * 255),
-                    (int) (cb * 255)
-                };
-
-                accent_color = rgb_color;
-                
-                return;
+                if (accent.get_uint32() == 1) { // Wallpaper
+                    He.Color.RGBColor rgb_color = {
+                        (int) (wallpaper_accent_color.red * 255),
+                        (int) (wallpaper_accent_color.green * 255),
+                        (int) (wallpaper_accent_color.blue * 255)
+                    };
+                    accent_color = rgb_color;
+                    return;
+                }
             }
+
+            VariantIter iter = accent.iterator ();
+            iter.next ("d", out cr);
+            iter.next ("d", out cg);
+            iter.next ("d", out cb);
+
+            // from https://github.com/wash2/hue-chroma-accent
+
+            He.Color.RGBColor rgb_color = {
+                (int) (cr * 255),
+                (int) (cg * 255),
+                (int) (cb * 255)
+            };
+
+            accent_color = rgb_color;
+            
+            return;
         } catch (Error e) {
             debug ("%s", e.message);
         }
@@ -179,26 +185,27 @@ public class He.Desktop : Object {
                     accent_color = null;
     
                     return;
-                } else if (val.get_type().equal(VariantType.UINT32) && val.get_uint32() == 1) { // Wallpaper
+                }
+                if (val.get_type().equal(VariantType.UINT32) && val.get_uint32() == 1) { // Wallpaper
                     He.Color.RGBColor rgb_color = He.Color.from_gdk_rgba (wallpaper_accent_color);
     
                     accent_color = rgb_color;
                     return;
-                } else {
-                    double cr, cg, cb = 0;
-                    var iter = val.iterator ();
-                    iter.next ("d", out cr);
-                    iter.next ("d", out cg);
-                    iter.next ("d", out cb);
-
-                    He.Color.RGBColor rgb_color = {
-                        (int) (cr * 255),
-                        (int) (cg * 255),
-                        (int) (cb * 255)
-                    };
-
-                    accent_color = rgb_color;
                 }
+
+                double cr, cg, cb = 0;
+                var iter = val.iterator ();
+                iter.next ("d", out cr);
+                iter.next ("d", out cg);
+                iter.next ("d", out cb);
+
+                He.Color.RGBColor rgb_color = {
+                    (int) (cr * 255),
+                    (int) (cg * 255),
+                    (int) (cb * 255)
+                };
+
+                accent_color = rgb_color;
             }
             
             if (scheme == "org.freedesktop.appearance" && key == "dark-mode-strength") {
