@@ -105,8 +105,8 @@ public class He.Desktop : Object {
     /**
     * The accent color preference.
     */
-    private He.Color.RGBColor? _accent_color;
-    public He.Color.RGBColor? accent_color {
+    private string? _accent_color;
+    public string? accent_color {
         get {
             return _accent_color;
         }
@@ -118,8 +118,6 @@ public class He.Desktop : Object {
     private void setup_accent_color () {
         try {
             portal = Portal.Settings.get ();
-
-            double cr, cg, cb = 0;
             
             // The accent color is stored as a Gdk.RGBA in the GVariant format "(ddd)"
             // where r,g,b,a are floats between 0.0 and 1.0.
@@ -128,25 +126,12 @@ public class He.Desktop : Object {
                 "accent-color"
             ).get_variant ();
             
-            if (accent.get_type().equal(VariantType.UINT32)) {
+            if (accent == "") {
                 accent_color = null;
                 return;
             }
 
-            VariantIter iter = accent.iterator ();
-            iter.next ("d", out cr);
-            iter.next ("d", out cg);
-            iter.next ("d", out cb);
-
-            // from https://github.com/wash2/hue-chroma-accent
-
-            He.Color.RGBColor rgb_color = {
-                (int) (cr * 255),
-                (int) (cg * 255),
-                (int) (cb * 255)
-            };
-
-            accent_color = rgb_color;
+            accent_color = accent.get_string ();
             
             return;
         } catch (Error e) {
@@ -165,19 +150,7 @@ public class He.Desktop : Object {
                     return;
                 }
 
-                double cr, cg, cb = 0;
-                var iter = val.iterator ();
-                iter.next ("d", out cr);
-                iter.next ("d", out cg);
-                iter.next ("d", out cb);
-
-                He.Color.RGBColor rgb_color = {
-                    (int) (cr * 255),
-                    (int) (cg * 255),
-                    (int) (cb * 255)
-                };
-
-                accent_color = rgb_color;
+                accent_color = val.get_string ();
             }
             
             if (scheme == "org.freedesktop.appearance" && key == "dark-mode-strength") {

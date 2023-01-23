@@ -347,4 +347,14 @@ namespace He.Color {
 
     return result;
   }
+
+  public RGBColor from_hex (string color) {
+    RGBColor result = {
+      int.parse(color.replace("#","").substring(0, 1)),
+      int.parse(color.replace("#","").substring(2, 3)),
+      int.parse(color.replace("#","").substring(4, 5)),
+    };
+
+    return result;
+  }
 }

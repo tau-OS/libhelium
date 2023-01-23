@@ -102,14 +102,14 @@ public class He.Application : Gtk.Application {
   private void update_accent_color() {
     He.Color.RGBColor rgb_color;
 
-    if (desktop.accent_color == null) {
+    if (desktop.accent_color == "") {
       if (default_accent_color != null) {
         rgb_color = default_accent_color;
       } else {
         rgb_color = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? default_dark_accent : default_light_accent;
       }
     } else {
-      rgb_color = desktop.accent_color;
+      rgb_color = He.Color.from_hex(desktop.accent_color);
     }
 
     var lch_color = He.Color.rgb_to_lch (rgb_color);
