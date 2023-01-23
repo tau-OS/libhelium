@@ -102,13 +102,13 @@ public class He.Application : Gtk.Application {
   private void update_accent_color() {
     He.Color.RGBColor rgb_color;
 
-    if (desktop.accent_color == null) {
-      if (default_accent_color != null) {
-        rgb_color = default_accent_color;
-      } else {
-        rgb_color = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? default_dark_accent : default_light_accent;
-      }
-    } if (desktop.wallpaper_accent_color != null) {
+    if (default_accent_color != null) {
+      rgb_color = default_accent_color;
+    } else {
+      rgb_color = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? default_dark_accent : default_light_accent;
+    }
+    
+    if (desktop.wallpaper_accent_color != null) {
       rgb_color = He.Color.from_gdk_rgba (desktop.wallpaper_accent_color);
     } else {
       rgb_color = desktop.accent_color;
