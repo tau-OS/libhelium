@@ -163,8 +163,4 @@ public class He.ModifierBadge : He.Bin {
         this.valign = Gtk.Align.CENTER;
         this.alignment = Alignment.RIGHT;
     }
-
-    ~ModifierBadge() {
-        this._label?.unparent();
-    }
 }

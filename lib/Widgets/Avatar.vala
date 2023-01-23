@@ -153,8 +153,6 @@ public class He.Avatar : He.Bin {
         img_blur.add_css_class ("avatar-blur");
         img_blur.halign = Gtk.Align.CENTER;
         img_blur.valign = Gtk.Align.CENTER;
-        
-        label.visible = false;
 
         var ioverlay = new Gtk.Overlay ();
         ioverlay.set_child (img_blur);
@@ -165,6 +163,8 @@ public class He.Avatar : He.Bin {
         label.valign = Gtk.Align.CENTER;
         label.add_css_class ("dim-label");
         label.add_css_class ("avatar-label");
+
+        label.visible = false;
 
         var overlay = new Gtk.Overlay ();
         overlay.set_child (ioverlay);

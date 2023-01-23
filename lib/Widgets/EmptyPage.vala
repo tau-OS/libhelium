@@ -118,8 +118,4 @@ public class He.EmptyPage : He.Bin {
         this.hexpand = true;
         this.vexpand = true;
     }
-
-    ~EmptyPage() {
-        box.unparent();
-    }
 }

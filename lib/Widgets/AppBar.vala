@@ -347,8 +347,4 @@ public class He.AppBar : He.Bin {
     static construct {
         set_layout_manager_type (typeof (Gtk.BoxLayout));
     }
-
-    ~AppBar () {
-        this.unparent ();
-    }
 }

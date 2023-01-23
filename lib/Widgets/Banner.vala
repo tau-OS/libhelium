@@ -163,9 +163,5 @@ public class He.Banner : He.Bin, Gtk.Buildable {
         this.set_valign (Gtk.Align.START);
         this.set_vexpand (false);
     }
-
-    ~Banner () {
-        this.main_box.unparent ();
-    }
 }
   
