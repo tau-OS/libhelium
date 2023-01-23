@@ -119,21 +119,14 @@ public class He.Desktop : Object {
         try {
             portal = Portal.Settings.get ();
             
-            // The accent color is stored as a Gdk.RGBA in the GVariant format "(ddd)"
-            // where r,g,b,a are floats between 0.0 and 1.0.
+            // The accent color is stored as a string in the GVariant format "s"
+            // where it is either a color name or a hexcode.
             var accent = portal.read (
                 "org.freedesktop.appearance",
                 "accent-color"
-            ).get_variant ();
+            ).get_variant ().get_string ();
             
-            if (accent == "") {
-                accent_color = null;
-                return;
-            }
-
-            accent_color = accent.get_string ();
-            
-            return;
+            accent_color = accent;
         } catch (Error e) {
             debug ("%s", e.message);
         }
@@ -144,12 +137,6 @@ public class He.Desktop : Object {
     private void init_handle_settings_change() {
         portal.setting_changed.connect ((scheme, key, val) => {
             if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
-                if (val.get_type().equal(VariantType.UINT32)) { // Multicolor
-                    accent_color = null;
-    
-                    return;
-                }
-
                 accent_color = val.get_string ();
             }
             

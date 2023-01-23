@@ -102,7 +102,7 @@ public class He.Application : Gtk.Application {
   private void update_accent_color() {
     He.Color.RGBColor rgb_color;
 
-    if (desktop.accent_color == "") {
+    if (desktop.accent_color == null) {
       if (default_accent_color != null) {
         rgb_color = default_accent_color;
       } else {
