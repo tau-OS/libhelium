@@ -111,9 +111,6 @@ public class He.Application : Gtk.Application {
     } else {
       rgb_color = desktop.accent_color;
     }
-    if (desktop.wallpaper_accent_color != null) {
-      rgb_color = desktop.wallpaper_accent_color;
-    }
 
     var lch_color = He.Color.rgb_to_lch (rgb_color);
     lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 100.0;
