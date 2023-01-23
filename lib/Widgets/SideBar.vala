@@ -193,5 +193,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
         main_box.append (box);
 
         main_box.set_parent (this);
+        
+        this.add_css_class ("sidebar-view");
     }
 }
