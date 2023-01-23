@@ -108,6 +108,8 @@ public class He.Application : Gtk.Application {
       } else {
         rgb_color = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? default_dark_accent : default_light_accent;
       }
+    } if (desktop.wallpaper_accent_color != null) {
+      rgb_color = He.Color.from_gdk_rgba (desktop.wallpaper_accent_color);
     } else {
       rgb_color = desktop.accent_color;
     }

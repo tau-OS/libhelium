@@ -138,18 +138,14 @@ public class He.Desktop : Object {
                 "accent-color"
             ).get_variant ();
             
-            if (accent.get_uint32() == 0) { // Multicolor
+            if (accent.get_type().equal(VariantType.UINT32) && accent.get_uint32() == 0) { // Multicolor
                 accent_color = null;
 
                 return;
             }
 
-            if (accent.get_uint32() == 1) { // Wallpaper
-                He.Color.RGBColor rgb_color = {
-                    (int) (wallpaper_accent_color.red * 255),
-                    (int) (wallpaper_accent_color.green * 255),
-                    (int) (wallpaper_accent_color.blue * 255)
-                };
+            if (accent.get_type().equal(VariantType.UINT32) && accent.get_uint32() == 1) { // Wallpaper
+                He.Color.RGBColor rgb_color = He.Color.from_gdk_rgba (wallpaper_accent_color);
 
                 accent_color = rgb_color;
                 return;
@@ -181,9 +177,16 @@ public class He.Desktop : Object {
     private void init_handle_settings_change() {
         portal.setting_changed.connect ((scheme, key, val) => {
             if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
-                if (val.get_type().equal(VariantType.UINT32)) {
+                if (val.get_type().equal(VariantType.UINT32) && val.get_uint32() == 0) { // Multicolor
                     accent_color = null;
-
+    
+                    return;
+                }
+    
+                if (val.get_type().equal(VariantType.UINT32) && val.get_uint32() == 1) { // Wallpaper
+                    He.Color.RGBColor rgb_color = He.Color.from_gdk_rgba (wallpaper_accent_color);
+    
+                    accent_color = rgb_color;
                     return;
                 }
 
