@@ -111,10 +111,6 @@
         on_pages_changed (0, 0, this.stack.pages.get_n_items ());
     }
 
-    ~SettingsWindow () {
-        this.unparent ();
-    }
-
     private void on_pages_changed (uint position, uint removed, uint added) {
         if (this.stack.pages.get_n_items () <= 1) {
             if (this.switcher.get_parent () != null && this.switcher.get_parent () == this.box) {

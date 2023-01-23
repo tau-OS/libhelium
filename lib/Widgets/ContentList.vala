@@ -103,21 +103,6 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
     	base ();
     }
 
-    ~ContentList () {
-        if (list != null) {
-            list.unparent ();
-        }
-        if (text_box != null) {
-            text_box.unparent ();
-        }
-        if (title_label != null) {
-            title_label.unparent ();
-        }
-        if (description_label != null) {
-            description_label.unparent ();
-        }
-    }
-
     construct {
         this.title_label.set_visible (false);
         this.description_label.set_visible (false);

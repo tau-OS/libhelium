@@ -188,10 +188,4 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
         box.append(button_box);
         box.set_parent(this);
     }
-
-    ~ContentBlock() {
-        this.info_box.unparent();
-        this.button_box.unparent();
-        this.dispose();
-    }
 }

@@ -146,10 +146,6 @@ public class He.Toast : He.Bin {
         });
     }
 
-    ~Toast () {
-        get_first_child ().unparent ();
-    }
-
     private void start_timeout () {
         uint duration;
 

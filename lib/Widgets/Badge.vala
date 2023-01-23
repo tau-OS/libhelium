@@ -87,9 +87,4 @@ public class He.Badge : He.Bin {
         overlay.add_overlay (box);
         overlay.set_parent (this);
     }
-
-    ~Badge () {
-        this.overlay.unparent ();
-        this.box.unparent ();
-    }
 }

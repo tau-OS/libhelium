@@ -169,4 +169,13 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
 
         has_margins = true;
     }
+
+    ~View () {
+        Gtk.Widget child;
+
+        while ((child = this.get_first_child ()) != null)
+            child.unparent ();
+
+        this.unparent ();
+    }
 }

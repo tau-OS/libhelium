@@ -49,9 +49,7 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
     }
     
     construct {
-        var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-        main_box.append (box);
-        main_box.set_parent (this);
+        box.set_parent (this);
     }
     
     static construct {
@@ -59,9 +57,11 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
     }
 
     ~Bin () {
-        if (this.child != null) {
-            this.child.unparent ();
-        }
-        box.unparent ();
+      Gtk.Widget child;
+
+      while ((child = this.get_first_child ()) != null)
+        child.unparent ();
+
+      this.unparent ();
     }
 }

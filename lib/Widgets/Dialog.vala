@@ -177,11 +177,6 @@ public class He.Dialog : He.Window {
         this.secondary_button = secondary_button;
     }
 
-    ~Dialog() {
-        this.unparent();
-        this.dialog_handle.dispose();
-    }
-
     construct {
         image.valign = Gtk.Align.CENTER;
         title_label.add_css_class ("view-title");

@@ -347,11 +347,6 @@ public class He.AboutWindow : He.Window {
     this.set_child(window_handle);
   }
 
-  ~AboutWindow() {
-    this.unparent();
-    this.window_overlay.dispose();
-  }
-
   /**
   * Creates a new AboutWindow.
   * @param parent The parent window.

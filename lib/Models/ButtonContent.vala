@@ -68,6 +68,11 @@ public class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
     }
 
     ~ButtonContent () {
-        box.unparent ();
+        Gtk.Widget child;
+
+        while ((child = this.get_first_child ()) != null)
+            child.unparent ();
+
+        this.unparent ();
     }
 }

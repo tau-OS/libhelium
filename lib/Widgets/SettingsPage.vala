@@ -64,8 +64,4 @@ public class He.SettingsPage : He.Bin, Gtk.Buildable {
     construct {
         box.set_parent (this);
     }
-
-    ~SettingsPage () {
-        this.unparent ();
-    }
 }
