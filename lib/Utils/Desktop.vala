@@ -110,7 +110,7 @@ public class He.Desktop : Object {
         get {
             return _accent_color;
         }
-        private set {
+        set {
             _accent_color = value;
         }
     }
