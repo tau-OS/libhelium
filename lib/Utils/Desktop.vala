@@ -138,13 +138,13 @@ public class He.Desktop : Object {
                 "accent-color"
             ).get_variant ();
             
-            if (accent.get_uint32() = 0) { // Multicolor
+            if (accent.get_uint32() == 0) { // Multicolor
                 accent_color = null;
 
                 return;
             }
 
-            if (accent.get_uint32() = 1) { // Wallpaper
+            if (accent.get_uint32() == 1) { // Wallpaper
                 He.Color.RGBColor rgb_color = {
                     (int) (wallpaper_accent_color.red * 255),
                     (int) (wallpaper_accent_color.green * 255),
