@@ -105,8 +105,8 @@ public class He.Desktop : Object {
     /**
     * The accent color preference.
     */
-    private string? _accent_color;
-    public string? accent_color {
+    private He.Color.RGBColor? _accent_color;
+    public He.Color.RGBColor? accent_color {
         get {
             return _accent_color;
         }
@@ -126,12 +126,14 @@ public class He.Desktop : Object {
                 "accent-color"
             ).get_variant ();
 
-            if (accent.get_type().equal(VariantType.UINT32)) {
+            if (accent.get_string () == "#multi") {
                 accent_color = null;
                 return;
             }
-            
-            accent_color = accent.get_string ();
+
+            string color = accent.get_string ();
+            accent_color = He.Color.from_hex(color);
+            return;
         } catch (Error e) {
             debug ("%s", e.message);
         }
@@ -142,12 +144,12 @@ public class He.Desktop : Object {
     private void init_handle_settings_change() {
         portal.setting_changed.connect ((scheme, key, val) => {
             if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
-                if (val.get_type().equal(VariantType.UINT32)) {
+                if (val.get_string () == "#multi") {
                     accent_color = null;
-                    return;
                 }
 
-                accent_color = (string) val.get_string ();
+                string color = val.get_string ();
+                accent_color = He.Color.from_hex(color);
             }
             
             if (scheme == "org.freedesktop.appearance" && key == "dark-mode-strength") {
