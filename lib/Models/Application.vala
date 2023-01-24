@@ -110,6 +110,7 @@ public class He.Application : Gtk.Application {
       }
     } else {
       rgb_color = He.Color.from_hex(desktop.accent_color);
+      print ("\n\nOG color: %s\nHe.Color.RGBColor color: %s\n\n".printf(desktop.accent_color, He.Color.hexcode (rgb_color.r, rgb_color.g, rgb_color.b)));
     }
 
     var lch_color = He.Color.rgb_to_lch (rgb_color);

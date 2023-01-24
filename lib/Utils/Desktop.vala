@@ -120,7 +120,7 @@ public class He.Desktop : Object {
             portal = Portal.Settings.get ();
             
             // The accent color is stored as a string in the GVariant format "s"
-            // where it is either a color name or a hexcode.
+            // where it is a hexcode.
             var accent = portal.read (
                 "org.freedesktop.appearance",
                 "accent-color"
@@ -137,7 +137,7 @@ public class He.Desktop : Object {
     private void init_handle_settings_change() {
         portal.setting_changed.connect ((scheme, key, val) => {
             if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
-                accent_color = val.get_string ();
+                accent_color = (string) val.get_string ();
             }
             
             if (scheme == "org.freedesktop.appearance" && key == "dark-mode-strength") {

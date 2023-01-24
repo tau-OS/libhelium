@@ -350,9 +350,9 @@ namespace He.Color {
 
   public RGBColor from_hex (string color) {
     RGBColor result = {
-      int.parse(color.replace("#","").substring(0, 1))* 255,
-      int.parse(color.replace("#","").substring(1, 2))* 255,
-      int.parse(color.replace("#","").substring(2, 3))* 255,
+      (int)(uint.parse(color.substring(1, 2), 16)),
+      (int)(uint.parse(color.substring(3, 2), 16)),
+      (int)(uint.parse(color.substring(5, 2), 16)),
     };
 
     return result;
