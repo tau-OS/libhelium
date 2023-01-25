@@ -117,22 +117,22 @@ public class He.Application : Gtk.Application {
     if (Desktop.DarkModeStrength.MEDIUM == desktop.dark_mode_strength) {
       derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-      derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
+      derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
     } else if (Desktop.DarkModeStrength.SOFT == desktop.dark_mode_strength) {
       derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.SOFT_BLACK;
       derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.SOFT_BLACK : He.Color.WHITE;
-      derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.SOFT_CARD_BLACK : He.Color.CARD_WHITE;
+      derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.SOFT_CARD_BLACK : He.Color.CARD_WHITE;
     } else if (Desktop.DarkModeStrength.HARSH == desktop.dark_mode_strength) {
       derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.HARSH_BLACK;
       derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.HARSH_BLACK : He.Color.WHITE;
-      derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.HARSH_CARD_BLACK : He.Color.CARD_WHITE;
+      derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.HARSH_CARD_BLACK : He.Color.CARD_WHITE;
     } else {
       derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-      derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
+      derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
     }
 
