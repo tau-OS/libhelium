@@ -23,7 +23,7 @@
 [SingleInstance]
 public class He.Desktop : Object {
     private Portal.Settings? portal = null;
-    
+
     /**
     * The color scheme preference enum, which is used to determine the color scheme of the desktop.
     */
@@ -32,7 +32,7 @@ public class He.Desktop : Object {
         DARK,
         LIGHT
     }
-    
+
     /**
     * The color scheme preference.
     */
@@ -45,24 +45,24 @@ public class He.Desktop : Object {
             _prefers_color_scheme = value;
         }
     }
-    
+
     private void setup_prefers_color_scheme () {
         try {
             portal = Portal.Settings.get ();
-            
+
             prefers_color_scheme = (ColorScheme) portal.read (
                 "org.freedesktop.appearance",
                 "color-scheme"
             ).get_variant ().get_uint32 ();
-            
+
             return;
         } catch (Error e) {
             debug ("%s", e.message);
         }
-        
+
         prefers_color_scheme = ColorScheme.NO_PREFERENCE;
     }
-    
+
     /**
     * The dark mode strength preference enum, which is used to determine the dark mode strength of the desktop.
     */
@@ -71,7 +71,7 @@ public class He.Desktop : Object {
         HARSH,
         SOFT
     }
-    
+
     /**
     * The color scheme preference.
     */
@@ -84,24 +84,24 @@ public class He.Desktop : Object {
             _dark_mode_strength = value;
         }
     }
-    
+
     private void setup_dark_mode_strength () {
         try {
             portal = Portal.Settings.get ();
-            
+
             dark_mode_strength = (DarkModeStrength) portal.read (
                 "org.freedesktop.appearance",
                 "dark-mode-strength"
             ).get_variant ().get_uint32 ();
-            
+
             return;
         } catch (Error e) {
             debug ("%s", e.message);
         }
-        
+
         dark_mode_strength = DarkModeStrength.MEDIUM;
     }
-    
+
     /**
     * The accent color preference.
     */
@@ -114,25 +114,41 @@ public class He.Desktop : Object {
             _accent_color = value;
         }
     }
-    
+
+    private He.Color.RGBColor? parse_accent_color (GLib.Variant val) {
+        if (val.get_type().equal(VariantType.UINT32)) {
+            return null;
+        }
+
+        // The accent color is stored as a Gdk.RGBA in the GVariant format "(ddd)"
+        // where r,g,b,a are floats between 0.0 and 1.0.
+        double cr, cg, cb = 0;
+
+        VariantIter iter = val.iterator ();
+        iter.next ("d", out cr);
+        iter.next ("d", out cg);
+        iter.next ("d", out cb);
+
+        He.Color.RGBColor rgb_color = {
+            (int) (cr * 255),
+            (int) (cg * 255),
+            (int) (cb * 255)
+        };
+
+        return rgb_color;
+    }
+
     private void setup_accent_color () {
         try {
             portal = Portal.Settings.get ();
-            
-            // The accent color is stored as a string in the GVariant format "s"
-            // where it is a hexcode.
+
             var accent = portal.read (
                 "org.freedesktop.appearance",
                 "accent-color"
             ).get_variant ();
 
-            if (accent.get_string () == "#multi") {
-                accent_color = null;
-                return;
-            }
+            accent_color = parse_accent_color (accent);
 
-            string color = accent.get_string ();
-            accent_color = He.Color.from_hex(color);
             return;
         } catch (Error e) {
             debug ("%s", e.message);
@@ -144,14 +160,9 @@ public class He.Desktop : Object {
     private void init_handle_settings_change() {
         portal.setting_changed.connect ((scheme, key, val) => {
             if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
-                if (val.get_string () == "#multi") {
-                    accent_color = null;
-                }
-
-                string color = val.get_string ();
-                accent_color = He.Color.from_hex(color);
+                accent_color = parse_accent_color (val);
             }
-            
+
             if (scheme == "org.freedesktop.appearance" && key == "dark-mode-strength") {
                 dark_mode_strength = (DarkModeStrength) val.get_uint32 ();
             }
