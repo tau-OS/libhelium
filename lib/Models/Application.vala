@@ -158,9 +158,6 @@ public class He.Application : Gtk.Application {
     this.foreground = derived_fg;
     this.accent_foreground = derived_accent_as_rgb_fg;
 
-    var base_foreground_hex = Color.hexcode ((double) derived_fg.r, (double) derived_fg.g, (double) derived_fg.b);
-    var base_background_hex = Color.hexcode ((double) derived_bg.r, (double) derived_bg.g, (double) derived_bg.b);
-
     var card_foreground_hex = Color.hexcode ((double) derived_card_fg.r, (double) derived_card_fg.g, (double) derived_card_fg.b);
     var card_background_hex = Color.hexcode ((double) derived_card_bg.r, (double) derived_card_bg.g, (double) derived_card_bg.b);
 
@@ -173,17 +170,17 @@ public class He.Application : Gtk.Application {
       @define-color accent_bg_color $accent_color_hex;
       @define-color accent_fg_color $accent_foreground_hex;
 
-      @define-color window_bg_color mix($card_background_hex, $accent_color_hex, 0.08);
-      @define-color view_bg_color mix($base_background_hex, $accent_color_hex, 0.03);
-      @define-color headerbar_bg_color shade(mix($card_background_hex, $accent_color_hex, 0.08), 0.96);
+      @define-color window_bg_color mix($card_background_hex, $accent_color_hex, 0.03);
+      @define-color view_bg_color mix($card_background_hex, $accent_color_hex, 0.03);
+      @define-color headerbar_bg_color mix($card_background_hex, $accent_color_hex, 0.08);
       @define-color popover_bg_color mix($card_background_hex, $accent_color_hex, 0.11);
-      @define-color card_bg_color mix($base_background_hex, $accent_color_hex, 0.03);
+      @define-color card_bg_color mix($card_background_hex, $accent_color_hex, 0.03);
 
-      @define-color window_fg_color mix($base_foreground_hex, $accent_color_hex, 0.03);
-      @define-color view_fg_color mix($base_foreground_hex, $accent_color_hex, 0.03);
-      @define-color headerbar_fg_color mix($base_foreground_hex, $accent_color_hex, 0.03);
-      @define-color popover_fg_color mix($base_foreground_hex, $accent_color_hex, 0.03);
-      @define-color card_fg_color mix($base_foreground_hex, $accent_color_hex, 0.03);
+      @define-color window_fg_color mix($card_foreground_hex, $accent_color_hex, 0.03);
+      @define-color view_fg_color mix($card_foreground_hex, $accent_color_hex, 0.03);
+      @define-color headerbar_fg_color mix($card_foreground_hex, $accent_color_hex, 0.03);
+      @define-color popover_fg_color mix($card_foreground_hex, $accent_color_hex, 0.03);
+      @define-color card_fg_color mix($card_foreground_hex, $accent_color_hex, 0.03);
 
       @define-color destructive_bg_color mix(@destructive_bg_color, $accent_color_hex, 0.03);
       @define-color destructive_fg_color mix(@destructive_fg_color, $accent_color_hex, 0.03);
