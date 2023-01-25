@@ -168,6 +168,8 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
         main_box.set_parent (this);
 
         has_margins = true;
+        
+        this.add_css_class ("main-view");
     }
 
     ~View () {
