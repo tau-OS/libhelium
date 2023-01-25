@@ -89,9 +89,9 @@ namespace He.Color {
   };
 
   public const RGBColor CARD_WHITE = {
-      240,
-      240,
-      240
+      255,
+      255,
+      255
   };
 
   public struct RGBColor {
