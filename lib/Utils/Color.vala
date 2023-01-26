@@ -42,9 +42,9 @@ namespace He.Color.LabConstants {
 namespace He.Color {
   // True Black for Harsh Dark Mode.
   public const RGBColor HARSH_BLACK = {
-      0,
-      0,
-      0
+      18,
+      18,
+      18
   };
 
   // Medium black for Medium Dark Mode.
@@ -69,23 +69,23 @@ namespace He.Color {
   
   // Colors used for cards or elements atop the bg when Harsh Dark Mode.
   public const RGBColor HARSH_CARD_BLACK = {
-      30,
-      30,
-      30
+      18,
+      18,
+      18
   };
 
   // Colors used for cards or elements atop the bg when Medium Dark Mode.
   public const RGBColor CARD_BLACK = {
-      61,
-      61,
-      61
+      45,
+      45,
+      45
   };
   
   // Colors used for cards or elements atop the bg when Soft Dark Mode.
   public const RGBColor SOFT_CARD_BLACK = {
-      90,
-      90,
-      90
+      61,
+      61,
+      61
   };
 
   public const RGBColor CARD_WHITE = {
