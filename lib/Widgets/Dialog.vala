@@ -165,6 +165,7 @@ public class He.Dialog : He.Window {
         title_label.wrap = true;
         title_label.wrap_mode = Pango.WrapMode.WORD;
         title_label.visible = false;
+        title_label.width_chars = 25;
         info_label.add_css_class ("body");
         info_label.xalign = 0;
         info_label.vexpand = true;
