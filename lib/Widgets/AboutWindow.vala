@@ -345,6 +345,7 @@ public class He.AboutWindow : He.Window {
     window_handle.set_child (window_overlay);
 
     this.set_child(window_handle);
+    this.add_css_class ("dialog-content");
   }
 
   /**

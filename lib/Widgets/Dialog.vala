@@ -22,12 +22,11 @@
  */
 public class He.Dialog : He.Window {
     private Gtk.Label title_label = new Gtk.Label(null);
-    private Gtk.Label subtitle_label = new Gtk.Label(null);
     private Gtk.Label info_label = new Gtk.Label(null);
     private Gtk.Image image = new Gtk.Image();
     private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 24);
-    private Gtk.Box child_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 6);
-    private Gtk.Box button_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 24);
+    private Gtk.Box child_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
+    private Gtk.Box button_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 12);
     private Gtk.WindowHandle dialog_handle = new Gtk.WindowHandle ();
     private He.TintButton _secondary_button;
     private He.FillButton _primary_button;
@@ -50,23 +49,6 @@ public class He.Dialog : He.Window {
                 title_label.visible = true;
             } else {
                 title_label.visible = false;
-            }
-        }
-    }
-
-    /**
-     * Sets the subtitle of the dialog.
-     */
-    public string subtitle {
-        get {
-            return subtitle_label.get_text ();
-        }
-        set {
-            if (value != null) {
-                subtitle_label.set_markup (value);
-                subtitle_label.visible = true;
-            } else {
-                subtitle_label.visible = false;
             }
         }
     }
@@ -169,8 +151,8 @@ public class He.Dialog : He.Window {
     public Dialog(bool modal, Gtk.Window? parent, string title, string subtitle, string info, string icon, He.FillButton? primary_button, He.TintButton? secondary_button) {
         this.modal = modal;
         this.parent = parent;
+        this.transient_for = parent;
         this.title = title;
-        this.subtitle = subtitle;
         this.info = info;
         this.icon = icon;
         this.primary_button = primary_button;
@@ -183,13 +165,6 @@ public class He.Dialog : He.Window {
         title_label.wrap = true;
         title_label.wrap_mode = Pango.WrapMode.WORD;
         title_label.visible = false;
-        subtitle_label.xalign = 0;
-        subtitle_label.add_css_class ("view-subtitle");
-        subtitle_label.ellipsize = Pango.EllipsizeMode.END;
-        subtitle_label.wrap = true;
-        subtitle_label.wrap_mode = Pango.WrapMode.WORD;
-        subtitle_label.lines = 2;
-        subtitle_label.visible = false;
         info_label.add_css_class ("body");
         info_label.xalign = 0;
         info_label.vexpand = true;
@@ -226,5 +201,6 @@ public class He.Dialog : He.Window {
         this.set_size_request (360, 360);
         this.set_default_size (360, 360);
         this.has_title = false;
+        this.add_css_class ("dialog-content");
     }
 }

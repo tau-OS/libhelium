@@ -95,7 +95,6 @@ public class Demo.MainWindow : He.ApplicationWindow {
                                 true,
                                 this,
                                 "Title",
-                                "Subtitle",
                                 "An example of info to provide.",
                                 "dialog-information-symbolic",
                                 p_button,
