@@ -175,7 +175,6 @@ public class He.Dialog : He.Window {
         
         info_box.append(image);
         info_box.append(title_label);
-        info_box.append(subtitle_label);
         info_box.append(info_label);
 
         cancel_button = new He.TextButton ("Cancel");
