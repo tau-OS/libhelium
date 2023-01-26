@@ -142,15 +142,7 @@ public class He.Application : Gtk.Application {
     He.Color.RGBColor derived_accent_fg;
     var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
     var derived_bg_c = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
-    if (Desktop.DarkModeStrength.MEDIUM == desktop.dark_mode_strength) {
-      derived_accent_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-    } else if (Desktop.DarkModeStrength.SOFT == desktop.dark_mode_strength) {
-      derived_accent_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.SOFT_BLACK : He.Color.WHITE;
-    } else if (Desktop.DarkModeStrength.HARSH == desktop.dark_mode_strength) {
-      derived_accent_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.HARSH_BLACK : He.Color.WHITE;
-    } else {
-      derived_accent_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-    }
+    derived_accent_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
     var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg_c));
     var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
 
