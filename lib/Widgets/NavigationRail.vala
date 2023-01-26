@@ -69,9 +69,13 @@
             if (value == Gtk.Orientation.VERTICAL) {
                 main_box.valign = Gtk.Align.CENTER;
                 main_box.halign = Gtk.Align.FILL;
+                main_box.vexpand = true;
+                main_box.hexpand = false;
             } else {
                 main_box.valign = Gtk.Align.FILL;
                 main_box.halign = Gtk.Align.CENTER;
+                main_box.vexpand = false;
+                main_box.hexpand = true;
             }
         }
     }
@@ -85,11 +89,40 @@
     }
 
     construct {
-        main_box.set_parent (this);
         main_box.add_css_class ("navigation-rail");
+        main_box.valign = Gtk.Align.CENTER;
+        main_box.halign = Gtk.Align.FILL;
+        main_box.set_parent (this);
 
+        this.vexpand = true;
+        this.hexpand = false;
+        this.orientation = Gtk.Orientation.VERTICAL;
         this.add_css_class ("sidebar-view");
-        this.orientation = this._orientation;
+
+        if (this.orientation == Gtk.Orientation.VERTICAL) {
+            main_box.valign = Gtk.Align.CENTER;
+            main_box.halign = Gtk.Align.FILL;
+            this.vexpand = true;
+            this.hexpand = false;
+        } else {
+            main_box.valign = Gtk.Align.FILL;
+            main_box.halign = Gtk.Align.CENTER;
+            this.vexpand = false;
+            this.hexpand = true;
+        }
+        notify["orientation"].connect (() => {
+            if (orientation == Gtk.Orientation.VERTICAL) {
+                main_box.valign = Gtk.Align.CENTER;
+                main_box.halign = Gtk.Align.FILL;
+                this.vexpand = true;
+                this.hexpand = false;
+            } else {
+                main_box.valign = Gtk.Align.FILL;
+                main_box.halign = Gtk.Align.CENTER;
+                this.vexpand = false;
+                this.hexpand = true;
+            }
+        });
     }
 
     private void on_stack_pages_changed (uint position, uint removed, uint added) {
