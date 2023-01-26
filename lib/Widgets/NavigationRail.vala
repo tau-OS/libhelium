@@ -66,7 +66,7 @@
             main_box.orientation = value;
             ((Gtk.BoxLayout)this.get_layout_manager ()).orientation = value;
 
-            if (value = Gtk.Orientation.VERTICAL) {
+            if (value == Gtk.Orientation.VERTICAL) {
                 main_box.vexpand = true;
             } else {
                 main_box.hexpand = true;
