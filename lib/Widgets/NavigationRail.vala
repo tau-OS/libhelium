@@ -66,10 +66,12 @@
             main_box.orientation = value;
             ((Gtk.BoxLayout)this.get_layout_manager ()).orientation = value;
 
-            if (value == Gtk.Orientation.VERTICAL) {
-                main_box.vexpand = true;
+            if (value = Gtk.Orientation.VERTICAL) {
+                main_box.valign = Gtk.Align.CENTER;
+                main_box.halign = Gtk.Align.FILL;
             } else {
-                main_box.hexpand = true;
+                main_box.valign = Gtk.Align.FILL;
+                main_box.halign = Gtk.Align.CENTER;
             }
         }
     }
@@ -84,11 +86,10 @@
 
     construct {
         main_box.set_parent (this);
-        main_box.valign = Gtk.Align.CENTER;
         main_box.add_css_class ("navigation-rail");
 
         this.add_css_class ("sidebar-view");
-        this.orientation = Gtk.Orientation.VERTICAL;
+        this.orientation = this._orientation;
     }
 
     private void on_stack_pages_changed (uint position, uint removed, uint added) {
