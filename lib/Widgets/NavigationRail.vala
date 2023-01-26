@@ -23,6 +23,7 @@
  public class He.NavigationRail : He.Bin {
     private Gtk.SelectionModel _stack_pages;
     private List<Gtk.ToggleButton> _buttons;
+    private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
     private Gtk.Stack _stack;
     /**
@@ -62,6 +63,7 @@
             if (this._orientation == value) return;
 
             this._orientation = value;
+            main_box.orientation = value;
             ((Gtk.BoxLayout)this.get_layout_manager ()).orientation = value;
         }
     }
@@ -75,8 +77,11 @@
     }
 
     construct {
-        this.add_css_class ("navigation-rail");
-        this.valign = Gtk.Align.CENTER;
+        main_box.set_parent (this);
+        main_box.valign = Gtk.Align.CENTER;
+        main_box.add_css_class ("navigation-rail");
+
+        this.add_css_class ("sidebar-view");
         this.orientation = Gtk.Orientation.VERTICAL;
     }
 
@@ -124,7 +129,7 @@
 
             button.toggled.connect (() => on_button_toggled (button));
             button.set_child (button_child);
-            button.set_parent (this);
+            main_box.append (button);
 
             if (!this._buttons.is_empty ()) {
                 button.set_group ((Gtk.ToggleButton) this._buttons.nth_data (0));
