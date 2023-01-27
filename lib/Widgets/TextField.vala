@@ -80,18 +80,20 @@
         });
 
         changed.connect_after (() => {
-            if (text == "") {
-                secondary_icon_name = null;
-                remove_css_class ("tf-error");
-                remove_css_class ("tf-success");
-            } else if (is_valid) {
-                secondary_icon_name = "process-completed-symbolic";
-                remove_css_class ("tf-error");
-                add_css_class ("tf-success");
-            } else {
-                secondary_icon_name = "process-error-symbolic";
-                add_css_class ("tf-error");
-                remove_css_class ("tf-success");
+            if (needs_validation) {
+                if (text == "") {
+                    secondary_icon_name = null;
+                    remove_css_class ("tf-error");
+                    remove_css_class ("tf-success");
+                } else if (is_valid) {
+                    secondary_icon_name = "process-completed-symbolic";
+                    remove_css_class ("tf-error");
+                    add_css_class ("tf-success");
+                } else {
+                    secondary_icon_name = "process-error-symbolic";
+                    add_css_class ("tf-error");
+                    remove_css_class ("tf-success");
+                }
             }
         });
     }
