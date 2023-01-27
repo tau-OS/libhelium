@@ -56,7 +56,6 @@
     public bool is_valid { get; set; default = false; }
     public bool needs_validation { get; set; default = false; }
     public int min_length { get; set; default = 0; }
-    public string support_text { get; set; default = ""; }
     public Regex regex { get; construct set; default = null; }
     
     private Gtk.Entry entry;
@@ -72,6 +71,22 @@
       set {
          _text = value;
          entry.text = value;
+      }
+    }
+    
+    private string? _support_text;
+    public string? support_text { 
+      get {
+         return _support_text;
+      }
+      set {
+         _support_text = value;
+         if(_support_text == "") {
+             support_label.visible = false;
+         } else {
+             support_label.visible = true;
+             support_label.label = value;
+         }
       }
     }
     
@@ -173,13 +188,6 @@
         });
         notify["visibility"].connect (() => {
             entry.visibility = visibility;
-        });
-        notify["support-text"].connect (() => {
-            if(support_text == "") {
-                support_label.visible = false;
-            } else {
-                support_label.visible = true;
-            }
         });
     }
     
