@@ -54,6 +54,7 @@
      * Whether or not text is considered valid input
      */
     public bool is_valid { get; set; default = false; }
+    public bool needs_validation { get; set; default = false; }
     public int min_length { get; set; default = 0; }
     public Regex regex { get; construct set; default = null; }
 
@@ -74,7 +75,8 @@
         add_css_class ("text-field");
 
         changed.connect (() => {
-            check_validity ();
+            if (needs_validation)
+                check_validity ();
         });
 
         changed.connect_after (() => {
