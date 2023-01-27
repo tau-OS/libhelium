@@ -112,6 +112,7 @@
         });
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
+        main_box.hexpand = true;
         main_box.append(entry);
         main_box.append(support_label);
         
