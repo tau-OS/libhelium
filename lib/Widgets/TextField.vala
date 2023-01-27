@@ -59,7 +59,7 @@
     public string support_text { get; set; default = null; }
     public Regex regex { get; construct set; default = null; }
     
-    private Gtk.Entry entry;
+    private Gtk.Entry entry = new Gtk.Entry ();
     private Gtk.Label support_label;
 
     public TextField.from_regex (Regex regex_arg) {
