@@ -89,6 +89,7 @@
             } else {
                 secondary_icon_name = "process-error-symbolic";
                 add_css_class ("tf-error");
+                remove_css_class ("tf-success");
             }
         });
     }
