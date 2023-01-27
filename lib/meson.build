@@ -45,6 +45,7 @@ libhelium_sources += files(
     'Widgets/TabPage.vala',
     'Widgets/TabSwitcher.vala',
     'Widgets/TextButton.vala',
+    'Widgets/TextField.vala',
     'Widgets/TintButton.vala',
     'Widgets/Toast.vala',
     'Widgets/ViewAux.vala',

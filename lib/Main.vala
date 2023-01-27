@@ -64,6 +64,7 @@ namespace He {
         typeof (He.TabPage).ensure ();
         typeof (He.TabSwitcher).ensure ();
         typeof (He.TextButton).ensure ();
+        typeof (He.TextField).ensure ();
         typeof (He.TintButton).ensure ();
         typeof (He.Toast).ensure ();
         typeof (He.View).ensure ();
