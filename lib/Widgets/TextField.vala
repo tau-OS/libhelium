@@ -62,7 +62,18 @@
     private Gtk.Entry entry;
     private Gtk.Label support_label;
     
-    public signal void changed (); 
+    public signal void changed ();
+    
+    private string? _text;
+    public string? text { 
+      get {
+         return _text;
+      }
+      set {
+         _text = value;
+         entry.text = value;
+      }
+    }
     
     private string? _placeholder_text;
     public string? placeholder_text { 
@@ -157,6 +168,9 @@
         main_box.set_parent (this);
         on_changed ();
         
+        notify["text"].connect (() => {
+            entry.text = text;
+        });
         notify["placeholder-text"].connect (() => {
             entry.placeholder_text = placeholder_text;
         });
