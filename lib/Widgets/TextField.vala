@@ -56,7 +56,7 @@
     public bool is_valid { get; set; default = false; }
     public bool needs_validation { get; set; default = false; }
     public int min_length { get; set; default = 0; }
-    public string support_text { get; set; default = null; }
+    public string support_text { get; set; default = ""; }
     public Regex regex { get; construct set; default = null; }
     
     private Gtk.Entry entry;
@@ -175,7 +175,7 @@
             entry.visibility = visibility;
         });
         notify["support-text"].connect (() => {
-            if(support_text == null) {
+            if(support_text == "") {
                 support_label.visible = false;
             } else {
                 support_label.visible = true;
