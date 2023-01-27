@@ -75,7 +75,7 @@
     }
 
     construct {
-        activates_default = true;
+        entry.activates_default = true;
         entry.add_css_class ("text-field");
         
         support_label = new Gtk.Label (support_text);
@@ -95,7 +95,7 @@
 
         entry.changed.connect_after (() => {
             if (needs_validation) {
-                if (text == "") {
+                if (entry.text == "") {
                     entry.secondary_icon_name = null;
                     entry.remove_css_class ("tf-error");
                     entry.remove_css_class ("tf-success");
