@@ -59,7 +59,7 @@
     public string support_text { get; set; default = null; }
     public Regex regex { get; construct set; default = null; }
     
-    private Gtk.Entry entry = new Gtk.Entry ();
+    private Gtk.Entry entry;
     private Gtk.Label support_label;
     
     public signal void changed (); 
@@ -110,6 +110,7 @@
     }
 
     construct {
+        entry = new Gtk.Entry ();
         entry.activates_default = true;
         entry.add_css_class ("text-field");
         
