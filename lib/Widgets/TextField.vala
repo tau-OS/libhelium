@@ -49,7 +49,7 @@
  *   }
  * }}}
  */
- public class He.TextField : He.Bin, Gtk.Editable {
+ public class He.TextField : He.Bin {
     /**
      * Whether or not text is considered valid input
      */
@@ -62,7 +62,7 @@
     private Gtk.Entry entry = new Gtk.Entry ();
     private Gtk.Label support_label;
     
-    public signal void changed ();
+    public signal void changed (); 
 
     public TextField.from_regex (Regex regex_arg) {
         Object (regex: regex_arg);
