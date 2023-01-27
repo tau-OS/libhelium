@@ -88,7 +88,7 @@
       }
       set {
          _visibility = value;
-         entry.visibility = value;
+         this.visible = value;
       }
     }
     
@@ -155,6 +155,16 @@
         
         main_box.set_parent (this);
         on_changed ();
+        
+        notify["placeholder-text"].connect (() => {
+            entry.placeholder_text = placeholder_text;
+        });
+        notify["max-length"].connect (() => {
+            entry.max_length = max_length;
+        });
+        notify["visibility"].connect (() => {
+            this.visible = visibility;
+        });
     }
     
     private void on_changed () {
