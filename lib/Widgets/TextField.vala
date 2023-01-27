@@ -59,6 +59,36 @@
     public string support_text { get; set; default = null; }
     public Regex regex { get; construct set; default = null; }
     
+    private string? _placeholder_text;
+    public string? placeholder_text { 
+      get {
+         return entry.placeholder_text;
+      }
+      set {
+         entry.placeholder_text = value;
+      }
+    }
+    
+    private int? _max_length;
+    public int? max_length { 
+      get {
+         return entry.max_length;
+      }
+      set {
+         entry.max_length = value;
+      }
+    }
+    
+    private bool _visibility;
+    public bool visibility { 
+      get {
+         return entry.visibility;
+      }
+      set {
+         entry.visibility = value;
+      }
+    }
+    
     private Gtk.Entry entry = new Gtk.Entry ();
     private Gtk.Label support_label;
     
