@@ -61,6 +61,8 @@
     
     private Gtk.Entry entry = new Gtk.Entry ();
     private Gtk.Label support_label;
+    
+    public signal void changed ();
 
     public TextField.from_regex (Regex regex_arg) {
         Object (regex: regex_arg);
@@ -88,9 +90,11 @@
             support_label.visible = true;
         }
 
-        entry.changed.connect (() => {
-            if (needs_validation)
-                check_validity ();
+        changed.connect (() => {
+           entry.changed.connect (() => {
+               if (needs_validation)
+                   check_validity ();
+           });
         });
 
         entry.changed.connect_after (() => {
@@ -117,5 +121,10 @@
         main_box.append(support_label);
         
         main_box.set_parent (this);
+        on_changed ();
+    }
+    
+    private void on_changed () {
+       changed ();
     }
 }
