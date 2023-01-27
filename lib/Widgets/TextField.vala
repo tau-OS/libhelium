@@ -128,12 +128,6 @@
         support_label = new Gtk.Label (support_text);
         support_label.add_css_class ("caption");
         support_label.add_css_class ("dim-label");
-        
-        if(support_text == null) {
-            support_label.visible = false;
-        } else {
-            support_label.visible = true;
-        }
 
         changed.connect (() => {
            entry.changed.connect (() => {
@@ -179,6 +173,13 @@
         });
         notify["visibility"].connect (() => {
             entry.visibility = visibility;
+        });
+        notify["support-text"].connect (() => {
+            if(support_text == null) {
+                support_label.visible = false;
+            } else {
+                support_label.visible = true;
+            }
         });
     }
     
