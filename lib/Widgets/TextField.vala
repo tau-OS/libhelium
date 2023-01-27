@@ -59,6 +59,11 @@
     public string support_text { get; set; default = null; }
     public Regex regex { get; construct set; default = null; }
     
+    private Gtk.Entry entry = new Gtk.Entry ();
+    private Gtk.Label support_label;
+    
+    public signal void changed (); 
+    
     private string? _placeholder_text;
     public string? placeholder_text { 
       get {
@@ -91,11 +96,6 @@
          entry.visibility = value;
       }
     }
-    
-    private Gtk.Entry entry = new Gtk.Entry ();
-    private Gtk.Label support_label;
-    
-    public signal void changed (); 
 
     public TextField.from_regex (Regex regex_arg) {
         Object (regex: regex_arg);
