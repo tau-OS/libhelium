@@ -81,7 +81,7 @@
       }
       set {
          _support_text = value;
-         if(_support_text == "") {
+         if(_support_text == null) {
              support_label.visible = false;
          } else {
              support_label.visible = true;
