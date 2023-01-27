@@ -49,52 +49,72 @@
  *   }
  * }}}
  */
- public class He.TextField : Gtk.Entry {
+ public class He.TextField : He.Bin {
     /**
      * Whether or not text is considered valid input
      */
     public bool is_valid { get; set; default = false; }
     public bool needs_validation { get; set; default = false; }
     public int min_length { get; set; default = 0; }
+    public string support_text { get; set; default = null; }
     public Regex regex { get; construct set; default = null; }
+    
+    private Gtk.Entry entry;
+    private Gtk.Label support_label;
 
     public TextField.from_regex (Regex regex_arg) {
         Object (regex: regex_arg);
     }
 
     private void check_validity () {
-        is_valid = get_text_length () >= min_length;
+        is_valid = entry.get_text_length () >= min_length;
 
         if (is_valid && regex != null) {
-            is_valid = regex.match (text);
+            is_valid = regex.match (entry.text);
         }
     }
 
     construct {
         activates_default = true;
-        add_css_class ("text-field");
+        entry.add_css_class ("text-field");
+        
+        support_label = new Gtk.Label (support_text);
+        support_label.add_css_class ("caption");
+        support_label.add_css_class ("dim-label");
+        
+        if(support_text == null) {
+            support_label.visible = false;
+        } else {
+            support_label.visible = true;
+        }
 
-        changed.connect (() => {
+        entry.changed.connect (() => {
             if (needs_validation)
                 check_validity ();
         });
 
-        changed.connect_after (() => {
+        entry.changed.connect_after (() => {
             if (needs_validation) {
                 if (text == "") {
-                    secondary_icon_name = null;
-                    remove_css_class ("tf-error");
-                    remove_css_class ("tf-success");
+                    entry.secondary_icon_name = null;
+                    entry.remove_css_class ("tf-error");
+                    entry.remove_css_class ("tf-success");
                 } else if (is_valid) {
-                    secondary_icon_name = "process-completed-symbolic";
-                    remove_css_class ("tf-error");
-                    add_css_class ("tf-success");
+                    entry.secondary_icon_name = "process-completed-symbolic";
+                    entry.remove_css_class ("tf-error");
+                    entry.add_css_class ("tf-success");
                 } else {
-                    secondary_icon_name = "process-error-symbolic";
-                    add_css_class ("tf-error");
-                    remove_css_class ("tf-success");
+                    entry.secondary_icon_name = "process-error-symbolic";
+                    entry.add_css_class ("tf-error");
+                    entry.remove_css_class ("tf-success");
                 }
             }
         });
+
+        var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
+        main_box.append(entry);
+        main_box.append(support_label);
+        
+        main_box.set_parent (this);
     }
 }
