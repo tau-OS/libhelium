@@ -62,19 +62,21 @@
     private string? _placeholder_text;
     public string? placeholder_text { 
       get {
-         return entry.placeholder_text;
+         return _placeholder_text;
       }
       set {
+         _placeholder_text = value;
          entry.placeholder_text = value;
       }
     }
     
-    private int? _max_length;
-    public int? max_length { 
+    private int _max_length;
+    public int max_length { 
       get {
-         return entry.max_length;
+         return _max_length;
       }
       set {
+         _max_length = value;
          entry.max_length = value;
       }
     }
@@ -82,9 +84,10 @@
     private bool _visibility;
     public bool visibility { 
       get {
-         return entry.visibility;
+         return _visibility;
       }
       set {
+         _visibility = value;
          entry.visibility = value;
       }
     }
