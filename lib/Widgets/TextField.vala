@@ -88,7 +88,7 @@
       }
       set {
          _visibility = value;
-         this.visible = value;
+         entry.visibility = value;
       }
     }
     
@@ -163,7 +163,7 @@
             entry.max_length = max_length;
         });
         notify["visibility"].connect (() => {
-            this.visible = visibility;
+            entry.visibility = visibility;
         });
     }
     
