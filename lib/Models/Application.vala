@@ -174,21 +174,21 @@ public class He.Application : Gtk.Application {
       @define-color popover_fg_color mix($card_foreground_hex, $accent_color_hex, 0.03);
       @define-color card_fg_color mix($card_foreground_hex, $accent_color_hex, 0.03);
 
-      @define-color destructive_bg_color mix(@destructive_bg_color, $accent_color_hex, 0.03);
-      @define-color destructive_fg_color mix(@destructive_fg_color, $accent_color_hex, 0.03);
-      @define-color destructive_color mix(@destructive_color, $accent_color_foreground_hex, 0.03);
+      @define-color destructive_bg_color mix(#db2860, $accent_color_hex, 0.03);
+      @define-color destructive_fg_color mix(#db2860, $accent_color_hex, 0.03);
+      @define-color destructive_color mix(#db2860, $accent_color_foreground_hex, 0.03);
 
-      @define-color suggested_bg_color mix(@suggested_bg_color, $accent_color_hex, 0.03);
-      @define-color suggested_fg_color mix(@suggested_fg_color, $accent_color_hex, 0.03);
-      @define-color suggested_color mix(@suggested_color, $accent_color_foreground_hex, 0.03);
+      @define-color suggested_bg_color mix(#268ef9, $accent_color_hex, 0.03);
+      @define-color suggested_fg_color mix(#268ef9, $accent_color_hex, 0.03);
+      @define-color suggested_color mix(#268ef9, $accent_color_foreground_hex, 0.03);
 
-      @define-color error_bg_color mix(@error_bg_color, $accent_color_hex, 0.03);
-      @define-color error_fg_color mix(@error_fg_color, $accent_color_hex, 0.03);
-      @define-color error_color mix(@error_color, $accent_color_foreground_hex, 0.03);
+      @define-color error_bg_color mix(#db2860, $accent_color_hex, 0.03);
+      @define-color error_fg_color mix(#db2860, $accent_color_hex, 0.03);
+      @define-color error_color mix(#db2860, $accent_color_foreground_hex, 0.03);
 
-      @define-color success_bg_color mix(@success_bg_color, $accent_color_hex, 0.03);
-      @define-color success_fg_color mix(@success_fg_color, $accent_color_hex, 0.03);
-      @define-color success_color mix(@success_color, $accent_color_foreground_hex, 0.03);
+      @define-color success_bg_color mix(#49d05e, $accent_color_hex, 0.03);
+      @define-color success_fg_color mix(#49d05e, $accent_color_hex, 0.03);
+      @define-color success_color mix(#49d05e, $accent_color_foreground_hex, 0.03);
 
       @define-color borders alpha(mix($card_foreground_hex, $accent_color_hex, 0.05), 0.2);
     ";
