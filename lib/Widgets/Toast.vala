@@ -90,9 +90,8 @@ public class He.Toast : He.Bin {
         valign = Gtk.Align.START;
         visible = false;
 
-        default_action_button = new He.PillButton ("") {
-            visible = false,
-            color = 12
+        default_action_button = new He.FillButton ("") {
+            visible = false
         };
 
         var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic");
