@@ -122,7 +122,7 @@ public class He.Desktop : Object {
 
         // The accent color is stored as a Gdk.RGBA in the GVariant format "(ddd)"
         // where r,g,b,a are floats between 0.0 and 1.0.
-        double cr, cg, cb = 0;
+        double cr, cg, cb = 0.0;
 
         VariantIter iter = val.iterator ();
         iter.next ("d", out cr);
@@ -130,9 +130,9 @@ public class He.Desktop : Object {
         iter.next ("d", out cb);
 
         He.Color.RGBColor rgb_color = {
-            (int) (cr * 255),
-            (int) (cg * 255),
-            (int) (cb * 255)
+            cr * 255,
+            cg * 255,
+            cb * 255
         };
 
         return rgb_color;

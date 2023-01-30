@@ -27,15 +27,15 @@ public class He.Application : Gtk.Application {
   private int STYLE_PROVIDER_PRIORITY_USER_DARK = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 4;
 
   private He.Color.RGBColor default_dark_accent = {
-    (int) (0.7450 * 255),
-    (int) (0.6270 * 255),
-    (int) (0.8590 * 255)
+    0.7450 * 255,
+    0.6270 * 255,
+    0.8590 * 255
   };
 
   private He.Color.RGBColor default_light_accent = {
-    (int) (0.5490 * 255),
-    (int) (0.3370 * 255),
-    (int) (0.7490 * 255)
+    0.5490 * 255,
+    0.3370 * 255,
+    0.7490 * 255
   };
 
   /**
@@ -112,8 +112,11 @@ public class He.Application : Gtk.Application {
       rgb_color = desktop.accent_color;
     }
 
-    var lch_color = He.Color.rgb_to_lch (rgb_color);
+    var xyz_color = He.Color.rgb_to_xyz (rgb_color);
+    var cam16_color = He.Color.xyz_to_cam16(xyz_color);
+    var lch_color = He.Color.cam16_to_lch (cam16_color);
     lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 100.0;
+
     if (Desktop.DarkModeStrength.MEDIUM == desktop.dark_mode_strength) {
       derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
@@ -140,10 +143,10 @@ public class He.Application : Gtk.Application {
     var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 9.2 : 5.6;
 
     He.Color.RGBColor derived_accent_fg;
-    var derived_accent_as_fg = He.Color.derive_contasting_color(lch_color, fg_contrast, null);
-    var derived_bg_c = He.Color.derive_contasting_color(lch_color, bg_contrast, null);
+    var derived_accent_as_bg = He.Color.derive_contrasting_color(lch_color, bg_contrast, null);
+    var derived_accent_as_fg = He.Color.derive_contrasting_color(lch_color, fg_contrast, null);
     derived_accent_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-    var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_bg_c));
+    var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_bg));
     var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
 
     this.accent_color = derived_accent_as_rgb_bg;
