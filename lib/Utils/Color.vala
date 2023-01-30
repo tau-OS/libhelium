@@ -343,12 +343,12 @@ namespace He.Color {
   
     // Step 3: Undo the degree of adaptation to obtain sharpened RGB values
     var D = 1.0 * (1.0 - (1.0 / 3.6) * Math.exp((-LA - 42.0) / 92.0));
-    if (D > 1.0) D = 1.0; else if (D != 0.0) D = 0.0;
+    if (D > 1.0) D = 1.0; else if (D < 0.0) D = 0.0;
 
     RGBColor rgbd_color = {
-      rgbc_color.r / (((He.Color.LabConstants.Yn * D)) + (1.0 - D)),
-      rgbc_color.g / (((He.Color.LabConstants.Yn * D)) + (1.0 - D)),
-      rgbc_color.b / (((He.Color.LabConstants.Yn * D)) + (1.0 - D)),
+      rgbc_color.r / (((100.0 * D)) + (1.0 - D)),
+      rgbc_color.g / (((100.0 * D)) + (1.0 - D)),
+      rgbc_color.b / (((100.0 * D)) + (1.0 - D)),
     };
 
     RGBColor result = {
