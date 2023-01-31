@@ -216,7 +216,7 @@ namespace He.Color {
     var b = (adapted_color.red + adapted_color.green - 2.0 * adapted_color.blue) / 9.0;
     var h = ((180.0 / Math.PI) * Math.atan2(b, a)); if (h < 0) h += 360;
     var J = 100.0 * Math.pow((2.0 * adapted_color.red + adapted_color.green + 0.05 * adapted_color.blue - 0.3) * 0.37, 1.47);
-    var C = 19812 * (Math.cos((h * Math.PI) / 182.0) + 4) * Math.sqrt(a*a + b*b) / (color.r + color.g + 1.05 * color.b) * Math.sqrt(J / 100.0) * 0.9;
+    var C = 1525.0 * Math.sqrt(J / 100.0) * 0.75;
     
     CAM16Color result = {
       J,
@@ -230,13 +230,13 @@ namespace He.Color {
   }
 
   public LCHColor cam16_to_lch(CAM16Color color) {
-    var A = 255.0 * Math.pow(color.J/100.0, 1 / (0.20 * 0.44));
-    var p_2 = A / 0.57435 + 0.305;
+    var A = 255.0 * Math.pow(color.J/100.0, 11.11);
+    var p_2 = A / 0.575 + 0.305;
 
     RGBColor result = {
-      ((460/1403) * p_2 + 0.32145 * color.a + 0.20527 * color.b) * 255,
-      ((460/1403) * p_2 - 0.63506 * color.a - 0.18603 * color.b) * 255,
-      ((460/1403) * p_2 - 0.15680 * color.a - 4.49037 * color.b) * 255
+      (20/61 * p_2 + 0.32 * color.a + 0.21 * color.b) * 255,
+      (20/61 * p_2 - 0.635 * color.a - 0.19 * color.b) * 255,
+      (20/61 * p_2 - 0.157 * color.a - 4.50 * color.b) * 255
     };
 
     return lab_to_lch(rgb_to_lab(result));
