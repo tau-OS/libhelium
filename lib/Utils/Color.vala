@@ -111,6 +111,12 @@ namespace He.Color {
     public double h;
   }
 
+  public struct HCTColor {
+    public double h;
+    public double c;
+    public double t;
+  }
+
   // The following is adapted from:
   // https://github.com/gka/chroma.js/blob/75ea5d8a5480c90ef1c7830003ac63c2d3a15c03/src/io/lab/rgb2lab.js
   // https://github.com/gka/chroma.js/blob/75ea5d8a5480c90ef1c7830003ac63c2d3a15c03/src/io/lab/lab-constants.js
@@ -242,6 +248,16 @@ namespace He.Color {
     return lab_to_lch(rgb_to_lab(result));
   }
   //
+
+  public HCTColor cam16_and_lch_to_hct(CAM16Color color, LCHColor tone) {
+    HCTColor result = {
+      color.h,
+      color.C,
+      tone.l
+    };
+
+    return result;
+  }
 
   int xyz_value_to_rgb_value(double value) {
     return (int) (255 * (value <= 0.00304 ? 12.92 * value : 1.05500 * Math.pow(value, 1 / 2.4) - 0.05500));
