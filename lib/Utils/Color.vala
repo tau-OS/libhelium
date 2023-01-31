@@ -418,28 +418,64 @@ namespace He.Color {
     return result;
   }
 
+  // Adapted from https://github.com/Ogeon/palette/blob/94e30738539465f14f373146b1ae948ee551faed/palette/src/relative_contrast.rs#L106
+
+  public double contrast_ratio(double luma1, double luma2) {
+    return luma1 > luma2 ? (luma1 + 0.05) / (luma2 + 0.05) : (luma2 + 0.05) / (luma1 + 0.05);
+  }
+
+  // Adapted from https://cs.github.com/Ogeon/palette/blob/d4cae1e2510205f7626e880389e5e18b45913bd4/palette/src/lch.rs#L377
+
+  public double contrast_ratio_for_lch(LCHColor color1, LCHColor color2) {
+    var xyz1 = lab_to_xyz(lch_to_lab(color1));
+    var xyz2 = lab_to_xyz(lch_to_lab(color2));
+
+    return contrast_ratio(xyz1.y, xyz2.y);
+  }
+
+  // Adpated from https://github.com/mikedilger/float-cmp/blob/418c5d9d339268f355363ea7cf6c546e69d63b7b/src/eq.rs#L89
+  
+  private bool approx_float_eq(float first, float second, int? ulps = 4, float? epsilon = float.EPSILON) {
+    if (first == second) return true;
+    if ((first - second).abs() <= epsilon) return true;
+
+    var ai32 = (int32) first;
+    var bi32 = (int32) second;
+    var diff = ai32 - bi32;
+
+    return (diff < 0 ? uint32.MAX : diff) <= ulps;
+  }
+
   // Adapted from https://github.com/wash2/hue-chroma-accent
 
   public LCHColor derive_contrasting_color(HCTColor color, LCHColor derived, double? contrast, bool? lighten) {
     LCHColor lch_color_derived = {
-      0.0,
-      0.0,
+      color.t,
+      ((derived.c/132)*150), // Make Chroma follow HCT's
       derived.h
     };
 
     if (contrast != null) {
-      var min = lighten == true ? color.t : 0;
-      var max = lighten == true ? 100 : color.t;
+      var min = lighten == true ? lch_color_derived.l : 0;
+      var max = lighten == null || lighten == true ? 100 : lch_color_derived.l;
 
       var l = min;
       var r = max;
 
-      for (var i = 0; i < 100; i++) {
+      for (var i = 0; i <= 100; i++) {
         var cur_guess_lightness = (l + r) / 2.0;
         lch_color_derived.l = cur_guess_lightness;
+        var cur_contrast = contrast_ratio_for_lch(derived, lch_color_derived);
+        var move_away = contrast > cur_contrast;
+        var is_darker = color.t < lch_color_derived.l;
+        if (approx_float_eq((float) contrast, (float) cur_contrast, 4)) {
+          break;
+        } else if (is_darker && move_away || !is_darker && !move_away) {
+            l = cur_guess_lightness;
+        } else {
+            r = cur_guess_lightness;
+        }
       }
-
-      lch_color_derived.c = (derived.c/132)*150; // Make Chroma follow HCT's
 
       // TODO CLAMP
       return lch_color_derived;
