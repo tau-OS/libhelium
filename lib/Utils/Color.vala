@@ -442,8 +442,8 @@ namespace He.Color {
         return result;
       }
 
-      rd++;
       j = j - (fnj - color.t) * j / (2.0 * fnj);
+      rd++;
     }
 
     return {0, 0, 0};
@@ -571,7 +571,7 @@ namespace He.Color {
     LCHColor lch_color_derived = {
       color.t,
       ((derived.c/132)*150), // Make Chroma follow HCT's
-      color.h
+      derived.h
     };
 
     if (contrast != null) {
