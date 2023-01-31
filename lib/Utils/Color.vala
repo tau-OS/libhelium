@@ -79,6 +79,17 @@ namespace He.Color {
       255.0
   };
 
+  public const double[] LINRGB_FROM_SCALED_DISCOUNT = {
+    1373.2198709594231, -1100.4251190754821, -7.278681089101213,
+    -271.815969077903, 559.6580465940733, -32.46047482791194,
+    1.9622899599665666, -57.173814538844006, 308.7233197812385
+  };
+  public const double[] Y_FROM_LINRGB = {
+    0.2126,
+    0.7152,
+    0.0722
+  };
+
   public struct RGBColor {
     public double r;
     public double g;
@@ -213,14 +224,14 @@ namespace He.Color {
   public CAM16Color rgb_to_cam16 (RGBColor color) {
     Gdk.RGBA adapted_color = {
       (float)(color.r / 255.0),
-      (float)(color.g / 255),
-      (float)(color.b / 255),
+      (float)(color.g / 255.0),
+      (float)(color.b / 255.0),
       (float)(1.0)
     };
 
     var a = adapted_color.red - (12.0 * adapted_color.green / 11.0) + (adapted_color.blue / 11.0);
     var b = (adapted_color.red + adapted_color.green - 2.0 * adapted_color.blue) / 9.0;
-    var h = ((180.0 / Math.PI) * Math.atan2(b, a)); if (h < 0) h += 360;
+    var h = ((180.0 / Math.PI) * Math.atan2(b, a)); if (h < 0) h += 360; else if (h > 360) h -= 360;
     var J = 100.0 * Math.pow((2.0 * adapted_color.red + adapted_color.green + 0.05 * adapted_color.blue - 0.3) * 0.37, 1.47);
     var C = 1525.0 * Math.sqrt(J / 100.0) * 0.75;
     
@@ -236,13 +247,12 @@ namespace He.Color {
   }
 
   public LCHColor cam16_to_lch(CAM16Color color) {
-    var A = 255.0 * Math.pow(color.J/100.0, 11.11);
-    var p_2 = A / 0.575 + 0.305;
+    var A =  25.5 * Math.pow(color.J/100.0, 11.11);
 
     RGBColor result = {
-      (20/61 * p_2 + 0.32 * color.a + 0.21 * color.b) * 255,
-      (20/61 * p_2 - 0.635 * color.a - 0.19 * color.b) * 255,
-      (20/61 * p_2 - 0.157 * color.a - 4.50 * color.b) * 255
+      (20/61 * A + 0.32 * color.a + 0.21 * color.b) * 255,
+      (20/61 * A - 0.635 * color.a - 0.19 * color.b) * 255,
+      (20/61 * A - 0.157 * color.a - 4.50 * color.b) * 255
     };
 
     return lab_to_lch(rgb_to_lab(result));
@@ -260,53 +270,97 @@ namespace He.Color {
   }
 
   public RGBColor hct_to_rgb(HCTColor color) {
-    var alpha = 0.0;
+    var j = Math.sqrt(50.0) * 11.0;
+    int rd = 0;
+    while (rd <= 5) {
+      var jn = j / 100.0;
+      var t = Math.pow((color.c / jn) / Math.pow(1.64 - Math.pow(0.29, 0.5), 0.73), 1.0 / 0.9);
+      var h_rad =  (Math.PI / 180) * color.h;
 
-    if (color.t == 0.0 || color.h == 0.0) {
-        alpha = 0.0;
-    } else {
-        alpha = color.t / Math.sqrt(color.h / 100.0);
-    };
+      var ac = 25.436  * Math.pow(jn, 1.0 / 0.69 / 2.0);
+      var p1 = 0.25 * ((Math.cos(h_rad + 2.0) + 3.8) * 385.0);
+      var p2 = ac;
 
-    var t = Math.pow(alpha / Math.pow(1.64 - Math.pow(0.29, 0.5), 0.73), 1.0 / 0.9);
-    var h_rad = color.h / 180 * Math.PI;
+      var h_sin = Math.sin(h_rad);
+      var h_cos = Math.cos(h_rad);
+      var gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11.0 * t * h_cos + 108.0 * t * h_sin);
+      var a = gamma * h_cos;
+      var b = gamma * h_sin;
+      var r_a = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;
+      var g_a = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
+      var b_a = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
 
-    var e_hue = 0.25 * (Math.cos(h_rad + 2.0) + 3.8);
-    var ac = 25  * Math.pow(color.t / 100.0, 1.0 / 0.3 / 0.4);
-    var p1 = e_hue * (50000.0 / 13.0) * 0.2 * 0.5;
-    var p2 = ac / 0.5;
+      var r_cbase = ((27.13 * Math.fabs(r_a)) / Math.fmax(400.0 - Math.fabs(r_a), 0.0));
+      var r_c = signum(r_a) * (100.0 / 1) * Math.pow(r_cbase, 1.0 / 0.42);
+      var g_cbase = ((27.13 * Math.fabs(g_a)) / Math.fmax(400.0 - Math.fabs(g_a), 0.0));
+      var g_c = signum(g_a) * (100.0 / 1) * Math.pow(g_cbase, 1.0 / 0.42);
+      var b_cbase = ((27.13 * Math.fabs(b_a)) / Math.fmax(400.0 - Math.fabs(b_a), 0.0));
+      var b_c = signum(b_a) * (100.0 / 1) * Math.pow(b_cbase, 1.0 / 0.42);
 
-    var h_sin = Math.sin(h_rad);
-    var h_cos = Math.cos(h_rad);
+      var linrgb = matrix_multiply(
+        {r_c, g_c, b_c},
+        LINRGB_FROM_SCALED_DISCOUNT
+      );
 
-    var gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11.0 * t * h_cos + 108.0 * t * h_sin);
-    var a = gamma * h_cos;
-    var b = gamma * h_sin;
-    var r_a = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;
-    var g_a = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
-    var b_a = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
+      if (linrgb[0] < 0.0 || linrgb[1] < 0.0 || linrgb[2] < 0.0) {
+        return {0, 0, 0};
+      }
 
-    var r_cbase = ((27.13 * Math.fabs(r_a)) / Math.fmax(400.0 - Math.fabs(r_a), 0.0));
-    var r_c = signum(r_a) * (100.0 / 1) * Math.pow(r_cbase, 1.0 / 0.42);
-    var g_cbase = ((27.13 * Math.fabs(g_a)) / Math.fmax(400.0 - Math.fabs(g_a), 0.0));
-    var g_c = signum(g_a) * (100.0 / 1) * Math.pow(g_cbase, 1.0 / 0.42);
-    var b_cbase = ((27.13 * Math.fabs(b_a)) / Math.fmax(400.0 - Math.fabs(b_a), 0.0));
-    var b_c = signum(b_a) * (100.0 / 1) * Math.pow(b_cbase, 1.0 / 0.42);
+      var k_r = Y_FROM_LINRGB[0];
+      var k_g = Y_FROM_LINRGB[1];
+      var k_b = Y_FROM_LINRGB[2];
 
-    RGBColor result = {
-      r_c,
-      g_c,
-      b_c
-    };
-    
-    return result;
+      var fnj = k_r * linrgb[0] + k_g * linrgb[1] + k_b * linrgb[2];
+      if (fnj <= 0.0) {
+        return {0, 0, 0};
+      }
+
+      if (rd == 4 || Math.fabs(fnj - color.t) < 0.002) {
+        if (linrgb[0] > 100.01 || linrgb[1] > 100.01 || linrgb[2] > 100.01) {
+          return {0, 0, 0};
+        }
+  
+        var r = delinearized(linrgb[0]);
+        var g = delinearized(linrgb[1]);
+        var bt = delinearized(linrgb[2]);
+  
+        RGBColor result = {
+          r,
+          g,
+          bt
+        };
+
+        return result;
+      }
+
+      rd++;
+      j = j - (fnj - color.t) * j / (2.0 * fnj);
+    }
+
+    return {0, 0, 0};
   }
-
+  int delinearized(double rgb_comp) {
+    var normalized = rgb_comp / 100.0;
+    var delinearized = 0.0;
+    if (normalized <= 0.0031308) {
+        normalized * 12.92;
+    } else {
+        1.055 * Math.pow(normalized, 1.0 / 2.4) - 0.055;
+    };
+    return ((int)Math.round(delinearized * 255.0)).clamp(0, 255);
+  }
   int signum (double s) {
     if (s < 0) { return -1; }
     else if (s > 0) { return 1; }
     else if (s == 0) { return 0; }
     else { return 0; }
+  }
+  private double[] matrix_multiply (double[] row, double[] matrix) {
+    var a = row[0] * matrix[0] + row[1] * matrix[1] + row[2] * matrix[2];
+    var b = row[0] * matrix[3] + row[1] * matrix[4] + row[2] * matrix[5];
+    var c = row[0] * matrix[6] + row[1] * matrix[7] + row[2] * matrix[8];
+
+    return {a,b,c};
   }
 
   int xyz_value_to_rgb_value(double value) {
@@ -364,47 +418,18 @@ namespace He.Color {
     return result;
   }
 
-  // Adapted from https://github.com/Ogeon/palette/blob/94e30738539465f14f373146b1ae948ee551faed/palette/src/relative_contrast.rs#L106
-
-  public double contrast_ratio(double luma1, double luma2) {
-    return luma1 > luma2 ? (luma1 + 0.05) / (luma2 + 0.05) : (luma2 + 0.05) / (luma1 + 0.05);
-  }
-
-  // Adapted from https://cs.github.com/Ogeon/palette/blob/d4cae1e2510205f7626e880389e5e18b45913bd4/palette/src/lch.rs#L377
-
-  public double contrast_ratio_for_lch(HCTColor color1, LCHColor color2) {
-    var xyz1 = rgb_to_xyz(hct_to_rgb(color1));
-    var xyz2 = lab_to_xyz(lch_to_lab(color2));
-
-    return contrast_ratio(xyz1.y, xyz2.y);
-  }
-
-
-  // Adpated from https://github.com/mikedilger/float-cmp/blob/418c5d9d339268f355363ea7cf6c546e69d63b7b/src/eq.rs#L89
-  
-  private bool approx_float_eq(float first, float second, int? ulps = 4, float? epsilon = float.EPSILON) {
-    if (first == second) return true;
-    if ((first - second).abs() <= epsilon) return true;
-
-    var ai32 = (int32) first;
-    var bi32 = (int32) second;
-    var diff = ai32 - bi32;
-
-    return (diff < 0 ? uint32.MAX : diff) <= ulps;
-  }
-
   // Adapted from https://github.com/wash2/hue-chroma-accent
 
-  public LCHColor derive_contrasting_color(HCTColor color, double? contrast, bool? lighten) {
+  public LCHColor derive_contrasting_color(HCTColor color, LCHColor derived, double? contrast, bool? lighten) {
     LCHColor lch_color_derived = {
-      color.t,
-      color.c,
-      color.h
+      0.0,
+      0.0,
+      derived.h
     };
 
     if (contrast != null) {
-      var min = lighten == true ? lch_color_derived.l : 0;
-      var max = lighten == null || lighten == true ? 100 : lch_color_derived.l;
+      var min = lighten == true ? color.t : 0;
+      var max = lighten == true ? 100 : color.t;
 
       var l = min;
       var r = max;
@@ -412,26 +437,11 @@ namespace He.Color {
       for (var i = 0; i < 100; i++) {
         var cur_guess_lightness = (l + r) / 2.0;
         lch_color_derived.l = cur_guess_lightness;
-        var cur_contrast = contrast_ratio_for_lch(color, lch_color_derived);
-        var move_away = contrast > cur_contrast;
-        var is_darker = color.t < lch_color_derived.l;
-        if (approx_float_eq((float) contrast, (float) cur_contrast, 4)) {
-            break;
-        } else if (is_darker && move_away || !is_darker && !move_away) {
-            l = cur_guess_lightness;
-        } else {
-            r = cur_guess_lightness;
-        }
       }
+
+      lch_color_derived.c = (derived.c/132)*150; // Make Chroma follow HCT's
 
       // TODO CLAMP
-
-      var actual_contrast = contrast_ratio_for_lch(color, lch_color_derived);
-
-      if (!approx_float_eq((float) contrast, (float) actual_contrast, 4)) {
-        error ("Failed to derive color with contrast " + contrast.to_string());
-      }
-
       return lch_color_derived;
     } else {
       if (color.t > 50.0) {

@@ -142,8 +142,8 @@ public class He.Application : Gtk.Application {
     var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 9.2 : 5.6;
 
     He.Color.RGBColor derived_accent_fg;
-    var derived_accent_as_bg = He.Color.derive_contrasting_color(hct_color, bg_contrast, null);
-    var derived_accent_as_fg = He.Color.derive_contrasting_color(hct_color, fg_contrast, null);
+    var derived_accent_as_bg = He.Color.derive_contrasting_color(hct_color, lch_color, bg_contrast, null);
+    var derived_accent_as_fg = He.Color.derive_contrasting_color(hct_color, lch_color, fg_contrast, null);
     derived_accent_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
     var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_bg));
     var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
