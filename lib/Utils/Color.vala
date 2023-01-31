@@ -259,6 +259,56 @@ namespace He.Color {
     return result;
   }
 
+  public RGBColor hct_to_rgb(HCTColor color) {
+    var alpha = 0.0;
+
+    if (color.t == 0.0 || color.h == 0.0) {
+        alpha = 0.0;
+    } else {
+        alpha = color.t / Math.sqrt(color.h / 100.0);
+    };
+
+    var t = Math.pow(alpha / Math.pow(1.64 - Math.pow(0.29, 0.5), 0.73), 1.0 / 0.9);
+    var h_rad = color.h / 180 * Math.PI;
+
+    var e_hue = 0.25 * (Math.cos(h_rad + 2.0) + 3.8);
+    var ac = 25  * Math.pow(color.t / 100.0, 1.0 / 0.3 / 0.4);
+    var p1 = e_hue * (50000.0 / 13.0) * 0.2 * 0.5;
+    var p2 = ac / 0.5;
+
+    var h_sin = Math.sin(h_rad);
+    var h_cos = Math.cos(h_rad);
+
+    var gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11.0 * t * h_cos + 108.0 * t * h_sin);
+    var a = gamma * h_cos;
+    var b = gamma * h_sin;
+    var r_a = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;
+    var g_a = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
+    var b_a = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
+
+    var r_cbase = ((27.13 * Math.fabs(r_a)) / Math.fmax(400.0 - Math.fabs(r_a), 0.0));
+    var r_c = signum(r_a) * (100.0 / 1) * Math.pow(r_cbase, 1.0 / 0.42);
+    var g_cbase = ((27.13 * Math.fabs(g_a)) / Math.fmax(400.0 - Math.fabs(g_a), 0.0));
+    var g_c = signum(g_a) * (100.0 / 1) * Math.pow(g_cbase, 1.0 / 0.42);
+    var b_cbase = ((27.13 * Math.fabs(b_a)) / Math.fmax(400.0 - Math.fabs(b_a), 0.0));
+    var b_c = signum(b_a) * (100.0 / 1) * Math.pow(b_cbase, 1.0 / 0.42);
+
+    RGBColor result = {
+      r_c,
+      g_c,
+      b_c
+    };
+    
+    return result;
+  }
+
+  int signum (double s) {
+    if (s < 0) { return -1; }
+    else if (s > 0) { return 1; }
+    else if (s == 0) { return 0; }
+    else { return 0; }
+  }
+
   int xyz_value_to_rgb_value(double value) {
     return (int) (255 * (value <= 0.00304 ? 12.92 * value : 1.05500 * Math.pow(value, 1 / 2.4) - 0.05500));
   }
@@ -322,8 +372,8 @@ namespace He.Color {
 
   // Adapted from https://cs.github.com/Ogeon/palette/blob/d4cae1e2510205f7626e880389e5e18b45913bd4/palette/src/lch.rs#L377
 
-  public double contrast_ratio_for_lch(LCHColor color1, LCHColor color2) {
-    var xyz1 = lab_to_xyz(lch_to_lab(color1));
+  public double contrast_ratio_for_lch(HCTColor color1, LCHColor color2) {
+    var xyz1 = rgb_to_xyz(hct_to_rgb(color1));
     var xyz2 = lab_to_xyz(lch_to_lab(color2));
 
     return contrast_ratio(xyz1.y, xyz2.y);
@@ -345,9 +395,9 @@ namespace He.Color {
 
   // Adapted from https://github.com/wash2/hue-chroma-accent
 
-  public LCHColor derive_contrasting_color(LCHColor color, double? contrast, bool? lighten) {
+  public LCHColor derive_contrasting_color(HCTColor color, double? contrast, bool? lighten) {
     LCHColor lch_color_derived = {
-      color.l,
+      color.t,
       color.c,
       color.h
     };
@@ -364,7 +414,7 @@ namespace He.Color {
         lch_color_derived.l = cur_guess_lightness;
         var cur_contrast = contrast_ratio_for_lch(color, lch_color_derived);
         var move_away = contrast > cur_contrast;
-        var is_darker = color.l < lch_color_derived.l;
+        var is_darker = color.t < lch_color_derived.l;
         if (approx_float_eq((float) contrast, (float) cur_contrast, 4)) {
             break;
         } else if (is_darker && move_away || !is_darker && !move_away) {
@@ -376,7 +426,7 @@ namespace He.Color {
 
       // TODO CLAMP
 
-      var actual_contrast = contrast_ratio_for_lch(lch_color_derived, color);
+      var actual_contrast = contrast_ratio_for_lch(color, lch_color_derived);
 
       if (!approx_float_eq((float) contrast, (float) actual_contrast, 4)) {
         error ("Failed to derive color with contrast " + contrast.to_string());
@@ -384,7 +434,7 @@ namespace He.Color {
 
       return lch_color_derived;
     } else {
-      if (color.l > 50.0) {
+      if (color.t > 50.0) {
         return rgb_to_lch(BLACK);
       } else {
         return rgb_to_lch(WHITE);
