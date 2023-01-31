@@ -571,7 +571,7 @@ namespace He.Color {
     LCHColor lch_color_derived = {
       color.t,
       ((derived.c/132)*150), // Make Chroma follow HCT's
-      derived.h
+      derived.h              // TODO: Make Hue follow HCT's
     };
 
     if (contrast != null) {
