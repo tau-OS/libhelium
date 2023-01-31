@@ -112,7 +112,7 @@ public class He.Application : Gtk.Application {
       rgb_color = desktop.accent_color;
     }
 
-    var cam16_color = He.Color.rgb_to_cam16 (rgb_color);
+    var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color));
     var lch_color = He.Color.rgb_to_lch (rgb_color);
     lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 100.0;
     var hct_color = He.Color.cam16_and_lch_to_hct (cam16_color, lch_color);
@@ -140,7 +140,7 @@ public class He.Application : Gtk.Application {
     }
 
     var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 15.2 : 7.6;
-    var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 9.2 : 5.6;
+    var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 15.2 : 4.2;
 
     He.Color.RGBColor derived_accent_fg;
     var derived_accent_as_bg = He.Color.derive_contrasting_color(hct_color, lch_color, bg_contrast, null);
