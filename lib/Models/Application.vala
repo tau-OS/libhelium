@@ -112,10 +112,8 @@ public class He.Application : Gtk.Application {
       rgb_color = desktop.accent_color;
     }
 
-    var xyz_color = He.Color.rgb_to_xyz (rgb_color);
-    var cam16_color = He.Color.xyz_to_cam16(xyz_color);
+    var cam16_color = He.Color.rgb_to_cam16(rgb_color);
     var lch_color = He.Color.cam16_to_lch (cam16_color);
-    lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 100.0;
 
     if (Desktop.DarkModeStrength.MEDIUM == desktop.dark_mode_strength) {
       derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
@@ -153,12 +151,12 @@ public class He.Application : Gtk.Application {
     this.foreground = derived_fg;
     this.accent_foreground = derived_accent_as_rgb_fg;
 
-    var card_foreground_hex = Color.hexcode ((double) derived_card_fg.r, (double) derived_card_fg.g, (double) derived_card_fg.b);
-    var card_background_hex = Color.hexcode ((double) derived_card_bg.r, (double) derived_card_bg.g, (double) derived_card_bg.b);
+    var card_foreground_hex = Color.hexcode (derived_card_fg.r, derived_card_fg.g, derived_card_fg.b);
+    var card_background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
 
-    var accent_color_hex = Color.hexcode ((double) derived_accent_as_rgb_bg.r, (double) derived_accent_as_rgb_bg.g, (double) derived_accent_as_rgb_bg.b);
-    var accent_foreground_hex = Color.hexcode ((double) derived_accent_fg.r, (double) derived_accent_fg.g, (double) derived_accent_fg.b);
-    var accent_color_foreground_hex = Color.hexcode ((double) derived_accent_as_rgb_fg.r, (double) derived_accent_as_rgb_fg.g, (double) derived_accent_as_rgb_fg.b);
+    var accent_color_hex = Color.hexcode (derived_accent_as_rgb_bg.r, derived_accent_as_rgb_bg.g, derived_accent_as_rgb_bg.b);
+    var accent_foreground_hex = Color.hexcode (derived_accent_fg.r, derived_accent_fg.g, derived_accent_fg.b);
+    var accent_color_foreground_hex = Color.hexcode (derived_accent_as_rgb_fg.r, derived_accent_as_rgb_fg.g, derived_accent_as_rgb_fg.b);
 
     var css = @"
       @define-color accent_color $accent_color_foreground_hex;

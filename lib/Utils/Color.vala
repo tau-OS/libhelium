@@ -108,10 +108,7 @@ namespace He.Color {
     public double a;
     public double b;
     public double C;
-    public double Q;
-    public double M;
-    public double s;
-    public double ha;
+    public double h;
   }
 
   // The following is adapted from:
@@ -206,158 +203,43 @@ namespace He.Color {
     return result;
   }
 
-  public RGBColor xyz_sharpened_rgb (XYZColor color) {
-    // Apply the M16 matrix to XYZ color channels to get sharpened RGB
-    RGBColor result = { 
-        0.401288 * color.x + 0.650173 * color.y - 0.051461 * color.z,
-        -0.250268 * color.x + 1.204414 * color.y + 0.045854 * color.z,
-        -0.002079 * color.x + 0.048952 * color.y + 0.953127 * color.z
-    };
-  
-    return result;
-  }
-
   // Adapted from https://github.com/d3/d3-cam16/ until the next comment-less "//"
-  public double nonlinear_adaptation (double cr, double fl) {
-    var c = 400;
-    if (cr < 0) {
-      fl = fl * -1;
-      c = -400;
-    }
-    var p = Math.pow( (fl * cr) / 100.0, 0.42 );
-  
-    return ((c * p) / (27.13 + p)) + 0.1;
-  }
-
-  public double sign(double x) {
-    if (x == 0) return 0;
-    else if (x < 0) return -1;
-    else return 1;
-  }
-
-  public double inverse_nonlinear_adaptation(double cr, double fl) {
-    return (sign(cr - 0.1) * (100.0 / fl) * Math.pow((27.13 * Math.fabs(cr - 0.1)) * (400.0 - Math.fabs(cr - 0.1)), 1.0 / 0.42));
-  }
-
-  public double compute_eccentricity(double hue_angle) {
-    return 0.25 * (Math.cos((hue_angle * Math.PI) / 180.0 + 2.0) + 3.8);
-  }
-
-  public CAM16Color xyz_to_cam16(XYZColor color) {
-    // Step 1: Make a sharp RGB color from source XYZ.
-    var rgb_color = xyz_sharpened_rgb (color);
-
-    // Step 2: Apply best white point to sharpened RGB
-    RGBColor xyz_w_color = {
-      rgb_color.r * He.Color.LabConstants.Xn,
-      rgb_color.g * He.Color.LabConstants.Yn,
-      rgb_color.b * He.Color.LabConstants.Zn
+  public CAM16Color rgb_to_cam16 (RGBColor color) {
+    Gdk.RGBA adapted_color = {
+      (float)(color.r / 255.0),
+      (float)(color.g / 255),
+      (float)(color.b / 255),
+      (float)(1.0)
     };
 
-    // Step 3: Apply nonlinear responses
-    var LA = (64.0 / Math.PI) / 5.0;
-    var k = 1.0 / ((5.0 * LA) + 1.0);
-    var FL = (0.2 * Math.pow(k, 4.0) * (5.0 * LA)) + 0.1 * Math.pow(1.0 - Math.pow(k, 4.0), 2.0) * Math.pow(5.0 * LA, 1.0/3.0);
-
-    RGBColor rgbnla_color = {
-      nonlinear_adaptation(xyz_w_color.r, FL),
-      nonlinear_adaptation(xyz_w_color.g, FL),
-      nonlinear_adaptation(xyz_w_color.b, FL)
-    };
-
-    // Step 4: convert to preliminary cartesian a, b AND compute hue *angle*
-    var a = rgbnla_color.r - (12.0 * rgbnla_color.g / 11.0) + (rgbnla_color.b / 11.0);
-    var b = (rgbnla_color.r + rgbnla_color.g - 2.0 * rgbnla_color.b) / 9.0;
-    var hue_angle = ((180.0 / Math.PI) * Math.atan2(b, a));
-    if (hue_angle < 0) hue_angle += 360;
-
-    // Step 5: compute hue quadratrue, eccentricity, and hue composition
-    var e_t = compute_eccentricity(hue_angle);
-
-    // Step 6: Compute achromatic response for input
-    var n = 20.0 / 100.0;
-    var nbb = 0.725 * Math.pow(1.0 / n, 0.2);
-    var A = (2.0 * rgbnla_color.r + rgbnla_color.g + 0.05 * rgbnla_color.b - 0.305) * nbb;
-
-    // Step 7: Compute Lightness
-    var AW = (2.0 * 255.0 + 255.0 + 0.05 * 255.0 - 0.305) * nbb;
-    var J = 100.0 * Math.pow(A / AW, 0.69 * 1.48 + Math.sqrt(n));
-
-    // Step 8: Compute brightness
-    var Q = (4.0 / 0.69) * Math.sqrt(J / 100.0) * (AW + 4.0) * Math.pow(FL, 0.25);
-
-    // Step 9: Compute chroma
-    var ncb = 0.725 * Math.pow(1.0 / n, 0.2);
-    var t = (50000.0 / 13.0) * 1.0 * ncb * e_t * Math.sqrt(a*a + b*b) * (rgbnla_color.r + rgbnla_color.g + (21.0/20.0) * rgbnla_color.b);
-    var C = Math.pow(t, 0.9) * Math.sqrt(J / 100.0) * Math.pow(1.64 - Math.pow(0.29, n), 0.73);
-
-    // Step 10: Compute colorfulness
-    var M = C * Math.pow(FL, 0.25);
-
-    // Step 11: Compute saturation
-    var s = 100.0 * Math.sqrt(M / Q);
-
-    J = 1.7 * J / (1 + 0.007 * J);
-    M = Math.log(1 + 0.0228 * M) / 0.0228;
-    a = M * Math.cos((hue_angle * Math.PI) / 180.0);
-    b = M * Math.sin((hue_angle * Math.PI) / 180.0);
+    var a = adapted_color.red - (12.0 * adapted_color.green / 11.0) + (adapted_color.blue / 11.0);
+    var b = (adapted_color.red + adapted_color.green - 2.0 * adapted_color.blue) / 9.0;
+    var h = ((180.0 / Math.PI) * Math.atan2(b, a)); if (h < 0) h += 360;
+    var J = 100.0 * Math.pow((2.0 * adapted_color.red + adapted_color.green + 0.05 * adapted_color.blue - 0.3) * 0.37, 1.47);
+    var C = 19812 * (Math.cos((h * Math.PI) / 182.0) + 4) * Math.sqrt(a*a + b*b) / (color.r + color.g + 1.05 * color.b) * Math.sqrt(J / 100.0) * 0.9;
     
     CAM16Color result = {
       J,
       a,
       b,
       C,
-      Q,
-      M,
-      s,
-      hue_angle
+      h
     };
 
     return result;
   }
 
   public LCHColor cam16_to_lch(CAM16Color color) {
-    // Step 1: Compute the achromatic transformed sharpened RGB values
-    var n = 20.0 / 100.0;
-    var nbb = 0.725 * Math.pow(1.0 / n, 0.2);
-    var AW = (2.0 * 255.0 + 255.0 + 0.05 * 255.0 - 0.305) * nbb;
-    var z = 1.48 + Math.sqrt(n);
-    var A = AW * Math.pow(color.J/100.0, 1 / (0.69 * z));
-    var p_2 = A / nbb + 0.305;
-    var LA = (64.0 / Math.PI) / 5.0;
-    var k = 1.0 / ((5.0 * LA) + 1.0);
-    var FL = (0.2 * Math.pow(k, 4.0) * (5.0 * LA)) + 0.1 * Math.pow(1.0 - Math.pow(k, 4.0), 2.0) * Math.pow(5.0 * LA, 1.0/3.0);
-  
-    RGBColor rgba_color = {
-      (460/1403) * p_2 + (451/1403) * color.a + (288/1403) * color.b,
-      (460/1403) * p_2 - (891/1403) * color.a - (261/1403) * color.b,
-      (460/1403) * p_2 - (220/1403) * color.a - (6300/1403) * color.b
-    };
-  
-    // Step 2: Reverse nonlinear compression
-    RGBColor rgbc_color = {
-      inverse_nonlinear_adaptation(rgba_color.r, FL),
-      inverse_nonlinear_adaptation(rgba_color.g, FL),
-      inverse_nonlinear_adaptation(rgba_color.b, FL)
-    };
-  
-    // Step 3: Undo the degree of adaptation to obtain sharpened RGB values
-    var D = 1.0 * (1.0 - (1.0 / 3.6) * Math.exp((-LA - 42.0) / 92.0));
-    if (D > 1.0) D = 1.0; else if (D < 0.0) D = 0.0;
-
-    RGBColor rgbd_color = {
-      rgbc_color.r / (((100.0 * D)) + (1.0 - D)),
-      rgbc_color.g / (((100.0 * D)) + (1.0 - D)),
-      rgbc_color.b / (((100.0 * D)) + (1.0 - D)),
-    };
+    var A = 255.0 * Math.pow(color.J/100.0, 1 / (0.20 * 0.44));
+    var p_2 = A / 0.57435 + 0.305;
 
     RGBColor result = {
-      (rgbc_color.r / rgbd_color.r) * 255,
-      (rgbc_color.g / rgbd_color.g) * 255,
-      (rgbc_color.b / rgbd_color.b) * 255
+      ((460/1403) * p_2 + 0.32145 * color.a + 0.20527 * color.b) * 255,
+      ((460/1403) * p_2 - 0.63506 * color.a - 0.18603 * color.b) * 255,
+      ((460/1403) * p_2 - 0.15680 * color.a - 4.49037 * color.b) * 255
     };
-  
-    return rgb_to_lch(result);
+
+    return lab_to_lch(rgb_to_lab(result));
   }
   //
 
