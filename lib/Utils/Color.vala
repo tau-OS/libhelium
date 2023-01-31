@@ -90,6 +90,28 @@ namespace He.Color {
     0.0722
   };
 
+  public const double[] XYZ_TO_CAM16RGB = {
+    0.401288, 0.650173, -0.051461,
+    -0.250268, 1.204414, 0.045854,
+    -0.002079, 0.048952, 0.953127,
+  };
+  public const double[] CAM16RGB_TO_XYZ = {
+    1.8620678, -1.0112547, 0.14918678,
+    0.38752654, 0.62144744, -0.00897398,
+    -0.01584150, -0.03412294, 1.0499644,
+  };
+
+  public const double[] SRGB_TO_XYZ = {
+    0.41233895, 0.35762064, 0.18051042,
+    0.2126, 0.7152, 0.0722,
+    0.01932141, 0.11916382, 0.95034478,
+  };
+  public const double[] XYZ_TO_SRGB = {
+    3.2413774792388685, -1.5376652402851851, -0.49885366846268053
+    -0.9691452513005321, 1.8758853451067872, 0.04156585616912061,
+    0.05562093689691305,-0.20395524564742123,1.0571799111220335,
+  };
+
   public struct RGBColor {
     public double r;
     public double g;
@@ -222,18 +244,58 @@ namespace He.Color {
 
   // Adapted from https://github.com/d3/d3-cam16/ until the next comment-less "//"
   public CAM16Color rgb_to_cam16 (RGBColor color) {
-    Gdk.RGBA adapted_color = {
-      (float)(color.r / 255.0),
-      (float)(color.g / 255.0),
-      (float)(color.b / 255.0),
-      (float)(1.0)
+    var cr = linearized(color.r);
+    var cg = linearized(color.g);
+    var cb = linearized(color.b);
+    var xyz = matrix_multiply({cr, cg, cb}, SRGB_TO_XYZ);
+    var t = matrix_multiply({xyz[0], xyz[1], xyz[2]}, XYZ_TO_CAM16RGB);
+
+    XYZColor d = {
+      t[0],
+      t[1],
+      t[2],
     };
 
-    var a = adapted_color.red - (12.0 * adapted_color.green / 11.0) + (adapted_color.blue / 11.0);
-    var b = (adapted_color.red + adapted_color.green - 2.0 * adapted_color.blue) / 9.0;
-    var h = ((180.0 / Math.PI) * Math.atan2(b, a)); if (h < 0) h += 360; else if (h > 360) h -= 360;
-    var J = 100.0 * Math.pow((2.0 * adapted_color.red + adapted_color.green + 0.05 * adapted_color.blue - 0.3) * 0.37, 1.47);
-    var C = 1525.0 * Math.sqrt(J / 100.0) * 0.75;
+    XYZColor af = {
+        Math.pow(0.255, 0.42),
+        Math.pow(0.255, 0.42),
+        Math.pow(0.255, 0.42),
+    };
+
+    XYZColor ar = {
+        d.x * 400.0 * af.x / (af.x + 27.13),
+        d.y * 400.0 * af.y / (af.y + 27.13),
+        d.z * 400.0 * af.z / (af.z + 27.13),
+    };
+
+    var u = (20.0 * af.x + 20.0 * af.y + 21.0 * af.z) / 20.0;
+    var p2 = (40.0 * af.x + 20.0 * af.y + af.z) / 20.0;
+
+    var red_greenness = (11.0 * ar.x + -12.0 * ar.y + ar.z) / 11.0;
+    var yellowness_blueness = (ar.x + ar.y - 2.0 * ar.z) / 9.0;
+
+    var at = Math.atan2(yellowness_blueness, red_greenness);
+    var atan_degrees = (at*(180/Math.PI));
+    var h = 0.0;
+    if (atan_degrees < 0.0) {
+      h = atan_degrees + 360.0;
+    } else if (atan_degrees >= 360.0) {
+      h = atan_degrees - 360.0;
+    } else {
+      h = atan_degrees;
+    };
+
+    var ac = p2 * 0.9;
+    var a = 100.0 * Math.pow((ac / 25.436), 0.69 * 2);
+    var b = 4.0 / 0.9 * Math.sqrt (a / 100.0) * (0.9 + 4.0) * 0.255;
+    var J = 100.0 * Math.pow((2.0 * af.x + af.y + 0.05 * af.z - 0.3) * 0.37, 1.47);
+
+    var hue_prime = (h < 20.14) ? h + 360.0 : h;
+    var e_hue = 0.25 * Math.cos(((hue_prime*(180/Math.PI)) + 2.0) + 3.8);
+    var p1 = 50000.0 / 13.0 * e_hue;
+    var tz = p1 * Math.hypot(red_greenness,yellowness_blueness) / (u + 0.305);
+    var alpha = Math.pow(1.64 - Math.pow(0.29, 0.2), 0.73) * Math.pow(tz, 0.9);
+    var C = alpha * Math.sqrt(a / 100.0);
     
     CAM16Color result = {
       J,
@@ -246,16 +308,53 @@ namespace He.Color {
     return result;
   }
 
-  public LCHColor cam16_to_lch(CAM16Color color) {
-    var A =  25.5 * Math.pow(color.J/100.0, 11.11);
-
-    RGBColor result = {
-      (20/61 * A + 0.32 * color.a + 0.21 * color.b) * 255,
-      (20/61 * A - 0.635 * color.a - 0.19 * color.b) * 255,
-      (20/61 * A - 0.157 * color.a - 4.50 * color.b) * 255
+  public RGBColor cam16_to_rgb(CAM16Color color) {
+    var alpha = 0.0;
+    if (color.C == 0.0 || color.J == 0.0) {
+      alpha = 0.0;
+    } else {
+      alpha = color.C / Math.sqrt(color.J / 100.0);
     };
 
-    return lab_to_lch(rgb_to_lab(result));
+    var t = alpha / Math.pow(1.64 - Math.pow(0.29, 0.2), 0.73) * Math.pow(0.1, 0.9);
+    var h_rad = (color.h*(Math.PI/180));
+
+    var e_hue = 0.25 * (Math.cos(h_rad + 2.0) + 3.8);
+    var ac = 25.436 * Math.pow((color.J / 100), 1.0 / 0.69 / 2.0);
+    var p1 = e_hue * 385.0;
+    var p2 = ac;
+
+    var h_sin = Math.sin(h_rad);
+    var h_cos = Math.cos(h_rad);
+
+    var gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11.0 * t * h_cos + 108.0 * t * h_sin);
+    var a = gamma * h_cos;
+    var b = gamma * h_sin;
+
+    var r_a = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;
+    var g_a = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
+    var b_a = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
+
+    var r_cbase = Math.fmax((27.13 * Math.fabs(r_a)) / (400.0 - Math.fabs(r_a)), 0.0);
+    var r_c = signum(r_a) * (100.0 / 0.2731) * Math.pow(r_cbase, 1.0 / 0.42);
+
+    var g_cbase = Math.fmax((27.13 * Math.fabs(g_a)) / (400.0 - Math.fabs(g_a)), 0.0);
+    var g_c = signum(g_a) * (100.0 / 0.2731) * Math.pow(g_cbase, 1.0 / 0.42);
+
+    var b_cbase = Math.fmax((27.13 * Math.fabs(b_a)) / (400.0 - Math.fabs(b_a)), 0.0);
+    var b_c = signum(b_a) * (100.0 / 0.2731) * Math.pow(b_cbase, 1.0 / 0.42);
+
+    var r_f = r_c;
+    var g_f = g_c;
+    var b_f = b_c;
+
+    var xyz = matrix_multiply({r_f, g_f, b_f}, CAM16RGB_TO_XYZ);
+    var rgbr = matrix_multiply(xyz, XYZ_TO_SRGB);
+    var rr = delinearized(rgbr[0]);
+    var rg = delinearized(rgbr[1]);
+    var rb = delinearized(rgbr[2]);
+
+    return {rr, rg, rb};
   }
   //
 
@@ -270,7 +369,14 @@ namespace He.Color {
   }
 
   public RGBColor hct_to_rgb(HCTColor color) {
-    var j = Math.sqrt(50.0) * 11.0;
+    var e = 216.0 / 24389.0;
+    var kappa = 24389.0 / 27.0;
+    var ft3 = (color.t + 16.0) / 116.0 * (color.t + 16.0) / 116.0 * (color.t + 16.0) / 116.0;
+    if (ft3 > e) {} else {
+        ft3 = (116.0 * (color.t + 16.0) / 116.0 - 16.0) / kappa;
+    }
+    var Y = ft3;
+    var j = Math.sqrt(Y) * 11.0;
     int rd = 0;
     while (rd <= 5) {
       var jn = j / 100.0;
@@ -286,16 +392,19 @@ namespace He.Color {
       var gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11.0 * t * h_cos + 108.0 * t * h_sin);
       var a = gamma * h_cos;
       var b = gamma * h_sin;
+
       var r_a = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;
       var g_a = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
       var b_a = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
 
-      var r_cbase = ((27.13 * Math.fabs(r_a)) / Math.fmax(400.0 - Math.fabs(r_a), 0.0));
-      var r_c = signum(r_a) * (100.0 / 1) * Math.pow(r_cbase, 1.0 / 0.42);
-      var g_cbase = ((27.13 * Math.fabs(g_a)) / Math.fmax(400.0 - Math.fabs(g_a), 0.0));
-      var g_c = signum(g_a) * (100.0 / 1) * Math.pow(g_cbase, 1.0 / 0.42);
-      var b_cbase = ((27.13 * Math.fabs(b_a)) / Math.fmax(400.0 - Math.fabs(b_a), 0.0));
-      var b_c = signum(b_a) * (100.0 / 1) * Math.pow(b_cbase, 1.0 / 0.42);
+      var r_cbase = Math.fmax((27.13 * Math.fabs(r_a)) / (400.0 - Math.fabs(r_a)), 0.0);
+      var r_c = signum(r_a) * (100.0 / 0.2731) * Math.pow(r_cbase, 1.0 / 0.42);
+
+      var g_cbase = Math.fmax((27.13 * Math.fabs(g_a)) / (400.0 - Math.fabs(g_a)), 0.0);
+      var g_c = signum(g_a) * (100.0 / 0.2731) * Math.pow(g_cbase, 1.0 / 0.42);
+
+      var b_cbase = Math.fmax((27.13 * Math.fabs(b_a)) / (400.0 - Math.fabs(b_a)), 0.0);
+      var b_c = signum(b_a) * (100.0 / 0.2731) * Math.pow(b_cbase, 1.0 / 0.42);
 
       var linrgb = matrix_multiply(
         {r_c, g_c, b_c},
@@ -338,6 +447,16 @@ namespace He.Color {
     }
 
     return {0, 0, 0};
+  }
+
+  double linearized(double rgb_comp){
+    var normalized = rgb_comp / 255.0;
+    if (normalized <= 0.040449936) {
+        normalized = normalized / 12.92 * 100.0;
+    } else {
+        normalized = Math.pow((normalized + 0.055) / 1.055, 2.4) * 100.0;
+    }
+    return normalized;
   }
   int delinearized(double rgb_comp) {
     var normalized = rgb_comp / 100.0;
@@ -452,7 +571,7 @@ namespace He.Color {
     LCHColor lch_color_derived = {
       color.t,
       ((derived.c/132)*150), // Make Chroma follow HCT's
-      derived.h
+      color.h
     };
 
     if (contrast != null) {
