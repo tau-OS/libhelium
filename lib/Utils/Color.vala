@@ -596,7 +596,11 @@ namespace He.Color {
         }
       }
 
-      // TODO CLAMP
+      
+      lch_color_derived.h.clamp(0, 360);
+      lch_color_derived.c.clamp(0, 132);
+      lch_color_derived.l.clamp(0, 100);
+
       return lch_color_derived;
     } else {
       if (color.t > 50.0) {
