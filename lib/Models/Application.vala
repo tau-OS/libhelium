@@ -275,11 +275,11 @@ public class He.Application : Gtk.Application {
       @define-color accent_container_bg_color $primary_container_hex;
       @define-color accent_container_fg_color $on_primary_container_hex;
 
-      @define-color window_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.2);
-      @define-color view_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.2);
-      @define-color headerbar_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.2);
-      @define-color popover_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.2);
-      @define-color card_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.2);
+      @define-color window_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.8);
+      @define-color view_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.8);
+      @define-color headerbar_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.8);
+      @define-color popover_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.8);
+      @define-color card_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.8);
 
       @define-color window_fg_color $card_neutral_foreground_hex;
       @define-color view_fg_color $card_neutral_foreground_hex;
