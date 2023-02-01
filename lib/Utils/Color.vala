@@ -224,13 +224,16 @@ namespace He.Color {
 
   // Adapted from https://github.com/d3/d3-cam16/ until the next comment-less "//"
   public CAM16Color xyz_to_cam16 (XYZColor color) {
-    double[] RGB = xyz_value_to_sharpened_rgb_value (color.x, color.y, color.z);
+    double[] RGB = elem_mul(
+                    xyz_value_to_sharpened_rgb_value(color.x, color.y, color.z),
+                    {1.0222048506322774, 0.9856436353674031, 0.9307575015921737}
+    );
 
-    var R_a = nonlinear_adaptation(RGB[0], 0.6);
-    var G_a = nonlinear_adaptation(RGB[1], 0.6);
-    var B_a = nonlinear_adaptation(RGB[2], 0.6);
+    var R_a = RGB[0];
+    var G_a = RGB[1];
+    var B_a = RGB[2];
 
-    var Aw = 3.5;
+    var Aw = 3.48;
 
     var a = R_a + (-12 * G_a + B_a) / 11;
     var b = (R_a + G_a - 2 * B_a) / 9;
@@ -242,12 +245,12 @@ namespace He.Color {
     var A = 1 * (2 * R_a + G_a + 0.05 * B_a);
 
     var JR = Math.pow(A / Aw, 0.35 * 1.93);
-    var J = JR * JR;
+    var J = 100 * (JR*JR);
 
-    var t = 3847 * 1 * e_t * Math.sqrt(a*a + b*b) / (R_a + G_a + (21.0/20.0)*B_a);
+    var t = (5e4 / 13 * 1 * 1.0003040045593807 * e_t * Math.sqrt(a*a + b*b) / (R_a + G_a + 1.05 * B_a + 0.305));
     var alpha = t * Math.pow(2 - Math.pow(0.2, 0.2), 0.55);
 
-    var C = (alpha * JR) * 0.8;
+    var C = alpha * JR;
 
     var hex = hexcode (R_a, G_a, B_a);
 
@@ -262,22 +265,20 @@ namespace He.Color {
 
     return result;
   }
-  private double nonlinear_adaptation (double cr, double fl) {
-    var c = 400;
-    if (cr < 0) {
-      fl = fl * -1;
-      c = -400;
-    }
-    var p = Math.pow( (fl * cr) / 100.0, 0.42 );
-  
-    return ((c * p) / (27.13 + p)) + 0.1;
-  }
   private double[] xyz_value_to_sharpened_rgb_value (double x, double y, double z) {
     var r =  0.401288 * x + 0.650173 * y - 0.051461 * z;
     var g = -0.250268 * x + 1.204414 * y + 0.045854 * z;
     var b = -0.002079 * x + 0.048952 * y + 0.953127 * z;
 
     return {r, g, b};
+  }
+  private double[] elem_mul(double[] v0, double[] v1) {
+    double[] prod = {
+      v0[0] * v1[0],
+      v0[1] * v1[1],
+      v0[2] * v1[2]
+    };
+    return prod;
   }
   //
 
