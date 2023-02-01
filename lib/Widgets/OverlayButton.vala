@@ -57,6 +57,34 @@ public class He.OverlayButton : He.Bin, Gtk.Buildable {
             }
         }
     }
+    
+    /**
+     * The type of the button as an enum.
+     */
+    public enum Type {
+        SURFACE,
+        PRIMARY,
+        SECONDARY,
+        TERTIARY;
+
+        /**
+         * Returns the string representation of the enum as a CSS class to be used.
+         */
+        public string? to_css_class() {
+            switch (this) {
+                case SURFACE:
+                    return null;
+                case PRIMARY:
+                    return "primary";
+                case SECONDARY:
+                    return "secondary";
+                case TERTIARY:
+                    return "tertiary";
+                default:
+                    return null;
+            }
+        }
+    }
 
     /**
      * The alignment of the button.
@@ -114,6 +142,26 @@ public class He.OverlayButton : He.Bin, Gtk.Buildable {
 
         get {
             return _size;
+        }
+    }
+    
+    private Type? _type;
+    /**
+     * The type of the button.
+     */
+    public Type type {
+        set {
+            if (_type != null && _type != Type.SURFACE) button.remove_css_class (_type.to_css_class());
+            if (value != Type.SURFACE) button.add_css_class (value.to_css_class());
+            
+            if (_type != null && _type != Type.SURFACE) secondary_button.remove_css_class (_type.to_css_class());
+            if (value != Type.SURFACE) secondary_button.add_css_class (value.to_css_class());
+
+            _type = value;
+        }
+
+        get {
+            return _type;
         }
     }
 
