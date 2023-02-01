@@ -224,16 +224,17 @@ namespace He.Color {
 
   // Adapted from https://github.com/d3/d3-cam16/ until the next comment-less "//"
   public CAM16Color xyz_to_cam16 (XYZColor color) {
+    // Make RGB fit D65
     double[] RGB = elem_mul(
                     xyz_value_to_sharpened_rgb_value(color.x, color.y, color.z),
-                    {1.0222048506322774, 0.9856436353674031, 0.9307575015921737}
+                    {1, 1, 1}
     );
 
     var R_a = RGB[0];
     var G_a = RGB[1];
     var B_a = RGB[2];
 
-    var Aw = 3.48;
+    var Aw = 3.4866244046768664;
 
     var a = R_a + (-12 * G_a + B_a) / 11;
     var b = (R_a + G_a - 2 * B_a) / 9;
@@ -244,13 +245,13 @@ namespace He.Color {
 
     var A = 1 * (2 * R_a + G_a + 0.05 * B_a);
 
-    var JR = Math.pow(A / Aw, 0.35 * 1.93);
+    var JR = Math.pow(A / Aw, 0.35 * 0.69 * 1.9272135954999579);
     var J = 100 * (JR*JR);
 
     var t = (5e4 / 13 * 1 * 1.0003040045593807 * e_t * Math.sqrt(a*a + b*b) / (R_a + G_a + 1.05 * B_a + 0.305));
     var alpha = t * Math.pow(2 - Math.pow(0.2, 0.2), 0.55);
 
-    var C = alpha * JR;
+    var C = (alpha * JR) * 0.9; // Small deviation to make colors suitable chroma for eye
 
     var hex = hexcode (R_a, G_a, B_a);
 

@@ -109,7 +109,6 @@ public class He.Application : Gtk.Application {
 
     var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color));
     var lch_color = He.Color.rgb_to_lch (rgb_color);
-    lch_color.l = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0 : 100.0;
     var hct_color = He.Color.cam16_and_lch_to_hct (cam16_color, lch_color);
 
     if (Desktop.DarkModeStrength.MEDIUM == desktop.dark_mode_strength) {
