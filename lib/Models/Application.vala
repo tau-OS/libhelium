@@ -123,98 +123,163 @@ public class He.Application : Gtk.Application {
     }
     var card_background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
 
-    var derived_card_background_as_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    // _  _ ____ _  _ ___ ____ ____ _    
+    // |\ | |___ |  |  |  |__/ |__| |    
+    // | \| |___ |__|  |  |  \ |  | |___
+    var derived_card_background = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
                                         He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 10.0}, lch_color, 0, null) :
                                         He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 99.0}, lch_color, 0, null);
-    var derived_card_background_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_card_background_as_bg));
-    var card_neutral_background_hex = Color.hexcode (derived_card_background_as_rgb_bg.r, derived_card_background_as_rgb_bg.g, derived_card_background_as_rgb_bg.b);
+    var derived_card_background_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_card_background));
+    var card_neutral_background_hex = Color.hexcode (derived_card_background_rgb.r, derived_card_background_rgb.g, derived_card_background_rgb.b);
 
-    var derived_border_as_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                        He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 6.0, 8.0), 60.0}, lch_color, 0, null) :
-                                        He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 6.0, 8.0), 50.0}, lch_color, 0, null);
-    var derived_border_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_border_as_bg));
-    var border_hex = Color.hexcode (derived_border_as_rgb_bg.r, derived_border_as_rgb_bg.g, derived_border_as_rgb_bg.b);
+    var derived_background_variant = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                     He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 30.0}, lch_color, 0, null) :
+                                     He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 90.0}, lch_color, 0, null);
+    var derived_background_variant_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_background_variant));
+    var card_neutral_background_variant_hex = Color.hexcode (derived_background_variant_rgb.r, derived_background_variant_rgb.g, derived_background_variant_rgb.b);
 
-    var derived_card_foreground_as_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    var derived_card_foreground = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
                                         He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 99.0}, lch_color, 0, null) :
                                         He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 10.0}, lch_color, 0, null);
-    var derived_card_foreground_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_card_foreground_as_bg));
-    var card_neutral_foreground_hex = Color.hexcode (derived_card_foreground_as_rgb_bg.r, derived_card_foreground_as_rgb_bg.g, derived_card_foreground_as_rgb_bg.b);
+    var derived_card_foreground_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_card_foreground));
+    var card_neutral_foreground_hex = Color.hexcode (derived_card_foreground_rgb.r, derived_card_foreground_rgb.g, derived_card_foreground_rgb.b);
 
-    var derived_primary_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 80.0}, lch_color, 0, null) :
-                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 40.0}, lch_color, 0, null);
-    var derived_primary_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_primary_bg));
-    var primary_bg_hex = Color.hexcode (derived_primary_rgb_bg.r, derived_primary_rgb_bg.g, derived_primary_rgb_bg.b);
+    // ___  ____ _ _  _ ____ ____ _   _ 
+    // |__] |__/ | |\/| |__| |__/  \_/  
+    // |    |  \ | |  | |  | |  \   | 
+    var derived_primary = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                             He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 80.0}, lch_color, 0, null) :
+                             He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 40.0}, lch_color, 0, null);
+    var derived_primary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_primary));
+    var primary_hex = Color.hexcode (derived_primary_rgb.r, derived_primary_rgb.g, derived_primary_rgb.b);
 
-    var derived_primary_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 80.0}, lch_color, 0, null) :
-                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 40.0}, lch_color, 0, null);
-    var derived_primary_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_primary_fg));
-    var primary_fg_hex = Color.hexcode (derived_primary_rgb_fg.r, derived_primary_rgb_fg.g, derived_primary_rgb_fg.b);
+    var derived_on_primary = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 20.0}, lch_color, 0, null) :
+                                He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 100.0}, lch_color, 0, null);
+    var derived_on_primary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_primary));
+    var on_primary_hex = Color.hexcode (derived_on_primary_rgb.r, derived_on_primary_rgb.g, derived_on_primary_rgb.b);
 
-    var derived_on_primary_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                            He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 20.0}, lch_color, 0, null) :
-                            He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 100.0}, lch_color, 0, null);
-    var derived_on_primary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_primary_fg));
-    var on_primary_fg_hex = Color.hexcode (derived_on_primary_rgb.r, derived_on_primary_rgb.g, derived_on_primary_rgb.b);
+    var derived_primary_container = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                       He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 30.0}, lch_color, 0, null) :
+                                       He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 90.0}, lch_color, 0, null);
+    var derived_primary_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_primary_container));
+    var primary_container_hex = Color.hexcode (derived_primary_container_rgb.r, derived_primary_container_rgb.g, derived_primary_container_rgb.b);
 
-    var derived_error_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                            He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 80.0}, lch_color, 0, null) :
-                            He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 40.0}, lch_color, 0, null);
-    var derived_error_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_error_fg));
-    var error_hex = Color.hexcode (derived_error_rgb_fg.r, derived_error_rgb_fg.g, derived_error_rgb_fg.b);
+    var derived_on_primary_container = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                          He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 90.0}, lch_color, 0, null) :
+                                          He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 10.0}, lch_color, 0, null);
+    var derived_on_primary_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_primary_container));
+    var on_primary_container_hex = Color.hexcode (derived_on_primary_container_rgb.r, derived_on_primary_container_rgb.g, derived_on_primary_container_rgb.b);
 
-    var derived_on_error_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                            He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 20.0}, lch_color, 0, null) :
-                            He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 100.0}, lch_color, 0, null);
-    var derived_on_error_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_error_fg));
-    var on_error_hex = Color.hexcode (derived_on_error_rgb_fg.r, derived_on_error_rgb_fg.g, derived_on_error_rgb_fg.b);
+    // ____ ____ ____ ____ ____ 
+    // |___ |__/ |__/ |  | |__/ 
+    // |___ |  \ |  \ |__| |  \
+    var derived_error = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                           He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 80.0}, lch_color, 0, null) :
+                           He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 40.0}, lch_color, 0, null);
+    var derived_error_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_error));
+    var error_hex = Color.hexcode (derived_error_rgb.r, derived_error_rgb.g, derived_error_rgb.b);
 
-    var derived_secondary_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                            He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 80.0}, lch_color, 0, null) :
-                            He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 40.0}, lch_color, 0, null);
-    var derived_secondary_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_secondary_fg));
-    var secondary_hex = Color.hexcode (derived_secondary_rgb_fg.r, derived_secondary_rgb_fg.g, derived_secondary_rgb_fg.b);
+    var derived_on_error = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                              He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 20.0}, lch_color, 0, null) :
+                              He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 100.0}, lch_color, 0, null);
+    var derived_on_error_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_error));
+    var on_error_hex = Color.hexcode (derived_on_error_rgb.r, derived_on_error_rgb.g, derived_on_error_rgb.b);
 
-    var derived_on_secondary_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 20.0}, lch_color, 0, null) :
-                                He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 100.0}, lch_color, 0, null);
-    var derived_on_secondary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_secondary_fg));
-    var on_secondary_fg_hex = Color.hexcode (derived_on_secondary_rgb.r, derived_on_secondary_rgb.g, derived_on_secondary_rgb.b);
+    var derived_error_container_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                           He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 80.0}, lch_color, 0, null) :
+                           He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 40.0}, lch_color, 0, null);
+    var derived_error_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_error_container_fg));
+    var error_container_hex = Color.hexcode (derived_error_container_rgb.r, derived_error_container_rgb.g, derived_error_container_rgb.b);
 
-    var derived_tertiary_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                            He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 80.0}, lch_color, 0, null) :
-                            He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 40.0}, lch_color, 0, null);
-    var derived_tertiary_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_tertiary_fg));
-    var tertiary_hex = Color.hexcode (derived_tertiary_rgb_fg.r, derived_tertiary_rgb_fg.g, derived_tertiary_rgb_fg.b);
+    var derived_on_error_container_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                              He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 20.0}, lch_color, 0, null) :
+                              He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 100.0}, lch_color, 0, null);
+    var derived_on_error_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_error_container_fg));
+    var on_error_container_hex = Color.hexcode (derived_on_error_container_rgb.r, derived_on_error_container_rgb.g, derived_on_error_container_rgb.b);
 
-    var derived_on_tertiary_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 20.0}, lch_color, 0, null) :
-                                He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 100.0}, lch_color, 0, null);
-    var derived_on_tertiary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_tertiary_fg));
-    var on_tertiary_fg_hex = Color.hexcode (derived_on_tertiary_rgb.r, derived_on_tertiary_rgb.g, derived_on_tertiary_rgb.b);
+    // ____ ____ ____ ____ _  _ ___  ____ ____ _   _ 
+    // [__  |___ |    |  | |\ | |  \ |__| |__/  \_/  
+    // ___] |___ |___ |__| | \| |__/ |  | |  \   |
+    var derived_secondary = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 80.0}, lch_color, 0, null) :
+                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 40.0}, lch_color, 0, null);
+    var derived_secondary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_secondary));
+    var secondary_hex = Color.hexcode (derived_secondary_rgb.r, derived_secondary_rgb.g, derived_secondary_rgb.b);
 
-    var derived_background_variant_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                        He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 30.0}, lch_color, 0, null) :
-                                        He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 90.0}, lch_color, 0, null);
-    var derived_background_variant_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_background_variant_bg));
-    var card_neutral_background_variant_hex = Color.hexcode (derived_background_variant_rgb_bg.r, derived_background_variant_rgb_bg.g, derived_background_variant_rgb_bg.b);
+    var derived_on_secondary = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                  He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 20.0}, lch_color, 0, null) :
+                                  He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 100.0}, lch_color, 0, null);
+    var derived_on_secondary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_secondary));
+    var on_secondary_hex = Color.hexcode (derived_on_secondary_rgb.r, derived_on_secondary_rgb.g, derived_on_secondary_rgb.b);
+
+    var derived_secondary_container = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 30.0}, lch_color, 0, null) :
+                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 90.0}, lch_color, 0, null);
+    var derived_secondary_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_secondary_container));
+    var secondary_container_hex = Color.hexcode (derived_secondary_container_rgb.r, derived_secondary_container_rgb.g, derived_secondary_container_rgb.b);
+
+    var derived_on_secondary_container = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                  He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 90.0}, lch_color, 0, null) :
+                                  He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 10.0}, lch_color, 0, null);
+    var derived_on_secondary_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_secondary_container));
+    var on_secondary_container_hex = Color.hexcode (derived_on_secondary_container_rgb.r, derived_on_secondary_container_rgb.g, derived_on_secondary_container_rgb.b);
+
+
+    // ___ ____ ____ ___ _ ____ ____ _   _ 
+    //  |  |___ |__/  |  | |__| |__/  \_/  
+    //  |  |___ |  \  |  | |  | |  \   |
+    var derived_tertiary = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                              He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 80.0}, lch_color, 0, null) :
+                              He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 40.0}, lch_color, 0, null);
+    var derived_tertiary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_tertiary));
+    var tertiary_hex = Color.hexcode (derived_tertiary_rgb.r, derived_tertiary_rgb.g, derived_tertiary_rgb.b);
+
+    var derived_on_tertiary = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                 He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 20.0}, lch_color, 0, null) :
+                                 He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 100.0}, lch_color, 0, null);
+    var derived_on_tertiary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_tertiary));
+    var on_tertiary_hex = Color.hexcode (derived_on_tertiary_rgb.r, derived_on_tertiary_rgb.g, derived_on_tertiary_rgb.b);
+
+    var derived_tertiary_container = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                               He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 30.0}, lch_color, 0, null) :
+                               He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 90.0}, lch_color, 0, null);
+    var derived_tertiary_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_tertiary_container));
+    var tertiary_container_hex = Color.hexcode (derived_tertiary_container_rgb.r, derived_tertiary_container_rgb.g, derived_tertiary_container_rgb.b);
+
+    var derived_on_tertiary_container = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                  He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 90.0}, lch_color, 0, null) :
+                                  He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 10.0}, lch_color, 0, null);
+    var derived_on_tertiary_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_tertiary_container));
+    var on_tertiary_container_hex = Color.hexcode (derived_on_tertiary_container_rgb.r, derived_on_tertiary_container_rgb.g, derived_on_tertiary_container_rgb.b);
+
+    // ____ _  _ ___ _    _ _  _ ____ 
+    // |  | |  |  |  |    | |\ | |___ 
+    // |__| |__|  |  |___ | | \| |___
+    var derived_border = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                               He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 6.0, 8.0), 60.0}, lch_color, 0, null) :
+                               He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 6.0, 8.0), 50.0}, lch_color, 0, null);
+    var derived_border_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_border));
+    var border_hex = Color.hexcode (derived_border_rgb.r, derived_border_rgb.g, derived_border_rgb.b);
 
     this.foreground = derived_on_primary_rgb;
-    this.accent_color = derived_primary_rgb_bg;
-    this.accent_foreground = derived_primary_rgb_fg;
+    this.accent_color = derived_primary_rgb;
+    this.accent_foreground = derived_primary_rgb;
 
     var css = @"
-      @define-color accent_color $primary_fg_hex;
-      @define-color accent_bg_color $primary_bg_hex;
-      @define-color accent_fg_color $on_primary_fg_hex;
+      @define-color accent_color $primary_hex;
+      @define-color accent_bg_color $primary_hex;
+      @define-color accent_fg_color $on_primary_hex;
 
-      @define-color window_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
-      @define-color view_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
-      @define-color headerbar_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.5);
-      @define-color popover_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.5);
-      @define-color card_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.5);
+      @define-color accent_container_color $primary_container_hex;
+      @define-color accent_container_bg_color $primary_container_hex;
+      @define-color accent_container_fg_color $on_primary_container_hex;
+
+      @define-color window_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.2);
+      @define-color view_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.2);
+      @define-color headerbar_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.2);
+      @define-color popover_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.2);
+      @define-color card_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.2);
 
       @define-color window_fg_color $card_neutral_foreground_hex;
       @define-color view_fg_color $card_neutral_foreground_hex;
@@ -226,17 +291,33 @@ public class He.Application : Gtk.Application {
       @define-color destructive_fg_color $on_error_hex;
       @define-color destructive_color $error_hex;
 
+      @define-color destructive_container_color $error_container_hex;
+      @define-color destructive_container_bg_color $error_container_hex;
+      @define-color destructive_container_fg_color $on_error_container_hex;
+
       @define-color suggested_bg_color $secondary_hex;
-      @define-color suggested_fg_color $on_secondary_fg_hex;
+      @define-color suggested_fg_color $on_secondary_hex;
       @define-color suggested_color $secondary_hex;
 
+      @define-color suggested_container_color $secondary_container_hex;
+      @define-color suggested_container_bg_color $secondary_container_hex;
+      @define-color suggested_container_fg_color $on_secondary_container_hex;
+
       @define-color error_bg_color $error_hex;
-      @define-color error_fg_color $on_error_hex;
+      @define-color error_color $on_error_hex;
       @define-color error_color $error_hex;
 
+      @define-color error_container_color $error_container_hex;
+      @define-color error_container_bg_color $error_container_hex;
+      @define-color error_container_fg_color $on_error_container_hex;
+
       @define-color success_bg_color $tertiary_hex;
-      @define-color success_fg_color $on_tertiary_fg_hex;
+      @define-color success_fg_color $on_tertiary_hex;
       @define-color success_color $tertiary_hex;
+
+      @define-color success_container_color $tertiary_container_hex;
+      @define-color success_container_bg_color $tertiary_container_hex;
+      @define-color success_container_fg_color $on_tertiary_container_hex;
 
       @define-color borders $border_hex;
     ";
