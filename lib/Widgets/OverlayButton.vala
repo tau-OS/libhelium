@@ -151,10 +151,10 @@ public class He.OverlayButton : He.Bin, Gtk.Buildable {
      */
     public Type typeb {
         set {
-            if (_typeb != null && _type != Type.SURFACE) button.remove_css_class (_typeb.to_css_class());
+            if (_typeb != null && _typeb != Type.SURFACE) button.remove_css_class (_typeb.to_css_class());
             if (value != Type.SURFACE) button.add_css_class (value.to_css_class());
             
-            if (_type != null && _type != Type.SURFACE) secondary_button.remove_css_class (_typeb.to_css_class());
+            if (_typeb != null && _typeb != Type.SURFACE) secondary_button.remove_css_class (_typeb.to_css_class());
             if (value != Type.SURFACE) secondary_button.add_css_class (value.to_css_class());
 
             _typeb = value;
