@@ -251,7 +251,7 @@ namespace He.Color {
     var t = (5e4 / 13 * 1 * 1.0003040045593807 * e_t * Math.sqrt(a*a + b*b) / (R_a + G_a + 1.05 * B_a + 0.305));
     var alpha = t * Math.pow(2 - Math.pow(0.2, 0.2), 0.55);
 
-    var C = (alpha * JR) * 0.9; // Small deviation to make colors suitable chroma for eye
+    var C = (alpha * JR) * 0.5; // Small deviation to make colors suitable chroma for eye
 
     var hex = hexcode (R_a, G_a, B_a);
 
