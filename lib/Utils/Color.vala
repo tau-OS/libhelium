@@ -289,8 +289,6 @@ namespace He.Color {
       color.hex
     };
 
-    if (result.h >= 0.5 && result.h <= 0.7) result.h += 0.8; // remove pukey colors
-
     // Test color for bad props
     bool huePasses = Math.round(result.h) >= 90.0 * 0.0175 && Math.round(result.h) <= 111.0 * 0.0175;
     bool chromaPasses = Math.round(result.c) > 16;
