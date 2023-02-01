@@ -366,6 +366,8 @@ public class He.OverlayButton : He.Bin, Gtk.Buildable {
         });
         
         this.size = Size.MEDIUM;
+        this.typeb = TypeButton.SURFACE;
+        this.typeb2 = TypeButton.SURFACE;
         this.alignment = Alignment.RIGHT;
         this.vexpand = true;
         this.hexpand = true;
