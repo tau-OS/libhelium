@@ -195,6 +195,12 @@ public class He.Application : Gtk.Application {
     var derived_on_tertiary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_tertiary_fg));
     var on_tertiary_fg_hex = Color.hexcode (derived_on_tertiary_rgb.r, derived_on_tertiary_rgb.g, derived_on_tertiary_rgb.b);
 
+    var derived_background_variant_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                        He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 30.0}, lch_color, 0, null) :
+                                        He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 90.0}, lch_color, 0, null);
+    var derived_background_variant_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_background_variant_bg));
+    var card_neutral_background_variant_hex = Color.hexcode (derived_background_variant_rgb_bg.r, derived_background_variant_rgb_bg.g, derived_background_variant_rgb_bg.b);
+
     this.foreground = derived_on_primary_rgb;
     this.accent_color = derived_primary_rgb_bg;
     this.accent_foreground = derived_primary_rgb_fg;
@@ -206,8 +212,8 @@ public class He.Application : Gtk.Application {
 
       @define-color window_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
       @define-color view_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
-      @define-color headerbar_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
-      @define-color popover_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
+      @define-color headerbar_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.5);
+      @define-color popover_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.5);
       @define-color card_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
 
       @define-color window_fg_color $card_neutral_foreground_hex;
