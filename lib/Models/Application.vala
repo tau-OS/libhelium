@@ -148,8 +148,8 @@ public class He.Application : Gtk.Application {
     var primary_bg_hex = Color.hexcode (derived_primary_rgb_bg.r, derived_primary_rgb_bg.g, derived_primary_rgb_bg.b);
 
     var derived_primary_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 30.0}, lch_color, 0, null) :
-                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 90.0}, lch_color, 0, null);
+                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 80.0}, lch_color, 0, null) :
+                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 40.0}, lch_color, 0, null);
     var derived_primary_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_primary_fg));
     var primary_fg_hex = Color.hexcode (derived_primary_rgb_fg.r, derived_primary_rgb_fg.g, derived_primary_rgb_fg.b);
 
