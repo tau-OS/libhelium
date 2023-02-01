@@ -42,10 +42,6 @@ public class He.Application : Gtk.Application {
   * A default accent color if the user has not set one.
   */
   public He.Color.RGBColor? default_accent_color { get; set; }
-
-  private He.Color.RGBColor? derived_fg { get; set; }
-  private He.Color.RGBColor? derived_bg { get; set; }
-  private He.Color.RGBColor? derived_card_fg { get; set; }
   private He.Color.RGBColor? derived_card_bg { get; set; }
 
   private Gtk.CssProvider light = new Gtk.CssProvider ();
@@ -54,7 +50,6 @@ public class He.Application : Gtk.Application {
   private Gtk.CssProvider user_base = new Gtk.CssProvider ();
   private Gtk.CssProvider user_dark = new Gtk.CssProvider ();
   private He.Desktop desktop = new He.Desktop ();
-
 
   /**
   * The applied accent color.
@@ -118,82 +113,126 @@ public class He.Application : Gtk.Application {
     var hct_color = He.Color.cam16_and_lch_to_hct (cam16_color, lch_color);
 
     if (Desktop.DarkModeStrength.MEDIUM == desktop.dark_mode_strength) {
-      derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
-      derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-      derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
     } else if (Desktop.DarkModeStrength.SOFT == desktop.dark_mode_strength) {
-      derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
-      derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-      derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.SOFT_CARD_BLACK : He.Color.CARD_WHITE;
     } else if (Desktop.DarkModeStrength.HARSH == desktop.dark_mode_strength) {
-      derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
-      derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-      derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.HARSH_CARD_BLACK : He.Color.CARD_WHITE;
     } else {
-      derived_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
-      derived_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-      derived_card_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.WHITE : He.Color.BLACK;
       derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
     }
-
-    var fg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 15.2 : 7.5;
-    var bg_contrast = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 15.2 : 7.5;
-
-    He.Color.RGBColor derived_accent_fg;
-    var derived_accent_as_bg = He.Color.derive_contrasting_color(hct_color, lch_color, bg_contrast, null);
-    var derived_accent_as_fg = He.Color.derive_contrasting_color(hct_color, lch_color, fg_contrast, null);
-    derived_accent_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.BLACK : He.Color.WHITE;
-    var derived_accent_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_bg));
-    var derived_accent_as_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_accent_as_fg));
-
-    this.accent_color = derived_accent_as_rgb_bg;
-    this.foreground = derived_fg;
-    this.accent_foreground = derived_accent_as_rgb_fg;
-
-    var card_foreground_hex = Color.hexcode (derived_card_fg.r, derived_card_fg.g, derived_card_fg.b);
     var card_background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
 
-    var accent_color_hex = Color.hexcode (derived_accent_as_rgb_bg.r, derived_accent_as_rgb_bg.g, derived_accent_as_rgb_bg.b);
-    var accent_foreground_hex = Color.hexcode (derived_accent_fg.r, derived_accent_fg.g, derived_accent_fg.b);
-    var accent_color_foreground_hex = Color.hexcode (derived_accent_as_rgb_fg.r, derived_accent_as_rgb_fg.g, derived_accent_as_rgb_fg.b);
+    var derived_card_background_as_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                        He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 10.0}, lch_color, 0, null) :
+                                        He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 99.0}, lch_color, 0, null);
+    var derived_card_background_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_card_background_as_bg));
+    var card_neutral_background_hex = Color.hexcode (derived_card_background_as_rgb_bg.r, derived_card_background_as_rgb_bg.g, derived_card_background_as_rgb_bg.b);
+
+    var derived_border_as_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                        He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 6.0, 8.0), 60.0}, lch_color, 0, null) :
+                                        He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 6.0, 8.0), 50.0}, lch_color, 0, null);
+    var derived_border_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_border_as_bg));
+    var border_hex = Color.hexcode (derived_border_as_rgb_bg.r, derived_border_as_rgb_bg.g, derived_border_as_rgb_bg.b);
+
+    var derived_card_foreground_as_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                        He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 99.0}, lch_color, 0, null) :
+                                        He.Color.derive_contrasting_color({hct_color.h, Math.fmin(hct_color.c / 12.0, 4.0), 10.0}, lch_color, 0, null);
+    var derived_card_foreground_as_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_card_foreground_as_bg));
+    var card_neutral_foreground_hex = Color.hexcode (derived_card_foreground_as_rgb_bg.r, derived_card_foreground_as_rgb_bg.g, derived_card_foreground_as_rgb_bg.b);
+
+    var derived_primary_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 80.0}, lch_color, 0, null) :
+                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 40.0}, lch_color, 0, null);
+    var derived_primary_rgb_bg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_primary_bg));
+    var primary_bg_hex = Color.hexcode (derived_primary_rgb_bg.r, derived_primary_rgb_bg.g, derived_primary_rgb_bg.b);
+
+    var derived_primary_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 30.0}, lch_color, 0, null) :
+                               He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 90.0}, lch_color, 0, null);
+    var derived_primary_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_primary_fg));
+    var primary_fg_hex = Color.hexcode (derived_primary_rgb_fg.r, derived_primary_rgb_fg.g, derived_primary_rgb_fg.b);
+
+    var derived_on_primary_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                            He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 20.0}, lch_color, 0, null) :
+                            He.Color.derive_contrasting_color({hct_color.h, hct_color.c, 100.0}, lch_color, 0, null);
+    var derived_on_primary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_primary_fg));
+    var on_primary_fg_hex = Color.hexcode (derived_on_primary_rgb.r, derived_on_primary_rgb.g, derived_on_primary_rgb.b);
+
+    var derived_error_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                            He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 80.0}, lch_color, 0, null) :
+                            He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 40.0}, lch_color, 0, null);
+    var derived_error_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_error_fg));
+    var error_hex = Color.hexcode (derived_error_rgb_fg.r, derived_error_rgb_fg.g, derived_error_rgb_fg.b);
+
+    var derived_on_error_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                            He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 20.0}, lch_color, 0, null) :
+                            He.Color.derive_contrasting_color({25 * 0.0175, 84.0, 100.0}, lch_color, 0, null);
+    var derived_on_error_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_error_fg));
+    var on_error_hex = Color.hexcode (derived_on_error_rgb_fg.r, derived_on_error_rgb_fg.g, derived_on_error_rgb_fg.b);
+
+    var derived_secondary_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                            He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 80.0}, lch_color, 0, null) :
+                            He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 40.0}, lch_color, 0, null);
+    var derived_secondary_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_secondary_fg));
+    var secondary_hex = Color.hexcode (derived_secondary_rgb_fg.r, derived_secondary_rgb_fg.g, derived_secondary_rgb_fg.b);
+
+    var derived_on_secondary_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 20.0}, lch_color, 0, null) :
+                                He.Color.derive_contrasting_color({hct_color.h, hct_color.c / 3.0, 100.0}, lch_color, 0, null);
+    var derived_on_secondary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_secondary_fg));
+    var on_secondary_fg_hex = Color.hexcode (derived_on_secondary_rgb.r, derived_on_secondary_rgb.g, derived_on_secondary_rgb.b);
+
+    var derived_tertiary_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                            He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 80.0}, lch_color, 0, null) :
+                            He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 40.0}, lch_color, 0, null);
+    var derived_tertiary_rgb_fg = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_tertiary_fg));
+    var tertiary_hex = Color.hexcode (derived_tertiary_rgb_fg.r, derived_tertiary_rgb_fg.g, derived_tertiary_rgb_fg.b);
+
+    var derived_on_tertiary_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 20.0}, lch_color, 0, null) :
+                                He.Color.derive_contrasting_color({hct_color.h + 60.0 * 0.0175, hct_color.c / 2.0, 100.0}, lch_color, 0, null);
+    var derived_on_tertiary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_tertiary_fg));
+    var on_tertiary_fg_hex = Color.hexcode (derived_on_tertiary_rgb.r, derived_on_tertiary_rgb.g, derived_on_tertiary_rgb.b);
+
+    this.foreground = derived_on_primary_rgb;
+    this.accent_color = derived_primary_rgb_bg;
+    this.accent_foreground = derived_primary_rgb_fg;
 
     var css = @"
-      @define-color accent_color $accent_color_foreground_hex;
-      @define-color accent_bg_color $accent_color_hex;
-      @define-color accent_fg_color $accent_foreground_hex;
+      @define-color accent_color $primary_fg_hex;
+      @define-color accent_bg_color $primary_bg_hex;
+      @define-color accent_fg_color $on_primary_fg_hex;
 
-      @define-color window_bg_color mix($card_background_hex, $accent_color_hex, 0.03);
-      @define-color view_bg_color mix($card_background_hex, $accent_color_hex, 0.03);
-      @define-color headerbar_bg_color mix($card_background_hex, $accent_color_hex, 0.08);
-      @define-color popover_bg_color mix($card_background_hex, $accent_color_hex, 0.11);
-      @define-color card_bg_color mix($card_background_hex, $accent_color_hex, 0.03);
+      @define-color window_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
+      @define-color view_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
+      @define-color headerbar_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
+      @define-color popover_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
+      @define-color card_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
 
-      @define-color window_fg_color mix($card_foreground_hex, $accent_color_hex, 0.03);
-      @define-color view_fg_color mix($card_foreground_hex, $accent_color_hex, 0.03);
-      @define-color headerbar_fg_color mix($card_foreground_hex, $accent_color_hex, 0.03);
-      @define-color popover_fg_color mix($card_foreground_hex, $accent_color_hex, 0.03);
-      @define-color card_fg_color mix($card_foreground_hex, $accent_color_hex, 0.03);
+      @define-color window_fg_color $card_neutral_foreground_hex;
+      @define-color view_fg_color $card_neutral_foreground_hex;
+      @define-color headerbar_fg_color $card_neutral_foreground_hex;
+      @define-color popover_fg_color $card_neutral_foreground_hex;
+      @define-color card_fg_color $card_neutral_foreground_hex;
 
-      @define-color destructive_bg_color mix(#db2860, $accent_color_hex, 0.5);
-      @define-color destructive_fg_color mix(#db2860, $accent_color_hex, 0.5);
-      @define-color destructive_color mix(#db2860, $accent_color_foreground_hex, 0.5);
+      @define-color destructive_bg_color $error_hex;
+      @define-color destructive_fg_color $on_error_hex;
+      @define-color destructive_color $error_hex;
 
-      @define-color suggested_bg_color mix(#268ef9, $accent_color_hex, 0.5);
-      @define-color suggested_fg_color mix(#268ef9, $accent_color_hex, 0.5);
-      @define-color suggested_color mix(#268ef9, $accent_color_foreground_hex, 0.5);
+      @define-color suggested_bg_color $secondary_hex;
+      @define-color suggested_fg_color $on_secondary_fg_hex;
+      @define-color suggested_color $secondary_hex;
 
-      @define-color error_bg_color mix(#db2860, $accent_color_hex, 0.5);
-      @define-color error_fg_color mix(#db2860, $accent_color_hex, 0.5);
-      @define-color error_color mix(#db2860, $accent_color_foreground_hex, 0.5);
+      @define-color error_bg_color $error_hex;
+      @define-color error_fg_color $on_error_hex;
+      @define-color error_color $error_hex;
 
-      @define-color success_bg_color mix(#49d05e, $accent_color_hex, 0.5);
-      @define-color success_fg_color mix(#49d05e, $accent_color_hex, 0.5);
-      @define-color success_color mix(#49d05e, $accent_color_foreground_hex, 0.5);
+      @define-color success_bg_color $tertiary_hex;
+      @define-color success_fg_color $on_tertiary_fg_hex;
+      @define-color success_color $tertiary_hex;
 
-      @define-color borders alpha(mix($card_foreground_hex, $accent_color_hex, 0.05), 0.2);
+      @define-color borders $border_hex;
     ";
     accent.load_from_data (css.data);
 }

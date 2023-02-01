@@ -120,12 +120,14 @@ namespace He.Color {
     public double b;
     public double C;
     public double h;
+    public string hex; // Keep RGB rep as string on the struct for easy lookup
   }
 
   public struct HCTColor {
     public double h;
     public double c;
     public double t;
+    public string a; // Keep RGB rep as string on the struct for easy lookup
   }
 
   // The following is adapted from:
@@ -247,12 +249,15 @@ namespace He.Color {
 
     var C = (alpha * JR) * 0.8;
 
+    var hex = hexcode (R_a, G_a, B_a);
+
     CAM16Color result = {
       J,
       a,
       b,
       C,
-      h
+      h,
+      hex
     };
 
     return result;
@@ -280,7 +285,8 @@ namespace He.Color {
     HCTColor result = {
       color.h,
       color.C,
-      tone.l
+      tone.l,
+      color.hex
     };
 
     if (result.h >= 0.5 && result.h <= 0.7) result.h += 0.8; // remove pukey colors
@@ -291,10 +297,33 @@ namespace He.Color {
     bool tonePasses = Math.round(result.t) < 70;
 
     if (huePasses && chromaPasses && tonePasses) {
-      return {result.h, result.c, 70.0};
+      return {result.h, result.c, 70.0, result.a};
     }
 
-    return {result.h, result.c, result.t};
+    return {result.h, result.c, result.t, result.a};
+  }
+  public string hct_to_hex (HCTColor a) {
+    return a.a;
+  }
+  public HCTColor hct_blend (HCTColor a, HCTColor b) {
+    var diff_deg = diff_deg(a.h, b.h);
+    var rot_deg = Math.fmin(diff_deg * 0.5, 15.0);
+    var output = sanitize_degrees (a.h + rot_deg * rot_dir(a.h, b.h));
+    return {output, a.c, a.t};
+  }
+  public double sanitize_degrees (double degrees) {
+    degrees = degrees % 360.0;
+    if (degrees < 0) {
+      degrees = degrees + 360.0;
+    }
+    return degrees;
+  }
+  public double rot_dir(double from, double to) {
+    var increasingDifference = sanitize_degrees (to - from);
+    return increasingDifference <= 180.0 ? 1.0 : -1.0;
+  }
+  public double diff_deg(double a, double b) {
+    return 180.0 - Math.fabs(Math.fabs(a - b) - 180.0);
   }
 
   int xyz_value_to_rgb_value(double value) {
