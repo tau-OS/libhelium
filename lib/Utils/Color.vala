@@ -222,27 +222,13 @@ namespace He.Color {
 
   // Adapted from https://github.com/d3/d3-cam16/ until the next comment-less "//"
   public CAM16Color xyz_to_cam16 (XYZColor color) {
-    double[] RGB_w = xyz_value_to_sharpened_rgb_value (95.047/100, 100.0/100, 108.883/100);
     double[] RGB = xyz_value_to_sharpened_rgb_value (color.x, color.y, color.z);
 
-    var R_c = RGB[0] * 1.022;
-    var G_c = RGB[1] * 0.985;
-    var B_c = RGB[2] * 0.930;
+    var R_a = nonlinear_adaptation(RGB[0], 0.6);
+    var G_a = nonlinear_adaptation(RGB[1], 0.6);
+    var B_a = nonlinear_adaptation(RGB[2], 0.6);
 
-    var R_a = nonlinear_adaptation(R_c, 0.59);
-    var G_a = nonlinear_adaptation(G_c, 0.59);
-    var B_a = nonlinear_adaptation(B_c, 0.59);
-
-    var R_wc = RGB_w[0] * 1.022;
-    var G_wc = RGB_w[1] * 0.985;
-    var B_wc = RGB_w[2] * 0.930;
-
-    var R_aw = nonlinear_adaptation(R_wc, 0.59);
-    var G_aw = nonlinear_adaptation(G_wc, 0.59);
-    var B_aw = nonlinear_adaptation(B_wc, 0.59);
-
-    // Compute achromatic response for whitepoint
-    var Aw = (2.0 * R_aw + G_aw + 0.05 * B_aw - 0.305) * 0.97;
+    var Aw = 3.5;
 
     var a = R_a + (-12 * G_a + B_a) / 11;
     var b = (R_a + G_a - 2 * B_a) / 9;
@@ -251,16 +237,15 @@ namespace He.Color {
     
     var e_t = 0.25 * (Math.cos(h + 2) + 3.8);
 
-    var A = 0.97 * (2 * R_a + G_a + 0.05 * B_a);
+    var A = 1 * (2 * R_a + G_a + 0.05 * B_a);
 
     var JR = Math.pow(A / Aw, 0.35 * 1.93);
-    var J = 100 * JR * JR;
+    var J = JR * JR;
 
-    var t = 3847 * 0.97 * e_t * Math.sqrt(a*a + b*b) / (R_a + G_a + (21.0/20.0)*B_a);
-    var alpha = t * Math.pow(2 - Math.pow(0.2, 0.1904), 0.54785);
+    var t = 3847 * 1 * e_t * Math.sqrt(a*a + b*b) / (R_a + G_a + (21.0/20.0)*B_a);
+    var alpha = t * Math.pow(2 - Math.pow(0.2, 0.2), 0.55);
 
     var C = (alpha * JR) * 0.8;
-    if (h >= 30 * 0.0175 && h <= 40 * 0.0175) h += 45 * 0.0175; // remove pukey colors
 
     CAM16Color result = {
       J,
@@ -282,7 +267,7 @@ namespace He.Color {
   
     return ((c * p) / (27.13 + p)) + 0.1;
   }
-  private double[] xyz_value_to_sharpened_rgb_value (double x,double y,double z) {
+  private double[] xyz_value_to_sharpened_rgb_value (double x, double y, double z) {
     var r =  0.401288 * x + 0.650173 * y - 0.051461 * z;
     var g = -0.250268 * x + 1.204414 * y + 0.045854 * z;
     var b = -0.002079 * x + 0.048952 * y + 0.953127 * z;
@@ -298,16 +283,18 @@ namespace He.Color {
       tone.l
     };
 
+    if (result.h >= 0.5 && result.h <= 0.7) result.h += 0.8; // remove pukey colors
+
     // Test color for bad props
     bool huePasses = Math.round(result.h) >= 90.0 * 0.0175 && Math.round(result.h) <= 111.0 * 0.0175;
-    bool chromaPasses = Math.round(result.c) > 0.16;
-    bool tonePasses = Math.round(result.t) < 0.70;
+    bool chromaPasses = Math.round(result.c) > 16;
+    bool tonePasses = Math.round(result.t) < 70;
 
     if (huePasses && chromaPasses && tonePasses) {
-      return {result.h, result.c, 0.70};
+      return {result.h, result.c, 70.0};
     }
 
-    return result;
+    return {result.h, result.c, result.t};
   }
 
   int xyz_value_to_rgb_value(double value) {
