@@ -277,7 +277,7 @@ public class He.Application : Gtk.Application {
         @define-color window_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
         @define-color view_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
         @define-color headerbar_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.5);
-        @define-color popover_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.5);
+        @define-color popover_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
         @define-color card_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
 
         @define-color window_fg_color $card_neutral_foreground_hex;
@@ -333,7 +333,7 @@ public class He.Application : Gtk.Application {
         @define-color window_bg_color $card_neutral_background_hex;
         @define-color view_bg_color $card_neutral_background_hex;
         @define-color headerbar_bg_color $card_neutral_background_variant_hex;
-        @define-color popover_bg_color $card_neutral_background_variant_hex;
+        @define-color popover_bg_color $card_neutral_background_hex;
         @define-color card_bg_color $card_neutral_background_hex;
 
         @define-color window_fg_color $card_neutral_foreground_hex;
