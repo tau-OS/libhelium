@@ -112,13 +112,13 @@ public class He.Application : Gtk.Application {
     var hct_color = He.Color.cam16_and_lch_to_hct (cam16_color, lch_color);
 
     if (Desktop.DarkModeStrength.MEDIUM == desktop.dark_mode_strength) {
-      derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
+      derived_card_bg = He.Color.CARD_BLACK;
     } else if (Desktop.DarkModeStrength.SOFT == desktop.dark_mode_strength) {
-      derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.SOFT_CARD_BLACK : He.Color.CARD_WHITE;
+      derived_card_bg = He.Color.SOFT_CARD_BLACK;
     } else if (Desktop.DarkModeStrength.HARSH == desktop.dark_mode_strength) {
-      derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.HARSH_CARD_BLACK : He.Color.CARD_WHITE;
+      derived_card_bg = He.Color.HARSH_CARD_BLACK;
     } else {
-      derived_card_bg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? He.Color.CARD_BLACK : He.Color.CARD_WHITE;
+      derived_card_bg = He.Color.CARD_BLACK;
     }
     var card_background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
 
@@ -274,11 +274,11 @@ public class He.Application : Gtk.Application {
       @define-color accent_container_bg_color $primary_container_hex;
       @define-color accent_container_fg_color $on_primary_container_hex;
 
-      @define-color window_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.8);
-      @define-color view_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.8);
-      @define-color headerbar_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.8);
-      @define-color popover_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.8);
-      @define-color card_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.8);
+      @define-color window_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.3);
+      @define-color view_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.3);
+      @define-color headerbar_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.3);
+      @define-color popover_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.3);
+      @define-color card_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.3);
 
       @define-color window_fg_color $card_neutral_foreground_hex;
       @define-color view_fg_color $card_neutral_foreground_hex;
