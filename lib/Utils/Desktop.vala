@@ -41,7 +41,7 @@ public class He.Desktop : Object {
         get {
             return _prefers_color_scheme;
         }
-        private set {
+        set {
             _prefers_color_scheme = value;
         }
     }
