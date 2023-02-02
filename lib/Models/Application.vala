@@ -117,8 +117,6 @@ public class He.Application : Gtk.Application {
       derived_card_bg = He.Color.SOFT_CARD_BLACK;
     } else if (Desktop.DarkModeStrength.HARSH == desktop.dark_mode_strength) {
       derived_card_bg = He.Color.HARSH_CARD_BLACK;
-    } else {
-      derived_card_bg = He.Color.CARD_BLACK;
     }
     var card_background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
 
@@ -265,61 +263,120 @@ public class He.Application : Gtk.Application {
     this.accent_color = derived_primary_rgb;
     this.accent_foreground = derived_primary_rgb;
 
-    var css = @"
-      @define-color accent_color $primary_hex;
-      @define-color accent_bg_color $primary_hex;
-      @define-color accent_fg_color $on_primary_hex;
+    string css = "";
+    if (desktop.prefers_color_scheme == Desktop.ColorScheme.DARK) {
+      css = @"
+        @define-color accent_color $primary_hex;
+        @define-color accent_bg_color $primary_hex;
+        @define-color accent_fg_color $on_primary_hex;
 
-      @define-color accent_container_color $primary_container_hex;
-      @define-color accent_container_bg_color $primary_container_hex;
-      @define-color accent_container_fg_color $on_primary_container_hex;
+        @define-color accent_container_color $primary_container_hex;
+        @define-color accent_container_bg_color $primary_container_hex;
+        @define-color accent_container_fg_color $on_primary_container_hex;
 
-      @define-color window_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.3);
-      @define-color view_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.3);
-      @define-color headerbar_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.3);
-      @define-color popover_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.3);
-      @define-color card_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.3);
+        @define-color window_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
+        @define-color view_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
+        @define-color headerbar_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.5);
+        @define-color popover_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.5);
+        @define-color card_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
 
-      @define-color window_fg_color $card_neutral_foreground_hex;
-      @define-color view_fg_color $card_neutral_foreground_hex;
-      @define-color headerbar_fg_color $card_neutral_foreground_hex;
-      @define-color popover_fg_color $card_neutral_foreground_hex;
-      @define-color card_fg_color $card_neutral_foreground_hex;
+        @define-color window_fg_color $card_neutral_foreground_hex;
+        @define-color view_fg_color $card_neutral_foreground_hex;
+        @define-color headerbar_fg_color $card_neutral_foreground_hex;
+        @define-color popover_fg_color $card_neutral_foreground_hex;
+        @define-color card_fg_color $card_neutral_foreground_hex;
 
-      @define-color destructive_bg_color $error_hex;
-      @define-color destructive_fg_color $on_error_hex;
-      @define-color destructive_color $error_hex;
+        @define-color destructive_bg_color $error_hex;
+        @define-color destructive_fg_color $on_error_hex;
+        @define-color destructive_color $error_hex;
 
-      @define-color destructive_container_color $error_container_hex;
-      @define-color destructive_container_bg_color $error_container_hex;
-      @define-color destructive_container_fg_color $on_error_container_hex;
+        @define-color destructive_container_color $error_container_hex;
+        @define-color destructive_container_bg_color $error_container_hex;
+        @define-color destructive_container_fg_color $on_error_container_hex;
 
-      @define-color suggested_bg_color $secondary_hex;
-      @define-color suggested_fg_color $on_secondary_hex;
-      @define-color suggested_color $secondary_hex;
+        @define-color suggested_bg_color $secondary_hex;
+        @define-color suggested_fg_color $on_secondary_hex;
+        @define-color suggested_color $secondary_hex;
 
-      @define-color suggested_container_color $secondary_container_hex;
-      @define-color suggested_container_bg_color $secondary_container_hex;
-      @define-color suggested_container_fg_color $on_secondary_container_hex;
+        @define-color suggested_container_color $secondary_container_hex;
+        @define-color suggested_container_bg_color $secondary_container_hex;
+        @define-color suggested_container_fg_color $on_secondary_container_hex;
 
-      @define-color error_bg_color $error_hex;
-      @define-color error_color $on_error_hex;
-      @define-color error_color $error_hex;
+        @define-color error_bg_color $error_hex;
+        @define-color error_color $on_error_hex;
+        @define-color error_color $error_hex;
 
-      @define-color error_container_color $error_container_hex;
-      @define-color error_container_bg_color $error_container_hex;
-      @define-color error_container_fg_color $on_error_container_hex;
+        @define-color error_container_color $error_container_hex;
+        @define-color error_container_bg_color $error_container_hex;
+        @define-color error_container_fg_color $on_error_container_hex;
 
-      @define-color success_bg_color $tertiary_hex;
-      @define-color success_fg_color $on_tertiary_hex;
-      @define-color success_color $tertiary_hex;
+        @define-color success_bg_color $tertiary_hex;
+        @define-color success_fg_color $on_tertiary_hex;
+        @define-color success_color $tertiary_hex;
 
-      @define-color success_container_color $tertiary_container_hex;
-      @define-color success_container_bg_color $tertiary_container_hex;
-      @define-color success_container_fg_color $on_tertiary_container_hex;
+        @define-color success_container_color $tertiary_container_hex;
+        @define-color success_container_bg_color $tertiary_container_hex;
+        @define-color success_container_fg_color $on_tertiary_container_hex;
 
-      @define-color borders $border_hex;
-    ";
+        @define-color borders $border_hex;
+      ";
+    } else {
+      css = @"
+        @define-color accent_color $primary_hex;
+        @define-color accent_bg_color $primary_hex;
+        @define-color accent_fg_color $on_primary_hex;
+
+        @define-color accent_container_color $primary_container_hex;
+        @define-color accent_container_bg_color $primary_container_hex;
+        @define-color accent_container_fg_color $on_primary_container_hex;
+
+        @define-color window_bg_color $card_neutral_background_hex;
+        @define-color view_bg_color $card_neutral_background_hex;
+        @define-color headerbar_bg_color $card_neutral_background_variant_hex;
+        @define-color popover_bg_color $card_neutral_background_variant_hex;
+        @define-color card_bg_color $card_neutral_background_hex;
+
+        @define-color window_fg_color $card_neutral_foreground_hex;
+        @define-color view_fg_color $card_neutral_foreground_hex;
+        @define-color headerbar_fg_color $card_neutral_foreground_hex;
+        @define-color popover_fg_color $card_neutral_foreground_hex;
+        @define-color card_fg_color $card_neutral_foreground_hex;
+
+        @define-color destructive_bg_color $error_hex;
+        @define-color destructive_fg_color $on_error_hex;
+        @define-color destructive_color $error_hex;
+
+        @define-color destructive_container_color $error_container_hex;
+        @define-color destructive_container_bg_color $error_container_hex;
+        @define-color destructive_container_fg_color $on_error_container_hex;
+
+        @define-color suggested_bg_color $secondary_hex;
+        @define-color suggested_fg_color $on_secondary_hex;
+        @define-color suggested_color $secondary_hex;
+
+        @define-color suggested_container_color $secondary_container_hex;
+        @define-color suggested_container_bg_color $secondary_container_hex;
+        @define-color suggested_container_fg_color $on_secondary_container_hex;
+
+        @define-color error_bg_color $error_hex;
+        @define-color error_color $on_error_hex;
+        @define-color error_color $error_hex;
+
+        @define-color error_container_color $error_container_hex;
+        @define-color error_container_bg_color $error_container_hex;
+        @define-color error_container_fg_color $on_error_container_hex;
+
+        @define-color success_bg_color $tertiary_hex;
+        @define-color success_fg_color $on_tertiary_hex;
+        @define-color success_color $tertiary_hex;
+
+        @define-color success_container_color $tertiary_container_hex;
+        @define-color success_container_bg_color $tertiary_container_hex;
+        @define-color success_container_fg_color $on_tertiary_container_hex;
+
+        @define-color borders $border_hex;
+      ";
+    }
     accent.load_from_data (css.data);
 }
   
