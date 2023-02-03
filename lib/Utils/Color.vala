@@ -223,35 +223,75 @@ namespace He.Color {
   }
 
   // Adapted from https://github.com/d3/d3-cam16/ until the next comment-less "//"
+  static double labInvf(double ft) {
+    double e = 216.0 / 24389.0;
+    double kappa = 24389.0 / 27.0;
+    double ft3 = ft * ft * ft;
+    if (ft3 > e) {
+      return ft3;
+    } else {
+      return (116 * ft - 16) / kappa;
+    }
+  }
   public CAM16Color xyz_to_cam16 (XYZColor color) {
     // Make RGB fit D65
     double[] RGB = elem_mul(
-                    xyz_value_to_sharpened_rgb_value(color.x, color.y, color.z),
-                    {1, 1, 1}
+                    {color.x, color.y, color.z},
+                    XYZ_TO_CAM16RGB
     );
 
-    var R_a = RGB[0];
-    var G_a = RGB[1];
-    var B_a = RGB[2];
+    // Max White Point RGB
+    double[] WRGB = elem_mul(
+          {
+            (He.Color.LabConstants.Xn * 100),
+            (He.Color.LabConstants.Yn * 100),
+            (He.Color.LabConstants.Zn * 100)
+          },
+          XYZ_TO_CAM16RGB
+    );
 
-    var Aw = 3.4866244046768664;
+    // Discount illuminant
+    double[] rgbD = {
+          0.9 * (100.0 / WRGB[0]) + 1.0 - 0.9,
+          0.9 * (100.0 / WRGB[1]) + 1.0 - 0.9,
+          0.9 * (100.0 / WRGB[2]) + 1.0 - 0.9
+    };
+    double rD = rgbD[0] * RGB[0];
+    double gD = rgbD[1] * RGB[1];
+    double bD = rgbD[2] * RGB[2];
 
-    var a = R_a + (-12 * G_a + B_a) / 11;
-    var b = (R_a + G_a - 2 * B_a) / 9;
+    var AL = (200.0 / Math.PI * 100.0 * labInvf((50.0 + 16.0) / 116.0) / 100f);
+    double k = 1.0 / (5.0 * AL + 1.0);
+    double k4 = k * k * k * k;
+    double k4F = 1.0 - k4;
+    var FL = (k4 * AL) + (0.1 * k4F * k4F * Math.cbrt(5.0 * AL));
+
+    double rAF = Math.pow(FL * Math.fabs(rD) / 100.0, 0.42);
+    double gAF = Math.pow(FL * Math.fabs(gD) / 100.0, 0.42);
+    double bAF = Math.pow(FL * Math.fabs(bD) / 100.0, 0.42);
+    var R_a = signum(rD) * 400.0 * rAF / (rAF + 27.13);
+    var G_a = signum(gD) * 400.0 * gAF / (gAF + 27.13);
+    var B_a = signum(bD) * 400.0 * bAF / (bAF + 27.13);
+
+    var Aw = ((2.0 * R_a) + G_a + (0.05 * B_a)) * 0.725 / Math.pow((0.23 / 1.0), 0.2);
+
+    var a = (11.0 * R_a + -12.0 * G_a + B_a) / 11.0;
+    var b = (R_a + G_a - 2.0 * B_a) / 9.0;
 
     var h = Math.atan2(b, a);
     
-    var e_t = 0.25 * (Math.cos(h + 2) + 3.8);
+    var e_t = 0.25 * (Math.cos(h + 2.0) + 3.8);
 
-    var A = 1 * (2 * R_a + G_a + 0.05 * B_a);
+    var A = (40.0 * R_a + 20.0 * G_a + B_a) / 20.0 * 0.725 / Math.pow(labInvf((50.0 + 16.0) / 116.0), 0.2);
 
-    var JR = Math.pow(A / Aw, 0.35 * 0.69 * 1.9272135954999579);
-    var J = 100 * (JR*JR);
+    var z = 1.48 + Math.sqrt(labInvf((50.0 + 16.0) / 116.0));
 
-    var t = (5e4 / 13 * 1 * 1.0003040045593807 * e_t * Math.sqrt(a*a + b*b) / (R_a + G_a + 1.05 * B_a + 0.305));
-    var alpha = t * Math.pow(2 - Math.pow(0.2, 0.2), 0.55);
+    var J = 100.0 * Math.pow(A / Aw, 0.69 * z);
 
-    var C = (alpha * JR) * 0.48; // Small deviation to make colors suitable chroma for eye
+    var t = 50000.0 / 13.0 * e_t * 1.6 * 0.5 * Math.hypot(a, b) / ((20.0 * R_a + 20.0 * G_a + 21.0 * B_a) / 20.0 + 0.305);
+    var alpha = Math.pow(1.64 - Math.pow(0.29, labInvf((50.0 + 16.0) / 116.0)), 0.73) * Math.pow(t, 0.9);
+
+    var C = alpha * Math.sqrt(J / 100.0);
 
     var hex = hexcode (R_a, G_a, B_a);
 
@@ -266,13 +306,6 @@ namespace He.Color {
 
     return result;
   }
-  private double[] xyz_value_to_sharpened_rgb_value (double x, double y, double z) {
-    var r =  0.401288 * x + 0.650173 * y - 0.051461 * z;
-    var g = -0.250268 * x + 1.204414 * y + 0.045854 * z;
-    var b = -0.002079 * x + 0.048952 * y + 0.953127 * z;
-
-    return {r, g, b};
-  }
   private double[] elem_mul(double[] v0, double[] v1) {
     double[] prod = {
       v0[0] * v1[0],
@@ -280,6 +313,9 @@ namespace He.Color {
       v0[2] * v1[2]
     };
     return prod;
+  }
+  private int signum (double x) {
+    return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
   }
   //
 
@@ -292,7 +328,7 @@ namespace He.Color {
     };
 
     // Test color for bad props
-    bool huePasses = Math.round(result.h) >= 90.0 * 0.0175 && Math.round(result.h) <= 111.0 * 0.0175;
+    bool huePasses = Math.round(result.h) >= 90.0 * 0.0174533 && Math.round(result.h) <= 111.0 * 0.0174533;
     bool chromaPasses = Math.round(result.c) > 16;
     bool tonePasses = Math.round(result.t) < 70;
 
