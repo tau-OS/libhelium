@@ -53,16 +53,29 @@ public class He.Avatar : He.Bin {
             context.add_provider (css_provider, 69);
 
             var css_provider_blur = new Gtk.CssProvider ();
-            css_provider_blur.load_from_data ("""
-            .avatar-blur { 
-                background-image: url('%s');
-                background-size: cover;
-                background-color: @accent_bg_color;
-                border-radius: 999px;
-                box-shadow: inset 0 0 0 1px @borders;
-                filter: drop-shadow(0px 0px 2px @borders) blur(4px);
+            if (_size <= 32) {
+                css_provider_blur.load_from_data ("""
+                .avatar-blur { 
+                    background-image: url('%s');
+                    background-size: cover;
+                    background-color: @accent_bg_color;
+                    border-radius: 999px;
+                    box-shadow: inset 0 0 0 1px @borders;
+                    filter: drop-shadow(0px 0px 1px @borders);
+                }
+                """.printf(_image).data);
+            } else {
+                css_provider_blur.load_from_data ("""
+                .avatar-blur { 
+                    background-image: url('%s');
+                    background-size: cover;
+                    background-color: @accent_bg_color;
+                    border-radius: 999px;
+                    box-shadow: inset 0 0 0 1px @borders;
+                    filter: drop-shadow(0px 0px 1px @borders) blur(2px);
+                }
+                """.printf(_image).data);
             }
-            """.printf(_image).data);
             var context_blur = img_blur.get_style_context ();
             context_blur.add_provider (css_provider_blur, 69);
         }
@@ -77,7 +90,6 @@ public class He.Avatar : He.Bin {
         }
         set {
             _size = value;
-
             this.set_size_request (value, value);
             img.pixel_size = value;
             img_blur.pixel_size = value;
@@ -104,7 +116,7 @@ public class He.Avatar : He.Bin {
         }
         set {
             _text = value;
-            if (image == null) {
+            if (_image == "") {
                 label.label = extract_initials (_text);
                 label.visible = true;
             } else {
@@ -163,7 +175,6 @@ public class He.Avatar : He.Bin {
         label.valign = Gtk.Align.CENTER;
         label.add_css_class ("dim-label");
         label.add_css_class ("avatar-label");
-
         label.visible = false;
 
         var overlay = new Gtk.Overlay ();
