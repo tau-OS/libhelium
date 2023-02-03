@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/gtk/libgtk/theme/Helium-empty">
+    <file alias="gtk.css">css/empty.css</file>
+    <file alias="gtk-dark.css">css/empty.css</file>
+    <file alias="gtk-hc.css">css/empty.css</file>
+    <file alias="gtk-hc-dark.css">css/empty.css</file>
+  </gresource>
+</gresources>

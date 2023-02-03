@@ -80,6 +80,7 @@ libhelium = library(
     'libhelium-1',
 
     gresource,
+    hgresource,
     libhelium_sources,
 
     dependencies: [

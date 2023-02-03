@@ -51,6 +51,11 @@ helium = subproject(
 generate_gtk4_light = helium.get_variable('generate_gtk4_light')
 generate_gtk4_dark = helium.get_variable('generate_gtk4_dark')
 
+hgresource = gnome.compile_resources(
+    'he-gresource',
+    'data' / 'he.gresource.xml',
+    source_dir: 'data',
+)
 gresource = gnome.compile_resources(
     'gresource',
     'data' / 'gresource.xml',
