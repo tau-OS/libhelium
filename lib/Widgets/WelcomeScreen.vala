@@ -61,7 +61,7 @@ public class He.WelcomeScreen : He.Bin {
             ((Gtk.Button) child).set_label (((Gtk.Button) child).get_label () + " →");
             action_box.append ((Gtk.Widget) child);
         } else if (type == "action-button") {
-            (Gtk.Widget) child.valign = Gtk.Align.CENTER;
+            ((Gtk.Button) child).valign = Gtk.Align.CENTER;
             button_box.append ((Gtk.Widget) child);
         }
     }
