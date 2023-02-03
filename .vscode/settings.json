@@ -12,5 +12,5 @@
     "-Ddemo=true"
   ],
   "mesonbuild.buildFolder": "_build",
-  "mesonbuild.mesonPath": "/var/home/lains/Projects/tauos/libhelium/.flatpak/meson.sh"
+  "mesonbuild.mesonPath": "/usr/bin/meson"
 }
