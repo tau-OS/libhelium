@@ -227,7 +227,7 @@ namespace He.Color {
 
   // Adapted from https://github.com/d3/d3-cam16/ until the next comment-less "//"
   public CAM16Color xyz_to_cam16 (XYZColor color) {
-    // Make RGB fit D65
+    // Make XYZ fit D65 by adjusting it
     double[] RGB = elem_mul(
       M16 (color.x, color.y, color.z),
       {1.0222048506322774, 0.9856436353674031, 0.9307575015921737}
@@ -236,17 +236,17 @@ namespace He.Color {
     var G_a = adapt(RGB[1]);
     var B_a = adapt(RGB[2]);
 
-    var Aw = 3;
+    var Aw = 3.49;
     var a = R_a + (-12*G_a + B_a) / 11;
     var b = (R_a + G_a - 2 * B_a) / 9;
     var hr = Math.atan2(b, a);
     var h = hr * 180/Math.PI;
 
     var e_t = 0.25 * (Math.cos(hr + 2) + 3.8);
-    var A = 1.0003040045593807 * (2 * R_a + G_a + 0.05 * B_a);
-    var JR = Math.pow(A / Aw, 0.35 * 0.69 * 1.9272135954999579);
+    var A = 1 * (2 * R_a + G_a + 0.05 * B_a);
+    var JR = Math.pow(A / Aw, 0.35 * 0.69 * 1.93);
     var J = 100 * JR * JR;
-    var t = (5e4 / 13 * 1 * 1.0003040045593807 * e_t * Math.sqrt(a*a + b*b) / (R_a + G_a + 1.05 * B_a + 0.305));
+    var t = (5e4 / 13 * 1 * 1 * e_t * Math.sqrt(a*a + b*b) / (R_a + G_a + 1.05 * B_a + 0.305));
     var alpha = Math.pow(t, 0.9) * Math.pow(1.64 - Math.pow(0.29, 0.2), 0.73);
 
     var C = alpha * JR;
@@ -294,21 +294,31 @@ namespace He.Color {
       color.hex
     };
 
-    // Score color for greatness
-    double chromaWeight = result.c < 48.0 ? 0.1 : 0.3;
-    double chromaScore = (result.c - 48.0) * chromaWeight;
-    double score = chromaScore;
+    // Now, we're not just gonna accept what comes to us via CAM16 and LCH,
+    // because it generates bad HCT colors. So we're gonna test the color and
+    // fix it for UI usage.
+
+    // Score color for Chroma greatness
+    double chromaWeight = Math.round(result.c) < 48.0 ? 0.1 : 0.3;
+    double chromaScore = (Math.round(result.c) - 48.0) * chromaWeight;
 
     // Test color for bad props
+    // A hue between 90 and 111 is body deject-colored so we can't use it.
+    // A chroma less than 16 is superbly dark.
+    // A tone more than 70 is unsuitable for UI as it's too light.
     bool hueNotPass = Math.round(result.h) >= 90.0 && Math.round(result.h) <= 111.0;
     bool chromaNotPass = Math.round(result.c) > 16.0;
     bool toneNotPass = Math.round(result.t) < 70.0;
 
-    if (hueNotPass && chromaNotPass && toneNotPass && score != 0.0) {
-      return {result.h, result.c, 70.0, result.a};
-    }
+    if (result.h < 0) { result.h = result.h + 360.0; }
 
-    return {result.h, result.c, result.t, result.a};
+    if (hueNotPass || chromaNotPass || toneNotPass || chromaScore <= 0.0) {
+      print("THIS IS YOUR HCT VALUES FIXED:\n%f / %f / %f\n".printf(result.h, result.c + 16.0, 70.0));
+      return {result.h, result.c + 16.0, 70.0, result.a}; // Fix color for UI, based on Psychology
+    } else {
+      print("THIS IS YOUR HCT VALUES THAT PASSED:\n%f / %f / %f\n".printf(result.h, result.c, result.t));
+      return {result.h, result.c, result.t, result.a};
+    }
   }
   public string hct_to_hex (HCTColor a) {
     return a.a;
