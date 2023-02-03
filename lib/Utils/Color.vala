@@ -21,6 +21,7 @@
 /**
  * Miscellaneous constants for the Lab colorspace
  */
+[CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Color.LabConstants {
     // Corresponds roughly to RGB brighter/darker
     public const double Kn = 18;
@@ -39,6 +40,7 @@ namespace He.Color.LabConstants {
 /**
  * Miscellaneous color related functions
  */
+[CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Color {
   public const RGBColor BLACK = {
       0.0,
@@ -203,10 +205,11 @@ namespace He.Color {
   }
 
   public LABColor lch_to_lab(LCHColor color) {
+    var hr = color.h * 6.283185307179586 / 360.0;
     LABColor result = {
       color.l,
-      color.c * Math.cos(color.h),
-      color.c * Math.sin(color.h)
+      color.c * Math.cos(hr),
+      color.c * Math.sin(hr)
     };
 
     return result;
@@ -215,83 +218,38 @@ namespace He.Color {
   public LCHColor lab_to_lch(LABColor color) {
     LCHColor result = {
       color.l,
-      Math.sqrt(Math.pow(color.a, 2.0) + Math.pow(color.b, 2.0)),
-      Math.atan(color.b/color.a) + 360
+      Math.hypot(color.a, color.b),
+      Math.atan2(color.b,color.a) * 360.0 / 6.283185307179586
     };
 
     return result;
   }
 
   // Adapted from https://github.com/d3/d3-cam16/ until the next comment-less "//"
-  static double labInvf(double ft) {
-    double e = 216.0 / 24389.0;
-    double kappa = 24389.0 / 27.0;
-    double ft3 = ft * ft * ft;
-    if (ft3 > e) {
-      return ft3;
-    } else {
-      return (116 * ft - 16) / kappa;
-    }
-  }
   public CAM16Color xyz_to_cam16 (XYZColor color) {
     // Make RGB fit D65
     double[] RGB = elem_mul(
-                    {color.x, color.y, color.z},
-                    XYZ_TO_CAM16RGB
+      M16 (color.x, color.y, color.z),
+      {1.0222048506322774, 0.9856436353674031, 0.9307575015921737}
     );
+    var R_a = adapt(RGB[0]);
+    var G_a = adapt(RGB[1]);
+    var B_a = adapt(RGB[2]);
 
-    // Max White Point RGB
-    double[] WRGB = elem_mul(
-          {
-            (He.Color.LabConstants.Xn * 100),
-            (He.Color.LabConstants.Yn * 100),
-            (He.Color.LabConstants.Zn * 100)
-          },
-          XYZ_TO_CAM16RGB
-    );
+    var Aw = 3;
+    var a = R_a + (-12*G_a + B_a) / 11;
+    var b = (R_a + G_a - 2 * B_a) / 9;
+    var hr = Math.atan2(b, a);
+    var h = hr * 180/Math.PI;
 
-    // Discount illuminant
-    double[] rgbD = {
-          0.9 * (100.0 / WRGB[0]) + 1.0 - 0.9,
-          0.9 * (100.0 / WRGB[1]) + 1.0 - 0.9,
-          0.9 * (100.0 / WRGB[2]) + 1.0 - 0.9
-    };
-    double rD = rgbD[0] * RGB[0];
-    double gD = rgbD[1] * RGB[1];
-    double bD = rgbD[2] * RGB[2];
+    var e_t = 0.25 * (Math.cos(hr + 2) + 3.8);
+    var A = 1.0003040045593807 * (2 * R_a + G_a + 0.05 * B_a);
+    var JR = Math.pow(A / Aw, 0.35 * 0.69 * 1.9272135954999579);
+    var J = 100 * JR * JR;
+    var t = (5e4 / 13 * 1 * 1.0003040045593807 * e_t * Math.sqrt(a*a + b*b) / (R_a + G_a + 1.05 * B_a + 0.305));
+    var alpha = Math.pow(t, 0.9) * Math.pow(1.64 - Math.pow(0.29, 0.2), 0.73);
 
-    var AL = (200.0 / Math.PI * 100.0 * labInvf((50.0 + 16.0) / 116.0) / 100f);
-    double k = 1.0 / (5.0 * AL + 1.0);
-    double k4 = k * k * k * k;
-    double k4F = 1.0 - k4;
-    var FL = (k4 * AL) + (0.1 * k4F * k4F * Math.cbrt(5.0 * AL));
-
-    double rAF = Math.pow(FL * Math.fabs(rD) / 100.0, 0.42);
-    double gAF = Math.pow(FL * Math.fabs(gD) / 100.0, 0.42);
-    double bAF = Math.pow(FL * Math.fabs(bD) / 100.0, 0.42);
-    var R_a = signum(rD) * 400.0 * rAF / (rAF + 27.13);
-    var G_a = signum(gD) * 400.0 * gAF / (gAF + 27.13);
-    var B_a = signum(bD) * 400.0 * bAF / (bAF + 27.13);
-
-    var Aw = ((2.0 * R_a) + G_a + (0.05 * B_a)) * 0.725 / Math.pow((0.23 / 1.0), 0.2);
-
-    var a = (11.0 * R_a + -12.0 * G_a + B_a) / 11.0;
-    var b = (R_a + G_a - 2.0 * B_a) / 9.0;
-
-    var h = Math.atan2(b, a);
-    
-    var e_t = 0.25 * (Math.cos(h + 2.0) + 3.8);
-
-    var A = (40.0 * R_a + 20.0 * G_a + B_a) / 20.0 * 0.725 / Math.pow(labInvf((50.0 + 16.0) / 116.0), 0.2);
-
-    var z = 1.48 + Math.sqrt(labInvf((50.0 + 16.0) / 116.0));
-
-    var J = 100.0 * Math.pow(A / Aw, 0.69 * z);
-
-    var t = 50000.0 / 13.0 * e_t * 1.6 * 0.5 * Math.hypot(a, b) / ((20.0 * R_a + 20.0 * G_a + 21.0 * B_a) / 20.0 + 0.305);
-    var alpha = Math.pow(1.64 - Math.pow(0.29, labInvf((50.0 + 16.0) / 116.0)), 0.73) * Math.pow(t, 0.9);
-
-    var C = alpha * Math.sqrt(J / 100.0);
+    var C = alpha * JR;
 
     var hex = hexcode (R_a, G_a, B_a);
 
@@ -303,7 +261,6 @@ namespace He.Color {
       h,
       hex
     };
-
     return result;
   }
   private double[] elem_mul(double[] v0, double[] v1) {
@@ -314,8 +271,18 @@ namespace He.Color {
     };
     return prod;
   }
-  private int signum (double x) {
-    return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
+  private double adapt (double component) {
+    var x = Math.pow(0.5848035714321961 * Math.fabs(component) * 0.01, 0.42);
+    return sgn(component) * 400 * x / (x + 27.13);
+  }
+  private double[] M16 (double X, double Y, double Z) {
+    var r = 0.401288*X + 0.650173*Y - 0.051461*Z;
+    var g = -0.250268*X + 1.204414*Y + 0.045854*Z;
+    var b = -0.002079*X + 0.048952*Y + 0.953127*Z;
+    return {r, g, b};
+  }
+  private int sgn (double x) {
+    return (int)(x > 0) - (int)(x < 0);
   }
   //
 
@@ -328,11 +295,9 @@ namespace He.Color {
     };
 
     // Test color for bad props
-    bool huePasses = Math.round(result.h) >= 90.0 * 0.0174533 && Math.round(result.h) <= 111.0 * 0.0174533;
-    bool chromaPasses = Math.round(result.c) > 16;
-    bool tonePasses = Math.round(result.t) < 70;
+    bool toneNotPass = Math.round(result.t) < 70;
 
-    if (huePasses && chromaPasses && tonePasses) {
+    if (toneNotPass) {
       return {result.h, result.c, 70.0, result.a};
     }
 
@@ -399,14 +364,6 @@ namespace He.Color {
     var x = y + (color.a * 1 / 500.0);
     var z = y - (color.b * 1 / 200.0);
 
-    var epsilon = 6.0 / 29.0;
-    var kappa = 108.0 / 841.0;
-    var delta = 4.0 / 29.0;
-
-    double convert(double value) {
-      return value > epsilon ? Math.pow(value, 3) : (value - delta) * kappa;
-    }
-
     // D65 white point
     XYZColor result = {
       convert(x) * 0.95047,
@@ -415,6 +372,13 @@ namespace He.Color {
     };
 
     return result;
+  }
+
+  double convert(double value) {
+    var epsilon = 6.0 / 29.0;
+    var kappa = 108.0 / 841.0;
+    var delta = 4.0 / 29.0;
+    return value > epsilon ? Math.pow(value, 3) : (value - delta) * kappa;
   }
 
   // Adapted from https://github.com/Ogeon/palette/blob/94e30738539465f14f373146b1ae948ee551faed/palette/src/relative_contrast.rs#L106
