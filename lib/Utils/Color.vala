@@ -234,7 +234,7 @@ namespace He.Color {
     );
     var R_a = adapt(RGB[0]);
     var G_a = adapt(RGB[1]);
-    var B_a = adapt(RGB[2]);
+    var B_a = adapt(RGB[2])-0.00784313725;
 
     var Aw = 3.49;
     var a = R_a + (-12*G_a + B_a) / 11;
