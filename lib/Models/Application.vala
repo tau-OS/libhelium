@@ -324,6 +324,7 @@ public class He.Application : Gtk.Application {
         @define-color success_container_bg_color $tertiary_container_hex;
         @define-color success_container_fg_color $on_tertiary_container_hex;
 
+        @define-color outline $border_hex;
         @define-color borders $border_variant_hex;
       ";
     } else {
@@ -380,7 +381,8 @@ public class He.Application : Gtk.Application {
         @define-color success_container_bg_color $tertiary_container_hex;
         @define-color success_container_fg_color $on_tertiary_container_hex;
 
-        @define-color borders $border_hex;
+        @define-color outline $border_hex;
+        @define-color borders $border_variant_hex;
       ";
     }
     accent.load_from_data (css.data);
