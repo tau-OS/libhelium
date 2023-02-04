@@ -402,7 +402,7 @@ namespace He.Color {
       color.h
     };
     
-    if (lch_color_derived.c < 0) { lch_color_derived.c += 0.18 } // Keep it on 0~132.
+    if (lch_color_derived.c < 0) { lch_color_derived.c += 0.18; } // Keep it on 0~132.
     
     return lch_color_derived;
   }
