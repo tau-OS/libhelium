@@ -230,7 +230,7 @@ namespace He.Color {
     // Make XYZ fit D65 by adjusting it
     double[] RGB = elem_mul(
       M16 (color.x, color.y, color.z),
-      {1.1190554598, 1.0114135331, 0.9570855264}
+      {1.0222048506322774, 0.9856436353674031, 0.9307575015921737}
     );
     var R_a = adapt(RGB[0]);
     var G_a = adapt(RGB[1]);
