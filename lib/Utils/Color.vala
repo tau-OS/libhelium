@@ -289,7 +289,7 @@ namespace He.Color {
   public HCTColor cam16_and_lch_to_hct(CAM16Color color, LCHColor tone) {
     HCTColor result = {
       color.h,
-      color.C,
+      color.C + 18, // HCT Chroma is 0~150, instead of LCH's 0~132. Fix that.
       tone.l,
       color.hex
     };
@@ -305,6 +305,7 @@ namespace He.Color {
     bool toneNotPass = Math.round(result.t) <= 70.0;
 
     if (result.h < 0) { result.h = result.h + 360.0; }
+    if (result.c > 150) { result.c = result.c - 150.0; } // Make C = 0~150 always.
 
     if (hueNotPass && toneNotPass) {
       print("THIS IS YOUR HCT VALUES FIXED:\n%f / %f / %f\n".printf(result.h, result.c, 70.0));
