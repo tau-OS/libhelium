@@ -307,12 +307,12 @@ namespace He.Color {
     // A chroma less than 16 is superbly dark.
     // A tone more than 70 is unsuitable for UI as it's too light.
     bool hueNotPass = Math.round(result.h) >= 90.0 && Math.round(result.h) <= 111.0;
-    bool chromaNotPass = Math.round(result.c) > 16.0;
-    bool toneNotPass = Math.round(result.t) < 70.0;
+    bool chromaNotPass = Math.round(result.c) => 16.0;
+    bool toneNotPass = Math.round(result.t) <= 70.0;
 
     if (result.h < 0) { result.h = result.h + 360.0; }
 
-    if (hueNotPass || chromaNotPass || toneNotPass || chromaScore <= 0.0) {
+    if (hueNotPass && chromaNotPass && toneNotPass && chromaScore <= 0.0) {
       print("THIS IS YOUR HCT VALUES FIXED:\n%f / %f / %f\n".printf(result.h, result.c + 16.0, 70.0));
       return {result.h, result.c + 16.0, 70.0, result.a}; // Fix color for UI, based on Psychology
     } else {
