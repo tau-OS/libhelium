@@ -230,7 +230,7 @@ namespace He.Color {
     // Make XYZ fit D65 by adjusting it
     double[] RGB = elem_mul(
       M16 (color.x, color.y, color.z),
-      {1.0322048506322774, 0.9856436353674031, 0.8877575015921737}
+      {1.0322048506322774, 0.9856436353674031, 1}
     );
     var R_a = adapt(RGB[0]);
     var G_a = adapt(RGB[1]);
@@ -238,7 +238,7 @@ namespace He.Color {
 
     var Aw = 3.49;
     var a = R_a + (-12*G_a + B_a) / 11;
-    var b = (R_a + G_a - 1.8 * B_a) / 8.8;
+    var b = (R_a + G_a - 2 * B_a) / 9;
     var hr = Math.atan2(b, a);
     var h = hr * 180/Math.PI;
 
