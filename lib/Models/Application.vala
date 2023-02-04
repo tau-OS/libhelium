@@ -258,6 +258,12 @@ public class He.Application : Gtk.Application {
                                He.Color.hct_to_lch({hct_color.h, Math.fmin(hct_color.c / 6.0, 8.0), 50.0});
     var derived_border_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_border));
     var border_hex = Color.hexcode (derived_border_rgb.r, derived_border_rgb.g, derived_border_rgb.b);
+    
+    var derived_border_variant = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                               He.Color.hct_to_lch({hct_color.h, Math.fmin(hct_color.c / 6.0, 8.0), 30.0}) :
+                               He.Color.hct_to_lch({hct_color.h, Math.fmin(hct_color.c / 6.0, 8.0), 80.0});
+    var derived_border_variant_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_border_variant));
+    var border_variant_hex = Color.hexcode (derived_border_variant_rgb.r, derived_border_variant_rgb.g, derived_border_variant_rgb.b);
 
     this.foreground = derived_on_primary_rgb;
     this.accent_color = derived_primary_rgb;
@@ -318,7 +324,7 @@ public class He.Application : Gtk.Application {
         @define-color success_container_bg_color $tertiary_container_hex;
         @define-color success_container_fg_color $on_tertiary_container_hex;
 
-        @define-color borders $border_hex;
+        @define-color borders $border_variant_hex;
       ";
     } else {
       css = @"
