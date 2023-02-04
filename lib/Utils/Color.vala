@@ -251,6 +251,7 @@ namespace He.Color {
 
     var C = alpha * JR;
     C = C * 0.8744852811146135;
+    C = Math.log(1 + 0.0228 * C) / 0.0228;
 
     var hex = hexcode (R_a, G_a, B_a);
 
