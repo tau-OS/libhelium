@@ -314,7 +314,7 @@ namespace He.Color {
 
     if (hueNotPass && chromaNotPass && toneNotPass && chromaScore <= 0.0) {
       print("THIS IS YOUR HCT VALUES FIXED:\n%f / %f / %f\n".printf(result.h, result.c + 16.0, 70.0));
-      return {result.h, result.c + 16.0, 70.0, result.a}; // Fix color for UI, based on Psychology
+      return {result.h, Math.fmin(result.c + 16.0, 48.0), 70.0, result.a}; // Fix color for UI, based on Psychology
     } else {
       print("THIS IS YOUR HCT VALUES THAT PASSED:\n%f / %f / %f\n".printf(result.h, result.c, result.t));
       return {result.h, result.c, result.t, result.a};
