@@ -250,7 +250,7 @@ namespace He.Color {
     var alpha = Math.pow(t, 0.9) * Math.pow(1.64 - Math.pow(0.29, 0.2), 0.73);
 
     var C = alpha * JR;
-    C = C * 0.8744852811146135,
+    C = C * 0.8744852811146135;
 
     var hex = hexcode (R_a, G_a, B_a);
 
