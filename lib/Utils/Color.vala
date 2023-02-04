@@ -230,7 +230,7 @@ namespace He.Color {
     // Make XYZ fit D65 by adjusting it
     double[] RGB = elem_mul(
       M16 (color.x, color.y, color.z),
-      {1.0322048506322774, 0.9856436353674031, 1.01784313725}
+      {1.0322048506322774, 0.9856436353674031, 0.9307575015921737}
     );
     var R_a = adapt(RGB[0]);
     var G_a = adapt(RGB[1]);
@@ -250,6 +250,7 @@ namespace He.Color {
     var alpha = Math.pow(t, 0.9) * Math.pow(1.64 - Math.pow(0.29, 0.2), 0.73);
 
     var C = alpha * JR;
+    C = C * 0.8744852811146135,
 
     var hex = hexcode (R_a, G_a, B_a);
 
