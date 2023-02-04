@@ -230,7 +230,7 @@ namespace He.Color {
     // Make XYZ fit D65 by adjusting it
     double[] RGB = elem_mul(
       M16 (color.x, color.y, color.z),
-      {1.0222048506322774, 0.9856436353674031, 0.9307575015921737}
+      {1.1190554598, 1.0114135331, 0.9570855264}
     );
     var R_a = adapt(RGB[0]);
     var G_a = adapt(RGB[1]);
@@ -309,10 +309,10 @@ namespace He.Color {
 
     if (hueNotPass && toneNotPass) {
       print("THIS IS YOUR HCT VALUES FIXED:\n%f / %f / %f\n".printf(result.h, result.c, 70.0));
-      return {result.h, result.c, 70.0, result.a}; // Fix color for UI, based on Psychology
+      return {Math.round(result.h), Math.round(result.c), 70.0, result.a}; // Fix color for UI, based on Psychology
     } else {
       print("THIS IS YOUR HCT VALUES THAT PASSED:\n%f / %f / %f\n".printf(result.h, result.c, result.t));
-      return {result.h, result.c, result.t, result.a};
+      return {Math.round(result.h), Math.round(result.c), Math.round(result.t), result.a};
     }
   }
   public string hct_to_hex (HCTColor a) {
