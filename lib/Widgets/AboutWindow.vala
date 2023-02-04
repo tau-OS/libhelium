@@ -275,7 +275,7 @@ public class He.AboutWindow : He.Window {
   }
 
   construct {
-    this.set_modal(true);
+    this.modal = true;
     this.resizable = false;
 
     this.app_bar.valign = Gtk.Align.START;
