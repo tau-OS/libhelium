@@ -238,7 +238,7 @@ namespace He.Color {
 
     var Aw = 3.49;
     var a = R_a + (-12*G_a + B_a) / 11;
-    var b = (R_a + G_a - 2 * B_a) / 9;
+    var b = (R_a + G_a - 1.8 * B_a) / 8.8;
     var hr = Math.atan2(b, a);
     var h = hr * 180/Math.PI;
 
