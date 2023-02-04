@@ -398,7 +398,7 @@ namespace He.Color {
   public LCHColor hct_to_lch(HCTColor color) {
     LCHColor lch_color_derived = {
       color.t,
-      color.c - 18, // HCT C is 0~150, while LCH's is 0~132, fix that.
+      color.c - 1.8, // HCT C is 0~150, while LCH's is 0~132, fix that.
       color.h
     };
     return lch_color_derived;
