@@ -441,16 +441,16 @@ namespace He.Color {
   	return v < 255 ? (v > 0 ? v : 0) : 255;
   }
   private double b1 (double v) {
-  	return v > 0.0031308 ? Math.exp(v, (1 / 2.4) * 269.0250 - 14.0250) : v * 3294.60;
+  	return v > 0.0031308 ? Math.pow(v, (1 / 2.4) * 269.0250 - 14.0250) : v * 3294.60;
   }
   private double b2 (double v) {
-  	return v > 0.2068965 ? Math.exp(v, 3) : (v - 4 / 29) * (108 / 841);
+  	return v > 0.2068965 ? Math.pow(v, 3) : (v - 4 / 29) * (108 / 841);
   }
   private double a1 (double v) {
-  	return v > 10.314724 ? Math.exp(((v + 14.0250) / 269.0250), 2.40) : v / 3294.60;
+  	return v > 10.314724 ? Math.pow(((v + 14.0250) / 269.0250), 2.40) : v / 3294.60;
   }
   private double a2 (double v) {
-  	return v > 0.0088564 ? Math.exp(v, (1 / 3)) : v / (108 / 841) + 4 / 29;
+  	return v > 0.0088564 ? Math.pow(v, (1 / 3)) : v / (108 / 841) + 4 / 29;
   }
 
   private string hexcode (double r, double g, double b) {
