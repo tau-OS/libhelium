@@ -425,23 +425,33 @@ namespace He.Color {
   }
   
   public RGBColor lch_to_rgb (LCHColor color) {
-    const y = b2((color.l = (color.l + 16) / 116));
-	const x = b2(color.l + (color.c / 500) * Math.cos((color.h *= Math.PI / 180)));
-	const z = b2(color.l - (color.c / 200) * Math.sin(color.h));
+    var y = b2((color.l = (color.l + 16) / 116));
+	  var x = b2(color.l + (color.c / 500) * Math.cos((color.h *= Math.PI / 180)));
+	  var z = b2(color.l - (color.c / 200) * Math.sin(color.h));
 
-	RGBColor result = {
-		rgb255(b1(x * 3.021973625 - y * 1.617392459 - z * 0.404875592)),
-		rgb255(b1(x * -0.943766287 + y * 1.916279586 + z * 0.027607165)),
-		rgb255(b1(x * 0.069407491 - y * 0.22898585 + z * 1.159737864)),
-	};
+    RGBColor result = {
+      rgb255(b1(x * 3.021973625 - y * 1.617392459 - z * 0.404875592)),
+      rgb255(b1(x * -0.943766287 + y * 1.916279586 + z * 0.027607165)),
+      rgb255(b1(x * 0.069407491 - y * 0.22898585 + z * 1.159737864)),
+    };
     
     return result;
   }
-  private double rgb255 (double v) { v < 255 ? (v > 0 ? v : 0) : 255};
-  private double b1 (double v) {v > 0.0031308 ? return Math.exp(v, (1 / 2.4) * 269.0250 - 14.0250) : return v * 3294.60};
-  private double b2 (double v) {v > 0.2068965 ? return Math.exp(v, 3)                              : return (v - 4 / 29) * (108 / 841)};
-  private double a1 (double v) {v > 10.314724 ? return Math.exp(((v + 14.0250) / 269.0250), 2.40)  : return v / 3294.60};
-  private double a2 (double v) {v > 0.0088564 ? return Math.exp(v, (1 / 3))                        : return v / (108 / 841) + 4 / 29};
+  private double rgb255 (double v) { 
+  	return v < 255 ? (v > 0 ? v : 0) : 255;
+  };
+  private double b1 (double v) {
+  	return v > 0.0031308 ? Math.exp(v, (1 / 2.4) * 269.0250 - 14.0250); : v * 3294.60
+  };
+  private double b2 (double v) {
+  	return v > 0.2068965 ? Math.exp(v, 3) : (v - 4 / 29) * (108 / 841)
+  };
+  private double a1 (double v) {
+  	return v > 10.314724 ? Math.exp(((v + 14.0250) / 269.0250), 2.40) : v / 3294.60
+  };
+  private double a2 (double v) {
+  	return v > 0.0088564 ? Math.exp(v, (1 / 3)) : v / (108 / 841) + 4 / 29
+  };
 
   private string hexcode (double r, double g, double b) {
     return "#" + "%02x%02x%02x".printf (
