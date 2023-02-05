@@ -24,17 +24,17 @@
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Color.LabConstants {
     // Corresponds roughly to RGB brighter/darker
-    public const double Kn = 18;
+    public const double Kn = 18.0;
 
     // D65 standard referent
-    public const double Xn = 0.9570855264;
-    public const double Yn = 1.0114135331;
-    public const double Zn = 1.1190554598;
+    public const double Xn = 0.95708552640;
+    public const double Yn = 1.01141353310;
+    public const double Zn = 1.11905545980;
 
-    public const double t0 = 0.1379310345;  // 4 / 29
-    public const double t1 = 0.2068965523;  // 6 / 29
-    public const double t2 = 0.1284185508;  // 3  * t1 * t1
-    public const double t3 = 0.0088564521;  // t1 * t1 * t1
+    public const double t0 = 0.13793103450;  // 4 / 29
+    public const double t1 = 0.20689655230;  // 6 / 29
+    public const double t2 = 0.12841855080;  // 3  * t1 * t1
+    public const double t3 = 0.00885645210;  // t1 * t1 * t1
 }
 
 /**
@@ -82,14 +82,14 @@ namespace He.Color {
   };
 
   public const double[] XYZ_TO_CAM16RGB = {
-    0.401288, 0.650173, -0.051461,
-    -0.250268, 1.204414, 0.045854,
-    -0.002079, 0.048952, 0.953127,
+     0.4012880, 0.6501730, -0.0514610,
+    -0.2502680, 1.2044140,  0.0458540,
+    -0.0020790, 0.0489520,  0.9531270,
   };
   public const double[] SRGB_TO_XYZ = {
-    0.41233895, 0.35762064, 0.18051042,
-    0.2126, 0.7152, 0.0722,
-    0.01932141, 0.11916382, 0.95034478,
+    0.412338950, 0.357620640, 0.180510420,
+    0.212600000, 0.715200000, 0.072200000,
+    0.019321410, 0.119163820, 0.950344780,
   };
 
   public struct RGBColor {
@@ -137,7 +137,7 @@ namespace He.Color {
   // https://cs.github.com/gka/chroma.js/blob/cd1b3c0926c7a85cbdc3b1453b3a94006de91a92/src/io/lab/lab2rgb.js#L10
 
   public double rgb_value_to_xyz(double v) {
-    if ((v /= 255) <= 0.04045) return v / 12.92000;
+    if ((v /= 255) <= 0.040450) return v / 12.92000;
     return Math.pow((v + 0.05500) / 1.05500, 2.40000);
   }
 
@@ -151,9 +151,9 @@ namespace He.Color {
     var g = rgb_value_to_xyz(color.g);
     var b = rgb_value_to_xyz(color.b);
 
-    var x = xyz_value_to_lab((0.4124564 * r + 0.3575761 * g + 0.1804375 * b) / He.Color.LabConstants.Xn);
-    var y = xyz_value_to_lab((0.2126729 * r + 0.7151522 * g + 0.0721750 * b) / He.Color.LabConstants.Yn);
-    var z = xyz_value_to_lab((0.0193339 * r + 0.1191920 * g + 0.9503041 * b) / He.Color.LabConstants.Zn);
+    var x = xyz_value_to_lab((0.41245640 * r + 0.35757610 * g + 0.18043750 * b) / He.Color.LabConstants.Xn);
+    var y = xyz_value_to_lab((0.21267290 * r + 0.71515220 * g + 0.07217500 * b) / He.Color.LabConstants.Yn);
+    var z = xyz_value_to_lab((0.01933390 * r + 0.11919200 * g + 0.95030410 * b) / He.Color.LabConstants.Zn);
 
     XYZColor result = {
       x,
@@ -204,7 +204,7 @@ namespace He.Color {
   }
 
   public LABColor lch_to_lab(LCHColor color) {
-    var hr = color.h * 6.283185307179586 / 360.0;
+    var hr = color.h * 6.2831853071795860 / 360.0;
     LABColor result = {
       color.l,
       color.c * Math.cos(hr),
@@ -218,26 +218,26 @@ namespace He.Color {
     LCHColor result = {
       color.l,
       Math.hypot(color.a, color.b),
-      Math.atan2(color.b,color.a) * 360.0 / 6.283185307179586
+      Math.atan2(color.b,color.a) * 360.0 / 6.2831853071795860
     };
 
     return result;
   }
 
   public CAM16Color xyz_to_cam16 (XYZColor color) {
-    var rC = 0.401288 * color.x + 0.650173 * color.y - 0.051461 * color.z;
-    var gC = -0.250268 * color.x + 1.204414 * color.y + 0.045854 * color.z;
-    var bC = -0.002079 * color.x + 0.048952 * color.y + 0.953127 * color.z;
+    var rC =  0.4012880 * color.x + 0.6501730 * color.y - 0.0514610 * color.z;
+    var gC = -0.2502680 * color.x + 1.2044140 * color.y + 0.0458540 * color.z;
+    var bC = -0.0020790 * color.x + 0.0489520 * color.y + 0.9531270 * color.z;
 
     double[] xyz = {95.047, 100.0, 108.883}; // D65
-    var rW = xyz[0] * 0.401288 + xyz[1] * 0.650173 + xyz[2] * -0.051461;
-    var gW = xyz[0] * -0.250268 + xyz[1] * 1.204414 + xyz[2] * 0.045854;
-    var bW = xyz[0] * -0.002079 + xyz[1] * 0.048952 + xyz[2] * 0.953127;
+    var rW = xyz[0] *  0.4012880 + xyz[1] * 0.6501730 + xyz[2] * -0.0514610;
+    var gW = xyz[0] * -0.2502680 + xyz[1] * 1.2044140 + xyz[2] *  0.0458540;
+    var bW = xyz[0] * -0.0020790 + xyz[1] * 0.0489520 + xyz[2] *  0.9531270;
 
     double[] rgbD = {
-      0.8860776488913249 * (100.0 / rW) + 1.0 - 0.8860776488913249,
-      0.8860776488913249 * (100.0 / gW) + 1.0 - 0.8860776488913249,
-      0.8860776488913249 * (100.0 / bW) + 1.0 - 0.8860776488913249,
+      0.88607764889132490 * (100.0 / rW) + 1.0 - 0.88607764889132490,
+      0.88607764889132490 * (100.0 / gW) + 1.0 - 0.88607764889132490,
+      0.88607764889132490 * (100.0 / bW) + 1.0 - 0.88607764889132490,
     };
 
     // Discount illuminant
@@ -245,12 +245,12 @@ namespace He.Color {
     var gD = rgbD[1] * gC;
     var bD = rgbD[2] * bC;
 
-    var rAF = Math.pow(0.5848035714321961 * Math.fabs(rD) / 100.0, 0.42);
-    var gAF = Math.pow(0.5848035714321961 * Math.fabs(gD) / 100.0, 0.42);
-    var bAF = Math.pow(0.5848035714321961 * Math.fabs(bD) / 100.0, 0.42);
-    var rA = signum(rD) * 400.0 * rAF / (rAF + 27.13);
-    var gA = signum(gD) * 400.0 * gAF / (gAF + 27.13);
-    var bA = signum(bD) * 400.0 * bAF / (bAF + 27.13);
+    var rAF = Math.pow(0.58480357143219610 * Math.fabs(rD) / 100.0, 0.420);
+    var gAF = Math.pow(0.58480357143219610 * Math.fabs(gD) / 100.0, 0.420);
+    var bAF = Math.pow(0.58480357143219610 * Math.fabs(bD) / 100.0, 0.420);
+    var rA = signum(rD) * 400.0 * rAF / (rAF + 27.130);
+    var gA = signum(gD) * 400.0 * gAF / (gAF + 27.130);
+    var bA = signum(bD) * 400.0 * bAF / (bAF + 27.130);
 
     // redness-greenness
     var a = (11.0 * rA + -12.0 * gA + bA) / 11.0;
@@ -264,26 +264,26 @@ namespace He.Color {
     // hue
     var hr = Math.atan2(b, a);
     var atanDegrees = hr * 180.0 / Math.PI;
-    var h = atanDegrees < 0
+    var h = atanDegrees < 0.0
         ? atanDegrees + 360.0
-        : atanDegrees >= 360
-            ? atanDegrees - 360
+        : atanDegrees >= 360.0
+            ? atanDegrees - 360.0
             : atanDegrees;
 
     // achromatic response to color
-    var ac = p2 * 1.0003040045593807;
+    var ac = p2 * 1.00030400455938070;
 
     // CAM16 lightness and brightness
-    var J = 100.0 * Math.pow(ac / 34.866244046768664, 0.69 * 1.9272135954999579);
+    var J = 100.0 * Math.pow(ac / 34.8662440467686640, 0.69 * 1.92721359549995790);
 
     var huePrime = (h < 20.14) ? h + 360 : h;
     var eHue = (1.0 / 4.0) * (Math.cos(huePrime * Math.PI / 180.0 + 2.0) + 3.8);
-    var p1 = 50000.0 / 13.0 * eHue * 1 * 1.0003040045593807;
-    var t = p1 * Math.sqrt(a * a + b * b) / (u + 0.305);
-    var alpha = Math.pow(t, 0.9) *
+    var p1 = 50000.0 / 13.0 * eHue * 1 * 1.00030400455938070;
+    var t = p1 * Math.sqrt(a * a + b * b) / (u + 0.3050);
+    var alpha = Math.pow(t, 0.90) *
         Math.pow(
-            1.64 - Math.pow(0.29, 0.2),
-            0.73);
+            1.640 - Math.pow(0.290, 0.20),
+            0.730);
     // CAM16 chroma
     var C = alpha * Math.sqrt(J / 100.0);
 
@@ -313,8 +313,8 @@ namespace He.Color {
     // fix it for UI usage.
 
     // Test color for bad props
-    // A hue between 90 and 111 is body deject-colored so we can't use it.
-    // A tone less than 70 is unsuitable for UI as it's too dark.
+    // A hue between 90.0 and 111.0 is body deject-colored so we can't use it.
+    // A tone less than 70.0 is unsuitable for UI as it's too dark.
     bool hueNotPass = result.h >= 90.0 && result.h <= 111.0;
     bool toneNotPass = result.t < 70.0;
 
@@ -331,7 +331,7 @@ namespace He.Color {
   }
   public HCTColor hct_blend (HCTColor a, HCTColor b) {
     var diff_deg = diff_deg(a.h, b.h);
-    var rot_deg = Math.fmin(diff_deg * 0.5, 15.0);
+    var rot_deg = Math.fmin(diff_deg * 0.50, 15.0);
     var output = sanitize_degrees (a.h + rot_deg * rot_dir(a.h, b.h));
     return {output, a.c, a.t};
   }
@@ -358,11 +358,11 @@ namespace He.Color {
     var x = color.a / 500.0 + y;
     var z = y - color.b / 200.0;
     
-    if (Math.pow(y, 3) > 0.0088560) { y = Math.pow(y, 3); }
+    if (Math.pow(y, 3) > 0.0088560)  { y = Math.pow(y, 3); }
     else                             { y = (y - 16.0 / 116.0) / 7.7870; }
-    if (Math.pow(x, 3) > 0.0088560) { x = Math.pow(x, 3); }
+    if (Math.pow(x, 3) > 0.0088560)  { x = Math.pow(x, 3); }
     else                             { x = (x - 16.0 / 116.0) / 7.7870; }
-    if (Math.pow(z, 3) > 0.0088560) { z = Math.pow(z, 3); }
+    if (Math.pow(z, 3) > 0.0088560)  { z = Math.pow(z, 3); }
     else                             { z = (z - 16.0 / 116.0) / 7.7870; }
 
     // (Observer = 2°, Illuminant = D65)
@@ -377,11 +377,11 @@ namespace He.Color {
     var g = -0.96926600 * x + 1.87601080 * y + 0.04155600 * z;
     var b =  0.05564340 * x - 0.20402590 * y + 1.05722520 * z;
     
-    if (r > 0.00313080) { r = 1.0550 * Math.pow(r, ( 1 / 2.40 ))  - 0.0550; }
+    if (r > 0.00313080)  { r = 1.0550 * Math.pow(r, ( 1 / 2.40 )) - 0.0550; }
     else                 { r = 12.920 * r; }
-    if (g > 0.00313080) { g = 1.055 * Math.pow(g, ( 1 / 2.40 ) )  - 0.0550; }
+    if (g > 0.00313080)  { g = 1.0550 * Math.pow(g, ( 1 / 2.40 )) - 0.0550; }
     else                 { g = 12.920 * g; }
-    if (b > 0.00313080) { b = 1.0550 * Math.pow(b, ( 1 / 2.40 ) ) - 0.0550; }
+    if (b > 0.00313080)  { b = 1.0550 * Math.pow(b, ( 1 / 2.40 )) - 0.0550; }
     else                 { b = 12.920 * b; }
 
     RGBColor result = {
@@ -402,9 +402,9 @@ namespace He.Color {
 
     // D65 white point
     XYZColor result = {
-      convert(x) * 0.95047,
-      convert(y) * 1.00000,
-      convert(z) * 1.08883
+      convert(x) * 0.950470,
+      convert(y) * 1.000000,
+      convert(z) * 1.088830
     };
 
     return result;
@@ -448,9 +448,9 @@ namespace He.Color {
 
   public RGBColor from_gdk_rgba (Gdk.RGBA color) {
     RGBColor result = {
-      color.red * 255,
-      color.green * 255,
-      color.blue * 255,
+      color.red * 255.0,
+      color.green * 255.0,
+      color.blue * 255.0,
     };
 
     return result;
