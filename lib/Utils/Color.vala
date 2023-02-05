@@ -349,9 +349,6 @@ namespace He.Color {
   public double diff_deg(double a, double b) {
     return 180.0 - Math.fabs(Math.fabs(a - b) - 180.0);
   }
-  double lab_value_to_xyz_value(double value) {
-    return value > He.Color.LabConstants.t1 ? value * value * value : He.Color.LabConstants.t2 * (value - He.Color.LabConstants.t0);
-  }
 
   public RGBColor lab_to_rgb(LABColor color) {
     var y = (color.l + 16.0) / 116.0;
