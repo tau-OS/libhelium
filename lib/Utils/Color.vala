@@ -315,17 +315,17 @@ namespace He.Color {
     // Test color for bad props
     // A hue between 90 and 111 is body deject-colored so we can't use it.
     // A tone more than 70 is unsuitable for UI as it's too light.
-    bool hueNotPass = Math.round(result.h) >= 90.0 && Math.round(result.h) <= 111.0;
-    bool toneNotPass = Math.round(result.t) <= 70.0;
+    bool hueNotPass = result.h >= 90.0 && result.h <= 111.0;
+    bool toneNotPass = result.t < 70.0;
 
     if (result.h < 0) { result.h = result.h + 360.0; }
 
     if (hueNotPass && toneNotPass) {
       print("THIS IS YOUR HCT VALUES FIXED:\n%f / %f / %f\n".printf(result.h, result.c, 70.0));
-      return {Math.round(result.h), Math.round(result.c), 70.0, result.a}; // Fix color for UI, based on Psychology
+      return {result.h, result.c, 70.0, result.a}; // Fix color for UI, based on Psychology
     } else {
       print("THIS IS YOUR HCT VALUES THAT PASSED:\n%f / %f / %f\n".printf(result.h, result.c, result.t));
-      return {Math.round(result.h), Math.round(result.c), Math.round(result.t), result.a};
+      return {result.h, result.c, result.t, result.a};
     }
   }
   public string hct_to_hex (HCTColor a) {
