@@ -349,11 +349,6 @@ namespace He.Color {
   public double diff_deg(double a, double b) {
     return 180.0 - Math.fabs(Math.fabs(a - b) - 180.0);
   }
-
-  int xyz_value_to_rgb_value(double value) {
-    return (int) (255 * (value <= 0.00304 ? 12.92 * value : 1.05500 * Math.pow(value, 1 / 2.4) - 0.05500));
-  }
-
   double lab_value_to_xyz_value(double value) {
     return value > He.Color.LabConstants.t1 ? value * value * value : He.Color.LabConstants.t2 * (value - He.Color.LabConstants.t0);
   }
@@ -363,18 +358,29 @@ namespace He.Color {
     var x = (bool) Math.isnan(color.a) ? y : y + color.a / 500;
     var z = (bool) Math.isnan(color.b) ? y : y - color.b / 200;
 
-    y = He.Color.LabConstants.Yn * lab_value_to_xyz_value(y);
-    x = He.Color.LabConstants.Xn * lab_value_to_xyz_value(x);
-    z = He.Color.LabConstants.Zn * lab_value_to_xyz_value(z);
+    // (Observer = 2°, Illuminant = D65)
+    x = 95.047 * x;
+    y = 100.000 * y;
+    z = 108.883 * z;
+    x = x / 100. ;
+    y = y / 100. ;
+    z = z / 100. ;
 
-    var r = xyz_value_to_rgb_value(3.2404542 * x - 1.5371385 * y - 0.4985314 * z);  // D65 -> sRGB
-    var g = xyz_value_to_rgb_value(-0.9692660 * x + 1.8760108 * y + 0.0415560 * z);
-    var b = xyz_value_to_rgb_value(0.0556434 * x - 0.2040259 * y + 1.0572252 * z);
+    var r = 3.2404542 * x - 1.5371385 * y - 0.4985314 * z;  // D65 -> sRGB
+    var g = -0.9692660 * x + 1.8760108 * y + 0.0415560 * z;
+    var b = 0.0556434 * x - 0.2040259 * y + 1.0572252 * z;
+    
+    if ( r > 0.0031308 ) r = 1.055 * pow(r , ( 1 / 2.4 ))  - 0.055;
+    else                 r = 12.92 * r;
+    if ( g > 0.0031308 ) g = 1.055 * pow(g , ( 1 / 2.4 ) )  - 0.055;
+    else                 g = 12.92 * g;
+    if ( b > 0.0031308 ) b = 1.055 * pow( var_B , ( 1 / 2.4 ) ) - 0.055;
+    else                 b = 12.92 * b;
 
     RGBColor result = {
-      r.clamp(0, 255),
-      g.clamp(0, 255),
-      b.clamp(0, 255)
+      r * 255.0,
+      g * 255.0,
+      b * 255.0
     };
 
     return result;
