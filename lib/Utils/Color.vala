@@ -354,27 +354,34 @@ namespace He.Color {
   }
 
   public RGBColor lab_to_rgb(LABColor color) {
-    var y = (color.l + 16) / 116;
-    var x = (bool) Math.isnan(color.a) ? y : y + color.a / 500;
-    var z = (bool) Math.isnan(color.b) ? y : y - color.b / 200;
+    var y = (color.l + 16.0) / 116.0;
+    var x = color.a / 500.0 + y;
+    var z = y - color.b / 200.0;
+    
+    if ( Math.pow(y, 3) > 0.008856 ) y = Math.pow(y, 3);
+    else                             y = (y - 16. / 116.0) / 7.787;
+    if ( Math.pow(x, 3) > 0.008856 ) x = Math.pow(x, 3);
+    else                             x = (x - 16. / 116.0) / 7.787;
+    if ( Math.pow(z, 3) > 0.008856 ) z = Math.pow(z, 3);
+    else                             z = (z - 16. / 116.0) / 7.787;
 
     // (Observer = 2°, Illuminant = D65)
-    x = 95.047 * x;
+    x =  95.047 * x;
     y = 100.000 * y;
     z = 108.883 * z;
     x = x / 100.0 ;
     y = y / 100.0 ;
     z = z / 100.0 ;
 
-    var r = 3.2404542 * x - 1.5371385 * y - 0.4985314 * z;  // D65 -> sRGB
+    var r =  3.2404542 * x - 1.5371385 * y - 0.4985314 * z;  // D65 -> sRGB
     var g = -0.9692660 * x + 1.8760108 * y + 0.0415560 * z;
-    var b = 0.0556434 * x - 0.2040259 * y + 1.0572252 * z;
+    var b =  0.0556434 * x - 0.2040259 * y + 1.0572252 * z;
     
-    if ( r > 0.0031308 ) r = 1.055 * pow(r , ( 1 / 2.4 ))  - 0.055;
+    if ( r > 0.0031308 ) r = 1.055 * Math.pow(r, ( 1 / 2.4 ))  - 0.055;
     else                 r = 12.92 * r;
-    if ( g > 0.0031308 ) g = 1.055 * pow(g , ( 1 / 2.4 ) )  - 0.055;
+    if ( g > 0.0031308 ) g = 1.055 * Math.pow(g, ( 1 / 2.4 ) )  - 0.055;
     else                 g = 12.92 * g;
-    if ( b > 0.0031308 ) b = 1.055 * pow(b , ( 1 / 2.4 ) ) - 0.055;
+    if ( b > 0.0031308 ) b = 1.055 * Math.pow(b, ( 1 / 2.4 ) ) - 0.055;
     else                 b = 12.92 * b;
 
     RGBColor result = {
