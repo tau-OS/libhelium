@@ -226,27 +226,29 @@ public class He.Application : Gtk.Application {
     // ___ ____ ____ ___ _ ____ ____ _   _ 
     //  |  |___ |__/  |  | |__| |__/  \_/  
     //  |  |___ |  \  |  | |  | |  \   |
+    var tertiary_hue = (hct_color.h + 60.0) % 360; // Fix tertiary hue going places it shouldn't.
+    
     var derived_tertiary = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                              He.Color.hct_to_lch({hct_color.h + 60.0, 32.0, 80.0}) :
-                              He.Color.hct_to_lch({hct_color.h + 60.0, 32.0, 40.0});
+                              He.Color.hct_to_lch({tertiary_hue, 32.0, 80.0}) :
+                              He.Color.hct_to_lch({tertiary_hue, 32.0, 40.0});
     var derived_tertiary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_tertiary));
     var tertiary_hex = Color.hexcode (derived_tertiary_rgb.r, derived_tertiary_rgb.g, derived_tertiary_rgb.b);
 
     var derived_on_tertiary = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                 He.Color.hct_to_lch({hct_color.h + 60.0, 32.0, 20.0}) :
-                                 He.Color.hct_to_lch({hct_color.h + 60.0, 32.0, 100.0});
+                                 He.Color.hct_to_lch({tertiary_hue, 32.0, 20.0}) :
+                                 He.Color.hct_to_lch({tertiary_hue, 32.0, 100.0});
     var derived_on_tertiary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_tertiary));
     var on_tertiary_hex = Color.hexcode (derived_on_tertiary_rgb.r, derived_on_tertiary_rgb.g, derived_on_tertiary_rgb.b);
 
     var derived_tertiary_container = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                               He.Color.hct_to_lch({hct_color.h + 60.0, 32.0, 30.0}) :
-                               He.Color.hct_to_lch({hct_color.h + 60.0, 32.0, 90.0});
+                               He.Color.hct_to_lch({tertiary_hue, 32.0, 30.0}) :
+                               He.Color.hct_to_lch({tertiary_hue, 32.0, 90.0});
     var derived_tertiary_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_tertiary_container));
     var tertiary_container_hex = Color.hexcode (derived_tertiary_container_rgb.r, derived_tertiary_container_rgb.g, derived_tertiary_container_rgb.b);
 
     var derived_on_tertiary_container = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                  He.Color.hct_to_lch({hct_color.h + 60.0, 32.0, 90.0}) :
-                                  He.Color.hct_to_lch({hct_color.h + 60.0, 32.0, 10.0});
+                                  He.Color.hct_to_lch({tertiary_hue, 32.0, 90.0}) :
+                                  He.Color.hct_to_lch({tertiary_hue, 32.0, 10.0});
     var derived_on_tertiary_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_tertiary_container));
     var on_tertiary_container_hex = Color.hexcode (derived_on_tertiary_container_rgb.r, derived_on_tertiary_container_rgb.g, derived_on_tertiary_container_rgb.b);
 
