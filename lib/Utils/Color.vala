@@ -318,13 +318,11 @@ namespace He.Color {
     bool hueNotPass = result.h >= 90.0 && result.h <= 111.0;
     bool toneNotPass = result.t < 70.0;
 
-    if (result.h < 0) { result.h = result.h + 360.0; }
-
     if (hueNotPass && toneNotPass) {
-      print("THIS IS YOUR HCT VALUES FIXED:\n%f / %f / %f\n".printf(result.h, result.c, 70.0));
+      print("THIS IS YOUR HCT VALUES FIXED:\nH %f / C %f / T %f\n".printf(result.h, result.c, 70.0));
       return {result.h, result.c, 70.0, result.a}; // Fix color for UI, based on Psychology
     } else {
-      print("THIS IS YOUR HCT VALUES THAT PASSED:\n%f / %f / %f\n".printf(result.h, result.c, result.t));
+      print("THIS IS YOUR HCT VALUES THAT PASSED:\nH %f / C %f / T %f\n".printf(result.h, result.c, result.t));
       return {result.h, result.c, result.t, result.a};
     }
   }
