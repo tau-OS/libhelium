@@ -153,12 +153,6 @@ public class He.Application : Gtk.Application {
     var derived_inverse_foreground_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_inverse_foreground));
     var inverse_neutral_foreground_hex = Color.hexcode (derived_inverse_foreground_rgb.r, derived_inverse_foreground_rgb.g, derived_inverse_foreground_rgb.b);
 
-    var derived_inverse_accent = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                        He.Color.hct_to_lch({hct_color.h, 48.0, 40.0}) :
-                                        He.Color.hct_to_lch({hct_color.h, 48.0, 80.0});
-    var derived_inverse_accent_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_inverse_accent));
-    var inverse_neutral_accent_hex = Color.hexcode (derived_inverse_accent_rgb.r, derived_inverse_accent_rgb.g, derived_inverse_accent_rgb.b);
-
     // ___  ____ _ _  _ ____ ____ _   _ 
     // |__] |__/ | |\/| |__| |__/  \_/  
     // |    |  \ | |  | |  | |  \   | 
@@ -185,6 +179,12 @@ public class He.Application : Gtk.Application {
                                           He.Color.hct_to_lch({hct_color.h, Math.fmax(48.0, hct_color.c), 10.0});
     var derived_on_primary_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_primary_container));
     var on_primary_container_hex = Color.hexcode (derived_on_primary_container_rgb.r, derived_on_primary_container_rgb.g, derived_on_primary_container_rgb.b);
+
+        var derived_inverse_accent = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                        He.Color.hct_to_lch({hct_color.h, Math.fmax(48.0, hct_color.c), 40.0}) :
+                                        He.Color.hct_to_lch({hct_color.h, Math.fmax(48.0, hct_color.c), 80.0});
+    var derived_inverse_accent_rgb = He.Color.lch_to_rgb (He.Color.lch_to_lab(derived_inverse_accent));
+    var inverse_neutral_accent_hex = Color.hexcode (derived_inverse_accent_rgb.r, derived_inverse_accent_rgb.g, derived_inverse_accent_rgb.b);
 
     // ____ ____ ____ ____ ____ 
     // |___ |__/ |__/ |  | |__/ 
