@@ -285,7 +285,7 @@ namespace He.Color {
             1.640 - Math.pow(0.290, 0.20),
             0.730);
     // CAM16 chroma
-    var C = (alpha * Math.sqrt(J / 100.0)) * 10; // Apparently needs ×10 here or C isn't correct a lot of the time.
+    var C = (alpha * Math.sqrt(J / 100.0));
 
     CAM16Color result = {
       J,
@@ -304,7 +304,7 @@ namespace He.Color {
   public HCTColor cam16_and_lch_to_hct(CAM16Color color, LCHColor tone) {
     HCTColor result = {
       color.h,
-      color.C.clamp(0, 150), // C should always be 0~150.
+      color.C,
       tone.l
     };
 
