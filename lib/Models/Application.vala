@@ -148,8 +148,8 @@ public class He.Application : Gtk.Application {
     var inverse_neutral_background_hex = Color.hexcode (derived_inverse_background_rgb.r, derived_inverse_background_rgb.g, derived_inverse_background_rgb.b);
 
     var derived_inverse_foreground = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                        He.Color.hct_to_lch({hct_color.h, 4.0, 90.0}) :
-                                        He.Color.hct_to_lch({hct_color.h, 4.0, 20.0});
+                                        He.Color.hct_to_lch({hct_color.h, 4.0, 20.0}) :
+                                        He.Color.hct_to_lch({hct_color.h, 4.0, 95.0});
     var derived_inverse_foreground_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_inverse_foreground));
     var inverse_neutral_foreground_hex = Color.hexcode (derived_inverse_foreground_rgb.r, derived_inverse_foreground_rgb.g, derived_inverse_foreground_rgb.b);
 
