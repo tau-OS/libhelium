@@ -163,26 +163,26 @@ public class He.Application : Gtk.Application {
     // |__] |__/ | |\/| |__| |__/  \_/  
     // |    |  \ | |  | |  | |  \   | 
     var derived_primary = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                             He.Color.hct_to_lch({hct_color.h, Math.max(48.0, hct_color.c), 80.0}) :
-                             He.Color.hct_to_lch({hct_color.h, Math.max(48.0, hct_color.c), 40.0});
+                             He.Color.hct_to_lch({hct_color.h, Math.fmax(48.0, hct_color.c), 80.0}) :
+                             He.Color.hct_to_lch({hct_color.h, Math.fmax(48.0, hct_color.c), 40.0});
     var derived_primary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_primary));
     var primary_hex = Color.hexcode (derived_primary_rgb.r, derived_primary_rgb.g, derived_primary_rgb.b);
 
     var derived_on_primary = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                He.Color.hct_to_lch({hct_color.h, Math.max(48.0, hct_color.c), 20.0}) :
-                                He.Color.hct_to_lch({hct_color.h, Math.max(48.0, hct_color.c), 100.0});
+                                He.Color.hct_to_lch({hct_color.h, Math.fmax(48.0, hct_color.c), 20.0}) :
+                                He.Color.hct_to_lch({hct_color.h, Math.fmax(48.0, hct_color.c), 100.0});
     var derived_on_primary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_primary));
     var on_primary_hex = Color.hexcode (derived_on_primary_rgb.r, derived_on_primary_rgb.g, derived_on_primary_rgb.b);
 
     var derived_primary_container = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                       He.Color.hct_to_lch({hct_color.h, Math.max(48.0, hct_color.c), 30.0}) :
-                                       He.Color.hct_to_lch({hct_color.h, Math.max(48.0, hct_color.c), 90.0});
+                                       He.Color.hct_to_lch({hct_color.h, Math.fmax(48.0, hct_color.c), 30.0}) :
+                                       He.Color.hct_to_lch({hct_color.h, Math.fmax(48.0, hct_color.c), 90.0});
     var derived_primary_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_primary_container));
     var primary_container_hex = Color.hexcode (derived_primary_container_rgb.r, derived_primary_container_rgb.g, derived_primary_container_rgb.b);
 
     var derived_on_primary_container = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                          He.Color.hct_to_lch({hct_color.h, Math.max(48.0, hct_color.c), 90.0}) :
-                                          He.Color.hct_to_lch({hct_color.h, Math.max(48.0, hct_color.c), 10.0});
+                                          He.Color.hct_to_lch({hct_color.h, Math.fmax(48.0, hct_color.c), 90.0}) :
+                                          He.Color.hct_to_lch({hct_color.h, Math.fmax(48.0, hct_color.c), 10.0});
     var derived_on_primary_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_primary_container));
     var on_primary_container_hex = Color.hexcode (derived_on_primary_container_rgb.r, derived_on_primary_container_rgb.g, derived_on_primary_container_rgb.b);
 
