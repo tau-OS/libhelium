@@ -118,53 +118,71 @@ public class He.Application : Gtk.Application {
     } else if (Desktop.DarkModeStrength.HARSH == desktop.dark_mode_strength) {
       derived_card_bg = He.Color.HARSH_CARD_BLACK;
     }
-    var card_background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
+    var background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
 
     // _  _ ____ _  _ ___ ____ ____ _    
     // |\ | |___ |  |  |  |__/ |__| |    
     // | \| |___ |__|  |  |  \ |  | |___
-    var derived_card_background = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    var derived_background = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
                                         He.Color.hct_to_lch({hct_color.h, 4.0, 10.0}) :
                                         He.Color.hct_to_lch({hct_color.h, 4.0, 99.0});
-    var derived_card_background_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_card_background));
-    var card_neutral_background_hex = Color.hexcode (derived_card_background_rgb.r, derived_card_background_rgb.g, derived_card_background_rgb.b);
+    var derived_background_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_background));
+    var neutral_background_hex = Color.hexcode (derived_background_rgb.r, derived_background_rgb.g, derived_background_rgb.b);
 
     var derived_background_variant = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
                                      He.Color.hct_to_lch({hct_color.h, 4.0, 30.0}) :
                                      He.Color.hct_to_lch({hct_color.h, 4.0, 90.0});
     var derived_background_variant_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_background_variant));
-    var card_neutral_background_variant_hex = Color.hexcode (derived_background_variant_rgb.r, derived_background_variant_rgb.g, derived_background_variant_rgb.b);
+    var neutral_background_variant_hex = Color.hexcode (derived_background_variant_rgb.r, derived_background_variant_rgb.g, derived_background_variant_rgb.b);
 
-    var derived_card_foreground = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    var derived_foreground = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
                                         He.Color.hct_to_lch({hct_color.h, 4.0, 99.0}) :
                                         He.Color.hct_to_lch({hct_color.h, 4.0, 10.0});
-    var derived_card_foreground_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_card_foreground));
-    var card_neutral_foreground_hex = Color.hexcode (derived_card_foreground_rgb.r, derived_card_foreground_rgb.g, derived_card_foreground_rgb.b);
+    var derived_foreground_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_foreground));
+    var neutral_foreground_hex = Color.hexcode (derived_foreground_rgb.r, derived_foreground_rgb.g, derived_foreground_rgb.b);
+    
+    var derived_inverse_background = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                        He.Color.hct_to_lch({hct_color.h, 4.0, 90.0}) :
+                                        He.Color.hct_to_lch({hct_color.h, 4.0, 20.0});
+    var derived_inverse_background_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_inverse_background));
+    var inverse_neutral_background_hex = Color.hexcode (derived_inverse_background_rgb.r, derived_inverse_background_rgb.g, derived_inverse_background_rgb.b);
+
+    var derived_inverse_foreground = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                        He.Color.hct_to_lch({hct_color.h, 4.0, 90.0}) :
+                                        He.Color.hct_to_lch({hct_color.h, 4.0, 20.0});
+    var derived_inverse_foreground_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_inverse_foreground));
+    var inverse_neutral_foreground_hex = Color.hexcode (derived_inverse_foreground_rgb.r, derived_inverse_foreground_rgb.g, derived_inverse_foreground_rgb.b);
+
+    var derived_inverse_accent = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                                        He.Color.hct_to_lch({hct_color.h, 48.0, 40.0}) :
+                                        He.Color.hct_to_lch({hct_color.h, 48.0, 80.0});
+    var derived_inverse_accent_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_inverse_accent));
+    var inverse_neutral_accent_hex = Color.hexcode (derived_inverse_accent_rgb.r, derived_inverse_accent_rgb.g, derived_inverse_accent_rgb.b);
 
     // ___  ____ _ _  _ ____ ____ _   _ 
     // |__] |__/ | |\/| |__| |__/  \_/  
     // |    |  \ | |  | |  | |  \   | 
     var derived_primary = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                             He.Color.hct_to_lch({hct_color.h, Math.fmax(hct_color.c, 48.0), 80.0}) :
-                             He.Color.hct_to_lch({hct_color.h, Math.fmax(hct_color.c, 48.0), 40.0});
+                             He.Color.hct_to_lch({hct_color.h, 48.0, 80.0}) :
+                             He.Color.hct_to_lch({hct_color.h, 48.0, 40.0});
     var derived_primary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_primary));
     var primary_hex = Color.hexcode (derived_primary_rgb.r, derived_primary_rgb.g, derived_primary_rgb.b);
 
     var derived_on_primary = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                He.Color.hct_to_lch({hct_color.h, Math.fmax(hct_color.c, 48.0), 20.0}) :
-                                He.Color.hct_to_lch({hct_color.h, Math.fmax(hct_color.c, 48.0), 100.0});
+                                He.Color.hct_to_lch({hct_color.h, 48.0, 20.0}) :
+                                He.Color.hct_to_lch({hct_color.h, 48.0, 100.0});
     var derived_on_primary_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_primary));
     var on_primary_hex = Color.hexcode (derived_on_primary_rgb.r, derived_on_primary_rgb.g, derived_on_primary_rgb.b);
 
     var derived_primary_container = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                       He.Color.hct_to_lch({hct_color.h, Math.fmax(hct_color.c, 48.0), 30.0}) :
-                                       He.Color.hct_to_lch({hct_color.h, Math.fmax(hct_color.c, 48.0), 90.0});
+                                       He.Color.hct_to_lch({hct_color.h, 48.0, 30.0}) :
+                                       He.Color.hct_to_lch({hct_color.h, 48.0, 90.0});
     var derived_primary_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_primary_container));
     var primary_container_hex = Color.hexcode (derived_primary_container_rgb.r, derived_primary_container_rgb.g, derived_primary_container_rgb.b);
 
     var derived_on_primary_container = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                                          He.Color.hct_to_lch({hct_color.h, Math.fmax(hct_color.c, 48.0), 90.0}) :
-                                          He.Color.hct_to_lch({hct_color.h, Math.fmax(hct_color.c, 48.0), 10.0});
+                                          He.Color.hct_to_lch({hct_color.h, 48.0, 90.0}) :
+                                          He.Color.hct_to_lch({hct_color.h, 48.0, 10.0});
     var derived_on_primary_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_primary_container));
     var on_primary_container_hex = Color.hexcode (derived_on_primary_container_rgb.r, derived_on_primary_container_rgb.g, derived_on_primary_container_rgb.b);
 
@@ -172,26 +190,26 @@ public class He.Application : Gtk.Application {
     // |___ |__/ |__/ |  | |__/ 
     // |___ |  \ |  \ |__| |  \
     var derived_error = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                           He.Color.hct_to_lch({25, 84.0, 80.0}) :
-                           He.Color.hct_to_lch({25, 84.0, 40.0});
+                           He.Color.hct_to_lch({25.0, 84.0, 80.0}) :
+                           He.Color.hct_to_lch({25.0, 84.0, 40.0});
     var derived_error_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_error));
     var error_hex = Color.hexcode (derived_error_rgb.r, derived_error_rgb.g, derived_error_rgb.b);
 
     var derived_on_error = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                              He.Color.hct_to_lch({25, 84.0, 20.0}) :
-                              He.Color.hct_to_lch({25, 84.0, 100.0});
+                              He.Color.hct_to_lch({25.0, 84.0, 20.0}) :
+                              He.Color.hct_to_lch({25.0, 84.0, 100.0});
     var derived_on_error_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_error));
     var on_error_hex = Color.hexcode (derived_on_error_rgb.r, derived_on_error_rgb.g, derived_on_error_rgb.b);
 
     var derived_error_container_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                           He.Color.hct_to_lch({25, 84.0, 80.0}) :
-                           He.Color.hct_to_lch({25, 84.0, 40.0});
+                           He.Color.hct_to_lch({25.0, 84.0, 80.0}) :
+                           He.Color.hct_to_lch({25.0, 84.0, 40.0});
     var derived_error_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_error_container_fg));
     var error_container_hex = Color.hexcode (derived_error_container_rgb.r, derived_error_container_rgb.g, derived_error_container_rgb.b);
 
     var derived_on_error_container_fg = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                              He.Color.hct_to_lch({25, 84.0, 20.0}) :
-                              He.Color.hct_to_lch({25, 84.0, 100.0});
+                              He.Color.hct_to_lch({25.0, 84.0, 20.0}) :
+                              He.Color.hct_to_lch({25.0, 84.0, 100.0});
     var derived_on_error_container_rgb = He.Color.lab_to_rgb (He.Color.lch_to_lab(derived_on_error_container_fg));
     var on_error_container_hex = Color.hexcode (derived_on_error_container_rgb.r, derived_on_error_container_rgb.g, derived_on_error_container_rgb.b);
 
@@ -282,17 +300,17 @@ public class He.Application : Gtk.Application {
         @define-color accent_container_bg_color $primary_container_hex;
         @define-color accent_container_fg_color $on_primary_container_hex;
 
-        @define-color window_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
-        @define-color view_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
-        @define-color headerbar_bg_color mix($card_neutral_background_variant_hex, $card_background_hex, 0.5);
-        @define-color popover_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
-        @define-color card_bg_color mix($card_neutral_background_hex, $card_background_hex, 0.5);
+        @define-color window_bg_color mix($neutral_background_hex, $background_hex, 0.5);
+        @define-color view_bg_color mix($neutral_background_hex, $background_hex, 0.5);
+        @define-color headerbar_bg_color mix($neutral_background_variant_hex, $background_hex, 0.5);
+        @define-color popover_bg_color mix($neutral_background_hex, $background_hex, 0.5);
+        @define-color card_bg_color mix($neutral_background_hex, $background_hex, 0.5);
 
-        @define-color window_fg_color $card_neutral_foreground_hex;
-        @define-color view_fg_color $card_neutral_foreground_hex;
-        @define-color headerbar_fg_color $card_neutral_foreground_hex;
-        @define-color popover_fg_color $card_neutral_foreground_hex;
-        @define-color card_fg_color $card_neutral_foreground_hex;
+        @define-color window_fg_color $neutral_foreground_hex;
+        @define-color view_fg_color $neutral_foreground_hex;
+        @define-color headerbar_fg_color $neutral_foreground_hex;
+        @define-color popover_fg_color $neutral_foreground_hex;
+        @define-color card_fg_color $neutral_foreground_hex;
 
         @define-color destructive_bg_color $error_hex;
         @define-color destructive_fg_color $on_error_hex;
@@ -328,6 +346,10 @@ public class He.Application : Gtk.Application {
 
         @define-color outline $border_hex;
         @define-color borders $border_variant_hex;
+        
+        @define-color osd_bg_color $inverse_neutral_background_hex;
+        @define-color osd_fg_color $inverse_neutral_foreground_hex;
+        @define-color osd_accent_color $inverse_neutral_accent_hex;
       ";
     } else {
       css = @"
@@ -339,17 +361,17 @@ public class He.Application : Gtk.Application {
         @define-color accent_container_bg_color $primary_container_hex;
         @define-color accent_container_fg_color $on_primary_container_hex;
 
-        @define-color window_bg_color $card_neutral_background_hex;
-        @define-color view_bg_color $card_neutral_background_hex;
-        @define-color headerbar_bg_color $card_neutral_background_variant_hex;
-        @define-color popover_bg_color $card_neutral_background_hex;
-        @define-color card_bg_color $card_neutral_background_hex;
+        @define-color window_bg_color $neutral_background_hex;
+        @define-color view_bg_color $neutral_background_hex;
+        @define-color headerbar_bg_color $neutral_background_variant_hex;
+        @define-color popover_bg_color $neutral_background_hex;
+        @define-color card_bg_color $neutral_background_hex;
 
-        @define-color window_fg_color $card_neutral_foreground_hex;
-        @define-color view_fg_color $card_neutral_foreground_hex;
-        @define-color headerbar_fg_color $card_neutral_foreground_hex;
-        @define-color popover_fg_color $card_neutral_foreground_hex;
-        @define-color card_fg_color $card_neutral_foreground_hex;
+        @define-color window_fg_color $neutral_foreground_hex;
+        @define-color view_fg_color $neutral_foreground_hex;
+        @define-color headerbar_fg_color $neutral_foreground_hex;
+        @define-color popover_fg_color $neutral_foreground_hex;
+        @define-color card_fg_color $neutral_foreground_hex;
 
         @define-color destructive_bg_color $error_hex;
         @define-color destructive_fg_color $on_error_hex;
@@ -385,6 +407,10 @@ public class He.Application : Gtk.Application {
 
         @define-color outline $border_hex;
         @define-color borders $border_variant_hex;
+        
+        @define-color osd_bg_color $inverse_neutral_background_hex;
+        @define-color osd_fg_color $inverse_neutral_foreground_hex;
+        @define-color osd_accent_color $inverse_neutral_accent_hex;
       ";
     }
     accent.load_from_data (css.data);
