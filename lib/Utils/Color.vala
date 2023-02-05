@@ -423,6 +423,38 @@ namespace He.Color {
     
     return lch_color_derived;
   }
+  
+  public RGBColor lch_to_rgb (LCHColor color) {
+    double r, g, b;
+
+    if (color.c == 0) {
+        r = g = b = color.l; // achromatic
+    } else {
+        var q = color.l < 0.5 ? 
+                color.l * (1 + color.c) :
+                color.l + color.c - color.l * color.c;
+        var p = 2 * color.l - q;
+        r = hue2rgb(p, q, color.h + 1/3);
+        g = hue2rgb(p, q, color.h);
+        b = hue2rgb(p, q, color.h - 1/3);
+    }
+  
+    RGBColor result = {
+      r,
+      g,
+      b
+    };
+    
+    return result;
+  }
+  private double hue2rgb (double p, double q, double t){
+    if(t < 0) { t += 1; }
+    if(t > 1) { t -= 1; }
+    if(t < 1/6) { return p + (q - p) * 6 * t; }
+    if(t < 1/2) { return q; }
+    if(t < 2/3) { return p + (q - p) * (2/3 - t) * 6; }
+    return p;
+  }
 
   private string hexcode (double r, double g, double b) {
     return "#" + "%02x%02x%02x".printf (
