@@ -288,7 +288,7 @@ namespace He.Color {
     // redness-greenness
     var a = (11.0 * rA + -12.0 * gA + bA) / 11.0;
     // yellowness-blueness
-    var b = (rA + gA - 2.0 * bA) / 9.0;
+    var b = (rA + gA - 2.0 * bA + 0.011) / 9.0;
 
     // auxiliary components
     var u = (20.0 * rA + 20.0 * gA + 21.0 * bA) / 20.0;
@@ -319,6 +319,10 @@ namespace He.Color {
             0.730);
     // CAM16 chroma
     var C = (alpha * Math.sqrt(J / 100.0));
+    
+    // Fixing bad props
+    C = (C * 5.59441826980).clamp(0, 150);
+    h = (h * 2.205267957220).clamp(0, 360);
 
     print("\nCAM16 CHROMA VALUE:\n%f\n".printf(C));
     print("\nCAM16 HUE VALUE:\n%f\n".printf(h));
@@ -354,12 +358,12 @@ namespace He.Color {
     bool hueNotPass = result.h >= 90.0 && result.h <= 111.0;
     bool toneNotPass = result.t < 70.0;
 
-    if (hueNotPass && toneNotPass) {
-      print("\nTHIS IS YOUR HCT VALUES FIXED:\nH %f / C %f / T %f\n".printf(result.h, result.c, 70.0));
-      return {result.h, result.c, 70.0, result.a}; // Fix color for UI, based on Psychology
+    if (hueNotPass || toneNotPass) {
+      print("\nTHIS IS YOUR HCT VALUES FIXED:\nH %f / C %f / T %f\n".printf(Math.floor(result.h), Math.floor(result.c), 70.0));
+      return {Math.floor(result.h), Math.floor(result.c), 70.0, result.a}; // Fix color for UI, based on Psychology
     } else {
-      print("\nTHIS IS YOUR HCT VALUES THAT PASSED:\nH %f / C %f / T %f\n".printf(result.h, result.c, result.t));
-      return {result.h, result.c, result.t, result.a};
+      print("\nTHIS IS YOUR HCT VALUES THAT PASSED:\nH %f / C %f / T %f\n".printf(Math.floor(result.h), Math.floor(result.c), Math.floor(result.t)));
+      return {Math.floor(result.h), Math.floor(result.c), Math.floor(result.t), result.a};
     }
   }
   public string hct_to_hex (HCTColor color) {
