@@ -304,7 +304,7 @@ namespace He.Color {
   public HCTColor cam16_and_lch_to_hct(CAM16Color color, LCHColor tone) {
     HCTColor result = {
       color.h,
-      color.c.clamp(0, 150), // C should always be 0~150.
+      color.C.clamp(0, 150), // C should always be 0~150.
       tone.l
     };
 
