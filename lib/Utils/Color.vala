@@ -122,7 +122,6 @@ namespace He.Color {
     public double b;
     public double C;
     public double h;
-    public string hex; // Keep RGB rep as string on the struct for easy lookup
   }
 
   public struct HCTColor {
@@ -225,65 +224,79 @@ namespace He.Color {
     return result;
   }
 
-  // Adapted from https://github.com/d3/d3-cam16/ until the next comment-less "//"
   public CAM16Color xyz_to_cam16 (XYZColor color) {
-    // Make XYZ fit D65 by adjusting it
-    double[] RGB = elem_mul(
-      M16 (color.x, color.y, color.z),
-      {1.0250597119338924, 0.9837978481337839, 0.9218550445387449}
-    );
-    var R_a = adapt(RGB[0]);
-    var G_a = adapt(RGB[1]);
-    var B_a = adapt(RGB[2])-0.00784313725;
+    var rC = 0.401288 * color.x + 0.650173 * color.y - 0.051461 * color.z;
+    var gC = -0.250268 * color.x + 1.204414 * color.y + 0.045854 * color.z;
+    var bC = -0.002079 * color.x + 0.048952 * color.y + 0.953127 * color.z;
 
-    var Aw = 3.49;
-    var a = R_a + (-12*G_a + B_a) / 11;
-    var b = (R_a + G_a - 2 * B_a) / 9;
+    double[] xyz = {95.047, 100.0, 108.883}; // D65
+    var rW = xyz[0] * 0.401288 + xyz[1] * 0.650173 + xyz[2] * -0.051461;
+    var gW = xyz[0] * -0.250268 + xyz[1] * 1.204414 + xyz[2] * 0.045854;
+    var bW = xyz[0] * -0.002079 + xyz[1] * 0.048952 + xyz[2] * 0.953127;
+
+    double[] rgbD = {
+      0.8860776488913249 * (100.0 / rW) + 1.0 - 0.8860776488913249,
+      0.8860776488913249 * (100.0 / gW) + 1.0 - 0.8860776488913249,
+      0.8860776488913249 * (100.0 / bW) + 1.0 - 0.8860776488913249,
+    };
+
+    // Discount illuminant
+    var rD = rgbD[0] * rC;
+    var gD = rgbD[1] * gC;
+    var bD = rgbD[2] * bC;
+
+    var rAF = Math.pow(0.5848035714321961 * Math.fabs(rD) / 100.0, 0.42);
+    var gAF = Math.pow(0.5848035714321961 * Math.fabs(gD) / 100.0, 0.42);
+    var bAF = Math.pow(0.5848035714321961 * Math.fabs(bD) / 100.0, 0.42);
+    var rA = signum(rD) * 400.0 * rAF / (rAF + 27.13);
+    var gA = signum(gD) * 400.0 * gAF / (gAF + 27.13);
+    var bA = signum(bD) * 400.0 * bAF / (bAF + 27.13);
+
+    // redness-greenness
+    var a = (11.0 * rA + -12.0 * gA + bA) / 11.0;
+    // yellowness-blueness
+    var b = (rA + gA - 2.0 * bA) / 9.0;
+
+    // auxiliary components
+    var u = (20.0 * rA + 20.0 * gA + 21.0 * bA) / 20.0;
+    var p2 = (40.0 * rA + 20.0 * gA + bA) / 20.0;
+
+    // hue
     var hr = Math.atan2(b, a);
-    var h = hr * 180/Math.PI;
+    var atanDegrees = hr * 180.0 / Math.PI;
+    var h = atanDegrees < 0
+        ? atanDegrees + 360.0
+        : atanDegrees >= 360
+            ? atanDegrees - 360
+            : atanDegrees;
 
-    var e_t = 0.25 * (Math.cos(hr + 2) + 3.8);
-    var A = 1 * (2 * R_a + G_a + 0.05 * B_a);
-    var JR = Math.pow(A / Aw, 0.35 * 0.69 * 1.93);
-    var J = 100 * JR * JR;
-    var t = (5e4 / 13 * 1 * 1 * e_t * Math.sqrt(a*a + b*b) / (R_a + G_a + 1.05 * B_a + 0.305));
-    var alpha = Math.pow(t, 0.9) * Math.pow(1.64 - Math.pow(0.29, 0.2), 0.73);
+    // achromatic response to color
+    var ac = p2 * 1.0003040045593807;
 
-    var C = alpha * JR;
-    C = C * 0.8744852811146135;
-    C = Math.log(1 + 0.0228 * C) / 0.0228;
+    // CAM16 lightness and brightness
+    var J = 100.0 * Math.pow(ac / 34.866244046768664, 0.69 * 1.9272135954999579);
 
-    var hex = hexcode (R_a, G_a, B_a);
+    var huePrime = (h < 20.14) ? h + 360 : h;
+    var eHue = (1.0 / 4.0) * (Math.cos(huePrime * Math.PI / 180.0 + 2.0) + 3.8);
+    var p1 = 50000.0 / 13.0 * eHue * 1 * 1.0003040045593807;
+    var t = p1 * Math.sqrt(a * a + b * b) / (u + 0.305);
+    var alpha = Math.pow(t, 0.9) *
+        Math.pow(
+            1.64 - Math.pow(0.29, 0.2),
+            0.73);
+    // CAM16 chroma
+    var C = alpha * Math.sqrt(J / 100.0);
 
     CAM16Color result = {
       J,
       a,
       b,
       C,
-      h,
-      hex
+      h
     };
     return result;
   }
-  private double[] elem_mul(double[] v0, double[] v1) {
-    double[] prod = {
-      v0[0] * v1[0],
-      v0[1] * v1[1],
-      v0[2] * v1[2]
-    };
-    return prod;
-  }
-  private double adapt (double component) {
-    var x = Math.pow(0.5848035714321961 * Math.fabs(component) * 0.01, 0.42);
-    return sgn(component) * 400 * x / (x + 27.13);
-  }
-  private double[] M16 (double X, double Y, double Z) {
-    var r =  0.401288*X + 0.650173*Y - 0.051461*Z;
-    var g = -0.250268*X + 1.204414*Y + 0.045854*Z;
-    var b = -0.002079*X + 0.048952*Y + 0.953127*Z;
-    return {r, g, b};
-  }
-  private int sgn (double x) {
+  private int signum (double x) {
     return (int)(x > 0) - (int)(x < 0);
   }
   //
@@ -292,8 +305,7 @@ namespace He.Color {
     HCTColor result = {
       color.h,
       color.C,
-      tone.l,
-      color.hex
+      tone.l
     };
 
     // Now, we're not just gonna accept what comes to us via CAM16 and LCH,
