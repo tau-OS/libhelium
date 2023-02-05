@@ -358,12 +358,12 @@ namespace He.Color {
     var x = color.a / 500.0 + y;
     var z = y - color.b / 200.0;
     
-    if ( Math.pow(y, 3) > 0.008856 ) y = Math.pow(y, 3);
-    else                             y = (y - 16. / 116.0) / 7.787;
-    if ( Math.pow(x, 3) > 0.008856 ) x = Math.pow(x, 3);
-    else                             x = (x - 16. / 116.0) / 7.787;
-    if ( Math.pow(z, 3) > 0.008856 ) z = Math.pow(z, 3);
-    else                             z = (z - 16. / 116.0) / 7.787;
+    if (Math.pow(y, 3) > 0.008856) { y = Math.pow(y, 3); }
+    else                             { y = (y - 16. / 116.0) / 7.787; }
+    if (Math.pow(x, 3) > 0.008856) { x = Math.pow(x, 3); }
+    else                             { x = (x - 16. / 116.0) / 7.787; }
+    if (Math.pow(z, 3) > 0.008856) { z = Math.pow(z, 3); }
+    else                             { z = (z - 16. / 116.0) / 7.787; }
 
     // (Observer = 2°, Illuminant = D65)
     x =  95.047 * x;
@@ -377,12 +377,12 @@ namespace He.Color {
     var g = -0.9692660 * x + 1.8760108 * y + 0.0415560 * z;
     var b =  0.0556434 * x - 0.2040259 * y + 1.0572252 * z;
     
-    if ( r > 0.0031308 ) r = 1.055 * Math.pow(r, ( 1 / 2.4 ))  - 0.055;
-    else                 r = 12.92 * r;
-    if ( g > 0.0031308 ) g = 1.055 * Math.pow(g, ( 1 / 2.4 ) )  - 0.055;
-    else                 g = 12.92 * g;
-    if ( b > 0.0031308 ) b = 1.055 * Math.pow(b, ( 1 / 2.4 ) ) - 0.055;
-    else                 b = 12.92 * b;
+    if (r > 0.0031308) { r = 1.055 * Math.pow(r, ( 1 / 2.4 ))  - 0.055; }
+    else                 { r = 12.92 * r; }
+    if (g > 0.0031308) { g = 1.055 * Math.pow(g, ( 1 / 2.4 ) )  - 0.055; }
+    else                 { g = 12.92 * g; }
+    if (b > 0.0031308) { b = 1.055 * Math.pow(b, ( 1 / 2.4 ) ) - 0.055; }
+    else                 { b = 12.92 * b; }
 
     RGBColor result = {
       r * 255.0,
