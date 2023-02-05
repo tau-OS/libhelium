@@ -418,7 +418,7 @@ namespace He.Color {
     LCHColor lch_color_derived = {
       color.t,
       color.c,
-      color.h
+      sanitize_degrees (color.h)
     };
     
     return lch_color_derived;
