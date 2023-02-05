@@ -314,7 +314,7 @@ namespace He.Color {
 
     // Test color for bad props
     // A hue between 90 and 111 is body deject-colored so we can't use it.
-    // A tone more than 70 is unsuitable for UI as it's too light.
+    // A tone less than 70 is unsuitable for UI as it's too dark.
     bool hueNotPass = result.h >= 90.0 && result.h <= 111.0;
     bool toneNotPass = result.t < 70.0;
 
