@@ -183,7 +183,7 @@ public class He.Application : Gtk.Application {
     var derived_inverse_accent = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
                                         He.Color.hct_to_lch({hct_color.h, Math.fmax(48.0, hct_color.c), 40.0}) :
                                         He.Color.hct_to_lch({hct_color.h, Math.fmax(48.0, hct_color.c), 80.0});
-    var derived_inverse_accent_rgb = He.Color.lch_to_rgb (He.Color.lch_to_lab(derived_inverse_accent);
+    var derived_inverse_accent_rgb = He.Color.lch_to_rgb (derived_inverse_accent);
     var inverse_neutral_accent_hex = Color.hexcode (derived_inverse_accent_rgb.r, derived_inverse_accent_rgb.g, derived_inverse_accent_rgb.b);
 
     // ____ ____ ____ ____ ____ 
