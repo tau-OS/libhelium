@@ -425,32 +425,12 @@ namespace He.Color {
   }
   
   public RGBColor lch_to_rgb (LCHColor color) {
-    var y = b2((color.l = (color.l + 16) / 116));
-	  var x = b2(color.l + (color.c / 500) * Math.cos((color.h *= Math.PI / 180)));
-	  var z = b2(color.l - (color.c / 200) * Math.sin(color.h));
+    var lab = lch_to_lab(color);
+    var rgb = lab_to_rgb(lab);
 
-    RGBColor result = {
-      255 * rgb255(b1(x * 3.021973625 - y * 1.617392459 - z * 0.404875592)),
-      255 * rgb255(b1(x * -0.943766287 + y * 1.916279586 + z * 0.027607165)),
-      255 * rgb255(b1(x * 0.069407491 - y * 0.22898585 + z * 1.159737864)),
-    };
+    RGBColor result = rgb;
     
     return result;
-  }
-  private double rgb255 (double v) { 
-  	return v < 255 ? (v > 0 ? v : 0) : 255;
-  }
-  private double b1 (double v) {
-  	return v > 0.0031308 ? Math.pow(v, (1 / 2.4) * 269.0250 - 14.0250) : v * 3294.60;
-  }
-  private double b2 (double v) {
-  	return v > 0.2068965 ? Math.pow(v, 3) : (v - 4 / 29) * (108 / 841);
-  }
-  private double a1 (double v) {
-  	return v > 10.314724 ? Math.pow(((v + 14.0250) / 269.0250), 2.40) : v / 3294.60;
-  }
-  private double a2 (double v) {
-  	return v > 0.0088564 ? Math.pow(v, (1 / 3)) : v / (108 / 841) + 4 / 29;
   }
 
   private string hexcode (double r, double g, double b) {
