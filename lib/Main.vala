@@ -75,6 +75,7 @@ namespace He {
         typeof (He.ViewSubTitle).ensure ();
         typeof (He.ViewSwitcher).ensure ();
         typeof (He.ViewTitle).ensure ();
+        typeof (He.ViewingConditions).ensure ();
         typeof (He.WelcomeScreen).ensure ();
         typeof (He.Window).ensure ();
     

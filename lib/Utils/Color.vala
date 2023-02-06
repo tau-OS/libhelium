@@ -273,62 +273,35 @@ namespace He.Color {
     return result;
   }
 
-  public CAM16Color xyz_to_cam16 (XYZColor color) {
-    var rC =  0.401288 * color.x + 0.650173 * color.y - 0.051461 * color.z;
-    var gC = -0.250268 * color.x + 1.204414 * color.y + 0.045854 * color.z;
-    var bC = -0.002079 * color.x + 0.048952 * color.y + 0.953127 * color.z;
+  public CAM16Color xyz_to_cam16 (XYZColor color, ViewingConditions? vc = ViewingConditions.DEFAULT) {
+    var rA =  0.401288 * color.x + 0.650173 * color.y - 0.051461 * color.z;
+    var gA = -0.250268 * color.x + 1.204414 * color.y + 0.045854 * color.z;
+    var bA = -0.002079 * color.x + 0.048952 * color.y + 0.953127 * color.z;
 
-    double[] xyz = {95.047, 100.0, 108.883}; // D65
-    var rW = xyz[0] *  0.401288 + xyz[1] * 0.650173 + xyz[2] * -0.051461;
-    var gW = xyz[0] * -0.250268 + xyz[1] * 1.204414 + xyz[2] *  0.045854;
-    var bW = xyz[0] * -0.002079 + xyz[1] * 0.048952 + xyz[2] *  0.953127;
-
-    double[] rgbD = {
-      0.9 * (100.0 / rW) + 1.0 - 0.9,
-      0.9 * (100.0 / gW) + 1.0 - 0.9,
-      0.9 * (100.0 / bW) + 1.0 - 0.9,
-    };
-
-    // Discount illuminant
-    var rD = rgbD[0] * rC;
-    var gD = rgbD[1] * gC;
-    var bD = rgbD[2] * bC;
-
-    var rAF = Math.pow(0.5848035714321961 * Math.fabs(rD) / 100.0, 0.42);
-    var gAF = Math.pow(0.5848035714321961 * Math.fabs(gD) / 100.0, 0.42);
-    var bAF = Math.pow(0.5848035714321961 * Math.fabs(bD) / 100.0, 0.42);
-    var rA = signum(rD) * 400.0 * rAF / (rAF + 27.13);
-    var gA = signum(gD) * 400.0 * gAF / (gAF + 27.13);
-    var bA = signum(bD) * 400.0 * bAF / (bAF + 27.13);
-
-    // redness-greenness
-    var a = (11.0 * rA + -12.0 * gA + bA) / 11.0;
-    // yellowness-blueness
-    var b = (rA + gA - 2.0 * bA + 0.011) / 9.0;
+    var a = rA + (-12 * gA + bA) / 11;
+    var b = (rA + gA - 2 * bA) / 9;
 
     // auxiliary components
-    var u = (20.0 * rA + 20.0 * gA + 21.0 * bA) / 20.0;
-    var p2 = (40.0 * rA + 20.0 * gA + bA) / 20.0;
+    double u = (20.0 * rA + 20.0 * gA + 21.0 * bA) / 20.0;
+    double p2 = (40.0 * rA + 20.0 * gA + bA) / 20.0;
 
-    // hue
-    var hr = Math.atan2(b, a);
-    var atanDegrees = hr * 180.0 / Math.PI;
-    var h = atanDegrees < 0.0 ? atanDegrees + 360.0 : atanDegrees >= 360.0 ? atanDegrees - 360.0 : atanDegrees;
+    double hr = Math.atan2(b, a);
+    double atanDegrees = hr * 180/Math.PI;
+    double h =
+        atanDegrees < 0
+            ? atanDegrees + 360.0
+            : atanDegrees >= 360 ? atanDegrees - 360.0 : atanDegrees;
 
-    // achromatic response to color
-    var ac = p2 * 1.0003040045593807;
+    double ac = p2 * vc.nbb;
 
-    // CAM16 lightness and brightness
-    var J = 100.0 * Math.pow(ac / 34.866244046768664, 0.69 * 1.9272135954999579);
+    double huePrime = (h < 20.14) ? h + 360 : h;
+    double eHue = 0.25 * (Math.cos(huePrime * Math.PI/180 + 2.0) + 3.8);
+    double p1 = 50000.0 / 13.0 * eHue * vc.nc * vc.ncb;
+    double t = p1 * Math.hypot(a, b) / (u + 0.305);
+    var J  = 100.0 * Math.pow(ac / vc.aw, vc.c * vc.z);
 
-    var e_t = (h < 20.14) ? h + 360 : h;
-    var eh = 0.25 * (Math.cos(e_t * Math.PI / 180.0 + 2.0) + 3.8);
-    var p1 = 50000.0 / 13.0 * eh * 1 * 1.0003040045593807;
-    var t = p1 * Math.sqrt(a * a + b * b) / (u + 0.3050);
-    var alpha = Math.pow(t, 0.9) * Math.pow(1.64 - Math.pow(0.29, 0.2), 0.73);
-
-    // CAM16 chroma
-    var C = alpha * Math.pow(ac / 34.866244046768664, 0.5 * 0.69 * 1.9272135954999579);
+    var alpha = Math.pow(1.64 - Math.pow(0.29, vc.n), 0.73) * Math.pow(t, 0.9);
+    var C = alpha * Math.sqrt(J / 100.0);
 
     CAM16Color result = {
       J,
@@ -354,7 +327,6 @@ namespace He.Color {
     // Now, we're not just gonna accept what comes to us via CAM16 and LCH,
     // because it generates bad HCT colors. So we're gonna test the color and
     // fix it for UI usage.
-    // Test color for bad props
     // A hue between 90.0 and 111.0 is body deject-colored so we can't use it.
     // A tone less than 70.0 is unsuitable for UI as it's too dark.
     bool hueNotPass = result.h >= 90.0 && result.h <= 111.0;
@@ -424,17 +396,18 @@ namespace He.Color {
   static string find_result_by_j(double hr, double c, double y) {
     // Initial estimate of j.
     double j = Math.sqrt(y) * 11.0;
-    double tInnerCoeff = 1 / Math.pow(1.64 - Math.pow(0.29, 0.2), 0.73);
+    ViewingConditions vc = ViewingConditions.DEFAULT;
+    double tInnerCoeff = 1 / Math.pow(1.64 - Math.pow(0.29, vc.n), 0.73);
     double eHue = 0.25 * (Math.cos(hr + 2.0) + 3.8);
-    double p1 = eHue * (50000.0 / 13.0) * 0.69 * 1.0003040045593807;
+    double p1 = eHue * (50000.0 / 13.0) * vc.nc * vc.ncb;
     double hSin = Math.sin(hr);
     double hCos = Math.cos(hr);
     for (int iterationRound = 0; iterationRound < 5; iterationRound++) {
       double jNormalized = j / 100.0;
       double alpha = c == 0.0 || j == 0.0 ? 0.0 : c / Math.sqrt(jNormalized);
       double t = Math.pow(alpha * tInnerCoeff, 1.0 / 0.9);
-      double ac = 34.866244046768664 * Math.pow(jNormalized, 1.0 / 0.69 / 1.9272135954999579);
-      double p2 = ac / 1.0003040045593807;
+      double ac = vc.aw * Math.pow(jNormalized, 1.0 / vc.c / vc.z);
+      double p2 = ac / vc.nbb;
       double gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11 * t * hCos + 108.0 * t * hSin);
       double a = gamma * hCos;
       double b = gamma * hSin;
