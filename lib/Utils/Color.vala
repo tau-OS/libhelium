@@ -359,11 +359,11 @@ namespace He.Color {
     bool toneNotPass = result.t < 70.0;
 
     if (hueNotPass || toneNotPass) {
-      print("\nTHIS IS YOUR HCT VALUES FIXED:\nH %f / C %f / T %f\n".printf(Math.floor(result.h), Math.floor(result.c), 70.0));
-      return {Math.floor(result.h), Math.floor(result.c), 70.0, result.a}; // Fix color for UI, based on Psychology
+      print("\nTHIS IS YOUR HCT VALUES FIXED:\nH %f / C %f / T %f\n".printf(Math.fabs(result.h), Math.fabs(result.c), 70.0));
+      return {Math.fabs(result.h), Math.fabs(result.c), 70.0, result.a}; // Fix color for UI, based on Psychology
     } else {
-      print("\nTHIS IS YOUR HCT VALUES THAT PASSED:\nH %f / C %f / T %f\n".printf(Math.floor(result.h), Math.floor(result.c), Math.floor(result.t)));
-      return {Math.floor(result.h), Math.floor(result.c), Math.floor(result.t), result.a};
+      print("\nTHIS IS YOUR HCT VALUES THAT PASSED:\nH %f / C %f / T %f\n".printf(Math.fabs(result.h), Math.fabs(result.c), Math.fabs(result.t)));
+      return {Math.fabs(result.h), Math.fabs(result.c), Math.fabs(result.t), result.a};
     }
   }
   public string hct_to_hex (HCTColor color) {
