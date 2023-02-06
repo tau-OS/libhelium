@@ -107,7 +107,7 @@ public class He.Application : Gtk.Application {
       rgb_color = desktop.accent_color;
     }
 
-    ViewingConditions vc = ViewingConditions.DEFAULT;
+    ViewingConditions vc = ViewingConditions.with_lstar(49.8);
     var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color), vc);
     var lch_color = He.Color.rgb_to_lch (rgb_color);
     var hct_color = He.Color.cam16_and_lch_to_hct (cam16_color, lch_color);

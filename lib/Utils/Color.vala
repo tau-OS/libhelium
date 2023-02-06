@@ -27,14 +27,14 @@ namespace He.Color.LabConstants {
     public const double Kn = 18.0;
 
     // D65 standard referent
-    public const double Xn = 0.95708552640;
-    public const double Yn = 1.01141353310;
-    public const double Zn = 1.11905545980;
+    public const double Xn = 0.9570855264;
+    public const double Yn = 1.0114135331;
+    public const double Zn = 1.1190554598;
 
-    public const double t0 = 0.13793103450;  // 4 / 29
-    public const double t1 = 0.20689655230;  // 6 / 29
-    public const double t2 = 0.12841855080;  // 3  * t1 * t1
-    public const double t3 = 0.00885645210;  // t1 * t1 * t1
+    public const double t0 = 0.1379310345;  // 4 / 29
+    public const double t1 = 0.2068965523;  // 6 / 29
+    public const double t2 = 0.1284185508;  // 3  * t1 * t1
+    public const double t3 = 0.0088564521;  // t1 * t1 * t1
 }
 
 /**
@@ -159,8 +159,8 @@ namespace He.Color {
   // https://cs.github.com/gka/chroma.js/blob/cd1b3c0926c7a85cbdc3b1453b3a94006de91a92/src/io/lab/lab2rgb.js#L10
 
   public double rgb_value_to_xyz(double v) {
-    if ((v /= 255) <= 0.040450) return v / 12.92000;
-    return Math.pow((v + 0.05500) / 1.05500, 2.40000);
+    if ((v /= 255) <= 0.04045) return v / 12.92;
+    return Math.pow((v + 0.055) / 1.055, 2.4);
   }
 
   public double xyz_value_to_lab(double v) {
@@ -173,9 +173,9 @@ namespace He.Color {
     var g = rgb_value_to_xyz(color.g);
     var b = rgb_value_to_xyz(color.b);
 
-    var x = xyz_value_to_lab((0.41245640 * r + 0.35757610 * g + 0.18043750 * b) / He.Color.LabConstants.Xn);
-    var y = xyz_value_to_lab((0.21267290 * r + 0.71515220 * g + 0.07217500 * b) / He.Color.LabConstants.Yn);
-    var z = xyz_value_to_lab((0.01933390 * r + 0.11919200 * g + 0.95030410 * b) / He.Color.LabConstants.Zn);
+    var x = xyz_value_to_lab((0.4124564 * r + 0.3575761 * g + 0.1804375 * b) / He.Color.LabConstants.Xn);
+    var y = xyz_value_to_lab((0.2126729 * r + 0.7151522 * g + 0.0721750 * b) / He.Color.LabConstants.Yn);
+    var z = xyz_value_to_lab((0.0193339 * r + 0.1191920 * g + 0.9503041 * b) / He.Color.LabConstants.Zn);
 
     XYZColor result = {
       x,
@@ -296,7 +296,7 @@ namespace He.Color {
 
     double huePrime = (h < 20.14) ? h + 360 : h;
     double eHue = 0.25 * (Math.cos(huePrime * Math.PI/180 + 2.0) + 3.8);
-    double p1 = 50000.0 / 13.0 * eHue * vc.nc * vc.ncb;
+    double p1 = 5e4 / 13.0 * eHue * vc.nc * vc.ncb;
     double t = p1 * Math.hypot(a, b) / (u + 0.305);
     var J  = 100.0 * Math.pow(ac / vc.aw, vc.c * vc.z);
 
@@ -399,7 +399,7 @@ namespace He.Color {
     ViewingConditions vc = ViewingConditions.DEFAULT;
     double tInnerCoeff = 1 / Math.pow(1.64 - Math.pow(0.29, vc.n), 0.73);
     double eHue = 0.25 * (Math.cos(hr + 2.0) + 3.8);
-    double p1 = eHue * (50000.0 / 13.0) * vc.nc * vc.ncb;
+    double p1 = eHue * (5e4 / 13.0) * vc.nc * vc.ncb;
     double hSin = Math.sin(hr);
     double hCos = Math.cos(hr);
     for (int iterationRound = 0; iterationRound < 5; iterationRound++) {
