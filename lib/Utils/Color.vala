@@ -81,21 +81,37 @@ namespace He.Color {
       255.0
   };
 
-  public const double[] XYZ_TO_CAM16RGB = {
-     0.4012880, 0.6501730, -0.0514610,
-    -0.2502680, 1.2044140,  0.0458540,
-    -0.0020790, 0.0489520,  0.9531270,
+  public const double[,] XYZ_TO_CAM16RGB = {
+    {0.401288, 0.650173, -0.051461},
+    {-0.250268, 1.204414, 0.045854},
+    {-0.002079, 0.048952, 0.953127}
   };
-  public const double[] SRGB_TO_XYZ = {
-    0.412338950, 0.357620640, 0.180510420,
-    0.212600000, 0.715200000, 0.072200000,
-    0.019321410, 0.119163820, 0.950344780,
+  public const double[,] CAM16RGB_TO_XYZ = {
+    {1.8620678, -1.0112547, 0.14918678},
+    {0.38752654, 0.62144744, -0.00897398},
+    {-0.01584150, -0.03412294, 1.0499644}
   };
-  public const double[] SCALED_DISCOUNT_FROM_LINRGB = {
-    0.004, 0.004, 0.004,
+  public const double[,] SCALED_DISCOUNT_FROM_LINRGB = {
+    {
+      0.001200833568784504, 0.002389694492170889, 0.0002795742885861124,
+    },
+    {
+      0.0005891086651375999, 0.0029785502573438758, 0.0003270666104008398,
+    },
+    {
+      0.00010146692491640572, 0.0005364214359186694, 0.0032979401770712076,
+    },
   };
-  public const double[] LINRGB_FROM_SCALED_DISCOUNT = {
-    255.0, 255.0, 255.0,
+  public const double[,] LINRGB_FROM_SCALED_DISCOUNT = {
+    {
+      1373.2198709594231, -1100.4251190754821, -7.278681089101213,
+    },
+    {
+      -271.815969077903, 559.6580465940733, -32.46047482791194,
+    },
+    {
+      1.9622899599665666, -57.173814538844006, 308.7233197812385,
+    },
   };
 
   public struct RGBColor {
@@ -258,19 +274,19 @@ namespace He.Color {
   }
 
   public CAM16Color xyz_to_cam16 (XYZColor color) {
-    var rC =  0.4012880 * color.x + 0.6501730 * color.y - 0.0514610 * color.z;
-    var gC = -0.2502680 * color.x + 1.2044140 * color.y + 0.0458540 * color.z;
-    var bC = -0.0020790 * color.x + 0.0489520 * color.y + 0.9531270 * color.z;
+    var rC =  0.401288 * color.x + 0.650173 * color.y - 0.051461 * color.z;
+    var gC = -0.250268 * color.x + 1.204414 * color.y + 0.045854 * color.z;
+    var bC = -0.002079 * color.x + 0.048952 * color.y + 0.953127 * color.z;
 
     double[] xyz = {95.047, 100.0, 108.883}; // D65
-    var rW = xyz[0] *  0.4012880 + xyz[1] * 0.6501730 + xyz[2] * -0.0514610;
-    var gW = xyz[0] * -0.2502680 + xyz[1] * 1.2044140 + xyz[2] *  0.0458540;
-    var bW = xyz[0] * -0.0020790 + xyz[1] * 0.0489520 + xyz[2] *  0.9531270;
+    var rW = xyz[0] *  0.401288 + xyz[1] * 0.650173 + xyz[2] * -0.051461;
+    var gW = xyz[0] * -0.250268 + xyz[1] * 1.204414 + xyz[2] *  0.045854;
+    var bW = xyz[0] * -0.002079 + xyz[1] * 0.048952 + xyz[2] *  0.953127;
 
     double[] rgbD = {
-      0.88607764889132490 * (100.0 / rW) + 1.0 - 0.88607764889132490,
-      0.88607764889132490 * (100.0 / gW) + 1.0 - 0.88607764889132490,
-      0.88607764889132490 * (100.0 / bW) + 1.0 - 0.88607764889132490,
+      0.9 * (100.0 / rW) + 1.0 - 0.9,
+      0.9 * (100.0 / gW) + 1.0 - 0.9,
+      0.9 * (100.0 / bW) + 1.0 - 0.9,
     };
 
     // Discount illuminant
@@ -278,12 +294,12 @@ namespace He.Color {
     var gD = rgbD[1] * gC;
     var bD = rgbD[2] * bC;
 
-    var rAF = Math.pow(0.58480357143219610 * Math.fabs(rD) / 100.0, 0.420);
-    var gAF = Math.pow(0.58480357143219610 * Math.fabs(gD) / 100.0, 0.420);
-    var bAF = Math.pow(0.58480357143219610 * Math.fabs(bD) / 100.0, 0.420);
-    var rA = signum(rD) * 400.0 * rAF / (rAF + 27.130);
-    var gA = signum(gD) * 400.0 * gAF / (gAF + 27.130);
-    var bA = signum(bD) * 400.0 * bAF / (bAF + 27.130);
+    var rAF = Math.pow(0.5848035714321961 * Math.fabs(rD) / 100.0, 0.42);
+    var gAF = Math.pow(0.5848035714321961 * Math.fabs(gD) / 100.0, 0.42);
+    var bAF = Math.pow(0.5848035714321961 * Math.fabs(bD) / 100.0, 0.42);
+    var rA = signum(rD) * 400.0 * rAF / (rAF + 27.13);
+    var gA = signum(gD) * 400.0 * gAF / (gAF + 27.13);
+    var bA = signum(bD) * 400.0 * bAF / (bAF + 27.13);
 
     // redness-greenness
     var a = (11.0 * rA + -12.0 * gA + bA) / 11.0;
@@ -300,22 +316,19 @@ namespace He.Color {
     var h = atanDegrees < 0.0 ? atanDegrees + 360.0 : atanDegrees >= 360.0 ? atanDegrees - 360.0 : atanDegrees;
 
     // achromatic response to color
-    var ac = p2 * 1.00030400455938070;
+    var ac = p2 * 1.0003040045593807;
 
     // CAM16 lightness and brightness
-    var J = 100.0 * Math.pow(ac / 34.8662440467686640, 0.690 * 1.92721359549995790);
+    var J = 100.0 * Math.pow(ac / 34.866244046768664, 0.69 * 1.9272135954999579);
 
     var e_t = (h < 20.14) ? h + 360 : h;
-    var eh = 0.250 * (Math.cos(e_t * Math.PI / 180.0 + 2.0) + 3.8);
-    var p1 = 50000.0 / 13.0 * eh * 1 * 1.00030400455938070;
+    var eh = 0.25 * (Math.cos(e_t * Math.PI / 180.0 + 2.0) + 3.8);
+    var p1 = 50000.0 / 13.0 * eh * 1 * 1.0003040045593807;
     var t = p1 * Math.sqrt(a * a + b * b) / (u + 0.3050);
-    var alpha = Math.pow(t, 0.90) * Math.pow(1.640 - Math.pow(0.290, 0.20), 0.730);
+    var alpha = Math.pow(t, 0.9) * Math.pow(1.64 - Math.pow(0.29, 0.2), 0.73);
 
     // CAM16 chroma
-    var C = ((alpha * Math.pow(ac / 34.8662440467686640, 0.5 * 0.690 * 1.92721359549995790)) * 10).clamp(0, 150);
-
-    print("\nCAM16 CHROMA VALUE:\n%f\n".printf(C));
-    print("\nCAM16 HUE VALUE:\n%f\n".printf(h));
+    var C = alpha * Math.pow(ac / 34.866244046768664, 0.5 * 0.69 * 1.9272135954999579);
 
     CAM16Color result = {
       J,
@@ -374,21 +387,24 @@ namespace He.Color {
     color.h = sanitize_degrees (color.h);
     double hr = color.h / 180 * Math.PI;
     double y = 100.0 * lab_invf((color.t + 16.0) / 116.0);
-    int exactAnswer = find_result_by_j(hr, color.c, y);
-    if (exactAnswer != 0) {
-      return hexcode_argb (exactAnswer);
+    string exactAnswer = find_result_by_j(hr, color.c, y);
+    if (exactAnswer != "#000000") {
+      return exactAnswer;
     }
     double[] linrgb = bisect_to_limit(y, hr);
-    return hexcode_argb (argbFromLinrgb(linrgb));
+    return argbFromLinrgb(linrgb);
   }
   public static int rgbFromLRgb(int red, int green, int blue) {
-    return ((red & 255) << 16) | ((green & 255) << 8) | (blue & 255);
+    return (255 << 24) | ((red & 255) << 16) | ((green & 255) << 8) | (blue & 255);
   }
-  public static int argbFromLinrgb(double[] linrgb) {
+  public static string argbFromLinrgb(double[] linrgb) {
     int r = delinearized(linrgb[0]);
     int g = delinearized(linrgb[1]);
     int b = delinearized(linrgb[2]);
-    return rgbFromLRgb(r, g, b);
+
+    RGBColor rgb = { (double)r, (double)g, (double)b };
+
+    return hexcode (rgb.r, rgb.g, rgb.b);
   }
   public static int delinearized(double rgbComponent) {
     double normalized = rgbComponent / 100.0;
@@ -402,24 +418,24 @@ namespace He.Color {
   }
   static double inverse_chromatic_adaptation(double adapted) {
     double adaptedAbs = Math.fabs(adapted);
-    double b = Math.fmax(0, 27.130 * adaptedAbs / (400.0 - adaptedAbs));
-    return signum(adapted) * Math.pow(b, 1.0 / 0.420);
+    double b = Math.fmax(0, 27.13 * adaptedAbs / (400.0 - adaptedAbs));
+    return signum(adapted) * Math.pow(b, 1.0 / 0.42);
   }
-  static int find_result_by_j(double hr, double c, double y) {
+  static string find_result_by_j(double hr, double c, double y) {
     // Initial estimate of j.
     double j = Math.sqrt(y) * 11.0;
-    double tInnerCoeff = 1 / Math.pow(1.640 - Math.pow(0.290, 0.20), 0.730);
-    double eHue = 0.250 * (Math.cos(hr + 2.0) + 3.80);
-    double p1 = eHue * (50000.0 / 13.0) * 0.690 * 1.00030400455938070;
+    double tInnerCoeff = 1 / Math.pow(1.64 - Math.pow(0.29, 0.2), 0.73);
+    double eHue = 0.25 * (Math.cos(hr + 2.0) + 3.8);
+    double p1 = eHue * (50000.0 / 13.0) * 0.69 * 1.0003040045593807;
     double hSin = Math.sin(hr);
     double hCos = Math.cos(hr);
     for (int iterationRound = 0; iterationRound < 5; iterationRound++) {
       double jNormalized = j / 100.0;
       double alpha = c == 0.0 || j == 0.0 ? 0.0 : c / Math.sqrt(jNormalized);
       double t = Math.pow(alpha * tInnerCoeff, 1.0 / 0.9);
-      double ac = 34.8662440467686640 * Math.pow(jNormalized, 1.0 / 0.690 / 1.92721359549995790);
-      double p2 = ac / 1.00030400455938070;
-      double gamma = 23.0 * (p2 + 0.3050) * t / (23.0 * p1 + 11 * t * hCos + 108.0 * t * hSin);
+      double ac = 34.866244046768664 * Math.pow(jNormalized, 1.0 / 0.69 / 1.9272135954999579);
+      double p2 = ac / 1.0003040045593807;
+      double gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11 * t * hCos + 108.0 * t * hSin);
       double a = gamma * hCos;
       double b = gamma * hSin;
       double rA = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;
@@ -428,20 +444,20 @@ namespace He.Color {
       double rCScaled = inverse_chromatic_adaptation (rA);
       double gCScaled = inverse_chromatic_adaptation (gA);
       double bCScaled = inverse_chromatic_adaptation (bA);
-      double[] linrgb = elem_mul(new double[] {rCScaled, gCScaled, bCScaled}, LINRGB_FROM_SCALED_DISCOUNT);
+      double[] linrgb = elem_mul({rCScaled, gCScaled, bCScaled}, LINRGB_FROM_SCALED_DISCOUNT);
       if (linrgb[0] < 0 || linrgb[1] < 0 || linrgb[2] < 0) {
-        return 0;
+        return "#000000";
       }
-      double kR = 0.21260;
-      double kG = 0.71520;
-      double kB = 0.07220;
+      double kR = 0.2126;
+      double kG = 0.7152;
+      double kB = 0.0722;
       double fnj = kR * linrgb[0] + kG * linrgb[1] + kB * linrgb[2];
       if (fnj <= 0) {
-        return 0;
+        return "#000000";
       }
-      if (iterationRound == 4 || Math.fabs(fnj - y) < 0.0020) {
-        if (linrgb[0] > 100.010 || linrgb[1] > 100.010 || linrgb[2] > 100.010) {
-          return 0;
+      if (iterationRound == 4 || Math.fabs(fnj - y) < 0.002) {
+        if (linrgb[0] > 100.01 || linrgb[1] > 100.01 || linrgb[2] > 100.01) {
+          return "#000000";
         }
         return argbFromLinrgb(linrgb);
       }
@@ -449,7 +465,7 @@ namespace He.Color {
       // Using 2 * fn(j) / j as the approximation of fn'(j)
       j = j - (fnj - y) * j / (2 * fnj);
     }
-    return 0;
+    return "#000000";
   }
   static double[] bisect_to_segment (double y, double targetHue) {
     double[] left = {-1.0, -1.0, -1.0};
@@ -570,9 +586,9 @@ namespace He.Color {
     return Math.atan2(b, a);
   }
   static double[] nth_vertex(double y, int n) {
-    double kR = 0.21260;
-    double kG = 0.71520;
-    double kB = 0.07220;
+    double kR = 0.2126;
+    double kG = 0.7152;
+    double kB = 0.0722;
     double coordA = n % 4 <= 1 ? 0.0 : 100.0;
     double coordB = n % 2 == 0 ? 0.0 : 100.0;
     if (n < 4) {
@@ -622,11 +638,11 @@ namespace He.Color {
     }
     return delinearized * 255.0;
   }
-  private double[] elem_mul(double[] v0, double[] v1) {
+  private double[] elem_mul(double[] row, double[,] matrix) {
     double[] prod = {
-      v0[0] * v1[0],
-      v0[1] * v1[1],
-      v0[2] * v1[2]
+      row[0] * matrix[0,0] + row[1] * matrix[0,1] + row[2] * matrix[0,2],
+      row[0] * matrix[1,0] + row[1] * matrix[1,1] + row[2] * matrix[1,2],
+      row[0] * matrix[2,0] + row[1] * matrix[2,1] + row[2] * matrix[2,2]
     };
     return prod;
   }
@@ -643,7 +659,7 @@ namespace He.Color {
 
   public HCTColor hct_blend (HCTColor a, HCTColor b) {
     var diff_deg = diff_deg(a.h, b.h);
-    var rot_deg = Math.fmin(diff_deg * 0.50, 15.0);
+    var rot_deg = Math.fmin(diff_deg * 0.5, 15.0);
     var output = sanitize_degrees (a.h + rot_deg * rot_dir(a.h, b.h));
     return {output, a.c, a.t};
   }
@@ -678,9 +694,9 @@ namespace He.Color {
 
     // D65 white point
     XYZColor result = {
-      convert(x) * 0.950470,
-      convert(y) * 1.000000,
-      convert(z) * 1.088830
+      convert(x) * 0.95047,
+      convert(y) * 1.00000,
+      convert(z) * 1.08883
     };
 
     return result;
@@ -753,7 +769,7 @@ namespace He.Color {
 
   public string hexcode_argb (int color) {
     string c = "%x".printf(color);
-    string result = "#" + c;
+    string result = "#" + c.substring(2, 6);
     return result;
   }
 

@@ -120,54 +120,32 @@ public class He.Application : Gtk.Application {
     }
     var background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
 
-    print ("\nCOLOR EXTRACTION ASSESSMENT:\nTHE ON COLORS ARE MEANT FOR TEXT ON TOP OF THEIR RESPECTIVE CONTAINER.\n");
-
     // _  _ ____ _  _ ___ ____ ____ _    
     // |\ | |___ |  |  |  |__/ |__| |    
     // | \| |___ |__|  |  |  \ |  | |___
     Color.HCTColor derived_background = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 10.0 : 99.0, hct_color.a};
     var neutral_background_hex = Color.hct_to_hex(derived_background);
-    print ("Background: %s\n".printf(neutral_background_hex));
-
     Color.HCTColor derived_background_variant = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
     var neutral_background_variant_hex = Color.hct_to_hex(derived_background_variant);
-    print ("Background Variant: %s\n".printf(neutral_background_variant_hex));
-
     Color.HCTColor derived_foreground = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 99.0 : 10.0, hct_color.a};
-    var neutral_foreground_hex = Color.hct_to_hex(derived_foreground);
-    print ("On Background: %s\n".printf(neutral_foreground_hex));
-    
+    var neutral_foreground_hex = Color.hct_to_hex(derived_foreground);    
     Color.HCTColor derived_inverse_background = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 20.0, hct_color.a};
     var inverse_neutral_background_hex = Color.hct_to_hex (derived_inverse_background);
-    print ("Inverse Background: %s\n".printf(inverse_neutral_background_hex));
-
     Color.HCTColor derived_inverse_foreground = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 95.0, hct_color.a};
     var inverse_neutral_foreground_hex = Color.hct_to_hex (derived_inverse_foreground);
-    print ("Inverse On Background: %s\n".printf(inverse_neutral_foreground_hex));
-
     // ___  ____ _ _  _ ____ ____ _   _ 
     // |__] |__/ | |\/| |__| |__/  \_/  
     // |    |  \ | |  | |  | |  \   | 
-    Color.HCTColor primary = {hct_color.h, hct_color.c, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0, hct_color.a};
+    Color.HCTColor primary = {hct_color.h, Math.fmax(48.0, hct_color.c), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0, hct_color.a};
     var primary_hex = Color.hct_to_hex (primary);
-    print ("Primary: %s\n".printf(primary_hex));
-
-    Color.HCTColor on_primary = {hct_color.h, hct_color.c, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0, hct_color.a};
+    Color.HCTColor on_primary = {hct_color.h, Math.fmax(48.0, hct_color.c), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0, hct_color.a};
     var on_primary_hex = Color.hct_to_hex (on_primary);
-    print ("On Primary: %s\n".printf(on_primary_hex));
-
-    Color.HCTColor primary_container = {hct_color.h,  hct_color.c, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
+    Color.HCTColor primary_container = {hct_color.h,  Math.fmax(48.0, hct_color.c), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
     var primary_container_hex = Color.hct_to_hex (primary_container);
-    print ("Primary Container: %s\n".printf(primary_container_hex));
-
-    Color.HCTColor on_primary_container = {hct_color.h, hct_color.c, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0, hct_color.a};
+    Color.HCTColor on_primary_container = {hct_color.h, Math.fmax(48.0, hct_color.c), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0, hct_color.a};
     var on_primary_container_hex = Color.hct_to_hex (on_primary_container);
-    print ("On Primary Container: %s\n".printf(on_primary_container_hex));
-
-    Color.HCTColor inverse_accent = {hct_color.h,  hct_color.c, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 40.0 : 80.0, hct_color.a};
+    Color.HCTColor inverse_accent = {hct_color.h, Math.fmax(48.0, hct_color.c), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 40.0 : 80.0, hct_color.a};
     var inverse_primary_hex = Color.hct_to_hex (inverse_accent);
-    print ("Inverse Primary: %s\n".printf(inverse_primary_hex));
-
     // ____ ____ ____ ____ ____ 
     // |___ |__/ |__/ |  | |__/ 
     // |___ |  \ |  \ |__| |  \
@@ -175,36 +153,20 @@ public class He.Application : Gtk.Application {
     // Error is a special color, it never should change with hue.
 
     var error_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#ffb4ab" : "#ba1a1a";
-    print ("Error: %s\n".printf(error_hex));
-
     var on_error_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#690005" : "#ffffff";
-    print ("On Error: %s\n".printf(on_error_hex));
-
     var error_container_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#93000a" : "#ffdad6";
-    print ("Error Container: %s\n".printf(error_container_hex));
-
     var on_error_container_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#ffdad6" : "#410002";
-    print ("On Error Container: %s\n".printf(on_error_container_hex));
-
     // ____ ____ ____ ____ _  _ ___  ____ ____ _   _ 
     // [__  |___ |    |  | |\ | |  \ |__| |__/  \_/  
     // ___] |___ |___ |__| | \| |__/ |  | |  \   |
     Color.HCTColor secondary = {hct_color.h, 16.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0, hct_color.a};
     var secondary_hex = Color.hct_to_hex (secondary);
-    print ("Secondary: %s\n".printf(secondary_hex));
-
     Color.HCTColor on_secondary = {hct_color.h, 16.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0, hct_color.a};
     var on_secondary_hex = Color.hct_to_hex (on_secondary);
-    print ("On Secondary: %s\n".printf(on_secondary_hex));
-
     Color.HCTColor secondary_container = {hct_color.h, 16.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
     var secondary_container_hex = Color.hct_to_hex (secondary_container);
-    print ("Secondary Container: %s\n".printf(secondary_container_hex));
-
     Color.HCTColor on_secondary_container = {hct_color.h, 16.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0, hct_color.a};
     var on_secondary_container_hex = Color.hct_to_hex (on_secondary_container);
-    print ("On Secondary Container: %s\n".printf(on_secondary_container_hex));
-
     // ___ ____ ____ ___ _ ____ ____ _   _ 
     //  |  |___ |__/  |  | |__| |__/  \_/  
     //  |  |___ |  \  |  | |  | |  \   |
@@ -212,30 +174,19 @@ public class He.Application : Gtk.Application {
     
     Color.HCTColor tertiary = {tertiary_hue, 24.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0, hct_color.a};
     var tertiary_hex = Color.hct_to_hex (tertiary);
-    print ("Secondary: %s\n".printf(tertiary_hex));
-
     Color.HCTColor on_tertiary = {tertiary_hue, 24.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0, hct_color.a};
     var on_tertiary_hex = Color.hct_to_hex (on_tertiary);
-    print ("On Secondary: %s\n".printf(on_tertiary_hex));
-
     Color.HCTColor tertiary_container = {tertiary_hue, 24.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
     var tertiary_container_hex = Color.hct_to_hex (tertiary_container);
-    print ("Secondary Container: %s\n".printf(tertiary_container_hex));
-
     Color.HCTColor on_tertiary_container = {tertiary_hue, 24.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0, hct_color.a};
     var on_tertiary_container_hex = Color.hct_to_hex (on_tertiary_container);
-    print ("On Secondary Container: %s\n".printf(on_tertiary_container_hex));
-
     // ____ _  _ ___ _    _ _  _ ____ 
     // |  | |  |  |  |    | |\ | |___ 
     // |__| |__|  |  |___ | | \| |___
     Color.HCTColor outline = {hct_color.h, 8.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 60.0 : 50.0, hct_color.a};
-    var outline_hex = Color.hct_to_hex (outline);
-    print ("Outline: %s\n".printf(outline_hex));
-    
+    var outline_hex = Color.hct_to_hex (outline);    
     Color.HCTColor outline_variant = {hct_color.h, 8.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 80.0, hct_color.a};
     var outline_variant_hex = Color.hct_to_hex (outline_variant);
-    print ("Outline Variant: %s\n".printf(outline_variant_hex));
 
     string css = "";
     if (desktop.prefers_color_scheme == Desktop.ColorScheme.DARK) {
