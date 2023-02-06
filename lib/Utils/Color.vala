@@ -297,11 +297,7 @@ namespace He.Color {
     // hue
     var hr = Math.atan2(b, a);
     var atanDegrees = hr * 180.0 / Math.PI;
-    var h = atanDegrees < 0.0
-        ? atanDegrees + 360.0
-        : atanDegrees >= 360.0
-            ? atanDegrees - 360.0
-            : atanDegrees;
+    var h = atanDegrees < 0.0 ? atanDegrees + 360.0 : atanDegrees >= 360.0 ? atanDegrees - 360.0 : atanDegrees;
 
     // achromatic response to color
     var ac = p2 * 1.00030400455938070;
@@ -313,16 +309,10 @@ namespace He.Color {
     var eh = 0.250 * (Math.cos(e_t * Math.PI / 180.0 + 2.0) + 3.8);
     var p1 = 50000.0 / 13.0 * eh * 1 * 1.00030400455938070;
     var t = p1 * Math.sqrt(a * a + b * b) / (u + 0.3050);
-    var alpha = Math.pow(t, 0.90) *
-        Math.pow(
-            1.640 - Math.pow(0.290, 0.20),
-            0.730);
+    var alpha = Math.pow(t, 0.90) * Math.pow(1.640 - Math.pow(0.290, 0.20), 0.730);
+
     // CAM16 chroma
-    var C = (alpha * Math.sqrt(J / 100.0));
-    
-    // Fixing bad props
-    C = (C * 5.59441826980).clamp(0, 150);
-    h = (h * 2.205267957220).clamp(0, 360);
+    var C = ((alpha * Math.pow(ac / 34.8662440467686640, 0.5 * 0.690 * 1.92721359549995790)) * 10).clamp(0, 150);
 
     print("\nCAM16 CHROMA VALUE:\n%f\n".printf(C));
     print("\nCAM16 HUE VALUE:\n%f\n".printf(h));
@@ -351,7 +341,6 @@ namespace He.Color {
     // Now, we're not just gonna accept what comes to us via CAM16 and LCH,
     // because it generates bad HCT colors. So we're gonna test the color and
     // fix it for UI usage.
-
     // Test color for bad props
     // A hue between 90.0 and 111.0 is body deject-colored so we can't use it.
     // A tone less than 70.0 is unsuitable for UI as it's too dark.
@@ -359,16 +348,16 @@ namespace He.Color {
     bool toneNotPass = result.t < 70.0;
 
     if (hueNotPass || toneNotPass) {
-      print("\nTHIS IS YOUR HCT VALUES FIXED:\nH %f / C %f / T %f\n".printf(Math.fabs(result.h), Math.fabs(result.c), 70.0));
-      return {Math.fabs(result.h), Math.fabs(result.c), 70.0, result.a}; // Fix color for UI, based on Psychology
+      print("\nTHIS IS YOUR HCT VALUES FIXED:\nH %f / C %f / T %f\n".printf(result.h, result.c, 70.0));
+      return {result.h, result.c, 70.0, result.a}; // Fix color for UI, based on Psychology
     } else {
-      print("\nTHIS IS YOUR HCT VALUES THAT PASSED:\nH %f / C %f / T %f\n".printf(Math.fabs(result.h), Math.fabs(result.c), Math.fabs(result.t)));
-      return {Math.fabs(result.h), Math.fabs(result.c), Math.fabs(result.t), result.a};
+      print("\nTHIS IS YOUR HCT VALUES THAT PASSED:\nH %f / C %f / T %f\n".printf(result.h, result.c, result.t));
+      return {result.h, result.c, result.t, result.a};
     }
   }
   public string hct_to_hex (HCTColor color) {
     // If color is mono
-    if (color.c < 0.0001 || color.t < 0.0001 || color.t > 99.9999) {
+    if (color.c < 1.0001 || color.t < 0.0001 || color.t > 99.9999) {
       double y = 100.0 * lab_invf((color.t + 16.0) / 116.0);
       double normalized = y / 100.0;
       double delinearized = 0.0;

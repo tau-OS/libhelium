@@ -148,23 +148,23 @@ public class He.Application : Gtk.Application {
     // ___  ____ _ _  _ ____ ____ _   _ 
     // |__] |__/ | |\/| |__| |__/  \_/  
     // |    |  \ | |  | |  | |  \   | 
-    Color.HCTColor primary = {hct_color.h, Math.fmax(48.0, hct_color.c), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0, hct_color.a};
+    Color.HCTColor primary = {hct_color.h, hct_color.c, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0, hct_color.a};
     var primary_hex = Color.hct_to_hex (primary);
     print ("Primary: %s\n".printf(primary_hex));
 
-    Color.HCTColor on_primary = {hct_color.h, Math.fmax(48.0, hct_color.c), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0, hct_color.a};
+    Color.HCTColor on_primary = {hct_color.h, hct_color.c, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0, hct_color.a};
     var on_primary_hex = Color.hct_to_hex (on_primary);
     print ("On Primary: %s\n".printf(on_primary_hex));
 
-    Color.HCTColor primary_container = {hct_color.h, Math.fmax(48.0, hct_color.c), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
+    Color.HCTColor primary_container = {hct_color.h,  hct_color.c, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
     var primary_container_hex = Color.hct_to_hex (primary_container);
     print ("Primary Container: %s\n".printf(primary_container_hex));
 
-    Color.HCTColor on_primary_container = {hct_color.h, Math.fmax(48.0, hct_color.c), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0, hct_color.a};
+    Color.HCTColor on_primary_container = {hct_color.h, hct_color.c, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0, hct_color.a};
     var on_primary_container_hex = Color.hct_to_hex (on_primary_container);
     print ("On Primary Container: %s\n".printf(on_primary_container_hex));
 
-    Color.HCTColor inverse_accent = {hct_color.h, Math.fmax(48.0, hct_color.c), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 40.0 : 80.0, hct_color.a};
+    Color.HCTColor inverse_accent = {hct_color.h,  hct_color.c, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 40.0 : 80.0, hct_color.a};
     var inverse_primary_hex = Color.hct_to_hex (inverse_accent);
     print ("Inverse Primary: %s\n".printf(inverse_primary_hex));
 
@@ -208,7 +208,7 @@ public class He.Application : Gtk.Application {
     // ___ ____ ____ ___ _ ____ ____ _   _ 
     //  |  |___ |__/  |  | |__| |__/  \_/  
     //  |  |___ |  \  |  | |  | |  \   |
-    var tertiary_hue = (hct_color.h + 60.0) % 360; // Fix tertiary hue going places it shouldn't.
+    var tertiary_hue = (hct_color.h + 60.0 >= 360) ? (hct_color.h + 60.0) - 360 : (hct_color.h + 60.0); // Fix tertiary hue going places it shouldn't.
     
     Color.HCTColor tertiary = {tertiary_hue, 24.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0, hct_color.a};
     var tertiary_hex = Color.hct_to_hex (tertiary);
