@@ -23,7 +23,7 @@ namespace He {
 
         // Ensure that the app has Gtk initialized.
         Gtk.init ();
-    
+
         // Ensure all classes listed here are available for use.
         // Remove only if the class is not needed anymore.
         typeof (He.Application).ensure ();
@@ -78,7 +78,17 @@ namespace He {
         typeof (He.ViewingConditions).ensure ();
         typeof (He.WelcomeScreen).ensure ();
         typeof (He.Window).ensure ();
-    
+        typeof (He.Ensor.Score).ensure ();
+        typeof (He.Ensor.Quantize.PointProvider).ensure ();
+        typeof (He.Ensor.Quantize.PointProviderLab).ensure ();
+        typeof (He.Ensor.Quantize.Quantizer).ensure ();
+        typeof (He.Ensor.Quantize.QuantizerCelebi).ensure ();
+        typeof (He.Ensor.Quantize.QuantizerMap).ensure ();
+        typeof (He.Ensor.Quantize.QuantizerResult).ensure ();
+        typeof (He.Ensor.Quantize.QuantizerMap).ensure ();
+        typeof (He.Ensor.Quantize.QuantizerWsmeans).ensure ();
+        typeof (He.Ensor.Quantize.QuantizerWu).ensure ();
+
         // Setup the platform gtk theme, cursor theme and the default icon theme.
         Gtk.Settings.get_for_display(display).gtk_theme_name        = "Helium-empty";
         Gtk.Settings.get_for_display(display).gtk_icon_theme_name   = "Hydrogen";
