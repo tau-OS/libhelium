@@ -4,7 +4,7 @@
 public class He.Ensor.Quantize.QuantizerCelebi {
   public QuantizerCelebi () {}
 
-  public static HashTable<int, int> quantize(int[] pixels, int max_colors) {
+  public HashTable<int, int> quantize(int[] pixels, int max_colors) {
     QuantizerWu wu = new QuantizerWu ();
     QuantizerResult wu_result = wu.quantize (pixels, max_colors);
 
