@@ -2,7 +2,7 @@
 // Copyright (c) 2021 Google LLC
 
 public class He.Ensor.Quantize.QuantizerCelebi {
-   QuantizerCelebi () {}
+  public QuantizerCelebi () {}
 
   public static HashTable<int, int> quantize(int[] pixels, int max_colors) {
     QuantizerWu wu = new QuantizerWu ();
@@ -19,6 +19,3 @@ public class He.Ensor.Quantize.QuantizerCelebi {
     return QuantizerWsmeans.quantize (pixels, wu_clusters, max_colors);
   }
 }
-
-
-
