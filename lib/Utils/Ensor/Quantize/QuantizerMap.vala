@@ -1,4 +1,7 @@
- /** Creates a dictionary with keys of colors, and values of count of the color */
+// Adapted from the Java implementation of material-color-utilities licensed under the Apache License, Version 2.0
+// Copyright (c) 2021 Google LLC
+
+/** Creates a dictionary with keys of colors, and values of count of the color */
  public class He.Ensor.Quantize.QuantizerMap : Quantizer {
   HashTable<int, int> color_to_count;
 

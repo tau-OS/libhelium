@@ -1,3 +1,6 @@
+// Adapted from the Java implementation of material-color-utilities licensed under the Apache License, Version 2.0
+// Copyright (c) 2021 Google LLC
+
 public class He.ViewingConditions : Object {
     public static ViewingConditions DEFAULT = ViewingConditions.with_lstar (50);
     public double[] rgbD = {};
@@ -101,14 +104,14 @@ public class He.ViewingConditions : Object {
             Math.pow(fl * rgbD[1] * gW / 100.0, 0.42),
             Math.pow(fl * rgbD[2] * bW / 100.0, 0.42)
           };
-  
+
       double[] rgbA =
           new double[] {
             (400.0 * rgbAFactors[0]) / (rgbAFactors[0] + 27.13),
             (400.0 * rgbAFactors[1]) / (rgbAFactors[1] + 27.13),
             (400.0 * rgbAFactors[2]) / (rgbAFactors[2] + 27.13)
           };
-  
+
       double aw = ((2.0 * rgbA[0]) + rgbA[1] + (0.05 * rgbA[2])) * nbb;
       return new ViewingConditions(n, aw, nbb, ncb, c, nc, rgbD, fl, Math.pow(fl, 0.25), z);
     }

@@ -1,4 +1,7 @@
- /**
+// Adapted from the Java implementation of material-color-utilities licensed under the Apache License, Version 2.0
+// Copyright (c) 2021 Google LLC
+
+/**
   * An image quantizer that divides the image's pixels into clusters by recursively cutting an RGB
   * cube, based on the weight of pixels in each area of the cube.
   *
