@@ -132,4 +132,24 @@ namespace He.Misc {
       return adjust_luminance(color[0], color[1], color[2], target_luminance);
     }
   }
+
+  public class Pair<T, U> {
+    public T first;
+    public U second;
+
+    public Pair (T first, U second) {
+      this.first = first;
+      this.second = second;
+    }
+  }
+
+  List<Pair<T, U>> hash_table_to_pair_list<T, U> (GLib.HashTable<T, U> hash_table) {
+    var list = new List<Pair<T, U>> ();
+
+    foreach (var key in hash_table.get_keys ()) {
+      list.append (new Pair<T, U> (key, hash_table.get (key)));
+    }
+
+    return list;
+  }
 }
