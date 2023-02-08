@@ -2,6 +2,8 @@
 // Copyright (c) 2021 Google LLC
 
 public class He.PointProviderLab : PointProvider, Object {
+  public PointProviderLab () {}
+
   public double[] from_int(int argb) {
     var lab = Color.rgb_to_lab(Color.from_argb_int(argb));
     return new double[] {lab.l, lab.a, lab.b};
