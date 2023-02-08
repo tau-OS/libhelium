@@ -78,16 +78,16 @@ namespace He {
         typeof (He.ViewingConditions).ensure ();
         typeof (He.WelcomeScreen).ensure ();
         typeof (He.Window).ensure ();
-        typeof (He.Ensor.Score).ensure ();
-        typeof (He.Ensor.Quantize.PointProvider).ensure ();
-        typeof (He.Ensor.Quantize.PointProviderLab).ensure ();
-        typeof (He.Ensor.Quantize.Quantizer).ensure ();
-        typeof (He.Ensor.Quantize.QuantizerCelebi).ensure ();
-        typeof (He.Ensor.Quantize.QuantizerMap).ensure ();
-        typeof (He.Ensor.Quantize.QuantizerResult).ensure ();
-        typeof (He.Ensor.Quantize.QuantizerMap).ensure ();
-        typeof (He.Ensor.Quantize.QuantizerWsmeans).ensure ();
-        typeof (He.Ensor.Quantize.QuantizerWu).ensure ();
+        typeof (He.Score).ensure ();
+        typeof (He.PointProvider).ensure ();
+        typeof (He.PointProviderLab).ensure ();
+        typeof (He.Quantizer).ensure ();
+        typeof (He.QuantizerCelebi).ensure ();
+        typeof (He.QuantizerMap).ensure ();
+        typeof (He.QuantizerResult).ensure ();
+        typeof (He.QuantizerMap).ensure ();
+        typeof (He.QuantizerWsmeans).ensure ();
+        typeof (He.QuantizerWu).ensure ();
 
         // Setup the platform gtk theme, cursor theme and the default icon theme.
         Gtk.Settings.get_for_display(display).gtk_theme_name        = "Helium-empty";

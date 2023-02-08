@@ -1,7 +1,7 @@
 // Adapted from the Java implementation of material-color-utilities licensed under the Apache License, Version 2.0
 // Copyright (c) 2021 Google LLC
 
-public class He.Ensor.Quantize.QuantizerCelebi {
+public class He.QuantizerCelebi {
   public QuantizerCelebi () {}
 
   public HashTable<int, int> quantize(int[] pixels, int max_colors) {

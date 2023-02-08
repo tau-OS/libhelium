@@ -20,6 +20,7 @@
 /**
  * Miscellaneous functions
  */
+[CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Misc {
   /**
    * An useful method for finding an ancestor of a given widget.

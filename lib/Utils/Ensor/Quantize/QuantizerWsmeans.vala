@@ -1,10 +1,10 @@
 // Adapted from the Java implementation of material-color-utilities licensed under the Apache License, Version 2.0
 // Copyright (c) 2021 Google LLC
 
-public class He.Ensor.Quantize.QuantizerWsmeans {
-  private QuantizerWsmeans() {}
+public class He.QuantizerWsmeans : Object {
+  private QuantizerWsmeans () {}
 
-  private class Distance {
+  private class Distance : Object {
     public int index;
     public double distance;
 
@@ -13,7 +13,7 @@ public class He.Ensor.Quantize.QuantizerWsmeans {
       this.distance = -1;
     }
 
-    public int compareTo(Distance other) {
+    public int compare_to(Distance other) {
       return this.distance > other.distance ? 1 : this.distance < other.distance ? -1 : 0;
     }
   }
@@ -21,218 +21,216 @@ public class He.Ensor.Quantize.QuantizerWsmeans {
   private const int MAX_ITERATIONS = 10;
   private const double MIN_MOVEMENT_DISTANCE = 3.0;
 
-  public static HashTable<int?, int?> quantize(
-      int[] inputPixels, int[] startingClusters, int maxColors) {
+  public static GLib.HashTable<int,int> quantize (int[] input_pixels, int[] starting_clusters, int max_colors) {
     // Uses a seeded random number generator to ensure consistent results.
     var random = new Rand.with_seed(0x42688);
 
-    var pixelToCount = new HashTable<int?, int?>(null, null);
-    var points = new List<double?>[inputPixels.length];
-    int[] pixels = new int[inputPixels.length];
-    PointProviderLab pointProvider = new PointProviderLab();
+    var pixel_to_count = new HashTable<int?, int?> (null, null);
+    var points = new List<double?>[input_pixels.length];
+    int[] pixels = new int[input_pixels.length];
+    PointProviderLab point_provider = new PointProviderLab ();
 
-    int pointCount = 0;
-    for (int i = 0; i < inputPixels.length; i++) {
-      int inputPixel = inputPixels[i];
-      int pixelCount = pixelToCount.get(inputPixel);
-      if (!pixelToCount.contains(inputPixel)) {
-        var point = new List<double?>();
-        foreach (var value in pointProvider.from_int(inputPixel)) {
-          point.append(value);
+    int point_count = 0;
+    for (int i = 0; i < input_pixels.length; i++) {
+      int input_pixel = input_pixels[i];
+      int pixel_count = pixel_to_count.get (input_pixel);
+      if (!pixel_to_count.contains (input_pixel)) {
+        var point = new List<double?> ();
+        foreach (var value in point_provider.from_int (input_pixel)) {
+          point.append (value);
         }
 
-        points[pointCount] = (List<double?>) point.copy();
-        pixels[pointCount] = inputPixel;
-        pointCount++;
+        points[point_count] = (List<double?>) point.copy ();
+        pixels[point_count] = input_pixel;
+        point_count++;
 
-        pixelToCount.set(inputPixel, 1);
+        pixel_to_count.set (input_pixel, 1);
       } else {
-        pixelToCount.set(inputPixel, pixelCount + 1);
+        pixel_to_count.set (input_pixel, pixel_count + 1);
       }
     }
 
-    int[] counts = new int[pointCount];
-    for (int i = 0; i < pointCount; i++) {
+    int[] counts = new int[point_count];
+    for (int i = 0; i < point_count; i++) {
       int pixel = pixels[i];
-      int count = pixelToCount.get(pixel);
+      int count = pixel_to_count.get (pixel);
       counts[i] = count;
     }
 
-    int clusterCount = (int) Math.fmin(maxColors, pointCount);
-    if (startingClusters.length != 0) {
-      clusterCount = (int) Math.fmin(clusterCount, startingClusters.length);
+    int cluster_count = (int) Math.fmin (max_colors, point_count);
+    if (starting_clusters.length != 0) {
+      cluster_count = (int) Math.fmin (cluster_count, starting_clusters.length);
     }
 
-    var clusters = new List<double?>[clusterCount];
-    int clustersCreated = 0;
-    for (int i = 0; i < startingClusters.length; i++) {
-      var cluster = new List<double?>();
-      foreach (var value in pointProvider.from_int(startingClusters[i])) {
-        cluster.append(value);
+    var clusters = new List<double?>[cluster_count];
+    int clusters_created = 0;
+    for (int i = 0; i < starting_clusters.length; i++) {
+      var cluster = new List<double?> ();
+      foreach (var value in point_provider.from_int (starting_clusters[i])) {
+        cluster.append (value);
       }
 
-      clusters[i] = (List<double?>) cluster.copy();
-      clustersCreated++;
+      clusters[i] = (List<double?>) cluster.copy ();
+      clusters_created++;
     }
 
-    int additionalClustersNeeded = clusterCount - clustersCreated;
-    if (additionalClustersNeeded > 0) {
-      for (int i = 0; i < additionalClustersNeeded; i++) {}
+    int additional_clusters_needed = cluster_count - clusters_created;
+    if (additional_clusters_needed > 0) {
+      for (int i = 0; i < additional_clusters_needed; i++) {}
     }
 
-    int[] clusterIndices = new int[pointCount];
-    for (int i = 0; i < pointCount; i++) {
-      clusterIndices[i] = random.int_range(0, clusterCount);
+    int[] cluster_indices = new int[point_count];
+    for (int i = 0; i < point_count; i++) {
+      cluster_indices[i] = random.int_range (0, cluster_count);
     }
 
-    int[,] indexMatrix = new int[clusterCount,clusterCount];
+    int[,] index_matrix = new int[cluster_count,cluster_count];
 
-    List<Distance?>[] distanceToIndexMatrix = new List<Distance?>[clusterCount];
-    for (int i = 0; i < clusterCount; i++) {
-      distanceToIndexMatrix[i] = new List<Distance?>();
+    List<Distance?>[] distance_to_index_matrix = new List<Distance?>[cluster_count];
+    for (int i = 0; i < cluster_count; i++) {
+      distance_to_index_matrix[i] = new List<Distance?> ();
 
-      for (int j = 0; j < clusterCount; j++) {
-        distanceToIndexMatrix[i].append(new Distance());
+      for (int j = 0; j < cluster_count; j++) {
+        distance_to_index_matrix[i].append (new Distance ());
       }
     }
 
-    int[] pixelCountSums = new int[clusterCount];
+    int[] pixel_count_sums = new int[cluster_count];
     for (int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
-      for (int i = 0; i < clusterCount; i++) {
-        for (int j = i + 1; j < clusterCount; j++) {
-          var a = new double[clusters[i].length()];
-          var b = new double[clusters[j].length()];
+      for (int i = 0; i < cluster_count; i++) {
+        for (int j = i + 1; j < cluster_count; j++) {
+          var a = new double[clusters[i].length ()];
+          var b = new double[clusters[j].length ()];
 
-          for (int k = 0; k < clusters[i].length(); k++) {
-            a[k] = clusters[i].nth(k).data;
+          for (int k = 0; k < clusters[i].length (); k++) {
+            a[k] = clusters[i].nth (k).data;
           }
 
-          for (int k = 0; k < clusters[j].length(); k++) {
-            b[k] = clusters[j].nth(k).data;
+          for (int k = 0; k < clusters[j].length (); k++) {
+            b[k] = clusters[j].nth (k).data;
           }
 
-          double distance = pointProvider.distance(a, b);
-          distanceToIndexMatrix[j].nth_data(i).distance = distance;
-          distanceToIndexMatrix[j].nth_data(i).index = i;
-          distanceToIndexMatrix[i].nth_data(j).distance = distance;
-          distanceToIndexMatrix[i].nth_data(j).index = j;
+          double distance = point_provider.distance (a, b);
+          distance_to_index_matrix[j].nth_data (i).distance = distance;
+          distance_to_index_matrix[j].nth_data (i).index = i;
+          distance_to_index_matrix[i].nth_data (j).distance = distance;
+          distance_to_index_matrix[i].nth_data (j).index = j;
         }
 
-        distanceToIndexMatrix[i].sort((a, b) => a.compareTo(b));
-        for (int j = 0; j < clusterCount; j++) {
-          indexMatrix[i,j] = distanceToIndexMatrix[i].nth_data(j).index;
+        distance_to_index_matrix[i].sort((a, b) => a.compare_to (b));
+        for (int j = 0; j < cluster_count; j++) {
+          index_matrix[i,j] = distance_to_index_matrix[i].nth_data (j).index;
         }
       }
 
-      int pointsMoved = 0;
-      for (int i = 0; i < pointCount; i++) {
-        double[] point = new double[points[i].length()];
+      int points_moved = 0;
+      for (int i = 0; i < point_count; i++) {
+        double[] point = new double[points[i].length ()];
 
-        for (int j = 0; j < points[i].length(); j++) {
-          point[j] = points[i].nth(j).data;
+        for (int j = 0; j < points[i].length (); j++) {
+          point[j] = points[i].nth (j).data;
         }
 
-        int previousClusterIndex = clusterIndices[i];
-        double[] previousCluster = new double[clusters[previousClusterIndex].length()];
-        for (int j = 0; j < clusters[previousClusterIndex].length(); j++) {
-          previousCluster[j] = clusters[previousClusterIndex].nth(j).data;
+        int previous_cluster_index = cluster_indices[i];
+        double[] previous_cluster = new double[clusters[previous_cluster_index].length ()];
+        for (int j = 0; j < clusters[previous_cluster_index].length (); j++) {
+          previous_cluster[j] = clusters[previous_cluster_index].nth (j).data;
         }
-        double previousDistance = pointProvider.distance(point, previousCluster);
+        double previous_distance = point_provider.distance (point, previous_cluster);
 
-        double minimumDistance = previousDistance;
-        int newClusterIndex = -1;
-        for (int j = 0; j < clusterCount; j++) {
-          if (distanceToIndexMatrix[previousClusterIndex].nth_data(j).distance >= 4 * previousDistance) {
+        double minimum_distance = previous_distance;
+        int new_cluster_index = -1;
+        for (int j = 0; j < cluster_count; j++) {
+          if (distance_to_index_matrix[previous_cluster_index].nth_data (j).distance >= 4 * previous_distance) {
             continue;
           }
 
-          double[] cluster = new double[clusters[j].length()];
-          for (int k = 0; k < clusters[j].length(); k++) {
-            cluster[k] = clusters[j].nth(k).data;
+          double[] cluster = new double[clusters[j].length ()];
+          for (int k = 0; k < clusters[j].length (); k++) {
+            cluster[k] = clusters[j].nth (k).data;
           }
 
-          double distance = pointProvider.distance(point, cluster);
-          if (distance < minimumDistance) {
-            minimumDistance = distance;
-            newClusterIndex = j;
+          double distance = point_provider.distance (point, cluster);
+          if (distance < minimum_distance) {
+            minimum_distance = distance;
+            new_cluster_index = j;
           }
         }
-        if (newClusterIndex != -1) {
-          double distanceChange =
-              Math.fabs(Math.sqrt(minimumDistance) - Math.sqrt(previousDistance));
-          if (distanceChange > MIN_MOVEMENT_DISTANCE) {
-            pointsMoved++;
-            clusterIndices[i] = newClusterIndex;
+        if (new_cluster_index != -1) {
+          double distance_change = Math.fabs (Math.sqrt (minimum_distance) - Math.sqrt (previous_distance));
+          if (distance_change > MIN_MOVEMENT_DISTANCE) {
+            points_moved++;
+            cluster_indices[i] = new_cluster_index;
           }
         }
       }
 
-      if (pointsMoved == 0 && iteration != 0) {
+      if (points_moved == 0 && iteration != 0) {
         break;
       }
 
-      double[] componentASums = new double[clusterCount];
-      double[] componentBSums = new double[clusterCount];
-      double[] componentCSums = new double[clusterCount];
+      double[] component_a_sums = new double[cluster_count];
+      double[] component_b_sums = new double[cluster_count];
+      double[] component_c_sums = new double[cluster_count];
 
-      for (int i = 0; i < clusterCount; i++) {
-        pixelCountSums[i] = 0;
+      for (int i = 0; i < cluster_count; i++) {
+        pixel_count_sums[i] = 0;
       }
 
-      for (int i = 0; i < pointCount; i++) {
-        int clusterIndex = clusterIndices[i];
-        double[] point = new double[points[i].length()];
-        for (int j = 0; j < points[i].length(); j++) {
-          point[j] = points[i].nth(j).data;
+      for (int i = 0; i < point_count; i++) {
+        int cluster_index = cluster_indices[i];
+        double[] point = new double[points[i].length ()];
+        for (int j = 0; j < points[i].length (); j++) {
+          point[j] = points[i].nth (j).data;
         }
         int count = counts[i];
-        pixelCountSums[clusterIndex] += count;
-        componentASums[clusterIndex] += (point[0] * count);
-        componentBSums[clusterIndex] += (point[1] * count);
-        componentCSums[clusterIndex] += (point[2] * count);
+        pixel_count_sums[cluster_index] += count;
+        component_a_sums[cluster_index] += (point[0] * count);
+        component_b_sums[cluster_index] += (point[1] * count);
+        component_c_sums[cluster_index] += (point[2] * count);
       }
 
-      for (int i = 0; i < clusterCount; i++) {
-        int count = pixelCountSums[i];
+      for (int i = 0; i < cluster_count; i++) {
+        int count = pixel_count_sums[i];
         if (count == 0) {
           var cluster = new List<double?> ();
-          cluster.append(0.0);
-          cluster.append(0.0);
-          cluster.append(0.0);
+          cluster.append (0.0);
+          cluster.append (0.0);
+          cluster.append (0.0);
 
-          clusters[i] = (List<double?>) cluster.copy();
+          clusters[i] = (List<double?>) cluster.copy ();
           continue;
         }
-        double a = componentASums[i] / count;
-        double b = componentBSums[i] / count;
-        double c = componentCSums[i] / count;
-        clusters[i].nth(0).data = a;
-        clusters[i].nth(1).data = b;
-        clusters[i].nth(2).data = c;
+        double a = component_a_sums[i] / count;
+        double b = component_b_sums[i] / count;
+        double c = component_c_sums[i] / count;
+        clusters[i].nth (0).data = a;
+        clusters[i].nth (1).data = b;
+        clusters[i].nth (2).data = c;
       }
     }
 
-    var argbToPopulation = new HashTable<int?, int?>(null, null);
-    for (int i = 0; i < clusterCount; i++) {
-      int count = pixelCountSums[i];
+    var argb_to_population = new HashTable<int?, int?>(null, null);
+    for (int i = 0; i < cluster_count; i++) {
+      int count = pixel_count_sums[i];
       if (count == 0) {
         continue;
       }
 
-      double[] cluster = new double[clusters[i].length()];
+      double[] cluster = new double[clusters[i].length ()];
 
-      for (int j = 0; j < clusters[i].length(); j++) {
-        cluster[j] = clusters[i].nth(j).data;
+      for (int j = 0; j < clusters[i].length (); j++) {
+        cluster[j] = clusters[i].nth (j).data;
       }
 
-      int possibleNewCluster = pointProvider.to_int(cluster);
-      if (argbToPopulation.contains(possibleNewCluster)) {
+      int possible_new_cluster = point_provider.to_int (cluster);
+      if (argb_to_population.contains (possible_new_cluster)) {
         continue;
       }
 
-      argbToPopulation.set(possibleNewCluster, count);
+      argb_to_population.set (possible_new_cluster, count);
     }
 
-    return argbToPopulation;
+    return argb_to_population;
   }
 }
