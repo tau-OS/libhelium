@@ -24,12 +24,15 @@
    private const int TOTAL_SIZE = 35937; // INDEX_COUNT * INDEX_COUNT * INDEX_COUNT
 
    public QuantizerResult quantize(int[] pixels, int color_count) {
-    QuantizerResult map_result = new QuantizerMap().quantize(pixels, color_count);
+     QuantizerResult map_result = new QuantizerMap().quantize(pixels, color_count);
      construct_histogram (map_result.color_to_count);
      create_moments ();
      CreateBoxesResult create_boxes_result = create_boxes (color_count);
      var colors = create_result (create_boxes_result.result_count);
-     var result_map = new HashTable<int, int> (null, null);
+     // create_boxes_result.result_count
+     print("create_boxes_result.result_count: %u\n", create_boxes_result.result_count);
+     print("colors.length (): %u\n", colors.length ());
+     var result_map = new HashTable<int?, int?> (int_hash, int_equal);
      foreach (var color in colors) {
        result_map.set (color, 0);
      }
@@ -40,7 +43,7 @@
      return (r << (INDEX_BITS * 2)) + (r << (INDEX_BITS + 1)) + r + (g << INDEX_BITS) + g + b;
    }
 
-   void construct_histogram (HashTable<int, int> pixels) {
+   void construct_histogram (HashTable<int?, int?> pixels) {
      weights = new int[TOTAL_SIZE];
      moments_r = new int[TOTAL_SIZE];
      moments_g = new int[TOTAL_SIZE];
@@ -144,11 +147,12 @@
      return new CreateBoxesResult (max_color_count, generated_color_count);
    }
 
-   List<int> create_result (int color_count) {
-     var colors = new List<int> ();
+   List<int?> create_result (int color_count) {
+     var colors = new List<int?> ();
      for (int i = 0; i < color_count; ++i) {
        Box cube = cubes[i];
        int weight = volume (cube, weights);
+       print("the weight is %d", weight);
        if (weight > 0) {
          int r = volume (cube, moments_r) / weight;
          int g = volume (cube, moments_g) / weight;

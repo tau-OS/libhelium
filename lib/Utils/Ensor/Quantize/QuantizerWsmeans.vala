@@ -25,7 +25,7 @@ public class He.QuantizerWsmeans : Object {
     // Uses a seeded random number generator to ensure consistent results.
     var random = new Rand.with_seed(0x42688);
 
-    var pixel_to_count = new HashTable<int?, int?> (null, null);
+    var pixel_to_count = new HashTable<int?, int?> (int_hash, int_equal);
     var points = new List<double?>[input_pixels.length];
     int[] pixels = new int[input_pixels.length];
     PointProviderLab point_provider = new PointProviderLab ();
@@ -33,14 +33,14 @@ public class He.QuantizerWsmeans : Object {
     int point_count = 0;
     for (int i = 0; i < input_pixels.length; i++) {
       int input_pixel = input_pixels[i];
-      int pixel_count = pixel_to_count.get (input_pixel);
-      if (!pixel_to_count.contains (input_pixel)) {
+      var pixel_count = pixel_to_count.get (input_pixel);
+      if (pixel_count == null) {
         var point = new List<double?> ();
         foreach (var value in point_provider.from_int (input_pixel)) {
           point.append (value);
         }
 
-        points[point_count] = (List<double?>) point.copy ();
+        points[point_count] = point.copy_deep ((a) => a);
         pixels[point_count] = input_pixel;
         point_count++;
 
@@ -70,7 +70,7 @@ public class He.QuantizerWsmeans : Object {
         cluster.append (value);
       }
 
-      clusters[i] = (List<double?>) cluster.copy ();
+      clusters[i] = cluster.copy_deep ((a) => a);
       clusters_created++;
     }
 
@@ -103,11 +103,11 @@ public class He.QuantizerWsmeans : Object {
           var b = new double[clusters[j].length ()];
 
           for (int k = 0; k < clusters[i].length (); k++) {
-            a[k] = clusters[i].nth (k).data;
+            a[k] = clusters[i].nth_data (k);
           }
 
           for (int k = 0; k < clusters[j].length (); k++) {
-            b[k] = clusters[j].nth (k).data;
+            b[k] = clusters[j].nth_data (k);
           }
 
           double distance = point_provider.distance (a, b);
@@ -198,19 +198,19 @@ public class He.QuantizerWsmeans : Object {
           cluster.append (0.0);
           cluster.append (0.0);
 
-          clusters[i] = (List<double?>) cluster.copy ();
+          clusters[i] = cluster.copy_deep ((a) => a);
           continue;
         }
         double a = component_a_sums[i] / count;
         double b = component_b_sums[i] / count;
         double c = component_c_sums[i] / count;
-        clusters[i].nth (0).data = a;
-        clusters[i].nth (1).data = b;
-        clusters[i].nth (2).data = c;
+        clusters[i].insert (a, 0);
+        clusters[i].insert (b, 1);
+        clusters[i].insert (c, 2);
       }
     }
 
-    var argb_to_population = new HashTable<int?, int?>(null, null);
+    var argb_to_population = new HashTable<int?, int?>(int_hash, int_equal);
     for (int i = 0; i < cluster_count; i++) {
       int count = pixel_count_sums[i];
       if (count == 0) {

@@ -19,7 +19,7 @@ namespace He {
         population_sum += entry;
       }
 
-      var colors_to_cam16 = new HashTable<int, He.Color.CAM16Color?> (null, null);
+      var colors_to_cam16 = new HashTable<int, He.Color.CAM16Color?> (int_hash, int_equal);
       double[] hue_proportions = new double[361];
 
       foreach (var color in colors_to_population.get_keys ()) {
@@ -33,7 +33,7 @@ namespace He {
         hue_proportions[hue] += proportion;
       }
 
-      var colors_to_excited_proportion = new HashTable<int?, double?> (null, null);
+      var colors_to_excited_proportion = new HashTable<int?, double?> (int_hash, int_equal);
 
       foreach (var color in colors_to_cam16.get_keys ()) {
         He.Color.CAM16Color cam = colors_to_cam16.get (color);
@@ -48,7 +48,7 @@ namespace He {
         colors_to_excited_proportion.set (color, excited_proportion);
       }
 
-      var colors_to_score = new HashTable<int?, double?> (null, null);
+      var colors_to_score = new HashTable<int?, double?> (int_hash, int_equal);
 
       foreach (var color in colors_to_cam16.get_keys ()) {
         He.Color.CAM16Color cam = colors_to_cam16.get (color);
@@ -64,7 +64,7 @@ namespace He {
       }
 
       List<int> filtered_colors = filter (colors_to_excited_proportion, colors_to_cam16);
-      var filtered_colors_to_score = new HashTable<int, double?> (null, null);
+      var filtered_colors_to_score = new HashTable<int, double?> (int_hash, int_equal);
 
       foreach (var color in filtered_colors) {
         filtered_colors_to_score.set (color, colors_to_score.get (color));
@@ -102,11 +102,14 @@ namespace He {
       return colors_by_score_descending;
     }
 
-    private static List<int> filter (HashTable<int, double?> colors_to_excited_proportion, HashTable<int, He.Color.CAM16Color?> colors_to_cam16) {
-      var filtered = new List<int> ();
+    private static List<int> filter (HashTable<int?, double?> colors_to_excited_proportion, HashTable<int?, He.Color.CAM16Color?> colors_to_cam16) {
+      var filtered = new List<int?> ();
 
       foreach (var color in colors_to_cam16.get_keys ()) {
         He.Color.CAM16Color cam = colors_to_cam16.get (color);
+        // colors_to_cam16.get_keys
+        print("colors_to_cam16.get_keys ().length () = %u\n", colors_to_cam16.get_keys ().length ());
+        print("colors_to_excited_proportion.get_keys ().length () = %u\n", colors_to_excited_proportion.get_keys ().length ());
         double proportion = colors_to_excited_proportion.get (color);
 
         var y = He.Color.rgb_to_xyz (He.Color.from_argb_int (color)).y;
