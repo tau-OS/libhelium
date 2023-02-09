@@ -10,11 +10,11 @@
     },
     {
       "type": "meson",
-      "target": "demo/co.tauos.Helium1.Demo",
+      "target": "demo/com.fyralabs.Helium1.Demo",
       "mode": "run",
       "group": "test",
       "problemMatcher": [],
-      "label": "Meson: Run demo/co.tauos.Helium1.Demo"
+      "label": "Meson: Run demo/com.fyralabs.Helium1.Demo"
     }
   ]
 }

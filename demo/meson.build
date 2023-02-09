@@ -2,7 +2,7 @@ subdir('data')
 subproject('blueprint-compiler')
 
 conf = configuration_data()
-conf.set_quoted('APP_ID', 'co.tauos.Helium1.Demo')
+conf.set_quoted('APP_ID', 'com.fyralabs.Helium1.Demo')
 conf.set_quoted('VERSION', '1.2.5')
 conf.set_quoted('LOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
 configure_file(output: 'config.h', configuration: conf)
@@ -19,7 +19,7 @@ example_sources = files(
 )
 
 executable(
-	'co.tauos.Helium1.Demo',
+	'com.fyralabs.Helium1.Demo',
 	helium_demo_resources,
 	sources: example_sources,
 	dependencies:  example_deps,

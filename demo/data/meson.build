@@ -20,7 +20,7 @@ install_data(\
 
 helium_demo_resources = gnome.compile_resources(
   'helium-demo-resources',
-  'co.tauos.Helium1.Demo.gresources.xml',
+  'com.fyralabs.Helium1.Demo.gresources.xml',
   source_dir: meson.current_build_dir(),
   c_name: 'he',
   dependencies: blueprints,
@@ -28,8 +28,8 @@ helium_demo_resources = gnome.compile_resources(
 )
 
 desktop_file = i18n.merge_file(
-  input: 'co.tauos.Helium1.Demo.desktop.in',
-  output: 'co.tauos.Helium1.Demo.desktop',
+  input: 'com.fyralabs.Helium1.Demo.desktop.in',
+  output: 'com.fyralabs.Helium1.Demo.desktop',
   type: 'desktop',
   po_dir: '../../po',
   install: true,

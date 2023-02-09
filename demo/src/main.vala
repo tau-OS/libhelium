@@ -30,7 +30,7 @@ public class Demo.Application : He.Application {
         return app.run (args);
     }
     protected override void startup () {
-        resource_base_path = "/co/tauos/Helium1/Demo";
+        resource_base_path = "/com/fyralabs/Helium1/Demo";
 
         base.startup ();
 

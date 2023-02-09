@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/co/tauos/helium">
+  <gresource prefix="/com/fyralabs/helium">
     <file>gtk.css</file>
     <file>gtk-dark.css</file>
     <file>assets/bullet-symbolic.svg</file>

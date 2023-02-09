@@ -17,7 +17,7 @@
 * Boston, MA 02110-1301 USA
 *
 */
-[GtkTemplate (ui = "/co/tauos/Helium1/Demo/settings.ui")]
+[GtkTemplate (ui = "/com/fyralabs/Helium1/Demo/settings.ui")]
 public class Demo.SettingsWindow : He.SettingsWindow {
   private MainWindow _window;
 

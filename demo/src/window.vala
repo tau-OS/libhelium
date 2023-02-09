@@ -17,7 +17,7 @@
 * Boston, MA 02110-1301 USA
 *
 */
-[GtkTemplate (ui = "/co/tauos/Helium1/Demo/window.ui")]
+[GtkTemplate (ui = "/com/fyralabs/Helium1/Demo/window.ui")]
 public class Demo.MainWindow : He.ApplicationWindow {
     delegate void HookFunc ();
     public signal void clicked ();
@@ -78,9 +78,9 @@ public class Demo.MainWindow : He.ApplicationWindow {
         app.set_accels_for_action("app.quit", {"<Ctrl>q"});
 
         var theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default ());
-        theme.add_resource_path ("/co/tauos/Helium1/Demo/");
+        theme.add_resource_path ("/com/fyralabs/Helium1/Demo/");
 
-        var builder = new Gtk.Builder.from_resource ("/co/tauos/Helium1/Demo/menu.ui");
+        var builder = new Gtk.Builder.from_resource ("/com/fyralabs/Helium1/Demo/menu.ui");
         main_menu.menu_model = (MenuModel)builder.get_object ("menu");
 
         toast_button.clicked.connect (() => {
@@ -166,7 +166,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
         var about = new He.AboutWindow (
             this,
             "Helium Demo",
-            "co.tauos.Helium1.Demo",
+            "com.fyralabs.Helium1.Demo",
             Config.VERSION,
             "libhelium",
             "https:/fyralabs.com",

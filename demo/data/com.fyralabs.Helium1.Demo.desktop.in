@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Helium Demo
-Exec=co.tauos.Helium1.Demo
-Icon=co.tauos.Helium1.Demo
+Exec=com.fyralabs.Helium1.Demo
+Icon=com.fyralabs.Helium1.Demo
 Keywords=libhelium;
 Terminal=false
 Type=Application

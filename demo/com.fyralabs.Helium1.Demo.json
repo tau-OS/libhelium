@@ -1,9 +1,9 @@
 {
-    "app-id" : "co.tauos.Helium1.Demo",
-    "runtime" : "co.tauos.Platform",
+    "app-id" : "com.fyralabs.Helium1.Demo",
+    "runtime" : "com.fyralabs.Platform",
     "runtime-version" : "daily",
-    "sdk" : "co.tauos.Sdk",
-    "command" : "co.tauos.Helium1.Demo",
+    "sdk" : "com.fyralabs.Sdk",
+    "command" : "com.fyralabs.Helium1.Demo",
     "finish-args" : [
         "--device=dri",
         "--share=ipc",

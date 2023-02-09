@@ -318,8 +318,8 @@ public class He.Application : Gtk.Application {
   
   private void init_style_providers () {
     // Setup the dark preference theme loading
-    light.load_from_resource ("/co/tauos/helium/gtk.css");
-    dark.load_from_resource ("/co/tauos/helium/gtk-dark.css");
+    light.load_from_resource ("/com/fyralabs/helium/gtk.css");
+    dark.load_from_resource ("/com/fyralabs/helium/gtk-dark.css");
 
     style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
     style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
