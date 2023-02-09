@@ -52,14 +52,15 @@ namespace He {
       foreach (var color in colors_to_cam16.get_keys ()) {
         He.Color.CAM16Color cam = colors_to_cam16.get (color);
 
-        double proportion = colors_to_excited_proportion.get (color);
-        double proportion_score = proportion * 70.0;
+        foreach (var proportion in colors_to_excited_proportion.get_values ()) {
+          double proportion_score = proportion * 70.0;
 
-        double chroma_weight = cam.C < TARGET_CHROMA ? WEIGHT_CHROMA_BELOW : WEIGHT_CHROMA_ABOVE;
-        double chroma_score = (cam.C - TARGET_CHROMA) * chroma_weight;
+          double chroma_weight = cam.C < TARGET_CHROMA ? WEIGHT_CHROMA_BELOW : WEIGHT_CHROMA_ABOVE;
+          double chroma_score = (cam.C - TARGET_CHROMA) * chroma_weight;
 
-        double score = proportion_score + chroma_score;
-        colors_to_score.insert (color, score);
+          double score = proportion_score + chroma_score;
+          colors_to_score.insert (color, score);
+        }
       }
 
       List<int> filtered_colors = filter (colors_to_excited_proportion, colors_to_cam16);
