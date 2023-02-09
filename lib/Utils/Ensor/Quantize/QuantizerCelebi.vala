@@ -9,7 +9,7 @@ public class He.QuantizerCelebi {
     QuantizerResult wu_result = wu.quantize (pixels, max_colors);
 
     var wu_clusters_as_objects = wu_result.color_to_count.get_keys ();
-    print("wu cluster %u\n", wu_clusters_as_objects.length());
+    print("Wu Clusters: %u\n", wu_clusters_as_objects.length ());
     int index = 0;
     int[] wu_clusters = new int[wu_clusters_as_objects.length()];
 

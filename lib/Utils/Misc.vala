@@ -143,14 +143,4 @@ namespace He.Misc {
       this.second = second;
     }
   }
-
-  List<Pair<T, U>> hash_table_to_pair_list<T, U> (GLib.HashTable<T, U> hash_table) {
-    var list = new List<Pair<T, U>> ();
-
-    foreach (var key in hash_table.get_keys ()) {
-      list.append (new Pair<T, U> (key, hash_table.get (key)));
-    }
-
-    return list;
-  }
 }

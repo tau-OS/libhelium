@@ -44,9 +44,9 @@ public class He.QuantizerWsmeans : Object {
         pixels[point_count] = input_pixel;
         point_count++;
 
-        pixel_to_count.set (input_pixel, 1);
+        pixel_to_count.insert (input_pixel, 1);
       } else {
-        pixel_to_count.set (input_pixel, pixel_count + 1);
+        pixel_to_count.insert (input_pixel, pixel_count + 1);
       }
     }
 
@@ -228,7 +228,7 @@ public class He.QuantizerWsmeans : Object {
         continue;
       }
 
-      argb_to_population.set (possible_new_cluster, count);
+      argb_to_population.insert (possible_new_cluster, count);
     }
 
     return argb_to_population;

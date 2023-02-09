@@ -7,7 +7,7 @@
   *
   * <p>The algorithm was described by Xiaolin Wu in Graphic Gems II, published in 1991.
   */
- public class He.QuantizerWu : Quantizer, Object {
+ public class He.QuantizerWu : Quantizer {
    int[] weights;
    int[] moments_r;
    int[] moments_g;
@@ -25,7 +25,7 @@
    private const int INDEX_COUNT = 33; // ((1 << INDEX_BITS) + 1)
    private const int TOTAL_SIZE = 35937; // INDEX_COUNT * INDEX_COUNT * INDEX_COUNT
 
-   public QuantizerResult quantize(int[] pixels, int color_count) {
+   public override QuantizerResult quantize(int[] pixels, int color_count) {
      QuantizerResult map_result = new QuantizerMap().quantize(pixels, color_count);
      construct_histogram (map_result.color_to_count);
      create_moments ();
@@ -36,7 +36,7 @@
      print("colors.length (): %u\n", colors.length ());
      var result_map = new HashTable<int?, int?> (int_hash, int_equal);
      foreach (var color in colors) {
-       result_map.set (color, 0);
+       result_map.insert (color, 0);
      }
      return new QuantizerResult(result_map);
    }
@@ -154,12 +154,12 @@
      for (int i = 0; i < color_count; ++i) {
        Box cube = cubes[i];
        int weight = volume (cube, weights);
-       print("the weight is %d", weight);
+       print("Cube #%d Weight: %d\n", i, weight);
        if (weight > 0) {
          int r = volume (cube, moments_r) / weight;
          int g = volume (cube, moments_g) / weight;
          int b = volume (cube, moments_b) / weight;
-         int color = (255 << 24) | ((r & 0x0ff) << 16) | ((g & 0x0ff) << 8) | (b & 0x0ff);
+         int color = (255 << 24) | ((r & 0x00ff0000) << 16) | ((g & 0x0000ff00) << 8) | (b & 0x000000ff);
          colors.append (color);
        }
      }

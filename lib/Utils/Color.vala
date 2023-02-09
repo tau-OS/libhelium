@@ -22,7 +22,7 @@
  * Miscellaneous constants for the Lab colorspace
  */
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
-namespace He.Color.LabConstants {
+namespace He.Color.Lab_constants {
     // Corresponds roughly to RGB brighter/darker
     public const double Kn = 18.0;
 
@@ -164,8 +164,8 @@ namespace He.Color {
   }
 
   public double xyz_value_to_lab(double v) {
-    if (v > He.Color.LabConstants.t3) return Math.pow(v, 1d / 3d);
-    return v / He.Color.LabConstants.t2 + He.Color.LabConstants.t0;
+    if (v > He.Color.Lab_constants.t3) return Math.pow(v, 1d / 3d);
+    return v / He.Color.Lab_constants.t2 + He.Color.Lab_constants.t0;
   }
 
   public XYZColor rgb_to_xyz(RGBColor color) {
@@ -173,9 +173,9 @@ namespace He.Color {
     var g = rgb_value_to_xyz(color.g);
     var b = rgb_value_to_xyz(color.b);
 
-    var x = xyz_value_to_lab((0.4124564 * r + 0.3575761 * g + 0.1804375 * b) / He.Color.LabConstants.Xn);
-    var y = xyz_value_to_lab((0.2126729 * r + 0.7151522 * g + 0.0721750 * b) / He.Color.LabConstants.Yn);
-    var z = xyz_value_to_lab((0.0193339 * r + 0.1191920 * g + 0.9503041 * b) / He.Color.LabConstants.Zn);
+    var x = xyz_value_to_lab((0.4124564 * r + 0.3575761 * g + 0.1804375 * b) / He.Color.Lab_constants.Xn);
+    var y = xyz_value_to_lab((0.2126729 * r + 0.7151522 * g + 0.0721750 * b) / He.Color.Lab_constants.Yn);
+    var z = xyz_value_to_lab((0.0193339 * r + 0.1191920 * g + 0.9503041 * b) / He.Color.Lab_constants.Zn);
 
     XYZColor result = {
       x,
@@ -274,16 +274,16 @@ namespace He.Color {
   }
 
   public CAM16Color xyz_to_cam16 (XYZColor color, ViewingConditions? vc = ViewingConditions.DEFAULT) {
-    var rA =  0.401288 * color.x + 0.650173 * color.y - 0.051461 * color.z;
-    var gA = -0.250268 * color.x + 1.204414 * color.y + 0.045854 * color.z;
-    var bA = -0.002079 * color.x + 0.048952 * color.y + 0.953127 * color.z;
+    var r_a =  0.401288 * color.x + 0.650173 * color.y - 0.051461 * color.z;
+    var g_a = -0.250268 * color.x + 1.204414 * color.y + 0.045854 * color.z;
+    var b_a = -0.002079 * color.x + 0.048952 * color.y + 0.953127 * color.z;
 
-    var a = rA + (-12 * gA + bA) / 11;
-    var b = (rA + gA - 2 * bA) / 9;
+    var a = r_a + (-12 * g_a + b_a) / 11;
+    var b = (r_a + g_a - 2 * b_a) / 9;
 
     // auxiliary components
-    double u = (20.0 * rA + 20.0 * gA + 21.0 * bA) / 20.0;
-    double p2 = (40.0 * rA + 20.0 * gA + bA) / 20.0;
+    double u = (20.0 * r_a + 20.0 * g_a + 21.0 * b_a) / 20.0;
+    double p2 = (40.0 * r_a + 20.0 * g_a + b_a) / 20.0;
 
     double hr = Math.atan2(b, a);
     double atanDegrees = hr * 180/Math.PI;
@@ -295,8 +295,8 @@ namespace He.Color {
     double ac = p2 * vc.nbb;
 
     double huePrime = (h < 20.14) ? h + 360 : h;
-    double eHue = 0.25 * (Math.cos(huePrime * Math.PI/180 + 2.0) + 3.8);
-    double p1 = 5e4 / 13.0 * eHue * vc.nc * vc.ncb;
+    double e_hue = 0.25 * (Math.cos(huePrime * Math.PI/180 + 2.0) + 3.8);
+    double p1 = 5e4 / 13.0 * e_hue * vc.nc * vc.ncb;
     double t = p1 * Math.hypot(a, b) / (u + 0.305);
     var J  = 100.0 * Math.pow(ac / vc.aw, vc.c * vc.z);
 
@@ -312,6 +312,48 @@ namespace He.Color {
     };
     return result;
   }
+
+  public XYZColor cam16_to_xyz (CAM16Color color, ViewingConditions? vc = ViewingConditions.DEFAULT) {
+    double alpha = (color.C == 0.0 || color.J == 0.0) ? 0.0 : color.C / Math.sqrt (color.J / 100.0);
+
+    double t = Math.pow(alpha / Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73), 1.0 / 0.9);
+    double h_in_radians = color.h * Math.PI / 180;
+
+    double e_hue = 0.25 * (Math.cos (h_in_radians + 2.0) + 3.8);
+    double ac = vc.aw * Math.pow (color.J / 100.0, 1.0 / vc.c / vc.z);
+    double p1 = e_hue * (50000.0 / 13.0) * vc.nc * vc.ncb;
+    double p2 = (ac / vc.nbb);
+
+    double h_sine = Math.sin(h_in_radians);
+    double h_cosine = Math.cos(h_in_radians);
+
+    double gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11.0 * t * h_cosine + 108.0 * t * h_sine);
+    double a = gamma * h_cosine;
+    double b = gamma * h_sine;
+    double r_a = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;
+    double g_a = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
+    double b_a = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
+
+    double r_c_base = Math.fmax (0, (27.13 * Math.fabs (r_a)) / (400.0 - Math.fabs (r_a)));
+    double r_c = signum (r_a) * (100.0 / vc.fl) * Math.pow (r_c_base, 1.0 / 0.42);
+    double g_c_base = Math.fmax (0, (27.13 * Math.fabs (g_a)) / (400.0 - Math.fabs (g_a)));
+    double g_c = signum (g_a) * (100.0 / vc.fl) * Math.pow (g_c_base, 1.0 / 0.42);
+    double b_c_base = Math.fmax (0, (27.13 * Math.fabs (b_a)) / (400.0 - Math.fabs (b_a)));
+    double b_c = signum (b_a) * (100.0 / vc.fl) * Math.pow (b_c_base, 1.0 / 0.42);
+    double r_f = r_c / vc.rgbD[0];
+    double g_f = g_c / vc.rgbD[1];
+    double b_f = b_c / vc.rgbD[2];
+
+    double[,] matrix = CAM16RGB_TO_XYZ;
+    double x = (r_f * matrix[0,0]) + (g_f * matrix[0,1]) + (b_f * matrix[0,2]);
+    double y = (r_f * matrix[1,0]) + (g_f * matrix[1,1]) + (b_f * matrix[1,2]);
+    double z = (r_f * matrix[2,0]) + (g_f * matrix[2,1]) + (b_f * matrix[2,2]);
+
+    XYZColor xyz = {x, y, z};
+
+    return xyz;
+  }
+
   private int signum (double x) {
     return (int)(x > 0) - (int)(x < 0);
   }
@@ -371,12 +413,12 @@ namespace He.Color {
       return exactAnswer;
     }
     double[] linrgb = bisect_to_limit(y, hr);
-    return argbFromLinrgb(linrgb);
+    return argb_fromLinrgb(linrgb);
   }
-  public static int rgbFromLRgb(int red, int green, int blue) {
+  public static int rgb_fromLRgb(int red, int green, int blue) {
     return (255 << 24) | ((red & 255) << 16) | ((green & 255) << 8) | (blue & 255);
   }
-  public static string argbFromLinrgb(double[] linrgb) {
+  public static string argb_fromLinrgb(double[] linrgb) {
     int r = delinearized(linrgb[0]);
     int g = delinearized(linrgb[1]);
     int b = delinearized(linrgb[2]);
@@ -385,8 +427,8 @@ namespace He.Color {
 
     return hexcode (rgb.r, rgb.g, rgb.b);
   }
-  public static int delinearized(double rgbComponent) {
-    double normalized = rgbComponent / 100.0;
+  public static int delinearized(double rgb_component) {
+    double normalized = rgb_component / 100.0;
     double delinearized = 0.0;
     if (normalized <= 0.0031308) {
       delinearized = normalized * 12.92;
@@ -404,27 +446,27 @@ namespace He.Color {
     // Initial estimate of j.
     double j = Math.sqrt(y) * 11.0;
     ViewingConditions vc = ViewingConditions.DEFAULT;
-    double tInnerCoeff = 1 / Math.pow(1.64 - Math.pow(0.29, vc.n), 0.73);
-    double eHue = 0.25 * (Math.cos(hr + 2.0) + 3.8);
-    double p1 = eHue * (5e4 / 13.0) * vc.nc * vc.ncb;
-    double hSin = Math.sin(hr);
-    double hCos = Math.cos(hr);
+    double tInner_coeff = 1 / Math.pow(1.64 - Math.pow(0.29, vc.n), 0.73);
+    double e_hue = 0.25 * (Math.cos(hr + 2.0) + 3.8);
+    double p1 = e_hue * (5e4 / 13.0) * vc.nc * vc.ncb;
+    double h_sine = Math.sin(hr);
+    double h_cosine = Math.cos(hr);
     for (int iterationRound = 0; iterationRound < 5; iterationRound++) {
       double jNormalized = j / 100.0;
       double alpha = c == 0.0 || j == 0.0 ? 0.0 : c / Math.sqrt(jNormalized);
-      double t = Math.pow(alpha * tInnerCoeff, 1.0 / 0.9);
+      double t = Math.pow(alpha * tInner_coeff, 1.0 / 0.9);
       double ac = vc.aw * Math.pow(jNormalized, 1.0 / vc.c / vc.z);
       double p2 = ac / vc.nbb;
-      double gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11 * t * hCos + 108.0 * t * hSin);
-      double a = gamma * hCos;
-      double b = gamma * hSin;
-      double rA = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;
-      double gA = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
-      double bA = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
-      double rCScaled = inverse_chromatic_adaptation (rA);
-      double gCScaled = inverse_chromatic_adaptation (gA);
-      double bCScaled = inverse_chromatic_adaptation (bA);
-      double[] linrgb = elem_mul({rCScaled, gCScaled, bCScaled}, LINRGB_FROM_SCALED_DISCOUNT);
+      double gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11 * t * h_cosine + 108.0 * t * h_sine);
+      double a = gamma * h_cosine;
+      double b = gamma * h_sine;
+      double r_a = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;
+      double g_a = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
+      double b_a = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
+      double r_cScaled = inverse_chromatic_adaptation (r_a);
+      double g_cScaled = inverse_chromatic_adaptation (g_a);
+      double b_cScaled = inverse_chromatic_adaptation (b_a);
+      double[] linrgb = elem_mul({r_cScaled, g_cScaled, b_cScaled}, LINRGB_FROM_SCALED_DISCOUNT);
       if (linrgb[0] < 0 || linrgb[1] < 0 || linrgb[2] < 0) {
         return "#000000";
       }
@@ -439,7 +481,7 @@ namespace He.Color {
         if (linrgb[0] > 100.01 || linrgb[1] > 100.01 || linrgb[2] > 100.01) {
           return "#000000";
         }
-        return argbFromLinrgb(linrgb);
+        return argb_fromLinrgb(linrgb);
       }
       // Iterates with Newton method,
       // Using 2 * fn(j) / j as the approximation of fn'(j)
@@ -556,13 +598,13 @@ namespace He.Color {
   }
   static double hue_of(double[] linrgb) {
     double[] scaled_discount = elem_mul(linrgb, SCALED_DISCOUNT_FROM_LINRGB);
-    double rA = chromatic_adaptation(scaled_discount[0]);
-    double gA = chromatic_adaptation(scaled_discount[1]);
-    double bA = chromatic_adaptation(scaled_discount[2]);
+    double r_a = chromatic_adaptation(scaled_discount[0]);
+    double g_a = chromatic_adaptation(scaled_discount[1]);
+    double b_a = chromatic_adaptation(scaled_discount[2]);
     // redness-greenness
-    double a = (11.0 * rA + -12.0 * gA + bA) / 11.0;
+    double a = (11.0 * r_a + -12.0 * g_a + b_a) / 11.0;
     // yellowness-blueness
-    double b = (rA + gA - 2.0 * bA) / 9.0;
+    double b = (r_a + g_a - 2.0 * b_a) / 9.0;
     return Math.atan2(b, a);
   }
   static double[] nth_vertex(double y, int n) {

@@ -8,18 +8,17 @@ namespace He {
     const double CUTOFF_EXCITED_PROPORTION = 0.01;
     const double CUTOFF_TONE = 10.0;
     const double TARGET_CHROMA = 48.0;
-    const double WEIGHT_PROPORTION = 0.7;
     const double WEIGHT_CHROMA_ABOVE = 0.3;
     const double WEIGHT_CHROMA_BELOW = 0.1;
 
-    public List<int> score (HashTable<int, int> colors_to_population) {
+    public List<int> score (HashTable<int?, int?> colors_to_population) {
       double population_sum = 0.0;
 
       foreach (var entry in colors_to_population.get_values ()) {
         population_sum += entry;
       }
 
-      var colors_to_cam16 = new HashTable<int, He.Color.CAM16Color?> (int_hash, int_equal);
+      var colors_to_cam16 = new HashTable<int?, He.Color.CAM16Color?> (null, null);
       double[] hue_proportions = new double[361];
 
       foreach (var color in colors_to_population.get_keys ()) {
@@ -27,13 +26,13 @@ namespace He {
         double proportion = population / population_sum;
 
         He.Color.CAM16Color cam = He.Color.cam16_from_int (color);
-        colors_to_cam16.set (color, cam);
+        colors_to_cam16.insert (color, cam);
 
         int hue = (int) Math.round (cam.h);
         hue_proportions[hue] += proportion;
       }
 
-      var colors_to_excited_proportion = new HashTable<int?, double?> (int_hash, int_equal);
+      var colors_to_excited_proportion = new HashTable<int?, double?> (null, null);
 
       foreach (var color in colors_to_cam16.get_keys ()) {
         He.Color.CAM16Color cam = colors_to_cam16.get (color);
@@ -45,37 +44,37 @@ namespace He {
           excited_proportion += hue_proportions[neighbor_hue];
         }
 
-        colors_to_excited_proportion.set (color, excited_proportion);
+        colors_to_excited_proportion.insert (color, excited_proportion);
       }
 
-      var colors_to_score = new HashTable<int?, double?> (int_hash, int_equal);
+      var colors_to_score = new HashTable<int?, double?> (null, null);
 
       foreach (var color in colors_to_cam16.get_keys ()) {
         He.Color.CAM16Color cam = colors_to_cam16.get (color);
 
         double proportion = colors_to_excited_proportion.get (color);
-        double proportion_score = proportion * 100.0 * WEIGHT_PROPORTION;
+        double proportion_score = proportion * 70.0;
 
         double chroma_weight = cam.C < TARGET_CHROMA ? WEIGHT_CHROMA_BELOW : WEIGHT_CHROMA_ABOVE;
         double chroma_score = (cam.C - TARGET_CHROMA) * chroma_weight;
 
         double score = proportion_score + chroma_score;
-        colors_to_score.set (color, score);
+        colors_to_score.insert (color, score);
       }
 
       List<int> filtered_colors = filter (colors_to_excited_proportion, colors_to_cam16);
-      var filtered_colors_to_score = new HashTable<int, double?> (int_hash, int_equal);
+      var filtered_colors_to_score = new HashTable<int?, double?> (null, null);
 
       foreach (var color in filtered_colors) {
-        filtered_colors_to_score.set (color, colors_to_score.get (color));
+        filtered_colors_to_score.insert (color, colors_to_score.get (color));
       }
 
-      var entry_list = He.Misc.hash_table_to_pair_list(filtered_colors_to_score);
-      entry_list.sort ((CompareFunc<He.Misc.Pair<int, double?>>) compare_filtered_colors_to_score);
-      var colors_by_score_descending = new List<int>();
+      filtered_colors_to_score.get_keys ().sort ((a, b) => {
+        return compare_filtered_colors_to_score (a, b);
+      });
+      var colors_by_score_descending = new List<int> ();
 
-      foreach (var entry in entry_list) {
-        int color = entry.first;
+      foreach (var color in filtered_colors_to_score.get_keys ()) {
         He.Color.CAM16Color cam = colors_to_cam16.get (color);
         var duplicate_hue = false;
 
@@ -84,7 +83,7 @@ namespace He {
 
           if (He.Color.difference_degrees (cam.h, already_chosen_cam.h) < 15) {
             duplicate_hue = true;
-            break;
+            continue;
           }
         }
 
@@ -92,28 +91,32 @@ namespace He {
           continue;
         }
 
-        colors_by_score_descending.append (entry.first);
+        print("Filtered CAM16 Color props: C: %f / h: %f\n", cam.C, cam.h);
+
+        colors_by_score_descending.append (color);
       }
 
       if (colors_by_score_descending.is_empty ()) {
-        colors_by_score_descending.append ((int) 0xFF8C56BF); // Tau Purple to not leave it empty
+        colors_by_score_descending.prepend ((int) 0xFF8C56BF); // Tau Purple to not leave it empty
       }
 
       return colors_by_score_descending;
     }
 
-    private static List<int> filter (HashTable<int?, double?> colors_to_excited_proportion, HashTable<int?, He.Color.CAM16Color?> colors_to_cam16) {
+    private static List<int> filter (HashTable<int?, double?> colors_to_excited_proportion,
+                                     HashTable<int?, He.Color.CAM16Color?> colors_to_cam16) {
       var filtered = new List<int?> ();
 
       foreach (var color in colors_to_cam16.get_keys ()) {
         He.Color.CAM16Color cam = colors_to_cam16.get (color);
-        // colors_to_cam16.get_keys
-        print("colors_to_cam16.get_keys ().length () = %u\n", colors_to_cam16.get_keys ().length ());
-        print("colors_to_excited_proportion.get_keys ().length () = %u\n", colors_to_excited_proportion.get_keys ().length ());
-        double proportion = colors_to_excited_proportion.get (color);
 
-        var y = He.Color.rgb_to_xyz (He.Color.from_argb_int (color)).y;
-        var lstar = 116.0 * He.Color.lab_f(y / 100.0) - 16.0;
+        print("CAM16 Color props: C: %f / h: %f\n", cam.C, cam.h);
+
+        ViewingConditions vc = ViewingConditions.with_lstar (49.8);
+        He.Color.XYZColor xyz = He.Color.cam16_to_xyz (cam, vc);
+
+        var lstar = 116.0 * He.Color.lab_f (xyz.y / 100.0) - 16.0;
+        double proportion = colors_to_excited_proportion.get (color);
 
         if (
             cam.C >= CUTOFF_CHROMA &&
@@ -127,8 +130,10 @@ namespace He {
       return filtered;
     }
 
-    public int compare_filtered_colors_to_score (He.Misc.Pair<int, double?> entry1, He.Misc.Pair<int, double?> entry2) {
-      return -(entry1.second > entry2.second ? 1 : entry1.second < entry2.second ? -1 : 0);
+    public static int compare_filtered_colors_to_score (int a, int b) {
+      print("A: %d\n", a);
+      print("B: %d\n", b);
+      return (int)(-a <= b);
     }
   }
 }
