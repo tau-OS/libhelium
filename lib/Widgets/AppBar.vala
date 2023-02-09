@@ -32,6 +32,7 @@ public class He.AppBar : He.Bin {
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
     private Gtk.Box labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
     private Gtk.WindowControls title;
+    private Gtk.WindowControls sidetitle;
 
     /**
     * The flatness of the He.AppBar
@@ -71,46 +72,10 @@ public class He.AppBar : He.Bin {
         get { return this._scroller; }
         set {
             this._scroller = value;
-            vadj = this._scroller.get_vadjustment ();
-            if (vadj.value != 0) {
-                if (viewtitle_widget != null) {
-                    viewtitle_widget.set_visible (false);
-                } else {
-                    viewtitle_mini.set_visible (true);
-                    viewtitle_mini.label = _viewtitle_label;
-                    viewtitle.set_visible (false);
-                }
-                viewsubtitle.set_visible (false);
-                sub_box.set_visible (false);
-                sub_box.remove (btn_box);
-                title_box.append (btn_box);
-                viewtitle_mini.add_css_class ("title");
-                main_box.add_css_class ("appbar");
-                main_box.remove_css_class ("flat-appbar");
-                top_box.margin_top = 0;
-            } else {
-                if (viewtitle_widget != null) {
-                    viewtitle_widget.set_visible (true);
-                } else {
-                    viewtitle_mini.set_visible (false);
-                    viewtitle_mini.label = "";
-                    viewtitle.set_visible (true);
-                }
-                viewsubtitle.set_visible (true);
-                sub_box.set_visible (true);
-                title_box.remove (btn_box);
-                sub_box.append (btn_box);
-                viewtitle_mini.remove_css_class ("title");
-                main_box.add_css_class ("flat-appbar");
-                main_box.remove_css_class ("appbar");
-                if (!_show_buttons) {
-                    top_box.margin_top = 36;
-                } else {
-                    top_box.margin_top = 0;
-                }
-            }
-            vadj.value_changed.connect ((a) => {
-                if (a.value != 0) {
+
+            if (value != null) {
+                vadj = value.get_vadjustment ();
+                if (vadj.value != 0) {
                     if (viewtitle_widget != null) {
                         viewtitle_widget.set_visible (false);
                     } else {
@@ -147,7 +112,54 @@ public class He.AppBar : He.Bin {
                         top_box.margin_top = 0;
                     }
                 }
-            });
+                vadj.value_changed.connect ((a) => {
+                    if (a.value != 0) {
+                        if (viewtitle_widget != null) {
+                            viewtitle_widget.set_visible (false);
+                        } else {
+                            viewtitle_mini.set_visible (true);
+                            viewtitle_mini.label = _viewtitle_label;
+                            viewtitle.set_visible (false);
+                        }
+                        viewsubtitle.set_visible (false);
+                        sub_box.set_visible (false);
+                        sub_box.remove (btn_box);
+                        title_box.append (btn_box);
+                        viewtitle_mini.add_css_class ("title");
+                        main_box.add_css_class ("appbar");
+                        main_box.remove_css_class ("flat-appbar");
+                        top_box.margin_top = 0;
+                    } else {
+                        if (viewtitle_widget != null) {
+                            viewtitle_widget.set_visible (true);
+                        } else {
+                            viewtitle_mini.set_visible (false);
+                            viewtitle_mini.label = "";
+                            viewtitle.set_visible (true);
+                        }
+                        viewsubtitle.set_visible (true);
+                        sub_box.set_visible (true);
+                        title_box.remove (btn_box);
+                        sub_box.append (btn_box);
+                        viewtitle_mini.remove_css_class ("title");
+                        main_box.add_css_class ("flat-appbar");
+                        main_box.remove_css_class ("appbar");
+                        if (!_show_buttons) {
+                            top_box.margin_top = 36;
+                        } else {
+                            top_box.margin_top = 0;
+                        }
+                    }
+                });
+            } else {
+                main_box.add_css_class ("flat-appbar");
+                main_box.remove_css_class ("appbar");
+                if (!_show_buttons) {
+                    top_box.margin_top = 36;
+                } else {
+                    top_box.margin_top = 0;
+                }
+            }
         }
     }
 
@@ -160,7 +172,7 @@ public class He.AppBar : He.Bin {
         set {
             this._viewtitle_label = value;
 
-            if (viewtitle_label != null && viewtitle_widget == null) {
+            if (value != null && viewtitle_widget == null) {
                 viewtitle.label = _viewtitle_label;
                 control_box.append (viewtitle_mini);
             } else {
@@ -179,7 +191,7 @@ public class He.AppBar : He.Bin {
         set {
             this._viewtitle_widget = value;
 
-            if (viewtitle_widget != null) {
+            if (value != null) {
                 _viewtitle_widget.margin_start = 10; // make it flush with subtitle
                 labels_box.prepend (_viewtitle_widget);
             } else {
@@ -190,18 +202,18 @@ public class He.AppBar : He.Bin {
 
     private string _viewsubtitle_label;
     /**
-    * The title to the left on the AppBar.
+    * The subtitle to the left on the AppBar.
     */
     public string viewsubtitle_label {
         get { return this._viewsubtitle_label; }
         set {
             this._viewsubtitle_label = value;
 
-            if (viewsubtitle_label != null) {
+            if (value != "") {
                 viewsubtitle.label = _viewsubtitle_label;
                 viewsubtitle.visible = true;
             } else {
-                viewsubtitle.label = null;
+                viewsubtitle.label = "";
                 viewsubtitle.visible = false;
             }
         }
@@ -219,6 +231,29 @@ public class He.AppBar : He.Bin {
             _show_buttons = value;
 
             title.set_visible (value);
+            sidetitle.set_visible (value);
+        }
+    }
+
+    private string _decoration_layout;
+    /**
+    * The layout of the window buttons a.k.a. where to put close, maximize, minimize.
+    * It is a string in the format "<left>:<right>".
+    */
+    public string decoration_layout {
+        get {
+            return _decoration_layout;
+        }
+        set {
+            _decoration_layout = value;
+
+            if (value != "") {
+                sidetitle.set_decoration_layout (value);
+                title.set_decoration_layout (value);
+            } else {
+                sidetitle.set_decoration_layout ("appmenu:");
+                title.set_decoration_layout (":minimize,maximize,close");
+            }
         }
     }
 
@@ -273,12 +308,16 @@ public class He.AppBar : He.Bin {
     }
 
     construct {
+        sidetitle = new Gtk.WindowControls (Gtk.PackType.START);
+        sidetitle.valign = Gtk.Align.CENTER;
         title = new Gtk.WindowControls (Gtk.PackType.END);
         title.valign = Gtk.Align.CENTER;
         win_box.prepend (title);
-        viewsubtitle.visible = false;
+        control_box.prepend (sidetitle);
         title_box.halign = Gtk.Align.END;
         win_box.halign = Gtk.Align.END;
+
+        decoration_layout = "";
 
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
