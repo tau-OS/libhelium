@@ -14,6 +14,8 @@
    int[] moments_b;
    double[] moments;
    Box[] cubes;
+   
+   public QuantizerWu () {}
 
    // A histogram of all the input colors is constructed. It has the shape of a
    // cube. The cube would be too large if it contained all 16 million colors:
