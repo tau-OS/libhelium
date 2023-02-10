@@ -14,9 +14,9 @@ namespace He.Color {
         var g = rgb_value_to_xyz(color.g);
         var b = rgb_value_to_xyz(color.b);
 
-        var x = xyz_value_to_lab((0.4124564 * r + 0.3575761 * g + 0.1804375 * b) / He.Color.Lab_constants.Xn);
-        var y = xyz_value_to_lab((0.2126729 * r + 0.7151522 * g + 0.0721750 * b) / He.Color.Lab_constants.Yn);
-        var z = xyz_value_to_lab((0.0193339 * r + 0.1191920 * g + 0.9503041 * b) / He.Color.Lab_constants.Zn);
+        var x = xyz_value_to_lab((0.4124564 * r + 0.3575761 * g + 0.1804375 * b) / He.Color.Xn);
+        var y = xyz_value_to_lab((0.2126729 * r + 0.7151522 * g + 0.0721750 * b) / He.Color.Yn);
+        var z = xyz_value_to_lab((0.0193339 * r + 0.1191920 * g + 0.9503041 * b) / He.Color.Zn);
 
         XYZColor result = {
             x,
