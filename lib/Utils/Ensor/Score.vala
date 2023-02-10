@@ -11,14 +11,14 @@ namespace He {
     const double WEIGHT_CHROMA_ABOVE = 0.3;
     const double WEIGHT_CHROMA_BELOW = 0.1;
 
-    public List<int> score (HashTable<int?, int?> colors_to_population) {
+    public List<int> score (HashTable<int, int?> colors_to_population) {
       double population_sum = 0.0;
 
       foreach (var entry in colors_to_population.get_values ()) {
         population_sum += entry;
       }
 
-      var colors_to_cam16 = new HashTable<int?, He.Color.CAM16Color?> (null, null);
+      var colors_to_cam16 = new HashTable<int, He.Color.CAM16Color?> (null, null);
       double[] hue_proportions = new double[361];
 
       foreach (var color in colors_to_population.get_keys ()) {
@@ -32,7 +32,7 @@ namespace He {
         hue_proportions[hue] += proportion;
       }
 
-      var colors_to_excited_proportion = new HashTable<int?, double?> (null, null);
+      var colors_to_excited_proportion = new HashTable<int, double?> (null, null);
 
       foreach (var color in colors_to_cam16.get_keys ()) {
         He.Color.CAM16Color cam = colors_to_cam16.get (color);
@@ -47,12 +47,13 @@ namespace He {
         colors_to_excited_proportion.insert (color, excited_proportion);
       }
 
-      var colors_to_score = new HashTable<int?, double?> (null, null);
+      var colors_to_score = new HashTable<int, double?> (null, null);
 
       foreach (var color in colors_to_cam16.get_keys ()) {
         He.Color.CAM16Color cam = colors_to_cam16.get (color);
 
         foreach (var proportion in colors_to_excited_proportion.get_values ()) {
+          print("PROPORTION: %f\n", proportion);
           double proportion_score = proportion * 70.0;
 
           double chroma_weight = cam.C < TARGET_CHROMA ? WEIGHT_CHROMA_BELOW : WEIGHT_CHROMA_ABOVE;
@@ -64,7 +65,7 @@ namespace He {
       }
 
       List<int> filtered_colors = filter (colors_to_excited_proportion, colors_to_cam16);
-      var filtered_colors_to_score = new HashTable<int?, double?> (null, null);
+      var filtered_colors_to_score = new HashTable<int, double?> (null, null);
 
       foreach (var color in filtered_colors) {
         filtered_colors_to_score.insert (color, colors_to_score.get (color));
@@ -104,26 +105,22 @@ namespace He {
       return colors_by_score_descending;
     }
 
-    private static List<int> filter (HashTable<int?, double?> colors_to_excited_proportion,
-                                     HashTable<int?, He.Color.CAM16Color?> colors_to_cam16) {
+    private static List<int> filter (HashTable<int, double?> colors_to_excited_proportion,
+                                     HashTable<int, He.Color.CAM16Color?> colors_to_cam16) {
       var filtered = new List<int?> ();
 
-      foreach (var color in colors_to_cam16.get_keys ()) {
-        He.Color.CAM16Color cam = colors_to_cam16.get (color);
+      foreach (var entry in colors_to_cam16.get_keys ()) {
+        foreach (var cam in colors_to_cam16.get_values ()) {
+          print ("CAM16 Color props: C: %f / h: %f\n", cam.C, cam.h);
+          double proportion = colors_to_excited_proportion.get (entry);
 
-        print ("CAM16 Color props: C: %f / h: %f\n", cam.C, cam.h);
-
-        He.Color.XYZColor xyz = He.Color.cam16_to_xyz (cam);
-
-        var lstar = 116.0 * He.MathUtils.lab_fovea (xyz.y / 100.0) - 16.0;
-        double proportion = colors_to_excited_proportion.get (color);
-
-        if (
-            cam.C >= CUTOFF_CHROMA &&
-            lstar >= CUTOFF_TONE &&
-            proportion >= CUTOFF_EXCITED_PROPORTION
-        ) {
-          filtered.append (color);
+          if (
+              cam.C >= CUTOFF_CHROMA &&
+              He.MathUtils.lstar_from_argb (entry) >= CUTOFF_TONE &&
+              proportion >= CUTOFF_EXCITED_PROPORTION
+          ) {
+            filtered.append (entry);
+          }
         }
       }
 
@@ -131,9 +128,7 @@ namespace He {
     }
 
     public static int compare_filtered_colors_to_score (int a, int b) {
-      print ("A: %d\n", a);
-      print ("B: %d\n", b);
-      return (int)(-a <= b);
+      return -((int)(-a < b) - (int)(b < a));
     }
   }
 }

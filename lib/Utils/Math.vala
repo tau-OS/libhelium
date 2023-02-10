@@ -108,6 +108,15 @@ namespace He.MathUtils {
         return 180.0 - Math.fabs (Math.fabs (a - b) - 180.0);
     }
 
+    public double linearized (int rgb_component) {
+        double normalized = rgb_component / 255.0;
+        if (normalized <= 0.040449936) {
+          return normalized / 12.92 * 100.0;
+        } else {
+          return Math.pow((normalized + 0.055) / 1.055, 2.4) * 100.0;
+        }
+    }
+
     public int delinearized (double rgb_component) {
         double normalized = rgb_component / 100.0;
         double delinearized = 0.0;
@@ -278,5 +287,20 @@ namespace He.MathUtils {
             }
         }
         return midpoint (left, right);
+    }
+
+    public static double y_from_lstar (double lstar) {
+        return 100.0 * lab_inverse_fovea ((lstar + 16.0) / 116.0);
+    }
+
+    public static int argb_from_lstar (double lstar) {
+        double y = y_from_lstar (lstar);
+        int component = delinearized (y);
+        return He.Color.argb_from_rgb_int (component, component, component);
+    }
+
+    public static double lstar_from_argb(int argb) {
+        double y = He.Color.xyz_to_argb (argb)[1];
+        return 116.0 * lab_fovea (y / 100.0) - 16.0;
     }
 }

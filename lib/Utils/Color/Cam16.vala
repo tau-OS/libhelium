@@ -19,7 +19,7 @@ namespace He.Color {
     };
 
     public CAM16Color xyz_to_cam16 (XYZColor color) {
-        ViewingConditions vc = ViewingConditions.with_lstar(LSTAR);
+        ViewingConditions vc = ViewingConditions.with_lstar (LSTAR);
         var r_a =  0.401288 * color.x + 0.650173 * color.y - 0.051461 * color.z;
         var g_a = -0.250268 * color.x + 1.204414 * color.y + 0.045854 * color.z;
         var b_a = -0.002079 * color.x + 0.048952 * color.y + 0.953127 * color.z;
@@ -31,7 +31,7 @@ namespace He.Color {
         double u = (20.0 * r_a + 20.0 * g_a + 21.0 * b_a) / 20.0;
         double p2 = (40.0 * r_a + 20.0 * g_a + b_a) / 20.0;
 
-        double hr = Math.atan2(b, a);
+        double hr = Math.atan2 (b, a);
         double atanDegrees = hr * 180/Math.PI;
         double h =
             atanDegrees < 0
@@ -41,12 +41,12 @@ namespace He.Color {
         double ac = p2 * vc.nbb;
 
         double hue_p = (h < 20.14) ? h + 360 : h;
-        double e_hue = 0.25 * (Math.cos(hue_p * Math.PI/180 + 2.0) + 3.8);
+        double e_hue = 0.25 * (Math.cos (hue_p * Math.PI/180 + 2.0) + 3.8);
         double p1 = 5e4 / 13.0 * e_hue * vc.nc * vc.ncb;
-        double t = p1 * Math.hypot(a, b) / (u + 0.305);
-        var J  = 100.0 * Math.pow(ac / vc.aw, vc.c * vc.z);
+        double t = p1 * Math.hypot (a, b) / (u + 0.305);
+        var J  = 100.0 * Math.pow (ac / vc.aw, vc.c * vc.z);
 
-        var alpha = Math.pow(1.64 - Math.pow(0.29, vc.n), 0.73) * Math.pow(t, 0.9);
+        var alpha = Math.pow(1.64 - Math.pow (0.29, vc.n), 0.73) * Math.pow(t, 0.9);
         var C = alpha * Math.sqrt(J / 100.0);
 
         CAM16Color result = {
@@ -61,6 +61,6 @@ namespace He.Color {
 
     // ARGB int (e.g. 0xffffffff) discounting alpha channel → RGBColor → XYZColor → CAM16Color. Yes.
     public CAM16Color cam16_from_int (int argb) {
-        return xyz_to_cam16(rgb_to_xyz(from_argb_int(argb)));
+        return xyz_to_cam16 (rgb_to_xyz (from_argb_int (argb)));
     }
 }

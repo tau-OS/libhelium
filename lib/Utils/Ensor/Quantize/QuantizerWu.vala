@@ -154,12 +154,13 @@
      for (int i = 0; i < color_count; ++i) {
        Box cube = cubes[i];
        int weight = volume (cube, weights);
-       print("Cube #%d Weight: %d\n", i, weight);
        if (weight > 0) {
          int r = volume (cube, moments_r) / weight;
          int g = volume (cube, moments_g) / weight;
          int b = volume (cube, moments_b) / weight;
-         int color = (255 << 24) | ((r & 0x00ff0000) << 16) | ((g & 0x0000ff00) << 8) | (b & 0x000000ff);
+         int color = (255 << 24) | ((r & 255) << 16) | ((g & 255) << 8) | (b & 255);
+
+         print("Color #%d: %x\n", i, color);
          colors.append (color);
        }
      }
@@ -356,7 +357,7 @@
      GREEN,
      BLUE;
 
-      public string to_string() {
+      public string to_string () {
         switch (this) {
           case RED:
             return "red";
