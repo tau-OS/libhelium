@@ -143,4 +143,21 @@ namespace He.Misc {
       this.second = second;
     }
   }
+
+  private class Comparable : GLib.Object {
+		public Comparable (int i) {
+			this.i = i;
+		}
+
+		public static int compare_to (int a, int b) {
+			if (a == b)
+				return 0;
+			else if (a >= b)
+				return 1;
+			else
+				return -1;
+		}
+
+		int i;
+	}
 }

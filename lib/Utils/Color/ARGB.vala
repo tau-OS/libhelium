@@ -7,12 +7,11 @@ namespace He.Color {
 
     public int rgb_to_argb_int (RGBColor color) {
         int result = (int) color.r << 16 | (int) color.g << 8 | (int) color.b;
-        
         return result;
     }
 
-    public static int argb_from_rgb_int (int r, int g, int b) {
-        return (255 << 24) | ((r & 255) << 16) | ((g & 255) << 8) | (b & 255);
+    public static int argb_from_rgb_int (int red, int green, int blue) {
+        return (255 << 24) | ((red & 255) << 16) | ((green & 255) << 8) | (blue & 255);
     }
 
     public static double[] xyz_to_argb (int argb) {
@@ -22,15 +21,19 @@ namespace He.Color {
         return MathUtils.elem_mul (new double[] {r, g, b}, SRGB_TO_XYZ);
     }
     
-    public int red_from_rgba_int (int color) {
-        return (color & 0x00FF0000) >> 16;
+    public int alpha_from_rgba_int (int argb) {
+        return (argb >> 24) & 255;
+    }
+
+    public int red_from_rgba_int (int argb) {
+        return (argb >> 16) & 255;
     }
     
-    public int green_from_rgba_int (int color) {
-        return (color & 0x0000FF00) >> 8;
+    public int green_from_rgba_int (int argb) {
+        return (argb >> 8) & 255;
     }
     
-    public int blue_from_rgba_int (int color) {
-        return (color & 0x000000FF);
+    public int blue_from_rgba_int (int argb) {
+        return argb & 255;
     }
 }

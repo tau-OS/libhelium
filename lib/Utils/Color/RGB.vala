@@ -75,9 +75,9 @@ namespace He.Color {
     
     public RGBColor from_argb_int (int color) {
         RGBColor result = {
-          (color & 255) >> 16,
-          (color & 255) >> 8,
-          (color & 255),
+            ((color & 0x00FF0000) << 16),
+            ((color & 0x0000FF00) << 8),
+            ((color & 0x000000FF)),
         };
     
         return result;

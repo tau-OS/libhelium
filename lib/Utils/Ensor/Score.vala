@@ -53,7 +53,6 @@ namespace He {
         He.Color.CAM16Color cam = colors_to_cam16.get (color);
 
         foreach (var proportion in colors_to_excited_proportion.get_values ()) {
-          print("PROPORTION: %f\n", proportion);
           double proportion_score = proportion * 70.0;
 
           double chroma_weight = cam.C < TARGET_CHROMA ? WEIGHT_CHROMA_BELOW : WEIGHT_CHROMA_ABOVE;
@@ -71,31 +70,31 @@ namespace He {
         filtered_colors_to_score.insert (color, colors_to_score.get (color));
       }
 
-      filtered_colors_to_score.get_keys ().sort ((a, b) => {
-          return compare_filtered_colors_to_score (a, b);
-      });
+      filtered_colors_to_score.get_keys ().sort ((GLib.CompareFunc<int>) compare_filtered_colors_to_score);
       var colors_by_score_descending = new List<int> ();
 
-      foreach (var color in filtered_colors_to_score.get_keys ()) {
-        He.Color.CAM16Color cam = colors_to_cam16.get (color);
-        var duplicate_hue = false;
+      foreach (var k in filtered_colors_to_score.get_keys ()) {
+        foreach (var color in colors_to_cam16.get_keys ()) {
+          He.Color.CAM16Color cam = colors_to_cam16.get (color);
+          var duplicate_hue = false;
 
-        foreach (var already_chosen_color in colors_by_score_descending) {
-          He.Color.CAM16Color already_chosen_cam = colors_to_cam16.get (already_chosen_color);
+          foreach (var already_chosen_color in colors_by_score_descending) {
+            He.Color.CAM16Color already_chosen_cam = colors_to_cam16.get (color);
 
-          if (He.MathUtils.difference_degrees (cam.h, already_chosen_cam.h) < 15) {
-            duplicate_hue = true;
+            if (He.MathUtils.difference_degrees (cam.h, already_chosen_cam.h) < 15) {
+              duplicate_hue = true;
+              continue;
+            }
+          }
+
+          if (duplicate_hue) {
             continue;
           }
+
+          print ("Filtered CAM16 Color: C: %f / h: %f\n", cam.C, cam.h);
+
+          colors_by_score_descending.prepend (k);
         }
-
-        if (duplicate_hue) {
-          continue;
-        }
-
-        print ("Filtered CAM16 Color props: C: %f / h: %f\n", cam.C, cam.h);
-
-        colors_by_score_descending.append (color);
       }
 
       if (colors_by_score_descending.is_empty ()) {
@@ -111,13 +110,11 @@ namespace He {
 
       foreach (var entry in colors_to_cam16.get_keys ()) {
         foreach (var cam in colors_to_cam16.get_values ()) {
-          print ("Entry: %d\n", entry);
-          print ("CAM16 Color props: C: %f / h: %f\n", cam.C, cam.h);
           double proportion = colors_to_excited_proportion.get (entry);
 
           if (
-              //cam.C >= CUTOFF_CHROMA &&
-              //He.MathUtils.lstar_from_argb (entry) >= CUTOFF_TONE &&
+              cam.C >= CUTOFF_CHROMA &&
+              He.MathUtils.lstar_from_argb (entry) >= CUTOFF_TONE &&
               proportion >= CUTOFF_EXCITED_PROPORTION
           ) {
             filtered.append (entry);
@@ -129,7 +126,7 @@ namespace He {
     }
 
     public static int compare_filtered_colors_to_score (int a, int b) {
-      return ((int)((a * -1) > (b * -1)));
+      return He.Misc.Comparable.compare_to (a, b);
     }
   }
 }

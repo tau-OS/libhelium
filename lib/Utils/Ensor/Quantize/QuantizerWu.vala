@@ -31,9 +31,6 @@
      create_moments ();
      CreateBoxesResult create_boxes_result = create_boxes (color_count);
      var colors = create_result (create_boxes_result.result_count);
-     // create_boxes_result.result_count
-     print("create_boxes_result.result_count: %u\n", create_boxes_result.result_count);
-     print("colors.length (): %u\n", colors.length ());
      var result_map = new HashTable<int, int?> (null, null);
      foreach (var color in colors) {
        result_map.insert (color, 0);
@@ -158,9 +155,9 @@
          int r = volume (cube, moments_r) / weight;
          int g = volume (cube, moments_g) / weight;
          int b = volume (cube, moments_b) / weight;
-         int color = (255 << 24) | ((r & 255) << 16) | ((g & 255) << 8) | (b & 255);
+         int color = (255 << 24) | ((r & 0x0ff) << 16) | ((g & 0x0ff) << 8) | (b & 0x0ff);
 
-         print("Color #%d: %x\n", i, color);
+         print("Color #%d: #%x\n", i, color);
          colors.append (color);
        }
      }
