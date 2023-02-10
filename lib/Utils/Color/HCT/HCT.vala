@@ -48,15 +48,15 @@ namespace He.Color {
         color.h = He.MathUtils.sanitize_degrees (color.h);
         double hr = color.h / 180 * Math.PI;
         double y = 100.0 * He.MathUtils.lab_inverse_fovea ((color.t + 16.0) / 116.0);
-        string exact_answer = find_result_by_j (hr, color.c, y);
+        int exact_answer = find_result_by_j (hr, color.c, y);
 
-        if (exact_answer != "#000000") {
-          return exact_answer;
+        if (exact_answer != 0) {
+          return hexcode_argb (exact_answer);
         }
 
         double[] linrgb = He.MathUtils.bisect_to_limit (y, hr);
 
-        return argb_from_linrgb (linrgb);
+        return hexcode_argb (argb_from_linrgb (linrgb));
     }
 
     public HCTColor hct_blend (HCTColor a, HCTColor b) {

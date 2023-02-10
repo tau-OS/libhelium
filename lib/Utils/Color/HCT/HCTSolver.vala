@@ -2,16 +2,14 @@ namespace He.Color {
     public static int rgb_from_linrgb (int red, int green, int blue) {
         return (255 << 24) | ((red & 255) << 16) | ((green & 255) << 8) | (blue & 255);
       }
-      public static string argb_from_linrgb (double[] linrgb) {
-        int r = He.MathUtils.delinearized (linrgb[0]);
-        int g = He.MathUtils.delinearized (linrgb[1]);
-        int b = He.MathUtils.delinearized (linrgb[2]);
-    
-        RGBColor rgb = { (double)r, (double)g, (double)b };
-    
-        return hexcode (rgb.r, rgb.g, rgb.b);
+      public static int argb_from_linrgb (double[] linrgb) {
+        int r = He.MathUtils.delinearized(linrgb[0]);
+        int g = He.MathUtils.delinearized(linrgb[1]);
+        int b = He.MathUtils.delinearized(linrgb[2]);
+
+        return argb_from_rgb_int (r, g, b);
     }
-    public string find_result_by_j(double hr, double c, double y) {
+    public int find_result_by_j(double hr, double c, double y) {
         // Initial estimate of j.
         double j = Math.sqrt(y) * 11.0;
         He.ViewingConditions vc = He.ViewingConditions.DEFAULT;
@@ -37,18 +35,18 @@ namespace He.Color {
           double b_c_scaled = He.MathUtils.inverse_chromatic_adaptation (b_a);
           double[] linrgb = He.MathUtils.elem_mul({r_c_scaled, g_c_scaled, b_c_scaled}, He.MathUtils.LINRGB_FROM_SCALED_DISCOUNT);
           if (linrgb[0] < 0 || linrgb[1] < 0 || linrgb[2] < 0) {
-            return "#000000";
+            return 0;
           }
           double kR = 0.2126;
           double kG = 0.7152;
           double kB = 0.0722;
           double fnj = kR * linrgb[0] + kG * linrgb[1] + kB * linrgb[2];
           if (fnj <= 0) {
-            return "#000000";
+            return 0;
           }
           if (round == 4 || Math.fabs(fnj - y) < 0.002) {
             if (linrgb[0] > 100.01 || linrgb[1] > 100.01 || linrgb[2] > 100.01) {
-              return "#000000";
+              return 0;
             }
             return argb_from_linrgb (linrgb);
           }
@@ -56,6 +54,6 @@ namespace He.Color {
           // Using 2 * fn(j) / j as the approximation of fn'(j)
           j = j - (fnj - y) * j / (2 * fnj);
         }
-        return "#000000";
+        return 0;
     }
 }
