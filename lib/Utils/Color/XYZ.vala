@@ -55,9 +55,9 @@ namespace He.Color {
         double g_c = He.MathUtils.signum (g_a) * (100.0 / vc.fl) * Math.pow (g_c_base, 1.0 / 0.42);
         double b_c_base = Math.fmax (0, (27.13 * Math.fabs (b_a)) / (400.0 - Math.fabs (b_a)));
         double b_c = He.MathUtils.signum (b_a) * (100.0 / vc.fl) * Math.pow (b_c_base, 1.0 / 0.42);
-        double r_f = r_c / vc.rgbD[0];
-        double g_f = g_c / vc.rgbD[1];
-        double b_f = b_c / vc.rgbD[2];
+        double r_f = r_c / vc.rgb_d[0];
+        double g_f = g_c / vc.rgb_d[1];
+        double b_f = b_c / vc.rgb_d[2];
 
         double[,] matrix = CAM16RGB_TO_XYZ;
         double x = (r_f * matrix[0,0]) + (g_f * matrix[0,1]) + (b_f * matrix[0,2]);

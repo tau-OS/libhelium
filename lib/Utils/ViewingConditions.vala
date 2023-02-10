@@ -2,8 +2,8 @@
 // Copyright (c) 2021 Google LLC
 
 public class He.ViewingConditions : Object {
-    public static ViewingConditions DEFAULT = ViewingConditions.with_lstar (50);
-    public double[] rgbD = {};
+    public static ViewingConditions DEFAULT = ViewingConditions.with_lstar (49.6);
+    public double[] rgb_d = {};
 
     private double _aw;
     public double aw {
@@ -64,62 +64,62 @@ public class He.ViewingConditions : Object {
     }
 
     public static ViewingConditions make (
-        double[] whitePoint,
-        double adaptingLuminance,
-        double backgroundLstar,
+        double[] white_point,
+        double adapting_luminance,
+        double bg_lstar,
         double surround,
-        bool discountingIlluminant) {
+        bool discount_illuminant) {
 
-      backgroundLstar = Math.fmax(0.1, backgroundLstar);
+      bg_lstar = Math.fmax(0.1, bg_lstar);
       double[,] matrix = Color.XYZ_TO_CAM16RGB;
-      double[] xyz = whitePoint;
-      double rW = (xyz[0] * matrix[0,0]) + (xyz[1] * matrix[0,1]) + (xyz[2] * matrix[0,2]);
-      double gW = (xyz[0] * matrix[1,0]) + (xyz[1] * matrix[1,1]) + (xyz[2] * matrix[1,2]);
-      double bW = (xyz[0] * matrix[2,0]) + (xyz[1] * matrix[2,1]) + (xyz[2] * matrix[2,2]);
+      double[] xyz = white_point;
+      double r_white = (xyz[0] * matrix[0,0]) + (xyz[1] * matrix[0,1]) + (xyz[2] * matrix[0,2]);
+      double g_white = (xyz[0] * matrix[1,0]) + (xyz[1] * matrix[1,1]) + (xyz[2] * matrix[1,2]);
+      double b_white = (xyz[0] * matrix[2,0]) + (xyz[1] * matrix[2,1]) + (xyz[2] * matrix[2,2]);
       double f = 0.8 + (surround / 10.0);
       double c =
           (f >= 0.9)
               ? lerp(0.59, 0.69, ((f - 0.9) * 10.0))
               : lerp(0.525, 0.59, ((f - 0.8) * 10.0));
       double d =
-          discountingIlluminant
+          discount_illuminant
               ? 1.0
-              : f * (1.0 - ((1.0 / 3.6) * Math.exp((-adaptingLuminance - 42.0) / 92.0)));
+              : f * (1.0 - ((1.0 / 3.6) * Math.exp((-adapting_luminance - 42.0) / 92.0)));
       d = d.clamp(0.0, 1.0);
       double nc = f;
-      double[] rgbD = {
-        d * (100.0 / rW) + 1.0 - d, d * (100.0 / gW) + 1.0 - d, d * (100.0 / bW) + 1.0 - d
+      double[] rgb_d = {
+        d * (100.0 / r_white) + 1.0 - d, d * (100.0 / g_white) + 1.0 - d, d * (100.0 / b_white) + 1.0 - d
       };
-      double k = 1.0 / (5.0 * adaptingLuminance + 1.0);
+      double k = 1.0 / (5.0 * adapting_luminance + 1.0);
       double k4 = k * k * k * k;
-      double k4F = 1.0 - k4;
-      double fl = (k4 * adaptingLuminance) + (0.1 * k4F * k4F * Math.cbrt(5.0 * adaptingLuminance));
-      double n = (100.0 * Color.lab_invf((backgroundLstar + 16.0) / 116.0) / whitePoint[1]);
+      double k4_f = 1.0 - k4;
+      double fl = (k4 * adapting_luminance) + (0.1 * k4_f * k4_f * Math.cbrt(5.0 * adapting_luminance));
+      double n = (100.0 * He.MathUtils.lab_inverse_fovea ((bg_lstar + 16.0) / 116.0) / white_point[1]);
       double z = 1.48 + Math.sqrt(n);
       double nbb = 0.725 / Math.pow(n, 0.2);
       double ncb = nbb;
-      double[] rgbAFactors =
+      double[] rgb_a_factors =
           new double[] {
-            Math.pow(fl * rgbD[0] * rW / 100.0, 0.42),
-            Math.pow(fl * rgbD[1] * gW / 100.0, 0.42),
-            Math.pow(fl * rgbD[2] * bW / 100.0, 0.42)
+            Math.pow(fl * rgb_d[0] * r_white / 100.0, 0.42),
+            Math.pow(fl * rgb_d[1] * g_white / 100.0, 0.42),
+            Math.pow(fl * rgb_d[2] * b_white / 100.0, 0.42)
           };
 
       double[] rgbA =
           new double[] {
-            (400.0 * rgbAFactors[0]) / (rgbAFactors[0] + 27.13),
-            (400.0 * rgbAFactors[1]) / (rgbAFactors[1] + 27.13),
-            (400.0 * rgbAFactors[2]) / (rgbAFactors[2] + 27.13)
+            (400.0 * rgb_a_factors[0]) / (rgb_a_factors[0] + 27.13),
+            (400.0 * rgb_a_factors[1]) / (rgb_a_factors[1] + 27.13),
+            (400.0 * rgb_a_factors[2]) / (rgb_a_factors[2] + 27.13)
           };
 
       double aw = ((2.0 * rgbA[0]) + rgbA[1] + (0.05 * rgbA[2])) * nbb;
-      return new ViewingConditions(n, aw, nbb, ncb, c, nc, rgbD, fl, Math.pow(fl, 0.25), z);
+      return new ViewingConditions(n, aw, nbb, ncb, c, nc, rgb_d, fl, Math.pow(fl, 0.25), z);
     }
 
     public static ViewingConditions with_lstar (double lstar) {
         return ViewingConditions.make(
             {95.047, 100.0, 108.883},
-            (200.0 / Math.PI * 100.0 * Color.lab_invf((50 + 16.0) / 116.0) / 100),
+            (200.0 / Math.PI * 100.0 * He.MathUtils.lab_inverse_fovea ((50 + 16.0) / 116.0) / 100),
             lstar,
             2.0,
             true
@@ -133,7 +133,7 @@ public class He.ViewingConditions : Object {
         double ncb,
         double c,
         double nc,
-        double[] rgbD,
+        double[] rgb_d,
         double fl,
         double fl_root,
         double z) {
@@ -143,7 +143,7 @@ public class He.ViewingConditions : Object {
       this.ncb = ncb;
       this.c = c;
       this.nc = nc;
-      this.rgbD = rgbD;
+      this.rgb_d = rgb_d;
       this.fl = fl;
       this.fl_root = fl_root;
       this.z = z;

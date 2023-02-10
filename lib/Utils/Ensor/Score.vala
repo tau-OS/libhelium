@@ -40,7 +40,7 @@ namespace He {
         double excited_proportion = 0.0;
 
         for (int j = (hue - 15); j < (hue + 15); j++) {
-          int neighbor_hue = He.Color.sanitize_degrees_int (j);
+          int neighbor_hue = He.MathUtils.sanitize_degrees_int (j);
           excited_proportion += hue_proportions[neighbor_hue];
         }
 
@@ -82,7 +82,7 @@ namespace He {
         foreach (var already_chosen_color in colors_by_score_descending) {
           He.Color.CAM16Color already_chosen_cam = colors_to_cam16.get (already_chosen_color);
 
-          if (He.Color.difference_degrees (cam.h, already_chosen_cam.h) < 15) {
+          if (He.MathUtils.difference_degrees (cam.h, already_chosen_cam.h) < 15) {
             duplicate_hue = true;
             continue;
           }
@@ -92,7 +92,7 @@ namespace He {
           continue;
         }
 
-        print("Filtered CAM16 Color props: C: %f / h: %f\n", cam.C, cam.h);
+        print ("Filtered CAM16 Color props: C: %f / h: %f\n", cam.C, cam.h);
 
         colors_by_score_descending.append (color);
       }
@@ -113,10 +113,9 @@ namespace He {
 
         print("CAM16 Color props: C: %f / h: %f\n", cam.C, cam.h);
 
-        ViewingConditions vc = ViewingConditions.with_lstar (49.8);
-        He.Color.XYZColor xyz = He.Color.cam16_to_xyz (cam, vc);
+        He.Color.XYZColor xyz = He.Color.cam16_to_xyz (cam);
 
-        var lstar = 116.0 * He.Color.lab_f (xyz.y / 100.0) - 16.0;
+        var lstar = 116.0 * He.MathUtils.lab_fovea (xyz.y / 100.0) - 16.0;
         double proportion = colors_to_excited_proportion.get (color);
 
         if (
@@ -132,8 +131,8 @@ namespace He {
     }
 
     public static int compare_filtered_colors_to_score (int a, int b) {
-      print("A: %d\n", a);
-      print("B: %d\n", b);
+      print ("A: %d\n", a);
+      print ("B: %d\n", b);
       return (int)(-a <= b);
     }
   }
