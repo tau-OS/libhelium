@@ -24,7 +24,7 @@ template DemoMainWindow : He.ApplicationWindow {
         has-margins: false;
 
         [titlebar-button]
-        $HeAvatar avy {
+        He.Avatar avy {
           image: "resource:///com/fyralabs/Helium1/Demo/sand.jpg";
           size: 32;
         }
@@ -132,17 +132,17 @@ template DemoMainWindow : He.ApplicationWindow {
           Box {
             orientation: vertical;
 
-            $HeSwitchBar {
+            He.SwitchBar {
               sensitive-widget: hsl;
               title: "Settings";
               subtitle: "Toggle me to show SwitchBar's functionality";
             }
 
-            $HeSettingsList hsl {
+            He.SettingsList hsl {
               title: "Settings List";
               description: "Subtitle";
 
-              $HeSettingsRow {
+              He.SettingsRow {
                 title: "Settings Row";
                 subtitle: "Subtitle";
                 icon: "list-add-symbolic";
@@ -152,12 +152,12 @@ template DemoMainWindow : He.ApplicationWindow {
 
                 }
               }
-              $HeSettingsRow {
+              He.SettingsRow {
                 title: "Settings Row";
                 subtitle: "Subtitle";
                 icon: "list-add-symbolic";
 
-                $HeSegmentedButton {
+                He.SegmentedButton {
                   [segment]
                   ToggleButton tb {
                     label: "Option 1";
@@ -174,7 +174,7 @@ template DemoMainWindow : He.ApplicationWindow {
                   }
                 }
               }
-              $HeSettingsRow {
+              He.SettingsRow {
                 title: "Settings Row";
                 subtitle: "Subtitle";
                 icon: "list-add-symbolic";
@@ -200,7 +200,7 @@ template DemoMainWindow : He.ApplicationWindow {
           "main-view",
         ]
 
-        $HeAppBar {
+        He.AppBar {
           show-buttons: true;
           show-back: bind album.folded;
           viewtitle-widget:
@@ -386,7 +386,7 @@ template DemoMainWindow : He.ApplicationWindow {
                       spacing: 12;
                       orientation: vertical;
 
-                      $HeViewChooser {
+                      He.ViewChooser {
                         stack: view_stack;
                       }
 
@@ -417,22 +417,22 @@ template DemoMainWindow : He.ApplicationWindow {
                                 margin-top: 12;
                                 orientation: vertical;
 
-                                $HeAvatar {
+                                He.Avatar {
                                   text: "EF";
                                   image: "";
                                   size: 32;
                                 }
-                                $HeAvatar {
+                                He.Avatar {
                                   text: "KV";
                                   image: "";
                                   size: 48;
                                 }
-                                $HeAvatar {
+                                He.Avatar {
                                   text: "MP";
                                   image: "";
                                   size: 64;
                                 }
-                                $HeAvatar {
+                                He.Avatar {
                                   text: "SW";
                                   image: "";
                                   size: 96;

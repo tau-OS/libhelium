@@ -18,6 +18,7 @@ libhelium_sources += files(
     'Utils/Color/LCh.vala',
     'Utils/Color/ARGB.vala',
     'Utils/Color/GdkRGBA.vala',
+    'Utils/Color/Hexcode.vala',
     'Utils/Color/RGB.vala',
     'Utils/Color/XYZ.vala',
     'Utils/Color/HCT/HCT.vala',

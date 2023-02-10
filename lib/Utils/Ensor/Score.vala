@@ -111,7 +111,7 @@ namespace He {
       foreach (var color in colors_to_cam16.get_keys ()) {
         He.Color.CAM16Color cam = colors_to_cam16.get (color);
 
-        print("CAM16 Color props: C: %f / h: %f\n", cam.C, cam.h);
+        print ("CAM16 Color props: C: %f / h: %f\n", cam.C, cam.h);
 
         He.Color.XYZColor xyz = He.Color.cam16_to_xyz (cam);
 
