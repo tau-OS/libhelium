@@ -16,7 +16,7 @@ public class He.PointProviderLab : PointProvider, Object {
       b = lab[2]
     };
 
-    return Color.rgb_to_argb_int(Color.lab_to_rgb(lab_color));
+    return Color.rgb_to_argb_int (Color.lab_to_rgb(lab_color));
   }
 
   public double distance(double[] one, double[] two) {

@@ -72,7 +72,7 @@ namespace He {
       }
 
       filtered_colors_to_score.get_keys ().sort ((a, b) => {
-        return compare_filtered_colors_to_score (a, b);
+          return compare_filtered_colors_to_score (a, b);
       });
       var colors_by_score_descending = new List<int> ();
 
@@ -111,12 +111,13 @@ namespace He {
 
       foreach (var entry in colors_to_cam16.get_keys ()) {
         foreach (var cam in colors_to_cam16.get_values ()) {
+          print ("Entry: %d\n", entry);
           print ("CAM16 Color props: C: %f / h: %f\n", cam.C, cam.h);
           double proportion = colors_to_excited_proportion.get (entry);
 
           if (
-              cam.C >= CUTOFF_CHROMA &&
-              He.MathUtils.lstar_from_argb (entry) >= CUTOFF_TONE &&
+              //cam.C >= CUTOFF_CHROMA &&
+              //He.MathUtils.lstar_from_argb (entry) >= CUTOFF_TONE &&
               proportion >= CUTOFF_EXCITED_PROPORTION
           ) {
             filtered.append (entry);
@@ -128,7 +129,7 @@ namespace He {
     }
 
     public static int compare_filtered_colors_to_score (int a, int b) {
-      return -((int)(-a < b) - (int)(b < a));
+      return ((int)((a * -1) > (b * -1)));
     }
   }
 }

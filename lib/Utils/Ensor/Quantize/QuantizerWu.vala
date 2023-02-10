@@ -34,7 +34,7 @@
      // create_boxes_result.result_count
      print("create_boxes_result.result_count: %u\n", create_boxes_result.result_count);
      print("colors.length (): %u\n", colors.length ());
-     var result_map = new HashTable<int?, int?> (int_hash, int_equal);
+     var result_map = new HashTable<int, int?> (null, null);
      foreach (var color in colors) {
        result_map.insert (color, 0);
      }
@@ -45,7 +45,7 @@
      return (r << (INDEX_BITS * 2)) + (r << (INDEX_BITS + 1)) + r + (g << INDEX_BITS) + g + b;
    }
 
-   void construct_histogram (HashTable<int?, int?> pixels) {
+   void construct_histogram (HashTable<int, int?> pixels) {
      weights = new int[TOTAL_SIZE];
      moments_r = new int[TOTAL_SIZE];
      moments_g = new int[TOTAL_SIZE];

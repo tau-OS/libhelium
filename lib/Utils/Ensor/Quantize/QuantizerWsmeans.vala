@@ -21,11 +21,11 @@ public class He.QuantizerWsmeans : Object {
   private const int MAX_ITERATIONS = 10;
   private const double MIN_MOVEMENT_DISTANCE = 3.0;
 
-  public static GLib.HashTable<int,int> quantize (int[] input_pixels, int[] starting_clusters, int max_colors) {
+  public static GLib.HashTable<int, int?> quantize (int[] input_pixels, int[] starting_clusters, int max_colors) {
     // Uses a seeded random number generator to ensure consistent results.
     var random = new Rand.with_seed(0x42688);
 
-    var pixel_to_count = new HashTable<int?, int?> (int_hash, int_equal);
+    var pixel_to_count = new HashTable<int, int?> (null, null);
     var points = new List<double?>[input_pixels.length];
     int[] pixels = new int[input_pixels.length];
     PointProviderLab point_provider = new PointProviderLab ();
@@ -210,7 +210,7 @@ public class He.QuantizerWsmeans : Object {
       }
     }
 
-    var argb_to_population = new HashTable<int?, int?>(int_hash, int_equal);
+    var argb_to_population = new HashTable<int, int?>(null, null);
     for (int i = 0; i < cluster_count; i++) {
       int count = pixel_count_sums[i];
       if (count == 0) {
