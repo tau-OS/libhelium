@@ -293,7 +293,7 @@ namespace He.MathUtils {
         return 100.0 * lab_inverse_fovea ((lstar + 16.0) / 116.0);
     }
 
-    public static int64 argb_from_lstar (double lstar) {
+    public static int argb_from_lstar (double lstar) {
         double y = y_from_lstar (lstar);
         int component = delinearized (y);
         return He.Color.argb_from_rgb_int (component, component, component);

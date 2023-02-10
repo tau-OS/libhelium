@@ -9,7 +9,7 @@ namespace He.Color {
 
         return argb_from_rgb_int (r, g, b);
     }
-    public int find_result_by_j(double hr, double c, double y) {
+    public int find_result_by_j (double hr, double c, double y) {
         // Initial estimate of j.
         double j = Math.sqrt(y) * 11.0;
         He.ViewingConditions vc = He.ViewingConditions.DEFAULT;
