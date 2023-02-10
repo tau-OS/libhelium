@@ -65,9 +65,9 @@ gresource = gnome.compile_resources(
 
 subdir('lib')
 
-#if get_option('demo')
+if get_option('demo')
     subdir('demo')
-#endif
+endif
 
 if get_option('documentation')
     subdir('doc')
