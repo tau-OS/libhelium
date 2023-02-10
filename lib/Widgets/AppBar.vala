@@ -85,7 +85,7 @@ public class He.AppBar : He.Bin {
                     }
                     viewsubtitle.set_visible (false);
                     sub_box.set_visible (false);
-                    sub_box.remove (btn_box);
+                    btn_box.unparent();
                     title_box.append (btn_box);
                     viewtitle_mini.add_css_class ("title");
                     main_box.add_css_class ("appbar");
@@ -101,7 +101,7 @@ public class He.AppBar : He.Bin {
                     }
                     viewsubtitle.set_visible (true);
                     sub_box.set_visible (true);
-                    title_box.remove (btn_box);
+                    btn_box.unparent ();
                     sub_box.append (btn_box);
                     viewtitle_mini.remove_css_class ("title");
                     main_box.add_css_class ("flat-appbar");
@@ -123,7 +123,7 @@ public class He.AppBar : He.Bin {
                         }
                         viewsubtitle.set_visible (false);
                         sub_box.set_visible (false);
-                        sub_box.remove (btn_box);
+                        btn_box.unparent ();
                         title_box.append (btn_box);
                         viewtitle_mini.add_css_class ("title");
                         main_box.add_css_class ("appbar");
@@ -139,7 +139,7 @@ public class He.AppBar : He.Bin {
                         }
                         viewsubtitle.set_visible (true);
                         sub_box.set_visible (true);
-                        title_box.remove (btn_box);
+                        btn_box.unparent ();
                         sub_box.append (btn_box);
                         viewtitle_mini.remove_css_class ("title");
                         main_box.add_css_class ("flat-appbar");
@@ -172,8 +172,8 @@ public class He.AppBar : He.Bin {
         set {
             this._viewtitle_label = value;
 
-            if (value != null && viewtitle_widget == null) {
-                viewtitle.label = _viewtitle_label;
+            if (value != null && _viewtitle_widget == null) {
+                viewtitle.label = value;
                 control_box.append (viewtitle_mini);
             } else {
                 viewtitle.label = null;
@@ -193,9 +193,9 @@ public class He.AppBar : He.Bin {
 
             if (value != null) {
                 _viewtitle_widget.margin_start = 10; // make it flush with subtitle
-                labels_box.prepend (_viewtitle_widget);
+                labels_box.prepend (value);
             } else {
-                labels_box.remove (_viewtitle_widget);
+                labels_box.remove (value);
             }
         }
     }
@@ -210,7 +210,7 @@ public class He.AppBar : He.Bin {
             this._viewsubtitle_label = value;
 
             if (value != "") {
-                viewsubtitle.label = _viewsubtitle_label;
+                viewsubtitle.label = value;
                 viewsubtitle.visible = true;
             } else {
                 viewsubtitle.label = "";
@@ -232,6 +232,12 @@ public class He.AppBar : He.Bin {
 
             title.set_visible (value);
             sidetitle.set_visible (value);
+
+            if (!value) {
+                top_box.margin_top = 36;
+            } else {
+                top_box.margin_top = 0;
+            }
         }
     }
 
@@ -354,7 +360,7 @@ public class He.AppBar : He.Bin {
         labels_box.append (viewsubtitle);
 
         btn_box.valign = Gtk.Align.END;
-        btn_box.margin_end = 12;
+        btn_box.margin_end = 6;
 
         sub_box.append (labels_box);
         sub_box.append (btn_box);
@@ -370,18 +376,6 @@ public class He.AppBar : He.Bin {
         show_buttons = true;
         flat = true;
         main_box.add_css_class ("flat-appbar");
-        if (!_show_buttons) {
-            top_box.margin_top = 36;
-        } else {
-            top_box.margin_top = 0;
-        }
-        this.notify["show-buttons"].connect (() => {
-            if (!_show_buttons) {
-                top_box.margin_top = 36;
-            } else {
-                top_box.margin_top = 0;
-            }
-        });
     }
 
     static construct {

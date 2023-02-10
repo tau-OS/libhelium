@@ -132,7 +132,13 @@ template DemoMainWindow : He.ApplicationWindow {
           Box {
             orientation: vertical;
 
-            $HeSettingsList {
+            $HeSwitchBar {
+              sensitive-widget: hsl;
+              title: "Settings";
+              subtitle: "Toggle me to show SwitchBar's functionality";
+            }
+
+            $HeSettingsList hsl {
               title: "Settings List";
               description: "Subtitle";
 

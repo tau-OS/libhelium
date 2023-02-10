@@ -60,6 +60,7 @@ namespace He {
         typeof (He.SettingsList).ensure ();
         typeof (He.SettingsRow).ensure ();
         typeof (He.SettingsWindow).ensure ();
+        typeof (He.SwitchBar).ensure ();
         typeof (He.Tab).ensure ();
         typeof (He.TabPage).ensure ();
         typeof (He.TabSwitcher).ensure ();
