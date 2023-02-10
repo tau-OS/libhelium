@@ -7,8 +7,6 @@ namespace He.Color {
         public double h;
     }
 
-    public const double LSTAR = 49.6;
-
     public const double[,] XYZ_TO_CAM16RGB = {
         {0.401288, 0.650173, -0.051461},
         {-0.250268, 1.204414, 0.045854},

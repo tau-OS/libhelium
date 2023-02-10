@@ -56,4 +56,6 @@ namespace He.Color {
         255.0,
         255.0
     };
+
+    public const double LSTAR = 49.6;
 }
