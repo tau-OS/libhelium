@@ -107,8 +107,7 @@ public class He.Application : Gtk.Application {
       rgb_color = desktop.accent_color;
     }
 
-    ViewingConditions vc = ViewingConditions.with_lstar(49.8);
-    var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color), vc);
+    var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color));
     var lch_color = He.Color.rgb_to_lch (rgb_color);
     var hct_color = He.Color.cam16_and_lch_to_hct (cam16_color, lch_color);
 
@@ -125,11 +124,11 @@ public class He.Application : Gtk.Application {
     // |\ | |___ |  |  |  |__/ |__| |    
     // | \| |___ |__|  |  |  \ |  | |___
     Color.HCTColor derived_background = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 10.0 : 99.0, hct_color.a};
-    var neutral_background_hex = Color.hct_to_hex(derived_background);
+    var neutral_background_hex = Color.hct_to_hex (derived_background);
     Color.HCTColor derived_background_variant = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
-    var neutral_background_variant_hex = Color.hct_to_hex(derived_background_variant);
+    var neutral_background_variant_hex = Color.hct_to_hex (derived_background_variant);
     Color.HCTColor derived_foreground = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 99.0 : 10.0, hct_color.a};
-    var neutral_foreground_hex = Color.hct_to_hex(derived_foreground);    
+    var neutral_foreground_hex = Color.hct_to_hex (derived_foreground);    
     Color.HCTColor derived_inverse_background = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 20.0, hct_color.a};
     var inverse_neutral_background_hex = Color.hct_to_hex (derived_inverse_background);
     Color.HCTColor derived_inverse_foreground = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 95.0, hct_color.a};
@@ -137,15 +136,15 @@ public class He.Application : Gtk.Application {
     // ___  ____ _ _  _ ____ ____ _   _ 
     // |__] |__/ | |\/| |__| |__/  \_/  
     // |    |  \ | |  | |  | |  \   | 
-    Color.HCTColor primary = {hct_color.h, Math.fmax(hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0, hct_color.a};
+    Color.HCTColor primary = {hct_color.h, Math.fmax (hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0, hct_color.a};
     var primary_hex = Color.hct_to_hex (primary);
-    Color.HCTColor on_primary = {hct_color.h, Math.fmax(hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0, hct_color.a};
+    Color.HCTColor on_primary = {hct_color.h, Math.fmax (hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0, hct_color.a};
     var on_primary_hex = Color.hct_to_hex (on_primary);
-    Color.HCTColor primary_container = {hct_color.h,  Math.fmax(hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
+    Color.HCTColor primary_container = {hct_color.h,  Math.fmax (hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
     var primary_container_hex = Color.hct_to_hex (primary_container);
-    Color.HCTColor on_primary_container = {hct_color.h, Math.fmax(hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0, hct_color.a};
+    Color.HCTColor on_primary_container = {hct_color.h, Math.fmax (hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0, hct_color.a};
     var on_primary_container_hex = Color.hct_to_hex (on_primary_container);
-    Color.HCTColor inverse_accent = {hct_color.h, Math.fmax(hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 40.0 : 80.0, hct_color.a};
+    Color.HCTColor inverse_accent = {hct_color.h, Math.fmax (hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 40.0 : 80.0, hct_color.a};
     var inverse_primary_hex = Color.hct_to_hex (inverse_accent);
     // ____ ____ ____ ____ ____ 
     // |___ |__/ |__/ |  | |__/ 
