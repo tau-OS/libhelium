@@ -20,14 +20,26 @@ namespace He.Color {
 
     public CAM16Color xyz_to_cam16 (XYZColor color) {
         ViewingConditions vc = ViewingConditions.with_lstar (LSTAR);
-        var r_a =  0.401288 * color.x + 0.650173 * color.y - 0.051461 * color.z;
-        var g_a = -0.250268 * color.x + 1.204414 * color.y + 0.045854 * color.z;
-        var b_a = -0.002079 * color.x + 0.048952 * color.y + 0.953127 * color.z;
+
+        double[,] matrix = XYZ_TO_CAM16RGB;
+        double r_t = (color.x * matrix[0,0]) + (color.y * matrix[0,1]) + (color.z * matrix[0,2]);
+        double g_t = (color.x * matrix[1,0]) + (color.y * matrix[1,1]) + (color.z * matrix[1,2]);
+        double b_t = (color.x * matrix[2,0]) + (color.y * matrix[2,1]) + (color.z * matrix[2,2]);
+
+        double r_d = vc.rgb_d[0] * r_t;
+        double g_d = vc.rgb_d[1] * g_t;
+        double b_d = vc.rgb_d[2] * b_t;
+
+        double r_af = Math.pow(vc.fl * Math.fabs(r_d) / 100.0, 0.42);
+        double g_af = Math.pow(vc.fl * Math.fabs(g_d) / 100.0, 0.42);
+        double b_af = Math.pow(vc.fl * Math.fabs(b_d) / 100.0, 0.42);
+        double r_a = MathUtils.signum(r_d) * 400.0 * r_af / (r_af + 27.13);
+        double g_a = MathUtils.signum(g_d) * 400.0 * g_af / (g_af + 27.13);
+        double b_a = MathUtils.signum(b_d) * 400.0 * b_af / (b_af + 27.13);
 
         var a = r_a + (-12 * g_a + b_a) / 11;
         var b = (r_a + g_a - 2 * b_a) / 9;
 
-        // auxiliary components
         double u = (20.0 * r_a + 20.0 * g_a + 21.0 * b_a) / 20.0;
         double p2 = (40.0 * r_a + 20.0 * g_a + b_a) / 20.0;
 

@@ -11,18 +11,18 @@ namespace He.Color {
     }
     public int find_result_by_j (double hr, double c, double y) {
         // Initial estimate of j.
-        double j = Math.sqrt(y) * 11.0;
+        double j = Math.sqrt (y) * 11.0;
         He.ViewingConditions vc = He.ViewingConditions.DEFAULT;
-        double tInner_coeff = 1 / Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73);
-        double e_hue = 0.25 * (Math.cos(hr + 2.0) + 3.8);
+        double tr = 1 / Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73);
+        double e_hue = 0.25 * (Math.cos (hr + 2.0) + 3.8);
         double p1 = e_hue * (5e4 / 13.0) * vc.nc * vc.ncb;
         double h_sine = Math.sin (hr);
         double h_cosine = Math.cos (hr);
         for (int round = 0; round < 5; round++) {
-          double jNormalized = j / 100.0;
-          double alpha = c == 0.0 || j == 0.0 ? 0.0 : c / Math.sqrt (jNormalized);
-          double t = Math.pow (alpha * tInner_coeff, 1.0 / 0.9);
-          double ac = vc.aw * Math.pow (jNormalized, 1.0 / vc.c / vc.z);
+          double jr = j / 100.0;
+          double alpha = c == 0.0 || j == 0.0 ? 0.0 : c / Math.sqrt (jr);
+          double t = Math.pow (alpha * tr, 1.0 / 0.9);
+          double ac = vc.aw * Math.pow (jr, 1.0 / vc.c / vc.z);
           double p2 = ac / vc.nbb;
           double gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11 * t * h_cosine + 108.0 * t * h_sine);
           double a = gamma * h_cosine;
@@ -33,18 +33,18 @@ namespace He.Color {
           double r_c_scaled = He.MathUtils.inverse_chromatic_adaptation (r_a);
           double g_c_scaled = He.MathUtils.inverse_chromatic_adaptation (g_a);
           double b_c_scaled = He.MathUtils.inverse_chromatic_adaptation (b_a);
-          double[] linrgb = He.MathUtils.elem_mul({r_c_scaled, g_c_scaled, b_c_scaled}, He.MathUtils.LINRGB_FROM_SCALED_DISCOUNT);
+          double[] linrgb = He.MathUtils.elem_mul ({r_c_scaled, g_c_scaled, b_c_scaled}, He.MathUtils.LINRGB_FROM_SCALED_DISCOUNT);
           if (linrgb[0] < 0 || linrgb[1] < 0 || linrgb[2] < 0) {
             return 0;
           }
-          double kR = 0.2126;
-          double kG = 0.7152;
-          double kB = 0.0722;
-          double fnj = kR * linrgb[0] + kG * linrgb[1] + kB * linrgb[2];
+          double k_r = 0.2126;
+          double k_g = 0.7152;
+          double k_b = 0.0722;
+          double fnj = k_r * linrgb[0] + k_g * linrgb[1] + k_b * linrgb[2];
           if (fnj <= 0) {
             return 0;
           }
-          if (round == 4 || Math.fabs(fnj - y) < 0.002) {
+          if (round == 4 || Math.fabs (fnj - y) < 0.002) {
             if (linrgb[0] > 100.01 || linrgb[1] > 100.01 || linrgb[2] > 100.01) {
               return 0;
             }

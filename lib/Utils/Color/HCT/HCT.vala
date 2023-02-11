@@ -6,38 +6,17 @@ namespace He.Color {
         public int a; // Keep hexcode rep as string on the struct for easy lookup
     }
 
-    public static HCTColor from_params (double hue, double chroma, double tone) {
-      int argb = hct_to_argb (hue, chroma, tone);
-      CAM16Color cam = cam16_from_int (argb);
-      var nhue = cam.h;
-      var nchroma = cam.C;
-      var ntone = He.MathUtils.lstar_from_argb (argb);
-
-      HCTColor result = {
-        nhue,
-        nchroma,
-        ntone,
-        argb
-      };
-
-      return result;
-    }
-
-    public HCTColor cam16_and_lch_to_hct (CAM16Color color, LCHColor tone) {
-        return from_params (color.h, color.C, tone.l);
-    }
-
-    public string hct_to_hex (HCTColor color) {
+    public string hct_to_hex (double hue, double chroma, double tone) {
         // If color is mono
-        if (color.c < 1.0001 || color.t < 0.0001 || color.t > 99.9999) {
-            return hexcode_argb (He.MathUtils.argb_from_lstar (color.t));
+        if (chroma < 1.0001 || tone < 0.0001 || tone > 99.9999) {
+            return hexcode_argb (He.MathUtils.argb_from_lstar (tone));
         }
     
         // Else...
-        color.h = He.MathUtils.sanitize_degrees (color.h);
-        double hr = color.h / 180 * Math.PI;
-        double y = 100.0 * He.MathUtils.lab_inverse_fovea ((color.t + 16.0) / 116.0);
-        int exact_answer = find_result_by_j (hr, color.c, y);
+        hue = He.MathUtils.sanitize_degrees (hue);
+        double hr = hue / 180 * Math.PI;
+        double y = He.MathUtils.y_from_lstar (tone);
+        int exact_answer = find_result_by_j (hr, chroma, y);
 
         if (exact_answer != 0) {
           return hexcode_argb (exact_answer);
@@ -57,7 +36,7 @@ namespace He.Color {
         // Else...
         double hues = He.MathUtils.sanitize_degrees (hue);
         double hr = hues / 180 * Math.PI;
-        double y = 100.0 * He.MathUtils.lab_inverse_fovea ((tone + 16.0) / 116.0);
+        double y = He.MathUtils.y_from_lstar (tone);
         int exact_answer = find_result_by_j (hr, chroma, y);
 
         if (exact_answer != 0) {

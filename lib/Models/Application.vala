@@ -94,7 +94,7 @@ public class He.Application : Gtk.Application {
       }
   }
 
-  private void update_accent_color() {
+  private void update_accent_color () {
     He.Color.RGBColor rgb_color;
 
     if (desktop.accent_color == null) {
@@ -108,8 +108,6 @@ public class He.Application : Gtk.Application {
     }
 
     var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color));
-    var lch_color = He.Color.rgb_to_lch (rgb_color);
-    var hct_color = He.Color.cam16_and_lch_to_hct (cam16_color, lch_color);
 
     if (Desktop.DarkModeStrength.MEDIUM == desktop.dark_mode_strength) {
       derived_card_bg = He.Color.CARD_BLACK;
@@ -123,29 +121,19 @@ public class He.Application : Gtk.Application {
     // _  _ ____ _  _ ___ ____ ____ _    
     // |\ | |___ |  |  |  |__/ |__| |    
     // | \| |___ |__|  |  |  \ |  | |___
-    Color.HCTColor derived_background = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 10.0 : 99.0, hct_color.a};
-    var neutral_background_hex = Color.hct_to_hex (derived_background);
-    Color.HCTColor derived_background_variant = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
-    var neutral_background_variant_hex = Color.hct_to_hex (derived_background_variant);
-    Color.HCTColor derived_foreground = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 99.0 : 10.0, hct_color.a};
-    var neutral_foreground_hex = Color.hct_to_hex (derived_foreground);    
-    Color.HCTColor derived_inverse_background = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 20.0, hct_color.a};
-    var inverse_neutral_background_hex = Color.hct_to_hex (derived_inverse_background);
-    Color.HCTColor derived_inverse_foreground = {hct_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 95.0, hct_color.a};
-    var inverse_neutral_foreground_hex = Color.hct_to_hex (derived_inverse_foreground);
+    var neutral_background_hex = Color.hct_to_hex (cam16_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 10.0 : 99.0);
+    var neutral_background_variant_hex = Color.hct_to_hex (cam16_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
+    var neutral_foreground_hex = Color.hct_to_hex (cam16_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 99.0 : 10.0);
+    var inverse_neutral_background_hex = Color.hct_to_hex (cam16_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 20.0);
+    var inverse_neutral_foreground_hex = Color.hct_to_hex (cam16_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 95.0);
     // ___  ____ _ _  _ ____ ____ _   _ 
     // |__] |__/ | |\/| |__| |__/  \_/  
     // |    |  \ | |  | |  | |  \   | 
-    Color.HCTColor primary = {hct_color.h, Math.fmax (hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0, hct_color.a};
-    var primary_hex = Color.hct_to_hex (primary);
-    Color.HCTColor on_primary = {hct_color.h, Math.fmax (hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0, hct_color.a};
-    var on_primary_hex = Color.hct_to_hex (on_primary);
-    Color.HCTColor primary_container = {hct_color.h,  Math.fmax (hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
-    var primary_container_hex = Color.hct_to_hex (primary_container);
-    Color.HCTColor on_primary_container = {hct_color.h, Math.fmax (hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0, hct_color.a};
-    var on_primary_container_hex = Color.hct_to_hex (on_primary_container);
-    Color.HCTColor inverse_accent = {hct_color.h, Math.fmax (hct_color.c, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 40.0 : 80.0, hct_color.a};
-    var inverse_primary_hex = Color.hct_to_hex (inverse_accent);
+    var primary_hex = Color.hct_to_hex (cam16_color.h, Math.fmax (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0);
+    var on_primary_hex = Color.hct_to_hex (cam16_color.h, Math.fmax (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0);
+    var primary_container_hex = Color.hct_to_hex (cam16_color.h, Math.fmax (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
+    var on_primary_container_hex = Color.hct_to_hex (cam16_color.h, Math.fmax (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0);
+    var inverse_primary_hex = Color.hct_to_hex (cam16_color.h, Math.fmax (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 40.0 : 80.0);
     // ____ ____ ____ ____ ____ 
     // |___ |__/ |__/ |  | |__/ 
     // |___ |  \ |  \ |__| |  \
@@ -159,34 +147,30 @@ public class He.Application : Gtk.Application {
     // ____ ____ ____ ____ _  _ ___  ____ ____ _   _ 
     // [__  |___ |    |  | |\ | |  \ |__| |__/  \_/  
     // ___] |___ |___ |__| | \| |__/ |  | |  \   |
-    Color.HCTColor secondary = {hct_color.h, 16.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0, hct_color.a};
-    var secondary_hex = Color.hct_to_hex (secondary);
-    Color.HCTColor on_secondary = {hct_color.h, 16.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0, hct_color.a};
-    var on_secondary_hex = Color.hct_to_hex (on_secondary);
-    Color.HCTColor secondary_container = {hct_color.h, 16.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
-    var secondary_container_hex = Color.hct_to_hex (secondary_container);
-    Color.HCTColor on_secondary_container = {hct_color.h, 16.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0, hct_color.a};
-    var on_secondary_container_hex = Color.hct_to_hex (on_secondary_container);
+    var secondary_hex = Color.hct_to_hex (cam16_color.h, 16.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0);
+    var on_secondary_hex = Color.hct_to_hex (cam16_color.h, 16.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0);
+    var secondary_container_hex = Color.hct_to_hex (cam16_color.h, 16.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
+    var on_secondary_container_hex = Color.hct_to_hex (cam16_color.h, 16.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0);
     // ___ ____ ____ ___ _ ____ ____ _   _ 
     //  |  |___ |__/  |  | |__| |__/  \_/  
     //  |  |___ |  \  |  | |  | |  \   |
-    var tertiary_hue = (hct_color.h + 60.0 >= 360) ? (hct_color.h + 60.0) - 360 : (hct_color.h + 60.0); // Fix tertiary hue going places it shouldn't.
-    
-    Color.HCTColor tertiary = {tertiary_hue, 24.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0, hct_color.a};
-    var tertiary_hex = Color.hct_to_hex (tertiary);
-    Color.HCTColor on_tertiary = {tertiary_hue, 24.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0, hct_color.a};
-    var on_tertiary_hex = Color.hct_to_hex (on_tertiary);
-    Color.HCTColor tertiary_container = {tertiary_hue, 24.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0, hct_color.a};
-    var tertiary_container_hex = Color.hct_to_hex (tertiary_container);
-    Color.HCTColor on_tertiary_container = {tertiary_hue, 24.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0, hct_color.a};
-    var on_tertiary_container_hex = Color.hct_to_hex (on_tertiary_container);
+    var tertiary_hue = (cam16_color.h + 60.0 >= 360) ? (cam16_color.h + 60.0) - 360 : (cam16_color.h + 60.0); // Fix tertiary hue going places it shouldn't.
+
+    var tertiary_hex = Color.hct_to_hex (tertiary_hue, 24.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0);
+    var on_tertiary_hex = Color.hct_to_hex (tertiary_hue, 24.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0);
+    var tertiary_container_hex = Color.hct_to_hex (tertiary_hue, 24.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
+    var on_tertiary_container_hex = Color.hct_to_hex (tertiary_hue, 24.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0);
     // ____ _  _ ___ _    _ _  _ ____ 
     // |  | |  |  |  |    | |\ | |___ 
     // |__| |__|  |  |___ | | \| |___
-    Color.HCTColor outline = {hct_color.h, 8.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 60.0 : 50.0, hct_color.a};
-    var outline_hex = Color.hct_to_hex (outline);    
-    Color.HCTColor outline_variant = {hct_color.h, 8.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 80.0, hct_color.a};
-    var outline_variant_hex = Color.hct_to_hex (outline_variant);
+    var outline_hex = Color.hct_to_hex (cam16_color.h, 8.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 60.0 : 50.0);    
+    var outline_variant_hex = Color.hct_to_hex (cam16_color.h, 8.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 80.0);
+
+    // ____ _  _ ____ ___  ____ _ _ _ 
+    // [__  |__| |__| |  \ |  | | | | 
+    // ___] |  | |  | |__/ |__| |_|_|
+    var shadow_hex = Color.hct_to_hex (cam16_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0.0 : 0.0);    
+    var scrim_hex = Color.hct_to_hex (cam16_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0.0 : 0.0);
 
     string css = "";
     if (desktop.prefers_color_scheme == Desktop.ColorScheme.DARK) {
@@ -245,6 +229,9 @@ public class He.Application : Gtk.Application {
 
         @define-color outline $outline_hex;
         @define-color borders $outline_variant_hex;
+
+        @define-color shadow $shadow_hex;
+        @define-color scrim $scrim_hex;
         
         @define-color osd_bg_color $inverse_neutral_background_hex;
         @define-color osd_fg_color $inverse_neutral_foreground_hex;
@@ -306,6 +293,9 @@ public class He.Application : Gtk.Application {
 
         @define-color outline $outline_hex;
         @define-color borders $outline_variant_hex;
+
+        @define-color shadow $shadow_hex;
+        @define-color scrim $scrim_hex;
         
         @define-color osd_bg_color $inverse_neutral_background_hex;
         @define-color osd_fg_color $inverse_neutral_foreground_hex;
