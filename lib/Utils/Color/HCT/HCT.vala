@@ -7,26 +7,16 @@ namespace He.Color {
     }
 
     public static HCTColor from_params (double hue, double chroma, double tone) {
-      HCTColor result = {
-        hue,
-        chroma,
-        tone
-      };
-
-      int argb = hct_to_argb (result);
-      return hct_from_argb (argb);
-    }
-
-    private HCTColor hct_from_argb (int argb) {
+      int argb = hct_to_argb (hue, chroma, tone);
       CAM16Color cam = cam16_from_int (argb);
-      var hue = cam.h;
-      var chroma = cam.C;
-      var tone = He.MathUtils.lstar_from_argb (argb);
+      var nhue = cam.h;
+      var nchroma = cam.C;
+      var ntone = He.MathUtils.lstar_from_argb (argb);
 
       HCTColor result = {
-        hue,
-        chroma,
-        tone,
+        nhue,
+        nchroma,
+        ntone,
         argb
       };
 
@@ -34,37 +24,13 @@ namespace He.Color {
     }
 
     public HCTColor cam16_and_lch_to_hct (CAM16Color color, LCHColor tone) {
-        HCTColor result = from_params (color.h, color.C, tone.l);
-    
-        // Now, we're not just gonna accept what comes to us via CAM16 and LCH,
-        // because it generates bad HCT colors. So we're gonna test the color and
-        // fix it for UI usage.
-        bool hue_not_pass = result.h >= 90.0 && result.h <= 111.0;
-        bool tone_not_pass = result.t < 70.0;
-    
-        if (hue_not_pass || tone_not_pass) {
-          return {result.h, result.c, 70.0, result.a}; // Fix color for UI, based on Psychology
-        } else {
-          return {result.h, result.c, result.t, result.a};
-        }
+        return from_params (color.h, color.C, tone.l);
     }
 
     public string hct_to_hex (HCTColor color) {
         // If color is mono
         if (color.c < 1.0001 || color.t < 0.0001 || color.t > 99.9999) {
-            double y = 100.0 * He.MathUtils.lab_inverse_fovea ((color.t + 16.0) / 116.0);
-            double normalized = y / 100.0;
-            double delinearized = 0.0;
-
-            if (normalized <= 0.0031308) {
-                delinearized = normalized * 12.92;
-            } else {
-                delinearized = 1.055 * Math.pow (normalized, 1.0 / 2.4) - 0.055;
-            }
-
-            int component = (int)Math.round (delinearized * 255.0).clamp(0, 255);
-
-            return hexcode (component, component, component);
+            return hexcode_argb (He.MathUtils.argb_from_lstar (color.t));
         }
     
         // Else...
@@ -82,17 +48,17 @@ namespace He.Color {
         return hexcode_argb (argb_from_linrgb (linrgb));
     }
 
-    public int hct_to_argb (HCTColor color) {
+    public int hct_to_argb (double hue, double chroma, double tone) {
         // If color is mono
-        if (color.c < 1.0001 || color.t < 0.0001 || color.t > 99.9999) {
-          return He.MathUtils.argb_from_lstar (color.t);
+        if (chroma < 1.0001 || tone < 0.0001 || tone > 99.9999) {
+          return He.MathUtils.argb_from_lstar (tone);
         }
     
         // Else...
-        color.h = He.MathUtils.sanitize_degrees (color.h);
-        double hr = color.h / 180 * Math.PI;
-        double y = 100.0 * He.MathUtils.lab_inverse_fovea ((color.t + 16.0) / 116.0);
-        int exact_answer = find_result_by_j (hr, color.c, y);
+        double hues = He.MathUtils.sanitize_degrees (hue);
+        double hr = hues / 180 * Math.PI;
+        double y = 100.0 * He.MathUtils.lab_inverse_fovea ((tone + 16.0) / 116.0);
+        int exact_answer = find_result_by_j (hr, chroma, y);
 
         if (exact_answer != 0) {
           return exact_answer;
