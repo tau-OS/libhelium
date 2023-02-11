@@ -12,11 +12,6 @@ namespace He.Color {
         {-0.250268, 1.204414, 0.045854},
         {-0.002079, 0.048952, 0.953127}
     };
-    public const double[,] CAM16RGB_TO_XYZ = {
-        {1.8620678, -1.0112547, 0.14918678},
-        {0.38752654, 0.62144744, -0.00897398},
-        {-0.01584150, -0.03412294, 1.0499644}
-    };
 
     public CAM16Color xyz_to_cam16 (XYZColor color) {
         ViewingConditions vc = ViewingConditions.with_lstar (LSTAR);

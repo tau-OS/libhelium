@@ -5,6 +5,12 @@ namespace He.Color {
         public double z;
     }
 
+    public const double[,] CAM16RGB_TO_XYZ = {
+        {1.8620678, -1.0112547, 0.14918678},
+        {0.38752654, 0.62144744, -0.00897398},
+        {-0.01584150, -0.03412294, 1.0499644}
+    };
+
     public double rgb_value_to_xyz (double v) {
         if ((v /= 255) <= 0.04045) return v / 12.92;
         return Math.pow ((v + 0.055) / 1.055, 2.4);
