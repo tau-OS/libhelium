@@ -292,6 +292,9 @@ namespace He.MathUtils {
     public static double y_from_lstar (double lstar) {
         return 100.0 * lab_inverse_fovea ((lstar + 16.0) / 116.0);
     }
+    public static double lstar_from_y (double y) {
+        return lab_fovea (y / 100.0) * 116.0 - 16.0;
+    }
 
     public static int argb_from_lstar (double lstar) {
         double y = y_from_lstar (lstar);

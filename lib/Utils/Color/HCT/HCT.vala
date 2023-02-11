@@ -52,19 +52,7 @@ namespace He.Color {
     public string hct_to_hex (HCTColor color) {
         // If color is mono
         if (color.c < 1.0001 || color.t < 0.0001 || color.t > 99.9999) {
-            double y = 100.0 * He.MathUtils.lab_inverse_fovea ((color.t + 16.0) / 116.0);
-            double normalized = y / 100.0;
-            double delinearized = 0.0;
-
-            if (normalized <= 0.0031308) {
-                delinearized = normalized * 12.92;
-            } else {
-                delinearized = 1.055 * Math.pow (normalized, 1.0 / 2.4) - 0.055;
-            }
-
-            int component = (int)Math.round (delinearized * 255.0).clamp(0, 255);
-
-            return hexcode (component, component, component);
+          return hexcode_argb (He.MathUtils.argb_from_lstar (color.t));
         }
     
         // Else...
@@ -104,8 +92,8 @@ namespace He.Color {
     }
 
     public HCTColor hct_blend (HCTColor a, HCTColor b) {
-        var difference_degrees  = He.MathUtils.difference_degrees (a.h, b.h);
-        var rot_deg = Math.fmin(difference_degrees * 0.5, 15.0);
+        var difference_degrees = He.MathUtils.difference_degrees (a.h, b.h);
+        var rot_deg = Math.fmin (difference_degrees * 0.5, 15.0);
         var output = He.MathUtils.sanitize_degrees (a.h + rot_deg * He.MathUtils.rotate_direction (a.h, b.h));
 
         return {output, a.c, a.t};
