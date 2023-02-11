@@ -122,7 +122,7 @@ public class He.ViewingConditions : Object {
             (200.0 / Math.PI * He.MathUtils.y_from_lstar (50.0) / 100),
             lstar,
             2.0,
-            false
+            true
         );
     }
 
