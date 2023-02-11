@@ -118,11 +118,11 @@ public class He.ViewingConditions : Object {
 
     public static ViewingConditions with_lstar (double lstar) {
         return ViewingConditions.make (
-            {95.047, 100.0, 108.883},
-            (200.0 / Math.PI * He.MathUtils.y_from_lstar (50.0) / 100),
+            {94, 100, 107},
+            (200.0 / Math.PI * He.MathUtils.y_from_lstar (lstar) / 100),
             lstar,
             2.0,
-            true
+            false
         );
     }
 
