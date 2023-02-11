@@ -4,6 +4,6 @@
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He {
   public abstract class Quantizer : Object {
-    public abstract async QuantizerResult quantize (int[] pixels, int max_colors);
+    public abstract QuantizerResult quantize (int[] pixels, int max_colors);
   }
 }

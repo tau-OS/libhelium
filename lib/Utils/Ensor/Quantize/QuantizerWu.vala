@@ -14,7 +14,7 @@
    int[] moments_b;
    double[] moments;
    Box[] cubes;
-
+   
    public QuantizerWu () {}
 
    // A histogram of all the input colors is constructed. It has the shape of a
@@ -25,8 +25,8 @@
    private const int INDEX_COUNT = 33; // ((1 << INDEX_BITS) + 1)
    private const int TOTAL_SIZE = 35937; // INDEX_COUNT * INDEX_COUNT * INDEX_COUNT
 
-   public async override QuantizerResult quantize (int[] pixels, int color_count) {
-     QuantizerResult map_result = yield new QuantizerMap ().quantize (pixels, color_count);
+   public override QuantizerResult quantize(int[] pixels, int color_count) {
+     QuantizerResult map_result = new QuantizerMap().quantize(pixels, color_count);
      construct_histogram (map_result.color_to_count);
      create_moments ();
      CreateBoxesResult create_boxes_result = create_boxes (color_count);
@@ -35,7 +35,7 @@
      foreach (var color in colors) {
        result_map.insert (color, 0);
      }
-     return yield new QuantizerResult (result_map);
+     return new QuantizerResult(result_map);
    }
 
    static int get_index (int r, int g, int b) {
@@ -156,6 +156,8 @@
          int g = volume (cube, moments_g) / weight;
          int b = volume (cube, moments_b) / weight;
          int color = (255 << 24) | ((r & 0x0ff) << 16) | ((g & 0x0ff) << 8) | (b & 0x0ff);
+
+         print("Color #%d: #%x\n", i, color);
          colors.append (color);
        }
      }

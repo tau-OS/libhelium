@@ -4,9 +4,9 @@
 public class He.QuantizerCelebi {
   public QuantizerCelebi () {}
 
-  public async HashTable<int, int> quantize (int[] pixels, int max_colors) {
+  public HashTable<int, int> quantize (int[] pixels, int max_colors) {
     QuantizerWu wu = new QuantizerWu ();
-    QuantizerResult wu_result = yield wu.quantize (pixels, max_colors);
+    QuantizerResult wu_result = wu.quantize (pixels, max_colors);
 
     var wu_clusters_as_objects = wu_result.color_to_count.get_values ();
     int index = 0;
@@ -16,6 +16,6 @@ public class He.QuantizerCelebi {
       wu_clusters[index++] = argb;
     }
 
-    return yield QuantizerWsmeans.quantize (pixels, wu_clusters, max_colors);
+    return QuantizerWsmeans.quantize (pixels, wu_clusters, max_colors);
   }
 }

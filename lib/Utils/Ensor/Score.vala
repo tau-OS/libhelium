@@ -11,7 +11,7 @@ namespace He {
     const double WEIGHT_CHROMA_ABOVE = 0.3;
     const double WEIGHT_CHROMA_BELOW = 0.1;
 
-    public async List<int> score (HashTable<int, int?> colors_to_population) {
+    public List<int> score (HashTable<int, int?> colors_to_population) {
       double population_sum = 0.0;
 
       foreach (var entry in colors_to_population.get_values ()) {
@@ -63,7 +63,7 @@ namespace He {
         }
       }
 
-      List<int> filtered_colors = yield filter (colors_to_excited_proportion, colors_to_cam16);
+      List<int> filtered_colors = filter (colors_to_excited_proportion, colors_to_cam16);
       var filtered_colors_to_score = new HashTable<int, double?> (null, null);
 
       foreach (var color in filtered_colors) {
@@ -91,6 +91,8 @@ namespace He {
             continue;
           }
 
+          print ("Filtered CAM16 Color: C: %f / h: %f\n", cam.C, cam.h);
+
           colors_by_score_descending.prepend (k);
         }
       }
@@ -102,7 +104,7 @@ namespace He {
       return colors_by_score_descending;
     }
 
-    private async static List<int> filter (HashTable<int, double?> colors_to_excited_proportion,
+    private static List<int> filter (HashTable<int, double?> colors_to_excited_proportion,
                                      HashTable<int, He.Color.CAM16Color?> colors_to_cam16) {
       var filtered = new List<int?> ();
 
@@ -123,7 +125,7 @@ namespace He {
       return filtered;
     }
 
-    public async static int compare_filtered_colors_to_score (int a, int b) {
+    public static int compare_filtered_colors_to_score (int a, int b) {
       return He.Misc.Comparable.compare_to (a, b);
     }
   }

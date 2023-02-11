@@ -2,7 +2,7 @@
 // Copyright (c) 2021 Google LLC
 
 public class He.ViewingConditions : Object {
-    public static ViewingConditions DEFAULT = ViewingConditions.with_lstar (49.6);
+    public static ViewingConditions DEFAULT = ViewingConditions.with_lstar (He.Color.LSTAR);
     public double[] rgb_d = {};
 
     private double _aw;
@@ -79,8 +79,8 @@ public class He.ViewingConditions : Object {
       double f = 0.8 + (surround / 10.0);
       double c =
           (f >= 0.9)
-              ? lerp (0.59, 0.69, ((f - 0.9) * 10.0))
-              : lerp (0.525, 0.59, ((f - 0.8) * 10.0));
+              ? lerp(0.59, 0.69, ((f - 0.9) * 10.0))
+              : lerp(0.525, 0.59, ((f - 0.8) * 10.0));
       double d =
           discount_illuminant
               ? 1.0
@@ -93,10 +93,10 @@ public class He.ViewingConditions : Object {
       double k = 1.0 / (5.0 * adapting_luminance + 1.0);
       double k4 = k * k * k * k;
       double k4_f = 1.0 - k4;
-      double fl = (k4 * adapting_luminance) + (0.1 * k4_f * k4_f * Math.cbrt (5.0 * adapting_luminance));
+      double fl = (k4 * adapting_luminance) + (0.1 * k4_f * k4_f * Math.cbrt(5.0 * adapting_luminance));
       double n = (100.0 * He.MathUtils.lab_inverse_fovea ((bg_lstar + 16.0) / 116.0) / white_point[1]);
       double z = 1.48 + Math.sqrt (n);
-      double nbb = 0.725 / Math.pow (n, 0.2);
+      double nbb = 0.725 / Math.pow(n, 0.2);
       double ncb = nbb;
       double[] rgb_a_factors =
           new double[] {
@@ -113,16 +113,16 @@ public class He.ViewingConditions : Object {
           };
 
       double aw = ((2.0 * rgba[0]) + rgba[1] + (0.05 * rgba[2])) * nbb;
-      return new ViewingConditions (n, aw, nbb, ncb, c, nc, rgb_d, fl, Math.pow (fl, 0.25), z);
+      return new ViewingConditions(n, aw, nbb, ncb, c, nc, rgb_d, fl, Math.pow (fl, 0.25), z);
     }
 
     public static ViewingConditions with_lstar (double lstar) {
         return ViewingConditions.make (
-            {94.8110, 100.0, 107.304},
-            (200.0 / Math.PI * He.MathUtils.y_from_lstar (lstar) / 100),
+            {95.047, 100.0, 108.883},
+            (200.0 / Math.PI * He.MathUtils.y_from_lstar (50.0) / 100),
             lstar,
             2.0,
-            true
+            false
         );
     }
 

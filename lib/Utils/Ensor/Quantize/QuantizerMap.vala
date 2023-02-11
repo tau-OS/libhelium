@@ -5,7 +5,7 @@
  public class He.QuantizerMap : Quantizer {
   HashTable<int, int> color_to_count;
 
-  public async override QuantizerResult quantize (int[] pixels, int color_count) {
+  public override QuantizerResult quantize (int[] pixels, int color_count) {
     var pixel_by_count = new HashTable<int, int?> (null, null);
     foreach (var pixel in pixels) {
      // LMAO what will this do???
@@ -14,10 +14,10 @@
       pixel_by_count.insert (pixel, new_pixel_count);
     }
     color_to_count = pixel_by_count;
-    return yield new QuantizerResult (pixel_by_count);
+    return new QuantizerResult (pixel_by_count);
   }
 
-  public async HashTable<int, int?> get_color_to_count () {
+  public HashTable<int, int?> get_color_to_count () {
     return color_to_count;
   }
 }
