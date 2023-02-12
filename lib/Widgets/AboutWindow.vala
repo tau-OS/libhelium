@@ -26,8 +26,8 @@ public class He.AboutWindow : He.Window {
   private Gtk.Overlay window_overlay = new Gtk.Overlay();
 
   private Gtk.Box about_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 30);
-  private Gtk.Box content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
-  private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
+  private Gtk.Box content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
+  private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
   private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
   private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
   private Gtk.Box text_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
