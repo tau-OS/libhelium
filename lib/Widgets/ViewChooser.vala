@@ -131,9 +131,6 @@
 
             button.bind_property ("active", button_img, "visible", SYNC_CREATE);
 
-            menu_label.label = "";
-            menu_label.label = ((Gtk.StackPage)this._stack_pages.get_item (position)).title;
-
             button.toggled.connect (() => on_button_toggled (button));
             button.set_parent (menu_box);
 
@@ -165,8 +162,7 @@
         unowned int position = this._buttons.index (button);
         if (button.active) {
             this._stack_pages.select_item (position, true);
-            menu_label.label = "";
-            menu_label.label = ((Gtk.StackPage)this._stack_pages.get_item (position)).title;
+            this._stack_pages.get_item (position).bind_property ("title", menu_label, "label", SYNC_CREATE);
             return;
         }
 
