@@ -14,15 +14,8 @@ namespace He.Ensor {
     }
 
     public async GLib.List<int> accent_from_pixels_async (Gdk.Pixbuf? pixbuf) {
-      SourceFunc callback = accent_from_pixels_async.callback;
       GLib.List<int> result = null;
-
-      unowned async ThreadFunc<bool> run = () => {
-        result = yield accent_from_pixels (pixbuf.get_pixels_with_length ());
-        Idle.add((owned) callback);
-        return true;
-      };
-      new Thread<bool>("ensor-process", run);
+      result = yield accent_from_pixels (pixbuf.get_pixels_with_length ());
       
       yield;
       return result.copy_deep ((a) => a);
