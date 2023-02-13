@@ -7,7 +7,7 @@ namespace He.Ensor {
       Object (pixbuf: pixbuf);
     }
     
-    void accent_from_pixels (uint8[] pixels) {
+    async GLib.List<int> accent_from_pixels (uint8[] pixels) {
       if (pixbuf != null) {
         var celebi = new He.QuantizerCelebi ();
         var res = celebi.quantize ((int[]) pixels, 128);
