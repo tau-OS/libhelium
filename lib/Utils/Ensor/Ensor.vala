@@ -5,7 +5,7 @@ namespace He.Ensor {
       var celebi = new He.QuantizerCelebi ();
       var result = yield celebi.quantize ((int[]) pixbuf.get_pixels_with_length (), 128);
       var score = new He.Score ();
-      res = yield score.score (result);
+      res = score.score (result);
       
       yield;
       return res.copy_deep ((a) => a);
