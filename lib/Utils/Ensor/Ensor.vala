@@ -1,19 +1,13 @@
 namespace He.Ensor {
   public class Accent : Object {
     public Gdk.Pixbuf? pixbuf { get; construct set; }
-    public unowned GLib.List<int> accent_list { get; set; }
     
     GLib.List<int> accent_from_pixels (uint8[] pixels) {
-      if (pixbuf != null) {
-        var celebi = new He.QuantizerCelebi ();
-        var res = celebi.quantize ((int[]) pixels, 128);
-        var score = new He.Score ();
-        this.accent_list = score.score (res);
-      } else {
-        this.accent_list = null;
-      }
-      
-      return this.accent_list.copy ();
+      var celebi = new He.QuantizerCelebi ();
+      var res = celebi.quantize ((int[]) pixels, 128);
+      var score = new He.Score ();
+      var score = new He.Score ();
+      return score.score (result);
     }
 
     public async GLib.List<int> accent_from_pixels_async (Gdk.Pixbuf? pixbuf) {
@@ -28,6 +22,7 @@ namespace He.Ensor {
       new Thread<bool>("ensor-process", run);
       
       yield;
+      return result.copy ();
     }
   }
 }
