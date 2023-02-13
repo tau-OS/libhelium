@@ -64,7 +64,7 @@ public class He.Avatar : He.Bin {
         }
         set {
             _text = value;
-            if (value != "") {
+            if (value != null) {
                 label.label = extract_initials (value);
             }
         }
@@ -95,7 +95,7 @@ public class He.Avatar : He.Bin {
         set {
             _image = value;
             
-            if (_image != "") {
+            if (value != null) {
                 label.visible = false;
             } else {
                 label.visible = true;
