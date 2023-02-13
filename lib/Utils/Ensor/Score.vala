@@ -101,7 +101,7 @@ namespace He {
         colors_by_score_descending.prepend ((int) 0xFF8C56BF); // Tau Purple to not leave it empty
       }
 
-      return colors_by_score_descending;
+      yield colors_by_score_descending;
     }
 
     private static List<int> filter (HashTable<int, double?> colors_to_excited_proportion,
