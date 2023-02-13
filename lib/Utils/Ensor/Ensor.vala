@@ -27,6 +27,8 @@ namespace He.Ensor {
 
         yield;
         return result.copy ();
+      } else {
+        return null;
       }
     }
   }
