@@ -16,6 +16,8 @@ namespace He.Ensor {
       } else {
         this.accent_list = null;
       }
+      
+      return this.accent_list;
     }
 
     public async void accent_from_pixels_async () {
