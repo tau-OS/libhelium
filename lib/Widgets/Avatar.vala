@@ -39,7 +39,7 @@ public class He.Avatar : He.Bin {
         set {
             _image = value;
             
-            if (value != null) {
+            if (value != "") {
                 label.visible = false;
             }
 
@@ -170,16 +170,16 @@ public class He.Avatar : He.Bin {
         img_blur.halign = Gtk.Align.CENTER;
         img_blur.valign = Gtk.Align.CENTER;
 
-        var ioverlay = new Gtk.Overlay ();
-        ioverlay.set_child (img_blur);
-        ioverlay.add_overlay (img);
-
         label = new Gtk.Label ("");
         label.halign = Gtk.Align.CENTER;
         label.valign = Gtk.Align.CENTER;
         label.add_css_class ("dim-label");
         label.add_css_class ("avatar-label");
         label.visible = false;
+        
+        var ioverlay = new Gtk.Overlay ();
+        ioverlay.set_child (img_blur);
+        ioverlay.add_overlay (img);
 
         var overlay = new Gtk.Overlay ();
         overlay.set_child (ioverlay);
