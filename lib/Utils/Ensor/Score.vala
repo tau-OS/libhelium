@@ -11,7 +11,7 @@ namespace He {
     const double WEIGHT_CHROMA_ABOVE = 0.3;
     const double WEIGHT_CHROMA_BELOW = 0.1;
 
-    public async List<int> score (HashTable<int, int?> colors_to_population) {
+    public List<int> score (HashTable<int, int?> colors_to_population) {
       double population_sum = 0.0;
 
       foreach (var entry in colors_to_population.get_values ()) {
