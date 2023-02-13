@@ -116,8 +116,8 @@ public class He.Avatar : He.Bin {
         }
         set {
             _text = value;
-            if (_image == "") {
-                label.label = extract_initials (_text);
+            if (_image == "" && value != "") {
+                label.label = extract_initials (value);
                 label.visible = true;
             } else {
                 label.visible = false;
