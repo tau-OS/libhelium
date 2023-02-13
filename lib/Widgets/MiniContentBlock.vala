@@ -164,10 +164,12 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
         this.title_label.xalign = 0;
         this.title_label.add_css_class ("cb-title");
         this.title_label.set_visible (false);
+        this.title_label.max_width_chars = 30;
 
         this.subtitle_label.xalign = 0;
         this.subtitle_label.add_css_class ("cb-subtitle");
         this.subtitle_label.wrap = true;
+        this.subtitle_label.max_width_chars = 30;
         this.subtitle_label.ellipsize = Pango.EllipsizeMode.END;
         this.subtitle_label.set_visible (false);
         
