@@ -11,7 +11,7 @@ namespace He {
     const double WEIGHT_CHROMA_ABOVE = 0.3;
     const double WEIGHT_CHROMA_BELOW = 0.1;
 
-    public List<int> score (HashTable<int, int?> colors_to_population) {
+    public async List<int> score (HashTable<int, int?> colors_to_population) {
       double population_sum = 0.0;
 
       foreach (var entry in colors_to_population.get_values ()) {
@@ -100,11 +100,12 @@ namespace He {
       if (colors_by_score_descending.is_empty ()) {
         colors_by_score_descending.prepend ((int) 0xFF8C56BF); // Tau Purple to not leave it empty
       }
-
+      
+      yield;
       return colors_by_score_descending;
     }
 
-    private static List<int> filter (HashTable<int, double?> colors_to_excited_proportion,
+    private async static List<int> filter (HashTable<int, double?> colors_to_excited_proportion,
                                      HashTable<int, He.Color.CAM16Color?> colors_to_cam16) {
       var filtered = new List<int?> ();
 
@@ -122,6 +123,7 @@ namespace He {
         }
       }
 
+      yield;
       return filtered;
     }
 
