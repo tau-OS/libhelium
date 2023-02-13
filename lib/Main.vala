@@ -89,6 +89,7 @@ namespace He {
         typeof (He.QuantizerMap).ensure ();
         typeof (He.QuantizerWsmeans).ensure ();
         typeof (He.QuantizerWu).ensure ();
+        typeof (He.Ensor.Accent).ensure ();
 
         // Setup the platform gtk theme, cursor theme and the default icon theme.
         Gtk.Settings.get_for_display(display).gtk_theme_name        = "Helium-empty";
