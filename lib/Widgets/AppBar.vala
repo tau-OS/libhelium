@@ -29,7 +29,7 @@ public class He.AppBar : He.Bin {
     private Gtk.Box control_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
     private Gtk.Box win_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box sub_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-    private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
+    private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
     private Gtk.Box labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
     private Gtk.WindowControls title;
     private Gtk.WindowControls sidetitle;
@@ -175,6 +175,7 @@ public class He.AppBar : He.Bin {
             if (value != null && _viewtitle_widget == null) {
                 viewtitle.label = value;
                 labels_box.visible = true;
+                main_box.spacing = 18;
                 control_box.append (viewtitle_mini);
             } else {
                 viewtitle.label = null;
@@ -195,6 +196,7 @@ public class He.AppBar : He.Bin {
             if (value != null) {
                 _viewtitle_widget.margin_start = 10; // make it flush with subtitle
                 labels_box.visible = true;
+                main_box.spacing = 18;
                 labels_box.prepend (value);
             } else {
                 labels_box.remove (value);
@@ -215,6 +217,7 @@ public class He.AppBar : He.Bin {
                 viewsubtitle.label = value;
                 viewsubtitle.visible = true;
                 labels_box.visible = true;
+                main_box.spacing = 18;
             } else {
                 viewsubtitle.label = "";
                 viewsubtitle.visible = false;
@@ -369,6 +372,7 @@ public class He.AppBar : He.Bin {
         sub_box.append (labels_box);
         sub_box.append (btn_box);
 
+        main_box.spacing = 0;
         main_box.append (top_box);
         main_box.append (sub_box);
 
