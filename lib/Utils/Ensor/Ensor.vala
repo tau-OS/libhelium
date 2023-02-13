@@ -6,16 +6,30 @@ namespace He.Ensor {
     public Accent.from_pixbuf (Gdk.Pixbuf pixbuf) {
       Object (pixbuf: pixbuf);
     }
-
-    public async void accent_from_pixels_async () {
+    
+    GLib.List<int> accent_from_pixels (uint8[] pixels) {
       if (pixbuf != null) {
         var celebi = new He.QuantizerCelebi ();
-        var res = celebi.quantize ((int[]) pixbuf.get_pixels_with_length (), 128);
+        var res = celebi.quantize ((int[]) pixels, 128);
         var score = new He.Score ();
         this.accent_list = score.score (res);
       } else {
         this.accent_list = null;
       }
+    }
+
+    public async void accent_from_pixels_async () {
+      SourceFunc callback = accent_from_pixels_async.callback;
+      GLib.List<int> result = null;
+
+      ThreadFunc<bool> run = () => {
+        result = accent_from_pixels (pixbuf.get_pixels_with_length ());
+        Idle.add((owned) callback);
+        return true;
+      };
+      new Thread<bool>("ensor-process", run);
+      
+      yield;
     }
   }
 }
