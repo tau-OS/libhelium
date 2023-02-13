@@ -156,8 +156,6 @@
          int g = volume (cube, moments_g) / weight;
          int b = volume (cube, moments_b) / weight;
          int color = (255 << 24) | ((r & 0x00ff) << 16) | ((g & 0x00ff) << 8) | (b & 0x00ff);
-
-         print("Color #%d: #%x\n", i, color);
          colors.append (color);
        }
      }
