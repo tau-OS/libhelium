@@ -67,6 +67,8 @@
 
         menu_label = new Gtk.Label ("");
         menu_label.add_css_class ("view-title");
+        this._stack_pages.get_item (position).bind_property ("title", menu_label, "label", SYNC_CREATE);
+        
         var menu_img = new Gtk.Image ();
         menu_img.icon_name = "pan-down-symbolic";
 
