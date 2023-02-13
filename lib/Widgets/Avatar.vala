@@ -25,65 +25,9 @@ public class He.Avatar : He.Bin {
     private int _size;
     private string? _text;
 
-    private Gtk.Image img;
-    private Gtk.Image img_blur;
-    private Gtk.Label label;
-
-    /**
-    * The image of the avatar.
-    */
-    public string? image {
-        get {
-            return _image;
-        }
-        set {
-            _image = value;
-            
-            if (value != "") {
-                label.visible = false;
-            }
-
-            var css_provider = new Gtk.CssProvider ();
-            css_provider.load_from_data ("""
-            .avatar { 
-                background-image: url('%s');
-                background-size: cover;
-                background-color: @accent_bg_color;
-                border-radius: 999px;
-                box-shadow: inset 0 0 0 1px @borders;
-            }
-            """.printf(_image).data);
-            var context = img.get_style_context ();
-            context.add_provider (css_provider, 69);
-
-            var css_provider_blur = new Gtk.CssProvider ();
-            if (_size <= 32) {
-                css_provider_blur.load_from_data ("""
-                .avatar-blur { 
-                    background-image: url('%s');
-                    background-size: cover;
-                    background-color: @accent_bg_color;
-                    border-radius: 999px;
-                    box-shadow: inset 0 0 0 1px @borders;
-                    filter: drop-shadow(0px 0px 1px @borders);
-                }
-                """.printf(_image).data);
-            } else {
-                css_provider_blur.load_from_data ("""
-                .avatar-blur { 
-                    background-image: url('%s');
-                    background-size: cover;
-                    background-color: @accent_bg_color;
-                    border-radius: 999px;
-                    box-shadow: inset 0 0 0 1px @borders;
-                    filter: drop-shadow(0px 0px 1px @borders) blur(2px);
-                }
-                """.printf(_image).data);
-            }
-            var context_blur = img_blur.get_style_context ();
-            context_blur.add_provider (css_provider_blur, 69);
-        }
-    }
+    private Gtk.Image img = new Gtk.Image ();
+    private Gtk.Image img_blur = new Gtk.Image ();
+    private Gtk.Label label = new Gtk.Label ("");
 
     /**
     * The size of the avatar.
@@ -143,6 +87,62 @@ public class He.Avatar : He.Bin {
         
         return ret;
     }
+    
+    /**
+    * The image of the avatar.
+    */
+    public string? image {
+        get {
+            return _image;
+        }
+        set {
+            _image = value;
+            
+            if (value != "") {
+                label.visible = false;
+            }
+
+            var css_provider = new Gtk.CssProvider ();
+            css_provider.load_from_data ("""
+            .avatar { 
+                background-image: url('%s');
+                background-size: cover;
+                background-color: @accent_bg_color;
+                border-radius: 999px;
+                box-shadow: inset 0 0 0 1px @borders;
+            }
+            """.printf(_image).data);
+            var context = img.get_style_context ();
+            context.add_provider (css_provider, 69);
+
+            var css_provider_blur = new Gtk.CssProvider ();
+            if (_size <= 32) {
+                css_provider_blur.load_from_data ("""
+                .avatar-blur { 
+                    background-image: url('%s');
+                    background-size: cover;
+                    background-color: @accent_bg_color;
+                    border-radius: 999px;
+                    box-shadow: inset 0 0 0 1px @borders;
+                    filter: drop-shadow(0px 0px 1px @borders);
+                }
+                """.printf(_image).data);
+            } else {
+                css_provider_blur.load_from_data ("""
+                .avatar-blur { 
+                    background-image: url('%s');
+                    background-size: cover;
+                    background-color: @accent_bg_color;
+                    border-radius: 999px;
+                    box-shadow: inset 0 0 0 1px @borders;
+                    filter: drop-shadow(0px 0px 1px @borders) blur(2px);
+                }
+                """.printf(_image).data);
+            }
+            var context_blur = img_blur.get_style_context ();
+            context_blur.add_provider (css_provider_blur, 69);
+        }
+    }
 
     
     /**
@@ -160,17 +160,14 @@ public class He.Avatar : He.Bin {
     }
     
     construct {
-        img = new Gtk.Image ();
         img.add_css_class ("avatar");
         img.halign = Gtk.Align.CENTER;
         img.valign = Gtk.Align.CENTER;
 
-        img_blur = new Gtk.Image ();
         img_blur.add_css_class ("avatar-blur");
         img_blur.halign = Gtk.Align.CENTER;
         img_blur.valign = Gtk.Align.CENTER;
 
-        label = new Gtk.Label ("");
         label.halign = Gtk.Align.CENTER;
         label.valign = Gtk.Align.CENTER;
         label.add_css_class ("dim-label");
