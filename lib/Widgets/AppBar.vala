@@ -174,6 +174,7 @@ public class He.AppBar : He.Bin {
 
             if (value != null && _viewtitle_widget == null) {
                 viewtitle.label = value;
+                labels_box.visible = true;
                 control_box.append (viewtitle_mini);
             } else {
                 viewtitle.label = null;
@@ -193,6 +194,7 @@ public class He.AppBar : He.Bin {
 
             if (value != null) {
                 _viewtitle_widget.margin_start = 10; // make it flush with subtitle
+                labels_box.visible = true;
                 labels_box.prepend (value);
             } else {
                 labels_box.remove (value);
@@ -212,6 +214,7 @@ public class He.AppBar : He.Bin {
             if (value != "") {
                 viewsubtitle.label = value;
                 viewsubtitle.visible = true;
+                labels_box.visible = true;
             } else {
                 viewsubtitle.label = "";
                 viewsubtitle.visible = false;
@@ -356,6 +359,7 @@ public class He.AppBar : He.Bin {
 
         labels_box.homogeneous = true;
         labels_box.hexpand = true;
+        labels_box.visible = false;
         labels_box.append (viewtitle);
         labels_box.append (viewsubtitle);
 
