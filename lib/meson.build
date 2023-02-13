@@ -25,6 +25,7 @@ libhelium_sources += files(
     'Utils/Color/HCT/HCTSolver.vala',
     'Utils/Color/HCT/CriticalPlanes.vala',
     'Utils/ViewingConditions.vala',
+    'Utils/Ensor/Ensor.vala',
     'Utils/Ensor/Score.vala',
     'Utils/Ensor/Quantize/PointProvider.vala',
     'Utils/Ensor/Quantize/PointProviderLab.vala',
