@@ -85,10 +85,10 @@ public class He.EmptyPage : He.Bin {
     public GLib.Icon resource {
         set {
             if (value == null) {
-                image.set_visible (false);
+                icon_image.set_visible (false);
             } else {
-                image.set_visible (true);
-                image.set_from_resource (value);
+                icon_image.set_visible (true);
+                icon_image.set_from_resource (value);
             }
         }
     }
