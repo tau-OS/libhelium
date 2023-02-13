@@ -75,6 +75,21 @@ public class He.EmptyPage : He.Bin {
         set {
             _icon = value;
             icon_image.set_from_icon_name (_icon);
+            icon_image.add_css_class("dim-label");
+        }
+    }
+    
+    /**
+     * Sets the illustration of the empty page.
+     */
+    public GLib.Icon resource {
+        set {
+            if (value == null) {
+                image.set_visible (false);
+            } else {
+                image.set_visible (true);
+                image.set_from_resource (value);
+            }
         }
     }
 
@@ -101,7 +116,6 @@ public class He.EmptyPage : He.Bin {
         title_label.add_css_class("view-title");
         description_label.add_css_class("body");
         icon_image.pixel_size = 128;
-        icon_image.add_css_class("dim-label");
 
         set_layout_manager(new Gtk.BoxLayout(Gtk.Orientation.VERTICAL));
 
