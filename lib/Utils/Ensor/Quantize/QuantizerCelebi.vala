@@ -16,7 +16,7 @@ public class He.QuantizerCelebi {
       wu_clusters[index++] = argb;
     }
     
-    print ("QUANTIZE ……………………………………………………… OK!");
+    print ("QUANTIZE ……………………………………………………… OK!\n");
 
     yield;
     return QuantizerWsmeans.quantize (pixels, wu_clusters, max_colors);
