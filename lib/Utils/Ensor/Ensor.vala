@@ -18,7 +18,7 @@ namespace He.Ensor {
       GLib.List<int> result = null;
 
       owned ThreadFunc<bool> run = () => {
-        result = accent_from_pixels (pixbuf.get_pixels_with_length ());
+        result = accent_from_pixels.begin (pixbuf.get_pixels_with_length ());
         Idle.add((owned) callback);
         return true;
       };
