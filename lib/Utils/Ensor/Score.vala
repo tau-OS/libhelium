@@ -106,7 +106,7 @@ namespace He {
       return colors_by_score_descending;
     }
 
-    private async static List<int> filter (HashTable<int, double?> colors_to_excited_proportion,
+    private static List<int> filter (HashTable<int, double?> colors_to_excited_proportion,
                                      HashTable<int, He.Color.CAM16Color?> colors_to_cam16) {
       var filtered = new List<int?> ();
 
