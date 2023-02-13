@@ -38,6 +38,10 @@ public class He.Avatar : He.Bin {
         }
         set {
             _image = value;
+            
+            if (value != null) {
+                label.visible = false;
+            }
 
             var css_provider = new Gtk.CssProvider ();
             css_provider.load_from_data ("""
@@ -116,7 +120,7 @@ public class He.Avatar : He.Bin {
         }
         set {
             _text = value;
-            if (_image == "" && value != "") {
+            if (value != "") {
                 label.label = extract_initials (value);
                 label.visible = true;
             } else {
