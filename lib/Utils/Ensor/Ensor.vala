@@ -17,7 +17,7 @@ namespace He.Ensor {
       SourceFunc callback = accent_from_pixels_async.callback;
       GLib.List<int> result = null;
 
-      unowned ThreadFunc<bool> run = () => {
+      unowned async ThreadFunc<bool> run = () => {
         result = yield accent_from_pixels (pixbuf.get_pixels_with_length ());
         Idle.add((owned) callback);
         return true;
