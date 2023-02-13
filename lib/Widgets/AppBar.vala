@@ -292,6 +292,7 @@ public class He.AppBar : He.Bin {
         btn_box.prepend ((Gtk.Widget)child);
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
+        labels_box.visible = true;
     }
 
     /**
@@ -303,6 +304,7 @@ public class He.AppBar : He.Bin {
         btn_box.append (child);
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
+        labels_box.visible = true;
     }
 
     /**
