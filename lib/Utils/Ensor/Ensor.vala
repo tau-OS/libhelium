@@ -1,6 +1,7 @@
 namespace He.Ensor {
   public class Accent : Object {
     public Gdk.Pixbuf? pixbuf { get; construct set; }
+    public GLib.List<int> accent_list { get; set; }
     
     public Accent.from_pixbuf (Gdk.Pixbuf pixbuf) {
       Object (pixbuf: pixbuf);
@@ -13,7 +14,7 @@ namespace He.Ensor {
       return score.score (result);
     }
 
-    public async GLib.List<int> accent_from_pixels_async () {
+    public async void accent_from_pixels_async () {
       if (pixbuf != null) {
         SourceFunc callback = accent_from_pixels_async.callback;
         GLib.List<int> result = null;
@@ -26,9 +27,9 @@ namespace He.Ensor {
         new Thread<bool>("ensor-process", run);
 
         yield;
-        return result.copy ();
+        accent_list = result.copy ();
       } else {
-        return null;
+        accent_list = null;
       }
     }
   }
