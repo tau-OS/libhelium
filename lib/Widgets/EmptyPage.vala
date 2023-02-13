@@ -82,7 +82,7 @@ public class He.EmptyPage : He.Bin {
     /**
      * Sets the illustration of the empty page.
      */
-    public GLib.Icon resource {
+    public string resource {
         set {
             if (value == null) {
                 icon_image.set_visible (false);
