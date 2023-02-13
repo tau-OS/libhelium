@@ -3,10 +3,6 @@ namespace He.Ensor {
     public Gdk.Pixbuf? pixbuf { get; construct set; }
     public unowned GLib.List<int> accent_list { get; set; }
     
-    public Accent.from_pixbuf (Gdk.Pixbuf pixbuf) {
-      Object (pixbuf: pixbuf);
-    }
-    
     GLib.List<int> accent_from_pixels (uint8[] pixels) {
       if (pixbuf != null) {
         var celebi = new He.QuantizerCelebi ();
@@ -20,7 +16,7 @@ namespace He.Ensor {
       return this.accent_list.copy ();
     }
 
-    public async void accent_from_pixels_async () {
+    public async GLib.List<int> accent_from_pixels_async (Gdk.Pixbuf? pixbuf) {
       SourceFunc callback = accent_from_pixels_async.callback;
       GLib.List<int> result = null;
 
