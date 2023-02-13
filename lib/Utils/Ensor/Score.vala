@@ -103,7 +103,6 @@ namespace He {
       
       print ("SCORE ……………………………………………………… OK!\n");
       
-      yield;
       return colors_by_score_descending;
     }
 
@@ -124,8 +123,9 @@ namespace He {
           }
         }
       }
+      
+      print ("FILTER ……………………………………………………… OK!\n");
 
-      yield;
       return filtered;
     }
 
