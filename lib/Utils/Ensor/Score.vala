@@ -101,6 +101,8 @@ namespace He {
         colors_by_score_descending.prepend ((int) 0xFF8C56BF); // Tau Purple to not leave it empty
       }
       
+      printf ("SCORE ……………………………………………………… OK!");
+      
       yield;
       return colors_by_score_descending;
     }
