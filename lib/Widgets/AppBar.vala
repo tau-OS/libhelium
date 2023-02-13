@@ -293,6 +293,7 @@ public class He.AppBar : He.Bin {
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
         labels_box.visible = true;
+        main_box.spacing = 18;
     }
 
     /**
@@ -305,6 +306,7 @@ public class He.AppBar : He.Bin {
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
         labels_box.visible = true;
+        main_box.spacing = 18;
     }
 
     /**
