@@ -16,6 +16,6 @@ public class He.QuantizerCelebi {
       wu_clusters[index++] = argb;
     }
 
-    return QuantizerWsmeans.quantize (pixels, wu_clusters, max_colors);
+    yield QuantizerWsmeans.quantize (pixels, wu_clusters, max_colors);
   }
 }
