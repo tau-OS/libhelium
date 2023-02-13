@@ -17,14 +17,14 @@ namespace He.Ensor {
         this.accent_list = null;
       }
       
-      return this.accent_list;
+      return this.accent_list.copy ();
     }
 
     public async void accent_from_pixels_async () {
       SourceFunc callback = accent_from_pixels_async.callback;
       GLib.List<int> result = null;
 
-      ThreadFunc<bool> run = () => {
+      owned ThreadFunc<bool> run = () => {
         result = accent_from_pixels (pixbuf.get_pixels_with_length ());
         Idle.add((owned) callback);
         return true;
