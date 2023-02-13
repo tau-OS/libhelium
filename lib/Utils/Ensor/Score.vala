@@ -63,7 +63,7 @@ namespace He {
         }
       }
 
-      List<int> filtered_colors = yield filter (colors_to_excited_proportion, colors_to_cam16);
+      List<int> filtered_colors = filter (colors_to_excited_proportion, colors_to_cam16);
       var filtered_colors_to_score = new HashTable<int, double?> (null, null);
 
       foreach (var color in filtered_colors) {
