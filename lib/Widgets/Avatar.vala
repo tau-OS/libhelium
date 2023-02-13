@@ -66,9 +66,6 @@ public class He.Avatar : He.Bin {
             _text = value;
             if (value != "") {
                 label.label = extract_initials (value);
-                label.visible = true;
-            } else {
-                label.visible = false;
             }
         }
     }
@@ -100,6 +97,8 @@ public class He.Avatar : He.Bin {
             
             if (value != "") {
                 label.visible = false;
+            } else {
+                label.visible = true;
             }
 
             var css_provider = new Gtk.CssProvider ();
