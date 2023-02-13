@@ -1,5 +1,5 @@
 namespace He.Ensor {
-  public Accent : Object {
+  public class Accent : Object {
     public Gdk.Pixbuf? pixbuf { get; construct set; }
     
     public Accent.from_pixbuf (Gdk.Pixbuf pixbuf) {
