@@ -4,8 +4,7 @@ namespace He.Ensor {
     
     GLib.List<int> accent_from_pixels (uint8[] pixels) {
       var celebi = new He.QuantizerCelebi ();
-      var res = celebi.quantize ((int[]) pixels, 128);
-      var score = new He.Score ();
+      var result = celebi.quantize ((int[]) pixels, 128);
       var score = new He.Score ();
       return score.score (result);
     }
