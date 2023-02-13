@@ -10,10 +10,9 @@ namespace He.Ensor {
     public async void accent_from_pixels_async () {
       if (pixbuf != null) {
         var celebi = new He.QuantizerCelebi ();
-        var res = celebi.quantize ((int[]) pixels, 128);
+        var res = celebi.quantize ((int[]) pixbuf.get_pixels_with_length (), 128);
         var score = new He.Score ();
-
-        this.accent_list = score.score (result);
+        this.accent_list = score.score (res);
       } else {
         this.accent_list = null;
       }
