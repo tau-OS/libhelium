@@ -101,7 +101,7 @@ namespace He {
         colors_by_score_descending.prepend ((int) 0xFF8C56BF); // Tau Purple to not leave it empty
       }
       
-      print ("SCORE ……………………………………………………… OK!");
+      print ("SCORE ……………………………………………………… OK!\n");
       
       yield;
       return colors_by_score_descending;
