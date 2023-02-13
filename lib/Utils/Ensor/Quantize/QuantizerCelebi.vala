@@ -4,7 +4,7 @@
 public class He.QuantizerCelebi {
   public QuantizerCelebi () {}
 
-  public async HashTable<int, int> quantize (int[] pixels, int max_colors) {
+  public HashTable<int, int> quantize (int[] pixels, int max_colors) {
     QuantizerWu wu = new QuantizerWu ();
     QuantizerResult wu_result = wu.quantize (pixels, max_colors);
 
@@ -17,8 +17,6 @@ public class He.QuantizerCelebi {
     }
     
     print ("QUANTIZE ……………………………………………………… OK!\n");
-
-    yield;
     return QuantizerWsmeans.quantize (pixels, wu_clusters, max_colors);
   }
 }
