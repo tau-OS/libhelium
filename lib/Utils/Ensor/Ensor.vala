@@ -21,7 +21,7 @@ namespace He.Ensor {
       new Thread<bool>("ensor-process", run);
       
       yield;
-      return result.copy ();
+      return result.copy_deep ((a) => a);
     }
   }
 }
