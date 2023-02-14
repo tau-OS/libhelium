@@ -197,33 +197,33 @@ public class He.Application : Gtk.Application {
 
         @define-color destructive_bg_color $error_hex;
         @define-color destructive_fg_color $on_error_hex;
-        @define-color destructive_color $error_hex;
+        @define-color destructive_color $on_error_hex;
 
-        @define-color destructive_container_color $error_container_hex;
+        @define-color destructive_container_color $on_error_container_hex;
         @define-color destructive_container_bg_color $error_container_hex;
         @define-color destructive_container_fg_color $on_error_container_hex;
 
         @define-color suggested_bg_color $secondary_hex;
         @define-color suggested_fg_color $on_secondary_hex;
-        @define-color suggested_color $secondary_hex;
+        @define-color suggested_color $on_secondary_hex;
 
         @define-color suggested_container_color $secondary_container_hex;
         @define-color suggested_container_bg_color $secondary_container_hex;
         @define-color suggested_container_fg_color $on_secondary_container_hex;
 
         @define-color error_bg_color $error_hex;
+        @define-color error_fg_color $on_error_hex;
         @define-color error_color $on_error_hex;
-        @define-color error_color $error_hex;
 
-        @define-color error_container_color $error_container_hex;
+        @define-color error_container_color $on_error_container_hex;
         @define-color error_container_bg_color $error_container_hex;
         @define-color error_container_fg_color $on_error_container_hex;
 
         @define-color success_bg_color $tertiary_hex;
         @define-color success_fg_color $on_tertiary_hex;
-        @define-color success_color $tertiary_hex;
+        @define-color success_color $on_tertiary_hex;
 
-        @define-color success_container_color $tertiary_container_hex;
+        @define-color success_container_color $on_tertiary_container_hex;
         @define-color success_container_bg_color $tertiary_container_hex;
         @define-color success_container_fg_color $on_tertiary_container_hex;
 
