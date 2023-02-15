@@ -5,6 +5,8 @@ namespace He.Color {
         public double b;
         public double C;
         public double h;
+        public double m;
+        public double s;
     }
 
     public const double[,] XYZ_TO_CAM16RGB = {
@@ -53,29 +55,33 @@ namespace He.Color {
 
         var J  = 100.0 * Math.pow (ac / vc.aw, vc.c * vc.z);
 
-        double hue_prime = (h < 20.14) ? h + 360 : h;
-        double e_hue = 0.25 * (Math.cos (((Math.PI / 180) * (hue_prime)) + 2.0) + 3.8);
+        double hue_prime = (h < 0) ? h + 360 : h;
+        double e_hue = 0.25 * (Math.cos ((hue_prime * (Math.PI / 180)) + 2.0) + 3.8);
         double p1 = 50000.0 / 13.0 * e_hue * vc.nc * vc.ncb;
         double t = p1 * Math.hypot (a, b) / (u + 0.305);
-        double alpha = Math.pow(1.64 - Math.pow(0.29, vc.n), 0.73) * Math.pow (t, 0.9);
+        double alpha = Math.pow (1.64 - Math.pow(0.29, vc.n), 0.73) * Math.pow (t, 0.9);
         // CAM16 chroma, colorfulness, saturation
-        double C = alpha * Math.sqrt(J / 100.0);
+        double C = alpha * Math.sqrt (J / 100.0);
+        double m = C * vc.fl_root;
+        double s = 50.0 * Math.sqrt ((alpha * vc.c) / (vc.aw + 4.0));
 
         CAM16Color result = {
             J,
             a,
             b,
             C,
-            h
+            h,
+            m,
+            s
         };
         return result;
     }
 
     public CAM16Color cam16_from_int (int argb) {
         // Transform ARGB int to XYZ
-        int red = (argb & 0x00ff0000) >> 16;
-        int green = (argb & 0x0000ff00) >> 8;
-        int blue = (argb & 0x000000ff);
+        int red = (argb & 0x00FF0000) >> 16;
+        int green = (argb & 0x0000FF00) >> 8;
+        int blue = (argb & 0x000000FF);
         double redL = He.MathUtils.linearized(red);
         double greenL = He.MathUtils.linearized(green);
         double blueL = He.MathUtils.linearized(blue);

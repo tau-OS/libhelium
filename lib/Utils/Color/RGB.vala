@@ -5,34 +5,20 @@ namespace He.Color {
         public double b;
     }
 
+    public const double[,] XYZ_TO_SRGB = {
+        {3.2406, -1.5372, -0.4986},
+        {-0.9689, 1.8758, 0.0415},
+        {0.0557, -0.2040, 1.0570}
+    };
+
     public RGBColor xyz_to_rgb (XYZColor color) {
-        RGBColor rgb = {};
+        double[] rgbd = MathUtils.elem_mul ({color.x, color.y, color.z}, XYZ_TO_SRGB);
 
-        rgb.r = (color.x *  3.240479) + (color.y * -1.537150) + (color.z * -0.498535);
-        rgb.g = (color.x * -0.969256) + (color.y *  1.875992) + (color.z *  0.041556);
-        rgb.b = (color.x *  0.055648) + (color.y * -0.204043) + (color.z *  1.057311);
+        RGBColor rgb = {rgbd[0], rgbd[1], rgbd[2]};
 
-        if (rgb.r > 0.0031308) {
-            rgb.r = (1.055 * Math.pow(rgb.r, (1.0/2.4))) - 0.055;
-        } else {
-            rgb.r = rgb.r * 12.92;
-        }
-
-        if (rgb.g > 0.0031308) {
-            rgb.g = (1.055 * Math.pow(rgb.g, (1.0/2.4))) - 0.055;
-        } else {
-            rgb.g = rgb.g * 12.92;
-        }
-
-        if (rgb.b > 0.0031308) {
-            rgb.b = (1.055 * Math.pow(rgb.b, (1.0/2.4))) - 0.055;
-        } else {
-            rgb.b = rgb.b * 12.92;
-        }
-
-        rgb.r = rgb.r * 255.0;
-        rgb.g = rgb.g * 255.0;
-        rgb.b = rgb.b * 255.0;
+        rgb.r = MathUtils.adapt (rgb.r) * 255.0;
+        rgb.g = MathUtils.adapt (rgb.g) * 255.0;
+        rgb.b = MathUtils.adapt (rgb.b) * 255.0;
 
         return rgb;
     }
@@ -65,18 +51,18 @@ namespace He.Color {
 
     public RGBColor from_hex (string color) {
         RGBColor result = {
-          uint.parse(color.substring(1, 2), 16),
-          uint.parse(color.substring(3, 2), 16),
-          uint.parse(color.substring(5, 2), 16),
+          ((uint.parse(color, 16) >> 16) & 0xFF) / 255.0,
+          ((uint.parse(color, 16) >> 8) & 0xFF) / 255.0,
+          ((uint.parse(color, 16)) & 0xFF) / 255.0
         };
     
         return result;
     }
     
     public RGBColor from_argb_int (int argb) {
-        int red = (argb & 0x00ff0000) >> 16;
-        int green = (argb & 0x0000ff00) >> 8;
-        int blue = (argb & 0x000000ff);
+        int red = (argb & 0x00FF0000) >> 16;
+        int green = (argb & 0x0000FF00) >> 8;
+        int blue = (argb & 0x000000FF);
         double redL = He.MathUtils.linearized(red);
         double greenL = He.MathUtils.linearized(green);
         double blueL = He.MathUtils.linearized(blue);

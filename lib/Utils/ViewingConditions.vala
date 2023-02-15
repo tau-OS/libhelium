@@ -88,7 +88,9 @@ public class He.ViewingConditions : Object {
       d = MathUtils.clamp_double(0.0, 1.0, d);
       double nc = f;
       double[] rgb_d = {
-        d * (100.0 / r_white) + 1.0 - d, d * (100.0 / g_white) + 1.0 - d, d * (100.0 / b_white) + 1.0 - d
+        d * (100.0 / r_white) + 1.0 - d,
+        d * (100.0 / g_white) + 1.0 - d,
+        d * (100.0 / b_white) + 1.0 - d
       };
       double k = 1.0 / (5.0 * adapting_luminance + 1.0);
       double k4 = k * k * k * k;
@@ -118,7 +120,7 @@ public class He.ViewingConditions : Object {
 
     public static ViewingConditions with_lstar (double lstar) {
         return ViewingConditions.make (
-            {95.047, 100.0, 108.883},
+            {100.0, 100.0, 100.0},
             (200.0 / Math.PI * MathUtils.y_from_lstar (lstar) / 100f),
             lstar,
             2.0,

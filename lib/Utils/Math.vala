@@ -63,6 +63,14 @@ namespace He.MathUtils {
         return 0.0 <= x && x <= 100.0;
     }
 
+    public double adapt (double color_channel) {
+        if (color_channel > 0.0031308) {
+            return (1.055 * Math.pow (color_channel, (1.0 / 2.4))) - 0.055;
+        } else {
+            return color_channel * 12.92;
+        }
+    }
+
     public double[] elem_mul (double[] row, double[,] matrix) {
         double[] prod = {
             row[0] * matrix[0,0] + row[1] * matrix[0,1] + row[2] * matrix[0,2],
