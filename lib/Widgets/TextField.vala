@@ -49,7 +49,7 @@
  *   }
  * }}}
  */
- public class He.TextField : He.Bin {
+ public class He.TextField : He.Bin, Gtk.Editable {
     /**
      * Whether or not text is considered valid input
      */
