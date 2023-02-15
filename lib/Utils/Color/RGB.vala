@@ -73,13 +73,23 @@ namespace He.Color {
         return result;
     }
     
-    public RGBColor from_argb_int (int color) {
-        RGBColor result = {
-            ((color & 0x00FF0000) << 16),
-            ((color & 0x0000FF00) << 8),
-            ((color & 0x000000FF)),
+    public RGBColor from_argb_int (int argb) {
+        int red = (argb & 0x00ff0000) >> 16;
+        int green = (argb & 0x0000ff00) >> 8;
+        int blue = (argb & 0x000000ff);
+        double redL = He.MathUtils.linearized(red);
+        double greenL = He.MathUtils.linearized(green);
+        double blueL = He.MathUtils.linearized(blue);
+        double x = 0.41233895 * redL + 0.35762064 * greenL + 0.18051042 * blueL;
+        double y = 0.2126 * redL + 0.7152 * greenL + 0.0722 * blueL;
+        double z = 0.01932141 * redL + 0.11916382 * greenL + 0.95034478 * blueL;
+
+        XYZColor result = {
+            x,
+            y,
+            z
         };
     
-        return result;
+        return xyz_to_rgb(result);
     }
 }

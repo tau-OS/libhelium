@@ -32,29 +32,34 @@ namespace He.Color {
         double g_a = MathUtils.signum(g_d) * 400.0 * g_af / (g_af + 27.13);
         double b_a = MathUtils.signum(b_d) * 400.0 * b_af / (b_af + 27.13);
 
-        var a = r_a + (-12 * g_a + b_a) / 11;
-        var b = (r_a + g_a - 2 * b_a) / 9;
+        // redness-greenness
+        double a = (11.0 * r_a + -12.0 * g_a + b_a) / 11.0;
+        // yellowness-blueness
+        double b = (r_a + g_a - 2.0 * b_a) / 9.0;
 
         double u = (20.0 * r_a + 20.0 * g_a + 21.0 * b_a) / 20.0;
         double p2 = (40.0 * r_a + 20.0 * g_a + b_a) / 20.0;
 
         double hr = Math.atan2 (b, a);
-        double atanDegrees = hr * 180/Math.PI;
+        double atanDegrees = hr * 180 / Math.PI;
         double h =
             atanDegrees < 0
-                ? atanDegrees + 360.0
-                : atanDegrees >= 360 ? atanDegrees - 360.0 : atanDegrees;
+            ? atanDegrees + 360.0
+            : atanDegrees >= 360
+            ? atanDegrees - 360.0
+            : atanDegrees;
 
         double ac = p2 * vc.nbb;
 
-        double hue_p = (h < 20.14) ? h + 360 : h;
-        double e_hue = 0.25 * (Math.cos (hue_p * Math.PI/180 + 2.0) + 3.8);
-        double p1 = 5e4 / 13.0 * e_hue * vc.nc * vc.ncb;
-        double t = p1 * Math.hypot (a, b) / (u + 0.305);
         var J  = 100.0 * Math.pow (ac / vc.aw, vc.c * vc.z);
 
-        var alpha = Math.pow(1.64 - Math.pow (0.29, vc.n), 0.73) * Math.pow(t, 0.9);
-        var C = alpha * Math.sqrt(J / 100.0);
+        double hue_prime = (h < 20.14) ? h + 360 : h;
+        double e_hue = 0.25 * (Math.cos (((Math.PI / 180) * (hue_prime)) + 2.0) + 3.8);
+        double p1 = 50000.0 / 13.0 * e_hue * vc.nc * vc.ncb;
+        double t = p1 * Math.hypot (a, b) / (u + 0.305);
+        double alpha = Math.pow(1.64 - Math.pow(0.29, vc.n), 0.73) * Math.pow (t, 0.9);
+        // CAM16 chroma, colorfulness, saturation
+        double C = alpha * Math.sqrt(J / 100.0);
 
         CAM16Color result = {
             J,

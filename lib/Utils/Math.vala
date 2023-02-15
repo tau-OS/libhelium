@@ -22,6 +22,16 @@ namespace He.MathUtils {
         },
     };
 
+    public static double clamp_double (double min, double max, double input) {
+        if (input < min) {
+          return min;
+        } else if (input > max) {
+          return max;
+        }
+    
+        return input;
+    }
+
     public int signum (double x) {
         return (int)(x > 0) - (int)(x < 0);
     }

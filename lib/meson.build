@@ -109,6 +109,7 @@ libhelium = library(
 
     dependencies: [
         libhelium_deps,
+        dependency('gio-2.0', version: '>=' + glib_min_version),
         meson.get_compiler('c').find_library('m'),
         meson.get_compiler('vala').find_library('posix')
     ],
