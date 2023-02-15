@@ -49,7 +49,7 @@
  *   }
  * }}}
  */
- public class He.TextField : He.Bin, Gtk.Editable {
+ public class He.TextField : He.Bin {
     /**
      * Whether or not text is considered valid input
      */
@@ -58,7 +58,10 @@
     public int min_length { get; set; default = 0; }
     public Regex regex { get; construct set; default = null; }
     
-    private Gtk.Entry entry;
+    /**
+     * The entry widget to allow using Gtk.Editable props.
+     */
+    public Gtk.Entry entry;
     private Gtk.Label support_label;
     
     public signal void changed ();
