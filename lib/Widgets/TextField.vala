@@ -61,7 +61,7 @@
     /**
      * The entry widget to allow using Gtk.Editable props.
      */
-    public Gtk.Entry entry;
+    public Gtk.Entry entry = new Gtk.Entry ();
     private Gtk.Label support_label;
     
     public signal void changed ();
@@ -139,7 +139,6 @@
     }
 
     construct {
-        entry = new Gtk.Entry ();
         entry.activates_default = true;
         entry.add_css_class ("text-field");
         
