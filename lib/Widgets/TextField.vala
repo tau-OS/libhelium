@@ -61,7 +61,11 @@
     /**
      * The entry widget to allow using Gtk.Editable props.
      */
-    public Gtk.Entry entry = new Gtk.Entry ();
+    private Gtk.Entry entry = new Gtk.Entry ();
+    public Gtk.Entry get_entry () {
+      return entry;
+    }
+    
     private Gtk.Label support_label;
     
     public signal void changed ();
