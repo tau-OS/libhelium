@@ -77,8 +77,14 @@
     
     private Gtk.Label support_label;
     
+    /**
+     * The signal when the text changes.
+     */
     public signal void changed ();
     
+    /**
+     * The entry text.
+     */
     private string? _text;
     public string? text { 
       get {
@@ -90,6 +96,9 @@
       }
     }
     
+    /**
+     * The helper text below the TextField.
+     */
     private string? _support_text;
     public string? support_text { 
       get {
@@ -106,6 +115,9 @@
       }
     }
     
+    /**
+     * The placeholder text inside the TextField.
+     */
     private string? _placeholder_text;
     public string? placeholder_text { 
       get {
@@ -117,6 +129,9 @@
       }
     }
     
+    /**
+     * The maximum length to start validating.
+     */
     private int _max_length;
     public int max_length { 
       get {
@@ -128,6 +143,9 @@
       }
     }
     
+    /**
+     * Whether to show/hide the TextField.
+     */
     private bool _visibility;
     public bool visibility { 
       get {
@@ -139,6 +157,10 @@
       }
     }
 
+    /**
+     * Creates a TextField that uses regular expression provided to check validity.
+     * @param regex_rg The regular expression to use.
+     */
     public TextField.from_regex (Regex regex_arg) {
         Object (regex: regex_arg);
     }
