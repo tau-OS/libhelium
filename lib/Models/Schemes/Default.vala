@@ -14,6 +14,11 @@ public class He.Schemes.Default : Object {
         get { return _neutral_foreground_hex; }
         set { _neutral_foreground_hex = value; }
     }
+    private string _neutral_foreground_variant_hex = "";
+    public string neutral_foreground_variant_hex {
+        get { return _neutral_foreground_variant_hex; }
+        set { _neutral_foreground_variant_hex = value; }
+    }
     private string _inverse_neutral_background_hex = "";
     public string inverse_neutral_background_hex {
         get { return _inverse_neutral_background_hex; }
@@ -143,6 +148,7 @@ public class He.Schemes.Default : Object {
         neutral_background_hex = Color.hct_to_hex (cam16_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 10.0 : 99.0);
         neutral_background_variant_hex = Color.hct_to_hex (cam16_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
         neutral_foreground_hex = Color.hct_to_hex (cam16_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 99.0 : 10.0);
+        neutral_foreground_variant_hex = Color.hct_to_hex (cam16_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
         inverse_neutral_background_hex = Color.hct_to_hex (cam16_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 20.0);
         inverse_neutral_foreground_hex = Color.hct_to_hex (cam16_color.h, 4.0, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 95.0);
         // ___  ____ _ _  _ ____ ____ _   _ 

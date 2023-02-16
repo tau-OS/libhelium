@@ -139,7 +139,7 @@ public class He.Application : Gtk.Application {
       
       @define-color window_fg_color $(scheme_default.neutral_foreground_hex);
       @define-color view_fg_color $(scheme_default.neutral_foreground_hex);
-      @define-color headerbar_fg_color $(scheme_default.neutral_foreground_hex);
+      @define-color headerbar_fg_color $(scheme_default.neutral_foreground_variant_hex);
       @define-color popover_fg_color $(scheme_default.neutral_foreground_hex);
       @define-color card_fg_color $(scheme_default.neutral_foreground_hex);
       
@@ -203,7 +203,7 @@ public class He.Application : Gtk.Application {
       
       @define-color window_fg_color $(scheme_default.neutral_foreground_hex);
       @define-color view_fg_color $(scheme_default.neutral_foreground_hex);
-      @define-color headerbar_fg_color $(scheme_default.neutral_foreground_hex);
+      @define-color headerbar_fg_color $(scheme_default.neutral_foreground_variant_hex);
       @define-color popover_fg_color $(scheme_default.neutral_foreground_hex);
       @define-color card_fg_color $(scheme_default.neutral_foreground_hex);
       
