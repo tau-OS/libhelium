@@ -11,7 +11,7 @@ namespace He.Color {
     }
 
     public static int argb_from_rgb_int (int red, int green, int blue) {
-        return (255 << 24) | ((red & 255) << 16) | ((green & 255) << 8) | (blue & 255);
+        return (0xFF << 24) | ((red & 0xFF) << 16) | ((green & 0xFF) << 8) | (blue & 0xFF);
     }
 
     public static double[] xyz_to_argb (int argb) {
@@ -22,15 +22,15 @@ namespace He.Color {
     }
     
     public int alpha_from_rgba_int (int argb) {
-        return (argb >> 24) & 255;
+        return (argb >> 24) & 0xFF;
     }
 
     public int red_from_rgba_int (int argb) {
-        return (argb >> 16) & 255;
+        return (argb >> 16) & 0xFF;
     }
     
     public int green_from_rgba_int (int argb) {
-        return (argb >> 8) & 255;
+        return (argb >> 8) & 0xFF;
     }
     
     public int blue_from_rgba_int (int argb) {

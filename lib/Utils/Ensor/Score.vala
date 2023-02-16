@@ -91,7 +91,7 @@ namespace He {
             continue;
           }
 
-          if (colors_by_score_descending.length () >= 4) { // We only need the 4 best entries
+          if (colors_by_score_descending.length () >= 1) { // We only need the best entry
             break;
           }
 
