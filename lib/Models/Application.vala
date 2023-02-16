@@ -119,6 +119,12 @@ public class He.Application : Gtk.Application {
     var background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
     
     var scheme_default = new He.Schemes.Default (cam16_color, desktop);
+
+    // HCT Color blendin'
+    var meson_red_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+                        Color.hct_blend (Color.from_params (8.310812280674469, 85.43767727319943, 48.78764030646636), Color.from_params (cam16_color.h, cam16_color.C, 50.0)) :
+                        Color.hct_blend (Color.from_params (1.9824733741074345, 48.70288002195583, 66.11206188358955), Color.from_params (cam16_color.h, cam16_color.C, 50.0));
+    var meson_red_hex = Color.hct_to_hex (meson_red_hct.h, meson_red_hct.c, meson_red_hct.t);
     
     string css = "";
     if (desktop.prefers_color_scheme == Desktop.ColorScheme.DARK) {
@@ -184,6 +190,8 @@ public class He.Application : Gtk.Application {
       @define-color osd_bg_color $(scheme_default.inverse_neutral_background_hex);
       @define-color osd_fg_color $(scheme_default.inverse_neutral_foreground_hex);
       @define-color osd_accent_color $(scheme_default.inverse_primary_hex);
+
+      @define-color meson_red $meson_red_hex;
       ";
     } else {
       css = @"
@@ -248,6 +256,8 @@ public class He.Application : Gtk.Application {
       @define-color osd_bg_color $(scheme_default.inverse_neutral_background_hex);
       @define-color osd_fg_color $(scheme_default.inverse_neutral_foreground_hex);
       @define-color osd_accent_color $(scheme_default.inverse_primary_hex);
+
+      @define-color meson_red $meson_red_hex;
       ";
     }
     accent.load_from_data (css.data);
