@@ -29,7 +29,7 @@ namespace He.Ensor {
       return list;
   }
 
-  public async GLib.List<int> accent_from_pixels_async (uint8[] pixels) {
+   public async GLib.List<int> accent_from_pixels_async (uint8[] pixels) {
     SourceFunc callback = accent_from_pixels_async.callback;
     GLib.List<int> result = null;
 

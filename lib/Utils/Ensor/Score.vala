@@ -61,6 +61,10 @@ namespace He {
 
           double score = proportion_score + chroma_score;
           colors_to_score.insert (color, score);
+
+          if (colors_to_score.length >= 4) {
+            break;
+          }
         }
       }
 
