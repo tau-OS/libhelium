@@ -55,6 +55,10 @@ namespace He.MathUtils {
         };
     }
 
+    public double lerp (double a, double b, double t) {
+        return a + (b - a) * t;
+    }
+
     public double sanitize_radians (double angle) {
         return (angle + Math.PI * 8) % (Math.PI * 2);
     }

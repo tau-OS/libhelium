@@ -18,7 +18,7 @@
 */
 
 /**
- * TextField is a {@link Gtk.Entry} subclass that is meant to be used in
+ * TextField is a {@link Gtk.Entry}-like subclass that is meant to be used in
  * forms where input must be validated before the form can be submitted. It
  * provides feedback to users about the state of input validation and keeps
  * track of its own validation state. By default, input is considered invalid.
@@ -51,11 +51,20 @@
  */
  public class He.TextField : He.Bin {
     /**
-     * Whether or not text is considered valid input
+     * Whether or not text is considered valid input.
      */
     public bool is_valid { get; set; default = false; }
+    /**
+     * Whether or not text needs to be validated.
+     */
     public bool needs_validation { get; set; default = false; }
+    /**
+     * The minimum length to start validating.
+     */
     public int min_length { get; set; default = 0; }
+    /**
+     * The regular expression used for validation.
+     */
     public Regex regex { get; construct set; default = null; }
     
     /**
