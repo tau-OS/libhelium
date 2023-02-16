@@ -91,6 +91,10 @@ namespace He {
             continue;
           }
 
+          if (colors_by_score_descending.length () >= 4) { // We only need the 4 best entries
+            break;
+          }
+
           colors_by_score_descending.prepend (k);
         }
       }
