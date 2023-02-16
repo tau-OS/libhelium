@@ -34,6 +34,6 @@ namespace He.Color {
     }
     
     public int blue_from_rgba_int (int argb) {
-        return argb & 255;
+        return argb & 0xFF;
     }
 }
