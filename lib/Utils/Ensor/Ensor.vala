@@ -10,7 +10,7 @@ namespace He.Ensor {
       int[] list = {};
 
       int i = 0;
-      int inc = 10; // quality (10 = max)
+      int inc = 6; // quality (10 = max)
 
       int count = pixels.length / 3;
       while (i < count) {

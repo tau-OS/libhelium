@@ -55,7 +55,7 @@ namespace He.Color {
 
         var J  = 100.0 * Math.pow (ac / vc.aw, vc.c * vc.z);
 
-        double hue_prime = (h < 0) ? h + 360 : h;
+        double hue_prime = (h < 20.14) ? h + 360 : h;
         double e_hue = 0.25 * (Math.cos ((hue_prime * (Math.PI / 180)) + 2.0) + 3.8);
         double p1 = 50000.0 / 13.0 * e_hue * vc.nc * vc.ncb;
         double t = p1 * Math.hypot (a, b) / (u + 0.305);
