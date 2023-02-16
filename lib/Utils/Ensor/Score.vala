@@ -10,6 +10,7 @@ namespace He {
     const double TARGET_CHROMA = 48.0;
     const double WEIGHT_CHROMA_ABOVE = 0.3;
     const double WEIGHT_CHROMA_BELOW = 0.1;
+    const double WEIGHT_PROPORTION = 0.7;
 
     public List<int> score (HashTable<int, int?> colors_to_population) {
       double population_sum = 0.0;
@@ -53,7 +54,7 @@ namespace He {
         He.Color.CAM16Color cam = colors_to_cam16.get (color);
 
         foreach (var proportion in colors_to_excited_proportion.get_values ()) {
-          double proportion_score = proportion * 70.0;
+          double proportion_score = proportion * 100.0 * WEIGHT_PROPORTION;
 
           double chroma_weight = cam.C < TARGET_CHROMA ? WEIGHT_CHROMA_BELOW : WEIGHT_CHROMA_ABOVE;
           double chroma_score = (cam.C - TARGET_CHROMA) * chroma_weight;
@@ -73,34 +74,28 @@ namespace He {
       filtered_colors_to_score.get_keys ().sort ((GLib.CompareFunc<int>) compare_filtered_colors_to_score);
       var colors_by_score_descending = new List<int> ();
 
-      foreach (var k in filtered_colors_to_score.get_keys ()) {
-        foreach (var color in colors_to_cam16.get_keys ()) {
-          He.Color.CAM16Color cam = colors_to_cam16.get (color);
-          var duplicate_hue = false;
+      foreach (var c in colors_to_cam16.get_keys ()) {
+        He.Color.CAM16Color cam = colors_to_cam16.get (c);
+        bool duplicate_hue = false;
 
-          foreach (var already_chosen_color in colors_by_score_descending) {
-            He.Color.CAM16Color already_chosen_cam = colors_to_cam16.get (color);
 
-            if (He.MathUtils.difference_degrees (cam.h, already_chosen_cam.h) < 15) {
-              duplicate_hue = true;
-              continue;
-            }
-          }
-
-          if (duplicate_hue) {
-            continue;
-          }
-
-          if (colors_by_score_descending.length () >= 1) { // We only need the best entry
+        foreach (var ac in colors_by_score_descending) {
+          He.Color.CAM16Color ac_cam = colors_to_cam16.get (ac);
+          if (He.MathUtils.difference_degrees (cam.h, ac_cam.h) < 15) {
+            duplicate_hue = true;
             break;
           }
-
-          colors_by_score_descending.prepend (k);
         }
+
+        if (duplicate_hue) {
+          continue;
+        }
+
+        colors_by_score_descending.append (c);
       }
 
       if (colors_by_score_descending.is_empty ()) {
-        colors_by_score_descending.prepend ((int) 0xFF8C56BF); // Tau Purple to not leave it empty
+        colors_by_score_descending.append ((int) 0xFF8C56BF); // Tau Purple to not leave it empty
       }
       
       print ("SCORE ……………………………………………………………… OK!\n");
@@ -125,14 +120,14 @@ namespace He {
           }
         }
       }
-      
+
       print ("FILTER …………………………………………………………… OK!\n");
 
       return filtered;
     }
 
     public static int compare_filtered_colors_to_score (int a, int b) {
-      return He.Misc.Comparable.compare_to (a, b);
+      return -1 * (He.Misc.Comparable.compare_to (a, b));
     }
   }
 }
