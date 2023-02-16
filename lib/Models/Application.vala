@@ -122,8 +122,8 @@ public class He.Application : Gtk.Application {
 
     // HCT Color blendin'
     var meson_red_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-                        Color.hct_blend (Color.from_params (8.310812280674469, 85.43767727319943, 48.78764030646636), Color.from_params (cam16_color.h, cam16_color.C, 50.0)) :
-                        Color.hct_blend (Color.from_params (1.9824733741074345, 48.70288002195583, 66.11206188358955), Color.from_params (cam16_color.h, cam16_color.C, 50.0));
+        Color.hct_blend (Color.from_params (8.3, 85.5, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
+        Color.hct_blend (Color.from_params (2, 49, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
     var meson_red_hex = Color.hct_to_hex (meson_red_hct.h, meson_red_hct.c, meson_red_hct.t);
     
     string css = "";
