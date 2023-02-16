@@ -8,6 +8,7 @@ libhelium_sources += files(
     'Models/Colors.vala',
     'Models/View.vala',
     'Models/Window.vala',
+    'Models/Schemes/Default.vala',
     'Utils/Desktop.vala',
     'Utils/Math.vala',
     'Utils/Misc.vala',
