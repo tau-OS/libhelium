@@ -4,6 +4,6 @@ namespace He.Color {
     }
 
     public string hexcode_argb (int color) {
-        return "#%06X".printf ((uint)0x00FFFFFF & color);
+        return "#%06X".printf ((uint)0xFFFFFF & color);
     }
 }

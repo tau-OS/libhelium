@@ -79,9 +79,9 @@ namespace He.Color {
 
     public CAM16Color cam16_from_int (int argb) {
         // Transform ARGB int to XYZ
-        int red = (argb & 0x00FF0000) >> 16;
-        int green = (argb & 0x0000FF00) >> 8;
-        int blue = (argb & 0x000000FF);
+        int red = (argb & 0x00ff0000) >> 16;
+        int green = (argb & 0x0000ff00) >> 8;
+        int blue = (argb & 0x000000ff);
         double redL = He.MathUtils.linearized(red);
         double greenL = He.MathUtils.linearized(green);
         double blueL = He.MathUtils.linearized(blue);

@@ -155,8 +155,7 @@
          int r = volume (cube, moments_r) / weight;
          int g = volume (cube, moments_g) / weight;
          int b = volume (cube, moments_b) / weight;
-         Color.RGBColor rgb = {r, g, b};
-         int color = Color.rgb_to_argb_int (rgb);
+         int color = (255 << 24) | ((r & 0x0ff) << 16) | ((g & 0x0ff) << 8) | (b & 0x0ff);
          colors.append (color);
        }
      }
