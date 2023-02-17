@@ -102,8 +102,6 @@ namespace He {
         colors_by_score_descending.append ((int) 0xFF8C56BF); // Tau Purple to not leave it empty
       }
       
-      print ("SCORE ……………………………………………………………… OK!\n");
-      
       return colors_by_score_descending;
     }
 
@@ -124,8 +122,6 @@ namespace He {
           }
         }
       }
-
-      print ("FILTER …………………………………………………………… OK!\n");
 
       return filtered;
     }
