@@ -170,11 +170,6 @@ public class He.Application : Gtk.Application {
     Color.hct_blend (Color.from_params (66.0, 12.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
     Color.hct_blend (Color.from_params (61.0, 30.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
     var gluon_brown_hex = Color.hct_to_hex (gluon_brown_hct.h, gluon_brown_hct.c, gluon_brown_hct.t);
-
-    print ("MESON RED BECAME: %s\n", meson_red_hex);
-    print ("LEPTON ORANGE BECAME: %s\n", lepton_orange_hex);
-    print ("ELECTRON YELLOW BECAME: %s\n", electron_yellow_hex);
-    print ("MUON GREEN BECAME: %s\n", muon_green_hex);
     
     string css = "";
     if (desktop.prefers_color_scheme == Desktop.ColorScheme.DARK) {
