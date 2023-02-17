@@ -119,49 +119,63 @@ public class He.Application : Gtk.Application {
     var background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
     
     var scheme_default = new He.Schemes.Default (cam16_color, desktop);
-
+    
     // HCT Color blendin'
     var meson_red_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-        Color.hct_blend (Color.from_params (8, 85, 66), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
-        Color.hct_blend (Color.from_params (2, 49, 48), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
+    Color.hct_blend (Color.from_params (8.0, 85.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
+    Color.hct_blend (Color.from_params (2.0, 49.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var meson_red_hex = Color.hct_to_hex (meson_red_hct.h, meson_red_hct.c, meson_red_hct.t);
+
     var lepton_orange_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-        Color.hct_blend (Color.from_params (55, 29, 80), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
-        Color.hct_blend (Color.from_params (50, 61, 66), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
+    Color.hct_blend (Color.from_params (55.0, 29.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
+    Color.hct_blend (Color.from_params (50.0, 61.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var lepton_orange_hex = Color.hct_to_hex (lepton_orange_hct.h, lepton_orange_hct.c, lepton_orange_hct.t);
+    
     var electron_yellow_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-        Color.hct_blend (Color.from_params (89, 37, 88), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
-        Color.hct_blend (Color.from_params (81, 55, 70), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
+    Color.hct_blend (Color.from_params (89.0, 37.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
+    Color.hct_blend (Color.from_params (81.0, 55.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var electron_yellow_hex = Color.hct_to_hex (electron_yellow_hct.h, electron_yellow_hct.c, electron_yellow_hct.t);
+
     var muon_green_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-        Color.hct_blend (Color.from_params (152, 43, 84), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
-        Color.hct_blend (Color.from_params (147, 71, 74), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
+    Color.hct_blend (Color.from_params (152.0, 43.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
+    Color.hct_blend (Color.from_params (147.0, 71.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var muon_green_hex = Color.hct_to_hex (muon_green_hct.h, muon_green_hct.c, muon_green_hct.t);
+
     var baryon_mint_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-        Color.hct_blend (Color.from_params (182, 25, 85), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
-        Color.hct_blend (Color.from_params (177, 42, 70), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
+    Color.hct_blend (Color.from_params (182.0, 25.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
+    Color.hct_blend (Color.from_params (177.0, 42.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var baryon_mint_hex = Color.hct_to_hex (baryon_mint_hct.h, baryon_mint_hct.c, baryon_mint_hct.t);
+
     var proton_blue_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-        Color.hct_blend (Color.from_params (233, 34, 85), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
-        Color.hct_blend (Color.from_params (240, 53, 71), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
+    Color.hct_blend (Color.from_params (233.0, 34.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
+    Color.hct_blend (Color.from_params (240.0, 53.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var proton_blue_hex = Color.hct_to_hex (proton_blue_hct.h, proton_blue_hct.c, proton_blue_hct.t);
+
     var photon_indigo_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-        Color.hct_blend (Color.from_params (291, 67, 56), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
-        Color.hct_blend (Color.from_params (288, 84, 36), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
+    Color.hct_blend (Color.from_params (291.0, 67.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
+    Color.hct_blend (Color.from_params (288.0, 84.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var photon_indigo_hex = Color.hct_to_hex (photon_indigo_hct.h, photon_indigo_hct.c, photon_indigo_hct.t);
+
     var tau_purple_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-        Color.hct_blend (Color.from_params (309, 34, 70), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
-        Color.hct_blend (Color.from_params (311, 57, 46), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
+    Color.hct_blend (Color.from_params (309.0, 34.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
+    Color.hct_blend (Color.from_params (311.0, 57.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
     var tau_purple_hex = Color.hct_to_hex (tau_purple_hct.h, tau_purple_hct.c, tau_purple_hct.t);
+
     var fermion_pink_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-        Color.hct_blend (Color.from_params (337, 34, 72), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
-        Color.hct_blend (Color.from_params (340, 60, 52), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
+    Color.hct_blend (Color.from_params (337.0, 34.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
+    Color.hct_blend (Color.from_params (340.0, 60.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
     var fermion_pink_hex = Color.hct_to_hex (fermion_pink_hct.h, fermion_pink_hct.c, fermion_pink_hct.t);
+
     var gluon_brown_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
-        Color.hct_blend (Color.from_params (66, 12, 81), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
-        Color.hct_blend (Color.from_params (61, 30, 61), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
+    Color.hct_blend (Color.from_params (66.0, 12.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
+    Color.hct_blend (Color.from_params (61.0, 30.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
     var gluon_brown_hex = Color.hct_to_hex (gluon_brown_hct.h, gluon_brown_hct.c, gluon_brown_hct.t);
 
+    print ("MESON RED BECAME: %s\n", meson_red_hex);
+    print ("LEPTON ORANGE BECAME: %s\n", lepton_orange_hex);
+    print ("ELECTRON YELLOW BECAME: %s\n", electron_yellow_hex);
+    print ("MUON GREEN BECAME: %s\n", muon_green_hex);
+    
     string css = "";
     if (desktop.prefers_color_scheme == Desktop.ColorScheme.DARK) {
       css = @"
@@ -226,17 +240,6 @@ public class He.Application : Gtk.Application {
       @define-color osd_bg_color $(scheme_default.inverse_neutral_background_hex);
       @define-color osd_fg_color $(scheme_default.inverse_neutral_foreground_hex);
       @define-color osd_accent_color $(scheme_default.inverse_primary_hex);
-
-      @define-color meson_red $meson_red_hex;
-      @define-color lepton_orange $lepton_orange_hex;
-      @define-color electron_yellow $electron_yellow_hex;
-      @define-color muon_green $muon_green_hex;
-      @define-color baryon_mint $baryon_mint_hex;
-      @define-color proton_blue $proton_blue_hex;
-      @define-color photon_indigo $photon_indigo_hex;
-      @define-color tau_purple $tau_purple_hex;
-      @define-color fermion_pink $fermion_pink_hex;
-      @define-color gluon_brown $gluon_brown_hex;
       ";
     } else {
       css = @"
@@ -302,6 +305,10 @@ public class He.Application : Gtk.Application {
       @define-color osd_fg_color $(scheme_default.inverse_neutral_foreground_hex);
       @define-color osd_accent_color $(scheme_default.inverse_primary_hex);
 
+      ";
+    }
+
+    css += @"
       @define-color meson_red $meson_red_hex;
       @define-color lepton_orange $lepton_orange_hex;
       @define-color electron_yellow $electron_yellow_hex;
@@ -312,8 +319,7 @@ public class He.Application : Gtk.Application {
       @define-color tau_purple $tau_purple_hex;
       @define-color fermion_pink $fermion_pink_hex;
       @define-color gluon_brown $gluon_brown_hex;
-      ";
-    }
+    ";
     accent.load_from_data (css.data);
   }
   

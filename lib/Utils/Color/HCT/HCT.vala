@@ -75,8 +75,8 @@ namespace He.Color {
 
     public HCTColor hct_blend (HCTColor a, HCTColor b) {
         var difference_degrees  = He.MathUtils.difference_degrees (a.h, b.h);
-        var rot_deg = Math.fmin(difference_degrees * 0.5, 15.0);
-        var output = He.MathUtils.sanitize_degrees (a.h + rot_deg * He.MathUtils.rotate_direction (a.h, b.h));
+        var rot_deg = Math.fmin (difference_degrees / 2, 15.0);
+        var output = He.MathUtils.sanitize_degrees (a.h + (rot_deg * He.MathUtils.rotate_direction (a.h, b.h)));
 
         return {output, a.c, a.t};
     }
