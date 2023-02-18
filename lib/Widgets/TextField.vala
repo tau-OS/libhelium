@@ -179,6 +179,7 @@
         
         support_label = new Gtk.Label (support_text);
         support_label.halign = Gtk.Align.START;
+        support_label.margin_start = 16;
         support_label.visible = false;
         support_label.add_css_class ("caption");
         support_label.add_css_class ("dim-label");
