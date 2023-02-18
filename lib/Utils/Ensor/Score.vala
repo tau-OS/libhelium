@@ -66,10 +66,6 @@ namespace He {
 
             double score = proportion_score + chroma_score;
             colors_to_score.insert (argb, score);
-
-            if (colors_to_score.length >= 4) {
-              break;
-            }
           }
         }
       }
@@ -78,30 +74,51 @@ namespace He {
       var filtered_colors_to_score = new HashTable<int, double?> (null, null);
 
       foreach (var color in filtered_colors) {
-        filtered_colors_to_score.insert (color, colors_to_score.get (color));
+        foreach (var score in colors_to_score.get_values ()) {
+          filtered_colors_to_score.insert (color, score);
+        }
       }
 
-      filtered_colors_to_score.get_keys ().sort ((GLib.CompareFunc<int>) compare_filtered_colors_to_score);
+      var entry_list = new HashTable<int, double?> (null, null);
+      foreach (var color in filtered_colors_to_score.get_keys ()) {
+        foreach (var score in filtered_colors_to_score.get_values ()) {
+          entry_list.insert (color, score);
+        }
+      }
+
+      var entry_list_colors = entry_list.get_keys ();
+      var entry_list_scores = entry_list.get_values ();
+
+      entry_list_colors.sort ((GLib.CompareFunc<int>) compare_filtered_colors_to_score);
+      entry_list_scores.sort ((GLib.CompareFunc<int>) compare_filtered_colors_to_score);
+
+      var sorted_entry_list = new HashTable<int, double?> (null, null);
+      foreach (var color in entry_list_colors) {
+        foreach (var score in entry_list_scores) {
+          sorted_entry_list.insert (color, score);
+        }
+      }
+
       var colors_by_score_descending = new List<int> ();
 
-      foreach (var c in colors_to_cam16.get_keys ()) {
-        He.Color.CAM16Color cam = colors_to_cam16.get (c);
-        bool duplicate_hue = false;
+      foreach (var argb in sorted_entry_list.get_keys ()) {
+          bool duplicate_hue = false;
+          He.Color.CAM16Color cam = He.Color.cam16_from_int (argb);
 
-
-        foreach (var ac in colors_by_score_descending) {
-          He.Color.CAM16Color ac_cam = colors_to_cam16.get (ac);
-          if (He.MathUtils.difference_degrees (cam.h, ac_cam.h) < 15) {
-            duplicate_hue = true;
-            break;
+          foreach (var ac in colors_by_score_descending) {
+            foreach (var accam in colors_to_cam16.get_values ()) {
+              if (He.MathUtils.difference_degrees (cam.h, accam.h) < 15) {
+                duplicate_hue = true;
+                break;
+              }
+            }
           }
-        }
 
-        if (duplicate_hue) {
-          continue;
-        }
+          if (duplicate_hue) {
+            continue;
+          }
 
-        colors_by_score_descending.append (c);
+          colors_by_score_descending.append (argb);
       }
 
       if (colors_by_score_descending.is_empty ()) {
@@ -133,7 +150,7 @@ namespace He {
     }
 
     public static int compare_filtered_colors_to_score (int a, int b) {
-      return (He.Misc.Comparable.compare_to (a, b));
+      return He.Misc.Comparable.compare_to (-a, b);
     }
   }
 }
