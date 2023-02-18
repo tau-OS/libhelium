@@ -22,48 +22,54 @@ namespace He {
       var colors_to_cam16 = new HashTable<int, He.Color.CAM16Color?> (null, null);
       double[] hue_proportions = new double[361];
 
-      foreach (var color in colors_to_population.get_keys ()) {
-        double population = colors_to_population.get (color);
-        double proportion = population / population_sum;
+      foreach (var key in colors_to_population.get_keys ()) {
+        foreach (var value in colors_to_population.get_values ()) {
+          double population = value;
+          double proportion = population / population_sum;
 
-        He.Color.CAM16Color cam = He.Color.cam16_from_int (color);
-        colors_to_cam16.insert (color, cam);
+          He.Color.CAM16Color cam = He.Color.cam16_from_int (key);
+          colors_to_cam16.insert (key, cam);
 
-        int hue = (int) Math.round (cam.h);
-        hue_proportions[hue] += proportion;
+          int hue = (int) Math.round (cam.h);
+          hue_proportions[hue] += proportion;
+        }
       }
 
       var colors_to_excited_proportion = new HashTable<int, double?> (null, null);
 
-      foreach (var color in colors_to_cam16.get_keys ()) {
-        He.Color.CAM16Color cam = colors_to_cam16.get (color);
-        int hue = (int) Math.round (cam.h);
-        double excited_proportion = 0.0;
+      foreach (var argb in colors_to_cam16.get_keys ()) {
+        foreach (var color in colors_to_cam16.get_values ()) {
+          He.Color.CAM16Color cam = color;
+          int hue = (int) Math.round (cam.h);
+          double excited_proportion = 0.0;
 
-        for (int j = (hue - 15); j < (hue + 15); j++) {
-          int neighbor_hue = He.MathUtils.sanitize_degrees_int (j);
-          excited_proportion += hue_proportions[neighbor_hue];
+          for (int j = (hue - 15); j < (hue + 15); j++) {
+            int neighbor_hue = He.MathUtils.sanitize_degrees_int (j);
+            excited_proportion += hue_proportions[neighbor_hue];
+          }
+
+          colors_to_excited_proportion.insert (argb, excited_proportion);
         }
-
-        colors_to_excited_proportion.insert (color, excited_proportion);
       }
 
       var colors_to_score = new HashTable<int, double?> (null, null);
 
-      foreach (var color in colors_to_cam16.get_keys ()) {
-        He.Color.CAM16Color cam = colors_to_cam16.get (color);
+      foreach (var argb in colors_to_cam16.get_keys ()) {
+        foreach (var color in colors_to_cam16.get_values ()) {
+          He.Color.CAM16Color cam = color;
 
-        foreach (var proportion in colors_to_excited_proportion.get_values ()) {
-          double proportion_score = proportion * 100.0 * WEIGHT_PROPORTION;
+          foreach (var proportion in colors_to_excited_proportion.get_values ()) {
+            double proportion_score = proportion * 100.0 * WEIGHT_PROPORTION;
 
-          double chroma_weight = cam.C < TARGET_CHROMA ? WEIGHT_CHROMA_BELOW : WEIGHT_CHROMA_ABOVE;
-          double chroma_score = (cam.C - TARGET_CHROMA) * chroma_weight;
+            double chroma_weight = cam.C < TARGET_CHROMA ? WEIGHT_CHROMA_BELOW : WEIGHT_CHROMA_ABOVE;
+            double chroma_score = (cam.C - TARGET_CHROMA) * chroma_weight;
 
-          double score = proportion_score + chroma_score;
-          colors_to_score.insert (color, score);
+            double score = proportion_score + chroma_score;
+            colors_to_score.insert (argb, score);
 
-          if (colors_to_score.length >= 4) {
-            break;
+            if (colors_to_score.length >= 4) {
+              break;
+            }
           }
         }
       }
@@ -101,7 +107,7 @@ namespace He {
       if (colors_by_score_descending.is_empty ()) {
         colors_by_score_descending.append ((int) 0xFF8C56BF); // Tau Purple to not leave it empty
       }
-      
+
       return colors_by_score_descending;
     }
 
@@ -127,7 +133,7 @@ namespace He {
     }
 
     public static int compare_filtered_colors_to_score (int a, int b) {
-      return -1 * (He.Misc.Comparable.compare_to (a, b));
+      return (He.Misc.Comparable.compare_to (a, b));
     }
   }
 }
