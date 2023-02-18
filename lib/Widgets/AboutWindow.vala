@@ -330,15 +330,15 @@ public class He.AboutWindow : He.Window {
     button_box.append(more_info_button);
 
     translate_app_button.clicked.connect(() => {
-      Gtk.show_uri_full.begin(this.parent, translate_url, Gdk.CURRENT_TIME, null);
+      Gtk.show_uri (this.parent, translate_url, Gdk.CURRENT_TIME);
     });
 
     report_button.clicked.connect(() => {
-      Gtk.show_uri_full.begin(this.parent, issue_url, Gdk.CURRENT_TIME, null);
+      Gtk.show_uri (this.parent, issue_url, Gdk.CURRENT_TIME);
     });
 
     more_info_button.clicked.connect(() => {
-      Gtk.show_uri_full.begin(this.parent, more_info_url, Gdk.CURRENT_TIME, null);
+      Gtk.show_uri (this.parent, more_info_url, Gdk.CURRENT_TIME);
     });
 
     var window_handle = new Gtk.WindowHandle ();
