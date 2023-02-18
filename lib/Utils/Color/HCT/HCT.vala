@@ -9,7 +9,11 @@ namespace He.Color {
     public HCTColor from_params (double hue, double chroma, double tone) {
       HCTColor result = {hue, chroma, tone};
 
-      return result;
+      if (disliked (result)) {
+        return fix_disliked (result);
+      } else {
+        return result;
+      }
     }
 
     public static bool disliked (He.Color.HCTColor hct) {
