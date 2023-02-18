@@ -6,9 +6,15 @@ namespace He.Color {
     }
 
     public const double[,] CAM16RGB_TO_XYZ = {
-        {1.8620678, -1.0112547, 0.14918678},
-        {0.38752654, 0.62144744, -0.00897398},
-        {-0.01584150, -0.03412294, 1.0499644}
+        {1.862067800, -1.01125470, 0.14918678},
+        {0.387526540, 0.62144744, -0.00897398},
+        {-0.01584150, -0.03412294, 1.04996440}
+    };
+
+    public const double[,] RGB_TO_XYZ = {
+        {0.4124564, 0.3575761, 0.1804375},
+        {0.2126729, 0.7151522, 0.0721750},
+        {0.0193339, 0.1191920, 0.9503041}
     };
 
     public double rgb_value_to_xyz (double v) {
@@ -20,14 +26,12 @@ namespace He.Color {
         var g = rgb_value_to_xyz(color.g);
         var b = rgb_value_to_xyz(color.b);
 
-        var x = xyz_value_to_lab((0.4124564 * r + 0.3575761 * g + 0.1804375 * b) / He.Color.Xn);
-        var y = xyz_value_to_lab((0.2126729 * r + 0.7151522 * g + 0.0721750 * b) / He.Color.Yn);
-        var z = xyz_value_to_lab((0.0193339 * r + 0.1191920 * g + 0.9503041 * b) / He.Color.Zn);
+        double[] xyz = MathUtils.elem_mul ({r,g,b}, RGB_TO_XYZ);
 
         XYZColor result = {
-            x,
-            y,
-            z
+            xyz[0],
+            xyz[1],
+            xyz[2]
         };
 
         return result;
