@@ -27,7 +27,6 @@ namespace He {
         // Ensure all classes listed here are available for use.
         // Remove only if the class is not needed anymore.
         typeof (He.AboutWindow).ensure ();
-        typeof (He.Animation).ensure ();
         typeof (He.AppBar).ensure ();
         typeof (He.Application).ensure ();
         typeof (He.ApplicationWindow).ensure ();
