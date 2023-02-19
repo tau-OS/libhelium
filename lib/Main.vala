@@ -26,9 +26,10 @@ namespace He {
 
         // Ensure all classes listed here are available for use.
         // Remove only if the class is not needed anymore.
-        typeof (He.Application).ensure ();
         typeof (He.AboutWindow).ensure ();
+        typeof (He.Animation).ensure ();
         typeof (He.AppBar).ensure ();
+        typeof (He.Application).ensure ();
         typeof (He.ApplicationWindow).ensure ();
         typeof (He.Avatar).ensure ();
         typeof (He.Badge).ensure ();
@@ -55,12 +56,22 @@ namespace He {
         typeof (He.OutlineButton).ensure ();
         typeof (He.OverlayButton).ensure ();
         typeof (He.PillButton).ensure ();
+        typeof (He.PointProvider).ensure ();
+        typeof (He.PointProviderLab).ensure ();
+        typeof (He.Quantizer).ensure ();
+        typeof (He.QuantizerCelebi).ensure ();
+        typeof (He.QuantizerMap).ensure ();
+        typeof (He.QuantizerMap).ensure ();
+        typeof (He.QuantizerResult).ensure ();
+        typeof (He.QuantizerWsmeans).ensure ();
+        typeof (He.QuantizerWu).ensure ();
+        typeof (He.Score).ensure ();
         typeof (He.SegmentedButton).ensure ();
-        typeof (He.SideBar).ensure ();
-        typeof (He.SettingsPage).ensure ();
         typeof (He.SettingsList).ensure ();
+        typeof (He.SettingsPage).ensure ();
         typeof (He.SettingsRow).ensure ();
         typeof (He.SettingsWindow).ensure ();
+        typeof (He.SideBar).ensure ();
         typeof (He.SwitchBar).ensure ();
         typeof (He.Tab).ensure ();
         typeof (He.TabPage).ensure ();
@@ -74,23 +85,13 @@ namespace He {
         typeof (He.ViewAux).ensure ();
         typeof (He.ViewChooser).ensure ();
         typeof (He.ViewDual).ensure ();
+        typeof (He.ViewingConditions).ensure ();
         typeof (He.ViewMono).ensure ();
         typeof (He.ViewSubTitle).ensure ();
         typeof (He.ViewSwitcher).ensure ();
         typeof (He.ViewTitle).ensure ();
-        typeof (He.ViewingConditions).ensure ();
         typeof (He.WelcomeScreen).ensure ();
         typeof (He.Window).ensure ();
-        typeof (He.Score).ensure ();
-        typeof (He.PointProvider).ensure ();
-        typeof (He.PointProviderLab).ensure ();
-        typeof (He.Quantizer).ensure ();
-        typeof (He.QuantizerCelebi).ensure ();
-        typeof (He.QuantizerMap).ensure ();
-        typeof (He.QuantizerResult).ensure ();
-        typeof (He.QuantizerMap).ensure ();
-        typeof (He.QuantizerWsmeans).ensure ();
-        typeof (He.QuantizerWu).ensure ();
 
         // Setup the platform gtk theme, cursor theme and the default icon theme.
         Gtk.Settings.get_for_display(display).gtk_theme_name        = "Helium-empty";
