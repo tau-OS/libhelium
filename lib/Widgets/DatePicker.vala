@@ -17,9 +17,18 @@
  *
  */
 public class He.DatePicker : Gtk.Entry {
+    /**
+     *  The string format of how to display the date.
+     */
     public string format { get; construct; }
+    /**
+     *  The date to be used.
+     */
     public GLib.DateTime date { get; set; }
 
+    /**
+     *  Creates this widget with a predetermined date format.
+     */
     public DatePicker.with_format (string format) {
         Object (format: format);
     }
@@ -57,5 +66,7 @@ public class He.DatePicker : Gtk.Entry {
             text = _date.format (format);
             calendar.select_day (date);
         });
+
+        this.add_css_class ("text-field");
     }
 }

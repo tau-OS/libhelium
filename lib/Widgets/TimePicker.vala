@@ -17,9 +17,19 @@
  *
  */
 public class He.TimePicker : Gtk.Entry {
+    /**
+     *  The signal when time is changed with this widget.
+     */
     public signal void time_changed ();
 
+    /**
+     *  The string format of how to display the time when in 12h mode.
+     */
     public string format_12 { get; construct; }
+
+    /**
+     *  The string format of how to display the time when in 24h mode.
+     */
     public string format_24 { get; construct; }
 
     private GLib.DateTime _time = null;
@@ -175,6 +185,8 @@ public class He.TimePicker : Gtk.Entry {
         pm_togglebutton.clicked.connect (() => {
             update_am_pm (12);
         });
+
+        this.add_css_class ("text-field");
 
         update_text ();
     }
