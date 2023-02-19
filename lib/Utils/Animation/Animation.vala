@@ -35,13 +35,14 @@ public abstract class He.Animation : Object {
     public delegate void AnimationDoneCallback ();
     public delegate double AnimationEasingFunc (double t);
 
-    Animation (Gtk.Widget? widget,
-                      double to,
-                      double from,
-                      int duration,
-                      AnimationEasingFunc easing,
-                      AnimationValueCallback value_cb,
-                      AnimationDoneCallback done_cb
+    Animation (
+        Gtk.Widget? widget,
+        double to,
+        double from,
+        int duration,
+        AnimationEasingFunc? easing,
+        AnimationValueCallback? value_cb,
+        AnimationDoneCallback? done_cb
     ) {
         this.widget = widget;
         this.value = from;
@@ -58,7 +59,10 @@ public abstract class He.Animation : Object {
         this.dispose ();
     }
 
-    public bool tick_cb (Gtk.Widget widget, Gdk.FrameClock frame_clock) {
+    public bool tick_cb (
+        Gtk.Widget widget,
+        Gdk.FrameClock frame_clock
+    ) {
         int64 frame_time = frame_clock.get_frame_time () / 1000;
         double t = (double) (frame_time - start_time) / duration;
 

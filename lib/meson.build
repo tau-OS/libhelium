@@ -10,6 +10,7 @@ libhelium_sources += files(
     'Models/View.vala',
     'Models/Window.vala',
     'Utils/Animation/Animation.vala',
+    'Utils/Animation/TimedAnimation.vala',
     'Utils/Color.vala',
     'Utils/Color/ARGB.vala',
     'Utils/Color/Cam16.vala',
