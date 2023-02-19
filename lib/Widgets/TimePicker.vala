@@ -83,7 +83,8 @@ public class He.TimePicker : Gtk.Entry {
         };
 
         am_pm_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
-            valign = Gtk.Align.START
+            valign = Gtk.Align.START,
+            margin_start = 16
         };
         am_pm_box.add_css_class ("linked");
         am_pm_box.append (am_togglebutton);
@@ -104,7 +105,6 @@ public class He.TimePicker : Gtk.Entry {
         minutes_spinbutton = new Gtk.SpinButton.with_range (0, 59, 1);
         minutes_spinbutton.orientation = Gtk.Orientation.VERTICAL;
         minutes_spinbutton.wrap = true;
-        minutes_spinbutton.margin_end = 16;
         minutes_spinbutton.add_css_class ("display");
         minutes_spinbutton.add_css_class ("flat");
         minutes_spinbutton.value_changed.connect (() => update_time (false));
