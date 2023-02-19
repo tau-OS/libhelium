@@ -30,6 +30,7 @@ public class He.TimedAnimation : He.Animation {
 
     private void timed_animation_value_cb (double value) {
         this.value = value;
+        widget.queue_allocate ();
         widget.queue_resize ();
     }
 
