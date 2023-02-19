@@ -42,6 +42,7 @@ namespace He {
         typeof (He.ContentBlockImage).ensure ();
         typeof (He.ContentBlockImageCluster).ensure ();
         typeof (He.ContentList).ensure ();
+        typeof (He.DatePicker).ensure ();
         typeof (He.Desktop).ensure ();
         typeof (He.Dialog).ensure ();
         typeof (He.DisclosureButton).ensure ();
@@ -66,6 +67,7 @@ namespace He {
         typeof (He.TabSwitcher).ensure ();
         typeof (He.TextButton).ensure ();
         typeof (He.TextField).ensure ();
+        typeof (He.TimePicker).ensure ();
         typeof (He.TintButton).ensure ();
         typeof (He.Toast).ensure ();
         typeof (He.View).ensure ();
