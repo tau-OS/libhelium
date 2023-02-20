@@ -148,31 +148,14 @@ namespace He.Misc {
   }
 
   private class Pair<T, U> {
-    public T first;
-    public U second;
+    public T key;
+    public U value;
 
-    public Pair (T first, U second) {
-      this.first = first;
-      this.second = second;
+    public Pair (T key, U value) {
+      this.key = key;
+      this.value = value;
     }
   }
-
-  private class Comparable : GLib.Object {
-		public Comparable (int i) {
-			this.i = i;
-		}
-
-		public static int compare_to (int a, int b) {
-			if (a == b)
-				return 0;
-			else if (a > b)
-				return -1;
-			else
-				return 1;
-		}
-
-		int i;
-	}
 
   /**
    * Converts a {@link Gtk.accelerator_parse} style accel string to a human-readable string.
