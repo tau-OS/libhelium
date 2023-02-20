@@ -60,22 +60,11 @@ namespace He.Color {
     }
     
     public RGBColor from_argb_int (int argb) {
-        int red = (argb & 0x00ff0000) >> 16;
-        int green = (argb & 0x0000ff00) >> 8;
-        int blue = (argb & 0x000000ff);
-        double redL = He.MathUtils.linearized(red);
-        double greenL = He.MathUtils.linearized(green);
-        double blueL = He.MathUtils.linearized(blue);
-        double x = 0.41233895 * redL + 0.35762064 * greenL + 0.18051042 * blueL;
-        double y = 0.2126 * redL + 0.7152 * greenL + 0.0722 * blueL;
-        double z = 0.01932141 * redL + 0.11916382 * greenL + 0.95034478 * blueL;
-
-        XYZColor result = {
-            x,
-            y,
-            z
-        };
+        double r = MathUtils.linearized (red_from_rgba_int(argb));
+        double g = MathUtils.linearized (green_from_rgba_int(argb));
+        double b = MathUtils.linearized (blue_from_rgba_int(argb));
+        var d = MathUtils.elem_mul (new double[] {r, g, b}, SRGB_TO_XYZ);
     
-        return xyz_to_rgb(result);
+        return xyz_to_rgb ({d[0], d[1], d[2]});
     }
 }
