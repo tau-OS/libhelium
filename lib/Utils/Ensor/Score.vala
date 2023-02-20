@@ -98,6 +98,8 @@ namespace He {
         selected_colors.insert ({int.parse ("#FF8C56BF"), 311.12, 57.36, 0.0, 0.0}, 0);
       }
 
+      print ("FIRST SCORED RESULT: %s\n", Color.hexcode_argb(selected_colors.nth_data (0).argb));
+
       return selected_colors;
     }
 

@@ -159,6 +159,7 @@
          colors.append (color);
        }
      }
+     print ("FIRST WU RESULT: %s\n", Color.hexcode_argb(colors.nth_data (0)));
      return colors;
    }
 

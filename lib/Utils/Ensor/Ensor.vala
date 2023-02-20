@@ -38,13 +38,13 @@ namespace He.Ensor {
           uint8 green = pixels[offset + 1];
           uint8 blue = pixels[offset + 2];
 
-          Color.RGBColor color = {red, green, blue};
-          int rgb = Color.rgb_to_argb_int (color);
+          int rgb = Color.argb_from_rgb_int (red, green, blue);
           list += (rgb);
 
           i += inc;
       }
 
+      print ("FIRST PIXEL INT: %s\n", Color.hexcode_argb(list[0]));
       return list;
   }
 

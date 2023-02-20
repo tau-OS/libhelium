@@ -231,6 +231,8 @@ public class He.QuantizerWsmeans : Object {
       argb_to_population.insert (possible_new_cluster, count);
     }
 
+    print ("FIRST WSMEANS RESULT: (%s, pop. %d)\n", Color.hexcode_argb(argb_to_population.get_keys ().nth(0).data), argb_to_population.get_values ().nth(0).data);
+
     return argb_to_population;
   }
 }
