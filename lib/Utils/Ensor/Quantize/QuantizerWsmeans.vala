@@ -106,7 +106,7 @@ public class He.QuantizerWsmeans : Object {
     var distance_to_index_matrix = create_2d_list<DistanceToIndex>(cluster_count, cluster_count, (i) => new DistanceToIndex ());
 
     foreach (var sub in distance_to_index_matrix) {
-      print("and again: %d\n", sub.length ());
+      print("and again: %d\n", (int)sub.length ());
     }
 
     for (int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
