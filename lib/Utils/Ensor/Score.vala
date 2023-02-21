@@ -22,18 +22,17 @@ namespace He {
 
     public GLib.List<AnnotatedColor?> score (HashTable<int, int?> colors_to_population) {
       double population_sum = 0.0;
-      int input_size = 127; // The amount of colors previously quantized (index starts at 0)
+      uint input_size = colors_to_population.size ();
 
-      var argbs = new int[input_size];
-      var populations = new int[input_size];
+      // blah blah I'll set fixed size, later
+      int[] argbs = {};
+      int[] populations = {};
 
       foreach (var key in colors_to_population.get_keys ()) {
-        foreach (var val in colors_to_population.get_values ()) {
-          for (int i = 0; i < input_size; i++) {
-            argbs[i] = key;
-            populations[i] = val;
-          }
-        }
+        var val = colors_to_population.lookup (key);
+
+        argbs += key;
+        populations += val;
       }
 
       for (int i = 0; i < input_size; i++) {
