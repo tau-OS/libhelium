@@ -142,7 +142,7 @@ public class He.QuantizerWsmeans : Object {
         //  }
 
 
-        print("points.length() %u", points.length());
+        //  print("points.length() %u", points.length());
         print("%d\n", i);
 
         for (int j = 0; j < cluster_count; j++) {
