@@ -32,9 +32,12 @@ public class He.QuantizerWsmeans : Object {
     for (int i = 0; i < size; i++) {
       list.append (value_func(i));
     }
+
+    print("sublist.length: %d\n", (int)list.length());
   }
 
   static List<List<T>> create_2d_list<T>(int first_size, int second_size, fill_list_delegate<T> value_func) {
+    print("a: %d %d\n", first_size, second_size);
     var list = new List<List<T>> ();
 
     for (int i = 0; i < first_size; i++) {
