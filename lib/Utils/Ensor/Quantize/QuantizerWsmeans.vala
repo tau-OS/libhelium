@@ -144,9 +144,8 @@ public class He.QuantizerWsmeans : Object {
 
         //  print("points.length() %u", points.length());
 
-        for (int j = 0; j < 128; j++) {
-          if (distance_to_index_matrix.nth_data(previous_cluster_index).nth_data(j).distance >=
-              4 * previous_distance) {
+        for (int j = 0; j < cluster_count; j++) {
+          if (distance_to_index_matrix.nth_data(previous_cluster_index).nth_data(j).distance >= 4 * previous_distance) {
             continue;
           }
           double distance = Color.lab_distance(point, clusters.nth_data(j));
