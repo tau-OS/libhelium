@@ -190,6 +190,7 @@ public class He.QuantizerWsmeans : Object {
         component_c_sums[clusterIndex] += (point.b * count);
       }
 
+      print("cluster_count: %u\n", cluster_count);
       for (int i = 0; i < cluster_count; i++) {
         int count = pixel_count_sums[i];
         if (count == 0) {
