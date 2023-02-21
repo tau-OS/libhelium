@@ -49,7 +49,7 @@
  *   }
  * }}}
  */
- public class He.TextField : He.Bin {
+ public class He.TextField : Gtk.ListBoxRow {
     /**
      * Whether or not text is considered valid input.
      */
@@ -70,17 +70,13 @@
     /**
      * The entry widget to allow using Gtk.Editable props.
      */
-    private Gtk.Entry entry = new Gtk.Entry ();
-    public Gtk.Entry get_entry () {
+    private Gtk.Text entry = new Gtk.Text ();
+    public Gtk.Text get_entry () {
       return entry;
     }
-    
+
+    private Gtk.Label empty_title = new Gtk.Label ("");
     private Gtk.Label support_label;
-    
-    /**
-     * The signal when the text changes.
-     */
-    public signal void changed ();
     
     /**
      * The entry text.
@@ -174,8 +170,20 @@
     }
 
     construct {
+        empty_title = new Gtk.Label (placeholder_text);
+        empty_title.visible = false;
+        empty_title.halign = Gtk.Align.START;
+        empty_title.margin_start = 16;
+        empty_title.margin_top = 8;
+        empty_title.add_css_class ("placeholder");
+
         entry.activates_default = true;
-        entry.add_css_class ("text-field");
+        entry.margin_start = 16;
+        entry.vexpand = true;
+        entry.valign = Gtk.Align.CENTER;
+
+        var suffix_img = new Gtk.Image ();
+        suffix_img.margin_end = 16;
         
         support_label = new Gtk.Label (support_text);
         support_label.halign = Gtk.Align.START;
@@ -184,54 +192,71 @@
         support_label.add_css_class ("caption");
         support_label.add_css_class ("dim-label");
 
-        changed.connect (() => {
-           entry.changed.connect (() => {
-               if (needs_validation)
-                   check_validity ();
-           });
-        });
+        var entry_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        entry_box.hexpand = true;
+        entry_box.append(empty_title);
+        entry_box.append(entry);
 
-        entry.changed.connect_after (() => {
-            if (needs_validation) {
-                if (entry.text == "") {
-                    entry.secondary_icon_name = null;
-                    entry.remove_css_class ("tf-error");
-                    entry.remove_css_class ("tf-success");
-                } else if (is_valid) {
-                    entry.secondary_icon_name = "process-completed-symbolic";
-                    entry.remove_css_class ("tf-error");
-                    entry.add_css_class ("tf-success");
-                } else {
-                    entry.secondary_icon_name = "process-error-symbolic";
-                    entry.add_css_class ("tf-error");
-                    entry.remove_css_class ("tf-success");
-                }
-            }
-        });
+        var row_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+        row_box.append(entry_box);
+        row_box.append(suffix_img);
+        row_box.add_css_class ("text-field");
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
-        main_box.hexpand = true;
-        main_box.append(entry);
+        main_box.append(row_box);
         main_box.append(support_label);
         
         main_box.set_parent (this);
-        on_changed ();
-        
-        notify["text"].connect (() => {
-            entry.text = text;
-        });
-        notify["placeholder-text"].connect (() => {
-            entry.placeholder_text = placeholder_text;
-        });
+
+        halign = Gtk.Align.START;
+
         notify["max-length"].connect (() => {
             entry.max_length = max_length;
         });
         notify["visibility"].connect (() => {
             entry.visibility = visibility;
         });
-    }
-    
-    private void on_changed () {
-       changed ();
+
+        entry.changed.connect (() => {
+            if (needs_validation)
+                check_validity ();
+
+            if (placeholder_text == null) {
+                empty_title.label = "";
+                empty_title.visible = false;
+                empty_title.remove_css_class ("caption");
+                entry.placeholder_text = placeholder_text;
+            } else {
+                if (entry.text != "") {
+                    empty_title.label = placeholder_text;
+                    empty_title.add_css_class ("caption");
+                    entry.placeholder_text = "";
+                    empty_title.visible = true;
+                } else {
+                    empty_title.label = "";
+                    empty_title.visible = false;
+                    empty_title.remove_css_class ("caption");
+                    entry.placeholder_text = placeholder_text;
+                }
+            }
+        });
+
+        entry.changed.connect_after (() => {
+            if (needs_validation) {
+                if (entry.text == "") {
+                    suffix_img.icon_name = null;
+                    row_box.remove_css_class ("tf-error");
+                    row_box.remove_css_class ("tf-success");
+                } else if (is_valid) {
+                    suffix_img.icon_name = "process-completed-symbolic";
+                    row_box.remove_css_class ("tf-error");
+                    row_box.add_css_class ("tf-success");
+                } else {
+                    suffix_img.icon_name = "process-error-symbolic";
+                    row_box.add_css_class ("tf-error");
+                    row_box.remove_css_class ("tf-success");
+                }
+            }
+        });
     }
 }
