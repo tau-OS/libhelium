@@ -28,7 +28,7 @@ public class He.QuantizerWsmeans : Object {
 
   delegate T fill_list_delegate<T> (int index);
 
-  static void fill_list<T>(List<T> list, int size, fill_list_delegate<T> value_func) {
+  static void fill_list<T>(out List<T> list, int size, fill_list_delegate<T> value_func) {
     for (int i = 0; i < size; i++) {
       list.append (value_func(i));
     }
@@ -39,7 +39,7 @@ public class He.QuantizerWsmeans : Object {
 
     for (int i = 0; i < first_size; i++) {
       var sublist = new List<T> ();
-      fill_list (sublist, second_size, value_func);
+      fill_list (out sublist, second_size, value_func);
       list.append ((owned) sublist);
     }
 
