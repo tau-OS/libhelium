@@ -99,7 +99,7 @@ public class He.QuantizerWsmeans : Object {
     random = new Rand.with_seed (42688);
 
     for (var i = 0; i < points.length (); i++) {
-      cluster_indices.append((int) random.next_int () % cluster_count);
+      cluster_indices.append(random.int_range(0, cluster_count));
     }
 
     var index_matrix = new int[cluster_count, cluster_count];
