@@ -3,236 +3,235 @@
 
 public class He.QuantizerWsmeans : Object {
   private QuantizerWsmeans () {}
+  class Swatch {
+    public int argb = 0;
+    public int population = 0;
 
-  private class Distance : Object {
-    public int index;
-    public double distance;
-
-    public Distance() {
-      this.index = -1;
-      this.distance = -1;
+    public Swatch(int argb, int population) {
+      this.argb = argb;
+      this.population = population;
     }
 
-    public int compare_to(Distance other) {
+    public int compare_to(Swatch other) {
+      return this.population > other.population ? 1 : this.population < other.population ? -1 : 0;
+    }
+  }
+
+  class DistanceToIndex {
+    public double distance = 0.0;
+    public int index = 0;
+
+    public int compare_to(DistanceToIndex other) {
       return this.distance > other.distance ? 1 : this.distance < other.distance ? -1 : 0;
     }
   }
 
-  private const int MAX_ITERATIONS = 10;
+  delegate T fill_list_delegate<T> (int index);
+
+  static void fill_list<T>(List<T> list, int size, fill_list_delegate<T> value_func) {
+    for (int i = 0; i < size; i++) {
+      list.append (value_func(i));
+    }
+  }
+
+  static List<unowned List<T>> create_2d_list<T>(int first_size, int second_size, fill_list_delegate<T> value_func) {
+    var list = new List<unowned List<T>> ();
+    fill_list_delegate<T> list_func = (index) => {
+      var sublist = new List<T> ();
+      fill_list (sublist, first_size, value_func);
+      return sublist;
+    };
+    fill_list<unowned GLib.List<T>> (list, second_size, list_func);
+    return list;
+  }
+
+  private const int RAND_MAX = 2^32-1;
+  private const int MAX_ITERATIONS = 100;
   private const double MIN_MOVEMENT_DISTANCE = 3.0;
 
   public static GLib.HashTable<int, int?> quantize (int[] input_pixels, int[] starting_clusters, int max_colors) {
-    // Uses a seeded random number generator to ensure consistent results.
-    var random = new Rand.with_seed(0x42688);
+    var pixel_to_count = new GLib.HashTable<int, int?> (GLib.int_hash, GLib.int_equal);
 
-    var pixel_to_count = new HashTable<int, int?> (null, null);
-    var points = new List<double?>[input_pixels.length];
-    int[] pixels = new int[input_pixels.length];
-    PointProviderLab point_provider = new PointProviderLab ();
+    // Maybe this needs to be uint? See Google's CPP implementation.
+    var pixels = new GLib.List<int?> ();
+    var points = new GLib.List<Color.LABColor?> ();
 
-    int point_count = 0;
-    for (int i = 0; i < input_pixels.length; i++) {
-      int input_pixel = input_pixels[i];
-      var pixel_count = pixel_to_count.get (input_pixel);
-      if (pixel_count == null) {
-        var point = new List<double?> ();
-        foreach (var value in point_provider.from_int (input_pixel)) {
-          point.append (value);
-        }
+    foreach (var pixel in input_pixels) {
+      var count = pixel_to_count.lookup (pixel);
 
-        points[point_count] = point.copy_deep ((a) => a);
-        pixels[point_count] = input_pixel;
-        point_count++;
-
-        pixel_to_count.insert (input_pixel, 1);
+      if (count != null) {
+        pixel_to_count.insert (pixel, count + 1);
       } else {
-        pixel_to_count.insert (input_pixel, pixel_count + 1);
+          pixels.append(pixel);
+          points.append(Color.rgb_to_lab(Color.from_argb_int (pixel)));
+          pixel_to_count.insert(pixel, 1);
       }
     }
 
-    int[] counts = new int[point_count];
-    for (int i = 0; i < point_count; i++) {
-      int pixel = pixels[i];
-      int count = pixel_to_count.get (pixel);
-      counts[i] = count;
-    }
+    int cluster_count = (int) Math.fmin (max_colors, points.length ());
 
-    int cluster_count = (int) Math.fmin (max_colors, point_count);
-    if (starting_clusters.length != 0) {
+    if (starting_clusters.length == 0) {
       cluster_count = (int) Math.fmin (cluster_count, starting_clusters.length);
     }
 
-    var clusters = new List<double?>[cluster_count];
-    int clusters_created = 0;
-    for (int i = 0; i < starting_clusters.length; i++) {
-      var cluster = new List<double?> ();
-      foreach (var value in point_provider.from_int (starting_clusters[i])) {
-        cluster.append (value);
-      }
+    var pixel_count_sums = new int[256];
+    var clusters = new GLib.List<Color.LABColor?> ();
 
-      clusters[i] = cluster.copy_deep ((a) => a);
-      clusters_created++;
+    foreach (var argb in starting_clusters) {
+      clusters.append(Color.rgb_to_lab(Color.from_argb_int (argb)));
     }
 
-    int additional_clusters_needed = cluster_count - clusters_created;
-    if (additional_clusters_needed > 0) {
-      for (int i = 0; i < additional_clusters_needed; i++) {}
-    }
-
-    int[] cluster_indices = new int[point_count];
-    for (int i = 0; i < point_count; i++) {
-      cluster_indices[i] = random.int_range (0, cluster_count);
-    }
-
-    int[,] index_matrix = new int[cluster_count,cluster_count];
-
-    List<Distance?>[] distance_to_index_matrix = new List<Distance?>[cluster_count];
-    for (int i = 0; i < cluster_count; i++) {
-      distance_to_index_matrix[i] = new List<Distance?> ();
-
-      for (int j = 0; j < cluster_count; j++) {
-        distance_to_index_matrix[i].append (new Distance ());
+    var random = new Rand.with_seed (42688);
+    var additional_clusters_needed = cluster_count - (int) clusters.length ();
+    if (starting_clusters.length == 0 && additional_clusters_needed > 0) {
+      for (int i = 0; i < additional_clusters_needed; i++) {
+        // Adds a random Lab color to clusters.
+        double l = random.next_int () / (double) RAND_MAX * (100.0) + 0.0;
+        double a = random.next_int () / (double) RAND_MAX * (100.0 - -100.0) - 100.0;
+        double b = random.next_int () / (double) RAND_MAX * (100.0 - -100.0) - 100.0;
+        clusters.append({l, a, b});
       }
     }
 
-    int[] pixel_count_sums = new int[cluster_count];
+    var cluster_indices = new GLib.List<int> ();
+
+    random = new Rand.with_seed (42688);
+
+    for (var i = 0; i < points.length (); i++) {
+      cluster_indices.append((int) random.next_int () % cluster_count);
+    }
+
+    var index_matrix = new int[cluster_count, cluster_count];
+    var distance_to_index_matrix = create_2d_list<DistanceToIndex>(cluster_count, cluster_count, (i) => new DistanceToIndex ());
+
     for (int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
+      // Calculate cluster distances
       for (int i = 0; i < cluster_count; i++) {
+        distance_to_index_matrix.nth_data(i).nth_data(i).distance = 0;
+        distance_to_index_matrix.nth_data(i).nth_data(i).index = i;
         for (int j = i + 1; j < cluster_count; j++) {
-          var a = new double[clusters[i].length ()];
-          var b = new double[clusters[j].length ()];
+          double distance = Color.lab_distance(clusters.nth_data(i), clusters.nth_data(j));
 
-          for (int k = 0; k < clusters[i].length (); k++) {
-            a[k] = clusters[i].nth_data (k);
-          }
-
-          for (int k = 0; k < clusters[j].length (); k++) {
-            b[k] = clusters[j].nth_data (k);
-          }
-
-          double distance = point_provider.distance (a, b);
-          distance_to_index_matrix[j].nth_data (i).distance = distance;
-          distance_to_index_matrix[j].nth_data (i).index = i;
-          distance_to_index_matrix[i].nth_data (j).distance = distance;
-          distance_to_index_matrix[i].nth_data (j).index = j;
+          distance_to_index_matrix.nth_data(j).nth_data(i).distance = distance;
+          distance_to_index_matrix.nth_data(j).nth_data(i).index = i;
+          distance_to_index_matrix.nth_data(i).nth_data(j).distance = distance;
+          distance_to_index_matrix.nth_data(i).nth_data(j).index = j;
         }
 
-        distance_to_index_matrix[i].sort((a, b) => a.compare_to (b));
+        unowned var row = distance_to_index_matrix.nth_data(i);
+        row.sort((a, b) => a.compare_to(b));
+
         for (int j = 0; j < cluster_count; j++) {
-          index_matrix[i,j] = distance_to_index_matrix[i].nth_data (j).index;
+          index_matrix[i, j] = row.nth_data(j).index;
         }
       }
 
-      int points_moved = 0;
-      for (int i = 0; i < point_count; i++) {
-        double[] point = new double[points[i].length ()];
+      var color_moved = false;
+      for (var i = 0; i < points.length(); i++) {
+        var point = points.nth_data(i);
 
-        for (int j = 0; j < points[i].length (); j++) {
-          point[j] = points[i].nth (j).data;
-        }
-
-        int previous_cluster_index = cluster_indices[i];
-        double[] previous_cluster = new double[clusters[previous_cluster_index].length ()];
-        for (int j = 0; j < clusters[previous_cluster_index].length (); j++) {
-          previous_cluster[j] = clusters[previous_cluster_index].nth (j).data;
-        }
-        double previous_distance = point_provider.distance (point, previous_cluster);
-
+        var previous_cluster_index = cluster_indices.nth_data(i);
+        var previous_cluster = clusters.nth_data(previous_cluster_index);
+        var previous_distance = Color.lab_distance(point, previous_cluster);
         double minimum_distance = previous_distance;
         int new_cluster_index = -1;
+
         for (int j = 0; j < cluster_count; j++) {
-          if (distance_to_index_matrix[previous_cluster_index].nth_data (j).distance >= 4 * previous_distance) {
+          if (distance_to_index_matrix.nth_data(previous_cluster_index).nth_data(j).distance >=
+              4 * previous_distance) {
             continue;
           }
-
-          double[] cluster = new double[clusters[j].length ()];
-          for (int k = 0; k < clusters[j].length (); k++) {
-            cluster[k] = clusters[j].nth (k).data;
-          }
-
-          double distance = point_provider.distance (point, cluster);
+          double distance = Color.lab_distance(point, clusters.nth_data(j));
           if (distance < minimum_distance) {
             minimum_distance = distance;
             new_cluster_index = j;
           }
         }
         if (new_cluster_index != -1) {
-          double distance_change = Math.fabs (Math.sqrt (minimum_distance) - Math.sqrt (previous_distance));
-          if (distance_change > MIN_MOVEMENT_DISTANCE) {
-            points_moved++;
-            cluster_indices[i] = new_cluster_index;
+          double distanceChange =
+            Math.fabs(Math.sqrt(minimum_distance) - Math.sqrt(previous_distance));
+          if (distanceChange > MIN_MOVEMENT_DISTANCE) {
+            color_moved = true;
+            cluster_indices.insert(new_cluster_index, i);
           }
         }
       }
 
-      if (points_moved == 0 && iteration != 0) {
+      if (!color_moved && (iteration != 0)) {
         break;
       }
 
-      double[] component_a_sums = new double[cluster_count];
-      double[] component_b_sums = new double[cluster_count];
-      double[] component_c_sums = new double[cluster_count];
-
+      var component_a_sums = new double[256];
+      var component_b_sums = new double[256];
+      var component_c_sums = new double[256];
       for (int i = 0; i < cluster_count; i++) {
         pixel_count_sums[i] = 0;
       }
 
-      for (int i = 0; i < point_count; i++) {
-        int cluster_index = cluster_indices[i];
-        double[] point = new double[points[i].length ()];
-        for (int j = 0; j < points[i].length (); j++) {
-          point[j] = points[i].nth (j).data;
-        }
-        int count = counts[i];
-        pixel_count_sums[cluster_index] += count;
-        component_a_sums[cluster_index] += (point[0] * count);
-        component_b_sums[cluster_index] += (point[1] * count);
-        component_c_sums[cluster_index] += (point[2] * count);
+      for (var i = 0; i < points.length(); i++) {
+        int clusterIndex = cluster_indices.nth_data(i);
+        var point = points.nth_data(i);
+        int count = pixel_to_count[pixels.nth_data(i)];
+
+        pixel_count_sums[clusterIndex] += count;
+        component_a_sums[clusterIndex] += (point.l * count);
+        component_b_sums[clusterIndex] += (point.a * count);
+        component_c_sums[clusterIndex] += (point.b * count);
       }
 
       for (int i = 0; i < cluster_count; i++) {
         int count = pixel_count_sums[i];
         if (count == 0) {
-          var cluster = new List<double?> ();
-          cluster.append (0.0);
-          cluster.append (0.0);
-          cluster.append (0.0);
-
-          clusters[i] = cluster.copy_deep ((a) => a);
+          clusters.insert({0, 0, 0}, i);
           continue;
         }
         double a = component_a_sums[i] / count;
         double b = component_b_sums[i] / count;
         double c = component_c_sums[i] / count;
-        clusters[i].insert (a, 0);
-        clusters[i].insert (b, 1);
-        clusters[i].insert (c, 2);
+        clusters.insert({a, b, c}, i);
       }
     }
 
-    var argb_to_population = new HashTable<int, int?>(null, null);
+    var swatches = new GLib.List<Swatch> ();
+    var cluster_argbs = new GLib.List<int> ();
+
     for (int i = 0; i < cluster_count; i++) {
       int count = pixel_count_sums[i];
       if (count == 0) {
         continue;
       }
-
-      double[] cluster = new double[clusters[i].length ()];
-
-      for (int j = 0; j < clusters[i].length (); j++) {
-        cluster[j] = clusters[i].nth (j).data;
+      var possible_new_cluster = Color.rgb_to_argb_int (Color.lab_to_rgb((clusters.nth_data(i))));
+      int use_new_cluster = 1;
+      for (var j = 0; j < swatches.length(); j++) {
+        if (swatches.nth_data(j).argb == possible_new_cluster) {
+          swatches.nth_data(j).population += count;
+          use_new_cluster = 0;
+          break;
+        }
       }
 
-      int possible_new_cluster = point_provider.to_int (cluster);
-      if (argb_to_population.contains (possible_new_cluster)) {
+      if (use_new_cluster == 0) {
         continue;
       }
-
-      argb_to_population.insert (possible_new_cluster, count);
+      cluster_argbs.append(possible_new_cluster);
+      swatches.append(new Swatch(possible_new_cluster, count));
     }
 
-    print ("FIRST WSMEANS RESULT: (%s, pop. %d)\n", Color.hexcode_argb(argb_to_population.get_keys ().nth(0).data), argb_to_population.get_values ().nth(0).data);
+    swatches.sort((a, b) => a.compare_to(b));
 
-    return argb_to_population;
+    var color_to_count = new GLib.HashTable<int, int> (null, null);
+    for (var i = 0; i < swatches.length(); i++) {
+      color_to_count[swatches.nth_data(i).argb] = swatches.nth_data(i).population;
+    }
+
+    //  var input_pixel_to_cluster_pixel = new GLib.HashTable<int, int> (null, null);
+    //  for (var i = 0; i < points.length(); i++) {
+    //    int pixel = pixels.nth_data(i);
+    //    int cluster_index = cluster_indices.nth_data(i);
+    //    int cluster_argb = cluster_argbs.nth_data(cluster_index);
+    //    input_pixel_to_cluster_pixel[pixel] = cluster_argb;
+    //  }
+
+    return color_to_count;
   }
 }

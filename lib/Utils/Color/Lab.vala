@@ -28,13 +28,13 @@ namespace He.Color {
         var l = xyz_value_to_lab (color.x);
         var a = xyz_value_to_lab (color.y);
         var b = xyz_value_to_lab (color.z);
-    
+
         LABColor result = {
           l,
           a,
           b
         };
-    
+
         return result;
     }
 
@@ -45,20 +45,28 @@ namespace He.Color {
           color.c * Math.cos (hr),
           color.c * Math.sin (hr)
         };
-    
+
         return result;
     }
 
     public LABColor rgb_to_lab (RGBColor color) {
         var xyz_color = rgb_to_xyz (color);
         var l = 116d * xyz_color.y - 16d;
-    
+
         LABColor result = {
           l < 0 ? 0 : l,
           500d * (xyz_color.x - xyz_color.y),
           200d * (xyz_color.y - xyz_color.z)
         };
-    
+
         return result;
+    }
+
+    public double lab_distance (LABColor color1, LABColor color2) {
+        var l = color1.l - color2.l;
+        var a = color1.a - color2.a;
+        var b = color1.b - color2.b;
+
+        return Math.sqrt (l * l + a * a + b * b);
     }
 }
