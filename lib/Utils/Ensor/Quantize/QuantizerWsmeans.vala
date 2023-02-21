@@ -122,15 +122,16 @@ public class He.QuantizerWsmeans : Object {
           distance_to_index_matrix.nth_data(i).nth_data(j).index = j;
         }
 
-        var row_a = distance_to_index_matrix.nth_data(i).copy_deep(a => a);
-        row_a.sort((a, b) => a.compare_to(b));
-
-        if (iteration == 1 && i == 1) {
-          print("row_a.length(): %u\n", row_a.length());
-        }
-
-        unowned var row = distance_to_index_matrix.nth_data(i);
+        var row = distance_to_index_matrix.nth_data(i).copy_deep(a => a);
         row.sort((a, b) => a.compare_to(b));
+        distance_to_index_matrix.insert(row, i);
+
+        //  if (iteration == 1 && i == 1) {
+        //    print("row_a.length(): %u\n", row_a.length());
+        //  }
+
+        //  unowned var row = distance_to_index_matrix.nth_data(i);
+        //  row.sort((a, b) => a.compare_to(b));
 
 
         for (int j = 0; j < cluster_count; j++) {
