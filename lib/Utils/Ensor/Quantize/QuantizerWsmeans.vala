@@ -112,13 +112,6 @@ public class He.QuantizerWsmeans : Object {
         distance_to_index_matrix.nth_data(i).nth_data(i).distance = 0;
         distance_to_index_matrix.nth_data(i).nth_data(i).index = i;
 
-        if (iteration != 0) {
-          for (int o = 0; o < distance_to_index_matrix.length(); o++) {
-            if (distance_to_index_matrix.nth_data(o).length() != 128) {
-              print("found it! %d", i);
-            }
-          }
-        }
 
         for (int j = i + 1; j < cluster_count; j++) {
           double distance = Color.lab_distance(clusters.nth_data(i), clusters.nth_data(j));
@@ -127,6 +120,13 @@ public class He.QuantizerWsmeans : Object {
           distance_to_index_matrix.nth_data(j).nth_data(i).index = i;
           distance_to_index_matrix.nth_data(i).nth_data(j).distance = distance;
           distance_to_index_matrix.nth_data(i).nth_data(j).index = j;
+        }
+        if (iteration != 0) {
+          for (int o = 0; o < distance_to_index_matrix.length(); o++) {
+            if (distance_to_index_matrix.nth_data(o).length() != 128) {
+              print("found it! %d", i);
+            }
+          }
         }
 
         unowned var row = distance_to_index_matrix.nth_data(i);
