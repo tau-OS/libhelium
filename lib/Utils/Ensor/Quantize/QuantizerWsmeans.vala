@@ -146,7 +146,7 @@ public class He.QuantizerWsmeans : Object {
 
         for (int j = 0; j < cluster_count; j++) {
 
-          print("iteration: %u i: %u, j: %u, previous_cluster_index: %u, distance_to_index_matrix.nth_data(previous_cluster_index).length(): %u\n", iteration, i, j, previous_cluster_index, distance_to_index_matrix.nth_data(previous_cluster_index).length());
+          //  print("iteration: %u i: %u, j: %u, previous_cluster_index: %u, distance_to_index_matrix.nth_data(previous_cluster_index).length(): %u\n", iteration, i, j, previous_cluster_index, distance_to_index_matrix.nth_data(previous_cluster_index).length());
 
           if (distance_to_index_matrix.nth_data(previous_cluster_index).nth_data(j).distance >= 4 * previous_distance) {
             continue;
@@ -177,6 +177,8 @@ public class He.QuantizerWsmeans : Object {
       for (int i = 0; i < cluster_count; i++) {
         pixel_count_sums[i] = 0;
       }
+
+      print("aaaaaaaaaaaaa: %U\n", points.length());
 
       for (var i = 0; i < points.length(); i++) {
         int clusterIndex = cluster_indices.nth_data(i);
