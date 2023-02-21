@@ -125,8 +125,10 @@ public class He.QuantizerWsmeans : Object {
         for (int j = 0; j < cluster_count; j++) {
           index_matrix[i, j] = row.nth_data(j).index;
         }
+      }
 
-        print("row.length, after sort: %d\n", (int)row.length());
+      for (int i = 0; i < distance_to_index_matrix.length(); i++) {
+        print("apfadspjojpio: %d\n", (int)distance_to_index_matrix.nth_data(i));
       }
 
       var color_moved = false;
