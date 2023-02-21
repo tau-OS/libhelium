@@ -127,10 +127,6 @@ public class He.QuantizerWsmeans : Object {
         }
       }
 
-      for (int i = 0; i < distance_to_index_matrix.length(); i++) {
-        print("apfadspjojpio: %u\n", distance_to_index_matrix.nth_data(i).length());
-      }
-
       var color_moved = false;
       for (var i = 0; i < points.length(); i++) {
         var point = points.nth_data(i);
@@ -140,6 +136,10 @@ public class He.QuantizerWsmeans : Object {
         var previous_distance = Color.lab_distance(point, previous_cluster);
         double minimum_distance = previous_distance;
         int new_cluster_index = -1;
+
+        for (int o = 0; o < distance_to_index_matrix.length(); o++) {
+          print("876h: %u\n", distance_to_index_matrix.nth_data(i).length());
+        }
 
         for (int j = 0; j < cluster_count; j++) {
           if (distance_to_index_matrix.nth_data(previous_cluster_index).nth_data(j).distance >=
