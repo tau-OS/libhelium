@@ -24,34 +24,34 @@ namespace He {
       double population_sum = 0.0;
       uint input_size = 127; // The amount of colors previously quantized (index starts at 0)
 
-      var argbs = new GLib.List<int> ();
-      var populations = new GLib.List<int> ();
+      var argbs = new int[input_size];
+      var populations = new int[input_size];
 
       foreach (var key in colors_to_population.get_keys ()) {
         foreach (var value in colors_to_population.get_values ()) {
           for (int i = 0; i <= input_size; i++) {
-            argbs.insert (key, i);
-            populations.insert (value, i);
+            argbs[i] = key;
+            populations[i] = value;
           }
         }
       }
 
       for (int i = 0; i <= input_size; i++) {
-        population_sum += populations.nth_data (i);
+        population_sum += populations[i];
       }
 
       double[] hue_proportions = new double[361];
       GLib.List<AnnotatedColor?> colors = new GLib.List<AnnotatedColor> ();
 
       for (int i = 0; i <= input_size; i++) {
-        double proportion = populations.nth_data (i) / population_sum;
+        double proportion = populations[i] / population_sum;
 
-        He.Color.CAM16Color cam = He.Color.cam16_from_int (argbs.nth_data (i));
+        He.Color.CAM16Color cam = He.Color.cam16_from_int (argbs[i]);
 
         int hue = (int)He.MathUtils.sanitize_degrees (Math.round (cam.h));
         hue_proportions[hue] += proportion;
 
-        colors.insert ({argbs.nth_data (i), cam.h, cam.C, 0, -1}, argbs.nth_data (i));
+        colors.insert ({argbs[i], cam.h, cam.C, 0, -1}, argbs[i]);
       }
 
       for (int i = 0; i <= input_size; i++) {
