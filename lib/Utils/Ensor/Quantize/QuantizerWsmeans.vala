@@ -180,7 +180,6 @@ public class He.QuantizerWsmeans : Object {
 
       for (var i = 0; i < points.length(); i++) {
         int clusterIndex = cluster_indices.nth_data(i);
-        print("clusterIndex: %u\n", clusterIndex);
         var point = points.nth_data(i);
         int count = pixel_to_count[pixels.nth_data(i)];
 
@@ -190,7 +189,10 @@ public class He.QuantizerWsmeans : Object {
         component_c_sums[clusterIndex] += (point.b * count);
       }
 
-      print("cluster_count: %u\n", cluster_count);
+        for (int o = 0; o < distance_to_index_matrix.length(); o++) {
+          print("876h: %u\n", distance_to_index_matrix.nth_data(i).length());
+        }
+
       for (int i = 0; i < cluster_count; i++) {
         int count = pixel_count_sums[i];
         if (count == 0) {
