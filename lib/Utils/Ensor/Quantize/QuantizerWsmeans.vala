@@ -124,7 +124,7 @@ public class He.QuantizerWsmeans : Object {
 
         var row = distance_to_index_matrix.nth_data(i).copy_deep(a => a);
         row.sort((a, b) => a.compare_to(b));
-        distance_to_index_matrix.insert(row, i);
+        distance_to_index_matrix.insert((owned)row, i);
 
         //  if (iteration == 1 && i == 1) {
         //    print("row_a.length(): %u\n", row_a.length());
