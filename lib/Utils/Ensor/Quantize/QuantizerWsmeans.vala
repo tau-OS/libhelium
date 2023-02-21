@@ -137,9 +137,13 @@ public class He.QuantizerWsmeans : Object {
         double minimum_distance = previous_distance;
         int new_cluster_index = -1;
 
-        for (int o = 0; o < distance_to_index_matrix.length(); o++) {
-          print("876h: %u\n", distance_to_index_matrix.nth_data(i).length());
-        }
+        //  for (int o = 0; o < distance_to_index_matrix.length(); o++) {
+        //    print("876h: %u\n", distance_to_index_matrix.nth_data(i).length());
+        //  }
+
+
+        print("points.length() %u", points.length());
+        print("%d\n", i);
 
         for (int j = 0; j < cluster_count; j++) {
           if (distance_to_index_matrix.nth_data(previous_cluster_index).nth_data(j).distance >=
