@@ -128,7 +128,7 @@ public class He.QuantizerWsmeans : Object {
       }
 
       for (int i = 0; i < distance_to_index_matrix.length(); i++) {
-        print("apfadspjojpio: %d\n", (int)distance_to_index_matrix.nth_data(i));
+        print("apfadspjojpio: %u\n", distance_to_index_matrix.nth_data(i).length());
       }
 
       var color_moved = false;
