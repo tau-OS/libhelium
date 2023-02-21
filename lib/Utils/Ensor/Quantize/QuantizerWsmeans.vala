@@ -143,7 +143,7 @@ public class He.QuantizerWsmeans : Object {
 
 
         //  print("points.length() %u", points.length());
-        print("%d\n", i);
+        print("previous? %d\n", previous_cluster_index);
 
         for (int j = 0; j < cluster_count; j++) {
           if (distance_to_index_matrix.nth_data(previous_cluster_index).nth_data(j).distance >=
