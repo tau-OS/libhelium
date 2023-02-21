@@ -24,8 +24,8 @@ namespace He {
       double population_sum = 0.0;
       uint input_size = 127; // The amount of colors previously quantized (index starts at 0)
 
-      var argbs = new int[input_size];
-      var populations = new int[input_size];
+      var argbs = new int[127];
+      var populations = new int[127];
 
       foreach (var key in colors_to_population.get_keys ()) {
         foreach (var val in colors_to_population.get_values ()) {
