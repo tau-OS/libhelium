@@ -24,15 +24,15 @@ namespace He {
       double population_sum = 0.0;
       uint input_size = colors_to_population.size ();
 
-      // blah blah I'll set fixed size, later
-      int[] argbs = {};
-      int[] populations = {};
+      var argbs = new int[input_size];
+      var populations = new int[input_size];
 
-      foreach (var key in colors_to_population.get_keys ()) {
-        var val = colors_to_population.lookup (key);
+      var keys = colors_to_population.get_keys_as_array ();
+      for (int i = 0; i < input_size; i++) {
+        var key = keys[i];
 
-        argbs += key;
-        populations += val;
+        argbs[i] = key;
+        populations[i] = colors_to_population.lookup (key);
       }
 
       for (int i = 0; i < input_size; i++) {
