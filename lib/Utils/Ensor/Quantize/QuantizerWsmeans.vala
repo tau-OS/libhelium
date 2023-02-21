@@ -190,7 +190,7 @@ public class He.QuantizerWsmeans : Object {
       }
 
         for (int o = 0; o < distance_to_index_matrix.length(); o++) {
-          print("876h: %u\n", distance_to_index_matrix.nth_data(i).length());
+          print("f: %u\n", distance_to_index_matrix.nth_data(o).length());
         }
 
       for (int i = 0; i < cluster_count; i++) {
