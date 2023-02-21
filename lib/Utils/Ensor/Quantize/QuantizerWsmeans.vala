@@ -188,11 +188,6 @@ public class He.QuantizerWsmeans : Object {
         component_b_sums[clusterIndex] += (point.a * count);
         component_c_sums[clusterIndex] += (point.b * count);
       }
-
-        for (int o = 0; o < distance_to_index_matrix.length(); o++) {
-          print("f: %u\n", distance_to_index_matrix.nth_data(o).length());
-        }
-
       for (int i = 0; i < cluster_count; i++) {
         int count = pixel_count_sums[i];
         if (count == 0) {
@@ -203,6 +198,10 @@ public class He.QuantizerWsmeans : Object {
         double b = component_b_sums[i] / count;
         double c = component_c_sums[i] / count;
         clusters.insert({a, b, c}, i);
+      }
+
+      for (int o = 0; o < distance_to_index_matrix.length(); o++) {
+        print("f: %u\n", distance_to_index_matrix.nth_data(o).length());
       }
     }
 
