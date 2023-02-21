@@ -106,6 +106,12 @@ public class He.QuantizerWsmeans : Object {
     var distance_to_index_matrix = create_2d_list<DistanceToIndex>(cluster_count, cluster_count, (i) => new DistanceToIndex ());
 
     for (int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
+      if (iteration != 0) {
+        for (int o = 0; o < distance_to_index_matrix.length(); o++) {
+          print("f: %u\n", distance_to_index_matrix.nth_data(o).length());
+        }
+      }
+
       // Calculate cluster distances
       for (int i = 0; i < cluster_count; i++) {
         distance_to_index_matrix.nth_data(i).nth_data(i).distance = 0;
@@ -188,6 +194,7 @@ public class He.QuantizerWsmeans : Object {
         component_b_sums[clusterIndex] += (point.a * count);
         component_c_sums[clusterIndex] += (point.b * count);
       }
+
       for (int i = 0; i < cluster_count; i++) {
         int count = pixel_count_sums[i];
         if (count == 0) {
@@ -198,10 +205,6 @@ public class He.QuantizerWsmeans : Object {
         double b = component_b_sums[i] / count;
         double c = component_c_sums[i] / count;
         clusters.insert({a, b, c}, i);
-      }
-
-      for (int o = 0; o < distance_to_index_matrix.length(); o++) {
-        print("f: %u\n", distance_to_index_matrix.nth_data(o).length());
       }
     }
 
