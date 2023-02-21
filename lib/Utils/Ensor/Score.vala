@@ -78,7 +78,7 @@ namespace He {
       }
 
       GLib.List<AnnotatedColor?> selected_colors = new GLib.List<AnnotatedColor> ();
-      for (int i = 0; i <= input_size; i++) {
+      for (int i = 0; i < input_size; i++) {
         if (!good_color_finder (colors.nth_data (i))) {
           continue;
         }
