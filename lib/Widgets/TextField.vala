@@ -207,6 +207,8 @@
         main_box.append(support_label);
         
         main_box.set_parent (this);
+        
+        this.activatable = false;
 
         notify["max-length"].connect (() => {
             entry.max_length = max_length;
