@@ -208,8 +208,6 @@
         
         main_box.set_parent (this);
 
-        halign = Gtk.Align.START;
-
         notify["max-length"].connect (() => {
             entry.max_length = max_length;
         });
