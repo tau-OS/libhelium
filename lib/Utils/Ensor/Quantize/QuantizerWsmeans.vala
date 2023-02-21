@@ -123,7 +123,6 @@ public class He.QuantizerWsmeans : Object {
         }
 
         unowned var row = distance_to_index_matrix.nth_data(i);
-        row.sort((a, b) => a.compare_to(b));
         if (iteration != 0) {
           for (int o = 0; o < distance_to_index_matrix.length(); o++) {
             if (distance_to_index_matrix.nth_data(o).length() != 128) {
@@ -131,6 +130,7 @@ public class He.QuantizerWsmeans : Object {
             }
           }
         }
+        row.sort((a, b) => a.compare_to(b));
 
         for (int j = 0; j < cluster_count; j++) {
           index_matrix[i, j] = row.nth_data(j).index;
