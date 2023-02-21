@@ -213,7 +213,11 @@ public class He.QuantizerWsmeans : Object {
         double c = component_c_sums[i] / count;
         clusters.insert({a, b, c}, i);
       }
+
+      print("finished iteration %u\n", iteration);
     }
+
+    print("checkpoint neko\n");
 
     var swatches = new GLib.List<Swatch> ();
     var cluster_argbs = new GLib.List<int> ();
