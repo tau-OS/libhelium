@@ -1,4 +1,4 @@
-// Adapted from the Java implementation of material-color-utilities licensed under the Apache License, Version 2.0
+// Adapted from the C++ implementation of material-color-utilities licensed under the Apache License, Version 2.0
 // Copyright (c) 2021 Google LLC
 
 public class He.QuantizerWsmeans : Object {
@@ -50,7 +50,7 @@ public class He.QuantizerWsmeans : Object {
   private const double MIN_MOVEMENT_DISTANCE = 3.0;
 
   public static GLib.HashTable<int, int?> quantize (int[] input_pixels, int[] starting_clusters, int max_colors) {
-    var pixel_to_count = new GLib.HashTable<int, int?> (GLib.int_hash, GLib.int_equal);
+    var pixel_to_count = new GLib.HashTable<int, int?> (null, null);
 
     // Maybe this needs to be uint? See Google's CPP implementation.
     var pixels = new GLib.List<int?> ();
