@@ -49,7 +49,7 @@
  *   }
  * }}}
  */
- public class He.TextField : Gtk.Box {
+ public class He.TextField : Gtk.ListBoxRow {
     /**
      * Whether or not text is considered valid input.
      */
@@ -207,6 +207,8 @@
         main_box.append(support_label);
         
         main_box.set_parent (this);
+        
+        this.activatable = false;
 
         notify["max-length"].connect (() => {
             entry.max_length = max_length;
