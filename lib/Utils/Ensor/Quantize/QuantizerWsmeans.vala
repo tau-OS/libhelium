@@ -178,7 +178,7 @@ public class He.QuantizerWsmeans : Object {
         pixel_count_sums[i] = 0;
       }
 
-      print("aaaaaaaaaaaaa: %U\n", points.length());
+      print("aaaaaaaaaaaaa: %u\n", points.length());
 
       for (var i = 0; i < points.length(); i++) {
         int clusterIndex = cluster_indices.nth_data(i);
