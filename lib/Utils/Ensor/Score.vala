@@ -28,10 +28,10 @@ namespace He {
       var populations = new int[input_size];
 
       foreach (var key in colors_to_population.get_keys ()) {
-        foreach (var value in colors_to_population.get_values ()) {
+        foreach (var val in colors_to_population.get_values ()) {
           for (int i = 0; i <= input_size; i++) {
             argbs[i] = key;
-            populations[i] = value;
+            populations[i] = val;
           }
         }
       }
