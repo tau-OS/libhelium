@@ -109,6 +109,13 @@ public class He.QuantizerWsmeans : Object {
 
       // Calculate cluster distances
       for (int i = 0; i < cluster_count; i++) {
+        if (iteration != 0) {
+          for (int o = 0; o < distance_to_index_matrix.length(); o++) {
+            if (distance_to_index_matrix.nth_data(o).length() != 128) {
+              print("found it! %d", i);
+            }
+          }
+        }
         distance_to_index_matrix.nth_data(i).nth_data(i).distance = 0;
         distance_to_index_matrix.nth_data(i).nth_data(i).index = i;
 
@@ -124,16 +131,11 @@ public class He.QuantizerWsmeans : Object {
         unowned var row = distance_to_index_matrix.nth_data(i);
         row.sort((a, b) => a.compare_to(b));
 
+
         for (int j = 0; j < cluster_count; j++) {
           index_matrix[i, j] = row.nth_data(j).index;
         }
-        if (iteration != 0) {
-          for (int o = 0; o < distance_to_index_matrix.length(); o++) {
-            if (distance_to_index_matrix.nth_data(o).length() != 128) {
-              print("found it! %d", i);
-            }
-          }
-        }
+
       }
 
       var color_moved = false;
