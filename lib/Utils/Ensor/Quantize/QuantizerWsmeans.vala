@@ -111,6 +111,12 @@ public class He.QuantizerWsmeans : Object {
       for (int i = 0; i < cluster_count; i++) {
         distance_to_index_matrix.nth_data(i).nth_data(i).distance = 0;
         distance_to_index_matrix.nth_data(i).nth_data(i).index = i;
+        if (iteration != 0) {
+          for (int o = 0; o < distance_to_index_matrix.length(); o++) {
+            print("f: %u\n", distance_to_index_matrix.nth_data(o).length());
+          }
+        }
+
         for (int j = i + 1; j < cluster_count; j++) {
           double distance = Color.lab_distance(clusters.nth_data(i), clusters.nth_data(j));
 
@@ -125,12 +131,6 @@ public class He.QuantizerWsmeans : Object {
 
         for (int j = 0; j < cluster_count; j++) {
           index_matrix[i, j] = row.nth_data(j).index;
-        }
-      }
-
-      if (iteration != 0) {
-        for (int o = 0; o < distance_to_index_matrix.length(); o++) {
-          print("f: %u\n", distance_to_index_matrix.nth_data(o).length());
         }
       }
 
