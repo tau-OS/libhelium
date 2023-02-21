@@ -105,10 +105,6 @@ public class He.QuantizerWsmeans : Object {
     var index_matrix = new int[cluster_count, cluster_count];
     var distance_to_index_matrix = create_2d_list<DistanceToIndex>(cluster_count, cluster_count, (i) => new DistanceToIndex ());
 
-    foreach (unowned var sub in distance_to_index_matrix) {
-      print("and again: %d\n", (int)sub.length ());
-    }
-
     for (int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
       // Calculate cluster distances
       for (int i = 0; i < cluster_count; i++) {
@@ -130,6 +126,11 @@ public class He.QuantizerWsmeans : Object {
           index_matrix[i, j] = row.nth_data(j).index;
         }
       }
+
+
+    foreach (unowned var sub in distance_to_index_matrix) {
+      print("neko: %d\n", (int)sub.length ());
+    }
 
       var color_moved = false;
       for (var i = 0; i < points.length(); i++) {
