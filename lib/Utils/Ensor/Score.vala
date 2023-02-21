@@ -22,7 +22,7 @@ namespace He {
 
     public GLib.List<AnnotatedColor?> score (HashTable<int, int?> colors_to_population) {
       double population_sum = 0.0;
-      uint input_size = 127; // The amount of colors previously quantized (index starts at 0)
+      int input_size = 127; // The amount of colors previously quantized (index starts at 0)
 
       int argbs[127] = {0};
       //  var argbs = new int[input_size];
