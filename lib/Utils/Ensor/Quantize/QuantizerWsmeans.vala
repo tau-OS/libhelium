@@ -34,14 +34,15 @@ public class He.QuantizerWsmeans : Object {
     }
   }
 
-  static List<unowned List<T>> create_2d_list<T>(int first_size, int second_size, fill_list_delegate<T> value_func) {
-    var list = new List<unowned List<T>> ();
-    fill_list_delegate<T> list_func = (index) => {
+  static List<List<T>> create_2d_list<T>(int first_size, int second_size, fill_list_delegate<T> value_func) {
+    var list = new List<List<T>> ();
+
+    for (int i = 0; i < first_size; i++) {
       var sublist = new List<T> ();
-      fill_list (sublist, first_size, value_func);
-      return sublist;
-    };
-    fill_list<unowned GLib.List<T>> (list, second_size, list_func);
+      fill_list (sublist, second_size, value_func);
+      list.append ((owned) sublist);
+    }
+
     return list;
   }
 
