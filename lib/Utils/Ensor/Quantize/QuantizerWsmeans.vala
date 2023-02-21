@@ -119,18 +119,12 @@ public class He.QuantizerWsmeans : Object {
           distance_to_index_matrix.nth_data(i).nth_data(j).index = j;
         }
 
-        unowned var row = distance_to_index_matrix.nth_data(i);
-        row.sort((a, b) => a.compare_to(b));
+        distance_to_index_matrix.nth_data(i).sort((a, b) => a.compare_to(b));
 
         for (int j = 0; j < cluster_count; j++) {
-          index_matrix[i, j] = row.nth_data(j).index;
+          index_matrix[i, j] = distance_to_index_matrix.nth_data(i).nth_data(j).index;
         }
       }
-
-
-    foreach (unowned var sub in distance_to_index_matrix) {
-      print("neko: %d\n", (int)sub.length ());
-    }
 
       var color_moved = false;
       for (var i = 0; i < points.length(); i++) {
