@@ -24,8 +24,8 @@ namespace He {
       double population_sum = 0.0;
       uint input_size = 127; // The amount of colors previously quantized (index starts at 0)
 
-      GLib.List<int> argbs = new GLib.List<int> ();
-      GLib.List<int> populations = new GLib.List<int> ();
+      var argbs = new GLib.List<int> ();
+      var populations = new GLib.List<int> ();
 
       foreach (var key in colors_to_population.get_keys ()) {
         foreach (var value in colors_to_population.get_values ()) {
