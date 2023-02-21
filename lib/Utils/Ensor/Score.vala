@@ -31,21 +31,21 @@ namespace He {
 
       foreach (var key in colors_to_population.get_keys ()) {
         foreach (var val in colors_to_population.get_values ()) {
-          for (int i = 0; i <= input_size; i++) {
+          for (int i = 0; i < input_size; i++) {
             argbs[i] = key;
             populations[i] = val;
           }
         }
       }
 
-      for (int i = 0; i <= input_size; i++) {
+      for (int i = 0; i < input_size; i++) {
         population_sum += populations[i];
       }
 
       double[] hue_proportions = new double[361];
       GLib.List<AnnotatedColor?> colors = new GLib.List<AnnotatedColor> ();
 
-      for (int i = 0; i <= input_size; i++) {
+      for (int i = 0; i < input_size; i++) {
         double proportion = populations[i] / population_sum;
 
         He.Color.CAM16Color cam = He.Color.cam16_from_int (argbs[i]);
@@ -56,7 +56,7 @@ namespace He {
         colors.insert ({argbs[i], cam.h, cam.C, 0, -1}, argbs[i]);
       }
 
-      for (int i = 0; i <= input_size; i++) {
+      for (int i = 0; i < input_size; i++) {
         int hue = (int)Math.round (colors.nth_data (i).cam_hue);
         for (int j = (hue - 15); j < (hue + 15); j++) {
           int sanitized_hue = (int)He.MathUtils.sanitize_degrees (j);
@@ -64,7 +64,7 @@ namespace He {
         }
       }
 
-      for (int i = 0; i <= input_size; i++) {
+      for (int i = 0; i < input_size; i++) {
         double proportion_score = colors.nth_data (i).excited_proportion * 100.0 * WEIGHT_PROPORTION;
         double chroma = colors.nth_data (i).cam_chroma;
         double chroma_weight = (chroma > TARGET_CHROMA ? WEIGHT_CHROMA_ABOVE : WEIGHT_CHROMA_BELOW);
@@ -73,7 +73,7 @@ namespace He {
         colors.nth_data (i).score = chroma_score + proportion_score;
       }
 
-      for (int i = 0; i <= input_size; i++) {
+      for (int i = 0; i < input_size; i++) {
         argb_color_sort (colors.nth_data (i + 1), colors.nth_data (input_size - i));
       }
 
