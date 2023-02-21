@@ -47,7 +47,8 @@ public class He.QuantizerWsmeans : Object {
   }
 
   private const int RAND_MAX = 2^32-1;
-  private const int MAX_ITERATIONS = 100;
+  // Set back to 100
+  private const int MAX_ITERATIONS = 2;
   private const double MIN_MOVEMENT_DISTANCE = 3.0;
 
   public static GLib.HashTable<int, int?> quantize (int[] input_pixels, int[] starting_clusters, int max_colors) {
