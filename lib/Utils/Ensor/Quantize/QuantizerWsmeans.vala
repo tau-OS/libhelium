@@ -13,7 +13,7 @@ public class He.QuantizerWsmeans : Object {
     }
 
     public int compare_to(Swatch other) {
-      return this.population > other.population ? 1 : this.population < other.population ? -1 : 0;
+      return this.population > other.population ? -1 : this.population < other.population ? 1 : 0;
     }
   }
 
@@ -22,7 +22,7 @@ public class He.QuantizerWsmeans : Object {
     public int index = 0;
 
     public int compare_to(DistanceToIndex other) {
-      return this.distance > other.distance ? 1 : this.distance < other.distance ? -1 : 0;
+      return this.distance > other.distance ? -1 : this.distance < other.distance ? 1 : 0;
     }
   }
 
@@ -46,8 +46,7 @@ public class He.QuantizerWsmeans : Object {
     return list;
   }
 
-  private const int RAND_MAX = 2^32-1;
-  // Set back to 100
+  private const int RAND_MAX = 32767; // This value is library-dependent, but is guaranteed to be at least 32767 on any standard library implementation.
   private const int MAX_ITERATIONS = 2;
   private const double MIN_MOVEMENT_DISTANCE = 3.0;
 

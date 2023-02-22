@@ -20,7 +20,7 @@ namespace He {
       public double score;
 
       public int compare_to (AnnotatedColor other) {
-        return this.score > other.score ? -1 : this.score < other.score ? 1 : 0;
+        return this.score > other.score ? 1 : this.score < other.score ? -1 : 0;
       }
     }
 
@@ -53,6 +53,8 @@ namespace He {
         int hue = (int)He.MathUtils.sanitize_degrees (Math.round (cam.h));
         hue_proportions[hue] += proportion;
 
+        //print ("HUE PROPORTIONS FOR HUE %d: %f\n", hue, hue_proportions[sanitized_hue]);
+
         colors.append_val (new AnnotatedColor () {
           argb = argbs[i],
           cam_hue = cam.h,
@@ -79,7 +81,13 @@ namespace He {
         colors.index (i).score = chroma_score + proportion_score;
       }
 
+      for (int i = 0; i < input_size; i++) {
+        print ("COLORS #%d BEFORE: %s\n", i, Color.hexcode_argb(colors.index (i).argb));
+      }
       colors.sort ((a, b) => a.compare_to (b));
+      for (int i = 0; i < input_size; i++) {
+        print ("COLORS #%d AFTER: %s\n", i, Color.hexcode_argb(colors.index (i).argb));
+      }
 
       GLib.Array<AnnotatedColor> selected_colors = new GLib.Array<AnnotatedColor> ();
       for (int i = 0; i < input_size; i++) {
