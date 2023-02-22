@@ -51,8 +51,8 @@ public class He.QuantizerWsmeans : Object {
   private const int MAX_ITERATIONS = 2;
   private const double MIN_MOVEMENT_DISTANCE = 3.0;
 
-  public static GLib.HashTable<int?, int?> quantize (int[] input_pixels, int[] starting_clusters, int max_colors) {
-    var pixel_to_count = new GLib.HashTable<int?, int?> (null, null);
+  public static GLib.HashTable<int, int?> quantize (int[] input_pixels, int[] starting_clusters, int max_colors) {
+    var pixel_to_count = new GLib.HashTable<int, int?> (null, null);
 
     // Maybe this needs to be uint? See Google's CPP implementation.
     var pixels = new GLib.List<int?> ();
@@ -248,12 +248,12 @@ public class He.QuantizerWsmeans : Object {
 
     swatches.sort((a, b) => a.compare_to(b));
 
-    var color_to_count = new GLib.HashTable<int?, int?> (null, null);
+    var color_to_count = new GLib.HashTable<int, int> (null, null);
     for (var i = 0; i < swatches.length(); i++) {
       color_to_count[swatches.nth_data(i).argb] = swatches.nth_data(i).population;
     }
 
-    //  var input_pixel_to_cluster_pixel = new GLib.HashTable<int?, int?> (null, null);
+    //  var input_pixel_to_cluster_pixel = new GLib.HashTable<int, int> (null, null);
     //  for (var i = 0; i < points.length(); i++) {
     //    int pixel = pixels.nth_data(i);
     //    int cluster_index = cluster_indices.nth_data(i);
