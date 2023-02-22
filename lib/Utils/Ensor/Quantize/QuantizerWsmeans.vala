@@ -248,12 +248,12 @@ public class He.QuantizerWsmeans : Object {
 
     swatches.sort((a, b) => a.compare_to(b));
 
-    var color_to_count = new GLib.HashTable<int?, int> (int_hash, int_equal);
+    var color_to_count = new GLib.HashTable<int?, int?> (int_hash, int_equal);
     for (var i = 0; i < swatches.length(); i++) {
       color_to_count[swatches.nth_data(i).argb] = swatches.nth_data(i).population;
     }
 
-    //  var input_pixel_to_cluster_pixel = new GLib.HashTable<int?, int> (int_hash, int_equal);
+    //  var input_pixel_to_cluster_pixel = new GLib.HashTable<int?, int?> (int_hash, int_equal);
     //  for (var i = 0; i < points.length(); i++) {
     //    int pixel = pixels.nth_data(i);
     //    int cluster_index = cluster_indices.nth_data(i);

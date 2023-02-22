@@ -3,7 +3,7 @@
 
 /** Creates a dictionary with keys of colors, and values of count of the color */
  public class He.QuantizerMap : Quantizer {
-  HashTable<int, int> color_to_count;
+  HashTable<int?, int?> color_to_count;
 
   public override QuantizerResult quantize (int[] pixels, int color_count) {
     var pixel_by_count = new HashTable<int?, int?> (int_hash, int_equal);

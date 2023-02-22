@@ -4,7 +4,7 @@
 public class He.QuantizerCelebi {
   public QuantizerCelebi () {}
 
-  public HashTable<int, int> quantize (int[] pixels, int max_colors) {
+  public HashTable<int?, int?> quantize (int[] pixels, int max_colors) {
     QuantizerWu wu = new QuantizerWu ();
     QuantizerResult wu_result = wu.quantize (pixels, max_colors);
 
