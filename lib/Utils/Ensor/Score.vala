@@ -27,9 +27,9 @@ namespace He {
       var argbs = new int[input_size];
       var populations = new int[input_size];
 
-      var keys = colors_to_population.get_keys_as_array ();
-      for (int i = 0; i < input_size; i++) {
-        var key = keys[i];
+      var keys = colors_to_population.get_keys ();
+      for (int i = 0; i < keys.length (); i++) {
+        var key = keys.nth_data (i);
 
         argbs[i] = key;
         populations[i] = colors_to_population.lookup (key);
