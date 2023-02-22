@@ -14,7 +14,7 @@
    int[] moments_b;
    double[] moments;
    Box[] cubes;
-   
+
    public QuantizerWu () {}
 
    // A histogram of all the input colors is constructed. It has the shape of a
@@ -31,7 +31,7 @@
      create_moments ();
      CreateBoxesResult create_boxes_result = create_boxes (color_count);
      var colors = create_result (create_boxes_result.result_count);
-     var result_map = new HashTable<int, int?> (null, null);
+     var result_map = new HashTable<int, int?> (int_hash, int_equal);
      foreach (var color in colors) {
        result_map.insert (color, 0);
      }
