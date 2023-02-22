@@ -146,8 +146,8 @@
      return new CreateBoxesResult (max_color_count, generated_color_count);
    }
 
-   List<int?> create_result (int color_count) {
-     var colors = new List<int?> ();
+   Array<int?> create_result (int color_count) {
+     var colors = new GLib.Array<int?> ();
      for (int i = 0; i < color_count; ++i) {
        Box cube = cubes[i];
        int weight = volume (cube, weights);
@@ -156,10 +156,10 @@
          int g = volume (cube, moments_g) / weight;
          int b = volume (cube, moments_b) / weight;
          int color = (255 << 24) | ((r & 0x0ff) << 16) | ((g & 0x0ff) << 8) | (b & 0x0ff);
-         colors.append (color);
+         colors.append_val (color);
        }
      }
-     print ("FIRST WU RESULT: %s\n", Color.hexcode_argb(colors.nth_data (0)));
+     print ("FIRST WU RESULT: %s\n", Color.hexcode_argb(colors.index(0)));
      return colors;
    }
 
