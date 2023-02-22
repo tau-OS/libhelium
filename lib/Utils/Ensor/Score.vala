@@ -24,15 +24,14 @@ namespace He {
       double population_sum = 0.0;
       uint input_size = colors_to_population.size ();
 
-      var argbs = new int[input_size];
-      var populations = new int[input_size];
+      int[] argbs = {};
+      int[] populations = {};
 
-      var keys = colors_to_population.get_keys ();
-      for (int i = 0; i < keys.length (); i++) {
-        var key = keys.nth_data (i);
+      foreach (var key in colors_to_population.get_keys ()) {
+        var val = colors_to_population.lookup (key);
 
-        argbs[i] = key;
-        populations[i] = colors_to_population.lookup (key);
+        argbs += key;
+        populations += val;
       }
 
       for (int i = 0; i < input_size; i++) {
