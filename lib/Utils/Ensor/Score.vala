@@ -20,7 +20,7 @@ namespace He {
       public double score;
     }
 
-    public GLib.List<AnnotatedColor?> score (HashTable<int, int?> colors_to_population) {
+    public GLib.List<AnnotatedColor?> score (HashTable<int?, int?> colors_to_population) {
       double population_sum = 0.0;
       uint input_size = colors_to_population.size ();
 
