@@ -18,6 +18,10 @@ namespace He {
       public double cam_chroma;
       public double excited_proportion;
       public double score;
+
+      public int compare_to (AnnotatedColor other) {
+        return this.score > other.score ? 1 : this.score < other.score ? -1 : 0;
+      }
     }
 
     public GLib.List<AnnotatedColor?> score (HashTable<int?, int?> colors_to_population) {
@@ -69,17 +73,13 @@ namespace He {
         colors.nth_data (i).score = chroma_score + proportion_score;
       }
 
-      for (int i = 0; i < input_size; i++) {
-        argb_color_sort (colors.nth_data (i + 1), colors.nth_data (input_size - i));
-      }
+      colors.sort((a, b) => a.compare_to (b));
 
-      GLib.List<AnnotatedColor?> selected_colors = new GLib.List<AnnotatedColor> ();
+      GLib.List<AnnotatedColor?> selected_colors = new GLib.List<AnnotatedColor?> ();
       for (int i = 0; i < input_size; i++) {
         if (!good_color_finder (colors.nth_data (i))) {
           continue;
         }
-
-        selected_colors.insert (colors.nth_data (i), i);
 
         bool is_duplicate_color = false;
         if (colors_close_finder (selected_colors.nth_data (i).cam_hue, colors.nth_data (i).cam_hue)) {
@@ -90,6 +90,8 @@ namespace He {
         if (is_duplicate_color) {
           continue;
         }
+
+        selected_colors.insert (colors.nth_data (i), i);
       }
 
       if (selected_colors.is_empty ()) {
@@ -109,10 +111,6 @@ namespace He {
 
     bool colors_close_finder (double hue_one, double hue_two) {
       return MathUtils.difference_degrees (hue_one, hue_two) < 15;
-    }
-
-    bool argb_color_sort (AnnotatedColor a, AnnotatedColor b) {
-      return a.score > b.score;
     }
   }
 }
