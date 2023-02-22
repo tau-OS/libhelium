@@ -138,8 +138,6 @@ public class He.QuantizerWsmeans : Object {
           for (int j = 0; j < cluster_count; j++) {
             index_matrix[i, j] = row.index(j).index;
           }
-
-          distance_to_index_matrix.insert_val(i, (owned)row);
       }
 
       var color_moved = false;
