@@ -20,11 +20,11 @@ namespace He {
       public double score;
 
       public int compare_to (AnnotatedColor other) {
-        return this.score > other.score ? 1 : this.score < other.score ? -1 : 0;
+        return this.score > other.score ? -1 : this.score < other.score ? 1 : 0;
       }
     }
 
-    public GLib.Array<AnnotatedColor> score (HashTable<int?, int?> colors_to_population) {
+    public GLib.Array<int> score (HashTable<int?, int?> colors_to_population) {
       double population_sum = 0.0;
       uint input_size = colors_to_population.size ();
 
@@ -79,7 +79,7 @@ namespace He {
         colors.index (i).score = chroma_score + proportion_score;
       }
 
-      colors.sort((a, b) => a.compare_to (b));
+      colors.sort ((a, b) => a.compare_to (b));
 
       GLib.Array<AnnotatedColor> selected_colors = new GLib.Array<AnnotatedColor> ();
       for (int i = 0; i < input_size; i++) {
@@ -112,9 +112,15 @@ namespace He {
         });
       }
 
-      print ("FIRST SCORED RESULT: %s\n", Color.hexcode_argb(selected_colors.index (0).argb));
+      GLib.Array<int> return_value = new GLib.Array<int> ();
 
-      return selected_colors;
+      for (int j = 0; j < selected_colors.length; j++) {
+        return_value.append_val (selected_colors.index (j).argb);
+      }
+
+      print ("FIRST RESULT: %s\n", Color.hexcode_argb (return_value.index (0)));
+
+      return return_value;
     }
 
     bool good_color_finder (AnnotatedColor color) {

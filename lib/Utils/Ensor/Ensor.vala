@@ -18,7 +18,7 @@
 */
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Ensor {
-  GLib.Array<He.Score.AnnotatedColor> accent_from_pixels (uint8[] pixels) {
+  GLib.Array<int> accent_from_pixels (uint8[] pixels) {
     var celebi = new He.QuantizerCelebi ();
     var result = celebi.quantize (pixels_to_argb_array (pixels), 128);
     var score = new He.Score ();
@@ -48,9 +48,9 @@ namespace He.Ensor {
       return list;
   }
 
-   public async GLib.Array<He.Score.AnnotatedColor> accent_from_pixels_async (uint8[] pixels) {
+   public async GLib.Array<int> accent_from_pixels_async (uint8[] pixels) {
     SourceFunc callback = accent_from_pixels_async.callback;
-    GLib.Array<He.Score.AnnotatedColor> result = null;
+    GLib.Array<int> result = null;
 
     ThreadFunc<bool> run = () => {
       result = accent_from_pixels (pixels);

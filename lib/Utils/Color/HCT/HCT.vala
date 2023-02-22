@@ -29,7 +29,7 @@ namespace He.Color {
     }
 
     public string hct_to_hex (double hue, double chroma, double lstar) {
-        var hct = fix_disliked ({hue, chroma, lstar});
+        He.Color.HCTColor hct = {hue, chroma, lstar};
 
         // If color is mono
         if (hct.c < 1.0001 || hct.t < 0.0001 || hct.t > 99.9999) {
@@ -77,6 +77,6 @@ namespace He.Color {
         var rot_deg = Math.fmin (difference_degrees / 2, 15.0);
         var output = He.MathUtils.sanitize_degrees (a.h + (rot_deg * He.MathUtils.rotate_direction (a.h, b.h)));
 
-        return {output, a.c, a.t};
+        return fix_disliked ({output, a.c, a.t});
     }
 }
