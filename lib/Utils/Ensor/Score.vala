@@ -12,7 +12,7 @@ namespace He {
     const double WEIGHT_CHROMA_BELOW = 0.1;
     const double WEIGHT_PROPORTION = 0.7;
 
-    public struct AnnotatedColor {
+    public class AnnotatedColor {
       public int argb;
       public double cam_hue;
       public double cam_chroma;
@@ -24,7 +24,7 @@ namespace He {
       }
     }
 
-    public GLib.Array<AnnotatedColor?> score (HashTable<int?, int?> colors_to_population) {
+    public GLib.Array<AnnotatedColor> score (HashTable<int?, int?> colors_to_population) {
       double population_sum = 0.0;
       uint input_size = colors_to_population.size ();
 
@@ -43,7 +43,7 @@ namespace He {
       }
 
       double[] hue_proportions = new double[361];
-      GLib.Array<AnnotatedColor?> colors = new GLib.Array<AnnotatedColor?> ();
+      GLib.Array<AnnotatedColor> colors = new GLib.Array<AnnotatedColor> ();
 
       for (int i = 0; i < input_size; i++) {
         double proportion = populations[i] / population_sum;
@@ -53,7 +53,13 @@ namespace He {
         int hue = (int)He.MathUtils.sanitize_degrees (Math.round (cam.h));
         hue_proportions[hue] += proportion;
 
-        colors.append_val ({argbs[i], cam.h, cam.C, 0, -1});
+        colors.append_val (new AnnotatedColor () {
+          argb = argbs[i],
+          cam_hue = cam.h,
+          cam_chroma = cam.C,
+          excited_proportion = 0,
+          score = -1
+        });
       }
 
       for (int i = 0; i < input_size; i++) {
@@ -75,7 +81,7 @@ namespace He {
 
       colors.sort((a, b) => a.compare_to (b));
 
-      GLib.Array<AnnotatedColor?> selected_colors = new GLib.Array<AnnotatedColor?> ();
+      GLib.Array<AnnotatedColor> selected_colors = new GLib.Array<AnnotatedColor> ();
       for (int i = 0; i < input_size; i++) {
         if (!good_color_finder (colors.index (i))) {
           continue;
@@ -97,7 +103,13 @@ namespace He {
       }
 
       if (selected_colors.length == 0) {
-        selected_colors.append_val ({int.parse ("#FF8C56BF"), 311.12, 57.36, 0.0, 0.0});
+        selected_colors.append_val (new AnnotatedColor () {
+          argb = int.parse ("#FF8C56BF"),
+          cam_hue = 311.12,
+          cam_chroma = 57.36,
+          excited_proportion = 0,
+          score = 0
+        });
       }
 
       print ("FIRST SCORED RESULT: %s\n", Color.hexcode_argb(selected_colors.index (0).argb));
