@@ -155,11 +155,10 @@
          int r = volume (cube, moments_r) / weight;
          int g = volume (cube, moments_g) / weight;
          int b = volume (cube, moments_b) / weight;
-         int color = (255 << 24) | ((r & 0x0ff) << 16) | ((g & 0x0ff) << 8) | (b & 0x0ff);
+         int color = (255 << 24) | ((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff);
          colors.append (color);
        }
      }
-     print ("FIRST WU RESULT: %s\n", Color.hexcode_argb(colors.nth_data (0)));
      return colors;
    }
 

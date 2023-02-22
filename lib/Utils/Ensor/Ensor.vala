@@ -29,7 +29,7 @@ namespace He.Ensor {
       int[] list = {};
 
       int i = 0;
-      int inc = 6; // quality (1 = min, 5 = default, 10 = max; quality = (max + min) - def)
+      int inc = 10; // quality (1 = min, 5 = default, 10 = max; quality = (max + min) - def)
 
       int count = pixels.length / 3;
       while (i < count) {
@@ -38,13 +38,11 @@ namespace He.Ensor {
           uint8 green = pixels[offset + 1];
           uint8 blue = pixels[offset + 2];
 
-          int rgb = Color.argb_from_rgb_int (red, green, blue);
+          int rgb = (0xFF << 24) | (red << 16) | (green << 8) | blue;
           list += (rgb);
 
           i += inc;
       }
-
-      print ("FIRST PIXEL INT: %s\n", Color.hexcode_argb(list[0]));
       return list;
   }
 
