@@ -24,7 +24,7 @@ namespace He {
       }
     }
 
-    public GLib.List<AnnotatedColor?> score (HashTable<int?, int?> colors_to_population) {
+    public GLib.Array<AnnotatedColor?> score (HashTable<int?, int?> colors_to_population) {
       double population_sum = 0.0;
       uint input_size = colors_to_population.size ();
 
@@ -43,7 +43,7 @@ namespace He {
       }
 
       double[] hue_proportions = new double[361];
-      GLib.List<AnnotatedColor?> colors = new GLib.List<AnnotatedColor> ();
+      GLib.Array<AnnotatedColor?> colors = new GLib.Array<AnnotatedColor?> ();
 
       for (int i = 0; i < input_size; i++) {
         double proportion = populations[i] / population_sum;
@@ -53,52 +53,54 @@ namespace He {
         int hue = (int)He.MathUtils.sanitize_degrees (Math.round (cam.h));
         hue_proportions[hue] += proportion;
 
-        colors.insert ({argbs[i], cam.h, cam.C, 0, -1}, argbs[i]);
+        colors.append_val ({argbs[i], cam.h, cam.C, 0, -1});
       }
 
       for (int i = 0; i < input_size; i++) {
-        int hue = (int)Math.round (colors.nth_data (i).cam_hue);
+        int hue = (int)Math.round (colors.index (i).cam_hue);
         for (int j = (hue - 15); j < (hue + 15); j++) {
           int sanitized_hue = (int)He.MathUtils.sanitize_degrees (j);
-          colors.nth_data (i).excited_proportion += hue_proportions[sanitized_hue];
+          colors.index (i).excited_proportion += hue_proportions[sanitized_hue];
         }
       }
 
       for (int i = 0; i < input_size; i++) {
-        double proportion_score = colors.nth_data (i).excited_proportion * 100.0 * WEIGHT_PROPORTION;
-        double chroma = colors.nth_data (i).cam_chroma;
+        double proportion_score = colors.index (i).excited_proportion * 100.0 * WEIGHT_PROPORTION;
+        double chroma = colors.index (i).cam_chroma;
         double chroma_weight = (chroma > TARGET_CHROMA ? WEIGHT_CHROMA_ABOVE : WEIGHT_CHROMA_BELOW);
         double chroma_score = (chroma - TARGET_CHROMA) * chroma_weight;
 
-        colors.nth_data (i).score = chroma_score + proportion_score;
+        colors.index (i).score = chroma_score + proportion_score;
       }
 
       colors.sort((a, b) => a.compare_to (b));
 
-      GLib.List<AnnotatedColor?> selected_colors = new GLib.List<AnnotatedColor?> ();
+      GLib.Array<AnnotatedColor?> selected_colors = new GLib.Array<AnnotatedColor?> ();
       for (int i = 0; i < input_size; i++) {
-        if (!good_color_finder (colors.nth_data (i))) {
+        if (!good_color_finder (colors.index (i))) {
           continue;
         }
 
         bool is_duplicate_color = false;
-        if (colors_close_finder (selected_colors.nth_data (i).cam_hue, colors.nth_data (i).cam_hue)) {
-          is_duplicate_color = true;
-          break;
+        for (int j = 0; j < selected_colors.length; j++) {
+          if (colors_are_too_close (selected_colors.index (j), colors.index (i))) {
+            is_duplicate_color = true;
+            break;
+          }
         }
 
         if (is_duplicate_color) {
           continue;
         }
 
-        selected_colors.insert (colors.nth_data (i), i);
+        selected_colors.append_val (colors.index (i));
       }
 
-      if (selected_colors.is_empty ()) {
-        selected_colors.insert ({int.parse ("#FF8C56BF"), 311.12, 57.36, 0.0, 0.0}, 0);
+      if (selected_colors.length == 0) {
+        selected_colors.append_val ({int.parse ("#FF8C56BF"), 311.12, 57.36, 0.0, 0.0});
       }
 
-      print ("FIRST SCORED RESULT: %s\n", Color.hexcode_argb(selected_colors.nth_data (0).argb));
+      print ("FIRST SCORED RESULT: %s\n", Color.hexcode_argb(selected_colors.index (0).argb));
 
       return selected_colors;
     }
@@ -109,8 +111,8 @@ namespace He {
              color.excited_proportion >= CUTOFF_EXCITED_PROPORTION;
     }
 
-    bool colors_close_finder (double hue_one, double hue_two) {
-      return MathUtils.difference_degrees (hue_one, hue_two) < 15;
+    bool colors_are_too_close (AnnotatedColor color_one, AnnotatedColor color_two) {
+      return MathUtils.difference_degrees (color_one.cam_hue, color_two.cam_hue) < 15;
     }
   }
 }
