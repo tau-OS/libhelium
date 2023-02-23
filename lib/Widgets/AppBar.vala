@@ -279,7 +279,7 @@ public class He.AppBar : He.Bin {
         }
         set {
             _show_back = value;
-            if (value != null)
+            if (value)
                 back_button.set_visible (value);
         }
     }

@@ -19,9 +19,10 @@ namespace He {
       public double excited_proportion;
       public double score;
 
-      public int compare_to (AnnotatedColor other) {
-        return (int)(this.score > other.score);
-      }
+
+      public static CompareFunc<weak AnnotatedColor> cmp = (a, b) => {
+        return (int) (a.score < b.score) - (int) (a.score > b.score);
+      };
     }
 
     public GLib.Array<int> score (HashTable<int?, int?> colors_to_population) {
@@ -43,7 +44,7 @@ namespace He {
       }
 
       double[] hue_proportions = new double[361];
-      GLib.Array<AnnotatedColor> colors = new GLib.Array<AnnotatedColor> ();
+      GLib.GenericArray<AnnotatedColor> colors = new GLib.GenericArray<AnnotatedColor> ();
 
       for (int i = 0; i < input_size; i++) {
         double proportion = populations[i] / population_sum;
@@ -55,7 +56,7 @@ namespace He {
 
         //print ("HUE PROPORTIONS FOR HUE %d: %f\n", hue, hue_proportions[sanitized_hue]);
 
-        colors.append_val (new AnnotatedColor () {
+        colors.add (new AnnotatedColor () {
           argb = argbs[i],
           cam_hue = cam.h,
           cam_chroma = cam.C,
@@ -65,39 +66,39 @@ namespace He {
       }
 
       for (int i = 0; i < input_size; i++) {
-        int hue = (int)Math.round (colors.index (i).cam_hue);
+        int hue = (int)Math.round (colors.get (i).cam_hue);
         for (int j = (hue - 15); j < (hue + 15); j++) {
           int sanitized_hue = (int)He.MathUtils.sanitize_degrees (j);
-          colors.index (i).excited_proportion += hue_proportions[sanitized_hue];
+          colors.get (i).excited_proportion += hue_proportions[sanitized_hue];
         }
       }
 
       for (int i = 0; i < input_size; i++) {
-        double proportion_score = colors.index (i).excited_proportion * 100.0 * WEIGHT_PROPORTION;
-        double chroma = colors.index (i).cam_chroma;
+        double proportion_score = colors.get (i).excited_proportion * 100.0 * WEIGHT_PROPORTION;
+        double chroma = colors.get (i).cam_chroma;
         double chroma_weight = (chroma > TARGET_CHROMA ? WEIGHT_CHROMA_ABOVE : WEIGHT_CHROMA_BELOW);
         double chroma_score = (chroma - TARGET_CHROMA) * chroma_weight;
 
-        colors.index (i).score = chroma_score + proportion_score;
+        colors.get (i).score = chroma_score + proportion_score;
       }
 
       for (int i = 0; i < input_size; i++) {
-        print ("COLORS #%d BEFORE: %s SCORE: %f\n", i, Color.hexcode_argb(colors.index (i).argb), colors.index (i).score);
+        print ("COLORS #%d BEFORE: %s SCORE: %f\n", i, Color.hexcode_argb(colors.get (i).argb), colors.get (i).score);
       }
-      colors.sort ((a, b) => a.compare_to (b));
+      colors.sort (AnnotatedColor.cmp);
       for (int i = 0; i < input_size; i++) {
-        print ("COLORS #%d AFTER: %s SCORE: %f\n", i, Color.hexcode_argb(colors.index (i).argb), colors.index (i).score);
+        print ("COLORS #%d AFTER: %s SCORE: %f\n", i, Color.hexcode_argb(colors.get (i).argb), colors.get (i).score);
       }
 
       GLib.Array<AnnotatedColor> selected_colors = new GLib.Array<AnnotatedColor> ();
       for (int i = 0; i < input_size; i++) {
-        if (!good_color_finder (colors.index (i))) {
+        if (!good_color_finder (colors.get (i))) {
           continue;
         }
 
         bool is_duplicate_color = false;
         for (int j = 0; j < selected_colors.length; j++) {
-          if (colors_are_too_close (selected_colors.index (j), colors.index (i))) {
+          if (colors_are_too_close (selected_colors.index (j), colors.get (i))) {
             is_duplicate_color = true;
             break;
           }
@@ -107,7 +108,7 @@ namespace He {
           continue;
         }
 
-        selected_colors.append_val (colors.index (i));
+        selected_colors.append_val (colors.get (i));
       }
 
       for (int i = 0; i < selected_colors.length; i++) {
