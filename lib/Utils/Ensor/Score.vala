@@ -82,11 +82,11 @@ namespace He {
       }
 
       for (int i = 0; i < input_size; i++) {
-        print ("COLORS #%d BEFORE: %s\n", i, Color.hexcode_argb(colors.index (i).argb));
+        print ("COLORS #%d BEFORE: %s SCORE: %f\n", i, Color.hexcode_argb(colors.index (i).argb), colors.index (i).score);
       }
       colors.sort ((a, b) => a.compare_to (b));
       for (int i = 0; i < input_size; i++) {
-        print ("COLORS #%d AFTER: %s\n", i, Color.hexcode_argb(colors.index (i).argb));
+        print ("COLORS #%d AFTER: %s SCORE: %f\n", i, Color.hexcode_argb(colors.index (i).argb), colors.index (i).score);
       }
 
       GLib.Array<AnnotatedColor> selected_colors = new GLib.Array<AnnotatedColor> ();
