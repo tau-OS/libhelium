@@ -84,7 +84,7 @@ namespace He {
       for (int i = 0; i < input_size; i++) {
         print ("COLORS #%d BEFORE: %s\n", i, Color.hexcode_argb(colors.index (i).argb));
       }
-      //  colors.sort ((a, b) => a.compare_to (b));
+      colors.sort ((a, b) => a.compare_to (b));
       for (int i = 0; i < input_size; i++) {
         print ("COLORS #%d AFTER: %s\n", i, Color.hexcode_argb(colors.index (i).argb));
       }
