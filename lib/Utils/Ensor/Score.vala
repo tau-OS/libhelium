@@ -110,7 +110,7 @@ namespace He {
         selected_colors.append_val (colors.index (i));
       }
 
-      for (int i = 0; i < input_size; i++) {
+      for (int i = 0; i < selected_colors.length; i++) {
         print ("COLORS #%d AFTER SELECTION: %s\n", i, Color.hexcode_argb(selected_colors.index (i).argb));
       }
 
