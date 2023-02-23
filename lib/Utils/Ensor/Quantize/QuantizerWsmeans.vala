@@ -220,7 +220,7 @@ public class He.QuantizerWsmeans : Object {
     print("checkpoint neko\n");
 
     var swatches = new GLib.Array<Swatch> ();
-    var cluster_argbs = new GLib.Array<int> ();
+    var cluster_argbs = new GLib.Array<int?> ();
 
     for (int i = 0; i < cluster_count; i++) {
       int count = pixel_count_sums[i];
