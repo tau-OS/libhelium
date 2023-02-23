@@ -17,6 +17,14 @@ namespace He.Color {
         {0.0193339, 0.1191920, 0.9503041}
     };
 
+    public XYZColor argb_to_xyz (int argb) {
+        double r = MathUtils.linearized (red_from_rgba_int(argb));
+        double g = MathUtils.linearized (green_from_rgba_int(argb));
+        double b = MathUtils.linearized (blue_from_rgba_int(argb));
+        double[] xyz = MathUtils.elem_mul ({r, g, b}, SRGB_TO_XYZ);
+        return {xyz[0], xyz[1], xyz[2]};
+    }
+
     public double rgb_value_to_xyz (double v) {
         if ((v /= 255) <= 0.04045) return v / 12.92;
         return Math.pow ((v + 0.055) / 1.055, 2.4);

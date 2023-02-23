@@ -334,7 +334,7 @@ namespace He.MathUtils {
     }
 
     public static double lstar_from_argb(int argb) {
-        double y = He.Color.xyz_to_argb (argb)[1];
+        double y = He.Color.argb_to_xyz (argb).y;
         return 116.0 * lab_fovea (y / 100.0) - 16.0;
     }
 }

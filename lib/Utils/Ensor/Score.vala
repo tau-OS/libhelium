@@ -143,7 +143,7 @@ namespace He {
     }
 
     bool colors_are_too_close (AnnotatedColor color_one, AnnotatedColor color_two) {
-      return MathUtils.difference_degrees (color_one.cam_hue, color_two.cam_hue) < 15;
+      return MathUtils.difference_degrees (color_one.cam_hue, color_two.cam_hue) < 15.0;
     }
   }
 }

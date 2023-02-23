@@ -65,7 +65,7 @@ public class He.QuantizerWsmeans : Object {
         pixel_to_count.insert (pixel, count + 1);
       } else {
           pixels.append_val(pixel);
-          points.append_val(Color.rgb_to_lab(Color.from_argb_int (pixel)));
+          points.append_val(Color.lab_from_argb (pixel));
           pixel_to_count.insert(pixel, 1);
       }
     }
@@ -80,7 +80,7 @@ public class He.QuantizerWsmeans : Object {
     var clusters = new GLib.Array<Color.LABColor?> ();
 
     foreach (var argb in starting_clusters) {
-      clusters.append_val(Color.rgb_to_lab(Color.from_argb_int (argb)));
+      clusters.append_val(Color.lab_from_argb (argb));
     }
 
     var random = new Rand.with_seed (42688);
@@ -209,7 +209,7 @@ public class He.QuantizerWsmeans : Object {
       if (count == 0) {
         continue;
       }
-      var possible_new_cluster = Color.rgb_to_argb_int (Color.lab_to_rgb((clusters.index(i))));
+      var possible_new_cluster = Color.lab_to_argb_int (clusters.index(i));
       int use_new_cluster = 1;
       for (var j = 0; j < swatches.length; j++) {
         if (swatches.index(j).argb == possible_new_cluster) {
@@ -232,14 +232,6 @@ public class He.QuantizerWsmeans : Object {
     for (var i = 0; i < swatches.length; i++) {
       color_to_count[swatches.index(i).argb] = swatches.index(i).population;
     }
-
-    //  var input_pixel_to_cluster_pixel = new GLib.HashTable<int?, int?> (int_hash, int_equal);
-    //  for (var i = 0; i < points.length(); i++) {
-    //    int pixel = pixels.nth_data(i);
-    //    int cluster_index = cluster_indices.nth_data(i);
-    //    int cluster_argb = cluster_argbs.nth_data(cluster_index);
-    //    input_pixel_to_cluster_pixel[pixel] = cluster_argb;
-    //  }
 
     return color_to_count;
   }
