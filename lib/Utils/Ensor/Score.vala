@@ -90,7 +90,7 @@ namespace He {
         print ("COLORS #%d AFTER: %s SCORE: %f\n", i, Color.hexcode_argb(colors.get (i).argb), colors.get (i).score);
       }
 
-      GLib.Array<AnnotatedColor> selected_colors = new GLib.Array<AnnotatedColor> ();
+      GLib.GenericArray<AnnotatedColor> selected_colors = new GLib.GenericArray<AnnotatedColor> ();
       for (int i = 0; i < input_size; i++) {
         if (!good_color_finder (colors.get (i))) {
           continue;
@@ -98,7 +98,7 @@ namespace He {
 
         bool is_duplicate_color = false;
         for (int j = 0; j < selected_colors.length; j++) {
-          if (colors_are_too_close (selected_colors.index (j), colors.get (i))) {
+          if (colors_are_too_close (selected_colors.get (j), colors.get (i))) {
             is_duplicate_color = true;
             break;
           }
@@ -108,15 +108,15 @@ namespace He {
           continue;
         }
 
-        selected_colors.append_val (colors.get (i));
+        selected_colors.add (colors.get (i));
       }
 
       for (int i = 0; i < selected_colors.length; i++) {
-        print ("COLORS #%d AFTER SELECTION: %s\n", i, Color.hexcode_argb(selected_colors.index (i).argb));
+        print ("COLORS #%d AFTER SELECTION: %s\n", i, Color.hexcode_argb(selected_colors.get (i).argb));
       }
 
       if (selected_colors.length == 0) {
-        selected_colors.append_val (new AnnotatedColor () {
+        selected_colors.add (new AnnotatedColor () {
           argb = int.parse ("#FF8C56BF"),
           cam_hue = 311.12,
           cam_chroma = 57.36,
@@ -128,7 +128,7 @@ namespace He {
       GLib.Array<int?> return_value = new GLib.Array<int?> ();
 
       for (int j = 0; j < selected_colors.length; j++) {
-        return_value.append_val (selected_colors.index (j).argb);
+        return_value.append_val (selected_colors.get (j).argb);
       }
 
       print ("FIRST ENSOR ARGB RESULT: %d\n", return_value.index (0));
