@@ -20,7 +20,7 @@ namespace He {
       public double score;
 
       public int compare_to (AnnotatedColor other) {
-        return this.score > other.score ? 1 : this.score < other.score ? -1 : 0;
+        return (int)(this.score > other.score);
       }
     }
 

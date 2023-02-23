@@ -44,7 +44,7 @@ namespace He.Color {
           if (fnj <= 0) {
             return 0;
           }
-          if (round == 4 || Math.fabs (fnj - y) < 0.002) {
+          if (round == 4 || MathUtils.abs (fnj - y) < 0.002) {
             if (linrgb[0] > 100.01 || linrgb[1] > 100.01 || linrgb[2] > 100.01) {
               return 0;
             }

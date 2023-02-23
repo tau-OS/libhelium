@@ -173,11 +173,11 @@ public class He.Schemes.Default : Object {
         // ___  ____ _ _  _ ____ ____ _   _ 
         // |__] |__/ | |\/| |__| |__/  \_/  
         // |    |  \ | |  | |  | |  \   | 
-        primary_hex = Color.hct_to_hex (cam16_color.h, Math.fmax (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0);
-        on_primary_hex = Color.hct_to_hex (cam16_color.h, Math.fmax (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0);
-        primary_container_hex = Color.hct_to_hex (cam16_color.h, Math.fmax (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
-        on_primary_container_hex = Color.hct_to_hex (cam16_color.h, Math.fmax (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0);
-        inverse_primary_hex = Color.hct_to_hex (cam16_color.h, Math.fmax (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 40.0 : 80.0);
+        primary_hex = Color.hct_to_hex (cam16_color.h, MathUtils.max (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0);
+        on_primary_hex = Color.hct_to_hex (cam16_color.h, MathUtils.max (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0);
+        primary_container_hex = Color.hct_to_hex (cam16_color.h, MathUtils.max (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
+        on_primary_container_hex = Color.hct_to_hex (cam16_color.h, MathUtils.max (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0);
+        inverse_primary_hex = Color.hct_to_hex (cam16_color.h, MathUtils.max (cam16_color.C, 48.0), Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 40.0 : 80.0);
         // ____ ____ ____ ____ ____ 
         // |___ |__/ |__/ |  | |__/ 
         // |___ |  \ |  \ |__| |  \

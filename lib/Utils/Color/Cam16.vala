@@ -27,9 +27,9 @@ namespace He.Color {
         double g_d = vc.rgb_d[1] * g_t;
         double b_d = vc.rgb_d[2] * b_t;
 
-        double r_af = Math.pow(vc.fl * Math.fabs(r_d) / 100.0, 0.42);
-        double g_af = Math.pow(vc.fl * Math.fabs(g_d) / 100.0, 0.42);
-        double b_af = Math.pow(vc.fl * Math.fabs(b_d) / 100.0, 0.42);
+        double r_af = Math.pow(vc.fl * MathUtils.abs(r_d) / 100.0, 0.42);
+        double g_af = Math.pow(vc.fl * MathUtils.abs(g_d) / 100.0, 0.42);
+        double b_af = Math.pow(vc.fl * MathUtils.abs(b_d) / 100.0, 0.42);
         double r_a = MathUtils.signum(r_d) * 400.0 * r_af / (r_af + 27.13);
         double g_a = MathUtils.signum(g_d) * 400.0 * g_af / (g_af + 27.13);
         double b_a = MathUtils.signum(b_d) * 400.0 * b_af / (b_af + 27.13);

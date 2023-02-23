@@ -13,7 +13,7 @@ public class He.QuantizerWsmeans : Object {
     }
 
     public int compare_to(Swatch other) {
-      return this.population > other.population ? 1 : this.population < other.population ? -1 : 0;
+      return (int)(this.population < other.population);
     }
   }
 
@@ -22,7 +22,7 @@ public class He.QuantizerWsmeans : Object {
     public int index = 0;
 
     public int compare_to(DistanceToIndex other) {
-      return this.distance > other.distance ? 1 : this.distance < other.distance ? -1 : 0;
+      return (int)(this.distance > other.distance);
     }
   }
 
@@ -46,9 +46,9 @@ public class He.QuantizerWsmeans : Object {
     return list;
   }
 
-  private const int RAND_MAX = 2^32-1;
+  private const int RAND_MAX = 32767;
   // Set back to 100
-  private const int MAX_ITERATIONS = 2;
+  private const int MAX_ITERATIONS = 1;
   private const double MIN_MOVEMENT_DISTANCE = 3.0;
 
   public static GLib.HashTable<int?, int?> quantize (int[] input_pixels, int[] starting_clusters, int max_colors) {
@@ -70,10 +70,10 @@ public class He.QuantizerWsmeans : Object {
       }
     }
 
-    int cluster_count = (int) Math.fmin (max_colors, points.length);
+    int cluster_count = (int) MathUtils.min (max_colors, points.length);
 
     if (starting_clusters.length == 0) {
-      cluster_count = (int) Math.fmin (cluster_count, starting_clusters.length);
+      cluster_count = (int) MathUtils.min (cluster_count, starting_clusters.length);
     }
 
     var pixel_count_sums = new int[256];
@@ -172,7 +172,7 @@ public class He.QuantizerWsmeans : Object {
         }
         if (new_cluster_index != -1) {
           double distanceChange =
-            Math.fabs(Math.sqrt(minimum_distance) - Math.sqrt(previous_distance));
+            MathUtils.abs(Math.sqrt(minimum_distance) - Math.sqrt(previous_distance));
           if (distanceChange > MIN_MOVEMENT_DISTANCE) {
             color_moved = true;
             cluster_indices.insert_val(i, new_cluster_index);
