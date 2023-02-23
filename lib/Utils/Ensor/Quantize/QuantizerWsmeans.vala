@@ -12,18 +12,18 @@ public class He.QuantizerWsmeans : Object {
       this.population = population;
     }
 
-    public int compare_to(Swatch other) {
-      return (int)(this.population < other.population);
-    }
+    public static CompareFunc<weak Swatch> cmp = (a, b) => {
+      return (int) (a.population < b.population) - (int) (a.population > b.population);
+    };
   }
 
   class DistanceToIndex {
     public double distance = 0.0;
     public int index = 0;
 
-    public int compare_to(DistanceToIndex other) {
-      return (int)(this.distance > other.distance);
-    }
+    public static CompareFunc<weak DistanceToIndex> cmp = (a, b) => {
+      return (int) (b.distance < a.distance) - (int) (b.distance > a.distance);
+    };
   }
 
   delegate DistanceToIndex fill_list_delegate<DistanceToIndex> (int index);
@@ -125,15 +125,7 @@ public class He.QuantizerWsmeans : Object {
         }
 
         var row = distance_to_index_matrix.index(i);
-        row.sort((a, b) => a.compare_to(b));
-
-        //  if (iteration == 1 && i == 1) {
-          //    print("row_a.length(): %u\n", row_a.length());
-          //  }
-
-          //  unowned var row = distance_to_index_matrix.nth_data(i);
-          //  row.sort((a, b) => a.compare_to(b));
-
+        row.sort(DistanceToIndex.cmp);
 
           for (int j = 0; j < cluster_count; j++) {
             index_matrix[i, j] = row.index(j).index;
@@ -150,17 +142,7 @@ public class He.QuantizerWsmeans : Object {
         double minimum_distance = previous_distance;
         int new_cluster_index = -1;
 
-        //  for (int o = 0; o < distance_to_index_matrix.length(); o++) {
-        //    print("876h: %u\n", distance_to_index_matrix.nth_data(i).length());
-        //  }
-
-
-        //  print("points.length() %u", points.length());
-
         for (int j = 0; j < cluster_count; j++) {
-
-          //  print("iteration: %u i: %u, j: %u, previous_cluster_index: %u, distance_to_index_matrix.nth_data(previous_cluster_index).length(): %u\n", iteration, i, j, previous_cluster_index, distance_to_index_matrix.nth_data(previous_cluster_index).length());
-
           if (distance_to_index_matrix.index(previous_cluster_index).index(j).distance >= 4 * previous_distance) {
             continue;
           }
@@ -231,7 +213,7 @@ public class He.QuantizerWsmeans : Object {
       int use_new_cluster = 1;
       for (var j = 0; j < swatches.length; j++) {
         if (swatches.index(j).argb == possible_new_cluster) {
-          swatches.index(j).population += count;
+          swatches.index (j).population += count;
           use_new_cluster = 0;
           break;
         }
@@ -244,7 +226,7 @@ public class He.QuantizerWsmeans : Object {
       swatches.append_val(new Swatch(possible_new_cluster, count));
     }
 
-    swatches.sort((a, b) => a.compare_to(b));
+    swatches.sort(Swatch.cmp);
 
     var color_to_count = new GLib.HashTable<int?, int?> (int_hash, int_equal);
     for (var i = 0; i < swatches.length; i++) {

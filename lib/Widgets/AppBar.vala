@@ -269,7 +269,7 @@ public class He.AppBar : He.Bin {
         }
     }
 
-    private bool _show_back = false;
+    private bool _show_back;
     /**
     * Whether the back button is shown.
     */
@@ -279,8 +279,7 @@ public class He.AppBar : He.Bin {
         }
         set {
             _show_back = value;
-            if (value)
-                back_button.set_visible (value);
+            back_button.set_visible (value);
         }
     }
 

@@ -131,7 +131,7 @@ namespace He {
         return_value.append_val (selected_colors.index (j).argb);
       }
 
-      print ("FIRST RESULT: %s\n", Color.hexcode_argb (return_value.index (0)));
+      print ("FIRST ENSOR ARGB RESULT: %d\n", return_value.index (0));
 
       return return_value;
     }
