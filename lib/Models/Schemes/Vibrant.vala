@@ -20,13 +20,17 @@
 namespace He.Schemes {
     public class Vibrant : Scheme {
         private const double PRIMARY = 150.0;
-        private const double SECONDARY = 48.0;
-        private const double TERTIARY = 64.0;
-        private const double NEUTRAL = 16.0;
-        private const double NEUTRAL2 = 24.0;
+        private const double SECONDARY = 150.0;
+        private const double TERTIARY = 150.0;
+        private const double NEUTRAL = 8.0;
+        private const double NEUTRAL2 = 12.0;
 
         public Vibrant (Color.CAM16Color cam16_color, Desktop desktop) {
             base (cam16_color, desktop);
+
+            double[] HUES = {0, 41, 61, 101, 131, 181, 251, 301, 360};
+            double[] SECONDARY_ROTATIONS = {18, 15, 10, 12, 15, 18, 15, 12, 12};
+            double[] TERTIARY_ROTATIONS = {35, 30, 20, 25, 30, 35, 30, 25, 25};
 
             // _  _ ____ _  _ ___ ____ ____ _    
             // |\ | |___ |  |  |  |__/ |__| |    
@@ -48,14 +52,15 @@ namespace He.Schemes {
             // ____ ____ ____ ____ _  _ ___  ____ ____ _   _ 
             // [__  |___ |    |  | |\ | |  \ |__| |__/  \_/  
             // ___] |___ |___ |__| | \| |__/ |  | |  \   |
-            secondary_hex = Color.hct_to_hex (hue, SECONDARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0);
-            on_secondary_hex = Color.hct_to_hex (hue, SECONDARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0);
-            secondary_container_hex = Color.hct_to_hex (hue, SECONDARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
-            on_secondary_container_hex = Color.hct_to_hex (hue, SECONDARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0);
+            double secondary_hue = Color.get_rotated_hue (hue, HUES, SECONDARY_ROTATIONS);
+            secondary_hex = Color.hct_to_hex (secondary_hue, SECONDARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0);
+            on_secondary_hex = Color.hct_to_hex (secondary_hue, SECONDARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0);
+            secondary_container_hex = Color.hct_to_hex (secondary_hue, SECONDARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
+            on_secondary_container_hex = Color.hct_to_hex (secondary_hue, SECONDARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0);
             // ___ ____ ____ ___ _ ____ ____ _   _ 
             //  |  |___ |__/  |  | |__| |__/  \_/  
             //  |  |___ |  \  |  | |  | |  \   |
-            double tertiary_hue = MathUtils.sanitize_degrees (hue + 60.0);
+            double tertiary_hue = Color.get_rotated_hue (hue, HUES, TERTIARY_ROTATIONS);
             tertiary_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0);
             on_tertiary_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0);
             tertiary_container_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);

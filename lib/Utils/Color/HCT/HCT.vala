@@ -79,4 +79,20 @@ namespace He.Color {
 
         return fix_disliked ({output, a.c, a.t});
     }
+
+    public static double get_rotated_hue (double hue, double[] hues, double[] rotations) {
+      double source_hue = hue;
+      if (rotations.length == 1) {
+        return MathUtils.sanitize_degrees (source_hue + rotations[0]);
+      }
+      int size = hues.length;
+      for (int i = 0; i <= (size - 2); i++) {
+        double hue_a = hues[i];
+        double hue_b = hues[i + 1];
+        if (hue_a < source_hue && source_hue < hue_b) {
+          return MathUtils.sanitize_degrees (source_hue + rotations[i]);
+        }
+      }
+      return source_hue;
+    }
 }
