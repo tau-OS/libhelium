@@ -17,6 +17,14 @@ namespace He.Color {
         {0.0193339, 0.1191920, 0.9503041}
     };
 
+    public XYZColor argb_to_xyz (int argb) {
+        double r = MathUtils.linearized (red_from_rgba_int(argb));
+        double g = MathUtils.linearized (green_from_rgba_int(argb));
+        double b = MathUtils.linearized (blue_from_rgba_int(argb));
+        double[] xyz = MathUtils.elem_mul ({r, g, b}, SRGB_TO_XYZ);
+        return {xyz[0], xyz[1], xyz[2]};
+    }
+
     public double rgb_value_to_xyz (double v) {
         if ((v /= 255) <= 0.04045) return v / 12.92;
         return Math.pow ((v + 0.055) / 1.055, 2.4);
@@ -59,11 +67,11 @@ namespace He.Color {
         double g_a = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
         double b_a = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
 
-        double r_c_base = Math.fmax (0, (27.13 * Math.fabs (r_a)) / (400.0 - Math.fabs (r_a)));
+        double r_c_base = MathUtils.max (0, (27.13 * MathUtils.abs (r_a)) / (400.0 - MathUtils.abs (r_a)));
         double r_c = He.MathUtils.signum (r_a) * (100.0 / vc.fl) * Math.pow (r_c_base, 1.0 / 0.42);
-        double g_c_base = Math.fmax (0, (27.13 * Math.fabs (g_a)) / (400.0 - Math.fabs (g_a)));
+        double g_c_base = MathUtils.max (0, (27.13 * MathUtils.abs (g_a)) / (400.0 - MathUtils.abs (g_a)));
         double g_c = He.MathUtils.signum (g_a) * (100.0 / vc.fl) * Math.pow (g_c_base, 1.0 / 0.42);
-        double b_c_base = Math.fmax (0, (27.13 * Math.fabs (b_a)) / (400.0 - Math.fabs (b_a)));
+        double b_c_base = MathUtils.max (0, (27.13 * MathUtils.abs (b_a)) / (400.0 - MathUtils.abs (b_a)));
         double b_c = He.MathUtils.signum (b_a) * (100.0 / vc.fl) * Math.pow (b_c_base, 1.0 / 0.42);
         double r_f = r_c / vc.rgb_d[0];
         double g_f = g_c / vc.rgb_d[1];

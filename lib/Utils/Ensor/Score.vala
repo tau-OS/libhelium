@@ -12,95 +12,128 @@ namespace He {
     const double WEIGHT_CHROMA_BELOW = 0.1;
     const double WEIGHT_PROPORTION = 0.7;
 
-    public struct AnnotatedColor {
+    public class AnnotatedColor {
       public int argb;
       public double cam_hue;
       public double cam_chroma;
       public double excited_proportion;
       public double score;
+
+
+      public static CompareFunc<weak AnnotatedColor> cmp = (a, b) => {
+        return (int) (a.score < b.score) - (int) (a.score > b.score);
+      };
     }
 
-    public GLib.List<AnnotatedColor?> score (HashTable<int, int?> colors_to_population) {
+    public GLib.Array<int> score (HashTable<int?, int?> colors_to_population) {
       double population_sum = 0.0;
-      uint input_size = 127; // The amount of colors previously quantized (index starts at 0)
+      uint input_size = colors_to_population.size ();
 
-      GLib.List<int> argbs = new GLib.List<int> ();
-      GLib.List<int> populations = new GLib.List<int> ();
+      int[] argbs = {};
+      int[] populations = {};
 
       foreach (var key in colors_to_population.get_keys ()) {
-        foreach (var value in colors_to_population.get_values ()) {
-          for (int i = 0; i <= input_size; i++) {
-            argbs.insert (key, i);
-            populations.insert (value, i);
-          }
-        }
+        var val = colors_to_population.lookup (key);
+
+        argbs += key;
+        populations += val;
       }
 
-      for (int i = 0; i <= input_size; i++) {
-        population_sum += populations.nth_data (i);
+      for (int i = 0; i < input_size; i++) {
+        population_sum += populations[i];
       }
 
       double[] hue_proportions = new double[361];
-      GLib.List<AnnotatedColor?> colors = new GLib.List<AnnotatedColor> ();
+      GLib.GenericArray<AnnotatedColor> colors = new GLib.GenericArray<AnnotatedColor> ();
 
-      for (int i = 0; i <= input_size; i++) {
-        double proportion = populations.nth_data (i) / population_sum;
+      for (int i = 0; i < input_size; i++) {
+        double proportion = populations[i] / population_sum;
 
-        He.Color.CAM16Color cam = He.Color.cam16_from_int (argbs.nth_data (i));
+        He.Color.CAM16Color cam = He.Color.cam16_from_int (argbs[i]);
 
         int hue = (int)He.MathUtils.sanitize_degrees (Math.round (cam.h));
         hue_proportions[hue] += proportion;
 
-        colors.insert ({argbs.nth_data (i), cam.h, cam.C, 0, -1}, argbs.nth_data (i));
+        //print ("HUE PROPORTIONS FOR HUE %d: %f\n", hue, hue_proportions[sanitized_hue]);
+
+        colors.add (new AnnotatedColor () {
+          argb = argbs[i],
+          cam_hue = cam.h,
+          cam_chroma = cam.C,
+          excited_proportion = 0,
+          score = -1
+        });
       }
 
-      for (int i = 0; i <= input_size; i++) {
-        int hue = (int)Math.round (colors.nth_data (i).cam_hue);
+      for (int i = 0; i < input_size; i++) {
+        int hue = (int)Math.round (colors.get (i).cam_hue);
         for (int j = (hue - 15); j < (hue + 15); j++) {
           int sanitized_hue = (int)He.MathUtils.sanitize_degrees (j);
-          colors.nth_data (i).excited_proportion += hue_proportions[sanitized_hue];
+          colors.get (i).excited_proportion += hue_proportions[sanitized_hue];
         }
       }
 
-      for (int i = 0; i <= input_size; i++) {
-        double proportion_score = colors.nth_data (i).excited_proportion * 100.0 * WEIGHT_PROPORTION;
-        double chroma = colors.nth_data (i).cam_chroma;
+      for (int i = 0; i < input_size; i++) {
+        double proportion_score = colors.get (i).excited_proportion * 100.0 * WEIGHT_PROPORTION;
+        double chroma = colors.get (i).cam_chroma;
         double chroma_weight = (chroma > TARGET_CHROMA ? WEIGHT_CHROMA_ABOVE : WEIGHT_CHROMA_BELOW);
         double chroma_score = (chroma - TARGET_CHROMA) * chroma_weight;
 
-        colors.nth_data (i).score = chroma_score + proportion_score;
+        colors.get (i).score = chroma_score + proportion_score;
       }
 
-      for (int i = 0; i <= input_size; i++) {
-        argb_color_sort (colors.nth_data (i + 1), colors.nth_data (input_size - i));
+      for (int i = 0; i < input_size; i++) {
+        print ("COLORS #%d BEFORE: %s SCORE: %f\n", i, Color.hexcode_argb(colors.get (i).argb), colors.get (i).score);
+      }
+      colors.sort (AnnotatedColor.cmp);
+      for (int i = 0; i < input_size; i++) {
+        print ("COLORS #%d AFTER: %s SCORE: %f\n", i, Color.hexcode_argb(colors.get (i).argb), colors.get (i).score);
       }
 
-      GLib.List<AnnotatedColor?> selected_colors = new GLib.List<AnnotatedColor> ();
-      for (int i = 0; i <= input_size; i++) {
-        if (!good_color_finder (colors.nth_data (i))) {
+      GLib.GenericArray<AnnotatedColor> selected_colors = new GLib.GenericArray<AnnotatedColor> ();
+      for (int i = 0; i < input_size; i++) {
+        if (!good_color_finder (colors.get (i))) {
           continue;
         }
 
-        selected_colors.insert (colors.nth_data (i), i);
-
         bool is_duplicate_color = false;
-        if (colors_close_finder (selected_colors.nth_data (i).cam_hue, colors.nth_data (i).cam_hue)) {
-          is_duplicate_color = true;
-          break;
+        for (int j = 0; j < selected_colors.length; j++) {
+          if (colors_are_too_close (selected_colors.get (j), colors.get (i))) {
+            is_duplicate_color = true;
+            break;
+          }
         }
 
         if (is_duplicate_color) {
           continue;
         }
+
+        selected_colors.add (colors.get (i));
       }
 
-      if (selected_colors.is_empty ()) {
-        selected_colors.insert ({int.parse ("#FF8C56BF"), 311.12, 57.36, 0.0, 0.0}, 0);
+      for (int i = 0; i < selected_colors.length; i++) {
+        print ("COLORS #%d AFTER SELECTION: %s\n", i, Color.hexcode_argb(selected_colors.get (i).argb));
       }
 
-      print ("FIRST SCORED RESULT: %s\n", Color.hexcode_argb(selected_colors.nth_data (0).argb));
+      if (selected_colors.length == 0) {
+        selected_colors.add (new AnnotatedColor () {
+          argb = int.parse ("#FF8C56BF"),
+          cam_hue = 311.12,
+          cam_chroma = 57.36,
+          excited_proportion = 0,
+          score = 0
+        });
+      }
 
-      return selected_colors;
+      GLib.Array<int?> return_value = new GLib.Array<int?> ();
+
+      for (int j = 0; j < selected_colors.length; j++) {
+        return_value.append_val (selected_colors.get (j).argb);
+      }
+
+      print ("FIRST ENSOR ARGB RESULT: %d\n", return_value.index (0));
+
+      return return_value;
     }
 
     bool good_color_finder (AnnotatedColor color) {
@@ -109,12 +142,8 @@ namespace He {
              color.excited_proportion >= CUTOFF_EXCITED_PROPORTION;
     }
 
-    bool colors_close_finder (double hue_one, double hue_two) {
-      return MathUtils.difference_degrees (hue_one, hue_two) < 15;
-    }
-
-    bool argb_color_sort (AnnotatedColor a, AnnotatedColor b) {
-      return a.score > b.score;
+    bool colors_are_too_close (AnnotatedColor color_one, AnnotatedColor color_two) {
+      return MathUtils.difference_degrees (color_one.cam_hue, color_two.cam_hue) < 15.0;
     }
   }
 }

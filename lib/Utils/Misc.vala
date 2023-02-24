@@ -102,7 +102,7 @@ namespace He.Misc {
     var mid = interpolate(low[0], low[1], low[2], high[0], high[1], high[2]);
     var lm = get_luminance(mid[0], mid[1], mid[2]);
 
-    if (Math.fabs(target - lm) < EPS) {
+    if (MathUtils.abs(target - lm) < EPS) {
       // close enough
       return mid;
     }

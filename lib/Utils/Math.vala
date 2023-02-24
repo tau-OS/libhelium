@@ -37,13 +37,13 @@ namespace He.MathUtils {
     }
     
     public double chromatic_adaptation (double component) {
-        double af = Math.pow (Math.fabs (component), 0.42);
+        double af = Math.pow (MathUtils.abs (component), 0.42);
         return signum (component) * 400.0 * af / (af + 27.13);
     }
 
     public double inverse_chromatic_adaptation (double adapted) {
-        double adaptedAbs = Math.fabs (adapted);
-        double b = Math.fmax (0, 27.13 * adaptedAbs / (400.0 - adaptedAbs));
+        double adaptedAbs = MathUtils.abs (adapted);
+        double b = MathUtils.max (0, 27.13 * adaptedAbs / (400.0 - adaptedAbs));
         return signum(adapted) * Math.pow (b, 1.0 / 0.42);
     }
     
@@ -127,7 +127,19 @@ namespace He.MathUtils {
     }
 
     public double difference_degrees (double a, double b) {
-        return 180.0 - Math.fabs (Math.fabs (a - b) - 180.0);
+        return 180.0 - abs (abs (a - b) - 180.0);
+    }
+
+    public double abs (double n) {
+        return (n > 0 ? n : -n);
+    }
+
+    public double max (double n, double m) {
+        return (n > m ? n : m);
+    }
+
+    public double min (double n, double m) {
+        return (n < m ? n : m);
     }
 
     public double linearized (int rgb_component) {
@@ -289,7 +301,7 @@ namespace He.MathUtils {
                     r_plane = He.Color.critical_plane_below (double_delinearized (right[axis]));
                 }
                 for (int i = 0; i < 8; i++) {
-                    if (Math.fabs (r_plane - l_plane) <= 1) {
+                    if (MathUtils.abs (r_plane - l_plane) <= 1) {
                         break;
                     } else {
                         int m_plane = (int) Math.floor ((l_plane + r_plane) / 2.0);
@@ -322,7 +334,7 @@ namespace He.MathUtils {
     }
 
     public static double lstar_from_argb(int argb) {
-        double y = He.Color.xyz_to_argb (argb)[1];
+        double y = He.Color.argb_to_xyz (argb).y;
         return 116.0 * lab_fovea (y / 100.0) - 16.0;
     }
 }

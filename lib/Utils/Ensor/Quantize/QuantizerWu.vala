@@ -14,7 +14,7 @@
    int[] moments_b;
    double[] moments;
    Box[] cubes;
-   
+
    public QuantizerWu () {}
 
    // A histogram of all the input colors is constructed. It has the shape of a
@@ -31,7 +31,7 @@
      create_moments ();
      CreateBoxesResult create_boxes_result = create_boxes (color_count);
      var colors = create_result (create_boxes_result.result_count);
-     var result_map = new HashTable<int, int?> (null, null);
+     var result_map = new HashTable<int?, int?> (int_hash, int_equal);
      foreach (var color in colors) {
        result_map.insert (color, 0);
      }
@@ -42,7 +42,7 @@
      return (r << (INDEX_BITS * 2)) + (r << (INDEX_BITS + 1)) + r + (g << INDEX_BITS) + g + b;
    }
 
-   void construct_histogram (HashTable<int, int?> pixels) {
+   void construct_histogram (HashTable<int?, int?> pixels) {
      weights = new int[TOTAL_SIZE];
      moments_r = new int[TOTAL_SIZE];
      moments_g = new int[TOTAL_SIZE];
@@ -146,8 +146,8 @@
      return new CreateBoxesResult (max_color_count, generated_color_count);
    }
 
-   List<int?> create_result (int color_count) {
-     var colors = new List<int?> ();
+   Array<int?> create_result (int color_count) {
+     var colors = new GLib.Array<int?> ();
      for (int i = 0; i < color_count; ++i) {
        Box cube = cubes[i];
        int weight = volume (cube, weights);
@@ -155,11 +155,10 @@
          int r = volume (cube, moments_r) / weight;
          int g = volume (cube, moments_g) / weight;
          int b = volume (cube, moments_b) / weight;
-         int color = (255 << 24) | ((r & 0x0ff) << 16) | ((g & 0x0ff) << 8) | (b & 0x0ff);
-         colors.append (color);
+         int color = (255 << 24) | ((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff);
+         colors.append_val (color);
        }
      }
-     print ("FIRST WU RESULT: %s\n", Color.hexcode_argb(colors.nth_data (0)));
      return colors;
    }
 

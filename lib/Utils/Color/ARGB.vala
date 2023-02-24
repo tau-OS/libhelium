@@ -14,11 +14,31 @@ namespace He.Color {
         return clr;
     }
 
+    public int lab_to_argb_int (LABColor lab) {
+        double[] white_point = {Xn, Yn, Zn};
+        var fy = (lab.l + 16.0) / 116.0;
+        var fx = lab.a / 500.0 + fy;
+        var fz = fy - lab.b / 200.0;
+        var xn = MathUtils.lab_inverse_fovea (fx);
+        var yn = MathUtils.lab_inverse_fovea (fy);
+        var zn = MathUtils.lab_inverse_fovea (fz);
+        XYZColor xyz = {xn * white_point[0], yn * white_point[1], zn * white_point[2]};
+        return xyz_to_argb (xyz);
+    }
+
     public static int argb_from_rgb_int (int red, int green, int blue) {
         return (255 << 24) | ((red & 255) << 16) | ((green & 255) << 8) | (blue & 255);
     }
 
-    public static double[] xyz_to_argb (int argb) {
+    public static int xyz_to_argb (XYZColor xyz) {
+        var matrix = MathUtils.elem_mul (new double[] {xyz.x, xyz.y, xyz.z}, XYZ_TO_SRGB);
+        var r = MathUtils.delinearized (matrix[0]);
+        var g = MathUtils.delinearized (matrix[1]);
+        var b = MathUtils.delinearized (matrix[2]);
+        return argb_from_rgb_int (r, g, b);
+    }
+
+    public static double[] argb_to_rgb (int argb) {
         double r = MathUtils.linearized (red_from_rgba_int(argb));
         double g = MathUtils.linearized (green_from_rgba_int(argb));
         double b = MathUtils.linearized (blue_from_rgba_int(argb));
