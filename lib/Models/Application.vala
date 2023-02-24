@@ -120,6 +120,11 @@ public class He.Application : Gtk.Application {
 
     var scheme_default = new He.Schemes.Default (cam16_color, desktop);
 
+    var error_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#ffb4ab" : "#ba1a1a";
+    var on_error_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#690005" : "#ffffff";
+    var error_container_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#93000a" : "#ffdad6";
+    var on_error_container_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#ffdad6" : "#410002";
+
     // HCT Color blendin'
     var meson_red_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
     Color.hct_blend (Color.from_params (8.0, 85.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
@@ -194,9 +199,9 @@ public class He.Application : Gtk.Application {
       @define-color popover_fg_color $(scheme_default.neutral_foreground_hex);
       @define-color card_fg_color $(scheme_default.neutral_foreground_hex);
 
-      @define-color destructive_bg_color $(scheme_default.error_hex);
-      @define-color destructive_fg_color $(scheme_default.on_error_hex);
-      @define-color destructive_color $(scheme_default.error_hex);
+      @define-color destructive_bg_color $error_hex;
+      @define-color destructive_fg_color $on_error_hex;
+      @define-color destructive_color $error_hex;
 
       @define-color destructive_container_color $(scheme_default.on_error_container_hex);
       @define-color destructive_container_bg_color $(scheme_default.error_container_hex);
@@ -210,13 +215,13 @@ public class He.Application : Gtk.Application {
       @define-color suggested_container_bg_color $(scheme_default.secondary_container_hex);
       @define-color suggested_container_fg_color $(scheme_default.on_secondary_container_hex);
 
-      @define-color error_bg_color $(scheme_default.error_hex);
-      @define-color error_fg_color $(scheme_default.on_error_hex);
-      @define-color error_color $(scheme_default.error_hex);
+      @define-color error_bg_color $error_hex;
+      @define-color error_fg_color $on_error_hex;
+      @define-color error_color $error_hex;
 
-      @define-color error_container_color $(scheme_default.on_error_container_hex);
-      @define-color error_container_bg_color $(scheme_default.error_container_hex);
-      @define-color error_container_fg_color $(scheme_default.error_container_hex);
+      @define-color error_container_color $on_error_container_hex;
+      @define-color error_container_bg_color $error_container_hex;
+      @define-color error_container_fg_color $error_container_hex;
 
       @define-color success_bg_color $(scheme_default.tertiary_hex);
       @define-color success_fg_color $(scheme_default.on_tertiary_hex);
@@ -260,13 +265,13 @@ public class He.Application : Gtk.Application {
       @define-color popover_fg_color $(scheme_default.neutral_foreground_hex);
       @define-color card_fg_color $(scheme_default.neutral_foreground_hex);
 
-      @define-color destructive_bg_color $(scheme_default.error_hex);
-      @define-color destructive_fg_color $(scheme_default.on_error_hex);
-      @define-color destructive_color $(scheme_default.error_hex);
+      @define-color destructive_bg_color $error_hex;
+      @define-color destructive_fg_color $on_error_hex;
+      @define-color destructive_color $error_hex;
 
-      @define-color destructive_container_color $(scheme_default.on_error_container_hex);
-      @define-color destructive_container_bg_color $(scheme_default.error_container_hex);
-      @define-color destructive_container_fg_color $(scheme_default.on_error_container_hex);
+      @define-color destructive_container_color $on_error_container_hex;
+      @define-color destructive_container_bg_color $error_container_hex;
+      @define-color destructive_container_fg_color $on_error_container_hex;
 
       @define-color suggested_bg_color $(scheme_default.secondary_hex);
       @define-color suggested_fg_color $(scheme_default.on_secondary_hex);
@@ -276,13 +281,13 @@ public class He.Application : Gtk.Application {
       @define-color suggested_container_bg_color $(scheme_default.secondary_container_hex);
       @define-color suggested_container_fg_color $(scheme_default.on_secondary_container_hex);
 
-      @define-color error_bg_color $(scheme_default.error_hex);
-      @define-color error_fg_color $(scheme_default.on_error_hex);
-      @define-color error_color $(scheme_default.error_hex);
+      @define-color error_bg_color $error_hex;
+      @define-color error_fg_color $on_error_hex;
+      @define-color error_color $error_hex;
 
-      @define-color error_container_color $(scheme_default.on_error_container_hex);
-      @define-color error_container_bg_color $(scheme_default.error_container_hex);
-      @define-color error_container_fg_color $(scheme_default.error_container_hex);
+      @define-color error_container_color $on_error_container_hex;
+      @define-color error_container_bg_color $error_container_hex;
+      @define-color error_container_fg_color $error_container_hex;
 
       @define-color success_bg_color $(scheme_default.tertiary_hex);
       @define-color success_fg_color $(scheme_default.on_tertiary_hex);

@@ -18,7 +18,7 @@
 */
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Schemes {
-    public class Default : Object {
+    public class Monochrome : Object {
         private string _neutral_background_hex = "";
         public string neutral_background_hex {
             get { return _neutral_background_hex; }
@@ -164,13 +164,13 @@ namespace He.Schemes {
         private static double hue = 0.0;
         private static double chroma = 0.0;
 
-        private const double PRIMARY = 48.0;
-        private const double SECONDARY = 16.0;
-        private const double TERTIARY = 24.0;
-        private const double NEUTRAL = 4.0;
-        private const double NEUTRAL2 = 8.0;
+        private const double PRIMARY = 0.0;
+        private const double SECONDARY = 0.0;
+        private const double TERTIARY = 0.0;
+        private const double NEUTRAL = 0.0;
+        private const double NEUTRAL2 = 0.0;
 
-        public Default (Color.CAM16Color cam16_color, Desktop desktop) {
+        public Monochrome (Color.CAM16Color cam16_color, Desktop desktop) {
             hue = cam16_color.h;
             chroma = cam16_color.C;
 
@@ -201,7 +201,7 @@ namespace He.Schemes {
             // ___ ____ ____ ___ _ ____ ____ _   _ 
             //  |  |___ |__/  |  | |__| |__/  \_/  
             //  |  |___ |  \  |  | |  | |  \   |
-            double tertiary_hue = MathUtils.sanitize_degrees (hue + 60.0);
+            double tertiary_hue = MathUtils.sanitize_degrees (hue + 0.0);
             tertiary_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0);
             on_tertiary_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0);
             tertiary_container_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);

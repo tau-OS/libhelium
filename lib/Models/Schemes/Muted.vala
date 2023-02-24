@@ -18,7 +18,7 @@
 */
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Schemes {
-    public class Default : Object {
+    public class Muted : Object {
         private string _neutral_background_hex = "";
         public string neutral_background_hex {
             get { return _neutral_background_hex; }
@@ -164,13 +164,13 @@ namespace He.Schemes {
         private static double hue = 0.0;
         private static double chroma = 0.0;
 
-        private const double PRIMARY = 48.0;
-        private const double SECONDARY = 16.0;
-        private const double TERTIARY = 24.0;
-        private const double NEUTRAL = 4.0;
-        private const double NEUTRAL2 = 8.0;
+        private const double PRIMARY = 24.0;
+        private const double SECONDARY = 8.0;
+        private const double TERTIARY = 12.0;
+        private const double NEUTRAL = 2.0;
+        private const double NEUTRAL2 = 4.0;
 
-        public Default (Color.CAM16Color cam16_color, Desktop desktop) {
+        public Muted (Color.CAM16Color cam16_color, Desktop desktop) {
             hue = cam16_color.h;
             chroma = cam16_color.C;
 
