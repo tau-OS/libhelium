@@ -19,7 +19,7 @@
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Schemes {
     public class Default : Scheme {
-        private const double PRIMARY = 40.0;
+        private const double PRIMARY = 58.0;
         private const double SECONDARY = 16.0;
         private const double TERTIARY = 24.0;
         private const double NEUTRAL = 4.0;
