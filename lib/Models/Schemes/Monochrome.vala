@@ -26,9 +26,7 @@ namespace He.Schemes {
         private const double NEUTRAL2 = 0.0;
 
         public Monochrome (Color.CAM16Color cam16_color, Desktop desktop) {
-            base ();
-            hue = cam16_color.h;
-            chroma = cam16_color.C;
+            base (cam16_color, desktop);
 
             // _  _ ____ _  _ ___ ____ ____ _    
             // |\ | |___ |  |  |  |__/ |__| |    

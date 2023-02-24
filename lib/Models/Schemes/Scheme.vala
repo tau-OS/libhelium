@@ -162,5 +162,8 @@ public class He.Scheme : Object {
     public static double hue = 0.0;
     public static double chroma = 0.0;
 
-    public Scheme () {}
+    public Scheme (Color.CAM16Color cam16_color, Desktop desktop) {
+        hue = cam16_color.h;
+        chroma = cam16_color.C;
+    }
 }

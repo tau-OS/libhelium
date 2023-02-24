@@ -118,17 +118,17 @@ public class He.Application : Gtk.Application {
     }
     var background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
 
-    var scheme_default = new He.Scheme ();
+    var chosen_scheme = new He.Scheme (cam16_color, desktop);
     if (Desktop.EnsorScheme.DEFAULT == desktop.ensor_scheme) {
-      scheme_default = new He.Schemes.Default (cam16_color, desktop);
+      chosen_scheme = new He.Schemes.Default (cam16_color, desktop);
     } else if (Desktop.EnsorScheme.VIBRANT == desktop.ensor_scheme) {
-      scheme_default = new He.Schemes.Vibrant (cam16_color, desktop);
+      chosen_scheme = new He.Schemes.Vibrant (cam16_color, desktop);
     } else if (Desktop.EnsorScheme.MUTED == desktop.ensor_scheme) {
-      scheme_default = new He.Schemes.Muted (cam16_color, desktop);
+      chosen_scheme = new He.Schemes.Muted (cam16_color, desktop);
     } else if (Desktop.EnsorScheme.MONOCHROMATIC == desktop.ensor_scheme) {
-      scheme_default = new He.Schemes.Monochrome (cam16_color, desktop);
+      chosen_scheme = new He.Schemes.Monochrome (cam16_color, desktop);
     } else {
-      scheme_default = new He.Schemes.Default (cam16_color, desktop);
+      chosen_scheme = new He.Schemes.Default (cam16_color, desktop);
     }
 
     var error_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#ffb4ab" : "#ba1a1a";
@@ -190,41 +190,41 @@ public class He.Application : Gtk.Application {
     string css = "";
     if (desktop.prefers_color_scheme == Desktop.ColorScheme.DARK) {
       css = @"
-      @define-color accent_color $(scheme_default.primary_hex);
-      @define-color accent_bg_color $(scheme_default.primary_hex);
-      @define-color accent_fg_color $(scheme_default.on_primary_hex);
+      @define-color accent_color $(chosen_scheme.primary_hex);
+      @define-color accent_bg_color $(chosen_scheme.primary_hex);
+      @define-color accent_fg_color $(chosen_scheme.on_primary_hex);
 
-      @define-color accent_container_color $(scheme_default.primary_container_hex);
-      @define-color accent_container_bg_color $(scheme_default.primary_container_hex);
-      @define-color accent_container_fg_color $(scheme_default.on_primary_container_hex);
+      @define-color accent_container_color $(chosen_scheme.primary_container_hex);
+      @define-color accent_container_bg_color $(chosen_scheme.primary_container_hex);
+      @define-color accent_container_fg_color $(chosen_scheme.on_primary_container_hex);
 
-      @define-color window_bg_color mix($(scheme_default.neutral_background_hex), $background_hex, 0.5);
-      @define-color view_bg_color mix($(scheme_default.neutral_background_hex), $background_hex, 0.5);
-      @define-color headerbar_bg_color mix($(scheme_default.neutral_background_variant_hex), $background_hex, 0.5);
-      @define-color popover_bg_color mix($(scheme_default.neutral_background_hex), $background_hex, 0.5);
-      @define-color card_bg_color mix($(scheme_default.neutral_background_hex), $background_hex, 0.5);
+      @define-color window_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.5);
+      @define-color view_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.5);
+      @define-color headerbar_bg_color mix($(chosen_scheme.neutral_background_variant_hex), $background_hex, 0.5);
+      @define-color popover_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.5);
+      @define-color card_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.5);
 
-      @define-color window_fg_color $(scheme_default.neutral_foreground_hex);
-      @define-color view_fg_color $(scheme_default.neutral_foreground_hex);
-      @define-color headerbar_fg_color $(scheme_default.neutral_foreground_variant_hex);
-      @define-color popover_fg_color $(scheme_default.neutral_foreground_hex);
-      @define-color card_fg_color $(scheme_default.neutral_foreground_hex);
+      @define-color window_fg_color $(chosen_scheme.neutral_foreground_hex);
+      @define-color view_fg_color $(chosen_scheme.neutral_foreground_hex);
+      @define-color headerbar_fg_color $(chosen_scheme.neutral_foreground_variant_hex);
+      @define-color popover_fg_color $(chosen_scheme.neutral_foreground_hex);
+      @define-color card_fg_color $(chosen_scheme.neutral_foreground_hex);
 
       @define-color destructive_bg_color $error_hex;
       @define-color destructive_fg_color $on_error_hex;
       @define-color destructive_color $error_hex;
 
-      @define-color destructive_container_color $(scheme_default.on_error_container_hex);
-      @define-color destructive_container_bg_color $(scheme_default.error_container_hex);
-      @define-color destructive_container_fg_color $(scheme_default.on_error_container_hex);
+      @define-color destructive_container_color $(chosen_scheme.on_error_container_hex);
+      @define-color destructive_container_bg_color $(chosen_scheme.error_container_hex);
+      @define-color destructive_container_fg_color $(chosen_scheme.on_error_container_hex);
 
-      @define-color suggested_bg_color $(scheme_default.secondary_hex);
-      @define-color suggested_fg_color $(scheme_default.on_secondary_hex);
-      @define-color suggested_color $(scheme_default.secondary_hex);
+      @define-color suggested_bg_color $(chosen_scheme.secondary_hex);
+      @define-color suggested_fg_color $(chosen_scheme.on_secondary_hex);
+      @define-color suggested_color $(chosen_scheme.secondary_hex);
 
-      @define-color suggested_container_color $(scheme_default.secondary_container_hex);
-      @define-color suggested_container_bg_color $(scheme_default.secondary_container_hex);
-      @define-color suggested_container_fg_color $(scheme_default.on_secondary_container_hex);
+      @define-color suggested_container_color $(chosen_scheme.secondary_container_hex);
+      @define-color suggested_container_bg_color $(chosen_scheme.secondary_container_hex);
+      @define-color suggested_container_fg_color $(chosen_scheme.on_secondary_container_hex);
 
       @define-color error_bg_color $error_hex;
       @define-color error_fg_color $on_error_hex;
@@ -234,47 +234,47 @@ public class He.Application : Gtk.Application {
       @define-color error_container_bg_color $error_container_hex;
       @define-color error_container_fg_color $error_container_hex;
 
-      @define-color success_bg_color $(scheme_default.tertiary_hex);
-      @define-color success_fg_color $(scheme_default.on_tertiary_hex);
-      @define-color success_color $(scheme_default.tertiary_hex);
+      @define-color success_bg_color $(chosen_scheme.tertiary_hex);
+      @define-color success_fg_color $(chosen_scheme.on_tertiary_hex);
+      @define-color success_color $(chosen_scheme.tertiary_hex);
 
-      @define-color success_container_color $(scheme_default.tertiary_container_hex);
-      @define-color success_container_bg_color $(scheme_default.tertiary_container_hex);
-      @define-color success_container_fg_color $(scheme_default.on_tertiary_container_hex);
+      @define-color success_container_color $(chosen_scheme.tertiary_container_hex);
+      @define-color success_container_bg_color $(chosen_scheme.tertiary_container_hex);
+      @define-color success_container_fg_color $(chosen_scheme.on_tertiary_container_hex);
 
-      @define-color outline $(scheme_default.outline_hex);
-      @define-color borders $(scheme_default.outline_variant_hex);
+      @define-color outline $(chosen_scheme.outline_hex);
+      @define-color borders $(chosen_scheme.outline_variant_hex);
 
-      @define-color shadow $(scheme_default.shadow_hex);
-      @define-color scrim $(scheme_default.scrim_hex);
+      @define-color shadow $(chosen_scheme.shadow_hex);
+      @define-color scrim $(chosen_scheme.scrim_hex);
       ";
 
       css += @"
-      @define-color osd_bg_color $(scheme_default.inverse_neutral_background_hex);
-      @define-color osd_fg_color $(scheme_default.inverse_neutral_foreground_hex);
-      @define-color osd_accent_color $(scheme_default.inverse_primary_hex);
+      @define-color osd_bg_color $(chosen_scheme.inverse_neutral_background_hex);
+      @define-color osd_fg_color $(chosen_scheme.inverse_neutral_foreground_hex);
+      @define-color osd_accent_color $(chosen_scheme.inverse_primary_hex);
       ";
     } else {
       css = @"
-      @define-color accent_color $(scheme_default.primary_hex);
-      @define-color accent_bg_color $(scheme_default.primary_hex);
-      @define-color accent_fg_color $(scheme_default.on_primary_hex);
+      @define-color accent_color $(chosen_scheme.primary_hex);
+      @define-color accent_bg_color $(chosen_scheme.primary_hex);
+      @define-color accent_fg_color $(chosen_scheme.on_primary_hex);
 
-      @define-color accent_container_color $(scheme_default.primary_container_hex);
-      @define-color accent_container_bg_color $(scheme_default.primary_container_hex);
-      @define-color accent_container_fg_color $(scheme_default.on_primary_container_hex);
+      @define-color accent_container_color $(chosen_scheme.primary_container_hex);
+      @define-color accent_container_bg_color $(chosen_scheme.primary_container_hex);
+      @define-color accent_container_fg_color $(chosen_scheme.on_primary_container_hex);
 
-      @define-color window_bg_color $(scheme_default.neutral_background_hex);
-      @define-color view_bg_color $(scheme_default.neutral_background_hex);
-      @define-color headerbar_bg_color $(scheme_default.neutral_background_variant_hex);
-      @define-color popover_bg_color $(scheme_default.neutral_background_hex);
-      @define-color card_bg_color $(scheme_default.neutral_background_hex);
+      @define-color window_bg_color $(chosen_scheme.neutral_background_hex);
+      @define-color view_bg_color $(chosen_scheme.neutral_background_hex);
+      @define-color headerbar_bg_color $(chosen_scheme.neutral_background_variant_hex);
+      @define-color popover_bg_color $(chosen_scheme.neutral_background_hex);
+      @define-color card_bg_color $(chosen_scheme.neutral_background_hex);
 
-      @define-color window_fg_color $(scheme_default.neutral_foreground_hex);
-      @define-color view_fg_color $(scheme_default.neutral_foreground_hex);
-      @define-color headerbar_fg_color $(scheme_default.neutral_foreground_variant_hex);
-      @define-color popover_fg_color $(scheme_default.neutral_foreground_hex);
-      @define-color card_fg_color $(scheme_default.neutral_foreground_hex);
+      @define-color window_fg_color $(chosen_scheme.neutral_foreground_hex);
+      @define-color view_fg_color $(chosen_scheme.neutral_foreground_hex);
+      @define-color headerbar_fg_color $(chosen_scheme.neutral_foreground_variant_hex);
+      @define-color popover_fg_color $(chosen_scheme.neutral_foreground_hex);
+      @define-color card_fg_color $(chosen_scheme.neutral_foreground_hex);
 
       @define-color destructive_bg_color $error_hex;
       @define-color destructive_fg_color $on_error_hex;
@@ -284,13 +284,13 @@ public class He.Application : Gtk.Application {
       @define-color destructive_container_bg_color $error_container_hex;
       @define-color destructive_container_fg_color $on_error_container_hex;
 
-      @define-color suggested_bg_color $(scheme_default.secondary_hex);
-      @define-color suggested_fg_color $(scheme_default.on_secondary_hex);
-      @define-color suggested_color $(scheme_default.secondary_hex);
+      @define-color suggested_bg_color $(chosen_scheme.secondary_hex);
+      @define-color suggested_fg_color $(chosen_scheme.on_secondary_hex);
+      @define-color suggested_color $(chosen_scheme.secondary_hex);
 
-      @define-color suggested_container_color $(scheme_default.secondary_container_hex);
-      @define-color suggested_container_bg_color $(scheme_default.secondary_container_hex);
-      @define-color suggested_container_fg_color $(scheme_default.on_secondary_container_hex);
+      @define-color suggested_container_color $(chosen_scheme.secondary_container_hex);
+      @define-color suggested_container_bg_color $(chosen_scheme.secondary_container_hex);
+      @define-color suggested_container_fg_color $(chosen_scheme.on_secondary_container_hex);
 
       @define-color error_bg_color $error_hex;
       @define-color error_fg_color $on_error_hex;
@@ -300,25 +300,25 @@ public class He.Application : Gtk.Application {
       @define-color error_container_bg_color $error_container_hex;
       @define-color error_container_fg_color $error_container_hex;
 
-      @define-color success_bg_color $(scheme_default.tertiary_hex);
-      @define-color success_fg_color $(scheme_default.on_tertiary_hex);
-      @define-color success_color $(scheme_default.tertiary_hex);
+      @define-color success_bg_color $(chosen_scheme.tertiary_hex);
+      @define-color success_fg_color $(chosen_scheme.on_tertiary_hex);
+      @define-color success_color $(chosen_scheme.tertiary_hex);
 
-      @define-color success_container_color $(scheme_default.tertiary_container_hex);
-      @define-color success_container_bg_color $(scheme_default.tertiary_container_hex);
-      @define-color success_container_fg_color $(scheme_default.on_tertiary_container_hex);
+      @define-color success_container_color $(chosen_scheme.tertiary_container_hex);
+      @define-color success_container_bg_color $(chosen_scheme.tertiary_container_hex);
+      @define-color success_container_fg_color $(chosen_scheme.on_tertiary_container_hex);
 
-      @define-color outline $(scheme_default.outline_hex);
-      @define-color borders $(scheme_default.outline_variant_hex);
+      @define-color outline $(chosen_scheme.outline_hex);
+      @define-color borders $(chosen_scheme.outline_variant_hex);
 
-      @define-color shadow $(scheme_default.shadow_hex);
-      @define-color scrim $(scheme_default.scrim_hex);
+      @define-color shadow $(chosen_scheme.shadow_hex);
+      @define-color scrim $(chosen_scheme.scrim_hex);
       ";
 
       css += @"
-      @define-color osd_bg_color $(scheme_default.inverse_neutral_background_hex);
-      @define-color osd_fg_color $(scheme_default.inverse_neutral_foreground_hex);
-      @define-color osd_accent_color $(scheme_default.inverse_primary_hex);
+      @define-color osd_bg_color $(chosen_scheme.inverse_neutral_background_hex);
+      @define-color osd_fg_color $(chosen_scheme.inverse_neutral_foreground_hex);
+      @define-color osd_accent_color $(chosen_scheme.inverse_primary_hex);
       ";
     }
 
@@ -366,6 +366,14 @@ public class He.Application : Gtk.Application {
       style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
       style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
     });
+
+    desktop.notify["ensor-scheme"].connect (() => {
+      update_accent_color();
+
+      style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
+      style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
+      style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
+    });
   }
 
   private void init_app_providers () {
@@ -402,6 +410,10 @@ public class He.Application : Gtk.Application {
     });
 
     desktop.notify["dark-mode-strength"].connect (() => {
+      update_accent_color();
+    });
+
+    desktop.notify["ensor-scheme"].connect (() => {
       update_accent_color();
     });
 
