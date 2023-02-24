@@ -19,10 +19,10 @@
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Schemes {
     public class Default : Scheme {
-        private const double PRIMARY = 48.0;
+        private const double PRIMARY = 40.0;
         private const double SECONDARY = 16.0;
         private const double TERTIARY = 24.0;
-        private const double NEUTRAL = 4.0;
+        private const double NEUTRAL = 6.0;
         private const double NEUTRAL2 = 8.0;
 
         public Default (Color.CAM16Color cam16_color, Desktop desktop) {
