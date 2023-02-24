@@ -118,7 +118,18 @@ public class He.Application : Gtk.Application {
     }
     var background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
 
-    var scheme_default = new He.Schemes.Default (cam16_color, desktop);
+    var scheme_default = new He.Scheme ();
+    if (Desktop.EnsorScheme.DEFAULT == desktop.ensor_scheme) {
+      scheme_default = new He.Schemes.Default (cam16_color, desktop);
+    } else if (Desktop.EnsorScheme.VIBRANT == desktop.ensor_scheme) {
+      scheme_default = new He.Schemes.Vibrant (cam16_color, desktop);
+    } else if (Desktop.EnsorScheme.MUTED == desktop.ensor_scheme) {
+      scheme_default = new He.Schemes.Muted (cam16_color, desktop);
+    } else if (Desktop.EnsorScheme.MONOCHROMATIC == desktop.ensor_scheme) {
+      scheme_default = new He.Schemes.Monochrome (cam16_color, desktop);
+    } else {
+      scheme_default = new He.Schemes.Default (cam16_color, desktop);
+    }
 
     var error_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#ffb4ab" : "#ba1a1a";
     var on_error_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#690005" : "#ffffff";

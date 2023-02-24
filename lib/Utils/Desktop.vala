@@ -73,7 +73,7 @@ public class He.Desktop : Object {
     }
 
     /**
-    * The color scheme preference.
+    * The dark mode strength preference.
     */
     private DarkModeStrength? _dark_mode_strength = null;
     public DarkModeStrength dark_mode_strength {
@@ -100,6 +100,46 @@ public class He.Desktop : Object {
         }
 
         dark_mode_strength = DarkModeStrength.MEDIUM;
+    }
+
+    /**
+    * The Ensor scheme preference enum, which is used to determine the Ensor scheme of the desktop.
+    */
+    public enum EnsorScheme {
+        DEFAULT,
+        VIBRANT,
+        MUTED,
+        MONOCHROMATIC
+    }
+
+    /**
+    * The Ensor color scheme preference.
+    */
+    private EnsorScheme? _ensor_scheme = null;
+    public EnsorScheme ensor_scheme {
+        get {
+            return _ensor_scheme;
+        }
+        private set {
+            _ensor_scheme = value;
+        }
+    }
+
+    private void setup_ensor_scheme () {
+        try {
+            portal = Portal.Settings.get ();
+
+            ensor_scheme = (EnsorScheme) portal.read (
+                "org.freedesktop.appearance",
+                "ensor-scheme"
+            ).get_variant ().get_uint32 ();
+
+            return;
+        } catch (Error e) {
+            debug ("%s", e.message);
+        }
+
+        ensor_scheme = EnsorScheme.DEFAULT;
     }
 
     /**
@@ -167,6 +207,10 @@ public class He.Desktop : Object {
                 dark_mode_strength = (DarkModeStrength) val.get_uint32 ();
             }
 
+            if (scheme == "org.freedesktop.appearance" && key == "ensor-scheme") {
+                ensor_scheme = (EnsorScheme) val.get_uint32 ();
+            }
+
             if (scheme == "org.freedesktop.appearance" && key == "color-scheme") {
                 prefers_color_scheme = (ColorScheme) val.get_uint32 ();
             }
@@ -177,6 +221,7 @@ public class He.Desktop : Object {
         setup_prefers_color_scheme ();
         setup_accent_color ();
         setup_dark_mode_strength ();
+        setup_ensor_scheme ();
         init_handle_settings_change ();
     }
 }
