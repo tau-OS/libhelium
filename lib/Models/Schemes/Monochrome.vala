@@ -19,11 +19,11 @@
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Schemes {
     public class Monochrome : Scheme {
-        private const double PRIMARY = 0.0;
-        private const double SECONDARY = 0.0;
-        private const double TERTIARY = 0.0;
-        private const double NEUTRAL = 0.0;
-        private const double NEUTRAL2 = 0.0;
+        private const double PRIMARY = 1.0;
+        private const double SECONDARY = 1.0;
+        private const double TERTIARY = 1.0;
+        private const double NEUTRAL = 1.0;
+        private const double NEUTRAL2 = 1.0;
 
         public Monochrome (Color.CAM16Color cam16_color, Desktop desktop) {
             base (cam16_color, desktop);
