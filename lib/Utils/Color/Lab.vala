@@ -85,6 +85,6 @@ namespace He.Color {
         var a = color1.a - color2.a;
         var b = color1.b - color2.b;
 
-        return Math.sqrt (l * l + a * a + b * b);
+        return (l * l + a * a + b * b);
     }
 }
