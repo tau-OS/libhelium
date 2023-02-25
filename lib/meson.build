@@ -28,8 +28,6 @@ libhelium_sources += files(
     'Utils/Color/XYZ.vala',
     'Utils/Desktop.vala',
     'Utils/Ensor/Ensor.vala',
-    'Utils/Ensor/Quantize/PointProvider.vala',
-    'Utils/Ensor/Quantize/PointProviderLab.vala',
     'Utils/Ensor/Quantize/Quantizer.vala',
     'Utils/Ensor/Quantize/QuantizerCelebi.vala',
     'Utils/Ensor/Quantize/QuantizerMap.vala',

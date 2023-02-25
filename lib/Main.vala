@@ -55,8 +55,6 @@ namespace He {
         typeof (He.OutlineButton).ensure ();
         typeof (He.OverlayButton).ensure ();
         typeof (He.PillButton).ensure ();
-        typeof (He.PointProvider).ensure ();
-        typeof (He.PointProviderLab).ensure ();
         typeof (He.Quantizer).ensure ();
         typeof (He.QuantizerCelebi).ensure ();
         typeof (He.QuantizerMap).ensure ();

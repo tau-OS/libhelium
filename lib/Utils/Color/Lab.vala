@@ -17,6 +17,13 @@ namespace He.Color {
         public double l;
         public double a;
         public double b;
+
+        public double distance (LABColor lab) {
+            double d_l = l - lab.l;
+            double d_a = a - lab.a;
+            double d_b = b - lab.b;
+            return (d_l * d_l) + (d_a * d_a) + (d_b * d_b);
+        }
     }
 
     public double xyz_value_to_lab (double v) {
@@ -65,7 +72,7 @@ namespace He.Color {
     public LABColor lab_from_argb (int argb) {
         var linear_r = MathUtils.linearized (red_from_rgba_int (argb));
         var linear_g = MathUtils.linearized (green_from_rgba_int (argb));
-        var linear_b = MathUtils.linearized(blue_from_rgba_int (argb));
+        var linear_b = MathUtils.linearized (blue_from_rgba_int (argb));
         var xyz = MathUtils.elem_mul (new double[] {linear_r, linear_g, linear_b}, SRGB_TO_XYZ);
         double[] d65 = {Xn, Yn, Zn};
         var xn = xyz[0] / d65[0];
@@ -78,13 +85,5 @@ namespace He.Color {
         var a = 500.0 * (fx - fy);
         var b = 200.0 * (fy - fz);
         return {l, a, b};
-    }
-
-    public double lab_distance (LABColor color1, LABColor color2) {
-        var l = color1.l - color2.l;
-        var a = color1.a - color2.a;
-        var b = color1.b - color2.b;
-
-        return (l * l + a * a + b * b);
     }
 }

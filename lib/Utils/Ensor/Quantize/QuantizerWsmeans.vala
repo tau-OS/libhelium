@@ -112,7 +112,8 @@ public class He.QuantizerWsmeans : Object {
       // Calculate cluster distances
       for (int i = 0; i < cluster_count; i++) {
         for (int j = i + 1; j < cluster_count; j++) {
-          double distance = Color.lab_distance(clusters.index(i), clusters.index(j));
+          var point = clusters.index(i);
+          double distance = point.distance(clusters.index(j));
 
           distance_to_index_matrix.index(j).index(i).distance = distance;
           distance_to_index_matrix.index(j).index(i).index = i;
@@ -134,7 +135,7 @@ public class He.QuantizerWsmeans : Object {
 
         var previous_cluster_index = cluster_indices.index(i);
         var previous_cluster = clusters.index(previous_cluster_index);
-        var previous_distance = Color.lab_distance(point, previous_cluster);
+        var previous_distance = point.distance(previous_cluster);
         double minimum_distance = previous_distance;
         int new_cluster_index = -1;
 
@@ -142,7 +143,7 @@ public class He.QuantizerWsmeans : Object {
           if (distance_to_index_matrix.index(previous_cluster_index).index(j).distance >= 4 * previous_distance) {
             continue;
           }
-          double distance = Color.lab_distance(point, clusters.index(j));
+          double distance = point.distance(clusters.index(j));
           if (distance < minimum_distance) {
             minimum_distance = distance;
             new_cluster_index = j;
