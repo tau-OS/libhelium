@@ -111,10 +111,6 @@ public class He.QuantizerWsmeans : Object {
 
       // Calculate cluster distances
       for (int i = 0; i < cluster_count; i++) {
-        distance_to_index_matrix.index(i).index(i).distance = 0;
-        distance_to_index_matrix.index(i).index(i).index = i;
-
-
         for (int j = i + 1; j < cluster_count; j++) {
           double distance = Color.lab_distance(clusters.index(i), clusters.index(j));
 
