@@ -72,7 +72,7 @@ public class He.QuantizerWsmeans : Object {
 
     int cluster_count = (int) MathUtils.min (max_colors, points.length);
 
-    if (starting_clusters.length == 0) {
+    if (starting_clusters.length != 0) {
       cluster_count = (int) MathUtils.min (cluster_count, starting_clusters.length);
     }
 
