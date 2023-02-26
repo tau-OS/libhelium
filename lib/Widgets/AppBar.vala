@@ -236,9 +236,6 @@ public class He.AppBar : He.Bin {
         set {
             _show_buttons = value;
 
-            title.set_visible (value);
-            sidetitle.set_visible (value);
-
             if (!value) {
                 top_box.margin_top = 36;
             } else {
@@ -258,14 +255,6 @@ public class He.AppBar : He.Bin {
         }
         set {
             _decoration_layout = value;
-
-            if (value != "") {
-                sidetitle.set_decoration_layout (value);
-                title.set_decoration_layout (value);
-            } else {
-                sidetitle.set_decoration_layout ("appmenu:");
-                title.set_decoration_layout (":minimize,maximize,close");
-            }
         }
     }
 
@@ -317,22 +306,42 @@ public class He.AppBar : He.Bin {
     public void remove(Gtk.Widget child) {
         btn_box.remove (child);
     }
+
+    private void create_start_window_controls () {
+        sidetitle = new Gtk.WindowControls (Gtk.PackType.START);
+        sidetitle.valign = Gtk.Align.CENTER;
+        control_box.prepend (sidetitle);
+    }
+
+    private void create_end_window_controls () {
+        title = new Gtk.WindowControls (Gtk.PackType.END);
+        title.valign = Gtk.Align.CENTER;
+        win_box.prepend (title);
+    }
     
     public AppBar () {
     	base ();
     }
 
     construct {
-        sidetitle = new Gtk.WindowControls (Gtk.PackType.START);
-        sidetitle.valign = Gtk.Align.CENTER;
-        title = new Gtk.WindowControls (Gtk.PackType.END);
-        title.valign = Gtk.Align.CENTER;
-        win_box.prepend (title);
-        control_box.prepend (sidetitle);
         title_box.halign = Gtk.Align.END;
         win_box.halign = Gtk.Align.END;
 
+        create_start_window_controls ();
+        create_end_window_controls ();
+        title.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
+        sidetitle.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
+
         decoration_layout = "";
+        notify["decoration-layout"].connect (() => {
+            if (decoration_layout == "") {
+                title.visible = false;
+                sidetitle.visible = false;
+            } else {
+                title.visible = true;
+                sidetitle.visible = true;
+            }
+        });
 
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
@@ -385,6 +394,7 @@ public class He.AppBar : He.Bin {
         winhandle.hexpand = true;
 
         show_buttons = true;
+        show_back = false;
         flat = true;
         main_box.add_css_class ("flat-appbar");
     }
