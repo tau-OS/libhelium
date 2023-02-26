@@ -148,6 +148,7 @@
 
         while (n_items-- > 0 && button_link != null) {
             button_link.data.active = this._stack_pages.is_selected (position++);
+            this._stack_pages.get_item (position).bind_property ("title", menu_label, "label", SYNC_CREATE);
             button_link = button_link.next;
         }
     }
