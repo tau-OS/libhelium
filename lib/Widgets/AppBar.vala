@@ -238,8 +238,12 @@ public class He.AppBar : He.Bin {
 
             if (!value) {
                 top_box.margin_top = 36;
+                title.visible = false;
+                sidetitle.visible = false;
             } else {
                 top_box.margin_top = 0;
+                title.visible = true;
+                sidetitle.visible = true;
             }
         }
     }
@@ -333,15 +337,6 @@ public class He.AppBar : He.Bin {
         sidetitle.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
 
         decoration_layout = "";
-        notify["decoration-layout"].connect (() => {
-            if (decoration_layout == "") {
-                title.visible = false;
-                sidetitle.visible = false;
-            } else {
-                title.visible = true;
-                sidetitle.visible = true;
-            }
-        });
 
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
