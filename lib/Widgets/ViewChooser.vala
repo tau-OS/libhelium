@@ -127,7 +127,6 @@
             button.child = button_child_box;
 
             this._stack_pages.get_item (position).bind_property ("title", button_label, "label", SYNC_CREATE);
-            this._stack_pages.get_item (position).bind_property ("title", menu_label, "label", SYNC_CREATE);
 
             button.bind_property ("active", button_img, "visible", SYNC_CREATE);
 
