@@ -142,7 +142,7 @@
             position++;
         }
         
-        this._stack_pages.get_item (position).bind_property ("title", menu_label, "label", SYNC_CREATE);
+        this._stack_pages.get_item (0).bind_property ("title", menu_label, "label", SYNC_CREATE);
     }
 
     private void on_selected_stack_page_changed (uint position, uint n_items) {
