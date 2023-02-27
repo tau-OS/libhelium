@@ -156,7 +156,7 @@ public class He.Desktop : Object {
     }
 
     private He.Color.RGBColor? parse_accent_color (GLib.Variant val) {
-        if (val.get_type().equal(VariantType.UINT32)) {
+        if (val.get_type ().equal (VariantType.UINT32)) {
             return null;
         }
 
@@ -200,7 +200,7 @@ public class He.Desktop : Object {
     /**
      * The system font weight preference.
      */
-    private double? _font_weight = null;
+    private double _font_weight = 0.0;
     public double font_weight {
         get {
             return _font_weight;
@@ -211,7 +211,7 @@ public class He.Desktop : Object {
     }
 
     private double parse_font_weight (GLib.Variant val) {
-        if (val.get_type().equal(VariantType.DOUBLE)) {
+        if (val.get_type ().equal (VariantType.DOUBLE)) {
             double fw = val.get_double ();
             return fw;
         } else {
@@ -238,10 +238,14 @@ public class He.Desktop : Object {
         font_weight = 0.0;
     }
 
-    private void init_handle_settings_change() {
+    private void init_handle_settings_change () {
         portal.setting_changed.connect ((scheme, key, val) => {
             if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
                 accent_color = parse_accent_color (val);
+            }
+            
+            if (scheme == "org.freedesktop.appearance" && key == "font-weight") {
+                font_weight = parse_font_weight (val);
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "dark-mode-strength") {
@@ -250,10 +254,6 @@ public class He.Desktop : Object {
 
             if (scheme == "org.freedesktop.appearance" && key == "ensor-scheme") {
                 ensor_scheme = (EnsorScheme) val.get_uint32 ();
-            }
-
-            if (scheme == "org.freedesktop.appearance" && key == "font-weight") {
-                font_weight = parse_font_weight (val);
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "color-scheme") {
