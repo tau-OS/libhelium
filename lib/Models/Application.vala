@@ -356,6 +356,9 @@ public class He.Application : Gtk.Application {
       label {
         font-weight: $weight;
       }
+      button {
+        font-weight: $heavy_weight;
+      }
       .big-display {
         font-weight: $weight;
       }
@@ -414,6 +417,9 @@ public class He.Application : Gtk.Application {
       css += @"
       label {
         font-weight: $weight;
+      }
+      button {
+        font-weight: $heavy_weight;
       }
       .big-display {
         font-weight: $weight;
