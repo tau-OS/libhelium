@@ -114,7 +114,7 @@ public class He.Application : Gtk.Application {
       if (default_font_weight != 0.0) {
         weight = default_font_weight;
       } else {
-        weight = 400;
+        weight = 1.0;
       }
     } else {
       weight = (400 * desktop.font_weight);

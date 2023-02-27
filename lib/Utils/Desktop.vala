@@ -210,11 +210,6 @@ public class He.Desktop : Object {
         }
     }
 
-    private double parse_font_weight (GLib.Variant val) {
-        double fw = val.get_double ();
-        return fw;
-    }
-
     private void setup_font_weight () {
         try {
             portal = Portal.Settings.get ();
@@ -222,16 +217,16 @@ public class He.Desktop : Object {
             var fw = portal.read (
                 "org.freedesktop.appearance",
                 "font-weight"
-            ).get_variant ();
+            );
 
-            font_weight = parse_font_weight (fw);
+            font_weight = (double) fw;
 
             return;
         } catch (Error e) {
             debug ("%s", e.message);
         }
 
-        font_weight = 0.0;
+        font_weight = 1.0;
     }
 
     private void init_handle_settings_change () {
@@ -241,7 +236,7 @@ public class He.Desktop : Object {
             }
             
             if (scheme == "org.freedesktop.appearance" && key == "font-weight") {
-                font_weight = parse_font_weight (val);
+                font_weight = (double) val;
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "dark-mode-strength") {
