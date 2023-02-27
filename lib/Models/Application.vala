@@ -356,8 +356,11 @@ public class He.Application : Gtk.Application {
       label {
         font-weight: $weight;
       }
-      button {
+      button label {
         font-weight: $heavy_weight;
+      }
+      .view-switcher button label {
+        font-weight: $weight;
       }
       .big-display {
         font-weight: $weight;
@@ -418,8 +421,11 @@ public class He.Application : Gtk.Application {
       label {
         font-weight: $weight;
       }
-      button {
+      button label {
         font-weight: $heavy_weight;
+      }
+      .view-switcher button label {
+        font-weight: $weight;
       }
       .big-display {
         font-weight: $weight;
