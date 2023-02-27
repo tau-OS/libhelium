@@ -200,7 +200,7 @@ public class He.Desktop : Object {
     /**
      * The system font weight preference.
      */
-    private double _font_weight = 0.0;
+    private double _font_weight = 1.0;
     public double font_weight {
         get {
             return _font_weight;
@@ -211,12 +211,8 @@ public class He.Desktop : Object {
     }
 
     private double parse_font_weight (GLib.Variant val) {
-        if (val.get_type ().equal (VariantType.DOUBLE)) {
-            double fw = val.get_double ();
-            return fw;
-        } else {
-            return 1.0;
-        }
+        double fw = val.get_double ();
+        return fw;
     }
 
     private void setup_font_weight () {
