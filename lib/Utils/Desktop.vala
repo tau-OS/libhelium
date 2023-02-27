@@ -197,6 +197,47 @@ public class He.Desktop : Object {
         accent_color = null;
     }
 
+    /**
+     * The system font weight preference.
+     */
+    private double? _font_weight = null;
+    public double font_weight {
+        get {
+            return _font_weight;
+        }
+        set {
+            _font_weight = value;
+        }
+    }
+
+    private double parse_font_weight (GLib.Variant val) {
+        if (val.get_type().equal(VariantType.DOUBLE)) {
+            double fw = val.get_double ();
+            return fw;
+        } else {
+            return 1.0;
+        }
+    }
+
+    private void setup_font_weight () {
+        try {
+            portal = Portal.Settings.get ();
+
+            var fw = portal.read (
+                "org.freedesktop.appearance",
+                "font-weight"
+            ).get_variant ();
+
+            font_weight = parse_font_weight (fw);
+
+            return;
+        } catch (Error e) {
+            debug ("%s", e.message);
+        }
+
+        font_weight = 0.0;
+    }
+
     private void init_handle_settings_change() {
         portal.setting_changed.connect ((scheme, key, val) => {
             if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
@@ -211,6 +252,10 @@ public class He.Desktop : Object {
                 ensor_scheme = (EnsorScheme) val.get_uint32 ();
             }
 
+            if (scheme == "org.freedesktop.appearance" && key == "font-weight") {
+                font_weight = parse_font_weight (val);
+            }
+
             if (scheme == "org.freedesktop.appearance" && key == "color-scheme") {
                 prefers_color_scheme = (ColorScheme) val.get_uint32 ();
             }
@@ -222,6 +267,7 @@ public class He.Desktop : Object {
         setup_accent_color ();
         setup_dark_mode_strength ();
         setup_ensor_scheme ();
+        setup_font_weight ();
         init_handle_settings_change ();
     }
 }

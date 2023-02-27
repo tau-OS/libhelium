@@ -44,6 +44,8 @@ public class He.Application : Gtk.Application {
   public He.Color.RGBColor? default_accent_color { get; set; }
   private He.Color.RGBColor? derived_card_bg { get; set; }
 
+  public double default_font_weight { get; set; }
+
   private Gtk.CssProvider light = new Gtk.CssProvider ();
   private Gtk.CssProvider dark = new Gtk.CssProvider ();
   private Gtk.CssProvider accent = new Gtk.CssProvider ();
@@ -96,6 +98,7 @@ public class He.Application : Gtk.Application {
 
   private void update_accent_color () {
     He.Color.RGBColor rgb_color;
+    double weight;
 
     if (desktop.accent_color == null) {
       if (default_accent_color != null) {
@@ -105,6 +108,16 @@ public class He.Application : Gtk.Application {
       }
     } else {
       rgb_color = desktop.accent_color;
+    }
+
+    if (desktop.font_weight == 0.0) {
+      if (default_font_weight != 0.0) {
+        weight = (400 * desktop.font_weight);
+      } else {
+        weight = 1.0;
+      }
+    } else {
+      weight = (400 * desktop.font_weight);
     }
 
     var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color));
@@ -335,6 +348,82 @@ public class He.Application : Gtk.Application {
       @define-color gluon_brown $gluon_brown_hex;
     ";
 
+    if (desktop.font_weight == 0.0) {
+      double light_weight = 300;
+      double heavy_weight = 700;
+
+      css += @"
+      label {
+        font-weight: $weight;
+      }
+      .big-display {
+        font-weight: $weight;
+      }
+      .display {
+        font-weight: $light_weight;
+      }
+      .view-title {
+        font-weight: $light_weight;
+      }
+      .view-subtitle {
+        font-weight: $weight;
+      }
+      .cb-title {
+        font-weight: $heavy_weight;
+      }
+      .cb-subtitle {
+        font-weight: $weight;
+      }
+      .header {
+        font-weight: $heavy_weight;
+      }
+      .body {
+        font-weight: $weight;
+      }
+      .caption {
+        font-weight: $heavy_weight;
+      }    
+      ";
+    } else {
+      double light_weight = (300 * desktop.font_weight);
+      double heavy_weight = (700 * desktop.font_weight);
+
+      print ("NORMAL: %f\nLIGHT: %f\nHEAVY: %f", weight, light_weight, heavy_weight);
+
+      css += @"
+      label {
+        font-weight: $weight;
+      }
+      .big-display {
+        font-weight: $weight;
+      }
+      .display {
+        font-weight: $light_weight;
+      }
+      .view-title {
+        font-weight: $light_weight;
+      }
+      .view-subtitle {
+        font-weight: $weight;
+      }
+      .cb-title {
+        font-weight: $heavy_weight;
+      }
+      .cb-subtitle {
+        font-weight: $weight;
+      }
+      .header {
+        font-weight: $heavy_weight;
+      }
+      .body {
+        font-weight: $weight;
+      }
+      .caption {
+        font-weight: $heavy_weight;
+      }    
+      ";
+    }
+
     accent.load_from_data (css.data);
   }
 
@@ -360,7 +449,7 @@ public class He.Application : Gtk.Application {
     });
 
     desktop.notify["dark-mode-strength"].connect (() => {
-      update_accent_color();
+      update_accent_color ();
 
       style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
       style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
@@ -368,7 +457,15 @@ public class He.Application : Gtk.Application {
     });
 
     desktop.notify["ensor-scheme"].connect (() => {
-      update_accent_color();
+      update_accent_color ();
+
+      style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
+      style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
+      style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
+    });
+
+    desktop.notify["font-weight"].connect (() => {
+      update_accent_color ();
 
       style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
       style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
@@ -414,6 +511,10 @@ public class He.Application : Gtk.Application {
     });
 
     desktop.notify["ensor-scheme"].connect (() => {
+      update_accent_color();
+    });
+
+    desktop.notify["font-weight"].connect (() => {
       update_accent_color();
     });
 
