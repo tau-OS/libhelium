@@ -353,6 +353,9 @@ public class He.Application : Gtk.Application {
       double heavy_weight = 700;
 
       css += @"
+      label {
+        font-weight: $weight;
+      }
       .big-display {
         font-weight: $weight;
       }
@@ -409,6 +412,9 @@ public class He.Application : Gtk.Application {
       print ("NORMAL: %f\nLIGHT: %f\nHEAVY: %f", weight, light_weight, heavy_weight);
 
       css += @"
+      label {
+        font-weight: $weight;
+      }
       .big-display {
         font-weight: $weight;
       }
