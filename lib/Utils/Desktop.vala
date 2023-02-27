@@ -217,7 +217,7 @@ public class He.Desktop : Object {
             var fw = portal.read (
                 "org.freedesktop.appearance",
                 "font-weight"
-            );
+            ).get_variant ().get_double ();
 
             font_weight = (double) fw;
 
@@ -234,9 +234,9 @@ public class He.Desktop : Object {
             if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
                 accent_color = parse_accent_color (val);
             }
-            
+
             if (scheme == "org.freedesktop.appearance" && key == "font-weight") {
-                font_weight = (double) val;
+                font_weight = (double) val.get_double ();
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "dark-mode-strength") {

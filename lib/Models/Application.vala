@@ -353,9 +353,6 @@ public class He.Application : Gtk.Application {
       double heavy_weight = 700;
 
       css += @"
-      label {
-        font-weight: $weight;
-      }
       .big-display {
         font-weight: $weight;
       }
@@ -382,7 +379,28 @@ public class He.Application : Gtk.Application {
       }
       .caption {
         font-weight: $heavy_weight;
-      }    
+      }
+      .large-title {
+        font-weight: $light_weight;
+      }
+      .title-1 {
+        font-weight: $heavy_weight;
+      }
+      .title-2 {
+        font-weight: $heavy_weight;
+      }
+      .title-3 {
+        font-weight: $heavy_weight;
+      }
+      .title-4 {
+        font-weight: $heavy_weight;
+      }
+      .heading {
+        font-weight: $heavy_weight;
+      }
+      .caption-heading {
+        font-weight: $heavy_weight;
+      }
       ";
     } else {
       double light_weight = (300 * desktop.font_weight);
@@ -391,9 +409,6 @@ public class He.Application : Gtk.Application {
       print ("NORMAL: %f\nLIGHT: %f\nHEAVY: %f", weight, light_weight, heavy_weight);
 
       css += @"
-      label {
-        font-weight: $weight;
-      }
       .big-display {
         font-weight: $weight;
       }
@@ -420,7 +435,28 @@ public class He.Application : Gtk.Application {
       }
       .caption {
         font-weight: $heavy_weight;
-      }    
+      }
+      .large-title {
+        font-weight: $light_weight;
+      }
+      .title-1 {
+        font-weight: $heavy_weight;
+      }
+      .title-2 {
+        font-weight: $heavy_weight;
+      }
+      .title-3 {
+        font-weight: $heavy_weight;
+      }
+      .title-4 {
+        font-weight: $heavy_weight;
+      }
+      .heading {
+        font-weight: $heavy_weight;
+      }
+      .caption-heading {
+        font-weight: $heavy_weight;
+      }
       ";
     }
 
