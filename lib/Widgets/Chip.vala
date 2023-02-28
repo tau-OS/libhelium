@@ -21,17 +21,32 @@
 * A Chip is an element that can facilitate entering information, making selections, filtering content, or triggering actions.
 */
 public class He.Chip : Gtk.ToggleButton, Gtk.Actionable {
+  He.ButtonContent chip_box = new He.ButtonContent ();
+
   /**
-  * Creates a new Chip.
-  * @param label The text to display in the chip.
-  *
-     * @since 1.0
-     */
+   * Creates a new Chip.
+   * @param label The text to display in the chip.
+   *
+   * @since 1.0
+   */
   public Chip(string label) {
-    this.label = label;
+    chip_box.label = label;
   }
 
   construct {
     this.add_css_class ("chip");
+    
+    chip_box = new He.ButtonContent ();
+    chip_box.icon = "emblem-default-symbolic";
+    
+    notify["active"].connect (() => {
+      if (this.active) {
+        chip_box.get_first_child ().visible = true;
+      } else {
+        chip_box.get_first_child ().visible = false;
+      }
+    });
+    
+    chip_box.set_parent (this);
   }
 }
