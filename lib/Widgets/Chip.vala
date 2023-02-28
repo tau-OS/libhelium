@@ -37,13 +37,14 @@ public class He.Chip : Gtk.ToggleButton, Gtk.Actionable {
     this.add_css_class ("chip");
     
     chip_box = new He.ButtonContent ();
-    chip_box.icon = "emblem-default-symbolic";
     
     notify["active"].connect (() => {
       if (this.active) {
         chip_box.get_first_child ().visible = true;
+        chip_box.icon = "emblem-default-symbolic";
       } else {
         chip_box.get_first_child ().visible = false;
+        chip_box.icon = "";
       }
     });
     
