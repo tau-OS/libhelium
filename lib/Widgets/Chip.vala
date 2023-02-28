@@ -20,7 +20,7 @@
 /**
 * A Chip is an element that can facilitate entering information, making selections, filtering content, or triggering actions.
 */
-public class He.Chip : He.Button {
+public class He.Chip : He.Button, Gtk.Actionable {
   private He.Colors _color;
   /**
    * The color of the button.
@@ -32,6 +32,20 @@ public class He.Chip : He.Button {
 
       get {
           return _color;
+      }
+  }
+  
+  private bool _active;
+  /**
+   * The active state of the button.
+   */
+  public bool active {
+      set {
+          _active = value;
+      }
+
+      get {
+          return _active;
       }
   }
 
