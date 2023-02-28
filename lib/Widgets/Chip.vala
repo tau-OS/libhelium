@@ -21,20 +21,6 @@
 * A Chip is an element that can facilitate entering information, making selections, filtering content, or triggering actions.
 */
 public class He.Chip : Gtk.ToggleButton, Gtk.Actionable {
-  private bool _active;
-  /**
-   * The active state of the button.
-   */
-  public bool active {
-      set {
-          _active = value;
-      }
-
-      get {
-          return _active;
-      }
-  }
-
   /**
   * Creates a new Chip.
   * @param label The text to display in the chip.
@@ -47,6 +33,5 @@ public class He.Chip : Gtk.ToggleButton, Gtk.Actionable {
 
   construct {
     this.add_css_class ("chip");
-    this.color = He.Colors.NONE;
   }
 }
