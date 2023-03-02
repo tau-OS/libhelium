@@ -23,7 +23,6 @@
  * @since 1.0
  */
 public class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
-	private Gtk.Box box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
 	private Gtk.Label lbl = new Gtk.Label ("");
 	public Gtk.Image image = new Gtk.Image ();
 
@@ -58,6 +57,7 @@ public class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
     }
     
     construct {
+        var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
     	box.append (image);
     	box.append (lbl);
     	box.set_parent (this);

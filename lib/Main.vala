@@ -37,6 +37,7 @@ namespace He {
         typeof (He.Button).ensure ();
         typeof (He.ButtonContent).ensure ();
         typeof (He.Chip).ensure ();
+        typeof (He.ChipGroup).ensure ();
         typeof (He.Colors).ensure ();
         typeof (He.ContentBlock).ensure ();
         typeof (He.ContentBlockImage).ensure ();

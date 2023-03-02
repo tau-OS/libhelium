@@ -23,13 +23,22 @@
 public class He.Chip : Gtk.ToggleButton, Gtk.Actionable {
   He.ButtonContent chip_box = new He.ButtonContent ();
 
+  private string _chip_label;
+  public string chip_label {
+    get { return _chip_label; }
+    set { 
+      _chip_label = value;
+      chip_box.label = _chip_label;
+    }
+  }
+
   /**
    * Creates a new Chip.
    * @param label The text to display in the chip.
    *
    * @since 1.0
    */
-  public Chip(string label) {
+  public Chip (string label) {
     chip_box.label = label;
   }
 
@@ -37,13 +46,15 @@ public class He.Chip : Gtk.ToggleButton, Gtk.Actionable {
     this.add_css_class ("chip");
     
     chip_box = new He.ButtonContent ();
+    chip_box.get_first_child ().get_first_child ().visible = false;
+    chip_box.icon = "";
     
     notify["active"].connect (() => {
       if (this.active) {
-        chip_box.get_first_child ().visible = true;
+        chip_box.get_first_child ().get_first_child ().visible = true;
         chip_box.icon = "emblem-default-symbolic";
       } else {
-        chip_box.get_first_child ().visible = false;
+        chip_box.get_first_child ().get_first_child ().visible = false;
         chip_box.icon = "";
       }
     });
