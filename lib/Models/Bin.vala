@@ -31,6 +31,8 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
       set {
         if (value == _child) {return;}
         _child = value;
+
+        value.set_parent (box);
       }
     }
 

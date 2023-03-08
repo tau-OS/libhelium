@@ -24,6 +24,7 @@
     private Gtk.SingleSelection _selection_model;
     private List<He.Chip> _buttons;
     private Gtk.FlowBox flowbox;
+    private Gtk.ScrolledWindow sw;
     /**
      * The selectionmodel that is controlled by this group.
      *
@@ -47,20 +48,43 @@
             on_selection_items_changed (0, 0, this._selection_model.get_n_items ());
         }
     }
+
+    /**
+     * If the chip group should be single-line or not
+     */
+    private bool _single_line;
+    public bool single_line {
+        get { return _single_line; }
+        set {
+            _single_line = value;
+            if (value) {
+                flowbox.min_children_per_line = 999;
+                sw.hscrollbar_policy = (Gtk.PolicyType.ALWAYS);
+            } else {
+                flowbox.min_children_per_line = 3;
+                sw.hscrollbar_policy = (Gtk.PolicyType.NEVER);
+            }
+        }
+    }
     
     public ChipGroup () {
-    	base ();
+        base ();
     }
 
     construct {
-        this.valign = Gtk.Align.CENTER;
-        this.hexpand = true;
+        this.valign = Gtk.Align.START;
 
-        flowbox = new Gtk.FlowBox () {
-            min_children_per_line = 3,
-            homogeneous = true
-        };
-        flowbox.set_parent (this);
+        flowbox = new Gtk.FlowBox ();
+
+        sw = new Gtk.ScrolledWindow ();
+        sw.hexpand = true;
+        sw.vexpand = true;
+        sw.vscrollbar_policy = (Gtk.PolicyType.NEVER);
+        sw.set_child (flowbox);
+
+        this.child = sw;
+
+        single_line = false;
     }
 
     private void on_selection_items_changed (uint position, uint removed, uint added) {
