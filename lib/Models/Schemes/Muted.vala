@@ -22,8 +22,8 @@ namespace He.Schemes {
         private const double PRIMARY = 8.0;
         private const double SECONDARY = 8.0;
         private const double TERTIARY = 8.0;
-        private const double NEUTRAL = 2.0;
-        private const double NEUTRAL2 = 2.0;
+        private const double NEUTRAL = 4.0;
+        private const double NEUTRAL2 = 4.0;
 
         public Muted (Color.CAM16Color cam16_color, Desktop desktop) {
             base (cam16_color, desktop);
