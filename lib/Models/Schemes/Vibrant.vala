@@ -20,10 +20,10 @@
 namespace He.Schemes {
     public class Vibrant : Scheme {
         private const double PRIMARY = 150.0;
-        private const double SECONDARY = 24.0;
-        private const double TERTIARY = 32.0;
-        private const double NEUTRAL = 12.0;
-        private const double NEUTRAL2 = 24.0;
+        private const double SECONDARY = 32.0;
+        private const double TERTIARY = 48.0;
+        private const double NEUTRAL = 24.0;
+        private const double NEUTRAL2 = 32.0;
 
         public Vibrant (Color.CAM16Color cam16_color, Desktop desktop) {
             base (cam16_color, desktop);
