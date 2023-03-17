@@ -1,3 +1,4 @@
+
 blueprints = custom_target('blueprints',
   input: files(
     'ui/window.blp',
@@ -5,7 +6,14 @@ blueprints = custom_target('blueprints',
     'ui/settings.blp',
   ),
   output: '.',
-  command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
+  depends: libhelium_typelib_file,
+  command: [find_program('blueprint-compiler'), 'batch-compile', '--typelib-path', '@BUILD_ROOT@/lib/', '@OUTDIR@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
+)
+
+blueprints_hack = custom_target('blueprints_hack',
+  input: blueprints,
+  output: 'blueprints_hack.vala',
+  command: [find_program('touch'), '@OUTPUT@'],
 )
 
 install_data(
@@ -21,10 +29,8 @@ install_data(\
 helium_demo_resources = gnome.compile_resources(
   'helium-demo-resources',
   'com.fyralabs.Helium1.Demo.gresources.xml',
-  source_dir: meson.current_build_dir(),
   c_name: 'he',
   dependencies: blueprints,
-  install_dir: get_option('datadir') / meson.project_name(),
 )
 
 desktop_file = i18n.merge_file(

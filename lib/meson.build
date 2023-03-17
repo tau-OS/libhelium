@@ -142,7 +142,7 @@ pkg.generate(
 if get_option('introspection')
     # typelib generation isn't automated yet
     g_ir_compiler = find_program('g-ir-compiler')
-    custom_target(
+    libhelium_typelib_file = custom_target(
         libhelium_typelib,
         command: [
             g_ir_compiler,
@@ -160,7 +160,7 @@ endif
 
 libhelium_dep = declare_dependency(
     dependencies: [
-    	libhelium_deps
+	libhelium_deps
     ],
     include_directories: [include_directories('.')],
     link_with: libhelium,
