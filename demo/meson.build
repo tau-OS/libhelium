@@ -9,10 +9,12 @@ configure_file(output: 'config.h', configuration: conf)
 config_h_dir = include_directories('.')
 
 example_deps = libhelium_deps
-example_deps += dependency('libhelium-1')
-example_deps += dependency('libbismuth-1', fallback: [ 'libbismuth', 'libbismuth_dep' ], version: '>=1.0.0')
-
-example_sources = files(
+example_deps += [
+  libhelium_dep,
+  dependency('libbismuth-1', fallback: [ 'libbismuth', 'libbismuth_dep' ], version: '>=1.0.0')
+]
+example_sources = helium_demo_resources
+example_sources += files(
 	'src/main.vala',
 	'src/window.vala',
 	'src/settings.vala'
@@ -20,9 +22,11 @@ example_sources = files(
 
 executable(
 	'com.fyralabs.Helium1.Demo',
-	helium_demo_resources,
-	sources: example_sources,
+	[ blueprints_hack, example_sources ],
 	dependencies:  example_deps,
-	vala_args: [meson.project_source_root() + '/demo/src/config.vapi'],
+	vala_args: [
+          meson.project_source_root() + '/demo/src/config.vapi',
+          '--gresourcesdir=demo/data/ui/'
+        ],
 	install: true,
 )
