@@ -167,7 +167,7 @@ public class He.Desktop : Object {
 
         // If any of the values are out of range, the accent is "no preference".
         if (
-            !(cr >= 0.0 && cr <= 1.0 && cg >= 0.0 && cg <= 1.0 && cb >= 0.0 && cb >= 1.0)
+            !(cr >= 0.0 && cr <= 1.0 && cg >= 0.0 && cg <= 1.0 && cb >= 0.0 && cb <= 1.0)
         ) {
             return null;
         }
