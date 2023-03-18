@@ -156,18 +156,21 @@ public class He.Desktop : Object {
     }
 
     private He.Color.RGBColor? parse_accent_color (GLib.Variant val) {
-        if (val.get_type ().equal (VariantType.UINT32)) {
-            return null;
-        }
-
         // The accent color is stored as a Gdk.RGBA in the GVariant format "(ddd)"
-        // where r,g,b,a are floats between 0.0 and 1.0.
+        // where r,g,b,a are floats between 0.0 and 1.0, except in the case of no preference.
         double cr, cg, cb = 0.0;
 
         VariantIter iter = val.iterator ();
         iter.next ("d", out cr);
         iter.next ("d", out cg);
         iter.next ("d", out cb);
+
+        // If any of the values are out of range, the accent is "no preference".
+        if (
+            !(cr >= 0.0 && cr <= 1.0 && cg >= 0.0 && cg <= 1.0 && cb >= 0.0 && cb >= 1.0)
+        ) {
+            return null;
+        }
 
         He.Color.RGBColor rgb_color = {
             cr * 255,
