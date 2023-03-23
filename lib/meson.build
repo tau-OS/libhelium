@@ -1,17 +1,16 @@
 libhelium_sources = []
 libhelium_sources += files(
-    'Main.vala',
     'Models/Application.vala',
     'Models/Bin.vala',
     'Models/Button.vala',
     'Models/ButtonContent.vala',
     'Models/Colors.vala',
-    'Models/Schemes/Scheme.vala',
+    'Models/Schemes/Content.vala',
     'Models/Schemes/Default.vala',
     'Models/Schemes/Monochrome.vala',
-    'Models/Schemes/Vibrant.vala',
     'Models/Schemes/Muted.vala',
-    'Models/Schemes/Content.vala',
+    'Models/Schemes/Scheme.vala',
+    'Models/Schemes/Vibrant.vala',
     'Models/View.vala',
     'Models/Window.vala',
     'Utils/Color.vala',
@@ -22,8 +21,8 @@ libhelium_sources += files(
     'Utils/Color/HCT/HCT.vala',
     'Utils/Color/HCT/HCTSolver.vala',
     'Utils/Color/Hexcode.vala',
-    'Utils/Color/Lab.vala',
     'Utils/Color/LCh.vala',
+    'Utils/Color/Lab.vala',
     'Utils/Color/RGB.vala',
     'Utils/Color/XYZ.vala',
     'Utils/Desktop.vala',
@@ -87,6 +86,7 @@ libhelium_sources += files(
     'Widgets/ViewSwitcher.vala',
     'Widgets/ViewTitle.vala',
     'Widgets/WelcomeScreen.vala',
+    'Main.vala',
 )
 
 # define all the names and versions
@@ -97,15 +97,12 @@ libhelium_gi = libhelium_gi_name + '-' + libhelium_gi_version
 libhelium_gir = libhelium_gi + '.gir'
 libhelium_typelib = libhelium_gi + '.typelib'
 
-include_dir = join_paths(
-    get_option('prefix'),
-    get_option('includedir')
-)
+include_dir = join_paths(get_option('prefix'), get_option('includedir'))
 
 # compile shared library, generate GIR, header, and vapi file
-datadir    = get_option('datadir')
-libdir     = get_option('libdir')
-typelibdir = get_option('libdir')  / 'girepository-1.0'
+datadir = get_option('datadir')
+libdir = get_option('libdir')
+typelibdir = get_option('libdir') / 'girepository-1.0'
 
 libhelium = library(
     'libhelium-1',
@@ -118,7 +115,7 @@ libhelium = library(
         libhelium_deps,
         dependency('gio-2.0', version: '>=' + glib_min_version),
         meson.get_compiler('c').find_library('m'),
-        meson.get_compiler('vala').find_library('posix')
+        meson.get_compiler('vala').find_library('posix'),
     ],
 
     vala_gir: libhelium_gir,
@@ -128,7 +125,7 @@ libhelium = library(
     version: libhelium_gi_version,
     install: true,
     install_dir: [true, include_dir, true, true],
-    name_prefix: ''
+    name_prefix: '',
 )
 
 pkg = import('pkgconfig')
@@ -147,8 +144,10 @@ if get_option('introspection')
         command: [
             g_ir_compiler,
             '--shared-library=@PLAINNAME@',
-            '--output=@OUTPUT@',
-            join_paths(meson.current_build_dir(), libhelium_gir),
+            '--output=@OUTPUT@', join_paths(
+                meson.current_build_dir(),
+                libhelium_gir,
+            ),
         ],
         input: libhelium,
         output: libhelium_typelib,
@@ -159,9 +158,7 @@ if get_option('introspection')
 endif
 
 libhelium_dep = declare_dependency(
-    dependencies: [
-	libhelium_deps
-    ],
+    dependencies: [libhelium_deps],
     include_directories: [include_directories('.')],
     link_with: libhelium,
 )
