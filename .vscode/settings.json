@@ -8,9 +8,13 @@
     "_build/**": true
   },
   "mesonbuild.configureOnOpen": false,
-  "mesonbuild.configureOptions": [
-    "-Ddemo=true"
-  ],
+  "mesonbuild.configureOptions": ["-Ddemo=true"],
   "mesonbuild.buildFolder": "_build",
-  "mesonbuild.mesonPath": "/usr/bin/meson"
+  "[meson]": {
+    "editor.defaultFormatter": "mesonbuild.mesonbuild"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "mesonbuild.linter.muon.enabled": true,
+  "mesonbuild.formatting.enabled": true
 }
