@@ -151,7 +151,6 @@ public class He.Dialog : He.Window {
     public Dialog(bool modal, Gtk.Window? parent, string title, string subtitle, string info, string icon, He.FillButton? primary_button, He.TintButton? secondary_button) {
         this.modal = modal;
         this.parent = parent;
-        this.transient_for = parent;
         this.title = title;
         this.info = info;
         this.icon = icon;
@@ -173,7 +172,7 @@ public class He.Dialog : He.Window {
         info_label.wrap = true;
         info_label.wrap_mode = Pango.WrapMode.WORD;
         info_label.visible = false;
-        
+
         info_box.append(image);
         info_box.append(title_label);
         info_box.append(info_label);

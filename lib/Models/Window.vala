@@ -35,7 +35,6 @@ public class He.Window : Gtk.Window {
         }
         set {
             _parent = value;
-            set_parent (value);
             set_transient_for (value);
         }
     }
