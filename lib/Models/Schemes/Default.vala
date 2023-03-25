@@ -22,7 +22,7 @@ namespace He.Schemes {
         private const double PRIMARY = 40.0;
         private const double SECONDARY = 16.0;
         private const double TERTIARY = 24.0;
-        private const double NEUTRAL = 4.0;
+        private const double NEUTRAL = 6.0;
         private const double NEUTRAL2 = 8.0;
 
         public Default (Color.CAM16Color cam16_color, Desktop desktop) {
@@ -31,9 +31,9 @@ namespace He.Schemes {
             // _  _ ____ _  _ ___ ____ ____ _    
             // |\ | |___ |  |  |  |__/ |__| |    
             // | \| |___ |__|  |  |  \ |  | |___
-            neutral_background_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 10.0 : 99.0);
-            neutral_background_variant_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
-            neutral_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 99.0 : 10.0);
+            neutral_background_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 6.0 : 98.0);
+            neutral_background_variant_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 24.0 : 90.0);
+            neutral_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 98.0 : 10.0);
             neutral_foreground_variant_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 30.0);
             inverse_neutral_background_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 20.0);
             inverse_neutral_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 95.0);
