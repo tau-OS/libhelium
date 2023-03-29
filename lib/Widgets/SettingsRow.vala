@@ -34,7 +34,7 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
 
     public signal void activated ();
 
-    /** 
+    /**
      * Sets the title of the settings row.
      */
      public string title {
@@ -51,7 +51,7 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
         }
     }
 
-    /** 
+    /**
      * Sets the subtitle of the settings row.
      */
     public string subtitle {
@@ -68,7 +68,7 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
         }
     }
 
-    /** 
+    /**
      * Sets the icon of the settings row.
      */
     public string icon {
@@ -128,7 +128,7 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
         }
     }
 
-    /** 
+    /**
      * Sets the activatable widget of the settings row, if any.
      */
     public Gtk.Widget? activatable_widget {

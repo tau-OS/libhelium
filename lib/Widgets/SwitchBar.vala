@@ -31,7 +31,7 @@ public class He.SwitchBar : He.Bin, Gtk.Buildable {
 
     public signal void activated ();
 
-    /** 
+    /**
      * Sets the title of the switchbar.
      */
      public string title {
@@ -48,7 +48,7 @@ public class He.SwitchBar : He.Bin, Gtk.Buildable {
         }
     }
 
-    /** 
+    /**
      * Sets the subtitle of the switchbar.
      */
     public string subtitle {
@@ -65,12 +65,12 @@ public class He.SwitchBar : He.Bin, Gtk.Buildable {
         }
     }
 
-    /** 
+    /**
      * The switch related to this switchbar.
      */
     public Gtk.Switch main_switch = new Gtk.Switch ();
 
-    /** 
+    /**
      * Sets the sensitive widget of the switchbar, if any.
      */
      public Gtk.Widget? sensitive_widget {
