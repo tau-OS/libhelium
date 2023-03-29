@@ -570,7 +570,7 @@ public class He.Application : Gtk.Application {
       update_accent_color ();
     });
 
-    this.notify["default-accent-color"].connect(            () => {
+    this.notify["default-accent-color"].connect (() => {
       update_accent_color ();
     });
   }

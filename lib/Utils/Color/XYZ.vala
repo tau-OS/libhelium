@@ -88,7 +88,7 @@ namespace He.Color {
     }
 
       // Adapted from https://cs.github.com/Ogeon/palette/blob/d4cae1e2510205f7626e880389e5e18b45913bd4/palette/src/xyz.rs#L259
-    public XYZColor lab_to_xyz(            LABColor color) {
+    public XYZColor lab_to_xyz(             LABColor color) {
         // Recip call shows performance benefits in benchmarks for this function
         var y = (color.l + 16.0) * (1 / 116.0);
         var x = y + (color.a * 1 / 500.0);
