@@ -83,11 +83,11 @@ namespace He {
       }
 
       for (int i = 0; i < input_size; i++) {
-        print ("COLORS #%d BEFORE: %s SCORE: %f\n", i, Color.hexcode_argb(              colors.get (i).argb), colors.get (i).score);
+        print ("COLORS #%d BEFORE: %s SCORE: %f\n", i, Color.hexcode_argb (colors.get (i).argb), colors.get (i).score);
       }
       colors.sort (AnnotatedColor.cmp);
       for (int i = 0; i < input_size; i++) {
-        print ("COLORS #%d AFTER: %s SCORE: %f\n", i, Color.hexcode_argb(              colors.get (i).argb), colors.get (i).score);
+        print ("COLORS #%d AFTER: %s SCORE: %f\n", i, Color.hexcode_argb (colors.get (i).argb), colors.get (i).score);
       }
 
       GLib.GenericArray<AnnotatedColor> selected_colors = new GLib.GenericArray<AnnotatedColor> ();
@@ -112,7 +112,7 @@ namespace He {
       }
 
       for (int i = 0; i < selected_colors.length; i++) {
-        print ("COLORS #%d AFTER SELECTION: %s\n", i, Color.hexcode_argb(              selected_colors.get (i).argb));
+        print ("COLORS #%d AFTER SELECTION: %s\n", i, Color.hexcode_argb (selected_colors.get (i).argb));
       }
 
       if (selected_colors.length == 0) {

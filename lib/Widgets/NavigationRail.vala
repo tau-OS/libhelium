@@ -146,7 +146,12 @@
             button.add_css_class ("navigation-rail-button");
 
             var button_child_image = new Gtk.Image ();
-            this._stack_pages.get_item (position).bind_property ("icon_name", button_child_image, "icon_name", SYNC_CREATE);
+            this._stack_pages.get_item (position).bind_property (
+                "icon_name",
+                button_child_image,
+                "icon_name",
+                SYNC_CREATE
+            );
 
             var button_child_label = new Gtk.Label ("");
             this._stack_pages.get_item (position).bind_property ("title", button_child_label, "label", SYNC_CREATE);

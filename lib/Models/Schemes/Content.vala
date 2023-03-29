@@ -28,49 +28,51 @@ namespace He.Schemes {
         public Content (Color.CAM16Color cam16_color, Desktop desktop) {
             base (cam16_color, desktop);
 
+            var is_dark = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme;
+
             // _  _ ____ _  _ ___ ____ ____ _
             // |\ | |___ |  |  |  |__/ |__| |
             // | \| |___ |__|  |  |  \ |  | |___
-            neutral_background_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 10.0 : 99.0);
-            neutral_background_variant_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
-            neutral_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 99.0 : 10.0);
-            neutral_foreground_variant_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 30.0);
-            inverse_neutral_background_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 20.0);
-            inverse_neutral_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 95.0);
+            neutral_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 10.0 : 99.0);
+            neutral_background_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 30.0 : 90.0);
+            neutral_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 99.0 : 10.0);
+            neutral_foreground_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 80.0 : 30.0);
+            inverse_neutral_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 90.0 : 20.0);
+            inverse_neutral_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 20.0 : 95.0);
             // ___  ____ _ _  _ ____ ____ _   _
             // |__] |__/ | |\/| |__| |__/  \_/
             // |    |  \ | |  | |  | |  \   |
-            primary_hex = Color.hct_to_hex (hue, PRIMARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0);
-            on_primary_hex = Color.hct_to_hex (hue, PRIMARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0);
-            primary_container_hex = Color.hct_to_hex (hue, PRIMARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
-            on_primary_container_hex = Color.hct_to_hex (hue, PRIMARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0);
-            inverse_primary_hex = Color.hct_to_hex (hue, PRIMARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 40.0 : 80.0);
+            primary_hex = Color.hct_to_hex (hue, PRIMARY, is_dark ? 80.0 : 40.0);
+            on_primary_hex = Color.hct_to_hex (hue, PRIMARY, is_dark ? 20.0 : 100.0);
+            primary_container_hex = Color.hct_to_hex (hue, PRIMARY, is_dark ? 30.0 : 90.0);
+            on_primary_container_hex = Color.hct_to_hex (hue, PRIMARY, is_dark ? 90.0 : 10.0);
+            inverse_primary_hex = Color.hct_to_hex (hue, PRIMARY, is_dark ? 40.0 : 80.0);
             // ____ ____ ____ ____ _  _ ___  ____ ____ _   _
             // [__  |___ |    |  | |\ | |  \ |__| |__/  \_/
             // ___] |___ |___ |__| | \| |__/ |  | |  \   |
-            secondary_hex = Color.hct_to_hex (hue, SECONDARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0);
-            on_secondary_hex = Color.hct_to_hex (hue, SECONDARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0);
-            secondary_container_hex = Color.hct_to_hex (hue, SECONDARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
-            on_secondary_container_hex = Color.hct_to_hex (hue, SECONDARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0);
+            secondary_hex = Color.hct_to_hex (hue, SECONDARY, is_dark ? 80.0 : 40.0);
+            on_secondary_hex = Color.hct_to_hex (hue, SECONDARY, is_dark ? 20.0 : 100.0);
+            secondary_container_hex = Color.hct_to_hex (hue, SECONDARY, is_dark ? 30.0 : 90.0);
+            on_secondary_container_hex = Color.hct_to_hex (hue, SECONDARY, is_dark ? 90.0 : 10.0);
             // ___ ____ ____ ___ _ ____ ____ _   _
             //  |  |___ |__/  |  | |__| |__/  \_/
             //  |  |___ |  \  |  | |  | |  \   |
             double tertiary_hue = MathUtils.sanitize_degrees (hue + 60.0);
-            tertiary_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 80.0 : 40.0);
-            on_tertiary_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 20.0 : 100.0);
-            tertiary_container_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 90.0);
-            on_tertiary_container_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 90.0 : 10.0);
+            tertiary_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? 80.0 : 40.0);
+            on_tertiary_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? 20.0 : 100.0);
+            tertiary_container_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? 30.0 : 90.0);
+            on_tertiary_container_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? 90.0 : 10.0);
             // ____ _  _ ___ _    _ _  _ ____
             // |  | |  |  |  |    | |\ | |___
             // |__| |__|  |  |___ | | \| |___
-            outline_hex = Color.hct_to_hex (hue, NEUTRAL2, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 60.0 : 50.0);
-            outline_variant_hex = Color.hct_to_hex (hue, NEUTRAL2, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 80.0);
+            outline_hex = Color.hct_to_hex (hue, NEUTRAL2, is_dark ? 60.0 : 50.0);
+            outline_variant_hex = Color.hct_to_hex (hue, NEUTRAL2, is_dark ? 30.0 : 80.0);
 
             // ____ _  _ ____ ___  ____ _ _ _
             // [__  |__| |__| |  \ |  | | | |
             // ___] |  | |  | |__/ |__| |_|_|
-            shadow_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0.0 : 0.0);
-            scrim_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0.0 : 0.0);
+            shadow_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 0.0 : 0.0);
+            scrim_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 0.0 : 0.0);
         }
     }
 }

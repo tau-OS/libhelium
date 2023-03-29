@@ -185,7 +185,7 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    * Create a new bottom bar.
    */
   public BottomBar () {
-  	base ();
+    base ();
   }
 
   static construct {

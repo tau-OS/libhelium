@@ -148,7 +148,16 @@ public class He.Dialog : He.Window {
      *
      * @since 1.0
      */
-    public Dialog (bool modal, Gtk.Window? parent, string title, string subtitle, string info, string icon, He.FillButton? primary_button, He.TintButton? secondary_button) {
+    public Dialog (
+        bool modal,
+        Gtk.Window? parent,
+        string title,
+        string subtitle,
+        string info,
+        string icon,
+        He.FillButton? primary_button,
+        He.TintButton? secondary_button
+    ) {
         this.modal = modal;
         this.parent = parent;
         this.title = title;

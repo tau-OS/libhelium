@@ -43,17 +43,17 @@ namespace He.Color {
         double p2 = (40.0 * r_a + 20.0 * g_a + b_a) / 20.0;
 
         double hr = Math.atan2 (b, a);
-        double atanDegrees = hr * 180 / Math.PI;
+        double atan_degrees = hr * 180 / Math.PI;
         double h =
-            atanDegrees < 0
-            ? atanDegrees + 360.0
-            : atanDegrees >= 360
-            ? atanDegrees - 360.0
-            : atanDegrees;
+            atan_degrees < 0
+            ? atan_degrees + 360.0
+            : atan_degrees >= 360
+            ? atan_degrees - 360.0
+            : atan_degrees;
 
         double ac = p2 * vc.nbb;
 
-        var J  = 100.0 * Math.pow (ac / vc.aw, vc.c * vc.z);
+        var J = 100.0 * Math.pow (ac / vc.aw, vc.c * vc.z);
 
         double hue_prime = (h < 20.14) ? h + 360 : h;
         double e_hue = 0.25 * (Math.cos ((hue_prime * (Math.PI / 180)) + 2.0) + 3.8);

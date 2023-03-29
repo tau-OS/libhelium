@@ -26,7 +26,7 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
     private int _requested_width;
 
     /**
-     * The file path of the image. 
+     * The file path of the image.
      */
     public string file {
         get {
@@ -36,14 +36,14 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
             _file = value;
 
             var css_provider = new Gtk.CssProvider ();
-            css_provider.load_from_data (".content-block-image { background-image: url('%s'); background-size: cover; }".printf(              _file).data);
+            css_provider.load_from_data (".content-block-image { background-image: url('%s'); background-size: cover; }".printf (_file).data);
             var context = this.get_style_context ();
             context.add_provider (css_provider, 69);
         }
     }
 
     /**
-     * The height of the image. 
+     * The height of the image.
      */
     public int requested_height {
         get {
@@ -56,7 +56,7 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
     }
 
     /**
-     * The width of the image. 
+     * The width of the image.
      *
      * @since 1.0
      */

@@ -33,7 +33,10 @@ namespace He.Color {
           double r_c_scaled = He.MathUtils.inverse_chromatic_adaptation (r_a);
           double g_c_scaled = He.MathUtils.inverse_chromatic_adaptation (g_a);
           double b_c_scaled = He.MathUtils.inverse_chromatic_adaptation (b_a);
-          double[] linrgb = He.MathUtils.elem_mul ({r_c_scaled, g_c_scaled, b_c_scaled}, He.MathUtils.LINRGB_FROM_SCALED_DISCOUNT);
+          double[] linrgb = He.MathUtils.elem_mul (
+            {r_c_scaled, g_c_scaled, b_c_scaled},
+            He.MathUtils.LINRGB_FROM_SCALED_DISCOUNT
+          );
           if (linrgb[0] < 0 || linrgb[1] < 0 || linrgb[2] < 0) {
             return 0;
           }

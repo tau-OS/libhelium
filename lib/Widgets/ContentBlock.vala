@@ -29,7 +29,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
     private He.Button _secondary_button;
     private He.Button _primary_button;
 
-    /** 
+    /**
      * Sets the title of the content block.
      */
     public string title {
@@ -46,7 +46,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
         }
     }
 
-    /** 
+    /**
      * Sets the subtitle of the content block.
      */
     public string subtitle {
@@ -63,7 +63,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
         }
     }
 
-    /** 
+    /**
      * Sets the icon of the content block.
      */
     public string icon {
@@ -92,7 +92,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
         }
     }
 
-    /** 
+    /**
      * Sets the secondary button of the content block.
      */
     public He.Button secondary_button {
@@ -112,7 +112,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
         }
     }
 
-    /** 
+    /**
      * Sets the primary button of the content block.
      */
     public He.Button primary_button {
@@ -130,7 +130,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
         }
     }
 
-    /** 
+    /**
      * Constructs a new ContentBlock.
      * @param title The title of the content block.
      * @param subtitle The subtitle of the content block.
@@ -138,7 +138,13 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
      * @param primary_button The primary button of the content block.
      * @param secondary_button The secondary button of the content block.
      */
-    public ContentBlock (string title, string subtitle, string icon, He.Button primary_button, He.Button secondary_button) {
+    public ContentBlock (
+        string title,
+        string subtitle,
+        string icon,
+        He.Button primary_button,
+        He.Button secondary_button
+    ) {
         base ();
         this.title = title;
         this.subtitle = subtitle;
