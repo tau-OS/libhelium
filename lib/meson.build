@@ -15,7 +15,7 @@ libhelium_sources += files(
     'Models/Window.vala',
     'Utils/Color.vala',
     'Utils/Color/ARGB.vala',
-    'Utils/Color/Cam16.vala',
+    'Utils/Color/CAM16.vala',
     'Utils/Color/GdkRGBA.vala',
     'Utils/Color/HCT/CriticalPlanes.vala',
     'Utils/Color/HCT/HCT.vala',
