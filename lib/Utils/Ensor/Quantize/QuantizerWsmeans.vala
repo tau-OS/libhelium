@@ -28,13 +28,21 @@ public class He.QuantizerWsmeans : Object {
 
   delegate DistanceToIndex fill_list_delegate<DistanceToIndex> (int index);
 
-  static void fill_array<DistanceToIndex> (ref Array<DistanceToIndex> list, int size, fill_list_delegate<DistanceToIndex> value_func) {
+  static void fill_array<DistanceToIndex> (
+    ref Array<DistanceToIndex> list,
+    int size,
+    fill_list_delegate<DistanceToIndex> value_func
+  ) {
     for (int i = 0; i < size; i++) {
       list.append_val (value_func (i));
     }
   }
 
-  static Array<Array<DistanceToIndex>> create_2d_list (int first_size, int second_size, fill_list_delegate<DistanceToIndex> value_func) {
+  static Array<Array<DistanceToIndex>> create_2d_list (
+    int first_size,
+    int second_size,
+    fill_list_delegate<DistanceToIndex> value_func
+  ) {
     var list = new Array<Array<DistanceToIndex>> ();
 
     for (int i = 0; i < first_size; i++) {
@@ -150,9 +158,9 @@ public class He.QuantizerWsmeans : Object {
           }
         }
         if (new_cluster_index != -1) {
-          double distanceChange =
+          double distance_change =
             MathUtils.abs (Math.sqrt (minimum_distance) - Math.sqrt (previous_distance));
-          if (distanceChange > MIN_MOVEMENT_DISTANCE) {
+          if (distance_change > MIN_MOVEMENT_DISTANCE) {
             color_moved = true;
             cluster_indices.insert_val (i, new_cluster_index);
           }
@@ -171,14 +179,14 @@ public class He.QuantizerWsmeans : Object {
       }
 
       for (var i = 0; i < points.length; i++) {
-        int clusterIndex = cluster_indices.index (i);
+        int cluster_index = cluster_indices.index (i);
         var point = points.index (i);
         int count = pixel_to_count[pixels.index (i)];
 
-        pixel_count_sums[clusterIndex] += count;
-        component_a_sums[clusterIndex] += (point.l * count);
-        component_b_sums[clusterIndex] += (point.a * count);
-        component_c_sums[clusterIndex] += (point.b * count);
+        pixel_count_sums[cluster_index] += count;
+        component_a_sums[cluster_index] += (point.l * count);
+        component_b_sums[cluster_index] += (point.a * count);
+        component_c_sums[cluster_index] += (point.b * count);
       }
 
       for (int i = 0; i < cluster_count; i++) {

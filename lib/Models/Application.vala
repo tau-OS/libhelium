@@ -21,10 +21,10 @@
 * An application.
 */
 public class He.Application : Gtk.Application {
-  private int STYLE_PROVIDER_PRIORITY_PLATFORM = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1;
-  private int STYLE_PROVIDER_PRIORITY_ACCENT = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2;
-  private int STYLE_PROVIDER_PRIORITY_USER_BASE = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 3;
-  private int STYLE_PROVIDER_PRIORITY_USER_DARK = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 4;
+  private const int STYLE_PROVIDER_PRIORITY_PLATFORM = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1;
+  private const int STYLE_PROVIDER_PRIORITY_ACCENT = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2;
+  private const int STYLE_PROVIDER_PRIORITY_USER_BASE = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 3;
+  private const int STYLE_PROVIDER_PRIORITY_USER_DARK = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 4;
 
   private He.Color.RGBColor default_dark_accent = {
     0.7450 * 255,
@@ -96,15 +96,17 @@ public class He.Application : Gtk.Application {
     }
   }
 
-  private void update_accent_color () {
+  private void update_style_providers () {
     He.Color.RGBColor rgb_color;
     double weight;
+
+    var is_dark = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme;
 
     if (desktop.accent_color == null) {
       if (default_accent_color != null) {
         rgb_color = default_accent_color;
       } else {
-        rgb_color = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? default_dark_accent : default_light_accent;
+        rgb_color = is_dark ? default_dark_accent : default_light_accent;
       }
     } else {
       rgb_color = desktop.accent_color;
@@ -144,58 +146,58 @@ public class He.Application : Gtk.Application {
       chosen_scheme = new He.Schemes.Default (cam16_color, desktop);
     }
 
-    var error_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#F2B8B5" : "#B3261E";
-    var on_error_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#601410" : "#FFFFFF";
-    var error_container_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#8C1D18" : "#F9DEDC";
-    var on_error_container_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#F9DEDC" : "#410E0B";
+    var error_hex = is_dark ? "#F2B8B5" : "#B3261E";
+    var on_error_hex = is_dark ? "#601410" : "#FFFFFF";
+    var error_container_hex = is_dark ? "#8C1D18" : "#F9DEDC";
+    var on_error_container_hex = is_dark ? "#F9DEDC" : "#410E0B";
 
     // HCT Color blendin'
-    var meson_red_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    var meson_red_hct = is_dark ?
     Color.hct_blend (Color.from_params (8.0, 85.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
     Color.hct_blend (Color.from_params (2.0, 49.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var meson_red_hex = Color.hct_to_hex (meson_red_hct.h, meson_red_hct.c, meson_red_hct.t);
 
-    var lepton_orange_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    var lepton_orange_hct = is_dark ?
     Color.hct_blend (Color.from_params (55.0, 29.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
     Color.hct_blend (Color.from_params (50.0, 61.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var lepton_orange_hex = Color.hct_to_hex (lepton_orange_hct.h, lepton_orange_hct.c, lepton_orange_hct.t);
 
-    var electron_yellow_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    var electron_yellow_hct = is_dark ?
     Color.hct_blend (Color.from_params (89.0, 37.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
     Color.hct_blend (Color.from_params (81.0, 55.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var electron_yellow_hex = Color.hct_to_hex (electron_yellow_hct.h, electron_yellow_hct.c, electron_yellow_hct.t);
 
-    var muon_green_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    var muon_green_hct = is_dark ?
     Color.hct_blend (Color.from_params (152.0, 43.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
     Color.hct_blend (Color.from_params (147.0, 71.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var muon_green_hex = Color.hct_to_hex (muon_green_hct.h, muon_green_hct.c, muon_green_hct.t);
 
-    var baryon_mint_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    var baryon_mint_hct = is_dark ?
     Color.hct_blend (Color.from_params (182.0, 25.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
     Color.hct_blend (Color.from_params (177.0, 42.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var baryon_mint_hex = Color.hct_to_hex (baryon_mint_hct.h, baryon_mint_hct.c, baryon_mint_hct.t);
 
-    var proton_blue_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    var proton_blue_hct = is_dark ?
     Color.hct_blend (Color.from_params (233.0, 34.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
     Color.hct_blend (Color.from_params (240.0, 53.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var proton_blue_hex = Color.hct_to_hex (proton_blue_hct.h, proton_blue_hct.c, proton_blue_hct.t);
 
-    var photon_indigo_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    var photon_indigo_hct = is_dark ?
     Color.hct_blend (Color.from_params (291.0, 67.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
     Color.hct_blend (Color.from_params (288.0, 84.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0)) ;
     var photon_indigo_hex = Color.hct_to_hex (photon_indigo_hct.h, photon_indigo_hct.c, photon_indigo_hct.t);
 
-    var tau_purple_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    var tau_purple_hct = is_dark ?
     Color.hct_blend (Color.from_params (309.0, 34.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
     Color.hct_blend (Color.from_params (311.0, 57.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
     var tau_purple_hex = Color.hct_to_hex (tau_purple_hct.h, tau_purple_hct.c, tau_purple_hct.t);
 
-    var fermion_pink_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    var fermion_pink_hct = is_dark ?
     Color.hct_blend (Color.from_params (337.0, 34.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
     Color.hct_blend (Color.from_params (340.0, 60.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
     var fermion_pink_hex = Color.hct_to_hex (fermion_pink_hct.h, fermion_pink_hct.c, fermion_pink_hct.t);
 
-    var gluon_brown_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
+    var gluon_brown_hct = is_dark ?
     Color.hct_blend (Color.from_params (66.0, 12.0, 80.0), Color.from_params (cam16_color.h, cam16_color.C, 80.0)) :
     Color.hct_blend (Color.from_params (61.0, 30.0, 40.0), Color.from_params (cam16_color.h, cam16_color.C, 40.0));
     var gluon_brown_hex = Color.hct_to_hex (gluon_brown_hct.h, gluon_brown_hct.c, gluon_brown_hct.t);
@@ -477,6 +479,10 @@ public class He.Application : Gtk.Application {
     }
 
     accent.load_from_data (css.data);
+
+    style_provider_set_enabled (light, !is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
+    style_provider_set_enabled (dark, is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
+    style_provider_set_enabled (user_dark, is_dark, STYLE_PROVIDER_PRIORITY_USER_DARK);
   }
 
   private void init_style_providers () {
@@ -484,45 +490,15 @@ public class He.Application : Gtk.Application {
     light.load_from_resource ("/com/fyralabs/helium/gtk.css");
     dark.load_from_resource ("/com/fyralabs/helium/gtk-dark.css");
 
-    style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
-    style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
-
     style_provider_set_enabled (accent, true, STYLE_PROVIDER_PRIORITY_ACCENT);
-
     style_provider_set_enabled (user_base, true, STYLE_PROVIDER_PRIORITY_USER_BASE);
-    style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
 
-    desktop.notify["prefers-color-scheme"].connect (() => {
-      update_accent_color ();
+    update_style_providers ();
 
-      style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
-      style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
-      style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
-    });
-
-    desktop.notify["dark-mode-strength"].connect (() => {
-      update_accent_color ();
-
-      style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
-      style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
-      style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
-    });
-
-    desktop.notify["ensor-scheme"].connect (() => {
-      update_accent_color ();
-
-      style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
-      style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
-      style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
-    });
-
-    desktop.notify["font-weight"].connect (() => {
-      update_accent_color ();
-
-      style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
-      style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
-      style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
-    });
+    desktop.notify["prefers-color-scheme"].connect (update_style_providers);
+    desktop.notify["dark-mode-strength"].connect (update_style_providers);
+    desktop.notify["ensor-scheme"].connect (update_style_providers);
+    desktop.notify["font-weight"].connect (update_style_providers);
   }
 
   private void init_app_providers () {
@@ -551,30 +527,6 @@ public class He.Application : Gtk.Application {
     init_provider_from_file (user_dark, base_file.get_child ("style-dark.css"));
   }
 
-  private void init_accent_color () {
-    update_accent_color ();
-
-    desktop.notify["accent-color"].connect (() => {
-      update_accent_color ();
-    });
-
-    desktop.notify["dark-mode-strength"].connect (() => {
-      update_accent_color ();
-    });
-
-    desktop.notify["ensor-scheme"].connect (() => {
-      update_accent_color ();
-    });
-
-    desktop.notify["font-weight"].connect (() => {
-      update_accent_color ();
-    });
-
-    this.notify["default-accent-color"].connect (() => {
-      update_accent_color ();
-    });
-  }
-
   private void style_provider_set_enabled (Gtk.CssProvider provider, bool enabled, int priority) {
     Gdk.Display display = Gdk.Display.get_default ();
 
@@ -598,7 +550,6 @@ public class He.Application : Gtk.Application {
     base.startup ();
     He.init ();
 
-    init_accent_color ();
     init_app_providers ();
     init_style_providers ();
   }

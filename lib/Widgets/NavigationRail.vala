@@ -155,17 +155,19 @@
 
             var button_child_label = new Gtk.Label ("");
             this._stack_pages.get_item (position).bind_property ("title", button_child_label, "label", SYNC_CREATE);
+            var page = (Gtk.StackPage)this._stack_pages.get_item (position);
             if (button.active) {
                 this._stack_pages.select_item (position, true);
-                if (((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.contains ("-symbolic")) {
-                    ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled", "");
-                    ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-symbolic", "-filled-symbolic");
+
+                if (page.icon_name.contains ("-symbolic")) {
+                    page.icon_name = page.icon_name.replace ("-filled", "");
+                    page.icon_name = page.icon_name.replace ("-symbolic", "-filled-symbolic");
                 } else {
-                    ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled", "");
-                    ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name + "-filled-symbolic";
+                    page.icon_name = page.icon_name.replace ("-filled", "");
+                    page.icon_name = page.icon_name + "-filled-symbolic";
                 }
             } else {
-                ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled", "");
+                page.icon_name = (page).icon_name.replace ("-filled", "");
             }
 
             var button_child = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -202,17 +204,20 @@
         }
 
         unowned int position = this._buttons.index (button);
+        var page = (Gtk.StackPage)this._stack_pages.get_item (position);
+
         if (button.active) {
             this._stack_pages.select_item (position, true);
-            if (((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.contains ("-symbolic")) {
-                ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled","");
-                ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-symbolic","-filled-symbolic");
+
+            if (page.icon_name.contains ("-symbolic")) {
+                page.icon_name = page.icon_name.replace ("-filled", "");
+                page.icon_name = page.icon_name.replace ("-symbolic", "-filled-symbolic");
             } else {
-                ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled","");
-                ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name + "-filled-symbolic";
+                page.icon_name = page.icon_name.replace ("-filled", "");
+                page.icon_name = page.icon_name + "-filled-symbolic";
             }
         } else {
-            ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled", "");
+            page.icon_name = page.icon_name.replace ("-filled", "");
         }
 
         this._stack_pages.unselect_item (position);
