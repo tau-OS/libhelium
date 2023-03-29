@@ -27,12 +27,12 @@ namespace He.Color {
         double g_d = vc.rgb_d[1] * g_t;
         double b_d = vc.rgb_d[2] * b_t;
 
-        double r_af = Math.pow(vc.fl * MathUtils.abs(r_d) / 100.0, 0.42);
-        double g_af = Math.pow(vc.fl * MathUtils.abs(g_d) / 100.0, 0.42);
-        double b_af = Math.pow(vc.fl * MathUtils.abs(b_d) / 100.0, 0.42);
-        double r_a = MathUtils.signum(r_d) * 400.0 * r_af / (r_af + 27.13);
-        double g_a = MathUtils.signum(g_d) * 400.0 * g_af / (g_af + 27.13);
-        double b_a = MathUtils.signum(b_d) * 400.0 * b_af / (b_af + 27.13);
+        double r_af = Math.pow (vc.fl * MathUtils.abs (r_d) / 100.0, 0.42);
+        double g_af = Math.pow (vc.fl * MathUtils.abs (g_d) / 100.0, 0.42);
+        double b_af = Math.pow (vc.fl * MathUtils.abs (b_d) / 100.0, 0.42);
+        double r_a = MathUtils.signum (r_d) * 400.0 * r_af / (r_af + 27.13);
+        double g_a = MathUtils.signum (g_d) * 400.0 * g_af / (g_af + 27.13);
+        double b_a = MathUtils.signum (b_d) * 400.0 * b_af / (b_af + 27.13);
 
         // redness-greenness
         double a = (11.0 * r_a + -12.0 * g_a + b_a) / 11.0;
@@ -59,7 +59,7 @@ namespace He.Color {
         double e_hue = 0.25 * (Math.cos ((hue_prime * (Math.PI / 180)) + 2.0) + 3.8);
         double p1 = 50000.0 / 13.0 * e_hue * vc.nc * vc.ncb;
         double t = p1 * Math.hypot (a, b) / (u + 0.305);
-        double alpha = Math.pow (1.64 - Math.pow(0.29, vc.n), 0.73) * Math.pow (t, 0.9);
+        double alpha = Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73) * Math.pow (t, 0.9);
         // CAM16 chroma, colorfulness, saturation
         double C = alpha * Math.sqrt (J / 100.0);
         double m = C * vc.fl_root;
@@ -82,9 +82,9 @@ namespace He.Color {
         int red = (argb & 0x00ff0000) >> 16;
         int green = (argb & 0x0000ff00) >> 8;
         int blue = (argb & 0x000000ff);
-        double redL = He.MathUtils.linearized(red);
-        double greenL = He.MathUtils.linearized(green);
-        double blueL = He.MathUtils.linearized(blue);
+        double redL = He.MathUtils.linearized (red);
+        double greenL = He.MathUtils.linearized (green);
+        double blueL = He.MathUtils.linearized (blue);
         double x = 0.41233895 * redL + 0.35762064 * greenL + 0.18051042 * blueL;
         double y = 0.2126 * redL + 0.7152 * greenL + 0.0722 * blueL;
         double z = 0.01932141 * redL + 0.11916382 * greenL + 0.95034478 * blueL;

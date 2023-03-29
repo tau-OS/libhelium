@@ -69,13 +69,13 @@ namespace He.Schemes {
             // ____ _  _ ___ _    _ _  _ ____ 
             // |  | |  |  |  |    | |\ | |___ 
             // |__| |__|  |  |___ | | \| |___
-            outline_hex = Color.hct_to_hex (hue, NEUTRAL2, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 60.0 : 50.0);    
+            outline_hex = Color.hct_to_hex (hue, NEUTRAL2, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 60.0 : 50.0);
             outline_variant_hex = Color.hct_to_hex (hue, NEUTRAL2, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 30.0 : 80.0);
 
             // ____ _  _ ____ ___  ____ _ _ _ 
             // [__  |__| |__| |  \ |  | | | | 
             // ___] |  | |  | |__/ |__| |_|_|
-            shadow_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0.0 : 0.0);    
+            shadow_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0.0 : 0.0);
             scrim_hex = Color.hct_to_hex (hue, NEUTRAL, Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? 0.0 : 0.0);
         }
     }

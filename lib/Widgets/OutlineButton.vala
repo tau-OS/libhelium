@@ -28,8 +28,8 @@ public class He.OutlineButton : He.Button {
      */
     public override He.Colors color {
         set {
-            if (_color != He.Colors.NONE) this.remove_css_class (_color.to_css_class());
-            if (value != He.Colors.NONE) this.add_css_class (value.to_css_class());
+            if (_color != He.Colors.NONE) this.remove_css_class (_color.to_css_class ());
+            if (value != He.Colors.NONE) this.add_css_class (value.to_css_class ());
 
             _color = value;
         }
@@ -45,10 +45,10 @@ public class He.OutlineButton : He.Button {
     *
      * @since 1.0
      */
-    public OutlineButton(string label) {
+    public OutlineButton (string label) {
         this.label = label;
     }
-    
+
     construct {
         this.add_css_class ("outline-button");
     }

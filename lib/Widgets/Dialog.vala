@@ -21,12 +21,12 @@
  * A Dialog is a modal window that asks the user for input or shows a message.
  */
 public class He.Dialog : He.Window {
-    private Gtk.Label title_label = new Gtk.Label(null);
-    private Gtk.Label info_label = new Gtk.Label(null);
-    private Gtk.Image image = new Gtk.Image();
-    private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 24);
-    private Gtk.Box child_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
-    private Gtk.Box button_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 12);
+    private Gtk.Label title_label = new Gtk.Label (null);
+    private Gtk.Label info_label = new Gtk.Label (null);
+    private Gtk.Image image = new Gtk.Image ();
+    private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 24);
+    private Gtk.Box child_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+    private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
     private Gtk.WindowHandle dialog_handle = new Gtk.WindowHandle ();
     private He.TintButton _secondary_button;
     private He.FillButton _primary_button;
@@ -94,7 +94,7 @@ public class He.Dialog : He.Window {
             }
 
             _secondary_button = value;
-            button_box.prepend(_secondary_button);
+            button_box.prepend (_secondary_button);
             button_box.reorder_child_after (_secondary_button, cancel_button);
         }
 
@@ -148,7 +148,7 @@ public class He.Dialog : He.Window {
      *
      * @since 1.0
      */
-    public Dialog(bool modal, Gtk.Window? parent, string title, string subtitle, string info, string icon, He.FillButton? primary_button, He.TintButton? secondary_button) {
+    public Dialog (bool modal, Gtk.Window? parent, string title, string subtitle, string info, string icon, He.FillButton? primary_button, He.TintButton? secondary_button) {
         this.modal = modal;
         this.parent = parent;
         this.title = title;
@@ -173,9 +173,9 @@ public class He.Dialog : He.Window {
         info_label.wrap_mode = Pango.WrapMode.WORD;
         info_label.visible = false;
 
-        info_box.append(image);
-        info_box.append(title_label);
-        info_box.append(info_label);
+        info_box.append (image);
+        info_box.append (title_label);
+        info_box.append (info_label);
 
         cancel_button = new He.TextButton ("Cancel");
         cancel_button.clicked.connect (() => {
@@ -190,9 +190,9 @@ public class He.Dialog : He.Window {
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 24);
         main_box.vexpand = true;
         main_box.margin_end = main_box.margin_start = main_box.margin_top = main_box.margin_bottom = 24;
-        main_box.append(info_box);
-        main_box.append(child_box);
-        main_box.append(button_box);
+        main_box.append (info_box);
+        main_box.append (child_box);
+        main_box.append (button_box);
         dialog_handle.set_child (main_box);
 
         this.set_child (dialog_handle);

@@ -51,7 +51,7 @@ public class He.DisclosureButton : He.Button {
    * Creates a new DisclosureButton.
    * @param icon The name of the icon to use.
    */
-  public DisclosureButton(string icon) {
+  public DisclosureButton (string icon) {
     this.icon = icon;
   }
 
@@ -61,7 +61,7 @@ public class He.DisclosureButton : He.Button {
    *
      * @since 1.0
      */
-    public DisclosureButton.from_icon(string icon) {
+    public DisclosureButton.from_icon (string icon) {
       this.icon = icon;
   }
 

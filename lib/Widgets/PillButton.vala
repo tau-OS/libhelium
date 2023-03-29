@@ -28,8 +28,8 @@ public class He.PillButton : He.Button {
      */
     public override He.Colors color {
         set {
-            if (_color != He.Colors.NONE) this.remove_css_class (_color.to_css_class());
-            if (value != He.Colors.NONE) this.add_css_class (value.to_css_class());
+            if (_color != He.Colors.NONE) this.remove_css_class (_color.to_css_class ());
+            if (value != He.Colors.NONE) this.add_css_class (value.to_css_class ());
 
             _color = value;
         }
@@ -45,7 +45,7 @@ public class He.PillButton : He.Button {
     *
      * @since 1.0
      */
-    public PillButton(string label) {
+    public PillButton (string label) {
         this.label = label;
     }
 

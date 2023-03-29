@@ -32,11 +32,11 @@ public class He.Badge : He.Bin {
      */
     public new Gtk.Widget? child {
         get {
-            return overlay.get_child();
+            return overlay.get_child ();
         }
 
         set {
-            overlay.set_child(value);
+            overlay.set_child (value);
         }
     }
 
@@ -48,10 +48,10 @@ public class He.Badge : He.Bin {
         set {
             if (value == null) {
                 box.remove_css_class ("badge-info");
-                box.remove(_label);
+                box.remove (_label);
                 box.valign = Gtk.Align.START;
                 box.width_request = 10;
-                box.height_request = 10;                
+                box.height_request = 10;
                 _label = null;
                 return;
             }
@@ -61,16 +61,16 @@ public class He.Badge : He.Bin {
                 box.valign = Gtk.Align.END;
                 box.add_css_class ("badge-info");
                 box.width_request = 0;
-                box.height_request = 0;                
+                box.height_request = 0;
                 box.append (_label);
             }
 
             _label.set_text (value);
         }
     }
-    
+
     public Badge () {
-    	base ();
+        base ();
     }
 
     static construct {
@@ -81,7 +81,7 @@ public class He.Badge : He.Bin {
         box.valign = Gtk.Align.START;
         box.halign = Gtk.Align.END;
         box.width_request = 10;
-        box.height_request = 10;        
+        box.height_request = 10;
         box.add_css_class ("badge");
 
         overlay.add_overlay (box);

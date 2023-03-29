@@ -493,7 +493,7 @@ public class He.Application : Gtk.Application {
     style_provider_set_enabled (user_dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_USER_DARK);
 
     desktop.notify["prefers-color-scheme"].connect (() => {
-      update_accent_color();
+      update_accent_color ();
 
       style_provider_set_enabled (light, desktop.prefers_color_scheme != He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
       style_provider_set_enabled (dark, desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK, STYLE_PROVIDER_PRIORITY_PLATFORM);
@@ -552,26 +552,26 @@ public class He.Application : Gtk.Application {
   }
 
   private void init_accent_color () {
-    update_accent_color();
+    update_accent_color ();
 
     desktop.notify["accent-color"].connect (() => {
-      update_accent_color();
+      update_accent_color ();
     });
 
     desktop.notify["dark-mode-strength"].connect (() => {
-      update_accent_color();
+      update_accent_color ();
     });
 
     desktop.notify["ensor-scheme"].connect (() => {
-      update_accent_color();
+      update_accent_color ();
     });
 
     desktop.notify["font-weight"].connect (() => {
-      update_accent_color();
+      update_accent_color ();
     });
 
-    this.notify["default-accent-color"].connect(() => {
-      update_accent_color();
+    this.notify["default-accent-color"].connect(            () => {
+      update_accent_color ();
     });
   }
 
@@ -603,7 +603,7 @@ public class He.Application : Gtk.Application {
     init_style_providers ();
   }
 
-  public Application(string? application_id, ApplicationFlags flags) {
+  public Application (string? application_id, ApplicationFlags flags) {
     this.application_id = application_id;
     this.flags = flags;
   }

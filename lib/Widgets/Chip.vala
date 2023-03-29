@@ -26,7 +26,7 @@ public class He.Chip : Gtk.ToggleButton, Gtk.Actionable {
   private string _chip_label;
   public string chip_label {
     get { return _chip_label; }
-    set { 
+    set {
       _chip_label = value;
       chip_box.label = _chip_label;
     }
@@ -44,11 +44,11 @@ public class He.Chip : Gtk.ToggleButton, Gtk.Actionable {
 
   construct {
     this.add_css_class ("chip");
-    
+
     chip_box = new He.ButtonContent ();
     chip_box.get_first_child ().get_first_child ().visible = false;
     chip_box.icon = "";
-    
+
     notify["active"].connect (() => {
       if (this.active) {
         chip_box.get_first_child ().get_first_child ().visible = true;
@@ -58,7 +58,7 @@ public class He.Chip : Gtk.ToggleButton, Gtk.Actionable {
         chip_box.icon = "";
       }
     });
-    
+
     chip_box.set_parent (this);
   }
 }

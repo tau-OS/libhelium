@@ -21,13 +21,13 @@
 * A MiniContentBlock is a content block that is used to display content in a small area.
 */
 public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
-    private Gtk.Label title_label = new Gtk.Label(null);
-    private Gtk.Label subtitle_label = new Gtk.Label(null);
-    private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 6);
-    private Gtk.Image image = new Gtk.Image();
+    private Gtk.Label title_label = new Gtk.Label (null);
+    private Gtk.Label subtitle_label = new Gtk.Label (null);
+    private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+    private Gtk.Image image = new Gtk.Image ();
     private He.Button _primary_button;
-    private Gtk.Box btn_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
-    
+    private Gtk.Box btn_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+
     /** 
      * Sets the title of the content block.
      */
@@ -79,7 +79,7 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
             }
         }
     }
-    
+
     public GLib.Icon gicon {
         set {
             if (value == null) {
@@ -101,7 +101,7 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
             }
         }
     }
-    
+
     /**
     * The primary button of the content block.
     */
@@ -109,19 +109,19 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
         get {
             return _primary_button;
         }
-        
+
         set {
             if (_primary_button != null) {
                 btn_box.remove (_primary_button);
             }
-            
+
             value.hexpand = true;
             value.halign = Gtk.Align.END;
             _primary_button = value;
             btn_box.append (_primary_button);
         }
     }
-    
+
     /**
     * Constructs a new MiniContentBlock.
     * @param title The title of the content block.
@@ -150,11 +150,11 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
     public MiniContentBlock () {
         base ();
     }
-    
+
     static construct {
         set_layout_manager_type (typeof (Gtk.BoxLayout));
     }
-    
+
     construct {
         this.image.pixel_size = ((Gtk.IconSize)32);
         this.image.set_valign (Gtk.Align.CENTER);
@@ -172,23 +172,23 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
         this.subtitle_label.max_width_chars = 30;
         this.subtitle_label.ellipsize = Pango.EllipsizeMode.END;
         this.subtitle_label.set_visible (false);
-        
-        this.info_box.append(this.title_label);
-        this.info_box.append(this.subtitle_label);
+
+        this.info_box.append (this.title_label);
+        this.info_box.append (this.subtitle_label);
         this.info_box.valign = Gtk.Align.CENTER;
-        
+
         this.btn_box.halign = Gtk.Align.END;
         this.btn_box.hexpand = true;
         this.btn_box.valign = Gtk.Align.CENTER;
 
-        var box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 18);
+        var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
         box.hexpand = true;
-        box.append(this.image);
-        box.append(this.info_box);
-        box.append(this.btn_box);
-        
-        box.set_parent(this);
-        
+        box.append (this.image);
+        box.append (this.info_box);
+        box.append (this.btn_box);
+
+        box.set_parent (this);
+
         this.add_css_class ("mini-content-block");
     }
 }

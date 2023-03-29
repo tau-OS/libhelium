@@ -51,9 +51,9 @@
             on_stack_pages_changed (0, 0, this._stack_pages.get_n_items ());
         }
     }
-    
+
     public ViewChooser () {
-    	base ();
+        base ();
     }
 
     static construct {
@@ -67,7 +67,7 @@
 
         menu_label = new Gtk.Label ("");
         menu_label.add_css_class ("view-title");
-        
+
         var menu_img = new Gtk.Image ();
         menu_img.icon_name = "pan-down-symbolic";
 
@@ -106,7 +106,7 @@
 
         while (added-- > 0) {
             unowned var button_link = this._buttons.nth (position);
-            
+
             var button = new Gtk.ToggleButton () {
                 active = this._stack_pages.is_selected (position)
             };
@@ -141,7 +141,7 @@
 
             position++;
         }
-        
+
         this._stack_pages.get_item (0).bind_property ("title", menu_label, "label", SYNC_CREATE);
     }
 

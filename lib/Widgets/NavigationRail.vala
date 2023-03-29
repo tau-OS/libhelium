@@ -50,7 +50,7 @@
             on_stack_pages_changed (0, 0, this._stack_pages.get_n_items ());
         }
     }
-    
+
     private Gtk.Orientation _orientation;
     /**
      * The orientation of this switcher.
@@ -79,9 +79,9 @@
             }
         }
     }
-    
+
     public NavigationRail () {
-    	base ();
+        base ();
     }
 
     static construct {
@@ -139,7 +139,7 @@
 
         while (added-- > 0) {
             unowned var button_link = this._buttons.nth (position);
-            
+
             var button = new Gtk.ToggleButton () {
                 active = this._stack_pages.is_selected (position)
             };
@@ -153,14 +153,14 @@
             if (button.active) {
                 this._stack_pages.select_item (position, true);
                 if (((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.contains ("-symbolic")) {
-                    ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled","");
-                    ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-symbolic","-filled-symbolic");
+                    ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled", "");
+                    ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-symbolic", "-filled-symbolic");
                 } else {
-                    ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled","");
+                    ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled", "");
                     ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name + "-filled-symbolic";
                 }
             } else {
-                ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled","");
+                ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled", "");
             }
 
             var button_child = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -207,7 +207,7 @@
                 ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name + "-filled-symbolic";
             }
         } else {
-            ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled","");
+            ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name = ((Gtk.StackPage)this._stack_pages.get_item (position)).icon_name.replace ("-filled", "");
         }
 
         this._stack_pages.unselect_item (position);

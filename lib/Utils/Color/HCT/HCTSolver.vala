@@ -3,9 +3,9 @@ namespace He.Color {
         return (255 << 24) | ((red & 255) << 16) | ((green & 255) << 8) | (blue & 255);
       }
       public static int argb_from_linrgb (double[] linrgb) {
-        int r = He.MathUtils.delinearized(linrgb[0]);
-        int g = He.MathUtils.delinearized(linrgb[1]);
-        int b = He.MathUtils.delinearized(linrgb[2]);
+        int r = He.MathUtils.delinearized (linrgb[0]);
+        int g = He.MathUtils.delinearized (linrgb[1]);
+        int b = He.MathUtils.delinearized (linrgb[2]);
 
         return argb_from_rgb_int (r, g, b);
     }

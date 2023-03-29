@@ -79,9 +79,9 @@ namespace He.Misc {
 
   // Adapted from https://github.com/gka/chroma.js
   private double[] interpolate (double red, double green, double blue, double red2, double green2, double blue2) {
-    var r = Math.round(red + 0.5 * (red2 - red));
-    var g = Math.round(green + 0.5 * (green2 - green));
-    var b = Math.round(blue + 0.5 * (blue2 - blue));
+    var r = Math.round (red + 0.5 * (red2 - red));
+    var g = Math.round (green + 0.5 * (green2 - green));
+    var b = Math.round (blue + 0.5 * (blue2 - blue));
     double[] interp_color = {r, g, b};
 
     return interp_color;
@@ -89,25 +89,25 @@ namespace He.Misc {
 
   // Adapted from https://github.com/gka/chroma.js
   private double[] adjust_luminance (double red, double green, double blue, double target) {
-    var cur_lum = get_luminance(red, green, blue);
+    var cur_lum = get_luminance (red, green, blue);
     double[] black = {0, 0, 0};
     double[] white = {1, 1, 1};
     double[] color = {red, green, blue};
 
-    return cur_lum > target ? test(black, color, target) : test(color, white, target);
+    return cur_lum > target ? test (black, color, target) : test (color, white, target);
   }
 
   private double[] test (double[] low, double[] high, double target) {
     var EPS = 1e-7;
-    var mid = interpolate(low[0], low[1], low[2], high[0], high[1], high[2]);
-    var lm = get_luminance(mid[0], mid[1], mid[2]);
+    var mid = interpolate (low[0], low[1], low[2], high[0], high[1], high[2]);
+    var lm = get_luminance (mid[0], mid[1], mid[2]);
 
-    if (MathUtils.abs(target - lm) < EPS) {
+    if (MathUtils.abs (target - lm) < EPS) {
       // close enough
       return mid;
     }
 
-    return lm > target ? test(low, mid, target) : test(mid, high, target);
+    return lm > target ? test (low, mid, target) : test (mid, high, target);
   }
 
   /**
@@ -138,12 +138,12 @@ namespace He.Misc {
       var denominator = bg_luminance + 0.05;
       var target_luminance = 7 * denominator - 0.05;
 
-      return adjust_luminance(color[0], color[1], color[2], target_luminance);
+      return adjust_luminance (color[0], color[1], color[2], target_luminance);
     } else {
       var numerator = bg_luminance + 0.05;
       var target_luminance = numerator / 7 - 0.05;
 
-      return adjust_luminance(color[0], color[1], color[2], target_luminance);
+      return adjust_luminance (color[0], color[1], color[2], target_luminance);
     }
   }
 

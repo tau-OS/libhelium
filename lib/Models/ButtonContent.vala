@@ -23,8 +23,8 @@
  * @since 1.0
  */
 public class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
-	private Gtk.Label lbl = new Gtk.Label ("");
-	public Gtk.Image image = new Gtk.Image ();
+    private Gtk.Label lbl = new Gtk.Label ("");
+    public Gtk.Image image = new Gtk.Image ();
 
     /**
      * The icon of the Button.
@@ -33,14 +33,14 @@ public class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
     public string icon {
         set {
             if (value != null)
-                image.set_from_icon_name(value);
+                image.set_from_icon_name (value);
         }
 
         owned get {
             return image.get_icon_name ();
         }
     }
-    
+
     /**
      * The label of the Button.
      * @since 1.0
@@ -48,21 +48,21 @@ public class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
     public string label {
         set {
             if (value != null)
-                lbl.set_label(value);
+                lbl.set_label (value);
         }
 
         owned get {
             return lbl.label;
         }
     }
-    
+
     construct {
         var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
-    	box.append (image);
-    	box.append (lbl);
-    	box.set_parent (this);
+        box.append (image);
+        box.append (lbl);
+        box.set_parent (this);
     }
-    
+
     static construct {
         set_layout_manager_type (typeof (Gtk.BoxLayout));
     }

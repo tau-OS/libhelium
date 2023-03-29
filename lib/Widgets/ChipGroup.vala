@@ -66,7 +66,7 @@
             }
         }
     }
-    
+
     public ChipGroup () {
         base ();
     }
@@ -101,7 +101,7 @@
 
         while (added-- > 0) {
             unowned var button_link = this._buttons.nth (position);
-            
+
             var button = new He.Chip ("") {
                 active = this._selection_model.get_selected () == position ? true : false,
             };

@@ -30,16 +30,16 @@ public class He.ViewSubTitle : He.Bin, Gtk.Buildable {
      */
     public string? label {
         set {
-            _label.set_text(value);
+            _label.set_text (value);
         }
 
         get {
-            return _label.get_text();
+            return _label.get_text ();
         }
     }
-    
+
     public ViewSubTitle () {
-    	base ();
+        base ();
     }
 
     construct {

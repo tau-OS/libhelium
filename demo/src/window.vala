@@ -75,7 +75,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
 
             app.set_accels_for_action (ACTION_PREFIX + action, accels_array);
         }
-        app.set_accels_for_action("app.quit", {"<Ctrl>q"});
+        app.set_accels_for_action ("app.quit", {"<Ctrl>q"});
 
         var theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default ());
         theme.add_resource_path ("/com/fyralabs/Helium1/Demo/");

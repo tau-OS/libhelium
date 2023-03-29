@@ -21,7 +21,7 @@
 * A SideBar is a complementary component containing its own AppBar, title, subtitle, and elements.
 */
 public class He.SideBar : He.Bin, Gtk.Buildable {
-    private He.AppBar titlebar = new He.AppBar();
+    private He.AppBar titlebar = new He.AppBar ();
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
     /**
@@ -137,7 +137,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
      */
      public bool has_margins {
         get {
-            return box.margin_top > 0 || 
+            return box.margin_top > 0 ||
                    box.margin_bottom > 0 ||
                    box.margin_start > 0 ||
                    box.margin_end > 0;
@@ -154,7 +154,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
     * @param title The title of the SideBar.
     * @param subtitle The subtitle of the SideBar.
     */
-    public SideBar(string title, string subtitle) {
+    public SideBar (string title, string subtitle) {
         base ();
         this.title = title;
         this.subtitle = subtitle;
@@ -184,7 +184,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
         this.hexpand_set = true;
         titlebar.flat = true;
         has_margins = true;
-        
+
         box.orientation = Gtk.Orientation.VERTICAL;
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -193,7 +193,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
         main_box.append (box);
 
         main_box.set_parent (this);
-        
+
         this.add_css_class ("sidebar-view");
     }
 }

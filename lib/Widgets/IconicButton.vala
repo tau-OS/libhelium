@@ -67,7 +67,7 @@ public class He.IconicButton : He.Button {
    *
      * @since 1.0
      */
-  public IconicButton(string icon) {
+  public IconicButton (string icon) {
     this.icon = icon;
   }
 

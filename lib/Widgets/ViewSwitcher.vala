@@ -49,9 +49,9 @@ public class He.ViewSwitcher : He.Bin {
             on_stack_pages_changed (0, 0, this._stack_pages.get_n_items ());
         }
     }
-    
+
     public ViewSwitcher () {
-    	base ();
+        base ();
     }
 
     static construct {
@@ -77,7 +77,7 @@ public class He.ViewSwitcher : He.Bin {
 
         while (added-- > 0) {
             unowned var button_link = this._buttons.nth (position);
-            
+
             var button = new Gtk.ToggleButton () {
                 active = this._stack_pages.is_selected (position),
                 margin_end = 18,

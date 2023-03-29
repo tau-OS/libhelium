@@ -41,7 +41,7 @@ public class He.AppBar : He.Bin {
     */
     [Version (deprecated = true)]
     public bool flat;
-    
+
     /**
     * The button to go back one view displayed in the AppBar.
     */
@@ -85,7 +85,7 @@ public class He.AppBar : He.Bin {
                     }
                     viewsubtitle.set_visible (false);
                     sub_box.set_visible (false);
-                    btn_box.unparent();
+                    btn_box.unparent ();
                     title_box.append (btn_box);
                     viewtitle_mini.add_css_class ("title");
                     main_box.add_css_class ("appbar");
@@ -293,7 +293,7 @@ public class He.AppBar : He.Bin {
     * Please note that an AppBar should only have at most three children.
     * @param child The child to append.
     */
-    public void append(Gtk.Widget child) {
+    public void append (Gtk.Widget child) {
         btn_box.append (child);
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
@@ -307,7 +307,7 @@ public class He.AppBar : He.Bin {
     *
      * @since 1.0
      */
-    public void remove(Gtk.Widget child) {
+    public void remove (Gtk.Widget child) {
         btn_box.remove (child);
     }
 
@@ -322,9 +322,9 @@ public class He.AppBar : He.Bin {
         title.valign = Gtk.Align.CENTER;
         win_box.prepend (title);
     }
-    
+
     public AppBar () {
-    	base ();
+        base ();
     }
 
     construct {

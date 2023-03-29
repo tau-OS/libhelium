@@ -26,18 +26,18 @@ public class He.EmptyPage : He.Bin {
     private string _icon;
     private string _button;
 
-    private Gtk.Label title_label = new Gtk.Label(null);
-    private Gtk.Label description_label = new Gtk.Label(null);
-    private Gtk.Image icon_image = new Gtk.Image();
-    private Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 24);
-    private Gtk.Box box_title = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
+    private Gtk.Label title_label = new Gtk.Label (null);
+    private Gtk.Label description_label = new Gtk.Label (null);
+    private Gtk.Image icon_image = new Gtk.Image ();
+    private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 24);
+    private Gtk.Box box_title = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 
     /**
      * The action button of the empty page.
      * Can connect to the clicked signal to get notified when the button is clicked.
      * e.g. action_button.clicked.connect(() => { ... });
      */
-    public He.PillButton action_button = new He.PillButton("");
+    public He.PillButton action_button = new He.PillButton ("");
 
     /**
      * Sets the title of the empty page.
@@ -75,10 +75,10 @@ public class He.EmptyPage : He.Bin {
         set {
             _icon = value;
             icon_image.set_from_icon_name (_icon);
-            icon_image.add_css_class("dim-label");
+            icon_image.add_css_class ("dim-label");
         }
     }
-    
+
     /**
      * Sets the illustration of the empty page.
      */
@@ -107,24 +107,24 @@ public class He.EmptyPage : He.Bin {
             action_button.label = value;
         }
     }
-    
+
     public EmptyPage () {
-    	base ();
+        base ();
     }
 
     construct {
-        title_label.add_css_class("view-title");
-        description_label.add_css_class("body");
+        title_label.add_css_class ("view-title");
+        description_label.add_css_class ("body");
         icon_image.pixel_size = 128;
 
-        set_layout_manager(new Gtk.BoxLayout(Gtk.Orientation.VERTICAL));
+        set_layout_manager (new Gtk.BoxLayout (Gtk.Orientation.VERTICAL));
 
-        box_title.append(title_label);
-        box_title.append(description_label);
+        box_title.append (title_label);
+        box_title.append (description_label);
 
-        box.append(icon_image);
-        box.append(box_title);
-        box.append(action_button);
+        box.append (icon_image);
+        box.append (box_title);
+        box.append (action_button);
         box.set_parent (this);
 
         this.valign = Gtk.Align.CENTER;

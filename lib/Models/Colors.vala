@@ -38,7 +38,7 @@ public enum He.Colors {
     /**
      * Returns the CSS class name for the color.
      */
-    public string to_css_class() {
+    public string to_css_class () {
         switch (this) {
             case RED:
                 return "meson-red";
@@ -87,7 +87,7 @@ public enum He.Colors {
      *
      * @since 1.0
      */
-    public string to_string() {
-        return this.to_css_class();
+    public string to_string () {
+        return this.to_css_class ();
     }
 }

@@ -21,11 +21,11 @@
  * A ContentBlock displays a single block of content, which contains an icon, text and optional buttons.
  */
 public class He.ContentBlock : He.Bin, Gtk.Buildable {
-    private Gtk.Label title_label = new Gtk.Label(null);
-    private Gtk.Label subtitle_label = new Gtk.Label(null);
-    private Gtk.Image image = new Gtk.Image();
-    private Gtk.Box info_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
-    private Gtk.Box button_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 24);
+    private Gtk.Label title_label = new Gtk.Label (null);
+    private Gtk.Label subtitle_label = new Gtk.Label (null);
+    private Gtk.Image image = new Gtk.Image ();
+    private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+    private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 24);
     private He.Button _secondary_button;
     private He.Button _primary_button;
 
@@ -80,7 +80,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
             }
         }
     }
-    
+
     public GLib.Icon gicon {
         set {
             if (value == null) {
@@ -104,7 +104,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
             value.add_css_class ("tint-button");
             value.add_css_class ("pill");
             _secondary_button = value;
-            button_box.prepend(_secondary_button);
+            button_box.prepend (_secondary_button);
         }
 
         get {
@@ -162,7 +162,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
 
     construct {
         this.add_css_class ("content-block");
-        
+
         image.pixel_size = ((Gtk.IconSize)64);
         image.halign = Gtk.Align.START;
         image.valign = Gtk.Align.CENTER;
@@ -175,17 +175,17 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
         subtitle_label.xalign = 0;
         subtitle_label.add_css_class ("cb-subtitle");
         subtitle_label.set_visible (false);
-        
-        info_box.append(image);
-        info_box.append(title_label);
-        info_box.append(subtitle_label);
+
+        info_box.append (image);
+        info_box.append (title_label);
+        info_box.append (subtitle_label);
 
         button_box.halign = Gtk.Align.END;
         button_box.hexpand = true;
 
-        var box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
-        box.append(info_box);
-        box.append(button_box);
-        box.set_parent(this);
+        var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        box.append (info_box);
+        box.append (button_box);
+        box.set_parent (this);
     }
 }

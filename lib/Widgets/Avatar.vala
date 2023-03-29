@@ -44,12 +44,12 @@ public class He.Avatar : He.Bin {
 
             var css_provider_label = new Gtk.CssProvider ();
             css_provider_label.load_from_data ("""
-                .avatar-label { 
+                .avatar-label {
                     font-size: %0.2fpx;
                     font-weight: 700;
                     color: @accent_fg_color;
                 }
-            """.printf((_size / 16) * 7.5).data); // calc the font size based on avatar size
+            """.printf ((_size / 16) * 7.5).data); // calc the font size based on avatar size
             var context_label = label.get_style_context ();
             context_label.add_provider (css_provider_label, 69);
         }
@@ -75,16 +75,16 @@ public class He.Avatar : He.Bin {
 
         if (t.length == 0)
             return "";
- 
+
         ret += t[0].to_string ().up ();
- 
+
         for (int i = 1; i < t.length - 1; i++)
             if (t[i] == ' ')
-                ret += t[i+1].to_string ().up ();
-        
+                ret += t[i + 1].to_string ().up ();
+
         return ret;
     }
-    
+
     /**
     * The image of the avatar.
     */
@@ -94,7 +94,7 @@ public class He.Avatar : He.Bin {
         }
         set {
             _image = value;
-            
+
             if (value != null) {
                 label.visible = false;
             } else {
@@ -103,21 +103,21 @@ public class He.Avatar : He.Bin {
 
             var css_provider = new Gtk.CssProvider ();
             css_provider.load_from_data ("""
-            .avatar { 
+            .avatar {
                 background-image: url('%s');
                 background-size: cover;
                 background-color: @accent_bg_color;
                 border-radius: 999px;
                 box-shadow: inset 0 0 0 1px @borders;
             }
-            """.printf(_image).data);
+            """.printf (_image).data);
             var context = img.get_style_context ();
             context.add_provider (css_provider, 69);
 
             var css_provider_blur = new Gtk.CssProvider ();
             if (_size <= 32) {
                 css_provider_blur.load_from_data ("""
-                .avatar-blur { 
+                .avatar-blur {
                     background-image: url('%s');
                     background-size: cover;
                     background-color: @accent_bg_color;
@@ -125,10 +125,10 @@ public class He.Avatar : He.Bin {
                     box-shadow: inset 0 0 0 1px @borders;
                     filter: drop-shadow(0px 0px 1px @borders);
                 }
-                """.printf(_image).data);
+                """.printf (_image).data);
             } else {
                 css_provider_blur.load_from_data ("""
-                .avatar-blur { 
+                .avatar-blur {
                     background-image: url('%s');
                     background-size: cover;
                     background-color: @accent_bg_color;
@@ -136,28 +136,28 @@ public class He.Avatar : He.Bin {
                     box-shadow: inset 0 0 0 1px @borders;
                     filter: drop-shadow(0px 0px 1px @borders) blur(2px);
                 }
-                """.printf(_image).data);
+                """.printf (_image).data);
             }
             var context_blur = img_blur.get_style_context ();
             context_blur.add_provider (css_provider_blur, 69);
         }
     }
 
-    
+
     /**
     * Creates a new Avatar.
     * @param image The image to display
     *
     * @since 1.1
     */
-    public Avatar(int size, string? image, string? text) {
+    public Avatar (int size, string? image, string? text) {
         base ();
 
         this.image = image;
         this.text = text;
         this.size = size;
     }
-    
+
     construct {
         img.add_css_class ("avatar");
         img.halign = Gtk.Align.CENTER;
@@ -172,7 +172,7 @@ public class He.Avatar : He.Bin {
         label.add_css_class ("dim-label");
         label.add_css_class ("avatar-label");
         label.visible = false;
-        
+
         var ioverlay = new Gtk.Overlay ();
         ioverlay.set_child (img_blur);
         ioverlay.add_overlay (img);

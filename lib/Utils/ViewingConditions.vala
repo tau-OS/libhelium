@@ -85,7 +85,7 @@ public class He.ViewingConditions : Object {
           discount_illuminant
               ? 1.0
               : f * (1.0 - ((1.0 / 3.6) * Math.exp ((-adapting_luminance - 42.0) / 92.0)));
-      d = MathUtils.clamp_double(0.0, 1.0, d);
+      d = MathUtils.clamp_double (0.0, 1.0, d);
       double nc = f;
       double[] rgb_d = {
         d * (100.0 / r_white) + 1.0 - d,

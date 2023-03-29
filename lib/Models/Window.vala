@@ -31,7 +31,7 @@ public class He.Window : Gtk.Window {
     private new Gtk.Window? _parent;
     public new Gtk.Window? parent {
         get {
-            return this.get_transient_for();
+            return this.get_transient_for ();
         }
         set {
             _parent = value;

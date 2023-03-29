@@ -39,12 +39,12 @@ namespace He.Color {
     }
 
     public static double[] argb_to_rgb (int argb) {
-        double r = MathUtils.linearized (red_from_rgba_int(argb));
-        double g = MathUtils.linearized (green_from_rgba_int(argb));
-        double b = MathUtils.linearized (blue_from_rgba_int(argb));
+        double r = MathUtils.linearized (red_from_rgba_int (argb));
+        double g = MathUtils.linearized (green_from_rgba_int (argb));
+        double b = MathUtils.linearized (blue_from_rgba_int (argb));
         return MathUtils.elem_mul (new double[] {r, g, b}, SRGB_TO_XYZ);
     }
-    
+
     public int alpha_from_rgba_int (int argb) {
         return (argb >> 24) & 255;
     }
@@ -52,11 +52,11 @@ namespace He.Color {
     public int red_from_rgba_int (int argb) {
         return (argb >> 16) & 255;
     }
-    
+
     public int green_from_rgba_int (int argb) {
         return (argb >> 8) & 255;
     }
-    
+
     public int blue_from_rgba_int (int argb) {
         return argb & 255;
     }

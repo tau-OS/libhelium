@@ -268,7 +268,7 @@
         notebook.set_parent (this);
 
         notebook.hexpand = true;
-	notebook.vexpand = true;
+    notebook.vexpand = true;
     }
 
     static construct {
@@ -405,7 +405,7 @@
         if (!close_tab_requested (tab)) {
             return;
         }
-        
+
         var pos = get_tab_position (tab);
 
         remove_tab (tab);

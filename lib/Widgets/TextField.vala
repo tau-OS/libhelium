@@ -66,7 +66,7 @@
      * The regular expression used for validation.
      */
     public Regex regex { get; construct set; default = null; }
-    
+
     /**
      * The entry widget to allow using Gtk.Editable props.
      */
@@ -77,12 +77,12 @@
 
     private Gtk.Label empty_title = new Gtk.Label ("");
     private Gtk.Label support_label;
-    
+
     /**
      * The entry text.
      */
     private string? _text;
-    public string? text { 
+    public string? text {
       get {
          return _text;
       }
@@ -91,18 +91,18 @@
          entry.text = value;
       }
     }
-    
+
     /**
      * The helper text below the TextField.
      */
     private string? _support_text;
-    public string? support_text { 
+    public string? support_text {
       get {
          return _support_text;
       }
       set {
          _support_text = value;
-         if(_support_text == null) {
+         if (_support_text == null) {
              support_label.visible = false;
          } else {
              support_label.visible = true;
@@ -110,12 +110,12 @@
          }
       }
     }
-    
+
     /**
      * The placeholder text inside the TextField.
      */
     private string? _placeholder_text;
-    public string? placeholder_text { 
+    public string? placeholder_text {
       get {
          return _placeholder_text;
       }
@@ -124,12 +124,12 @@
          entry.placeholder_text = value;
       }
     }
-    
+
     /**
      * The maximum length to start validating.
      */
     private int _max_length;
-    public int max_length { 
+    public int max_length {
       get {
          return _max_length;
       }
@@ -138,12 +138,12 @@
          entry.max_length = value;
       }
     }
-    
+
     /**
      * Whether to show/hide the TextField.
      */
     private bool _visibility;
-    public bool visibility { 
+    public bool visibility {
       get {
          return _visibility;
       }
@@ -184,7 +184,7 @@
 
         var suffix_img = new Gtk.Image ();
         suffix_img.margin_end = 16;
-        
+
         support_label = new Gtk.Label (support_text);
         support_label.halign = Gtk.Align.START;
         support_label.margin_start = 16;
@@ -194,20 +194,20 @@
 
         var entry_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
         entry_box.hexpand = true;
-        entry_box.append(empty_title);
-        entry_box.append(entry);
+        entry_box.append (empty_title);
+        entry_box.append (entry);
 
         var row_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-        row_box.append(entry_box);
-        row_box.append(suffix_img);
+        row_box.append (entry_box);
+        row_box.append (suffix_img);
         row_box.add_css_class ("text-field");
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
-        main_box.append(row_box);
-        main_box.append(support_label);
-        
+        main_box.append (row_box);
+        main_box.append (support_label);
+
         main_box.set_parent (this);
-        
+
         this.activatable = false;
 
         notify["max-length"].connect (() => {

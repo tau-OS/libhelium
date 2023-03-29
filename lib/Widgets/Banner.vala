@@ -29,7 +29,7 @@ public class He.Banner : He.Bin, Gtk.Buildable {
     private Gtk.Label description_label = new Gtk.Label (null);
 
     private Style _style = Style.INFO;
-  
+
     /**
      * The title of the banner
      */
@@ -53,7 +53,7 @@ public class He.Banner : He.Bin, Gtk.Buildable {
         get { return _style; }
         set { set_banner_style (value); }
     }
-  
+
     /**
      * An enum representing the style of the banner.
      */
@@ -62,7 +62,7 @@ public class He.Banner : He.Bin, Gtk.Buildable {
         WARNING,
         ERROR
     }
-  
+
     /**
      * Add a child to the banner, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
      */
@@ -73,7 +73,7 @@ public class He.Banner : He.Bin, Gtk.Buildable {
             main_box.append ((Gtk.Widget) child);
         }
     }
-  
+
     /**
      * Add a button to the banner.
      * @param widget The button to add to the banner.
@@ -85,7 +85,7 @@ public class He.Banner : He.Bin, Gtk.Buildable {
 
         button_box.append (widget);
     }
-  
+
     /**
      * Remove a button from the banner.
      * @param widget The button to remove.
@@ -117,7 +117,7 @@ public class He.Banner : He.Bin, Gtk.Buildable {
 
         this._style = style;
     }
-  
+
     /**
      * Construct a new banner.
      * @param title The title of the banner.
@@ -134,7 +134,7 @@ public class He.Banner : He.Bin, Gtk.Buildable {
     static construct {
         set_layout_manager_type (typeof (Gtk.BoxLayout));
     }
-    
+
     construct {
         this.title_label.add_css_class ("header");
         this.title_label.xalign = 0;
@@ -164,4 +164,3 @@ public class He.Banner : He.Bin, Gtk.Buildable {
         this.set_vexpand (false);
     }
 }
-  

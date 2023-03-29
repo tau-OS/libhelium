@@ -29,8 +29,8 @@ public class He.ModifierBadge : He.Bin {
      */
     public He.Colors color {
         set {
-            if (_color != He.Colors.NONE) this.remove_css_class (_color.to_css_class());
-            if (value != He.Colors.NONE) this.add_css_class (value.to_css_class());
+            if (_color != He.Colors.NONE) this.remove_css_class (_color.to_css_class ());
+            if (value != He.Colors.NONE) this.add_css_class (value.to_css_class ());
 
             _color = value;
         }
@@ -65,18 +65,18 @@ public class He.ModifierBadge : He.Bin {
      */
     public string? label {
         get {
-          return _label?.get_text();
+          return _label?.get_text ();
         }
 
         set {
             if (value == null) {
                 this._label = null;
-                _label.unparent();
+                _label.unparent ();
                 return;
             }
 
             if (_label == null) {
-                _label = new Gtk.Label(null);
+                _label = new Gtk.Label (null);
                 _label.set_parent (this);
             }
 
@@ -88,11 +88,11 @@ public class He.ModifierBadge : He.Bin {
      * Creates a new ModifierBadge.
      * @param label The text of the badge.
      */
-    public ModifierBadge(string? label) {
+    public ModifierBadge (string? label) {
         base ();
         this.label = label;
     }
-  
+
     /** 
      * The alignment of the badge in a enum.
      */
@@ -104,7 +104,7 @@ public class He.ModifierBadge : He.Bin {
         /**
          * Returns the alignment as a Gtk.Alignment.
          */
-        public Gtk.Align to_gtk_align() {
+        public Gtk.Align to_gtk_align () {
             switch (this) {
                 case LEFT:
                     return Gtk.Align.START;
@@ -121,7 +121,7 @@ public class He.ModifierBadge : He.Bin {
          * Sets the alignment from a Gtk.Align.
          * @param align The alignment to set.
          */
-        public static Alignment from_gtk_align(Gtk.Align align) {
+        public static Alignment from_gtk_align (Gtk.Align align) {
             switch (align) {
                 case Gtk.Align.START:
                     return Alignment.LEFT;
@@ -142,11 +142,11 @@ public class He.ModifierBadge : He.Bin {
      */
     public Alignment alignment {
         set {
-            this.set_halign(value.to_gtk_align());
+            this.set_halign (value.to_gtk_align ());
         }
 
         get {
-            return Alignment.from_gtk_align(this.get_halign());
+            return Alignment.from_gtk_align (this.get_halign ());
         }
     }
 

@@ -21,9 +21,9 @@
 * An AboutWindow is a window that displays information about the application.
 */
 public class He.AboutWindow : He.Window {
-  private He.AppBar app_bar = new He.AppBar();
+  private He.AppBar app_bar = new He.AppBar ();
 
-  private Gtk.Overlay window_overlay = new Gtk.Overlay();
+  private Gtk.Overlay window_overlay = new Gtk.Overlay ();
 
   private Gtk.Box about_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 30);
   private Gtk.Box content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
@@ -46,7 +46,7 @@ public class He.AboutWindow : He.Window {
 
   private He.TextButton translate_app_button = new He.TextButton ("Translate App");
   private He.TintButton report_button = new He.TintButton ("Report a Problem");
-  private He.FillButton more_info_button = new He.FillButton ("More Info...");
+  private He.FillButton more_info_button = new He.FillButton ("More Info…");
 
   private He.ModifierBadge version_badge = new He.ModifierBadge ("");
 
@@ -65,7 +65,7 @@ public class He.AboutWindow : He.Window {
     /**
     * Returns the license url for the license.
     */
-    public string get_url() {
+    public string get_url () {
       switch (this) {
         case Licenses.GPLv3:
           return "https://choosealicense.com/licenses/gpl-3.0";
@@ -89,7 +89,7 @@ public class He.AboutWindow : He.Window {
     /**
     * Returns the license name for the license.
     */
-    public string get_name() {
+    public string get_name () {
       switch (this) {
         case Licenses.GPLv3:
           return "GPLv3";
@@ -126,8 +126,8 @@ public class He.AboutWindow : He.Window {
       report_button.color = value;
       more_info_button.color = value;
       version_badge.color = value;
-      if (_color != He.Colors.NONE) license_link.remove_css_class (_color.to_css_class());
-      if (value != He.Colors.NONE) license_link.add_css_class (value.to_css_class());
+      if (_color != He.Colors.NONE) license_link.remove_css_class (_color.to_css_class ());
+      if (value != He.Colors.NONE) license_link.add_css_class (value.to_css_class ());
     }
   }
 
@@ -140,8 +140,8 @@ public class He.AboutWindow : He.Window {
     get { return _license; }
     set {
       _license = value;
-      license_link.label = value.get_name();
-      license_link.uri = value.get_url();
+      license_link.label = value.get_name ();
+      license_link.uri = value.get_url ();
     }
   }
 
@@ -282,69 +282,69 @@ public class He.AboutWindow : He.Window {
     this.app_bar.show_back = false;
     this.app_bar.flat = true;
 
-    window_overlay.add_overlay(app_bar);
-    window_overlay.set_child(about_box);
+    window_overlay.add_overlay (app_bar);
+    window_overlay.set_child (about_box);
 
-    about_box.add_css_class("dialog-content");
-    about_box.append(content_box);
-    about_box.append(button_box);
+    about_box.add_css_class ("dialog-content");
+    about_box.append (content_box);
+    about_box.append (button_box);
 
     icon_image.valign = Gtk.Align.START;
     icon_image.pixel_size = 128;
-    icon_image.add_css_class("icon-dropshadow");
+    icon_image.add_css_class ("icon-dropshadow");
 
-    content_box.append(icon_image);
-    content_box.append(info_box);
+    content_box.append (icon_image);
+    content_box.append (info_box);
 
-    info_box.append(title_box);
-    info_box.append(text_box);
+    info_box.append (title_box);
+    info_box.append (text_box);
 
     version_badge.tinted = true;
     version_badge.margin_end = 18;
     title_label.add_css_class ("display");
-    title_box.append(title_label);
-    title_box.append(version_badge);
+    title_box.append (title_label);
+    title_box.append (version_badge);
 
     developers_copyright.visible = false;
     developers_label.visible = false;
-    developers_box.append(developers_copyright);
-    developers_box.append(developers_label);
+    developers_box.append (developers_copyright);
+    developers_box.append (developers_label);
 
-    text_box.append(developers_box);
+    text_box.append (developers_box);
     translators_label.xalign = 0;
     translators_label.visible = false;
-    text_box.append(translators_label);
+    text_box.append (translators_label);
 
-    license_link.remove_css_class("text-button");
-    license_link.remove_css_class("link");
-    license_link.add_css_class("link-button");
-    license_box.append(license_label);
-    license_box.append(license_link);
+    license_link.remove_css_class ("text-button");
+    license_link.remove_css_class ("link");
+    license_link.add_css_class ("link-button");
+    license_box.append (license_label);
+    license_box.append (license_link);
 
-    text_box.append(license_box);
+    text_box.append (license_box);
 
     button_box.valign = Gtk.Align.CENTER;
     button_box.homogeneous = true;
-    button_box.append(translate_app_button);
-    button_box.append(report_button);
-    button_box.append(more_info_button);
+    button_box.append (translate_app_button);
+    button_box.append (report_button);
+    button_box.append (more_info_button);
 
-    translate_app_button.clicked.connect(() => {
+    translate_app_button.clicked.connect (() => {
       Gtk.show_uri (this.parent, translate_url, Gdk.CURRENT_TIME);
     });
 
-    report_button.clicked.connect(() => {
+    report_button.clicked.connect (() => {
       Gtk.show_uri (this.parent, issue_url, Gdk.CURRENT_TIME);
     });
 
-    more_info_button.clicked.connect(() => {
+    more_info_button.clicked.connect (() => {
       Gtk.show_uri (this.parent, more_info_url, Gdk.CURRENT_TIME);
     });
 
     var window_handle = new Gtk.WindowHandle ();
     window_handle.set_child (window_overlay);
 
-    this.set_child(window_handle);
+    this.set_child (window_handle);
     this.add_css_class ("dialog-content");
   }
 
@@ -366,7 +366,7 @@ public class He.AboutWindow : He.Window {
   *
      * @since 1.0
      */
-  public AboutWindow(
+  public AboutWindow (
     Gtk.Window parent,
     string app_name,
     string app_id,

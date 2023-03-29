@@ -28,25 +28,25 @@ namespace He.MathUtils {
         } else if (input > max) {
           return max;
         }
-    
+
         return input;
     }
 
     public int signum (double x) {
         return (int)(x > 0) - (int)(x < 0);
     }
-    
+
     public double chromatic_adaptation (double component) {
         double af = Math.pow (MathUtils.abs (component), 0.42);
         return signum (component) * 400.0 * af / (af + 27.13);
     }
 
     public double inverse_chromatic_adaptation (double adapted) {
-        double adaptedAbs = MathUtils.abs (adapted);
-        double b = MathUtils.max (0, 27.13 * adaptedAbs / (400.0 - adaptedAbs));
-        return signum(adapted) * Math.pow (b, 1.0 / 0.42);
+        double adapted_abs = MathUtils.abs (adapted);
+        double b = MathUtils.max (0, 27.13 * adapted_abs / (400.0 - adapted_abs));
+        return signum (adapted) * Math.pow (b, 1.0 / 0.42);
     }
-    
+
     public double[] lerp_point (double[] source, double t, double[] target) {
         return new double[] {
             source[0] + (target[0] - source[0]) * t,
@@ -147,7 +147,7 @@ namespace He.MathUtils {
         if (normalized <= 0.040449936) {
           return normalized / 12.92 * 100.0;
         } else {
-          return Math.pow((normalized + 0.055) / 1.055, 2.4) * 100.0;
+          return Math.pow ((normalized + 0.055) / 1.055, 2.4) * 100.0;
         }
     }
 
@@ -257,7 +257,7 @@ namespace He.MathUtils {
         bool initialized = false;
         bool uncut = true;
         for (int n = 0; n < 12; n++) {
-            double[] mid = nth_vertex(y, n);
+            double[] mid = nth_vertex (y, n);
             if (mid[0] < 0) {
                 continue;
             }
@@ -288,7 +288,7 @@ namespace He.MathUtils {
         double[] segment = bisect_to_segment (y, target_hue);
         double[] left = {segment[0], segment[1], segment[2]};
         double left_hue = hue_of (left);
-        double[] right = {segment[3], segment[4], segment[5]};;
+        double[] right = {segment[3], segment[4], segment[5]};
         for (int axis = 0; axis < 3; axis++) {
             if (left[axis] != right[axis]) {
                 int l_plane = -1;
@@ -333,7 +333,7 @@ namespace He.MathUtils {
         return He.Color.argb_from_rgb_int (component, component, component);
     }
 
-    public static double lstar_from_argb(int argb) {
+    public static double lstar_from_argb (int argb) {
         double y = He.Color.argb_to_xyz (argb).y;
         return 116.0 * lab_fovea (y / 100.0) - 16.0;
     }

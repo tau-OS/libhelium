@@ -376,7 +376,7 @@ public class He.OverlayButton : He.Bin, Gtk.Buildable {
         button_row.append (button);
         button_row.add_css_class ("overlay-button-row");
         button_row.valign = Gtk.Align.END;
-        
+
         secondary_button.add_css_class ("overlay-button");
         secondary_button.add_css_class ("small");
         secondary_button.valign = Gtk.Align.CENTER;
@@ -390,7 +390,7 @@ public class He.OverlayButton : He.Bin, Gtk.Buildable {
         button.clicked.connect (() => {
             clicked ();
         });
-        
+
         this.size = Size.MEDIUM;
         this.typeb = TypeButton.SURFACE;
         this.typeb2 = TypeButton.SURFACE;

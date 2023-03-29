@@ -21,9 +21,9 @@
  * A helper widget that implements a View that displays items.
  */
 public abstract class He.View : Gtk.Widget, Gtk.Buildable {
-    private Gtk.Label title_label = new Gtk.Label(null);
-    private Gtk.Label subtitle_label = new Gtk.Label(null);
-    private He.ViewSwitcher titleswitcher = new He.ViewSwitcher();
+    private Gtk.Label title_label = new Gtk.Label (null);
+    private Gtk.Label subtitle_label = new Gtk.Label (null);
+    private He.ViewSwitcher titleswitcher = new He.ViewSwitcher ();
     private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
     private Gtk.Box title_button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -84,7 +84,7 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
      */
     public bool has_margins {
         get {
-            return box.margin_top > 0 || 
+            return box.margin_top > 0 ||
                    box.margin_bottom > 0 ||
                    box.margin_start > 0 ||
                    box.margin_end > 0;
@@ -168,7 +168,7 @@ public abstract class He.View : Gtk.Widget, Gtk.Buildable {
         main_box.set_parent (this);
 
         has_margins = true;
-        
+
         this.add_css_class ("main-view");
     }
 

@@ -92,8 +92,8 @@ namespace He {
         typeof (He.Window).ensure ();
 
         // Setup the platform gtk theme, cursor theme and the default icon theme.
-        Gtk.Settings.get_for_display(display).gtk_theme_name        = "Helium-empty";
-        Gtk.Settings.get_for_display(display).gtk_icon_theme_name   = "Hydrogen";
-        Gtk.Settings.get_for_display(display).gtk_cursor_theme_name = "Hydrogen";
+        Gtk.Settings.get_for_display (display).gtk_theme_name = "Helium-empty";
+        Gtk.Settings.get_for_display (display).gtk_icon_theme_name = "Hydrogen";
+        Gtk.Settings.get_for_display (display).gtk_cursor_theme_name = "Hydrogen";
     }
 }

@@ -7,7 +7,7 @@ public class He.QuantizerWsmeans : Object {
     public int argb = 0;
     public int population = 0;
 
-    public Swatch(int argb, int population) {
+    public Swatch (int argb, int population) {
       this.argb = argb;
       this.population = population;
     }
@@ -28,13 +28,13 @@ public class He.QuantizerWsmeans : Object {
 
   delegate DistanceToIndex fill_list_delegate<DistanceToIndex> (int index);
 
-  static void fill_array<DistanceToIndex>(ref Array<DistanceToIndex> list, int size, fill_list_delegate<DistanceToIndex> value_func) {
+  static void fill_array<DistanceToIndex> (ref Array<DistanceToIndex> list, int size, fill_list_delegate<DistanceToIndex> value_func) {
     for (int i = 0; i < size; i++) {
-      list.append_val (value_func(i));
+      list.append_val (value_func (i));
     }
   }
 
-  static Array<Array<DistanceToIndex>> create_2d_list(int first_size, int second_size, fill_list_delegate<DistanceToIndex> value_func) {
+  static Array<Array<DistanceToIndex>> create_2d_list (int first_size, int second_size, fill_list_delegate<DistanceToIndex> value_func) {
     var list = new Array<Array<DistanceToIndex>> ();
 
     for (int i = 0; i < first_size; i++) {
@@ -64,9 +64,9 @@ public class He.QuantizerWsmeans : Object {
       if (count != null) {
         pixel_to_count.insert (pixel, count + 1);
       } else {
-          pixels.append_val(pixel);
-          points.append_val(Color.lab_from_argb (pixel));
-          pixel_to_count.insert(pixel, 1);
+          pixels.append_val (pixel);
+          points.append_val (Color.lab_from_argb (pixel));
+          pixel_to_count.insert (pixel, 1);
       }
     }
 
@@ -80,7 +80,7 @@ public class He.QuantizerWsmeans : Object {
     var clusters = new GLib.Array<Color.LABColor?> ();
 
     foreach (var argb in starting_clusters) {
-      clusters.append_val(Color.lab_from_argb (argb));
+      clusters.append_val (Color.lab_from_argb (argb));
     }
 
     var random = new Rand.with_seed (42688);
@@ -91,7 +91,7 @@ public class He.QuantizerWsmeans : Object {
         double l = random.next_int () / (double) RAND_MAX * (100.0) + 0.0;
         double a = random.next_int () / (double) RAND_MAX * (100.0 - -100.0) - 100.0;
         double b = random.next_int () / (double) RAND_MAX * (100.0 - -100.0) - 100.0;
-        clusters.append_val({l, a, b});
+        clusters.append_val ({l, a, b});
       }
     }
 
@@ -100,50 +100,50 @@ public class He.QuantizerWsmeans : Object {
     random = new Rand.with_seed (42688);
 
     for (var i = 0; i < points.length; i++) {
-      cluster_indices.append_val(random.int_range(0, cluster_count));
+      cluster_indices.append_val (random.int_range (0, cluster_count));
     }
 
     var index_matrix = new int[cluster_count, cluster_count];
-    var distance_to_index_matrix = create_2d_list(cluster_count, cluster_count, (i) => new DistanceToIndex ());
+    var distance_to_index_matrix = create_2d_list (cluster_count, cluster_count, (i) => new DistanceToIndex ());
 
     for (int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
-      print("starting iteration %d\n", iteration);
+      print ("starting iteration %d\n", iteration);
 
       // Calculate cluster distances
       for (int i = 0; i < cluster_count; i++) {
         for (int j = i + 1; j < cluster_count; j++) {
-          var point = clusters.index(i);
-          double distance = point.distance(clusters.index(j));
+          var point = clusters.index (i);
+          double distance = point.distance (clusters.index (j));
 
-          distance_to_index_matrix.index(j).index(i).distance = distance;
-          distance_to_index_matrix.index(j).index(i).index = i;
-          distance_to_index_matrix.index(i).index(j).distance = distance;
-          distance_to_index_matrix.index(i).index(j).index = j;
+          distance_to_index_matrix.index (j).index (i).distance = distance;
+          distance_to_index_matrix.index (j).index (i).index = i;
+          distance_to_index_matrix.index (i).index (j).distance = distance;
+          distance_to_index_matrix.index (i).index (j).index = j;
         }
 
-        var row = distance_to_index_matrix.index(i);
-        row.sort(DistanceToIndex.cmp);
+        var row = distance_to_index_matrix.index (i);
+        row.sort (DistanceToIndex.cmp);
 
           for (int j = 0; j < cluster_count; j++) {
-            index_matrix[i, j] = row.index(j).index;
+            index_matrix[i, j] = row.index (j).index;
           }
       }
 
       var color_moved = false;
       for (var i = 0; i < points.length; i++) {
-        var point = points.index(i);
+        var point = points.index (i);
 
-        var previous_cluster_index = cluster_indices.index(i);
-        var previous_cluster = clusters.index(previous_cluster_index);
-        var previous_distance = point.distance(previous_cluster);
+        var previous_cluster_index = cluster_indices.index (i);
+        var previous_cluster = clusters.index (previous_cluster_index);
+        var previous_distance = point.distance (previous_cluster);
         double minimum_distance = previous_distance;
         int new_cluster_index = -1;
 
         for (int j = 0; j < cluster_count; j++) {
-          if (distance_to_index_matrix.index(previous_cluster_index).index(j).distance >= 4 * previous_distance) {
+          if (distance_to_index_matrix.index (previous_cluster_index).index (j).distance >= 4 * previous_distance) {
             continue;
           }
-          double distance = point.distance(clusters.index(j));
+          double distance = point.distance (clusters.index (j));
           if (distance < minimum_distance) {
             minimum_distance = distance;
             new_cluster_index = j;
@@ -151,10 +151,10 @@ public class He.QuantizerWsmeans : Object {
         }
         if (new_cluster_index != -1) {
           double distanceChange =
-            MathUtils.abs(Math.sqrt(minimum_distance) - Math.sqrt(previous_distance));
+            MathUtils.abs (Math.sqrt (minimum_distance) - Math.sqrt (previous_distance));
           if (distanceChange > MIN_MOVEMENT_DISTANCE) {
             color_moved = true;
-            cluster_indices.insert_val(i, new_cluster_index);
+            cluster_indices.insert_val (i, new_cluster_index);
           }
         }
       }
@@ -171,9 +171,9 @@ public class He.QuantizerWsmeans : Object {
       }
 
       for (var i = 0; i < points.length; i++) {
-        int clusterIndex = cluster_indices.index(i);
-        var point = points.index(i);
-        int count = pixel_to_count[pixels.index(i)];
+        int clusterIndex = cluster_indices.index (i);
+        var point = points.index (i);
+        int count = pixel_to_count[pixels.index (i)];
 
         pixel_count_sums[clusterIndex] += count;
         component_a_sums[clusterIndex] += (point.l * count);
@@ -184,19 +184,19 @@ public class He.QuantizerWsmeans : Object {
       for (int i = 0; i < cluster_count; i++) {
         int count = pixel_count_sums[i];
         if (count == 0) {
-          clusters.insert_val(i, {0, 0, 0});
+          clusters.insert_val (i, {0, 0, 0});
           continue;
         }
         double a = component_a_sums[i] / count;
         double b = component_b_sums[i] / count;
         double c = component_c_sums[i] / count;
-        clusters.insert_val(i, {a, b, c});
+        clusters.insert_val (i, {a, b, c});
       }
 
-      print("finished iteration %u\n", iteration);
+      print ("finished iteration %u\n", iteration);
     }
 
-    print("checkpoint neko\n");
+    print ("checkpoint neko\n");
 
     var swatches = new GLib.Array<Swatch> ();
     var cluster_argbs = new GLib.Array<int?> ();
@@ -206,10 +206,10 @@ public class He.QuantizerWsmeans : Object {
       if (count == 0) {
         continue;
       }
-      var possible_new_cluster = Color.lab_to_argb_int (clusters.index(i));
+      var possible_new_cluster = Color.lab_to_argb_int (clusters.index (i));
       int use_new_cluster = 1;
       for (var j = 0; j < swatches.length; j++) {
-        if (swatches.index(j).argb == possible_new_cluster) {
+        if (swatches.index (j).argb == possible_new_cluster) {
           swatches.index (j).population += count;
           use_new_cluster = 0;
           break;
@@ -219,15 +219,15 @@ public class He.QuantizerWsmeans : Object {
       if (use_new_cluster == 0) {
         continue;
       }
-      cluster_argbs.append_val(possible_new_cluster);
-      swatches.append_val(new Swatch(possible_new_cluster, count));
+      cluster_argbs.append_val (possible_new_cluster);
+      swatches.append_val (new Swatch (possible_new_cluster, count));
     }
 
-    swatches.sort(Swatch.cmp);
+    swatches.sort (Swatch.cmp);
 
     var color_to_count = new GLib.HashTable<int?, int?> (int_hash, int_equal);
     for (var i = 0; i < swatches.length; i++) {
-      color_to_count[swatches.index(i).argb] = swatches.index(i).population;
+      color_to_count[swatches.index (i).argb] = swatches.index (i).population;
     }
 
     return color_to_count;

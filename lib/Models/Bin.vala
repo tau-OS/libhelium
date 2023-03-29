@@ -41,19 +41,19 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
     */
     public virtual void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (child is Gtk.Widget) {
-        	box.append ((Gtk.Widget) child);
+          box.append ((Gtk.Widget) child);
         } else {
-        	base.add_child (builder, child, type);
+          base.add_child (builder, child, type);
         }
     }
-    
+
     public Bin () {
     }
-    
+
     construct {
         box.set_parent (this);
     }
-    
+
     static construct {
         set_layout_manager_type (typeof (Gtk.BoxLayout));
     }

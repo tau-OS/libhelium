@@ -52,8 +52,8 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
      */
     public string? description {
         get { return description_label.get_text (); }
-        set { 
-            description_label.set_text (value); 
+        set {
+            description_label.set_text (value);
             description_label.set_visible (value != null);
         }
     }
@@ -98,9 +98,9 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
             children.remove (child);
         }
     }
-    
+
     public ContentList () {
-    	base ();
+        base ();
     }
 
     construct {
@@ -123,7 +123,7 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
         list.set_selection_mode (Gtk.SelectionMode.NONE);
         list.add_css_class ("content-list");
 
-        Timeout.add(1, () => {
+        Timeout.add (1, () => {
             foreach (var child in this.children) {
                 list.append (child);
             }

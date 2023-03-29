@@ -36,7 +36,7 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
             _file = value;
 
             var css_provider = new Gtk.CssProvider ();
-            css_provider.load_from_data (".content-block-image { background-image: url('%s'); background-size: cover; }".printf(_file).data);
+            css_provider.load_from_data (".content-block-image { background-image: url('%s'); background-size: cover; }".printf(            _file).data);
             var context = this.get_style_context ();
             context.add_provider (css_provider, 69);
         }
@@ -71,12 +71,12 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
     }
 
     construct {
-        this.requested_width = -1; 
-        this.requested_height = 300; 
-        this.add_css_class("content-block-image");
+        this.requested_width = -1;
+        this.requested_height = 300;
+        this.add_css_class ("content-block-image");
     }
 
-    public ContentBlockImage(string file) {
+    public ContentBlockImage (string file) {
         base ();
         this.file = file;
     }

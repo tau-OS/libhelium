@@ -46,7 +46,7 @@ public class He.ViewDual : He.View {
     construct {
         box.append (left_box);
         box.append (right_box);
-        
+
         this.add (box);
     }
 }

@@ -36,7 +36,7 @@ public abstract class He.Button : Gtk.Button, Gtk.Buildable {
      */
     public string icon {
         set {
-            set_icon_name(value);
+            set_icon_name (value);
         }
 
         owned get {

@@ -26,16 +26,16 @@ namespace He.Color {
     public RGBColor lab_to_rgb (LABColor color) {
         var xyz_lab = lab_to_xyz (color);
         var result = xyz_to_rgb (xyz_lab);
-    
+
         return result;
     }
 
     public RGBColor lch_to_rgb (LCHColor color) {
         var lab = lch_to_lab (color);
         var rgb = lab_to_rgb (lab);
-    
+
         RGBColor result = rgb;
-    
+
         return result;
     }
 
@@ -45,26 +45,26 @@ namespace He.Color {
           color.green * 255.0,
           color.blue * 255.0,
         };
-    
+
         return result;
     }
 
     public RGBColor from_hex (string color) {
         RGBColor result = {
-          ((uint.parse(color, 16) >> 16) & 0xFF) / 255.0,
-          ((uint.parse(color, 16) >> 8) & 0xFF) / 255.0,
-          ((uint.parse(color, 16)) & 0xFF) / 255.0
+          ((uint.parse (color, 16) >> 16) & 0xFF) / 255.0,
+          ((uint.parse (color, 16) >> 8) & 0xFF) / 255.0,
+          ((uint.parse (color, 16)) & 0xFF) / 255.0
         };
-    
+
         return result;
     }
-    
+
     public RGBColor from_argb_int (int argb) {
-        double r = MathUtils.linearized (red_from_rgba_int(argb));
-        double g = MathUtils.linearized (green_from_rgba_int(argb));
-        double b = MathUtils.linearized (blue_from_rgba_int(argb));
+        double r = MathUtils.linearized (red_from_rgba_int (argb));
+        double g = MathUtils.linearized (green_from_rgba_int (argb));
+        double b = MathUtils.linearized (blue_from_rgba_int (argb));
         var d = MathUtils.elem_mul (new double[] {r, g, b}, SRGB_TO_XYZ);
-    
+
         return xyz_to_rgb ({d[0], d[1], d[2]});
     }
 }

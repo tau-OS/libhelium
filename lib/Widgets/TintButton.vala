@@ -28,8 +28,8 @@ public class He.TintButton : He.Button {
      */
     public override He.Colors color {
         set {
-            if (_color != He.Colors.NONE) this.remove_css_class (_color.to_css_class());
-            if (value != He.Colors.NONE) this.add_css_class (value.to_css_class());
+            if (_color != He.Colors.NONE) this.remove_css_class (_color.to_css_class ());
+            if (value != He.Colors.NONE) this.add_css_class (value.to_css_class ());
 
             _color = value;
         }
@@ -43,7 +43,7 @@ public class He.TintButton : He.Button {
     * Create a new TintButton.
     * @param label The text to display on the button.
     */
-    public TintButton(string label) {
+    public TintButton (string label) {
         this.label = label;
     }
 
@@ -53,10 +53,10 @@ public class He.TintButton : He.Button {
     *
      * @since 1.0
      */
-    public TintButton.from_icon(string icon) {
+    public TintButton.from_icon (string icon) {
         this.icon = icon;
     }
-    
+
     construct {
         this.add_css_class ("tint-button");
     }

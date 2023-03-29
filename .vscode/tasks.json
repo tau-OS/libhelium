@@ -15,6 +15,16 @@
       "group": "test",
       "problemMatcher": [],
       "label": "Meson: Run demo/com.fyralabs.Helium1.Demo"
+    },
+    {
+      "label": "vala-lint: Lint all",
+      "type": "shell",
+      "command": "vala-lint -c vala-lint.conf ."
+    },
+    {
+      "label": "vala-lint: Fix all",
+      "type": "shell",
+      "command": "vala-lint -c vala-lint.conf --fix ."
     }
   ]
 }
