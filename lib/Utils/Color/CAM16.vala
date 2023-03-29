@@ -1,9 +1,9 @@
 namespace He.Color {
     public struct CAM16Color {
-        public double J;
+        public double j;
         public double a;
         public double b;
-        public double C;
+        public double c;
         public double h;
         public double m;
         public double s;
@@ -53,7 +53,7 @@ namespace He.Color {
 
         double ac = p2 * vc.nbb;
 
-        var J = 100.0 * Math.pow (ac / vc.aw, vc.c * vc.z);
+        var j = 100.0 * Math.pow (ac / vc.aw, vc.c * vc.z);
 
         double hue_prime = (h < 20.14) ? h + 360 : h;
         double e_hue = 0.25 * (Math.cos ((hue_prime * (Math.PI / 180)) + 2.0) + 3.8);
@@ -61,15 +61,15 @@ namespace He.Color {
         double t = p1 * Math.hypot (a, b) / (u + 0.305);
         double alpha = Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73) * Math.pow (t, 0.9);
         // CAM16 chroma, colorfulness, saturation
-        double C = alpha * Math.sqrt (J / 100.0);
-        double m = C * vc.fl_root;
+        double c = alpha * Math.sqrt (j / 100.0);
+        double m = c * vc.fl_root;
         double s = 50.0 * Math.sqrt ((alpha * vc.c) / (vc.aw + 4.0));
 
         CAM16Color result = {
-            J,
+            j,
             a,
             b,
-            C,
+            c,
             h,
             m,
             s
@@ -82,12 +82,12 @@ namespace He.Color {
         int red = (argb & 0x00ff0000) >> 16;
         int green = (argb & 0x0000ff00) >> 8;
         int blue = (argb & 0x000000ff);
-        double redL = He.MathUtils.linearized (red);
-        double greenL = He.MathUtils.linearized (green);
-        double blueL = He.MathUtils.linearized (blue);
-        double x = 0.41233895 * redL + 0.35762064 * greenL + 0.18051042 * blueL;
-        double y = 0.2126 * redL + 0.7152 * greenL + 0.0722 * blueL;
-        double z = 0.01932141 * redL + 0.11916382 * greenL + 0.95034478 * blueL;
+        double red_l = He.MathUtils.linearized (red);
+        double green_l = He.MathUtils.linearized (green);
+        double blue_l = He.MathUtils.linearized (blue);
+        double x = 0.41233895 * red_l + 0.35762064 * green_l + 0.18051042 * blue_l;
+        double y = 0.2126 * red_l + 0.7152 * green_l + 0.0722 * blue_l;
+        double z = 0.01932141 * red_l + 0.11916382 * green_l + 0.95034478 * blue_l;
 
         XYZColor result = {
             x,

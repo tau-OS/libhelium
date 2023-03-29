@@ -175,7 +175,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
             {},
             {"Lains", "Lea"},
             2022,
-            He.AboutWindow.Licenses.GPLv3,
+            He.AboutWindow.Licenses.GPLV3,
             He.Colors.NONE
         );
         about.present ();

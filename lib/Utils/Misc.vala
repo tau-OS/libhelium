@@ -98,11 +98,11 @@ namespace He.Misc {
   }
 
   private double[] test (double[] low, double[] high, double target) {
-    var EPS = 1e-7;
+    var eps = 1e-7;
     var mid = interpolate (low[0], low[1], low[2], high[0], high[1], high[2]);
     var lm = get_luminance (mid[0], mid[1], mid[2]);
 
-    if (MathUtils.abs (target - lm) < EPS) {
+    if (MathUtils.abs (target - lm) < eps) {
       // close enough
       return mid;
     }

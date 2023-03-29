@@ -54,11 +54,11 @@ public class He.AboutWindow : He.Window {
   * An enum of commonly used licenses to be used in AboutWindow.
   */
   public enum Licenses {
-    GPLv3,
+    GPLV3,
     MIT,
-    MPLv2,
+    MPLV2,
     UNLICENSE,
-    APACHEv2,
+    APACHEV2,
     WTFPL,
     PROPRIETARY;
 
@@ -67,15 +67,15 @@ public class He.AboutWindow : He.Window {
     */
     public string get_url () {
       switch (this) {
-        case Licenses.GPLv3:
+        case Licenses.GPLV3:
           return "https://choosealicense.com/licenses/gpl-3.0";
         case Licenses.MIT:
           return "https://choosealicense.com/licenses/mit";
-        case Licenses.MPLv2:
+        case Licenses.MPLV2:
           return "https://choosealicense.com/licenses/mpl-2.0";
         case Licenses.UNLICENSE:
           return "https://choosealicense.com/licenses/unlicense";
-        case Licenses.APACHEv2:
+        case Licenses.APACHEV2:
           return "https://choosealicense.com/licenses/apache-2.0";
         case Licenses.WTFPL:
           return "https://choosealicense.com/licenses/wtfpl";
@@ -91,15 +91,15 @@ public class He.AboutWindow : He.Window {
     */
     public string get_name () {
       switch (this) {
-        case Licenses.GPLv3:
+        case Licenses.GPLV3:
           return "GPLv3";
         case Licenses.MIT:
           return "MIT";
-        case Licenses.MPLv2:
+        case Licenses.MPLV2:
           return "MPLv2";
         case Licenses.UNLICENSE:
           return "Unlicense";
-        case Licenses.APACHEv2:
+        case Licenses.APACHEV2:
           return "Apache License v2";
         case Licenses.WTFPL:
           return "WTFPL";

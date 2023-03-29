@@ -12,7 +12,7 @@ namespace He.Color {
     public int find_result_by_j (double hr, double c, double y) {
         // Initial estimate of j.
         double j = Math.sqrt (y) * 11.0;
-        He.ViewingConditions vc = He.ViewingConditions.DEFAULT;
+        He.ViewingConditions vc = He.ViewingConditions.default_conditions;
         double tr = 1 / Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73);
         double e_hue = 0.25 * (Math.cos (hr + 2.0) + 3.8);
         double p1 = e_hue * (5e4 / 13.0) * vc.nc * vc.ncb;

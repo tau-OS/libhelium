@@ -47,13 +47,13 @@ namespace He.Color {
 
     public XYZColor cam16_to_xyz (CAM16Color color) {
         ViewingConditions vc = ViewingConditions.with_lstar (LSTAR);
-        double alpha = (color.C == 0.0 || color.J == 0.0) ? 0.0 : color.C / Math.sqrt (color.J / 100.0);
+        double alpha = (color.c == 0.0 || color.j == 0.0) ? 0.0 : color.c / Math.sqrt (color.j / 100.0);
 
         double t = Math.pow (alpha / Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73), 1.0 / 0.9);
         double h_in_radians = color.h * Math.PI / 180;
 
         double e_hue = 0.25 * (Math.cos (h_in_radians + 2.0) + 3.8);
-        double ac = vc.aw * Math.pow (color.J / 100.0, 1.0 / vc.c / vc.z);
+        double ac = vc.aw * Math.pow (color.j / 100.0, 1.0 / vc.c / vc.z);
         double p1 = e_hue * (50000.0 / 13.0) * vc.nc * vc.ncb;
         double p2 = (ac / vc.nbb);
 

@@ -59,7 +59,7 @@ namespace He {
         colors.add (new AnnotatedColor () {
           argb = argbs[i],
           cam_hue = cam.h,
-          cam_chroma = cam.C,
+          cam_chroma = cam.c,
           excited_proportion = 0,
           score = -1
         });

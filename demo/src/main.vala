@@ -18,7 +18,7 @@
 *
 */
 public class Demo.Application : He.Application {
-    private const GLib.ActionEntry app_entries[] = {
+    private const GLib.ActionEntry APP_ENTRIES[] = {
         { "quit", quit },
     };
 
@@ -36,7 +36,7 @@ public class Demo.Application : He.Application {
 
         Bis.init ();
 
-        add_action_entries (app_entries, this);
+        add_action_entries (APP_ENTRIES, this);
     }
     protected override void activate () {
         var win = new MainWindow (this);

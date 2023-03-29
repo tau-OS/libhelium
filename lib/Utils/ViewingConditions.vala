@@ -2,7 +2,7 @@
 // Copyright (c) 2021 Google LLC
 
 public class He.ViewingConditions : Object {
-    public static ViewingConditions DEFAULT = ViewingConditions.with_lstar (Color.LSTAR);
+    public static ViewingConditions default_conditions = ViewingConditions.with_lstar (Color.LSTAR);
     public double[] rgb_d = {};
 
     private double _aw;

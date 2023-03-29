@@ -15,7 +15,7 @@ namespace He.Color {
     }
 
     public int lab_to_argb_int (LABColor lab) {
-        double[] white_point = {Xn, Yn, Zn};
+        double[] white_point = {XN, YN, ZN};
         var fy = (lab.l + 16.0) / 116.0;
         var fx = lab.a / 500.0 + fy;
         var fz = fy - lab.b / 200.0;

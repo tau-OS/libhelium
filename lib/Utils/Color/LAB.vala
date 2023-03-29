@@ -3,15 +3,15 @@ namespace He.Color {
     * Miscellaneous constants for the Lab colorspace
     */
     // Corresponds roughly to RGB brighter/darker
-    public const double Kn = 16.0;
+    public const double KN = 16.0;
     // D65 standard referent
-    public const double Xn = 0.95047;
-    public const double Yn = 1.00000;
-    public const double Zn = 1.08883;
-    public const double t0 = 0.137931034;  // 4 / 29
-    public const double t1 = 0.206896552;  // 6 / 29
-    public const double t2 = 0.128418549;  // 3  * t1 * t1
-    public const double t3 = 0.008856452;  // t1 * t1 * t1
+    public const double XN = 0.95047;
+    public const double YN = 1.00000;
+    public const double ZN = 1.08883;
+    public const double T0 = 0.137931034;  // 4 / 29
+    public const double T1 = 0.206896552;  // 6 / 29
+    public const double T2 = 0.128418549;  // 3  * t1 * t1
+    public const double T3 = 0.008856452;  // t1 * t1 * t1
 
     public struct LABColor {
         public double l;
@@ -27,8 +27,8 @@ namespace He.Color {
     }
 
     public double xyz_value_to_lab (double v) {
-        if (v > He.Color.t3) return Math.pow (v, 1d / 3d);
-        return v / He.Color.t2 + He.Color.t0;
+        if (v > He.Color.T3) return Math.pow (v, 1d / 3d);
+        return v / He.Color.T2 + He.Color.T0;
     }
 
     public LABColor xyz_to_lab (XYZColor color) {
@@ -74,7 +74,7 @@ namespace He.Color {
         var linear_g = MathUtils.linearized (green_from_rgba_int (argb));
         var linear_b = MathUtils.linearized (blue_from_rgba_int (argb));
         var xyz = MathUtils.elem_mul (new double[] {linear_r, linear_g, linear_b}, SRGB_TO_XYZ);
-        double[] d65 = {Xn, Yn, Zn};
+        double[] d65 = {XN, YN, ZN};
         var xn = xyz[0] / d65[0];
         var yn = xyz[1] / d65[1];
         var zn = xyz[2] / d65[2];
