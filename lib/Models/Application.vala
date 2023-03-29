@@ -144,10 +144,10 @@ public class He.Application : Gtk.Application {
       chosen_scheme = new He.Schemes.Default (cam16_color, desktop);
     }
 
-    var error_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#ffb4ab" : "#ba1a1a";
-    var on_error_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#690005" : "#ffffff";
-    var error_container_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#93000a" : "#ffdad6";
-    var on_error_container_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#ffdad6" : "#410002";
+    var error_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#F2B8B5" : "#B3261E";
+    var on_error_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#601410" : "#FFFFFF";
+    var error_container_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#8C1D18" : "#F9DEDC";
+    var on_error_container_hex = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ? "#F9DEDC" : "#410E0B";
 
     // HCT Color blendin'
     var meson_red_hct = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme ?
@@ -227,9 +227,9 @@ public class He.Application : Gtk.Application {
       @define-color destructive_fg_color $on_error_hex;
       @define-color destructive_color $error_hex;
 
-      @define-color destructive_container_color $(chosen_scheme.on_error_container_hex);
-      @define-color destructive_container_bg_color $(chosen_scheme.error_container_hex);
-      @define-color destructive_container_fg_color $(chosen_scheme.on_error_container_hex);
+      @define-color destructive_container_color $on_error_container_hex;
+      @define-color destructive_container_bg_color $error_container_hex;
+      @define-color destructive_container_fg_color $on_error_container_hex;
 
       @define-color suggested_bg_color $(chosen_scheme.secondary_hex);
       @define-color suggested_fg_color $(chosen_scheme.on_secondary_hex);
@@ -414,8 +414,6 @@ public class He.Application : Gtk.Application {
     } else {
       double light_weight = (300 * desktop.font_weight);
       double heavy_weight = (700 * desktop.font_weight);
-
-      print ("NORMAL: %f\nLIGHT: %f\nHEAVY: %f", weight, light_weight, heavy_weight);
 
       css += @"
       label {

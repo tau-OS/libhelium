@@ -84,17 +84,6 @@ public class He.Scheme : Object {
         get { return _on_error_hex; }
         set { _on_error_hex = value; }
     }
-    private string _error_container_hex = "";
-    public string error_container_hex {
-        get { return _error_container_hex; }
-        set { _error_container_hex = value; }
-    }
-    private string _on_error_container_hex = "";
-    public string on_error_container_hex {
-        get { return _on_error_container_hex; }
-        set { _on_error_container_hex = value; }
-    }
-
     private string _secondary_hex = "";
     public string secondary_hex {
         get { return _secondary_hex; }
