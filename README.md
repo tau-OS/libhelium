@@ -2,7 +2,7 @@
 
 # libhelium
 
-The elegant framework for building beautiful and useful apps. Built on GTK, libhelium is suited for building amazing native applications, regardless of design background or skill level.
+The elegant framework for building beautiful and useful apps. libhelium is suited for building amazing native applications, regardless of design background or skill level.
 
 ###
 
