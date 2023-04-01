@@ -61,10 +61,12 @@ sudo ninja install
 
 ## 🖼️ Showcase
 
-![Abacus](showcase/abacus.png)
+<img src="showcase/abacus.png" alt="Abacus" width="50%">
+
 [Abacus](https://github.com/tau-OS/abacus)
 
-![Nixie](showcase/nixie.png)
+<img src="showcase/nixie.png" alt="Nixie" width="50%">
+
 [Nixie](https://github.com/tau-OS/nixie)
 
 Made an application in libhelium? Make a pull request and add it to our showcase!
