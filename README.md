@@ -25,12 +25,6 @@ Welcome! Please see the various resources below. If you have any questions, our 
 > **Note**
 > libhelium's documentation is a bit sparse right now, if you'd like to help us, please see [#23](https://github.com/tau-OS/libhelium/issues/23).
 
-## 🖼️ Showcase
-
-<!-- List of apps using libhelium in the wild -->
-
-Made an application in libhelium? Make a pull request and add it to our showcase!
-
 ## 🛠️ Dependencies
 
 Please make sure you have these dependencies first before building.
@@ -64,3 +58,13 @@ Simply clone this repo, then:
 meson _build --prefix=/usr && cd _build
 sudo ninja install
 ```
+
+## 🖼️ Showcase
+
+![Abacus](showcase/abacus.png)
+[Abacus](https://github.com/tau-OS/abacus)
+
+![Nixie](showcase/nixie.png)
+[Nixie](https://github.com/tau-OS/nixie)
+
+Made an application in libhelium? Make a pull request and add it to our showcase!
