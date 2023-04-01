@@ -59,7 +59,7 @@ meson _build --prefix=/usr && cd _build
 sudo ninja install
 ```
 
-## 🖼️ Showcase
+<!-- ## 🖼️ Showcase
 
 <img src="showcase/abacus.png" alt="Abacus" width="50%">
 
@@ -69,4 +69,4 @@ sudo ninja install
 
 [Nixie](https://github.com/tau-OS/nixie)
 
-Made an application in libhelium? Make a pull request and add it to our showcase!
+Made an application in libhelium? Make a pull request and add it to our showcase! -->
