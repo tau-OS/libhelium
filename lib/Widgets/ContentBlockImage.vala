@@ -78,6 +78,11 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
         this.add_css_class ("content-block-image");
     }
 
+    /**
+     * Creates a new ContentBlockImage.
+     *
+     * @param file The file path of the image.
+     */
     public ContentBlockImage (string file) {
         base ();
         this.file = file;

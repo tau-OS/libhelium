@@ -81,6 +81,9 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
         }
     }
 
+    /**
+     * Sets the icon of the content block, as a GLib.Icon.
+     */
     public GLib.Icon gicon {
         set {
             if (value == null) {

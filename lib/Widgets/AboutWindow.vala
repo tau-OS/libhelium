@@ -223,9 +223,9 @@ public class He.AboutWindow : He.Window {
     }
   }
 
-  public string? _translate_url;
-  public string? _issue_url;
-  public string? _more_info_url;
+  private string? _translate_url;
+  private string? _issue_url;
+  private string? _more_info_url;
 
   /**
   * Your application's reverse-domain name.
@@ -364,8 +364,8 @@ public class He.AboutWindow : He.Window {
   * @param license Your application's license.
   * @param color The color of the AboutWindow.
   *
-     * @since 1.0
-     */
+  * @since 1.0
+  */
   public AboutWindow (
     Gtk.Window parent,
     string app_name,

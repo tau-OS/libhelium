@@ -38,6 +38,9 @@ public class He.ViewSubTitle : He.Bin, Gtk.Buildable {
         }
     }
 
+    /**
+     * Creates a new ViewSubTitle.
+     */
     public ViewSubTitle () {
         base ();
     }

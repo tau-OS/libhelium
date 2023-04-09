@@ -47,6 +47,9 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
         }
     }
 
+    /**
+    * Create a new Bin.
+    */
     public Bin () {
     }
 

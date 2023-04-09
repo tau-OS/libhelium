@@ -86,6 +86,9 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
         }
     }
 
+    /**
+    * Sets the icon of the settings row as a GLib.Icon.
+    */
     public GLib.Icon gicon {
         set {
             if (value == null) {
@@ -97,6 +100,9 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
         }
     }
 
+    /**
+    * Sets the icon of the settings row as a Gdk.Paintable.
+    */
     public Gdk.Paintable paintable {
         set {
             if (value == null) {

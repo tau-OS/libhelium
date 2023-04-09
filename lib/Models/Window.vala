@@ -25,10 +25,10 @@
 public class He.Window : Gtk.Window {
     private new He.AppBar title = new He.AppBar ();
 
+    private new Gtk.Window? _parent;
     /**
      * The parent window of this window. If this is null, then this is a top-level window.
      */
-    private new Gtk.Window? _parent;
     public new Gtk.Window? parent {
         get {
             return this.get_transient_for ();
@@ -39,10 +39,10 @@ public class He.Window : Gtk.Window {
         }
     }
 
+    private new bool _modal;
     /**
      * If this is a modal window.
      */
-    private new bool _modal;
     public new bool modal {
         get {
             return this.get_modal ();
@@ -53,10 +53,10 @@ public class He.Window : Gtk.Window {
         }
     }
 
+    private bool _has_title;
     /**
      * If the window has a title bar.
      */
-    private bool _has_title;
     public bool has_title {
         get {
             return _has_title;
@@ -73,12 +73,12 @@ public class He.Window : Gtk.Window {
         }
     }
 
+    private new bool _has_back_button;
     /**
      * If the window has a back button.
      *
      * @since 1.0
      */
-    private new bool _has_back_button;
     public new bool has_back_button {
         get {
             return has_back_button;

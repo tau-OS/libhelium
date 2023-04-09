@@ -28,7 +28,7 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
     private He.Button _primary_button;
     private Gtk.Box btn_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 
-    /** 
+    /**
      * Sets the title of the content block.
      */
      public string title {
@@ -45,7 +45,7 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
         }
     }
 
-    /** 
+    /**
      * Sets the subtitle of the content block.
      */
     public string subtitle {
@@ -62,7 +62,7 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
         }
     }
 
-    /** 
+    /**
      * Sets the icon of the content block.
      */
     public string icon {
@@ -80,6 +80,9 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
         }
     }
 
+    /**
+     * Sets the icon of the content block as a GLib.Icon.
+     */
     public GLib.Icon gicon {
         set {
             if (value == null) {
@@ -91,6 +94,9 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
         }
     }
 
+    /**
+     * Sets the icon of the content block as a Gdk.Paintable.
+     */
     public Gdk.Paintable paintable {
         set {
             if (value == null) {

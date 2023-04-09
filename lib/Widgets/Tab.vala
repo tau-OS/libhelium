@@ -82,6 +82,9 @@
     }
 
     private bool _pinnable = true;
+    /**
+     * Whether a Tab can be pinned or not
+     */
     public bool can_pin {
         get { return _pinnable; }
         set {
@@ -94,6 +97,9 @@
     }
 
     private bool _closable = true;
+    /**
+     * Whether a Tab can be closed or not
+     */
     public bool can_close {
         get { return _closable; }
         set {
@@ -107,7 +113,7 @@
 
     /**
      * The TabPage to hold children, to appear when this tab is active
-     **/
+     */
     public Gtk.Widget page {
         get {
             return page_container.get_first_child ();

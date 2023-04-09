@@ -123,24 +123,24 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
     return child_button;
   }
 
+  private bool _collapse_actions;
   /**
    * Whether to collapse actions into a menu.
    */
-  private bool _collapse_actions;
-  public bool collapse_actions {
-    get { return _collapse_actions; }
-    set {
-      // TODO: Refactor this thing
-      _collapse_actions = value;
+   public bool collapse_actions {
+     get { return _collapse_actions; }
+     set {
+       // TODO: Refactor this thing
+       _collapse_actions = value;
 
-      if (_collapse_actions) {
-        this.box.remove (left_box);
-        this.box.prepend (left_fmenu_box);
+       if (_collapse_actions) {
+         this.box.remove (left_box);
+         this.box.prepend (left_fmenu_box);
 
-        this.box.remove (right_box);
-        this.box.append (right_fmenu_box);
-      } else {
-        this.box.remove (left_fmenu_box);
+         this.box.remove (right_box);
+         this.box.append (right_fmenu_box);
+        } else {
+          this.box.remove (left_fmenu_box);
         this.box.prepend (left_box);
 
         this.box.remove (right_fmenu_box);

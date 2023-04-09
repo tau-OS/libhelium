@@ -305,8 +305,8 @@ public class He.AppBar : He.Bin {
     * Remove a child from the AppBar.
     * @param child The child to remove.
     *
-     * @since 1.0
-     */
+    * @since 1.0
+    */
     public void remove (Gtk.Widget child) {
         btn_box.remove (child);
     }
@@ -323,6 +323,9 @@ public class He.AppBar : He.Bin {
         win_box.prepend (title);
     }
 
+    /**
+    * Creates a new AppBar.
+    */
     public AppBar () {
         base ();
     }

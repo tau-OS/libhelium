@@ -554,6 +554,12 @@ public class He.Application : Gtk.Application {
     init_style_providers ();
   }
 
+  /**
+   * Creates a new application.
+   *
+   * @param application_id The application ID in reverse domain name notation
+   * @param flags The application flags, as defined in GIO.ApplicationFlags
+   */
   public Application (string? application_id, ApplicationFlags flags) {
     this.application_id = application_id;
     this.flags = flags;

@@ -80,6 +80,9 @@
         }
     }
 
+    /**
+     * Creates a new NavigationRail.
+     */
     public NavigationRail () {
         base ();
     }

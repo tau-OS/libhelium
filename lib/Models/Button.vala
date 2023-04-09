@@ -20,8 +20,8 @@
 /**
  * A helper class to derive Buttons from.
  *
-     * @since 1.0
-     */
+ * @since 1.0
+ */
 public abstract class He.Button : Gtk.Button, Gtk.Buildable {
 
     /**

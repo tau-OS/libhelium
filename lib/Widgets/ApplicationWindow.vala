@@ -25,8 +25,8 @@ public class He.ApplicationWindow : Gtk.ApplicationWindow {
     * Creates a new ApplicationWindow.
     * @param app The application associated with this window.
     *
-     * @since 1.0
-     */
+    * @since 1.0
+    */
     public ApplicationWindow (He.Application app) {
         Object (application: app);
 
@@ -47,6 +47,9 @@ public class He.ApplicationWindow : Gtk.ApplicationWindow {
     private new He.AppBar title = new He.AppBar ();
 
     private new bool _modal;
+    /**
+    * Whether this window is a modal window.
+    */
     public new bool modal {
         get {
             return modal;
@@ -58,6 +61,9 @@ public class He.ApplicationWindow : Gtk.ApplicationWindow {
     }
 
     private bool _has_title;
+    /**
+    * Whether this window should display a title.
+    */
     public bool has_title {
         get {
             return _has_title;
@@ -75,6 +81,9 @@ public class He.ApplicationWindow : Gtk.ApplicationWindow {
     }
 
     private new bool _has_back_button;
+    /**
+    * Whether this window should display a back button.
+    */
     public new bool has_back_button {
         get {
             return has_back_button;

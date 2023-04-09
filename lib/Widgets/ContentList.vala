@@ -99,6 +99,9 @@ public class He.ContentList : He.Bin, Gtk.Buildable {
         }
     }
 
+    /**
+     * Creates a new ContentList.
+     */
     public ContentList () {
         base ();
     }

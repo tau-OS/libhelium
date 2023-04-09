@@ -66,6 +66,12 @@ public class He.TimePicker : Gtk.Entry {
     private Gtk.ToggleButton am_togglebutton;
     private Gtk.ToggleButton pm_togglebutton;
 
+    /**
+    * Creates a new TimePicker widget with the given format strings.
+    *
+    * @param format_12 The string format of how to display the time when in 12h mode.
+    * @param format_24 The string format of how to display the time when in 24h mode.
+    */
     public TimePicker.with_format (string format_12, string format_24) {
         Object (format_12: format_12, format_24: format_24);
     }

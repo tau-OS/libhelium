@@ -40,6 +40,9 @@ public class He.Badge : He.Bin {
         }
     }
 
+    /**
+    * Text to display in the badge.
+    */
     public string? label {
         get {
             return _label?.get_text ();
@@ -69,6 +72,9 @@ public class He.Badge : He.Bin {
         }
     }
 
+    /**
+    * Creates a new badge.
+    */
     public Badge () {
         base ();
     }

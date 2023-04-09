@@ -73,6 +73,9 @@ public class He.ContentBlockImageCluster : He.Bin {
     TOP_RIGHT,
     BOTTOM_RIGHT;
 
+    /**
+    * Gets the column of the position.
+    */
     public int get_column () {
       switch (this) {
         case ImagePosition.TOP_LEFT:
@@ -85,6 +88,9 @@ public class He.ContentBlockImageCluster : He.Bin {
       return 0;
     }
 
+    /**
+    * Gets the row of the position.
+    */
     public int get_row () {
       switch (this) {
         case ImagePosition.TOP_LEFT:
@@ -98,7 +104,7 @@ public class He.ContentBlockImageCluster : He.Bin {
     }
   }
 
-  /** 
+  /**
   * Sets an image to be displayed in the cluster.
   * @param image The image to display.
   * @param position The position of the image in the cluster.
@@ -118,6 +124,13 @@ public class He.ContentBlockImageCluster : He.Bin {
     this.grid.remove (image);
   }
 
+  /**
+  * Creates a new ContentBlockImageCluster.
+  *
+  * @param title The title of the cluster.
+  * @param subtitle The subtitle of the cluster.
+  * @param icon The icon of the cluster.
+  */
   public ContentBlockImageCluster (string title, string subtitle, string icon) {
     base ();
     this.title = title;
@@ -129,8 +142,8 @@ public class He.ContentBlockImageCluster : He.Bin {
   * Adds an image child to the cluster. The image will be displayed in the cluster in the position specified by the position type.
   * Should only be used in UI or Blueprint files.
   *
-     * @since 1.0
-     */
+  * @since 1.0
+  */
   public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
     switch (type) {
       case "top_left":

@@ -83,6 +83,9 @@ public class He.SettingsList : He.Bin, Gtk.Buildable {
         children.remove (child);
     }
 
+    /**
+    * Creates a new SettingsList.
+    */
     public SettingsList () {
         base ();
     }

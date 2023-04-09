@@ -52,6 +52,9 @@
         }
     }
 
+    /**
+     * Creates a new ViewChooser.
+     */
     public ViewChooser () {
         base ();
     }

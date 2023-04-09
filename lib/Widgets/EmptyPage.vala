@@ -108,6 +108,9 @@ public class He.EmptyPage : He.Bin {
         }
     }
 
+    /**
+     * Creates a new EmptyPage.
+     */
     public EmptyPage () {
         base ();
     }

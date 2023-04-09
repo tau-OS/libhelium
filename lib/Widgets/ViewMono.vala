@@ -21,8 +21,8 @@
 /**
  * A ViewMono is a view that is a single-column layout.
  *
-     * @since 1.0
-     */
+ * @since 1.0
+ */
 public class He.ViewMono : He.View {
     construct {
     }

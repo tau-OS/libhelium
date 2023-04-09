@@ -47,6 +47,9 @@
     }
     GLib.List<Tab> _tabs;
 
+    /**
+     * How the tab bar should behave
+     */
     public enum TabBarBehavior {
         ALWAYS = 0,
         SINGLE = 1,

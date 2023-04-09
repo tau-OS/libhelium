@@ -67,6 +67,9 @@
         }
     }
 
+    /**
+     * Creates a new ChipGroup.
+     */
     public ChipGroup () {
         base ();
     }
