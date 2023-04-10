@@ -271,7 +271,7 @@ namespace He.Misc {
   /**
    * Pango markup to use for secondary text in a {@link Gtk.Tooltip}, such as for accelerators, extended descriptions, etc.
    */
-  public const string TOOLTIP_SECONDARY_TEXT_MARKUP = """<span weight="600" size="12px" alpha="66%">%s</span>""";
+  private const string TOOLTIP_SECONDARY_TEXT_MARKUP = """<span weight="600" size="12px" alpha="66%">%s</span>""";
 
   /**
    * Takes a description and an array of accels and returns {@link Pango} markup for use in a {@link Gtk.Tooltip}. This method uses {@link Granite.accel_to_string}.
