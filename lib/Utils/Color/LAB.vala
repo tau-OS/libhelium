@@ -3,15 +3,15 @@ namespace He.Color {
     * Miscellaneous constants for the Lab colorspace
     */
     // Corresponds roughly to RGB brighter/darker
-    public const double KN = 16.0;
+    private const double KN = 16.0;
     // D65 standard referent
-    public const double XN = 0.95047;
-    public const double YN = 1.00000;
-    public const double ZN = 1.08883;
-    public const double T0 = 0.137931034;  // 4 / 29
-    public const double T1 = 0.206896552;  // 6 / 29
-    public const double T2 = 0.128418549;  // 3  * t1 * t1
-    public const double T3 = 0.008856452;  // t1 * t1 * t1
+    private const double XN = 0.95047;
+    private const double YN = 1.00000;
+    private const double ZN = 1.08883;
+    private const double T0 = 0.137931034;  // 4 / 29
+    private const double T1 = 0.206896552;  // 6 / 29
+    private const double T2 = 0.128418549;  // 3  * t1 * t1
+    private const double T3 = 0.008856452;  // t1 * t1 * t1
 
     public struct LABColor {
         public double l;

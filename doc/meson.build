@@ -15,7 +15,7 @@ target = custom_target(
         '--pkg=gtk4',
         '--pkg=posix', libhelium_sources,
         '--target-glib=' + glib_min_version,
-        '--package-name=' + meson.project_name(),
+        '--package-name=libhelium-1',
         '--package-version=' + meson.project_version(),
         '--verbose',
         '--force',

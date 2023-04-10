@@ -5,13 +5,13 @@ namespace He.Color {
         public double z;
     }
 
-    public const double[,] CAM16RGB_TO_XYZ = {
+    private const double[,] CAM16RGB_TO_XYZ = {
         {1.862067800, -1.01125470, 0.14918678},
         {0.387526540, 0.62144744, -0.00897398},
         {-0.01584150, -0.03412294, 1.04996440}
     };
 
-    public const double[,] RGB_TO_XYZ = {
+    private const double[,] RGB_TO_XYZ = {
         {0.4124564, 0.3575761, 0.1804375},
         {0.2126729, 0.7151522, 0.0721750},
         {0.0193339, 0.1191920, 0.9503041}

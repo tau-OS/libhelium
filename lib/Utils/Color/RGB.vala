@@ -5,7 +5,7 @@ namespace He.Color {
         public double b;
     }
 
-    public const double[,] XYZ_TO_SRGB = {
+    private const double[,] XYZ_TO_SRGB = {
         {3.2406, -1.5372, -0.4986},
         {-0.9689, 1.8758, 0.0415},
         {0.0557, -0.2040, 1.0570}

@@ -1,5 +1,5 @@
 namespace He.MathUtils {
-    public const double[,] SCALED_DISCOUNT_FROM_LINRGB = {
+    private const double[,] SCALED_DISCOUNT_FROM_LINRGB = {
         {
             0.001200833568784504, 0.002389694492170889, 0.0002795742885861124,
         },
@@ -10,7 +10,7 @@ namespace He.MathUtils {
             0.00010146692491640572, 0.0005364214359186694, 0.0032979401770712076,
         },
     };
-    public const double[,] LINRGB_FROM_SCALED_DISCOUNT = {
+    private const double[,] LINRGB_FROM_SCALED_DISCOUNT = {
         {
             1373.2198709594231, -1100.4251190754821, -7.278681089101213,
         },
