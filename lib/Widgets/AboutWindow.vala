@@ -111,7 +111,7 @@ public class He.AboutWindow : He.Window {
     }
   }
 
-  private He.Colors _color;
+  private He.Colors _color = Colors.PURPLE;
 
   /**
   * The theme color of the AboutWindow.
@@ -132,7 +132,7 @@ public class He.AboutWindow : He.Window {
   }
 
 
-  private Licenses _license;
+  private Licenses _license = Licenses.GPLV3;
   /**
   * The license shown in the AboutWindow.
   */
@@ -169,7 +169,7 @@ public class He.AboutWindow : He.Window {
     set { icon_image.set_from_icon_name (value); }
   }
 
-  private string[] translators;
+  private string[] translators = {};
   /**
   * The translators shown in the AboutWindow.
   */
@@ -187,7 +187,7 @@ public class He.AboutWindow : He.Window {
     }
   }
 
-  private string[] developers;
+  private string[] developers = {};
   /**
   * The developers shown in the AboutWindow.
   */
@@ -230,7 +230,7 @@ public class He.AboutWindow : He.Window {
   /**
   * Your application's reverse-domain name.
   */
-  public string app_id { get; set; }
+  public string app_id { get; set; default = ""; }
   /**
   * A URL where contributors can help translate the application.
   */
@@ -350,49 +350,8 @@ public class He.AboutWindow : He.Window {
 
   /**
   * Creates a new AboutWindow.
-  * @param parent The parent window.
-  * @param app_name Your application's name.
-  * @param app_id Your application's reverse-domain name.
-  * @param version Your application's version.
-  * @param icon Your application's icon.
-  * @param translate_url A URL where contributors can help translate the application.
-  * @param issue_url A URL where users can report a problem with the application.
-  * @param more_info_url A URL where users can get more information about the application.
-  * @param translators Your application's translators.
-  * @param developers Your application's developers.
-  * @param copyright_year Your application's copyright year.
-  * @param license Your application's license.
-  * @param color The color of the AboutWindow.
   *
   * @since 1.0
   */
-  public AboutWindow (
-    Gtk.Window parent,
-    string app_name,
-    string app_id,
-    string version,
-    string icon,
-    string? translate_url,
-    string? issue_url,
-    string? more_info_url,
-    string[] translators,
-    string[] developers,
-    int copyright_year,
-    Licenses license,
-    He.Colors color
-  ) {
-    this.parent = parent;
-    this.app_name = app_name;
-    this.app_id = app_id;
-    this.version = version;
-    this.icon = icon;
-    this.translate_url = translate_url;
-    this.issue_url = issue_url;
-    this.more_info_url = more_info_url;
-    this.translator_names = translators;
-    this.developer_names = developers;
-    this.copyright_year = copyright_year;
-    this.license = license;
-    this.color = color;
-  }
+  public AboutWindow () {}
 }
