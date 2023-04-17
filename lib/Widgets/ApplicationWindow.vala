@@ -56,7 +56,7 @@ public class He.ApplicationWindow : Gtk.ApplicationWindow {
         }
         set {
             _modal = value;
-            set_modal (value);
+            set_modal (_modal);
         }
     }
 
