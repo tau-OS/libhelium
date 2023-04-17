@@ -49,7 +49,7 @@ public class He.Window : Gtk.Window {
         }
         set {
             _modal = value;
-            set_modal (value);
+            set_modal (_modal);
         }
     }
 
