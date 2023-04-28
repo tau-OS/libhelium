@@ -46,20 +46,6 @@ public class He.ApplicationWindow : Gtk.ApplicationWindow {
 
     private new He.AppBar title = new He.AppBar ();
 
-    private new bool _modal;
-    /**
-    * Whether this window is a modal window.
-    */
-    public new bool modal {
-        get {
-            return modal;
-        }
-        set {
-            _modal = value;
-            set_modal (_modal);
-        }
-    }
-
     private bool _has_title;
     /**
     * Whether this window should display a title.

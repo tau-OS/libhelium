@@ -35,21 +35,8 @@ public class He.Window : Gtk.Window {
         }
         set {
             _parent = value;
+            set_modal(value != null);
             set_transient_for (value);
-        }
-    }
-
-    private new bool _modal;
-    /**
-     * If this is a modal window.
-     */
-    public new bool modal {
-        get {
-            return this.get_modal ();
-        }
-        set {
-            _modal = value;
-            set_modal (_modal);
         }
     }
 
