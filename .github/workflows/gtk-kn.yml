@@ -8,15 +8,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Update apt cache
         run: sudo apt-get update --yes
       - name: Install dependencies
-        run: sudo apt-get install --yes openjdk-17-jdk python3-pip gcc-multilib libgirepository1.0-dev libadwaita-1-dev npm meson libgee-0.8-dev valac valadoc
+        run: sudo apt-get install --yes openjdk-17-jdk python3-pip gcc-multilib libgirepository1.0-dev libadwaita-1-dev meson libgee-0.8-dev valac valadoc
+      - uses: actions/setup-node@v3
       - name: Install sass from NPM
-        run: sudo npm i -g sass
+        run: npm i -g sass
+      - uses: actions/checkout@v3
       - name: Setup meson build
         run: meson _build --prefix=/usr
       - name: Build libhelium
