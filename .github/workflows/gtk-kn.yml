@@ -52,12 +52,12 @@ jobs:
           arguments: gir:run
       - name: Assemble bindings
         uses: gradle/gradle-build-action@v2
-          with:
-            arguments: assemble
+        with:
+          arguments: assemble
       - name: Publish to publishToMavenLocal
         uses: gradle/gradle-build-action@v2
-          with:
-            arguments: publishToMavenLocal
+        with:
+          arguments: publishToMavenLocal
       - name: Upload local Maven repository as artifact
         uses: actions/upload-artifact@v3
         with:
