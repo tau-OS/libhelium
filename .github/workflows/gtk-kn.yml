@@ -22,4 +22,6 @@ jobs:
       - name: Setup meson build
         run: meson _build --prefix=/usr
       - name: Build libhelium
-        run: ninja -v -C _build install
+        run: ninja -v -C _build
+      - name: Install libhelium
+        run: sudo ninja -v -C _build install
