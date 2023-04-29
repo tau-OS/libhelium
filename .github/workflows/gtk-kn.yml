@@ -26,7 +26,7 @@ jobs:
       - name: Install libhelium
         run: sudo ninja -v -C _build install
       - name: Discard libhelium source
-        run: rm -rf .[!.]*
+        run: rm -rf * .[!.]*
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
