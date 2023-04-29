@@ -25,3 +25,28 @@ jobs:
         run: ninja -v -C _build
       - name: Install libhelium
         run: sudo ninja -v -C _build install
+      - name: Discard libhelium source
+        run: rm -rf .
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: 17.0.6
+      - name: Clone gtk-kn
+        run: git clone https://gitlab.com/gtk-kn/gtk-kn.git .
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .ci/ci-gradle.properties ~/.gradle/gradle.properties
+      - name: Validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - name: Install dependencies
+        run: |
+          sudo .ci/install-ubuntu-deps.sh
+          pip install -r mkdocs-requirements.txt
+      - name: Generate bindings
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: gir:run
