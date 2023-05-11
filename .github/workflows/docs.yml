@@ -40,14 +40,14 @@ jobs:
         run: meson _build -Dgidoc=true
       - name: Build with Ninja
         run: ninja
-        working-directory: ./build
+        working-directory: ./_build
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
-          path: "./build/doc"
+          path: "./_build/doc"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
