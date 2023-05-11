@@ -155,7 +155,7 @@
 
     /**
      * Creates a TextField that uses regular expression provided to check validity.
-     * @param regex_rg The regular expression to use.
+     * @param regex_arg The regular expression to use.
      */
     public TextField.from_regex (Regex regex_arg) {
         Object (regex: regex_arg);
@@ -203,8 +203,8 @@
         row_box.add_css_class ("text-field");
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
-        main_box.append (row_box);
-        main_box.append (support_label);
+        main_box.append(row_box);
+        main_box.append(support_label);
 
         main_box.set_parent (this);
 

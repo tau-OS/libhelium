@@ -281,7 +281,7 @@ namespace He.Misc {
    * Description
    * Shortcut 1, Shortcut 2
    *
-   * @param a string array of accelerator labels like {"<Control>a", "<Super>Right"}
+   * @param accels string array of accelerator labels like {"<Control>a", "<Super>Right"}
    *
    * @param description a standard tooltip text string
    *
