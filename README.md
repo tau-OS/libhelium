@@ -19,8 +19,9 @@ Welcome! Please see the various resources below. If you have any questions, our 
 <!-- TODO: Proper getting started tutorial, and much much more docs -->
 
 - [The Helium HIG](https://developer.fyralabs.com/helium/hig/introduction)
-- [libhelium's Valadoc](https://docs.developers.tauos.co/libhelium/libhelium-1/index.htm)
-- [libhelium's Rustdoc](https://docs.developers.tauos.co/rust/libhelium/index.html)
+- [libhelium's gidoc](https://docs.developers.tauos.co/libhelium/libhelium-1)
+- [libhelium's valadoc](https://docs.developers.tauos.co/libhelium/valadoc/libhelium-1/index.htm)
+- [libhelium's rustdoc](https://docs.developers.tauos.co/rust/libhelium/index.html)
 
 > **Note**
 > libhelium's documentation is a bit sparse right now, if you'd like to help us, please see [#23](https://github.com/tau-OS/libhelium/issues/23).
