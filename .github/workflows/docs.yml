@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy Valadoc to Pages
+name: Deploy Documentation to Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -27,17 +27,13 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/tau-os/builder:nightly
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
-      - run: npm install -g sass
-      - name: Update repos
-        run: sudo apt update
       - name: Install dependencies
-        run: sudo apt install libgtk-4-dev libgee-0.8-dev meson ninja-build valac valadoc
+        run: sudo dnf install --allowerasing -y meson vala-nightly valadoc-nightly gtk4-devel libgee-devel sass gi-docgen nodejs
       - name: Build website
         run: meson build
       - name: Build with Ninja
@@ -49,7 +45,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
-          path: './build/doc'
+          path: "./build/doc"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
