@@ -203,8 +203,8 @@
         row_box.add_css_class ("text-field");
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
-        main_box.append(row_box);
-        main_box.append(support_label);
+        main_box.append (row_box);
+        main_box.append (support_label);
 
         main_box.set_parent (this);
 
