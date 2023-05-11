@@ -1,0 +1,65 @@
+name: Generate gtk-kn bindings
+
+on:
+  schedule:
+    - cron: "45 4 * * *"
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update apt cache
+        run: sudo apt-get update --yes
+      - name: Install dependencies
+        run: sudo apt-get install --yes python3-pip gcc-multilib libgirepository1.0-dev libadwaita-1-dev meson libgee-0.8-dev valac valadoc
+      - uses: actions/setup-node@v3
+      - name: Install sass from NPM
+        run: npm i -g sass
+      - uses: actions/checkout@v3
+      - name: Setup meson build
+        run: meson _build --prefix=/usr
+      - name: Build libhelium
+        run: ninja -v -C _build
+      - name: Install libhelium
+        run: sudo ninja -v -C _build install
+      - name: Discard libhelium source
+        run: rm -rf * .[!.]*
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: 17.0.6
+      - name: Clone gtk-kn
+        run: git clone https://gitlab.com/gtk-kn/gtk-kn.git .
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .ci/ci-gradle.properties ~/.gradle/gradle.properties
+      - name: Validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - name: Install dependencies
+        run: |
+          sudo .ci/install-ubuntu-deps.sh
+          pip install -r mkdocs-requirements.txt
+      - name: Generate bindings
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: gir:run
+      - name: Assemble bindings
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: assemble
+      - name: Publish to publishToMavenLocal
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: publishToMavenLocal
+      - name: Upload local Maven repository as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: maven-local-repository
+          path: ~/.m2/repository

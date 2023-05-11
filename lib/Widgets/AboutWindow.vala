@@ -2,7 +2,7 @@
 * Copyright (c) 2022 Fyra Labs
 *
 * This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public
+* modify it under the terms of the GNU Lesser General Public
 * License as published by the Free Software Foundation; either
 * version 3 of the License, or (at your option) any later version.
 *
@@ -11,7 +11,7 @@
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 * General Public License for more details.
 *
-* You should have received a copy of the GNU General Public
+* You should have received a copy of the GNU Lesser General Public
 * License along with this program; if not, write to the
 * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 * Boston, MA 02110-1301 USA
@@ -350,8 +350,49 @@ public class He.AboutWindow : He.Window {
 
   /**
   * Creates a new AboutWindow.
+  * @param parent The parent window.
+  * @param app_name Your application's name.
+  * @param app_id Your application's reverse-domain name.
+  * @param version Your application's version.
+  * @param icon Your application's icon.
+  * @param translate_url A URL where contributors can help translate the application.
+  * @param issue_url A URL where users can report a problem with the application.
+  * @param more_info_url A URL where users can get more information about the application.
+  * @param translators Your application's translators.
+  * @param developers Your application's developers.
+  * @param copyright_year Your application's copyright year.
+  * @param license Your application's license.
+  * @param color The color of the AboutWindow.
   *
   * @since 1.0
   */
-  public AboutWindow () {}
+  public AboutWindow (
+    Gtk.Window parent,
+    string app_name,
+    string app_id,
+    string version,
+    string icon,
+    string? translate_url,
+    string? issue_url,
+    string? more_info_url,
+    string[] translators,
+    string[] developers,
+    int copyright_year,
+    Licenses license,
+    He.Colors color
+  ) {
+    this.parent = parent;
+    this.app_name = app_name;
+    this.app_id = app_id;
+    this.version = version;
+    this.icon = icon;
+    this.translate_url = translate_url;
+    this.issue_url = issue_url;
+    this.more_info_url = more_info_url;
+    this.translator_names = translators;
+    this.developer_names = developers;
+    this.copyright_year = copyright_year;
+    this.license = license;
+    this.color = color;
+  }
 }

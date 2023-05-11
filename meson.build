@@ -4,12 +4,8 @@ project(
     'c',
     license: 'GPL-3-or-later',
     meson_version: '>= 0.56.0',
-    version: '1.3.0',
-    default_options: [
-        'warning_level=1',
-        'buildtype=debugoptimized',
-        'c_std=gnu11',
-    ],
+    version: '1.5.16',
+    default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
 )
 
 version_arr = meson.project_version().split('-')[0].split('.')

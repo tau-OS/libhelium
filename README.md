@@ -6,7 +6,7 @@ The elegant framework for building beautiful and useful apps. libhelium is suite
 
 ###
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](http://www.gnu.org/licenses/lgpl-3.0)
 
 ![Demo Screenshot](demo.png)
 

@@ -2,7 +2,7 @@
 * Copyright (c) 2022 Fyra Labs
 *
 * This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public
+* modify it under the terms of the GNU Lesser General Public
 * License as published by the Free Software Foundation; either
 * version 3 of the License, or (at your option) any later version.
 *
@@ -11,7 +11,7 @@
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 * General Public License for more details.
 *
-* You should have received a copy of the GNU General Public
+* You should have received a copy of the GNU Lesser General Public
 * License along with this program; if not, write to the
 * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 * Boston, MA 02110-1301 USA
@@ -35,21 +35,8 @@ public class He.Window : Gtk.Window {
         }
         set {
             _parent = value;
+            set_modal (value != null);
             set_transient_for (value);
-        }
-    }
-
-    private new bool _modal;
-    /**
-     * If this is a modal window.
-     */
-    public new bool modal {
-        get {
-            return this.get_modal ();
-        }
-        set {
-            _modal = value;
-            set_modal (value);
         }
     }
 
