@@ -1,0 +1,67 @@
+# Patch to get it to compile with nightly vala
+diff --git a/lib/Models/Application.vala b/lib/Models/Application.vala
+index ee548cb..b7c4bcd 100644
+--- a/lib/Models/Application.vala
++++ b/lib/Models/Application.vala
+@@ -478,7 +478,7 @@ public class He.Application : Gtk.Application {
+       ";
+     }
+
+-    accent.load_from_data (css.data);
++    accent.load_from_data (css);
+
+     style_provider_set_enabled (light, !is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
+     style_provider_set_enabled (dark, is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
+diff --git a/lib/Widgets/Avatar.vala b/lib/Widgets/Avatar.vala
+index 2eee911..0a4868b 100644
+--- a/lib/Widgets/Avatar.vala
++++ b/lib/Widgets/Avatar.vala
+@@ -49,7 +49,7 @@ public class He.Avatar : He.Bin {
+                     font-weight: 700;
+                     color: @accent_fg_color;
+                 }
+-            """.printf ((_size / 16) * 7.5).data); // calc the font size based on avatar size
++            """.printf ((_size / 16) * 7.5)); // calc the font size based on avatar size
+             var context_label = label.get_style_context ();
+             context_label.add_provider (css_provider_label, 69);
+         }
+@@ -110,7 +110,7 @@ public class He.Avatar : He.Bin {
+                 border-radius: 999px;
+                 box-shadow: inset 0 0 0 1px @borders;
+             }
+-            """.printf (_image).data);
++            """.printf (_image));
+             var context = img.get_style_context ();
+             context.add_provider (css_provider, 69);
+
+@@ -125,7 +125,7 @@ public class He.Avatar : He.Bin {
+                     box-shadow: inset 0 0 0 1px @borders;
+                     filter: drop-shadow(0px 0px 1px @borders);
+                 }
+-                """.printf (_image).data);
++                """.printf (_image));
+             } else {
+                 css_provider_blur.load_from_data ("""
+                 .avatar-blur {
+@@ -136,7 +136,7 @@ public class He.Avatar : He.Bin {
+                     box-shadow: inset 0 0 0 1px @borders;
+                     filter: drop-shadow(0px 0px 1px @borders) blur(2px);
+                 }
+-                """.printf (_image).data);
++                """.printf (_image));
+             }
+             var context_blur = img_blur.get_style_context ();
+             context_blur.add_provider (css_provider_blur, 69);
+diff --git a/lib/Widgets/ContentBlockImage.vala b/lib/Widgets/ContentBlockImage.vala
+index 9d15694..341c2af 100644
+--- a/lib/Widgets/ContentBlockImage.vala
++++ b/lib/Widgets/ContentBlockImage.vala
+@@ -37,7 +37,7 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
+
+             var css_provider = new Gtk.CssProvider ();
+             css_provider.load_from_data (
+-                ".content-block-image { background-image: url('%s'); background-size: cover; }".printf (_file).data
++                ".content-block-image { background-image: url('%s'); background-size: cover; }".printf (_file)
+             );
+             var context = this.get_style_context ();
+             context.add_provider (css_provider, 69);

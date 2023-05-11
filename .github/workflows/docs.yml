@@ -32,6 +32,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Apply nightly patch
+        run: git apply -v .github/workflows/nightly.patch
       - name: Install dependencies
         run: sudo dnf install --allowerasing -y meson vala-nightly valadoc-nightly gtk4-devel libgee-devel sass gi-docgen nodejs
       - name: Build website
