@@ -47,7 +47,7 @@ Generating documentation requires the following.
 
 ```bash
 valadoc
-gi-docgen
+gi-docgen # Requires vala nightly and patch in .github/workflows/nightly.patch
 ```
 
 ## 🏗️ Building

@@ -1,5 +1,31 @@
 option('demo', type: 'boolean', value: false, description: 'Include Demo app')
-option('stylesheet', type: 'boolean', value: false, description: 'Include Stylesheet')
-option('introspection', type: 'boolean', value: true, description: 'Generate GObject Introspection data, for use in GObject bindings')
-option('vapi', type: 'boolean', value: true, description: 'Make VAPI files to help with Vala integration')
-option('documentation', type: 'boolean', value: true, description: 'Generate documentation')
+option(
+    'stylesheet',
+    type: 'boolean',
+    value: false,
+    description: 'Include Stylesheet',
+)
+option(
+    'introspection',
+    type: 'boolean',
+    value: true,
+    description: 'Generate GObject Introspection data, for use in GObject bindings',
+)
+option(
+    'vapi',
+    type: 'boolean',
+    value: true,
+    description: 'Make VAPI files to help with Vala integration',
+)
+option(
+    'valadoc',
+    type: 'boolean',
+    value: true,
+    description: 'Generate valadoc documentation',
+)
+option(
+    'gidoc',
+    type: 'boolean',
+    value: false,
+    description: 'Generate gidoc documentation (this will also generate valadoc, and currently requires Vala nightly)',
+)

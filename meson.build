@@ -5,7 +5,11 @@ project(
     license: 'GPL-3-or-later',
     meson_version: '>= 0.56.0',
     version: '1.5.16',
-    default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
+    default_options: [
+        'warning_level=1',
+        'buildtype=debugoptimized',
+        'c_std=gnu11',
+    ],
 )
 
 version_arr = meson.project_version().split('-')[0].split('.')
@@ -78,6 +82,6 @@ if get_option('demo')
     subdir('demo')
 endif
 
-if get_option('documentation')
+if get_option('gidoc') or get_option('valadoc')
     subdir('doc')
 endif

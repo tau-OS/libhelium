@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: sudo dnf install --allowerasing -y meson vala-nightly valadoc-nightly gtk4-devel libgee-devel sass gi-docgen nodejs
       - name: Build website
-        run: meson build
+        run: meson _build -Dgidoc=true
       - name: Build with Ninja
         run: ninja
         working-directory: ./build
