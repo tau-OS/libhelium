@@ -20,7 +20,7 @@
 namespace He {
     public void init () {
         // Ensure Gtk is properly initialized
-        Gtk.init();
+        Gtk.init ();
 
         Gdk.Display display = Gdk.Display.get_default ();
 
