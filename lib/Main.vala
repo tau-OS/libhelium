@@ -18,11 +18,11 @@
 */
 
 namespace He {
-    private void init () {
-        Gdk.Display display = Gdk.Display.get_default ();
+    public void init () {
+	// Ensure Gtk is properly initialized
+	Gtk.init();
 
-        // Ensure that the app has Gtk initialized.
-        Gtk.init ();
+        Gdk.Display display = Gdk.Display.get_default ();
 
         // Ensure all classes listed here are available for use.
         // Remove only if the class is not needed anymore.
