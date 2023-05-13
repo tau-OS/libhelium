@@ -16,63 +16,65 @@
 * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 * Boston, MA 02110-1301 USA
 */
-[CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
-namespace He.Schemes {
-    public class Content : Scheme {
-        private static double primary = chroma;
-        private static double secondary = Math.fmax (chroma - 32.0, chroma * 0.5);
-        private static double tertiary = Math.fmax (chroma + 16.0, chroma / 0.3);
-        private static double neutral = chroma / 16.0;
-        private static double neutral2 = ((chroma / 8.0) + 4.0);
+public class He.ContentScheme : SchemeFactory, Object {
+    public Scheme generate (Color.CAM16Color accent, bool is_dark) {
+        var hue = accent.h;
+        var chroma = accent.c;
 
-        public Content (Color.CAM16Color cam16_color, Desktop desktop) {
-            base (cam16_color, desktop);
+        var primary = chroma;
+        var secondary = Math.fmax (chroma - 32.0, chroma * 0.5);
+        var tertiary = Math.fmax (chroma + 16.0, chroma / 0.3);
+        var tertiary_hue = MathUtils.sanitize_degrees (hue + 60.0);
+        var neutral = chroma / 16.0;
+        var neutral2 = ((chroma / 8.0) + 4.0);
 
-            var is_dark = Desktop.ColorScheme.DARK == desktop.prefers_color_scheme;
-
+        return Scheme () {
             // _  _ ____ _  _ ___ ____ ____ _
             // |\ | |___ |  |  |  |__/ |__| |
             // | \| |___ |__|  |  |  \ |  | |___
-            neutral_background_hex = Color.hct_to_hex (hue, neutral, is_dark ? 10.0 : 99.0);
-            neutral_background_variant_hex = Color.hct_to_hex (hue, neutral, is_dark ? 30.0 : 90.0);
-            neutral_foreground_hex = Color.hct_to_hex (hue, neutral, is_dark ? 99.0 : 10.0);
-            neutral_foreground_variant_hex = Color.hct_to_hex (hue, neutral, is_dark ? 80.0 : 30.0);
-            inverse_neutral_background_hex = Color.hct_to_hex (hue, neutral, is_dark ? 90.0 : 20.0);
-            inverse_neutral_foreground_hex = Color.hct_to_hex (hue, neutral, is_dark ? 20.0 : 95.0);
+            neutral_background_hex = Color.hct_to_hex (hue, neutral, is_dark ? 10.0 : 99.0),
+            neutral_background_variant_hex = Color.hct_to_hex (hue, neutral, is_dark ? 30.0 : 90.0),
+            neutral_foreground_hex = Color.hct_to_hex (hue, neutral, is_dark ? 99.0 : 10.0),
+            neutral_foreground_variant_hex = Color.hct_to_hex (hue, neutral, is_dark ? 80.0 : 30.0),
+            inverse_neutral_background_hex = Color.hct_to_hex (hue, neutral, is_dark ? 90.0 : 20.0),
+            inverse_neutral_foreground_hex = Color.hct_to_hex (hue, neutral, is_dark ? 20.0 : 95.0),
+
             // ___  ____ _ _  _ ____ ____ _   _
             // |__] |__/ | |\/| |__| |__/  \_/
             // |    |  \ | |  | |  | |  \   |
-            primary_hex = Color.hct_to_hex (hue, primary, is_dark ? 80.0 : 40.0);
-            on_primary_hex = Color.hct_to_hex (hue, primary, is_dark ? 20.0 : 100.0);
-            primary_container_hex = Color.hct_to_hex (hue, primary, is_dark ? 30.0 : 90.0);
-            on_primary_container_hex = Color.hct_to_hex (hue, primary, is_dark ? 90.0 : 10.0);
-            inverse_primary_hex = Color.hct_to_hex (hue, primary, is_dark ? 40.0 : 80.0);
+            primary_hex = Color.hct_to_hex (hue, primary, is_dark ? 80.0 : 40.0),
+            on_primary_hex = Color.hct_to_hex (hue, primary, is_dark ? 20.0 : 100.0),
+            primary_container_hex = Color.hct_to_hex (hue, primary, is_dark ? 30.0 : 90.0),
+            on_primary_container_hex = Color.hct_to_hex (hue, primary, is_dark ? 90.0 : 10.0),
+            inverse_primary_hex = Color.hct_to_hex (hue, primary, is_dark ? 40.0 : 80.0),
+
             // ____ ____ ____ ____ _  _ ___  ____ ____ _   _
             // [__  |___ |    |  | |\ | |  \ |__| |__/  \_/
             // ___] |___ |___ |__| | \| |__/ |  | |  \   |
-            secondary_hex = Color.hct_to_hex (hue, secondary, is_dark ? 80.0 : 40.0);
-            on_secondary_hex = Color.hct_to_hex (hue, secondary, is_dark ? 20.0 : 100.0);
-            secondary_container_hex = Color.hct_to_hex (hue, secondary, is_dark ? 30.0 : 90.0);
-            on_secondary_container_hex = Color.hct_to_hex (hue, secondary, is_dark ? 90.0 : 10.0);
+            secondary_hex = Color.hct_to_hex (hue, secondary, is_dark ? 80.0 : 40.0),
+            on_secondary_hex = Color.hct_to_hex (hue, secondary, is_dark ? 20.0 : 100.0),
+            secondary_container_hex = Color.hct_to_hex (hue, secondary, is_dark ? 30.0 : 90.0),
+            on_secondary_container_hex = Color.hct_to_hex (hue, secondary, is_dark ? 90.0 : 10.0),
+
             // ___ ____ ____ ___ _ ____ ____ _   _
             //  |  |___ |__/  |  | |__| |__/  \_/
             //  |  |___ |  \  |  | |  | |  \   |
-            double tertiary_hue = MathUtils.sanitize_degrees (hue + 60.0);
-            tertiary_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? 80.0 : 40.0);
-            on_tertiary_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? 20.0 : 100.0);
-            tertiary_container_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? 30.0 : 90.0);
-            on_tertiary_container_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? 90.0 : 10.0);
+            tertiary_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? 80.0 : 40.0),
+            on_tertiary_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? 20.0 : 100.0),
+            tertiary_container_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? 30.0 : 90.0),
+            on_tertiary_container_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? 90.0 : 10.0),
+
             // ____ _  _ ___ _    _ _  _ ____
             // |  | |  |  |  |    | |\ | |___
             // |__| |__|  |  |___ | | \| |___
-            outline_hex = Color.hct_to_hex (hue, neutral2, is_dark ? 60.0 : 50.0);
-            outline_variant_hex = Color.hct_to_hex (hue, neutral2, is_dark ? 30.0 : 80.0);
+            outline_hex = Color.hct_to_hex (hue, neutral2, is_dark ? 60.0 : 50.0),
+            outline_variant_hex = Color.hct_to_hex (hue, neutral2, is_dark ? 30.0 : 80.0),
 
             // ____ _  _ ____ ___  ____ _ _ _
             // [__  |__| |__| |  \ |  | | | |
             // ___] |  | |  | |__/ |__| |_|_|
-            shadow_hex = Color.hct_to_hex (hue, neutral, is_dark ? 0.0 : 0.0);
-            scrim_hex = Color.hct_to_hex (hue, neutral, is_dark ? 0.0 : 0.0);
-        }
+            shadow_hex = Color.hct_to_hex (hue, neutral, is_dark ? 0.0 : 0.0),
+            scrim_hex = Color.hct_to_hex (hue, neutral, is_dark ? 0.0 : 0.0),
+        };
     }
 }

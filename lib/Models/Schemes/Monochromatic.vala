@@ -16,18 +16,18 @@
 * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 * Boston, MA 02110-1301 USA
 */
-public class He.MutedScheme : SchemeFactory, Object {
+public class He.MonochromaticScheme : SchemeFactory, Object {
     public Scheme generate (Color.CAM16Color accent, bool is_dark) {
         var hue = accent.h;
         var chroma = accent.c;
 
-        var tertiary_hue = MathUtils.sanitize_degrees (hue + 60.0);
+        var tertiary_hue = MathUtils.sanitize_degrees (hue + 0.0);
 
-        const double PRIMARY = 8.0;
-        const double SECONDARY = 8.0;
-        const double TERTIARY = 8.0;
-        const double NEUTRAL = 4.0;
-        const double NEUTRAL2 = 4.0;
+        const double PRIMARY = 0.0;
+        const double SECONDARY = 0.0;
+        const double TERTIARY = 0.0;
+        const double NEUTRAL = 0.0;
+        const double NEUTRAL2 = 0.0;
 
         return Scheme () {
             // _  _ ____ _  _ ___ ____ ____ _

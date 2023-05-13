@@ -322,4 +322,23 @@ namespace He.Misc {
 
     return string.joinv ("\n", parts);
   }
+
+  private void toggle_style_provider (Gtk.StyleProvider provider, bool enabled, int priority) {
+    Gdk.Display display = Gdk.Display.get_default ();
+
+    if (display == null)
+    return;
+
+    if (enabled) {
+      Gtk.StyleContext.add_provider_for_display (display, provider, priority);
+    } else {
+      Gtk.StyleContext.remove_provider_for_display (display, provider);
+    }
+  }
+
+  private void init_css_provider_from_file (Gtk.CssProvider provider, File file) {
+    if (file.query_exists (null)) {
+      provider.load_from_file (file);
+    }
+  }
 }
