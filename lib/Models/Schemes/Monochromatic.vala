@@ -17,22 +17,17 @@
 * Boston, MA 02110-1301 USA
 */
 namespace He {
-    public Scheme new_vibrant_scheme (Color.CAM16Color accent, bool is_dark) {
+    public Scheme new_monochromatic_scheme (Color.CAM16Color accent, bool is_dark) {
         var hue = accent.h;
         var chroma = accent.c;
 
-        const double PRIMARY = 150.0;
-        const double SECONDARY = 32.0;
-        const double TERTIARY = 48.0;
-        const double NEUTRAL = 24.0;
-        const double NEUTRAL2 = 32.0;
-        const double[] HUES = {0, 41, 61, 101, 131, 181, 251, 301, 360};
-        const double[] SECONDARY_ROTATIONS = {45, 95, 45, 20, 45, 90, 45, 45, 45};
-        const double[] TERTIARY_ROTATIONS = {120, 120, 20, 45, 20, 15, 20, 120, 120};
+        var tertiary_hue = MathUtils.sanitize_degrees (hue + 0.0);
 
-        double primary_hue = MathUtils.sanitize_degrees (hue);
-        double secondary_hue = Color.get_rotated_hue (hue, HUES, SECONDARY_ROTATIONS);
-        double tertiary_hue = Color.get_rotated_hue (hue, HUES, TERTIARY_ROTATIONS);
+        const double PRIMARY = 0.0;
+        const double SECONDARY = 0.0;
+        const double TERTIARY = 0.0;
+        const double NEUTRAL = 0.0;
+        const double NEUTRAL2 = 0.0;
 
         return Scheme () {
             // _  _ ____ _  _ ___ ____ ____ _
@@ -48,19 +43,19 @@ namespace He {
             // ___  ____ _ _  _ ____ ____ _   _
             // |__] |__/ | |\/| |__| |__/  \_/
             // |    |  \ | |  | |  | |  \   |
-            primary_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? 80.0 : 40.0),
-            on_primary_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? 20.0 : 100.0),
-            primary_container_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? 30.0 : 90.0),
-            on_primary_container_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? 90.0 : 10.0),
-            inverse_primary_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? 40.0 : 80.0),
+            primary_hex = Color.hct_to_hex (hue, PRIMARY, is_dark ? 80.0 : 40.0),
+            on_primary_hex = Color.hct_to_hex (hue, PRIMARY, is_dark ? 20.0 : 100.0),
+            primary_container_hex = Color.hct_to_hex (hue, PRIMARY, is_dark ? 30.0 : 90.0),
+            on_primary_container_hex = Color.hct_to_hex (hue, PRIMARY, is_dark ? 90.0 : 10.0),
+            inverse_primary_hex = Color.hct_to_hex (hue, PRIMARY, is_dark ? 40.0 : 80.0),
 
             // ____ ____ ____ ____ _  _ ___  ____ ____ _   _
             // [__  |___ |    |  | |\ | |  \ |__| |__/  \_/
             // ___] |___ |___ |__| | \| |__/ |  | |  \   |
-            secondary_hex = Color.hct_to_hex (secondary_hue, SECONDARY, is_dark ? 80.0 : 40.0),
-            on_secondary_hex = Color.hct_to_hex (secondary_hue, SECONDARY, is_dark ? 20.0 : 100.0),
-            secondary_container_hex = Color.hct_to_hex (secondary_hue, SECONDARY, is_dark ? 30.0 : 90.0),
-            on_secondary_container_hex = Color.hct_to_hex (secondary_hue, SECONDARY, is_dark ? 90.0 : 10.0),
+            secondary_hex = Color.hct_to_hex (hue, SECONDARY, is_dark ? 80.0 : 40.0),
+            on_secondary_hex = Color.hct_to_hex (hue, SECONDARY, is_dark ? 20.0 : 100.0),
+            secondary_container_hex = Color.hct_to_hex (hue, SECONDARY, is_dark ? 30.0 : 90.0),
+            on_secondary_container_hex = Color.hct_to_hex (hue, SECONDARY, is_dark ? 90.0 : 10.0),
 
             // ___ ____ ____ ___ _ ____ ____ _   _
             //  |  |___ |__/  |  | |__| |__/  \_/

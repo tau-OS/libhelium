@@ -64,19 +64,10 @@ public class He.Desktop : Object {
     }
 
     /**
-    * The dark mode strength preference enum, which is used to determine the dark mode strength of the desktop.
-    */
-    public enum DarkModeStrength {
-        MEDIUM,
-        HARSH,
-        SOFT
-    }
-
-    /**
     * The dark mode strength preference.
     */
-    private DarkModeStrength? _dark_mode_strength = null;
-    public DarkModeStrength dark_mode_strength {
+    private Color.DarkModeStrength? _dark_mode_strength = null;
+    public Color.DarkModeStrength dark_mode_strength {
         get {
             return _dark_mode_strength;
         }
@@ -89,7 +80,7 @@ public class He.Desktop : Object {
         try {
             portal = Portal.Settings.get ();
 
-            dark_mode_strength = (DarkModeStrength) portal.read (
+            dark_mode_strength = (Color.DarkModeStrength) portal.read (
                 "org.freedesktop.appearance",
                 "dark-mode-strength"
             ).get_variant ().get_uint32 ();
@@ -99,7 +90,7 @@ public class He.Desktop : Object {
             debug ("%s", e.message);
         }
 
-        dark_mode_strength = DarkModeStrength.MEDIUM;
+        dark_mode_strength = Color.DarkModeStrength.MEDIUM;
     }
 
     /**
@@ -109,7 +100,22 @@ public class He.Desktop : Object {
         DEFAULT,
         VIBRANT,
         MUTED,
-        MONOCHROMATIC
+        MONOCHROMATIC;
+
+        public SchemeFactory to_factory () {
+            switch (this) {
+                case DEFAULT:
+                    return new_default_scheme;
+                case VIBRANT:
+                    return new_vibrant_scheme;
+                case MUTED:
+                    return new_muted_scheme;
+                case MONOCHROMATIC:
+                    return new_monochromatic_scheme;
+                default:
+                    return new_default_scheme;
+            }
+        }
     }
 
     /**

@@ -45,5 +45,26 @@ namespace He.Color {
         255
     };
 
+    private const RGBColor DEFAULT_DARK_ACCENT = {
+        0.7450 * 255,
+        0.6270 * 255,
+        0.8590 * 255
+    };
+
+    private const RGBColor DEFAULT_LIGHT_ACCENT = {
+        0.5490 * 255,
+        0.3370 * 255,
+        0.7490 * 255
+    };
+
     private const double LSTAR = 49.6;
+
+    /**
+    * The dark mode strength, which represents the darkness of the dark mode.
+    */
+    public enum DarkModeStrength {
+        MEDIUM,
+        HARSH,
+        SOFT
+    }
 }
