@@ -66,8 +66,8 @@ public class He.Desktop : Object {
     /**
     * The dark mode strength preference.
     */
-    private Color.DarkModeStrength? _dark_mode_strength = null;
-    public Color.DarkModeStrength dark_mode_strength {
+    private DarkModeStrength? _dark_mode_strength = null;
+    public DarkModeStrength dark_mode_strength {
         get {
             return _dark_mode_strength;
         }
@@ -80,7 +80,7 @@ public class He.Desktop : Object {
         try {
             portal = Portal.Settings.get ();
 
-            dark_mode_strength = (Color.DarkModeStrength) portal.read (
+            dark_mode_strength = (DarkModeStrength) portal.read (
                 "org.freedesktop.appearance",
                 "dark-mode-strength"
             ).get_variant ().get_uint32 ();
@@ -90,7 +90,7 @@ public class He.Desktop : Object {
             debug ("%s", e.message);
         }
 
-        dark_mode_strength = Color.DarkModeStrength.MEDIUM;
+        dark_mode_strength = DarkModeStrength.MEDIUM;
     }
 
     /**
@@ -249,7 +249,7 @@ public class He.Desktop : Object {
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "dark-mode-strength") {
-                dark_mode_strength = (Color.DarkModeStrength) val.get_uint32 ();
+                dark_mode_strength = (DarkModeStrength) val.get_uint32 ();
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "ensor-scheme") {

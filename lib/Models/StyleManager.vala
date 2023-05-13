@@ -45,7 +45,7 @@ public class He.StyleManager : Object {
   /**
   * The preferred dark mode strength.
   */
-  public Color.DarkModeStrength dark_mode_strength = Color.DarkModeStrength.MEDIUM;
+  public DarkModeStrength dark_mode_strength = DarkModeStrength.MEDIUM;
 
   /**
   * Whether the style manager has been registered. Unregistered style managers will not apply their styles.
@@ -86,8 +86,8 @@ public class He.StyleManager : Object {
     var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color));
 
     var derived_card_bg =
-      dark_mode_strength == Color.DarkModeStrength.MEDIUM ? He.Color.CARD_BLACK :
-      dark_mode_strength == Color.DarkModeStrength.SOFT ? He.Color.SOFT_CARD_BLACK :
+      dark_mode_strength == DarkModeStrength.MEDIUM ? He.Color.CARD_BLACK :
+      dark_mode_strength == DarkModeStrength.SOFT ? He.Color.SOFT_CARD_BLACK :
       He.Color.HARSH_CARD_BLACK;
 
     var background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);

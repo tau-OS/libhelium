@@ -59,12 +59,4 @@ namespace He.Color {
 
     private const double LSTAR = 49.6;
 
-    /**
-    * The dark mode strength, which represents the darkness of the dark mode.
-    */
-    public enum DarkModeStrength {
-        MEDIUM,
-        HARSH,
-        SOFT
-    }
 }

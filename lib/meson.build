@@ -5,6 +5,7 @@ libhelium_sources += files(
     'Models/Button.vala',
     'Models/ButtonContent.vala',
     'Models/Colors.vala',
+    'Models/DarkModeStrength.vala',
     'Models/Schemes/Content.vala',
     'Models/Schemes/Default.vala',
     'Models/Schemes/Monochromatic.vala',
