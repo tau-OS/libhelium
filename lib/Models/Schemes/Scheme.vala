@@ -47,8 +47,3 @@ public struct He.Scheme {
     public string shadow_hex;
     public string scrim_hex;
 }
-
-/**
-* A function that returns a color scheme from a given accent color and a boolean that indicates if dark mode is enabled.
-*/
-public delegate Scheme He.SchemeFactory (Color.CAM16Color accent, bool is_dark);

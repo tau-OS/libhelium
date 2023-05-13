@@ -16,8 +16,8 @@
 * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 * Boston, MA 02110-1301 USA
 */
-namespace He {
-    public Scheme new_vibrant_scheme (Color.CAM16Color accent, bool is_dark) {
+public class He.VibrantScheme : SchemeFactory, Object {
+    public Scheme generate (Color.CAM16Color accent, bool is_dark) {
         var hue = accent.h;
         var chroma = accent.c;
 

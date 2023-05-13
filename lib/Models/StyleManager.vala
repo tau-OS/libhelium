@@ -21,7 +21,7 @@
 * A class that manages the style of the application in conjunction with the provided preferences.
 * This is a low-level class that should not be used directly. Instead, let the `He.Application` class manage this for you.
 */
-class He.StyleManager {
+class He.StyleManager : Object {
   /**
   * The preferred accent color. If null, a default accent color will be chosen based on the color scheme.
   */
@@ -40,7 +40,7 @@ class He.StyleManager {
   /**
   * A function that returns a color scheme from a given accent color and whether dark mode is enabled.
   */
-  public SchemeFactory scheme_factory = He.new_default_scheme;
+  public SchemeFactory scheme_factory = new DefaultScheme ();
 
   /**
   * The preferred dark mode strength.
@@ -92,7 +92,7 @@ class He.StyleManager {
 
     var background_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
 
-    var chosen_scheme = scheme_factory (cam16_color, is_dark);
+    var chosen_scheme = scheme_factory.generate (cam16_color, is_dark);
 
     var error_hex = is_dark ? "#F2B8B5" : "#B3261E";
     var on_error_hex = is_dark ? "#601410" : "#FFFFFF";

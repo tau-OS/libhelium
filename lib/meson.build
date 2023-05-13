@@ -10,6 +10,7 @@ libhelium_sources += files(
     'Models/Schemes/Monochromatic.vala',
     'Models/Schemes/Muted.vala',
     'Models/Schemes/Scheme.vala',
+    'Models/Schemes/SchemeFactory.vala',
     'Models/Schemes/Vibrant.vala',
     'Models/StyleManager.vala',
     'Models/View.vala',

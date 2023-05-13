@@ -105,15 +105,15 @@ public class He.Desktop : Object {
         public SchemeFactory to_factory () {
             switch (this) {
                 case DEFAULT:
-                    return new_default_scheme;
+                    return new DefaultScheme ();
                 case VIBRANT:
-                    return new_vibrant_scheme;
+                    return new VibrantScheme ();
                 case MUTED:
-                    return new_muted_scheme;
+                    return new MutedScheme ();
                 case MONOCHROMATIC:
-                    return new_monochromatic_scheme;
+                    return new MonochromaticScheme ();
                 default:
-                    return new_default_scheme;
+                    return new DefaultScheme ();
             }
         }
     }
