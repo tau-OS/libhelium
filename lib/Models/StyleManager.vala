@@ -372,6 +372,9 @@ class He.StyleManager : Object {
   * Register the style manager with GTK. This will also call update.
   */
   public void register () {
+    light.load_from_resource ("/com/fyralabs/Helium/gtk.css");
+    dark.load_from_resource ("/com/fyralabs/Helium/gtk-dark.css");
+
     Misc.toggle_style_provider (accent, true, STYLE_PROVIDER_PRIORITY_ACCENT);
     Misc.toggle_style_provider (user_base, true, STYLE_PROVIDER_PRIORITY_USER_BASE);
 
@@ -395,11 +398,5 @@ class He.StyleManager : Object {
 
   ~StyleManager () {
     unregister ();
-  }
-
-  construct {
-    // Load the helium theme
-    light.load_from_resource ("/com/fyralabs/Helium/gtk.css");
-    dark.load_from_resource ("/com/fyralabs/Helium/gtk-dark.css");
   }
 }
