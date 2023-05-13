@@ -11,10 +11,11 @@
   "mesonbuild.configureOptions": ["-Ddemo=true"],
   "mesonbuild.buildFolder": "_build",
   "[meson]": {
-    "editor.defaultFormatter": "mesonbuild.mesonbuild"
+    "editor.defaultFormatter": "mesonbuild.mesonbuild",
+    "mesonbuild.linter.muon.enabled": true
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "mesonbuild.linter.muon.enabled": true,
-  "mesonbuild.formatting.enabled": true
+  "clangd.arguments": ["--compile-commands-dir=_build"],
+  "C_Cpp.default.compileCommands": "_build/vscode_compile_commands.json"
 }
