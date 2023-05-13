@@ -1,19 +1,19 @@
 # Patch to get it to compile with nightly vala
-diff --git a/lib/Models/Application.vala b/lib/Models/Application.vala
-index ee548cb..b7c4bcd 100644
---- a/lib/Models/Application.vala
-+++ b/lib/Models/Application.vala
-@@ -478,7 +478,7 @@ public class He.Application : Gtk.Application {
-       ";
+diff --git a/lib/Models/StyleManager.vala b/lib/Models/StyleManager.vala
+index 3f4198a..b4fba08 100644
+--- a/lib/Models/StyleManager.vala
++++ b/lib/Models/StyleManager.vala
+@@ -361,7 +361,7 @@ public class He.StyleManager : Object {
      }
+     ";
 
 -    accent.load_from_data (css.data);
 +    accent.load_from_data (css);
 
-     style_provider_set_enabled (light, !is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
-     style_provider_set_enabled (dark, is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
+     Misc.toggle_style_provider (light, !is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
+     Misc.toggle_style_provider (dark, is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
 diff --git a/lib/Widgets/Avatar.vala b/lib/Widgets/Avatar.vala
-index 2eee911..0a4868b 100644
+index b227e9a..df8f791 100644
 --- a/lib/Widgets/Avatar.vala
 +++ b/lib/Widgets/Avatar.vala
 @@ -49,7 +49,7 @@ public class He.Avatar : He.Bin {
@@ -53,7 +53,7 @@ index 2eee911..0a4868b 100644
              var context_blur = img_blur.get_style_context ();
              context_blur.add_provider (css_provider_blur, 69);
 diff --git a/lib/Widgets/ContentBlockImage.vala b/lib/Widgets/ContentBlockImage.vala
-index 9d15694..341c2af 100644
+index f9155ef..2158e89 100644
 --- a/lib/Widgets/ContentBlockImage.vala
 +++ b/lib/Widgets/ContentBlockImage.vala
 @@ -37,7 +37,7 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
