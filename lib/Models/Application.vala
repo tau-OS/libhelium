@@ -74,10 +74,24 @@ public class He.Application : Gtk.Application {
     style_manager.update ();
   }
 
+  private void init_app_styles () {
+    var base_path = get_resource_base_path ();
+    if (base_path == null) {
+      return;
+    }
+
+    string base_uri = "resource://" + base_path;
+    File base_file = File.new_for_uri (base_uri);
+
+    Misc.init_css_provider_from_file (style_manager.user_base, base_file.get_child ("style.css"));
+    Misc.init_css_provider_from_file (style_manager.user_dark, base_file.get_child ("style-dark.css"));
+  }
+
   protected override void startup () {
     base.startup ();
     He.init ();
 
+    init_app_styles ();
     update_style_manager ();
 
     desktop.notify["prefers-color-scheme"].connect (update_style_manager);
