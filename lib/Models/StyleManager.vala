@@ -21,7 +21,7 @@
 * A class that manages the style of the application in conjunction with the provided preferences.
 * This is a low-level class that should not be used directly. Instead, let the `He.Application` class manage this for you.
 */
-class He.StyleManager : Object {
+public class He.StyleManager : Object {
   /**
   * The preferred accent color. If null, a default accent color will be chosen based on the color scheme.
   */
