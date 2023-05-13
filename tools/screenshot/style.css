@@ -1,0 +1,4 @@
+.docs-background {
+    background: alpha(currentColor, .05);
+    border-radius: 12px;
+}

@@ -85,3 +85,7 @@ endif
 if get_option('gidoc') or get_option('valadoc')
     subdir('doc')
 endif
+
+if get_option('tools')
+    subdir('tools')
+endif

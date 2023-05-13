@@ -29,3 +29,9 @@ option(
     value: false,
     description: 'Generate gidoc documentation (this will also generate valadoc, and currently requires Vala nightly)',
 )
+option(
+    'tools',
+    type: 'boolean',
+    value: false,
+    description: 'Build libhelium related utilities, usually only needed for development reasons',
+)
