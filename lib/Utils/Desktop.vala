@@ -249,7 +249,7 @@ public class He.Desktop : Object {
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "dark-mode-strength") {
-                dark_mode_strength = (DarkModeStrength) val.get_uint32 ();
+                dark_mode_strength = (Color.DarkModeStrength) val.get_uint32 ();
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "ensor-scheme") {
