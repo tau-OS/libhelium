@@ -163,20 +163,21 @@ public class Demo.MainWindow : He.ApplicationWindow {
     }
 
     public void action_about () {
-        var about = new He.AboutWindow () {
-            parent = this,
-            app_name = "Helium Demo",
-            app_id = "com.fyralabs.Helium1.Demo",
-            icon = "libhelium",
-            version = Config.VERSION,
-            more_info_url = "https://fyralabs.com",
-            issue_url = "https://fyralabs.com",
-            translate_url = "https://fyralabs.com",
-            developer_names = {"Lains", "Lea"},
-            copyright_year = 2023,
-            license = He.AboutWindow.Licenses.GPLV3,
-            color = He.Colors.NONE
-        };
+        var about = new He.AboutWindow (
+            this,
+            "Helium Demo",
+            "com.fyralabs.Helium1.Demo",
+            "libhelium",
+            Config.VERSION,
+            "https://fyralabs.com",
+            "https://fyralabs.com",
+            "https://fyralabs.com",
+            {"Lains", "Lea"},
+            {"Lains", "Lea"},
+            2023,
+            He.AboutWindow.Licenses.GPLV3,
+            He.Colors.NONE
+        );
         about.present ();
     }
 
