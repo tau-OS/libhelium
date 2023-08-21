@@ -45,7 +45,7 @@ jobs:
         run: ninja
         working-directory: ./_build
       - name: Setup pages
-        if: github.event_name == "release"
+        if: github.event_name == 'release'
         uses: actions/configure-pages@v2
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
@@ -53,6 +53,6 @@ jobs:
           # Upload entire repository
           path: "./_build/doc"
       - name: Deploy to GitHub Pages
-        if: github.event_name == "release"
+        if: github.event_name == 'release'
         id: deployment
         uses: actions/deploy-pages@v1
