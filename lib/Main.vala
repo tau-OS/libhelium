@@ -22,8 +22,6 @@ namespace He {
         // Ensure Gtk is properly initialized
         Gtk.init ();
 
-        Gdk.Display display = Gdk.Display.get_default ();
-
         // Ensure all classes listed here are available for use.
         // Remove only if the class is not needed anymore.
         typeof (He.AboutWindow).ensure ();
@@ -90,10 +88,5 @@ namespace He {
         typeof (He.ViewTitle).ensure ();
         typeof (He.WelcomeScreen).ensure ();
         typeof (He.Window).ensure ();
-
-        // Setup the platform gtk theme, cursor theme and the default icon theme.
-        Gtk.Settings.get_for_display (display).gtk_theme_name = "Helium-empty";
-        Gtk.Settings.get_for_display (display).gtk_icon_theme_name = "Hydrogen";
-        Gtk.Settings.get_for_display (display).gtk_cursor_theme_name = "Hydrogen";
     }
 }
