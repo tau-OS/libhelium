@@ -4,7 +4,9 @@ name: Deploy Documentation to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
+
+  release:
+    types: [published]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -36,12 +38,12 @@ jobs:
         run: git apply -v .github/workflows/nightly.patch
       - name: Install dependencies
         run: sudo dnf install --allowerasing -y meson vala-nightly valadoc-nightly gtk4-devel libgee-devel sass gi-docgen nodejs
-      - name: Build website
+      - name: Setup build
         run: meson _build -Dgidoc=true
-      - name: Build with Ninja
+      - name: Build docs with Ninja
         run: ninja
         working-directory: ./_build
-      - name: Setup Pages
+      - name: Setup pages
         uses: actions/configure-pages@v2
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
@@ -49,5 +51,6 @@ jobs:
           # Upload entire repository
           path: "./_build/doc"
       - name: Deploy to GitHub Pages
+        if: github.event.release
         id: deployment
         uses: actions/deploy-pages@v1
