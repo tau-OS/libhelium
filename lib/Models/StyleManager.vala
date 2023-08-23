@@ -381,11 +381,10 @@ public class He.StyleManager : Object {
     Misc.toggle_style_provider (accent, true, STYLE_PROVIDER_PRIORITY_ACCENT);
     Misc.toggle_style_provider (user_base, true, STYLE_PROVIDER_PRIORITY_USER_BASE);
 
-    // Setup the platform gtk theme, cursor theme and the default icon theme.
+    // Setup the platform gtk theme and default icon theme.
     var settings = Gtk.Settings.get_default ();
     settings.gtk_theme_name = "Helium-empty";
     settings.gtk_icon_theme_name = "Hydrogen";
-    settings.gtk_cursor_theme_name = "Hydrogen";
 
     is_registered = true;
 
