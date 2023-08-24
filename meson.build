@@ -49,9 +49,6 @@ libhelium_deps = [
 pkgconfig = import('pkgconfig')
 i18n = import('i18n')
 
-# required for override
-subproject('blueprint-compiler')
-
 if get_option('stylesheet')
     helium = subproject(
         'tau-helium',
