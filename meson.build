@@ -68,6 +68,11 @@ if get_option('stylesheet')
         ],
         dependencies: [generate_gtk4_light, generate_gtk4_dark],
     )
+
+    add_project_arguments(
+        '--define=BUNDLED_STYLESHEET',
+        language: ['vala'],
+    )
 endif
 
 hgresource = gnome.compile_resources(
