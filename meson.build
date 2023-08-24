@@ -52,29 +52,33 @@ i18n = import('i18n')
 # required for override
 subproject('blueprint-compiler')
 
-helium = subproject(
-    'tau-helium',
-    default_options: ['gtk4=true', 'shell=false'],
-    required: true,
-)
-generate_gtk4_light = helium.get_variable('generate_gtk4_light')
-generate_gtk4_dark = helium.get_variable('generate_gtk4_dark')
+if get_option('stylesheet')
+    helium = subproject(
+        'tau-helium',
+        default_options: ['gtk4=true', 'shell=false'],
+        required: true,
+    )
+    generate_gtk4_light = helium.get_variable('generate_gtk4_light')
+    generate_gtk4_dark = helium.get_variable('generate_gtk4_dark')
+
+    gresource = gnome.compile_resources(
+        'gresource',
+        'data' / 'gresource.xml',
+        source_dir: [
+            fs.parent(generate_gtk4_light.full_path()),
+            fs.parent(generate_gtk4_dark.full_path()),
+            fs.parent(helium.get_variable('assets_dir')),
+        ],
+        dependencies: [generate_gtk4_light, generate_gtk4_dark],
+    )
+endif
 
 hgresource = gnome.compile_resources(
     'he-gresource',
     'data' / 'he.gresource.xml',
     source_dir: 'data',
 )
-gresource = gnome.compile_resources(
-    'gresource',
-    'data' / 'gresource.xml',
-    source_dir: [
-        fs.parent(generate_gtk4_light.full_path()),
-        fs.parent(generate_gtk4_dark.full_path()),
-        fs.parent(helium.get_variable('assets_dir')),
-    ],
-    dependencies: [generate_gtk4_light, generate_gtk4_dark],
-)
+
 
 subdir('lib')
 

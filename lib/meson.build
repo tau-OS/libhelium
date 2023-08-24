@@ -107,11 +107,18 @@ datadir = get_option('datadir')
 libdir = get_option('libdir')
 typelibdir = get_option('libdir') / 'girepository-1.0'
 
+resources = [
+    hgresource,
+]
+
+if get_option('stylesheet')
+    resources += gresource
+endif
+
 libhelium = library(
     'libhelium-1',
 
-    gresource,
-    hgresource,
+    resources,
     libhelium_sources,
 
     dependencies: [

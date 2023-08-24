@@ -2,8 +2,8 @@ option('demo', type: 'boolean', value: false, description: 'Include Demo app')
 option(
     'stylesheet',
     type: 'boolean',
-    value: false,
-    description: 'Include Stylesheet',
+    value: true,
+    description: 'Build and bundle the tau-helium stylesheet within the library',
 )
 option(
     'introspection',
