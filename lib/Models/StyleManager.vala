@@ -375,8 +375,15 @@ public class He.StyleManager : Object {
   * Register the style manager with GTK. This will also call update.
   */
   public void register () {
+    #if BUNDLED_STYLESHEET
+    debug ("Loading bundled Helium stylesheet");
     light.load_from_resource ("/com/fyralabs/Helium/gtk.css");
     dark.load_from_resource ("/com/fyralabs/Helium/gtk-dark.css");
+    #else
+    debug ("Loading system Helium stylesheet (this may fail if Helium is not installed)");
+    light.load_named ("Helium", null);
+    dark.load_named ("Helium", "dark");
+    #endif
 
     Misc.toggle_style_provider (accent, true, STYLE_PROVIDER_PRIORITY_ACCENT);
     Misc.toggle_style_provider (user_base, true, STYLE_PROVIDER_PRIORITY_USER_BASE);
