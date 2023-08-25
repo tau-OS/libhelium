@@ -1,5 +1,4 @@
 subdir('data')
-subproject('blueprint-compiler', required: false)
 
 conf = configuration_data()
 conf.set_quoted('APP_ID', 'com.fyralabs.Helium1.Demo')

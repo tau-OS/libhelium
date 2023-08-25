@@ -85,6 +85,7 @@ hgresource = gnome.compile_resources(
 subdir('lib')
 
 if get_option('demo')
+    subproject('blueprint-compiler', required: false)
     subdir('demo')
 endif
 
