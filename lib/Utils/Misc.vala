@@ -341,4 +341,12 @@ namespace He.Misc {
       provider.load_from_file (file);
     }
   }
+
+  private void init_css_provider_from_string (Gtk.CssProvider provider, string css) {
+    #if GTK4_IS_12
+      provider.load_from_string (css);
+    #else
+      provider.load_from_data (css.data);
+    #endif
+  }
 }

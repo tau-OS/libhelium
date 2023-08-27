@@ -36,9 +36,8 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
             _file = value;
 
             var css_provider = new Gtk.CssProvider ();
-            css_provider.load_from_data (
-                ".content-block-image { background-image: url('%s'); background-size: cover; }".printf (_file).data
-            );
+            var css = ".content-block-image { background-image: url('%s'); background-size: cover; }".printf (_file);
+            Misc.init_css_provider_from_string (css_provider, css);
             var context = this.get_style_context ();
             context.add_provider (css_provider, 69);
         }

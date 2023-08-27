@@ -361,8 +361,7 @@ public class He.StyleManager : Object {
     }
     ";
 
-    accent.load_from_data (css.data);
-
+    Misc.init_css_provider_from_string (accent, css);
     Misc.toggle_style_provider (light, !is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
     Misc.toggle_style_provider (dark, is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
     Misc.toggle_style_provider (user_dark, is_dark, STYLE_PROVIDER_PRIORITY_USER_DARK);
