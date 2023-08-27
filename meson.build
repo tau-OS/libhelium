@@ -43,8 +43,23 @@ libhelium_deps = [
     dependency('glib-2.0', version: '>=' + glib_min_version),
     dependency('gobject-2.0', version: '>=' + glib_min_version),
     dependency('gee-0.8'),
-    dependency('gtk4', version: '>=4.4'),
 ]
+
+# NOTE(lexisother): Call upon the antichrist for this is the worst thing this
+# organisation has seen in a Meson script.
+gtk4_12 = dependency('gtk4', version: '>=4.12', required: false)
+valadoc_flags = []
+if gtk4_12.found()
+    gtk4 = dependency('gtk4', version: '>=4.12')
+    valadoc_flags += '--define=GTK4_IS_12'
+    add_project_arguments(
+        '--define=GTK4_IS_12',
+        language: ['vala']
+    )
+else
+    gtk4 = dependency('gtk4', version: '>=4.4')
+endif
+libhelium_deps += gtk4
 
 pkgconfig = import('pkgconfig')
 i18n = import('i18n')

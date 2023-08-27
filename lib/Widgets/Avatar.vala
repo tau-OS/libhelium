@@ -43,13 +43,14 @@ public class He.Avatar : He.Bin {
             img_blur.pixel_size = value;
 
             var css_provider_label = new Gtk.CssProvider ();
-            css_provider_label.load_from_data ("""
+            var css = """
                 .avatar-label {
                     font-size: %0.2fpx;
                     font-weight: 700;
                     color: @accent_fg_color;
                 }
-            """.printf ((_size / 16) * 7.5).data); // calc the font size based on avatar size
+            """.printf ((_size / 16) * 7.5); // calc the font size based on avatar size
+            Misc.init_css_provider_from_string (css_provider_label, css);
             var context_label = label.get_style_context ();
             context_label.add_provider (css_provider_label, 69);
         }
@@ -102,7 +103,7 @@ public class He.Avatar : He.Bin {
             }
 
             var css_provider = new Gtk.CssProvider ();
-            css_provider.load_from_data ("""
+            var css = """
             .avatar {
                 background-image: url('%s');
                 background-size: cover;
@@ -110,13 +111,14 @@ public class He.Avatar : He.Bin {
                 border-radius: 999px;
                 box-shadow: inset 0 0 0 1px @borders;
             }
-            """.printf (_image).data);
+            """.printf (_image);
+            Misc.init_css_provider_from_string (css_provider, css);
             var context = img.get_style_context ();
             context.add_provider (css_provider, 69);
 
             var css_provider_blur = new Gtk.CssProvider ();
             if (_size <= 32) {
-                css_provider_blur.load_from_data ("""
+                css = """
                 .avatar-blur {
                     background-image: url('%s');
                     background-size: cover;
@@ -125,9 +127,10 @@ public class He.Avatar : He.Bin {
                     box-shadow: inset 0 0 0 1px @borders;
                     filter: drop-shadow(0px 0px 1px @borders);
                 }
-                """.printf (_image).data);
+                """.printf (_image);
+                Misc.init_css_provider_from_string (css_provider_blur, css);
             } else {
-                css_provider_blur.load_from_data ("""
+                css = """
                 .avatar-blur {
                     background-image: url('%s');
                     background-size: cover;
@@ -136,7 +139,8 @@ public class He.Avatar : He.Bin {
                     box-shadow: inset 0 0 0 1px @borders;
                     filter: drop-shadow(0px 0px 1px @borders) blur(2px);
                 }
-                """.printf (_image).data);
+                """.printf (_image);
+                Misc.init_css_provider_from_string (css_provider_blur, css);
             }
             var context_blur = img_blur.get_style_context ();
             context_blur.add_provider (css_provider_blur, 69);

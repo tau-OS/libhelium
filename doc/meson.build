@@ -17,6 +17,7 @@ valadoc = custom_target(
         '--pkg=posix', libhelium_sources,
         '--target-glib=' + glib_min_version,
         '--package-name=libhelium-1', '--package-version=' + meson.project_version(),
+        valadoc_flags,
         '--verbose',
         '--force',
         '--use-svg-images', # If documentation is true, we'll generate a GIR file with valadoc, independent of the main build. Path handling is a bit weird, so we move it after
