@@ -178,7 +178,7 @@
         empty_title.visible = false;
         empty_title.halign = Gtk.Align.START;
         empty_title.margin_start = 16;
-        empty_title.margin_top = 8;
+        empty_title.margin_top = 6;
         empty_title.add_css_class ("placeholder");
 
         entry.activates_default = true;
