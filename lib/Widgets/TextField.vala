@@ -66,6 +66,10 @@
      * The regular expression used for validation.
      */
     public Regex regex { get; construct set; default = null; }
+    /**
+     * Whether or not this is a search entry.
+     */
+     public bool is_search { get; set; default = false; }
 
     /**
      * The entry widget to allow using Gtk.Editable props.
@@ -201,6 +205,10 @@
         row_box.append (entry_box);
         row_box.append (suffix_img);
         row_box.add_css_class ("text-field");
+
+        if (is_search) {
+            row_box.add_css_class ("search");
+        }
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
         main_box.append (row_box);
