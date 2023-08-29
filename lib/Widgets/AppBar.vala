@@ -50,7 +50,7 @@ public class He.AppBar : He.Bin {
     /**
     * The button box in the AppBar, shows below and to the right side of the title, or alongside the window controls, based on scrollers.
     */
-    public Gtk.Box btn_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+    public Gtk.Box btn_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
 
     private Gtk.Stack _stack;
     /**
@@ -374,6 +374,7 @@ public class He.AppBar : He.Bin {
         labels_box.append (viewsubtitle);
 
         btn_box.valign = Gtk.Align.END;
+        btn_box.margin_end = 6;
 
         sub_box.append (labels_box);
         sub_box.append (btn_box);
