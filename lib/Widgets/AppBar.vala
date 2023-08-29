@@ -355,13 +355,11 @@ public class He.AppBar : He.Bin {
 
         viewtitle = new Gtk.Label ("");
         viewtitle.halign = Gtk.Align.START;
-        viewtitle.margin_start = 8;
         viewtitle.add_css_class ("view-title");
         viewtitle.set_visible (false);
 
         viewsubtitle = new Gtk.Label ("");
         viewsubtitle.halign = Gtk.Align.START;
-        viewsubtitle.margin_start = 8;
         viewsubtitle.add_css_class ("view-subtitle");
         viewsubtitle.set_visible (false);
 
@@ -377,7 +375,6 @@ public class He.AppBar : He.Bin {
         labels_box.append (viewsubtitle);
 
         btn_box.valign = Gtk.Align.END;
-        btn_box.margin_end = 6;
 
         sub_box.append (labels_box);
         sub_box.append (btn_box);
