@@ -175,7 +175,7 @@ public class He.AppBar : He.Bin {
             if (value != null && _viewtitle_widget == null) {
                 viewtitle.label = value;
                 labels_box.visible = true;
-                main_box.spacing = 9;
+                main_box.spacing = 6;
                 control_box.append (viewtitle_mini);
             } else {
                 viewtitle.label = null;
@@ -194,9 +194,8 @@ public class He.AppBar : He.Bin {
             this._viewtitle_widget = value;
 
             if (value != null) {
-                _viewtitle_widget.margin_start = 10; // make it flush with subtitle
                 labels_box.visible = true;
-                main_box.spacing = 9;
+                main_box.spacing = 6;
                 labels_box.prepend (value);
             } else {
                 labels_box.remove (value);
@@ -217,7 +216,7 @@ public class He.AppBar : He.Bin {
                 viewsubtitle.label = value;
                 viewsubtitle.visible = true;
                 labels_box.visible = true;
-                main_box.spacing = 9;
+                main_box.spacing = 6;
             } else {
                 viewsubtitle.label = "";
                 viewsubtitle.visible = false;
@@ -285,7 +284,7 @@ public class He.AppBar : He.Bin {
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
         labels_box.visible = true;
-        main_box.spacing = 9;
+        main_box.spacing = 6;
     }
 
     /**
@@ -298,7 +297,7 @@ public class He.AppBar : He.Bin {
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
         labels_box.visible = true;
-        main_box.spacing = 9;
+        main_box.spacing = 6;
     }
 
     /**
