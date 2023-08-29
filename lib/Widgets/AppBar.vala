@@ -107,7 +107,7 @@ public class He.AppBar : He.Bin {
                     main_box.add_css_class ("flat-appbar");
                     main_box.remove_css_class ("appbar");
                     if (!_show_buttons) {
-                        top_box.margin_top = 24;
+                        top_box.margin_top = 36;
                     } else {
                         top_box.margin_top = 0;
                     }
@@ -145,7 +145,7 @@ public class He.AppBar : He.Bin {
                         main_box.add_css_class ("flat-appbar");
                         main_box.remove_css_class ("appbar");
                         if (!_show_buttons) {
-                            top_box.margin_top = 24;
+                            top_box.margin_top = 36;
                         } else {
                             top_box.margin_top = 0;
                         }
@@ -155,7 +155,7 @@ public class He.AppBar : He.Bin {
                 main_box.add_css_class ("flat-appbar");
                 main_box.remove_css_class ("appbar");
                 if (!_show_buttons) {
-                    top_box.margin_top = 24;
+                    top_box.margin_top = 36;
                 } else {
                     top_box.margin_top = 0;
                 }
@@ -236,7 +236,7 @@ public class He.AppBar : He.Bin {
             _show_buttons = value;
 
             if (!value) {
-                top_box.margin_top = 24;
+                top_box.margin_top = 36;
                 title.visible = false;
                 sidetitle.visible = false;
             } else {
@@ -374,7 +374,7 @@ public class He.AppBar : He.Bin {
         labels_box.append (viewsubtitle);
 
         btn_box.valign = Gtk.Align.END;
-        btn_box.margin_end = 6;
+        btn_box.margin_end = 12;
 
         sub_box.append (labels_box);
         sub_box.append (btn_box);
