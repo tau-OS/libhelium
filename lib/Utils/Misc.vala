@@ -342,11 +342,29 @@ namespace He.Misc {
     }
   }
 
+  #if !GTK4_IS_12
+    // This is to cope with the fact that the Gtk.CssProvider.load_from_data vapi has changed between patch versions
+    // This can cause strange compilation issues with distros that ship these different versions
+    // To be clear the actual C API hasn't changed, so this is *fine*
+    // Luckily we only use gtk_css_provider_load_from_data pre-GTK 4.12
+    [CCode (cname = "gtk_css_provider_load_from_data", cheader_filename = "gtk/gtk.h")]
+    private extern void css_provider_load_from_data_fix (
+      Gtk.CssProvider css_provider,
+      [CCode (
+        array_length_cname = "length",
+        array_length_pos = 2.1,
+        array_length_type = "gssize",
+        type = "const char*"
+      )]
+      uint8[] data
+    );
+  #endif
+
   private void init_css_provider_from_string (Gtk.CssProvider provider, string css) {
     #if GTK4_IS_12
       provider.load_from_string (css);
     #else
-      provider.load_from_data (css.data);
+      css_provider_load_from_data_fix (provider, css.data);
     #endif
   }
 }
