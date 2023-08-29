@@ -372,6 +372,7 @@ public class He.AppBar : He.Bin {
         labels_box.visible = false;
         labels_box.append (viewtitle);
         labels_box.append (viewsubtitle);
+        labels_box.margin_start = 14;
 
         btn_box.valign = Gtk.Align.END;
         btn_box.margin_end = 14;
