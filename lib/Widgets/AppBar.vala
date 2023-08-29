@@ -30,7 +30,7 @@ public class He.AppBar : He.Bin {
     private Gtk.Box win_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box sub_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-    private Gtk.Box labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+    private Gtk.Box labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
     private Gtk.WindowControls title;
     private Gtk.WindowControls sidetitle;
 
@@ -50,7 +50,7 @@ public class He.AppBar : He.Bin {
     /**
     * The button box in the AppBar, shows below and to the right side of the title, or alongside the window controls, based on scrollers.
     */
-    public Gtk.Box btn_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+    public Gtk.Box btn_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
 
     private Gtk.Stack _stack;
     /**
@@ -107,7 +107,7 @@ public class He.AppBar : He.Bin {
                     main_box.add_css_class ("flat-appbar");
                     main_box.remove_css_class ("appbar");
                     if (!_show_buttons) {
-                        top_box.margin_top = 36;
+                        top_box.margin_top = 24;
                     } else {
                         top_box.margin_top = 0;
                     }
@@ -145,7 +145,7 @@ public class He.AppBar : He.Bin {
                         main_box.add_css_class ("flat-appbar");
                         main_box.remove_css_class ("appbar");
                         if (!_show_buttons) {
-                            top_box.margin_top = 36;
+                            top_box.margin_top = 24;
                         } else {
                             top_box.margin_top = 0;
                         }
@@ -155,7 +155,7 @@ public class He.AppBar : He.Bin {
                 main_box.add_css_class ("flat-appbar");
                 main_box.remove_css_class ("appbar");
                 if (!_show_buttons) {
-                    top_box.margin_top = 36;
+                    top_box.margin_top = 24;
                 } else {
                     top_box.margin_top = 0;
                 }
@@ -175,7 +175,7 @@ public class He.AppBar : He.Bin {
             if (value != null && _viewtitle_widget == null) {
                 viewtitle.label = value;
                 labels_box.visible = true;
-                main_box.spacing = 18;
+                main_box.spacing = 9;
                 control_box.append (viewtitle_mini);
             } else {
                 viewtitle.label = null;
@@ -196,7 +196,7 @@ public class He.AppBar : He.Bin {
             if (value != null) {
                 _viewtitle_widget.margin_start = 10; // make it flush with subtitle
                 labels_box.visible = true;
-                main_box.spacing = 18;
+                main_box.spacing = 9;
                 labels_box.prepend (value);
             } else {
                 labels_box.remove (value);
@@ -217,7 +217,7 @@ public class He.AppBar : He.Bin {
                 viewsubtitle.label = value;
                 viewsubtitle.visible = true;
                 labels_box.visible = true;
-                main_box.spacing = 18;
+                main_box.spacing = 9;
             } else {
                 viewsubtitle.label = "";
                 viewsubtitle.visible = false;
@@ -237,7 +237,7 @@ public class He.AppBar : He.Bin {
             _show_buttons = value;
 
             if (!value) {
-                top_box.margin_top = 36;
+                top_box.margin_top = 24;
                 title.visible = false;
                 sidetitle.visible = false;
             } else {
@@ -285,7 +285,7 @@ public class He.AppBar : He.Bin {
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
         labels_box.visible = true;
-        main_box.spacing = 18;
+        main_box.spacing = 9;
     }
 
     /**
@@ -298,7 +298,7 @@ public class He.AppBar : He.Bin {
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
         labels_box.visible = true;
-        main_box.spacing = 18;
+        main_box.spacing = 9;
     }
 
     /**
@@ -355,13 +355,13 @@ public class He.AppBar : He.Bin {
 
         viewtitle = new Gtk.Label ("");
         viewtitle.halign = Gtk.Align.START;
-        viewtitle.margin_start = 10;
+        viewtitle.margin_start = 8;
         viewtitle.add_css_class ("view-title");
         viewtitle.set_visible (false);
 
         viewsubtitle = new Gtk.Label ("");
         viewsubtitle.halign = Gtk.Align.START;
-        viewsubtitle.margin_start = 10;
+        viewsubtitle.margin_start = 8;
         viewsubtitle.add_css_class ("view-subtitle");
         viewsubtitle.set_visible (false);
 
