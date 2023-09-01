@@ -23,19 +23,19 @@ public class He.MutedScheme : SchemeFactory, Object {
 
         var tertiary_hue = MathUtils.sanitize_degrees (hue + 60.0);
 
-        const double PRIMARY = 8.0;
+        const double PRIMARY = 10.0;
         const double SECONDARY = 8.0;
-        const double TERTIARY = 8.0;
-        const double NEUTRAL = 4.0;
-        const double NEUTRAL2 = 6.0;
+        const double TERTIARY = 6.0;
+        const double NEUTRAL = 2.0;
+        const double NEUTRAL2 = 4.0;
 
         return Scheme () {
             // _  _ ____ _  _ ___ ____ ____ _
             // |\ | |___ |  |  |  |__/ |__| |
             // | \| |___ |__|  |  |  \ |  | |___
             neutral_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 6.0 : 98.0),
-            neutral_background_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 24.0 : 90.0),
-            neutral_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 98.0 : 10.0),
+            neutral_background_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 22.0 : 90.0),
+            neutral_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 90.0 : 10.0),
             neutral_foreground_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 80.0 : 30.0),
             inverse_neutral_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 90.0 : 20.0),
             inverse_neutral_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 20.0 : 95.0),
