@@ -34,8 +34,8 @@ public class He.DefaultScheme : SchemeFactory, Object {
             // |\ | |___ |  |  |  |__/ |__| |
             // | \| |___ |__|  |  |  \ |  | |___
             neutral_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 6.0 : 98.0),
-            neutral_background_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 24.0 : 90.0),
-            neutral_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 98.0 : 10.0),
+            neutral_background_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 22.0 : 90.0),
+            neutral_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 90.0 : 10.0),
             neutral_foreground_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 80.0 : 30.0),
             inverse_neutral_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 90.0 : 20.0),
             inverse_neutral_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 20.0 : 95.0),
