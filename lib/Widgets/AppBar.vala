@@ -246,6 +246,8 @@ public class He.AppBar : He.Bin {
                 create_end_window_controls ();
                 top_box.margin_top = 0;
             }
+
+            update_box_visibility (win_box);
         }
     }
     private static void update_box_visibility (Gtk.Widget? box) {
