@@ -167,6 +167,12 @@ public class He.StyleManager : Object {
       @define-color popover_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.5);
       @define-color card_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.5);
 
+      @define-color surface_lowest_bg_color mix($(chosen_scheme.surface_lowest_background_hex), $background_hex, 0.5);
+      @define-color surface_low_bg_color mix($(chosen_scheme.surface_low_background_hex), $background_hex, 0.5);
+      @define-color surface_bg_color mix($(chosen_scheme.surface_background_hex), $background_hex, 0.5);
+      @define-color surface_high_bg_color mix($(chosen_scheme.surface_high_background_hex), $background_hex, 0.5);
+      @define-color surface_highest_bg_color mix($(chosen_scheme.surface_highest_background_hex), $background_hex, 0.5);
+
       @define-color window_fg_color $(chosen_scheme.neutral_foreground_hex);
       @define-color view_fg_color $(chosen_scheme.neutral_foreground_hex);
       @define-color headerbar_fg_color $(chosen_scheme.neutral_foreground_variant_hex);
@@ -238,6 +244,12 @@ public class He.StyleManager : Object {
       @define-color headerbar_fg_color $(chosen_scheme.neutral_foreground_variant_hex);
       @define-color popover_fg_color $(chosen_scheme.neutral_foreground_hex);
       @define-color card_fg_color $(chosen_scheme.neutral_foreground_hex);
+
+      @define-color surface_lowest_bg_color $(chosen_scheme.surface_lowest_background_hex);
+      @define-color surface_low_bg_color $(chosen_scheme.surface_low_background_hex);
+      @define-color surface_bg_color $(chosen_scheme.surface_background_hex);
+      @define-color surface_high_bg_color $(chosen_scheme.surface_high_background_hex);
+      @define-color surface_highest_bg_color $(chosen_scheme.surface_highest_background_hex);
 
       @define-color destructive_bg_color $error_hex;
       @define-color destructive_fg_color $on_error_hex;

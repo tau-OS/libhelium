@@ -27,6 +27,11 @@ public struct He.Scheme {
     public string neutral_foreground_variant_hex;
     public string inverse_neutral_background_hex;
     public string inverse_neutral_foreground_hex;
+    public string surface_lowest_background_hex;
+    public string surface_low_background_hex;
+    public string surface_background_hex;
+    public string surface_high_background_hex;
+    public string surface_highest_background_hex;
     public string primary_hex;
     public string on_primary_hex;
     public string primary_container_hex;
