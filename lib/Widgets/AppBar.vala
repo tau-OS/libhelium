@@ -370,6 +370,8 @@ public class He.AppBar : He.Bin {
         title_box.halign = Gtk.Align.END;
         win_box.halign = Gtk.Align.END;
         win2_box.halign = Gtk.Align.START;
+        create_start_window_controls ();
+        create_end_window_controls ();
 
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
