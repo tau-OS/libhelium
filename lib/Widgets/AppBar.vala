@@ -367,7 +367,6 @@ public class He.AppBar : He.Bin {
         win_box.halign = Gtk.Align.END;
         win2_box.halign = Gtk.Align.START;
 
-        decoration_layout = "";
         title.bind_property ("empty", title, "visible", INVERT_BOOLEAN);
         title.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
         sidetitle.bind_property ("empty", sidetitle, "visible", INVERT_BOOLEAN);
