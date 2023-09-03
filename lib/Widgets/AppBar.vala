@@ -337,7 +337,7 @@ public class He.AppBar : He.Bin {
         sidetitle.valign = Gtk.Align.CENTER;
         sidetitle.decoration_layout = decoration_layout;
         win2_box.prepend (sidetitle);
-        Signal.connect_swapped (sidetitle, "notify::visible", update_box_visibility, win2_box);
+        Signal.connect_swapped (sidetitle, "notify::visible", (Callback)update_box_visibility, win2_box);
     }
 
     private void create_end_window_controls () {
@@ -346,7 +346,7 @@ public class He.AppBar : He.Bin {
         title.valign = Gtk.Align.CENTER;
         title.decoration_layout = decoration_layout;
         win_box.prepend (title);
-        Signal.connect_swapped (title, "notify::visible", update_box_visibility, win_box);
+        Signal.connect_swapped (title, "notify::visible", (Callback)update_box_visibility, win_box);
     }
 
     /**
