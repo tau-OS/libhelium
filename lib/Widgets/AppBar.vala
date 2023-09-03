@@ -342,8 +342,10 @@ public class He.AppBar : He.Bin {
         sidetitle.side = Gtk.PackType.START;
         sidetitle.valign = Gtk.Align.CENTER;
         sidetitle.decoration_layout = decoration_layout;
-        win2_box.prepend (sidetitle);
+        sidetitle.bind_property ("empty", sidetitle, "visible", SYNC_CREATE|INVERT_BOOLEAN);
+        sidetitle.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
         Signal.connect_swapped (sidetitle, "notify::visible", (Callback)update_box_visibility, win2_box);
+        win2_box.prepend (sidetitle);
     }
 
     private void create_end_window_controls () {
@@ -351,8 +353,10 @@ public class He.AppBar : He.Bin {
         title.side = Gtk.PackType.END;
         title.valign = Gtk.Align.CENTER;
         title.decoration_layout = decoration_layout;
-        win_box.prepend (title);
+        title.bind_property ("empty", title, "visible", SYNC_CREATE|INVERT_BOOLEAN);
+        title.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
         Signal.connect_swapped (title, "notify::visible", (Callback)update_box_visibility, win_box);
+        win_box.prepend (title);
     }
 
     /**
@@ -366,13 +370,6 @@ public class He.AppBar : He.Bin {
         title_box.halign = Gtk.Align.END;
         win_box.halign = Gtk.Align.END;
         win2_box.halign = Gtk.Align.START;
-
-        title.bind_property ("empty", title, "visible", INVERT_BOOLEAN);
-        title.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
-        sidetitle.bind_property ("empty", sidetitle, "visible", INVERT_BOOLEAN);
-        sidetitle.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
-        update_box_visibility (win_box);
-        update_box_visibility (win2_box);
 
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
