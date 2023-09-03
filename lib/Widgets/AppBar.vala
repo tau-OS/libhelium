@@ -312,12 +312,14 @@ public class He.AppBar : He.Bin {
 
     private void create_start_window_controls () {
         sidetitle = new Gtk.WindowControls (Gtk.PackType.START);
+        sidetitle.side = Gtk.PackType.START;
         sidetitle.valign = Gtk.Align.CENTER;
         control_box.prepend (sidetitle);
     }
 
     private void create_end_window_controls () {
         title = new Gtk.WindowControls (Gtk.PackType.END);
+        title.side = Gtk.PackType.END;
         title.valign = Gtk.Align.CENTER;
         win_box.prepend (title);
     }
@@ -335,10 +337,11 @@ public class He.AppBar : He.Bin {
 
         create_start_window_controls ();
         create_end_window_controls ();
-        title.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
-        sidetitle.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
-
         decoration_layout = "";
+        title.bind_property ("empty", title, "visible", SYNC_CREATE);
+        title.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
+        sidetitle.bind_property ("empty", sidetitle, "visible", SYNC_CREATE);
+        sidetitle.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
 
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
