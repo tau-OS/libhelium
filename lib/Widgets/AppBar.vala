@@ -236,6 +236,11 @@ public class He.AppBar : He.Bin {
         set {
             _show_buttons = value;
 
+            if ((title != null) == value)
+                return;
+            if ((sidetitle != null) == value)
+                return;
+
             if (!value) {
                 win_box.remove (title);
                 win2_box.remove (sidetitle);
