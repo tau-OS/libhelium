@@ -371,6 +371,8 @@ public class He.AppBar : He.Bin {
         title.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
         sidetitle.bind_property ("empty", sidetitle, "visible", INVERT_BOOLEAN);
         sidetitle.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
+        update_box_visibility (win_box);
+        update_box_visibility (win2_box);
 
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
