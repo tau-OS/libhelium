@@ -422,7 +422,7 @@ public class He.AppBar : He.Bin {
         winhandle.set_parent (this);
         winhandle.hexpand = true;
 
-        show_buttons = false;
+        show_buttons = true;
         show_back = false;
         flat = true;
         main_box.add_css_class ("flat-appbar");
