@@ -251,7 +251,7 @@ public class He.AppBar : He.Bin {
       Gtk.Widget? child;
 
       for (child = box.get_first_child ();
-           child;
+           child != null;
            child = child.get_next_sibling ()) {
         if (child.get_visible ()) {
           has_visible = true;
