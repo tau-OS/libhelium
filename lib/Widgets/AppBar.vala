@@ -234,14 +234,6 @@ public class He.AppBar : He.Bin {
         }
         set {
             _show_buttons = value;
-
-            if (!value) {
-                title.visible = false;
-                sidetitle.visible = false;
-            } else {
-                title.visible = true;
-                sidetitle.visible = true;
-            }
         }
     }
 
