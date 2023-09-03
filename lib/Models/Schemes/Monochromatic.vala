@@ -19,7 +19,6 @@
 public class He.MonochromaticScheme : SchemeFactory, Object {
     public Scheme generate (Color.CAM16Color accent, bool is_dark) {
         var hue = accent.h;
-        var chroma = accent.c;
 
         var tertiary_hue = MathUtils.sanitize_degrees (hue + 0.0);
 

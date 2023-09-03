@@ -19,7 +19,6 @@
 public class He.VibrantScheme : SchemeFactory, Object {
     public Scheme generate (Color.CAM16Color accent, bool is_dark) {
         var hue = accent.h;
-        var chroma = accent.c;
 
         const double PRIMARY = 150.0;
         const double SECONDARY = 32.0;
