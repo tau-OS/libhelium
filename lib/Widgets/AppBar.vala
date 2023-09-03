@@ -337,7 +337,7 @@ public class He.AppBar : He.Bin {
 
         create_start_window_controls ();
         create_end_window_controls ();
-        decoration_layout = "";
+        decoration_layout = "close,maximize,minimize:"; // Helium default fallback
         title.bind_property ("empty", title, "visible", SYNC_CREATE);
         title.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
         sidetitle.bind_property ("empty", sidetitle, "visible", SYNC_CREATE);
