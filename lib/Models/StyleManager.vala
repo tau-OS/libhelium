@@ -162,10 +162,10 @@ public class He.StyleManager : Object {
       @define-color accent_container_fg_color $(chosen_scheme.on_primary_container_hex);
 
       @define-color window_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.50);
-      @define-color view_bg_color mix($(chosen_scheme.surface_background_hex), $background_hex, 0.50);
+      @define-color view_bg_color mix($(chosen_scheme.surface_background_hex), $background_hex, 0.30);
       @define-color headerbar_bg_color mix($(chosen_scheme.neutral_background_variant_hex), $background_hex, 0.50);
-      @define-color popover_bg_color mix($(chosen_scheme.surface_high_background_hex), $background_hex, 0.50);
-      @define-color card_bg_color mix($(chosen_scheme.surface_background_hex), $background_hex, 0.50);
+      @define-color popover_bg_color mix($(chosen_scheme.surface_high_background_hex), $background_hex, 0.20);
+      @define-color card_bg_color mix($(chosen_scheme.surface_background_hex), $background_hex, 0.30);
 
       @define-color surface_lowest_bg_color mix($(chosen_scheme.surface_lowest_background_hex), $background_hex, 0.50);
       @define-color surface_low_bg_color mix($(chosen_scheme.surface_low_background_hex), $background_hex, 0.40);
@@ -202,7 +202,9 @@ public class He.StyleManager : Object {
       @define-color error_container_color $on_error_container_hex;
       @define-color error_container_bg_color $error_container_hex;
       @define-color error_container_fg_color $error_container_hex;
+      ";
 
+      css += @"
       @define-color success_bg_color $(chosen_scheme.tertiary_hex);
       @define-color success_fg_color $(chosen_scheme.on_tertiary_hex);
       @define-color success_color $(chosen_scheme.tertiary_hex);
@@ -216,9 +218,7 @@ public class He.StyleManager : Object {
 
       @define-color shadow $(chosen_scheme.shadow_hex);
       @define-color scrim $(chosen_scheme.scrim_hex);
-      ";
 
-      css += @"
       @define-color osd_bg_color $(chosen_scheme.inverse_neutral_background_hex);
       @define-color osd_fg_color $(chosen_scheme.inverse_neutral_foreground_hex);
       @define-color osdaccent_color $(chosen_scheme.inverse_primary_hex);
@@ -274,7 +274,9 @@ public class He.StyleManager : Object {
       @define-color error_container_color $on_error_container_hex;
       @define-color error_container_bg_color $error_container_hex;
       @define-color error_container_fg_color $error_container_hex;
+      ";
 
+      css += @"
       @define-color success_bg_color $(chosen_scheme.tertiary_hex);
       @define-color success_fg_color $(chosen_scheme.on_tertiary_hex);
       @define-color success_color $(chosen_scheme.tertiary_hex);
@@ -288,9 +290,7 @@ public class He.StyleManager : Object {
 
       @define-color shadow $(chosen_scheme.shadow_hex);
       @define-color scrim $(chosen_scheme.scrim_hex);
-      ";
 
-      css += @"
       @define-color osd_bg_color $(chosen_scheme.inverse_neutral_background_hex);
       @define-color osd_fg_color $(chosen_scheme.inverse_neutral_foreground_hex);
       @define-color osdaccent_color $(chosen_scheme.inverse_primary_hex);
