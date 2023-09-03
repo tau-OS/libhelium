@@ -314,6 +314,7 @@ public class He.AppBar : He.Bin {
         sidetitle = new Gtk.WindowControls (Gtk.PackType.START);
         sidetitle.side = Gtk.PackType.START;
         sidetitle.valign = Gtk.Align.CENTER;
+        sidetitle.decoration_layout = decoration_layout;
         control_box.prepend (sidetitle);
     }
 
@@ -321,6 +322,7 @@ public class He.AppBar : He.Bin {
         title = new Gtk.WindowControls (Gtk.PackType.END);
         title.side = Gtk.PackType.END;
         title.valign = Gtk.Align.CENTER;
+        title.decoration_layout = decoration_layout;
         win_box.prepend (title);
     }
 
