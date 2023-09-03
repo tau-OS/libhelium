@@ -234,8 +234,34 @@ public class He.AppBar : He.Bin {
         }
         set {
             _show_buttons = value;
+
+            if (!value) {
+                win_box.remove (title);
+                control_box.remove (sidetitle);
+                title = null;
+                sidetitle = null;
+            } else {
+                create_start_window_controls ();
+                create_end_window_controls ();
+            }
         }
     }
+    private static void update_box_visibility (Gtk.Widget? box) {
+      bool has_visible = false;
+      Gtk.Widget child;
+
+      for (child = box.get_first_child ();
+           child;
+           child = child.get_next_sibling ()) {
+        if (child.get_visible ()) {
+          has_visible = true;
+          break;
+        }
+      }
+
+      box.set_visible (has_visible);
+    }
+
 
     private string _decoration_layout;
     /**
@@ -327,8 +353,6 @@ public class He.AppBar : He.Bin {
         title_box.halign = Gtk.Align.END;
         win_box.halign = Gtk.Align.END;
 
-        create_start_window_controls ();
-        create_end_window_controls ();
         decoration_layout = "close,maximize,minimize:"; // Helium default fallback
         title.bind_property ("empty", title, "visible", INVERT_BOOLEAN);
         title.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
