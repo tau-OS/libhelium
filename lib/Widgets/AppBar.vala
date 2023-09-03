@@ -248,7 +248,7 @@ public class He.AppBar : He.Bin {
     }
     private static void update_box_visibility (Gtk.Widget? box) {
       bool has_visible = false;
-      Gtk.Widget child;
+      Gtk.Widget? child;
 
       for (child = box.get_first_child ();
            child;
