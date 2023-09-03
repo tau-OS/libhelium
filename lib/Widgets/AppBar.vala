@@ -246,9 +246,11 @@ public class He.AppBar : He.Bin {
                 win2_box.remove (sidetitle);
                 title = null;
                 sidetitle = null;
+                top_box.margin_top = 36;
             } else {
                 create_start_window_controls ();
                 create_end_window_controls ();
+                top_box.margin_top = 0;
             }
 
             update_box_visibility (win_box);
@@ -264,7 +266,6 @@ public class He.AppBar : He.Bin {
            child = child.get_next_sibling ()) {
         if (child.get_visible ()) {
           has_visible = true;
-          top_box.margin_top = 36;
           break;
         }
       }
