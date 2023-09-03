@@ -250,7 +250,7 @@ public class He.AppBar : He.Bin {
             update_box_visibility (win2_box);
         }
     }
-    private static void update_box_visibility (Gtk.Widget? box) {
+    private void update_box_visibility (Gtk.Widget? box) {
       bool has_visible = false;
       Gtk.Widget? child;
 
