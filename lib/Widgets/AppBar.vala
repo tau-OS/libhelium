@@ -28,6 +28,7 @@ public class He.AppBar : He.Bin {
     private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
     private Gtk.Box control_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
     private Gtk.Box win_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+    private Gtk.Box win2_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box sub_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
     private Gtk.Box labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
@@ -237,7 +238,7 @@ public class He.AppBar : He.Bin {
 
             if (!value) {
                 win_box.remove (title);
-                control_box.remove (sidetitle);
+                win2_box.remove (sidetitle);
                 title = null;
                 sidetitle = null;
                 top_box.margin_top = 36;
@@ -248,6 +249,7 @@ public class He.AppBar : He.Bin {
             }
 
             update_box_visibility (win_box);
+            update_box_visibility (win2_box);
         }
     }
     private static void update_box_visibility (Gtk.Widget? box) {
@@ -335,7 +337,7 @@ public class He.AppBar : He.Bin {
         sidetitle.side = Gtk.PackType.START;
         sidetitle.valign = Gtk.Align.CENTER;
         sidetitle.decoration_layout = decoration_layout;
-        control_box.prepend (sidetitle);
+        win2_box.prepend (sidetitle);
     }
 
     private void create_end_window_controls () {
@@ -356,6 +358,7 @@ public class He.AppBar : He.Bin {
     construct {
         title_box.halign = Gtk.Align.END;
         win_box.halign = Gtk.Align.END;
+        win2_box.halign = Gtk.Align.START;
 
         decoration_layout = "close,maximize,minimize:"; // Helium default fallback
         title.bind_property ("empty", title, "visible", INVERT_BOOLEAN);
@@ -386,6 +389,7 @@ public class He.AppBar : He.Bin {
         viewsubtitle.set_visible (false);
 
         top_box.hexpand = true;
+        top_box.append (win2_box);
         top_box.append (control_box);
         top_box.append (title_box);
         top_box.append (win_box);
