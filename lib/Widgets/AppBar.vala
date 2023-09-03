@@ -240,9 +240,11 @@ public class He.AppBar : He.Bin {
                 control_box.remove (sidetitle);
                 title = null;
                 sidetitle = null;
+                top_box.margin_top = 36;
             } else {
                 create_start_window_controls ();
                 create_end_window_controls ();
+                top_box.margin_top = 0;
             }
         }
     }
