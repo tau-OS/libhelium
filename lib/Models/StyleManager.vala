@@ -161,17 +161,17 @@ public class He.StyleManager : Object {
       @define-color accent_container_bg_color $(chosen_scheme.primary_container_hex);
       @define-color accent_container_fg_color $(chosen_scheme.on_primary_container_hex);
 
-      @define-color window_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.5);
-      @define-color view_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.5);
-      @define-color headerbar_bg_color mix($(chosen_scheme.neutral_background_variant_hex), $background_hex, 0.5);
-      @define-color popover_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.5);
-      @define-color card_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.5);
+      @define-color window_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.50);
+      @define-color view_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.50);
+      @define-color headerbar_bg_color mix($(chosen_scheme.neutral_background_variant_hex), $background_hex, 0.50);
+      @define-color popover_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.50);
+      @define-color card_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.50);
 
-      @define-color surface_lowest_bg_color mix($(chosen_scheme.surface_lowest_background_hex), $background_hex, 0.1);
-      @define-color surface_low_bg_color mix($(chosen_scheme.surface_low_background_hex), $background_hex, 0.1);
-      @define-color surface_bg_color mix($(chosen_scheme.surface_background_hex), $background_hex, 0.1);
-      @define-color surface_high_bg_color mix($(chosen_scheme.surface_high_background_hex), $background_hex, 0.1);
-      @define-color surface_highest_bg_color mix($(chosen_scheme.surface_highest_background_hex), $background_hex, 0.1);
+      @define-color surface_lowest_bg_color mix($(chosen_scheme.surface_lowest_background_hex), $background_hex, 0.50);
+      @define-color surface_low_bg_color mix($(chosen_scheme.surface_low_background_hex), $background_hex, 0.50);
+      @define-color surface_bg_color mix($(chosen_scheme.surface_background_hex), $background_hex, 0.50);
+      @define-color surface_high_bg_color mix($(chosen_scheme.surface_high_background_hex), $background_hex, 0.50);
+      @define-color surface_highest_bg_color mix($(chosen_scheme.surface_highest_background_hex), $background_hex, 0.50);
 
       @define-color window_fg_color $(chosen_scheme.neutral_foreground_hex);
       @define-color view_fg_color $(chosen_scheme.neutral_foreground_hex);
