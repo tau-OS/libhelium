@@ -168,9 +168,8 @@ public class He.StyleManager : Object {
       @define-color card_bg_color mix($(chosen_scheme.surface_background_hex), $background_hex, 0.30);
 
       @define-color surface_bright_bg_color $(chosen_scheme.surface_bright_background_hex));
-      @define-color surface_dim_bg_color $(chosen_scheme.surface_dim_background_hex);
-
       @define-color surface_bg_color $(chosen_scheme.surface_background_hex);
+      @define-color surface_dim_bg_color $(chosen_scheme.surface_dim_background_hex);
 
       @define-color surface_container_lowest_bg_color $(chosen_scheme.surface_container_lowest_background_hex);
       @define-color surface_container_low_bg_color $(chosen_scheme.surface_container_low_background_hex);
@@ -186,10 +185,10 @@ public class He.StyleManager : Object {
 
       @define-color destructive_bg_color $error_hex;
       @define-color destructive_fg_color $on_error_hex;
-      @define-color destructive_color $error_hex;
       ";
 
       css += @"
+      @define-color destructive_color $error_hex;
 
       @define-color destructive_container_color $on_error_container_hex;
       @define-color destructive_container_bg_color $error_container_hex;
@@ -252,9 +251,8 @@ public class He.StyleManager : Object {
       @define-color card_fg_color $(chosen_scheme.surface_foreground_hex);
 
       @define-color surface_bright_bg_color $(chosen_scheme.surface_bright_background_hex));
-      @define-color surface_dim_bg_color $(chosen_scheme.surface_dim_background_hex);
-
       @define-color surface_bg_color $(chosen_scheme.surface_background_hex);
+      @define-color surface_dim_bg_color $(chosen_scheme.surface_dim_background_hex);
 
       @define-color surface_container_lowest_bg_color $(chosen_scheme.surface_container_lowest_background_hex);
       @define-color surface_container_low_bg_color $(chosen_scheme.surface_container_low_background_hex);
@@ -264,10 +262,10 @@ public class He.StyleManager : Object {
 
       @define-color destructive_bg_color $error_hex;
       @define-color destructive_fg_color $on_error_hex;
-      @define-color destructive_color $error_hex;
       ";
 
       css += @"
+      @define-color destructive_color $error_hex;
 
       @define-color destructive_container_color $on_error_container_hex;
       @define-color destructive_container_bg_color $error_container_hex;
@@ -381,6 +379,12 @@ public class He.StyleManager : Object {
       font-weight: $heavy_weight;
     }
     .caption-heading {
+      font-weight: $heavy_weight;
+    }
+    .badge label,
+    .badge-info label,
+    .tint-badge label,
+    .modifier-badge label {
       font-weight: $heavy_weight;
     }
     ";
