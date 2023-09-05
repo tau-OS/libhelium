@@ -60,6 +60,13 @@ meson _build --prefix=/usr && cd _build
 sudo ninja install
 ```
 
+For additional build options, please see [meson_options.txt](./meson_options.txt). For example, to enable the demo:
+
+```sh
+meson _build -Ddemo=true --prefix=/usr && cd _build
+sudo ninja install
+```
+
 <!-- ## 🖼️ Showcase
 
 <img src="showcase/abacus.png" alt="Abacus" width="50%">
