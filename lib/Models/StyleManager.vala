@@ -199,7 +199,7 @@ public class He.StyleManager : Object {
       @define-color error_bg_color $error_hex;
       @define-color error_fg_color $on_error_hex;
       @define-color error_color $error_hex;
-      @define-color error_container_color $on_error_container_hex;
+      @define-color error_container_color $error_container_hex;
       @define-color error_container_bg_color $error_container_hex;
       @define-color error_container_fg_color $on_error_container_hex;
 
@@ -269,7 +269,7 @@ public class He.StyleManager : Object {
       @define-color error_bg_color $error_hex;
       @define-color error_fg_color $on_error_hex;
       @define-color error_color $error_hex;
-      @define-color error_container_color $on_error_container_hex;
+      @define-color error_container_color $error_container_hex;
       @define-color error_container_bg_color $error_container_hex;
       @define-color error_container_fg_color $on_error_container_hex;
 
