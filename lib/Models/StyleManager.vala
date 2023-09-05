@@ -174,7 +174,7 @@ public class He.StyleManager : Object {
       @define-color surface_highest_bg_color $(chosen_scheme.surface_highest_background_hex);
 
       @define-color window_fg_color $(chosen_scheme.neutral_foreground_hex);
-      @define-color view_fg_color $(chosen_scheme.neutral_foreground_hex);
+      @define-color view_fg_color $(chosen_scheme.neutral_foreground_variant_hex);
       @define-color headerbar_fg_color $(chosen_scheme.neutral_foreground_variant_hex);
       @define-color popover_fg_color $(chosen_scheme.neutral_foreground_hex);
       @define-color card_fg_color $(chosen_scheme.neutral_foreground_hex);
@@ -234,7 +234,7 @@ public class He.StyleManager : Object {
       @define-color accent_container_fg_color $(chosen_scheme.on_primary_container_hex);
 
       @define-color window_bg_color $(chosen_scheme.neutral_background_hex);
-      @define-color view_bg_color $(chosen_scheme.neutral_background_hex);
+      @define-color view_bg_color $(chosen_scheme.neutral_background_variant_hex);
       @define-color headerbar_bg_color $(chosen_scheme.neutral_background_variant_hex);
       @define-color popover_bg_color $(chosen_scheme.neutral_background_hex);
       @define-color card_bg_color $(chosen_scheme.neutral_background_hex);
