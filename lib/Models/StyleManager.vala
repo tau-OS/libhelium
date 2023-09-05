@@ -182,12 +182,11 @@ public class He.StyleManager : Object {
       @define-color headerbar_fg_color $(chosen_scheme.surface_foreground_variant_hex);
       @define-color popover_fg_color $(chosen_scheme.surface_foreground_hex);
       @define-color card_fg_color $(chosen_scheme.surface_foreground_hex);
-
-      @define-color destructive_bg_color $error_hex;
-      @define-color destructive_fg_color $on_error_hex;
       ";
 
       css += @"
+      @define-color destructive_bg_color $error_hex;
+      @define-color destructive_fg_color $on_error_hex;
       @define-color destructive_color $error_hex;
 
       @define-color destructive_container_color $on_error_container_hex;
@@ -259,12 +258,11 @@ public class He.StyleManager : Object {
       @define-color surface_container_bg_color $(chosen_scheme.surface_container_background_hex);
       @define-color surface_container_high_bg_color $(chosen_scheme.surface_container_high_background_hex);
       @define-color surface_container_highest_bg_color $(chosen_scheme.surface_container_highest_background_hex);
-
-      @define-color destructive_bg_color $error_hex;
-      @define-color destructive_fg_color $on_error_hex;
       ";
 
       css += @"
+      @define-color destructive_bg_color $error_hex;
+      @define-color destructive_fg_color $on_error_hex;
       @define-color destructive_color $error_hex;
 
       @define-color destructive_container_color $on_error_container_hex;
