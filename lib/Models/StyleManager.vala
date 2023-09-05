@@ -240,7 +240,7 @@ public class He.StyleManager : Object {
       @define-color card_bg_color $(chosen_scheme.neutral_background_hex);
 
       @define-color window_fg_color $(chosen_scheme.neutral_foreground_hex);
-      @define-color view_fg_color $(chosen_scheme.neutral_foreground_hex);
+      @define-color view_fg_color $(chosen_scheme.neutral_foreground_variant_hex);
       @define-color headerbar_fg_color $(chosen_scheme.neutral_foreground_variant_hex);
       @define-color popover_fg_color $(chosen_scheme.neutral_foreground_hex);
       @define-color card_fg_color $(chosen_scheme.neutral_foreground_hex);
