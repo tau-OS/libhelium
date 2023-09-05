@@ -161,27 +161,35 @@ public class He.StyleManager : Object {
       @define-color accent_container_bg_color $(chosen_scheme.primary_container_hex);
       @define-color accent_container_fg_color $(chosen_scheme.on_primary_container_hex);
 
-      @define-color window_bg_color mix($(chosen_scheme.neutral_background_hex), $background_hex, 0.50);
+      @define-color window_bg_color mix($(chosen_scheme.surface_background_hex), $background_hex, 0.50);
       @define-color view_bg_color mix($(chosen_scheme.surface_background_hex), $background_hex, 0.30);
-      @define-color headerbar_bg_color mix($(chosen_scheme.neutral_background_variant_hex), $background_hex, 0.50);
-      @define-color popover_bg_color mix($(chosen_scheme.surface_high_background_hex), $background_hex, 0.20);
+      @define-color headerbar_bg_color mix($(chosen_scheme.surface_background_variant_hex), $background_hex, 0.50);
+      @define-color popover_bg_color mix($(chosen_scheme.surface_container_high_background_hex), $background_hex, 0.20);
       @define-color card_bg_color mix($(chosen_scheme.surface_background_hex), $background_hex, 0.30);
 
-      @define-color surface_lowest_bg_color $(chosen_scheme.surface_lowest_background_hex));
-      @define-color surface_low_bg_color $(chosen_scheme.surface_low_background_hex);
-      @define-color surface_bg_color $(chosen_scheme.surface_background_hex);
-      @define-color surface_high_bg_color $(chosen_scheme.surface_high_background_hex);
-      @define-color surface_highest_bg_color $(chosen_scheme.surface_highest_background_hex);
+      @define-color surface_bright_bg_color $(chosen_scheme.surface_bright_background_hex));
+      @define-color surface_dim_bg_color $(chosen_scheme.surface_dim_background_hex);
 
-      @define-color window_fg_color $(chosen_scheme.neutral_foreground_hex);
-      @define-color view_fg_color $(chosen_scheme.neutral_foreground_variant_hex);
-      @define-color headerbar_fg_color $(chosen_scheme.neutral_foreground_variant_hex);
-      @define-color popover_fg_color $(chosen_scheme.neutral_foreground_hex);
-      @define-color card_fg_color $(chosen_scheme.neutral_foreground_hex);
+      @define-color surface_bg_color $(chosen_scheme.surface_background_hex);
+
+      @define-color surface_container_lowest_bg_color $(chosen_scheme.surface_container_lowest_background_hex);
+      @define-color surface_container_low_bg_color $(chosen_scheme.surface_container_low_background_hex);
+      @define-color surface_container_bg_color $(chosen_scheme.surface_container_background_hex);
+      @define-color surface_container_high_bg_color $(chosen_scheme.surface_container_high_background_hex);
+      @define-color surface_container_highest_bg_color $(chosen_scheme.surface_container_highest_background_hex);
+
+      @define-color window_fg_color $(chosen_scheme.surface_foreground_hex);
+      @define-color view_fg_color $(chosen_scheme.surface_foreground_variant_hex);
+      @define-color headerbar_fg_color $(chosen_scheme.surface_foreground_variant_hex);
+      @define-color popover_fg_color $(chosen_scheme.surface_foreground_hex);
+      @define-color card_fg_color $(chosen_scheme.surface_foreground_hex);
 
       @define-color destructive_bg_color $error_hex;
       @define-color destructive_fg_color $on_error_hex;
       @define-color destructive_color $error_hex;
+      ";
+
+      css += @"
 
       @define-color destructive_container_color $on_error_container_hex;
       @define-color destructive_container_bg_color $error_container_hex;
@@ -202,9 +210,7 @@ public class He.StyleManager : Object {
       @define-color error_container_color $on_error_container_hex;
       @define-color error_container_bg_color $error_container_hex;
       @define-color error_container_fg_color $error_container_hex;
-      ";
 
-      css += @"
       @define-color success_bg_color $(chosen_scheme.tertiary_hex);
       @define-color success_fg_color $(chosen_scheme.on_tertiary_hex);
       @define-color success_color $(chosen_scheme.tertiary_hex);
@@ -219,8 +225,8 @@ public class He.StyleManager : Object {
       @define-color shadow $(chosen_scheme.shadow_hex);
       @define-color scrim $(chosen_scheme.scrim_hex);
 
-      @define-color osd_bg_color $(chosen_scheme.inverse_neutral_background_hex);
-      @define-color osd_fg_color $(chosen_scheme.inverse_neutral_foreground_hex);
+      @define-color osd_bg_color $(chosen_scheme.inverse_surface_background_hex);
+      @define-color osd_fg_color $(chosen_scheme.inverse_surface_foreground_hex);
       @define-color osdaccent_color $(chosen_scheme.inverse_primary_hex);
       ";
     } else {
@@ -233,27 +239,35 @@ public class He.StyleManager : Object {
       @define-color accent_container_bg_color $(chosen_scheme.primary_container_hex);
       @define-color accent_container_fg_color $(chosen_scheme.on_primary_container_hex);
 
-      @define-color window_bg_color $(chosen_scheme.neutral_background_hex);
-      @define-color view_bg_color $(chosen_scheme.neutral_background_hex);
-      @define-color headerbar_bg_color $(chosen_scheme.neutral_background_variant_hex);
-      @define-color popover_bg_color $(chosen_scheme.neutral_background_hex);
-      @define-color card_bg_color $(chosen_scheme.neutral_background_hex);
+      @define-color window_bg_color $(chosen_scheme.surface_background_hex);
+      @define-color view_bg_color $(chosen_scheme.surface_background_hex);
+      @define-color headerbar_bg_color $(chosen_scheme.surface_background_variant_hex);
+      @define-color popover_bg_color $(chosen_scheme.surface_container_high_background_hex);
+      @define-color card_bg_color $(chosen_scheme.surface_background_hex);
 
-      @define-color window_fg_color $(chosen_scheme.neutral_foreground_hex);
-      @define-color view_fg_color $(chosen_scheme.neutral_foreground_variant_hex);
-      @define-color headerbar_fg_color $(chosen_scheme.neutral_foreground_variant_hex);
-      @define-color popover_fg_color $(chosen_scheme.neutral_foreground_hex);
-      @define-color card_fg_color $(chosen_scheme.neutral_foreground_hex);
+      @define-color window_fg_color $(chosen_scheme.surface_foreground_hex);
+      @define-color view_fg_color $(chosen_scheme.surface_foreground_variant_hex);
+      @define-color headerbar_fg_color $(chosen_scheme.surface_foreground_variant_hex);
+      @define-color popover_fg_color $(chosen_scheme.surface_foreground_hex);
+      @define-color card_fg_color $(chosen_scheme.surface_foreground_hex);
 
-      @define-color surface_lowest_bg_color $(chosen_scheme.surface_lowest_background_hex);
-      @define-color surface_low_bg_color $(chosen_scheme.surface_low_background_hex);
+      @define-color surface_bright_bg_color $(chosen_scheme.surface_bright_background_hex));
+      @define-color surface_dim_bg_color $(chosen_scheme.surface_dim_background_hex);
+
       @define-color surface_bg_color $(chosen_scheme.surface_background_hex);
-      @define-color surface_high_bg_color $(chosen_scheme.surface_high_background_hex);
-      @define-color surface_highest_bg_color $(chosen_scheme.surface_highest_background_hex);
+
+      @define-color surface_container_lowest_bg_color $(chosen_scheme.surface_container_lowest_background_hex);
+      @define-color surface_container_low_bg_color $(chosen_scheme.surface_container_low_background_hex);
+      @define-color surface_container_bg_color $(chosen_scheme.surface_container_background_hex);
+      @define-color surface_container_high_bg_color $(chosen_scheme.surface_container_high_background_hex);
+      @define-color surface_container_highest_bg_color $(chosen_scheme.surface_container_highest_background_hex);
 
       @define-color destructive_bg_color $error_hex;
       @define-color destructive_fg_color $on_error_hex;
       @define-color destructive_color $error_hex;
+      ";
+
+      css += @"
 
       @define-color destructive_container_color $on_error_container_hex;
       @define-color destructive_container_bg_color $error_container_hex;
@@ -274,9 +288,7 @@ public class He.StyleManager : Object {
       @define-color error_container_color $on_error_container_hex;
       @define-color error_container_bg_color $error_container_hex;
       @define-color error_container_fg_color $error_container_hex;
-      ";
 
-      css += @"
       @define-color success_bg_color $(chosen_scheme.tertiary_hex);
       @define-color success_fg_color $(chosen_scheme.on_tertiary_hex);
       @define-color success_color $(chosen_scheme.tertiary_hex);
@@ -291,8 +303,8 @@ public class He.StyleManager : Object {
       @define-color shadow $(chosen_scheme.shadow_hex);
       @define-color scrim $(chosen_scheme.scrim_hex);
 
-      @define-color osd_bg_color $(chosen_scheme.inverse_neutral_background_hex);
-      @define-color osd_fg_color $(chosen_scheme.inverse_neutral_foreground_hex);
+      @define-color osd_bg_color $(chosen_scheme.inverse_surface_background_hex);
+      @define-color osd_fg_color $(chosen_scheme.inverse_surface_foreground_hex);
       @define-color osdaccent_color $(chosen_scheme.inverse_primary_hex);
       ";
     }

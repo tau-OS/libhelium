@@ -21,17 +21,19 @@
 * A struct that contains the color scheme of the app.
 */
 public struct He.Scheme {
-    public string neutral_background_hex;
-    public string neutral_background_variant_hex;
-    public string neutral_foreground_hex;
-    public string neutral_foreground_variant_hex;
-    public string inverse_neutral_background_hex;
-    public string inverse_neutral_foreground_hex;
-    public string surface_lowest_background_hex;
-    public string surface_low_background_hex;
     public string surface_background_hex;
-    public string surface_high_background_hex;
-    public string surface_highest_background_hex;
+    public string surface_background_variant_hex;
+    public string surface_foreground_hex;
+    public string surface_foreground_variant_hex;
+    public string inverse_surface_background_hex;
+    public string inverse_surface_foreground_hex;
+    public string surface_bright_background_hex;
+    public string surface_dim_background_hex;
+    public string surface_container_lowest_background_hex;
+    public string surface_container_low_background_hex;
+    public string surface_container_background_hex;
+    public string surface_container_high_background_hex;
+    public string surface_container_highest_background_hex;
     public string primary_hex;
     public string on_primary_hex;
     public string primary_container_hex;
