@@ -164,14 +164,14 @@ public class He.StyleManager : Object {
       @define-color view_bg_color mix($(chosen_scheme.surface_bg_hex), $bg_hex, 0.30);
       @define-color headerbar_bg_color mix($(chosen_scheme.surface_bg_variant_hex), $bg_hex, 0.50);
       @define-color popover_bg_color mix($(chosen_scheme.surface_container_high_bg_hex), $bg_hex, 0.20);
-      @define-color card_bg_color mix($(chosen_scheme.surface_bg_hex), $bg_hex, 0.30);
+      @define-color card_bg_color mix($(chosen_scheme.surface_container_bg_hex), $bg_hex, 0.30);
       @define-color window_fg_color $(chosen_scheme.surface_fg_hex);
       @define-color view_fg_color $(chosen_scheme.surface_fg_variant_hex);
       @define-color headerbar_fg_color $(chosen_scheme.surface_fg_variant_hex);
       @define-color popover_fg_color $(chosen_scheme.surface_fg_hex);
       @define-color card_fg_color $(chosen_scheme.surface_fg_hex);
 
-      @define-color surface_bright_bg_color $(chosen_scheme.surface_bright_bg_hex));
+      @define-color surface_bright_bg_color $(chosen_scheme.surface_bright_bg_hex);
       @define-color surface_bg_color $(chosen_scheme.surface_bg_hex);
       @define-color surface_dim_bg_color $(chosen_scheme.surface_dim_bg_hex);
       @define-color surface_container_lowest_bg_color $(chosen_scheme.surface_container_lowest_bg_hex);
@@ -234,14 +234,14 @@ public class He.StyleManager : Object {
       @define-color view_bg_color $(chosen_scheme.surface_bg_hex);
       @define-color headerbar_bg_color $(chosen_scheme.surface_bg_variant_hex);
       @define-color popover_bg_color $(chosen_scheme.surface_container_high_bg_hex);
-      @define-color card_bg_color $(chosen_scheme.surface_bg_hex);
+      @define-color card_bg_color $(chosen_scheme.surface_container_bg_hex);
       @define-color window_fg_color $(chosen_scheme.surface_fg_hex);
       @define-color view_fg_color $(chosen_scheme.surface_fg_variant_hex);
       @define-color headerbar_fg_color $(chosen_scheme.surface_fg_variant_hex);
       @define-color popover_fg_color $(chosen_scheme.surface_fg_hex);
       @define-color card_fg_color $(chosen_scheme.surface_fg_hex);
 
-      @define-color surface_bright_bg_color $(chosen_scheme.surface_bright_bg_hex));
+      @define-color surface_bright_bg_color $(chosen_scheme.surface_bright_bg_hex);
       @define-color surface_bg_color $(chosen_scheme.surface_bg_hex);
       @define-color surface_dim_bg_color $(chosen_scheme.surface_dim_bg_hex);
       @define-color surface_container_lowest_bg_color $(chosen_scheme.surface_container_lowest_bg_hex);
