@@ -32,21 +32,21 @@ public class He.DefaultScheme : SchemeFactory, Object {
             // _  _ ____ _  _ ___ ____ ____ _
             // |\ | |___ |  |  |  |__/ |__| |
             // | \| |___ |__|  |  |  \ |  | |___
-            surface_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 6.0 : 98.0),
-            surface_background_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 22.0 : 90.0),
-            surface_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 90.0 : 10.0),
-            surface_foreground_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 80.0 : 30.0),
-            inverse_surface_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 90.0 : 20.0),
-            inverse_surface_foreground_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 20.0 : 95.0),
+            surface_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 6.0 : 98.0),
+            surface_bg_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 22.0 : 90.0),
+            surface_fg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 90.0 : 10.0),
+            surface_fg_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 80.0 : 30.0),
+            inverse_surface_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 90.0 : 20.0),
+            inverse_surface_fg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 20.0 : 95.0),
 
-            surface_bright_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 24.0 : 98.0),
-            surface_dim_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 6.0 : 87.0),
+            surface_bright_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 24.0 : 98.0),
+            surface_dim_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 6.0 : 87.0),
 
-            surface_container_lowest_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 4.0 : 100.0),
-            surface_container_low_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 10.0 : 96.0),
-            surface_container_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 12.0 : 94.0),
-            surface_container_high_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 17.0 : 92.0),
-            surface_container_highest_background_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 22.0 : 90.0),
+            surface_container_lowest_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 4.0 : 100.0),
+            surface_container_low_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 10.0 : 96.0),
+            surface_container_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 12.0 : 94.0),
+            surface_container_high_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 17.0 : 92.0),
+            surface_container_highest_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 22.0 : 90.0),
 
             // ___  ____ _ _  _ ____ ____ _   _
             // |__] |__/ | |\/| |__| |__/  \_/
