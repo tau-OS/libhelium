@@ -96,8 +96,8 @@ public class He.StyleManager : Object {
 
     var error_hex = is_dark ? "#F2B8B5" : "#B3261E";
     var on_error_hex = is_dark ? "#601410" : "#FFFFFF";
-    var error_container_hex = is_dark ? "#F9DEDC" : "#410E0B";
-    var on_error_container_hex = is_dark ? "#8C1D18" : "#F9DEDC";
+    var error_container_hex = is_dark ? "#410E0B" : "#F9DEDC";
+    var on_error_container_hex = is_dark ? "#F9DEDC" : "#8C1D18";
 
     // HCT Color blendin'
     var meson_red_hct = is_dark ?
