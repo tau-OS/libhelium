@@ -255,15 +255,20 @@
                     suffix_img.icon_name = null;
                     row_box.remove_css_class ("tf-error");
                     row_box.remove_css_class ("tf-success");
+                    entry.overflow = Gtk.Overflow.VISIBLE;
                 } else if (is_valid) {
                     suffix_img.icon_name = "process-completed-symbolic";
                     row_box.remove_css_class ("tf-error");
                     row_box.add_css_class ("tf-success");
+                    entry.overflow = Gtk.Overflow.HIDDEN;
                 } else {
                     suffix_img.icon_name = "process-error-symbolic";
                     row_box.add_css_class ("tf-error");
                     row_box.remove_css_class ("tf-success");
+                    entry.overflow = Gtk.Overflow.HIDDEN;
                 }
+            } else {
+                entry.overflow = Gtk.Overflow.VISIBLE;
             }
         });
     }
