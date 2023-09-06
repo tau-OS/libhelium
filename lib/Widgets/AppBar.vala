@@ -21,11 +21,12 @@
 * An AppBar is the header bar of an Window. It usually provides controls to manage the window, as well as optional children for more granular control.
 */
 public class He.AppBar : He.Bin {
-    private Gtk.Label viewtitle_mini = new Gtk.Label ("");
-    private Gtk.Label viewtitle = new Gtk.Label ("");
-    private Gtk.Label viewsubtitle = new Gtk.Label ("");
+    private Gtk.Label viewtitle_mini;
+    private Gtk.Label viewtitle;
+    private Gtk.Label viewsubtitle;
     private Gtk.Box top_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+    private Gtk.Box subtitle_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
     private Gtk.Box control_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
     private Gtk.Box win_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box win2_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -97,7 +98,7 @@ public class He.AppBar : He.Bin {
                         viewtitle_widget.set_visible (true);
                     } else {
                         viewtitle_mini.set_visible (false);
-                        viewtitle_mini.label = "";
+                        viewtitle_mini.label = null;
                         viewtitle.set_visible (true);
                     }
                     viewsubtitle.set_visible (true);
@@ -135,7 +136,7 @@ public class He.AppBar : He.Bin {
                             viewtitle_widget.set_visible (true);
                         } else {
                             viewtitle_mini.set_visible (false);
-                            viewtitle_mini.label = "";
+                            viewtitle_mini.label = null;
                             viewtitle.set_visible (true);
                         }
                         viewsubtitle.set_visible (true);
@@ -213,13 +214,13 @@ public class He.AppBar : He.Bin {
         set {
             this._viewsubtitle_label = value;
 
-            if (value != "") {
+            if (value != null) {
                 viewsubtitle.label = value;
                 viewsubtitle.visible = true;
-                labels_box.visible = true;
+                subtitle_box.set_visible (true);
                 main_box.spacing = 6;
             } else {
-                viewsubtitle.label = "";
+                viewsubtitle.label = null;
                 viewsubtitle.visible = false;
             }
         }
@@ -385,12 +386,12 @@ public class He.AppBar : He.Bin {
         control_box.halign = Gtk.Align.START;
         control_box.hexpand = true;
 
-        viewtitle = new Gtk.Label ("");
+        viewtitle = new Gtk.Label (null);
         viewtitle.halign = Gtk.Align.START;
         viewtitle.add_css_class ("view-title");
         viewtitle.set_visible (false);
 
-        viewsubtitle = new Gtk.Label ("");
+        viewsubtitle = new Gtk.Label (null);
         viewsubtitle.halign = Gtk.Align.START;
         viewsubtitle.add_css_class ("view-subtitle");
         viewsubtitle.set_visible (false);
@@ -401,11 +402,14 @@ public class He.AppBar : He.Bin {
         top_box.append (title_box);
         top_box.append (win_box);
 
+        subtitle_box.append (viewsubtitle);
+        subtitle_box.set_visible (false);
+
         labels_box.homogeneous = true;
         labels_box.hexpand = true;
         labels_box.visible = false;
         labels_box.append (viewtitle);
-        labels_box.append (viewsubtitle);
+        labels_box.append (subtitle_box);
         labels_box.margin_start = 14;
 
         btn_box.valign = Gtk.Align.END;
