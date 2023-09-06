@@ -57,7 +57,7 @@ public class He.ButtonContent : Gtk.Widget, Gtk.Buildable {
     }
 
     construct {
-        var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+        var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
         box.append (image);
         box.append (lbl);
         box.set_parent (this);
