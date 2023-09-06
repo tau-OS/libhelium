@@ -45,6 +45,7 @@ namespace He {
         typeof (He.Desktop).ensure ();
         typeof (He.Dialog).ensure ();
         typeof (He.DisclosureButton).ensure ();
+        typeof (He.Divider).ensure ();
         typeof (He.EmptyPage).ensure ();
         typeof (He.FillButton).ensure ();
         typeof (He.IconicButton).ensure ();

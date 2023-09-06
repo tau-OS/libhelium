@@ -56,6 +56,7 @@ libhelium_sources += files(
     'Widgets/ContentList.vala',
     'Widgets/DatePicker.vala',
     'Widgets/Dialog.vala',
+    'Widgets/Divider.vala',
     'Widgets/DisclosureButton.vala',
     'Widgets/EmptyPage.vala',
     'Widgets/FillButton.vala',
