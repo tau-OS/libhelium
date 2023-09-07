@@ -69,10 +69,12 @@
     /**
      * Whether or not this is a search entry.
      */
+    private bool _is_search;
     public bool is_search { get; set; default = false; }
     /**
      * Whether or not this is styled as an outlined TextField instead of having a background.
      */
+    private bool _is_outline;
     public bool is_outline { get; set; default = false; }
 
     /**
