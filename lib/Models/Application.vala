@@ -94,10 +94,11 @@ public class He.Application : Gtk.Application {
     init_app_styles ();
     update_style_manager ();
 
-    desktop.notify["prefers-color-scheme"].connect (update_style_manager);
+    desktop.notify["accent-color"].connect (update_style_manager);
     desktop.notify["dark-mode-strength"].connect (update_style_manager);
     desktop.notify["ensor-scheme"].connect (update_style_manager);
     desktop.notify["font-weight"].connect (update_style_manager);
+    desktop.notify["prefers-color-scheme"].connect (update_style_manager);
 
     style_manager.register ();
   }
