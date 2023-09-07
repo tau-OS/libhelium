@@ -69,7 +69,11 @@
     /**
      * Whether or not this is a search entry.
      */
-     public bool is_search { get; set; default = false; }
+    public bool is_search { get; set; default = false; }
+    /**
+     * Whether or not this is styled as an outlined TextField instead of having a background.
+     */
+    public bool is_outline { get; set; default = false; }
 
     /**
      * The entry widget to allow using Gtk.Editable props.
@@ -206,9 +210,12 @@
         row_box.append (suffix_img);
         row_box.add_css_class ("text-field");
 
-        if (is_search) {
+        notify["is-search"].connect (() => {
             row_box.add_css_class ("search");
-        }
+        });
+        notify["is-outline"].connect (() => {
+            row_box.add_css_class ("outline");
+        });
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
         main_box.append (row_box);
