@@ -63,6 +63,7 @@ libhelium_sources += files(
     'Widgets/IconicButton.vala',
     'Widgets/MiniContentBlock.vala',
     'Widgets/ModifierBadge.vala',
+    'Widgets/NavigationSection.vala',
     'Widgets/NavigationRail.vala',
     'Widgets/OutlineButton.vala',
     'Widgets/OverlayButton.vala',

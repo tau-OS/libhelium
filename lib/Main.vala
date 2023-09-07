@@ -51,6 +51,7 @@ namespace He {
         typeof (He.IconicButton).ensure ();
         typeof (He.MiniContentBlock).ensure ();
         typeof (He.ModifierBadge).ensure ();
+        typeof (He.NavigationSection).ensure ();
         typeof (He.NavigationRail).ensure ();
         typeof (He.OutlineButton).ensure ();
         typeof (He.OverlayButton).ensure ();
