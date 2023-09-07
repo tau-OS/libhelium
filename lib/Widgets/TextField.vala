@@ -70,12 +70,26 @@
      * Whether or not this is a search entry.
      */
     private bool _is_search;
-    public bool is_search { get; set; default = false; }
+    public bool is_search {
+        get {
+           return _is_search;
+        }
+        set {
+           _is_search = value;
+        }
+    }
     /**
      * Whether or not this is styled as an outlined TextField instead of having a background.
      */
     private bool _is_outline;
-    public bool is_outline { get; set; default = false; }
+    public bool is_outline {
+        get {
+           return _is_outline;
+        }
+        set {
+           _is_outline = value;
+        }
+    }
 
     /**
      * The entry widget to allow using Gtk.Editable props.
