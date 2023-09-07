@@ -27,30 +27,30 @@ public class He.Application : Gtk.Application {
   /**
   * A default accent color if the user has not set one.
   */
+  private He.Color.RGBColor? _default_accent_color = null;
   public He.Color.RGBColor? default_accent_color {
     get { return _default_accent_color; }
     set { _default_accent_color = value; update_style_manager (); }
   }
-  private He.Color.RGBColor? _default_accent_color = null;
 
   /**
   * Whether to override the user's accent color choice. This requires default_accent_color to be set.
   */
+  private bool _override_accent_color = false;
   public bool override_accent_color {
     get { return _override_accent_color; }
     set { _override_accent_color = value; update_style_manager ();}
   }
-  private bool _override_accent_color = false;
 
   /**
   * A scheme factory to use for the application. If not set, the user's preferred scheme will be used.
   * This is especially useful for applications with their own color needs, such as media applications using the He.new_content_scheme factory.
   */
+  private SchemeFactory? _scheme_factory = null;
   public SchemeFactory? scheme_factory {
     get { return _scheme_factory; }
     set { _scheme_factory = value; update_style_manager (); }
   }
-  private SchemeFactory? _scheme_factory = null;
 
   private void update_style_manager () {
     if (default_accent_color != null && override_accent_color) {

@@ -74,12 +74,12 @@ public class He.StyleManager : Object {
   * Runs all the necessary updates to apply the current style. If is_registered is false, this will do nothing.
   */
   public void update () {
-    if (!is_registered) return;
+    if (!is_registered)
+      return;
 
-    var rgb_color =
-      accent_color != null ? accent_color :
-      is_dark ? He.Color.DEFAULT_DARK_ACCENT :
-      He.Color.DEFAULT_LIGHT_ACCENT;
+    var rgb_color = accent_color != null ? accent_color :
+                                                               is_dark ? He.Color.DEFAULT_DARK_ACCENT :
+                                                                         He.Color.DEFAULT_LIGHT_ACCENT;
 
     var base_weight = 400 * font_weight;
 
@@ -389,13 +389,13 @@ public class He.StyleManager : Object {
   */
   public void register () {
     #if BUNDLED_STYLESHEET
-    debug ("Loading bundled Helium stylesheet");
-    light.load_from_resource ("/com/fyralabs/Helium/gtk.css");
-    dark.load_from_resource ("/com/fyralabs/Helium/gtk-dark.css");
+      debug ("Loading bundled Helium stylesheet");
+      light.load_from_resource ("/com/fyralabs/Helium/gtk.css");
+      dark.load_from_resource ("/com/fyralabs/Helium/gtk-dark.css");
     #else
-    debug ("Loading system Helium stylesheet (this may fail if Helium is not installed)");
-    light.load_named ("Helium", null);
-    dark.load_named ("Helium", "dark");
+      debug ("Loading system Helium stylesheet (this may fail if Helium is not installed)");
+      light.load_named ("Helium", null);
+      dark.load_named ("Helium", "dark");
     #endif
 
     Misc.toggle_style_provider (accent, true, STYLE_PROVIDER_PRIORITY_ACCENT);
