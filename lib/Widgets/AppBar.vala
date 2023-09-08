@@ -416,6 +416,7 @@ public class He.AppBar : He.Bin {
 
         btn_box.valign = Gtk.Align.END;
         btn_box.margin_end = 14;
+        btn_box.margin_start = 12;
         btn_box.set_visible (false);
 
         // Make title align with other titles if no buttons are added.
