@@ -312,6 +312,7 @@ public class He.AppBar : He.Bin {
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
         labels_box.visible = true;
+        btn_box.visible = true;
         main_box.spacing = 6;
     }
 
@@ -325,6 +326,7 @@ public class He.AppBar : He.Bin {
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
         labels_box.visible = true;
+        btn_box.visible = true;
         main_box.spacing = 6;
     }
 
@@ -414,6 +416,21 @@ public class He.AppBar : He.Bin {
 
         btn_box.valign = Gtk.Align.END;
         btn_box.margin_end = 14;
+        btn_box.set_visible (false);
+
+        // Make title align with other titles if no buttons are added.
+        if (btn_box.visible) {
+            labels_box.margin_top = 0;
+        } else {
+            labels_box.margin_top = 6;
+        }
+        btn_box.notify["visible"].connect (() => {
+            if (btn_box.visible) {
+                labels_box.margin_top = 0;
+            } else {
+                labels_box.margin_top = 6;
+            }
+        });
 
         sub_box.append (labels_box);
         sub_box.append (btn_box);
