@@ -76,6 +76,8 @@
         }
         set {
            _is_search = value;
+           if (_is_search)
+            row_box.add_css_class ("search");
         }
     }
     /**
@@ -88,6 +90,8 @@
         }
         set {
            _is_outline = value;
+           if (_is_outline)
+            row_box.add_css_class ("search");
         }
     }
 
@@ -101,6 +105,7 @@
 
     private Gtk.Label empty_title = new Gtk.Label ("");
     private Gtk.Label support_label;
+    private Gtk.Box row_box;
 
     /**
      * The entry text.
@@ -221,17 +226,10 @@
         entry_box.append (empty_title);
         entry_box.append (entry);
 
-        var row_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+        row_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
         row_box.append (entry_box);
         row_box.append (suffix_img);
         row_box.add_css_class ("text-field");
-
-        notify["is-search"].connect (() => {
-            row_box.add_css_class ("search");
-        });
-        notify["is-outline"].connect (() => {
-            row_box.add_css_class ("outline");
-        });
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
         main_box.append (row_box);
