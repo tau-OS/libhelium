@@ -109,7 +109,7 @@ public class He.AppBar : He.Bin {
                     main_box.add_css_class ("flat-appbar");
                     main_box.remove_css_class ("appbar");
                     if (!_show_buttons) {
-                        top_box.margin_top = 36;
+                        top_box.margin_top = 24;
                     } else {
                         top_box.margin_top = 0;
                     }
@@ -147,7 +147,7 @@ public class He.AppBar : He.Bin {
                         main_box.add_css_class ("flat-appbar");
                         main_box.remove_css_class ("appbar");
                         if (!_show_buttons) {
-                            top_box.margin_top = 36;
+                            top_box.margin_top = 24;
                         } else {
                             top_box.margin_top = 0;
                         }
@@ -157,7 +157,7 @@ public class He.AppBar : He.Bin {
                 main_box.add_css_class ("flat-appbar");
                 main_box.remove_css_class ("appbar");
                 if (!_show_buttons) {
-                    top_box.margin_top = 36;
+                    top_box.margin_top = 24;
                 } else {
                     top_box.margin_top = 0;
                 }
@@ -247,7 +247,7 @@ public class He.AppBar : He.Bin {
                 win2_box.remove (sidetitle);
                 title = null;
                 sidetitle = null;
-                top_box.margin_top = 36;
+                top_box.margin_top = 24;
             } else {
                 create_start_window_controls ();
                 create_end_window_controls ();
@@ -416,7 +416,6 @@ public class He.AppBar : He.Bin {
 
         btn_box.valign = Gtk.Align.END;
         btn_box.margin_end = 14;
-        btn_box.margin_start = 12;
         btn_box.set_visible (false);
 
         // Make title align with other titles if no buttons are added.
