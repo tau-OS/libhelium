@@ -76,7 +76,7 @@
         }
         set {
            _is_search = value;
-           if (value)
+           if (value != false)
                 row_box.add_css_class ("search");
         }
     }
@@ -90,7 +90,7 @@
         }
         set {
            _is_outline = value;
-           if (value)
+           if (value != false)
                 row_box.add_css_class ("search");
         }
     }
