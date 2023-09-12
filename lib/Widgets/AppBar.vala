@@ -25,14 +25,14 @@ public class He.AppBar : He.Bin {
     private Gtk.Label viewtitle;
     private Gtk.Label viewsubtitle;
     private Gtk.Box top_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-    private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
-    private Gtk.Box subtitle_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
-    private Gtk.Box control_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+    private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+    private Gtk.Box subtitle_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+    private Gtk.Box control_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box win_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box win2_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box sub_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-    private Gtk.Box labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+    private Gtk.Box labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
     private Gtk.WindowControls title;
     private Gtk.WindowControls sidetitle;
 
@@ -109,7 +109,7 @@ public class He.AppBar : He.Bin {
                     main_box.add_css_class ("flat-appbar");
                     main_box.remove_css_class ("appbar");
                     if (!_show_buttons) {
-                        top_box.margin_top = 24;
+                        top_box.margin_top = 36;
                     } else {
                         top_box.margin_top = 0;
                     }
@@ -147,7 +147,7 @@ public class He.AppBar : He.Bin {
                         main_box.add_css_class ("flat-appbar");
                         main_box.remove_css_class ("appbar");
                         if (!_show_buttons) {
-                            top_box.margin_top = 24;
+                            top_box.margin_top = 36;
                         } else {
                             top_box.margin_top = 0;
                         }
@@ -157,7 +157,7 @@ public class He.AppBar : He.Bin {
                 main_box.add_css_class ("flat-appbar");
                 main_box.remove_css_class ("appbar");
                 if (!_show_buttons) {
-                    top_box.margin_top = 24;
+                    top_box.margin_top = 36;
                 } else {
                     top_box.margin_top = 0;
                 }
@@ -247,7 +247,7 @@ public class He.AppBar : He.Bin {
                 win2_box.remove (sidetitle);
                 title = null;
                 sidetitle = null;
-                top_box.margin_top = 24;
+                top_box.margin_top = 36;
             } else {
                 create_start_window_controls ();
                 create_end_window_controls ();
