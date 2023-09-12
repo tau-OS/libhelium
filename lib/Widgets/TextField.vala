@@ -199,6 +199,9 @@
     }
 
     construct {
+        is_search = false;
+        is_outline = false;
+
         empty_title = new Gtk.Label (placeholder_text);
         empty_title.visible = false;
         empty_title.halign = Gtk.Align.START;
