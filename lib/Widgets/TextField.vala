@@ -76,8 +76,8 @@
         }
         set {
            _is_search = value;
-           if (_is_search)
-            row_box.add_css_class ("search");
+           if (value)
+                row_box.add_css_class ("search");
         }
     }
     /**
@@ -90,8 +90,8 @@
         }
         set {
            _is_outline = value;
-           if (_is_outline)
-            row_box.add_css_class ("search");
+           if (value)
+                row_box.add_css_class ("search");
         }
     }
 
@@ -131,7 +131,7 @@
       }
       set {
          _support_text = value;
-         if (_support_text == null) {
+         if (value == null) {
              support_label.visible = false;
          } else {
              support_label.visible = true;
