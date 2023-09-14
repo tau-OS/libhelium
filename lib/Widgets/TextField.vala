@@ -91,7 +91,7 @@
         set {
            _is_outline = value;
            if (value != false)
-                row_box.add_css_class ("search");
+                row_box.add_css_class ("outline");
         }
     }
 
