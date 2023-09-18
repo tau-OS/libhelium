@@ -86,4 +86,9 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
         base ();
         this.file = file;
     }
+
+    ~ContentBlockImage () {
+        file = null;
+        this.unparent ();
+    }
 }
