@@ -379,7 +379,6 @@ public class He.AppBar : He.Bin {
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
         back_button.add_css_class ("flat");
-        back_button.add_css_class ("disclosure-button");
         back_button.clicked.connect (() => {
             var selected_page = stack.pages.get_selection ();
             stack.pages.select_item (int.max (((int)selected_page.get_nth (0) - 1), 0), true);
