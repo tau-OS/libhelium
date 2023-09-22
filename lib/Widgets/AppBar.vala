@@ -345,7 +345,7 @@ public class He.AppBar : He.Bin {
         sidetitle.side = Gtk.PackType.START;
         sidetitle.valign = Gtk.Align.CENTER;
         sidetitle.decoration_layout = decoration_layout;
-        sidetitle.bind_property ("empty", sidetitle, "visible", SYNC_CREATE|INVERT_BOOLEAN);
+        sidetitle.bind_property ("empty", sidetitle, "visible", SYNC_CREATE | INVERT_BOOLEAN);
         sidetitle.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
         Signal.connect_swapped (sidetitle, "notify::visible", (Callback)update_box_visibility, win2_box);
         win2_box.prepend (sidetitle);
@@ -356,7 +356,7 @@ public class He.AppBar : He.Bin {
         title.side = Gtk.PackType.END;
         title.valign = Gtk.Align.CENTER;
         title.decoration_layout = decoration_layout;
-        title.bind_property ("empty", title, "visible", SYNC_CREATE|INVERT_BOOLEAN);
+        title.bind_property ("empty", title, "visible", SYNC_CREATE | INVERT_BOOLEAN);
         title.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
         Signal.connect_swapped (title, "notify::visible", (Callback)update_box_visibility, win_box);
         win_box.prepend (title);
