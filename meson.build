@@ -4,7 +4,7 @@ project(
     'c',
     license: 'GPL-3-or-later',
     meson_version: '>= 0.56.0',
-    version: '1.6.2',
+    version: '1.8.0',
     default_options: [
         'warning_level=1',
         'buildtype=debugoptimized',
