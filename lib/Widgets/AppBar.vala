@@ -394,6 +394,8 @@ public class He.AppBar : He.Bin {
 
         viewsubtitle = new Gtk.Label (null);
         viewsubtitle.halign = Gtk.Align.START;
+        viewsubtitle.valign = Gtk.Align.END;
+        viewsubtitle.margin_bottom = 6;
         viewsubtitle.add_css_class ("view-subtitle");
         viewsubtitle.set_visible (false);
 
