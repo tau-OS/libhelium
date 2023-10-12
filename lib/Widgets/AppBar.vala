@@ -455,6 +455,13 @@ public class He.AppBar : He.Bin {
         } else {
             top_box.margin_top = 0;
         }
+        notify["show-left-title-buttons"].connect (() => {
+            if (!show_left_title_buttons && !show_right_title_buttons) {
+                top_box.margin_top = 36;
+            } else {
+                top_box.margin_top = 0;
+            }
+        });
     }
 
     static construct {
