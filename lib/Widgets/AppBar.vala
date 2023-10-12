@@ -450,13 +450,8 @@ public class He.AppBar : He.Bin {
         flat = true;
         main_box.add_css_class ("flat-appbar");
 
-        if (!show_left_title_buttons && !show_right_title_buttons) {
-            top_box.margin_top = 36;
-        } else {
-            top_box.margin_top = 0;
-        }
         notify["show-left-title-buttons"].connect (() => {
-            if (!show_left_title_buttons && !show_right_title_buttons) {
+            if (!show_left_title_buttons) {
                 top_box.margin_top = 36;
             } else {
                 top_box.margin_top = 0;
