@@ -108,7 +108,7 @@ public class He.AppBar : He.Bin {
                     viewtitle_mini.remove_css_class ("title");
                     main_box.add_css_class ("flat-appbar");
                     main_box.remove_css_class ("appbar");
-                    if (!_show_left_title_buttons && !_show_right_title_buttons) {
+                    if (!_show_left_title_buttons) {
                         top_box.margin_top = 36;
                     } else {
                         top_box.margin_top = 0;
@@ -146,7 +146,7 @@ public class He.AppBar : He.Bin {
                         viewtitle_mini.remove_css_class ("title");
                         main_box.add_css_class ("flat-appbar");
                         main_box.remove_css_class ("appbar");
-                        if (!_show_left_title_buttons && !_show_right_title_buttons) {
+                        if (!_show_left_title_buttons) {
                             top_box.margin_top = 36;
                         } else {
                             top_box.margin_top = 0;
@@ -156,7 +156,7 @@ public class He.AppBar : He.Bin {
             } else {
                 main_box.add_css_class ("flat-appbar");
                 main_box.remove_css_class ("appbar");
-                if (!_show_left_title_buttons && !_show_right_title_buttons) {
+                if (!_show_left_title_buttons) {
                     top_box.margin_top = 36;
                 } else {
                     top_box.margin_top = 0;
