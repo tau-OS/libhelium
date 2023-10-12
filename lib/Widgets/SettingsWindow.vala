@@ -84,8 +84,8 @@
         viewtitle.margin_end = 12;
         viewtitle.margin_bottom = 6;
 
-        appbar.show_buttons = true;
-        appbar.flat = true;
+        appbar.show_left_title_buttons = true;
+        appbar.show_right_title_buttons = false;
         appbar.show_back = false;
         appbar.hexpand = true;
 

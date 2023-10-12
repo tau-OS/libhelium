@@ -18,7 +18,8 @@ template DemoMainWindow : He.ApplicationWindow {
       He.SideBar {
         title: "Sidebar";
         subtitle: "";
-        show-buttons: bind album.folded;
+        show-left-title-buttons: true;
+        show-right-title-buttons: false;
         show-back: false;
         width-request: 200;
         scroller: s;
@@ -116,7 +117,8 @@ template DemoMainWindow : He.ApplicationWindow {
       He.SideBar {
         title: "Secondary";
         subtitle: "Subtitle";
-        show-buttons: bind album.folded;
+        show-left-title-buttons: bind album.folded;
+        show-right-title-buttons: false;
         show-back: bind album.folded;
         width-request: 200;
         scroller: z;
@@ -202,7 +204,8 @@ template DemoMainWindow : He.ApplicationWindow {
         ]
 
         He.AppBar {
-          show-buttons: true;
+          show-left-title-buttons: bind album.folded;
+          show-right-title-buttons: true;
           show-back: bind album.folded;
           viewtitle-widget:
             He.ViewSwitcher vs {

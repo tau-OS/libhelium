@@ -108,7 +108,7 @@ public class He.AppBar : He.Bin {
                     viewtitle_mini.remove_css_class ("title");
                     main_box.add_css_class ("flat-appbar");
                     main_box.remove_css_class ("appbar");
-                    if (!_show_buttons) {
+                    if (!_show_left_title_buttons && !_show_right_title_buttons) {
                         top_box.margin_top = 36;
                     } else {
                         top_box.margin_top = 0;
@@ -146,7 +146,7 @@ public class He.AppBar : He.Bin {
                         viewtitle_mini.remove_css_class ("title");
                         main_box.add_css_class ("flat-appbar");
                         main_box.remove_css_class ("appbar");
-                        if (!_show_buttons) {
+                        if (!_show_left_title_buttons && !_show_right_title_buttons) {
                             top_box.margin_top = 36;
                         } else {
                             top_box.margin_top = 0;
@@ -156,7 +156,7 @@ public class He.AppBar : He.Bin {
             } else {
                 main_box.add_css_class ("flat-appbar");
                 main_box.remove_css_class ("appbar");
-                if (!_show_buttons) {
+                if (!_show_left_title_buttons && !_show_right_title_buttons) {
                     top_box.margin_top = 36;
                 } else {
                     top_box.margin_top = 0;
@@ -226,36 +226,56 @@ public class He.AppBar : He.Bin {
         }
     }
 
-    private bool _show_buttons;
+    private bool _show_left_title_buttons;
     /**
     * Whether the close, minimize and maximize buttons are shown.
     */
-    public bool show_buttons {
+    public bool show_left_title_buttons {
         get {
-            return _show_buttons;
+            return _show_left_title_buttons;
         }
         set {
-            _show_buttons = value;
+            _show_left_title_buttons = value;
 
-            if ((title != null) == value)
-                return;
             if ((sidetitle != null) == value)
                 return;
 
             if (!value) {
-                win_box.remove (title);
                 win2_box.remove (sidetitle);
-                title = null;
                 sidetitle = null;
                 top_box.margin_top = 36;
             } else {
                 create_start_window_controls ();
+                top_box.margin_top = 0;
+            }
+
+            update_box_visibility (win2_box);
+        }
+    }
+    private bool _show_right_title_buttons;
+    /**
+    * Whether the close, minimize and maximize buttons are shown.
+    */
+    public bool show_right_title_buttons {
+        get {
+            return _show_right_title_buttons;
+        }
+        set {
+            _show_right_title_buttons = value;
+
+            if ((title != null) == value)
+                return;
+
+            if (!value) {
+                win_box.remove (title);
+                title = null;
+                top_box.margin_top = 36;
+            } else {
                 create_end_window_controls ();
                 top_box.margin_top = 0;
             }
 
             update_box_visibility (win_box);
-            update_box_visibility (win2_box);
         }
     }
     private void update_box_visibility (Gtk.Widget? box) {
@@ -445,7 +465,8 @@ public class He.AppBar : He.Bin {
         winhandle.set_parent (this);
         winhandle.hexpand = true;
 
-        show_buttons = true;
+        show_left_title_buttons = true;
+        show_right_title_buttons = true;
         show_back = false;
         flat = true;
         main_box.add_css_class ("flat-appbar");

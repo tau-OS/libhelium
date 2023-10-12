@@ -280,7 +280,8 @@ public class He.AboutWindow : He.Window {
 
     this.app_bar.valign = Gtk.Align.START;
     this.app_bar.show_back = false;
-    this.app_bar.flat = true;
+    this.app_bar.show_left_title_buttons = true;
+    this.app_bar.show_right_title_buttons = false;
 
     window_overlay.add_overlay (app_bar);
     window_overlay.set_child (about_box);

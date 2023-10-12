@@ -72,18 +72,33 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
         }
     }
 
-    private bool _show_buttons;
+    private bool _show_right_title_buttons;
     /**
     * Whether the SideBar should show the buttons.
     */
-    public bool show_buttons {
+    public bool show_right_title_buttons {
         get {
-            return _show_buttons;
+            return _show_right_title_buttons;
         }
         set {
-            _show_buttons = value;
+            _show_right_title_buttons = value;
 
-            titlebar.show_buttons = _show_buttons;
+            titlebar.show_right_title_buttons = _show_right_title_buttons;
+        }
+    }
+    
+    private bool _show_left_title_buttons;
+    /**
+    * Whether the SideBar should show the buttons.
+    */
+    public bool show_left_title_buttons {
+        get {
+            return _show_left_title_buttons;
+        }
+        set {
+            _show_left_title_buttons = value;
+
+            titlebar.show_left_title_buttons = _show_left_title_buttons;
         }
     }
 
