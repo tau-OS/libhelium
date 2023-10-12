@@ -92,7 +92,6 @@ public class He.AppBar : He.Bin {
                     viewtitle_mini.add_css_class ("title");
                     main_box.add_css_class ("appbar");
                     main_box.remove_css_class ("flat-appbar");
-                    top_box.margin_top = 0;
                 } else {
                     if (viewtitle_widget != null) {
                         viewtitle_widget.set_visible (true);
@@ -108,11 +107,6 @@ public class He.AppBar : He.Bin {
                     viewtitle_mini.remove_css_class ("title");
                     main_box.add_css_class ("flat-appbar");
                     main_box.remove_css_class ("appbar");
-                    if (!_show_left_title_buttons) {
-                        top_box.margin_top = 36;
-                    } else {
-                        top_box.margin_top = 0;
-                    }
                 }
                 vadj.value_changed.connect ((a) => {
                     if (a.value != 0) {
@@ -130,7 +124,6 @@ public class He.AppBar : He.Bin {
                         viewtitle_mini.add_css_class ("title");
                         main_box.add_css_class ("appbar");
                         main_box.remove_css_class ("flat-appbar");
-                        top_box.margin_top = 0;
                     } else {
                         if (viewtitle_widget != null) {
                             viewtitle_widget.set_visible (true);
@@ -146,21 +139,11 @@ public class He.AppBar : He.Bin {
                         viewtitle_mini.remove_css_class ("title");
                         main_box.add_css_class ("flat-appbar");
                         main_box.remove_css_class ("appbar");
-                        if (!_show_left_title_buttons) {
-                            top_box.margin_top = 36;
-                        } else {
-                            top_box.margin_top = 0;
-                        }
                     }
                 });
             } else {
                 main_box.add_css_class ("flat-appbar");
                 main_box.remove_css_class ("appbar");
-                if (!_show_left_title_buttons) {
-                    top_box.margin_top = 36;
-                } else {
-                    top_box.margin_top = 0;
-                }
             }
         }
     }
@@ -243,7 +226,6 @@ public class He.AppBar : He.Bin {
             if (!value) {
                 win2_box.remove (sidetitle);
                 sidetitle = null;
-                top_box.margin_top = 36;
             } else {
                 create_start_window_controls ();
             }
@@ -366,7 +348,6 @@ public class He.AppBar : He.Bin {
         sidetitle.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
         Signal.connect_swapped (sidetitle, "notify::visible", (Callback)update_box_visibility, win2_box);
         win2_box.prepend (sidetitle);
-        top_box.margin_top = 0;
     }
 
     private void create_end_window_controls () {
@@ -378,7 +359,6 @@ public class He.AppBar : He.Bin {
         title.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
         Signal.connect_swapped (title, "notify::visible", (Callback)update_box_visibility, win_box);
         win_box.prepend (title);
-        top_box.margin_top = 0;
     }
 
     /**
@@ -469,6 +449,12 @@ public class He.AppBar : He.Bin {
         show_back = false;
         flat = true;
         main_box.add_css_class ("flat-appbar");
+
+        if (!show_left_title_buttons && !show_right_title_buttons) {
+            top_box.margin_top = 36;
+        } else {
+            top_box.margin_top = 0;
+        }
     }
 
     static construct {
