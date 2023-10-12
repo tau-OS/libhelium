@@ -243,6 +243,7 @@ public class He.AppBar : He.Bin {
             if (!value) {
                 win2_box.remove (sidetitle);
                 sidetitle = null;
+                top_box.margin_top = 36;
             } else {
                 create_start_window_controls ();
             }
@@ -365,6 +366,7 @@ public class He.AppBar : He.Bin {
         sidetitle.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
         Signal.connect_swapped (sidetitle, "notify::visible", (Callback)update_box_visibility, win2_box);
         win2_box.prepend (sidetitle);
+        top_box.margin_top = 0;
     }
 
     private void create_end_window_controls () {
@@ -376,6 +378,7 @@ public class He.AppBar : He.Bin {
         title.bind_property ("decoration-layout", this, "decoration-layout", SYNC_CREATE);
         Signal.connect_swapped (title, "notify::visible", (Callback)update_box_visibility, win_box);
         win_box.prepend (title);
+        top_box.margin_top = 0;
     }
 
     /**
