@@ -243,10 +243,8 @@ public class He.AppBar : He.Bin {
             if (!value) {
                 win2_box.remove (sidetitle);
                 sidetitle = null;
-                top_box.margin_top = 36;
             } else {
                 create_start_window_controls ();
-                top_box.margin_top = 0;
             }
 
             update_box_visibility (win2_box);
@@ -269,10 +267,8 @@ public class He.AppBar : He.Bin {
             if (!value) {
                 win_box.remove (title);
                 title = null;
-                top_box.margin_top = 36;
             } else {
                 create_end_window_controls ();
-                top_box.margin_top = 0;
             }
 
             update_box_visibility (win_box);
