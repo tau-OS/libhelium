@@ -64,36 +64,6 @@ public class He.Desktop : Object {
     }
 
     /**
-    * The dark mode strength preference.
-    */
-    private DarkModeStrength? _dark_mode_strength = null;
-    public DarkModeStrength dark_mode_strength {
-        get {
-            return _dark_mode_strength;
-        }
-        private set {
-            _dark_mode_strength = value;
-        }
-    }
-
-    private void setup_dark_mode_strength () {
-        try {
-            portal = Portal.Settings.get ();
-
-            dark_mode_strength = (DarkModeStrength) portal.read (
-                "org.freedesktop.appearance",
-                "dark-mode-strength"
-            ).get_variant ().get_uint32 ();
-
-            return;
-        } catch (Error e) {
-            debug ("%s", e.message);
-        }
-
-        dark_mode_strength = DarkModeStrength.MEDIUM;
-    }
-
-    /**
     * The Ensor scheme preference enum, which is used to determine the Ensor scheme of the desktop.
     */
     public enum EnsorScheme {
@@ -248,10 +218,6 @@ public class He.Desktop : Object {
                 font_weight = (double) val.get_double ();
             }
 
-            if (scheme == "org.freedesktop.appearance" && key == "dark-mode-strength") {
-                dark_mode_strength = (DarkModeStrength) val.get_uint32 ();
-            }
-
             if (scheme == "org.freedesktop.appearance" && key == "ensor-scheme") {
                 ensor_scheme = (EnsorScheme) val.get_uint32 ();
             }
@@ -265,7 +231,6 @@ public class He.Desktop : Object {
     construct {
         setup_prefers_color_scheme ();
         setup_accent_color ();
-        setup_dark_mode_strength ();
         setup_ensor_scheme ();
         setup_font_weight ();
         init_handle_settings_change ();

@@ -68,7 +68,6 @@ public class He.Application : Gtk.Application {
     }
 
     style_manager.is_dark = desktop.prefers_color_scheme == Desktop.ColorScheme.DARK;
-    style_manager.dark_mode_strength = desktop.dark_mode_strength;
     style_manager.font_weight = desktop.font_weight;
 
     style_manager.update ();

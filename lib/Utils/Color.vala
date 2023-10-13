@@ -18,25 +18,11 @@
 */
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Color {
-    // Colors used for cards or elements atop the bg when Harsh Dark Mode.
-    private const RGBColor HARSH_CARD_BLACK = {
-        0,
-        0,
-        0
-    };
-
     // Colors used for cards or elements atop the bg when Medium Dark Mode.
     private const RGBColor CARD_BLACK = {
         12,
         12,
         12
-    };
-
-    // Colors used for cards or elements atop the bg when Soft Dark Mode.
-    private const RGBColor SOFT_CARD_BLACK = {
-        24,
-        24,
-        24
     };
 
     private const RGBColor CARD_WHITE = {
@@ -58,5 +44,4 @@ namespace He.Color {
     };
 
     private const double LSTAR = 50.0;
-
 }

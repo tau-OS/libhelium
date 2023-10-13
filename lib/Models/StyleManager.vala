@@ -43,11 +43,6 @@ public class He.StyleManager : Object {
   public SchemeFactory scheme_factory = new DefaultScheme ();
 
   /**
-  * The preferred dark mode strength.
-  */
-  public DarkModeStrength dark_mode_strength = DarkModeStrength.MEDIUM;
-
-  /**
   * Whether the style manager has been registered. Unregistered style managers will not apply their styles.
   */
   public bool is_registered { get; private set; default = false; }
@@ -85,21 +80,33 @@ public class He.StyleManager : Object {
 
     var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color));
 
-    var derived_card_bg =
-      dark_mode_strength == DarkModeStrength.MEDIUM ? He.Color.CARD_BLACK :
-      dark_mode_strength == DarkModeStrength.SOFT ? He.Color.SOFT_CARD_BLACK :
-      He.Color.HARSH_CARD_BLACK;
+    var derived_card_bg = He.Color.CARD_BLACK;
 
     var bg_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
 
     var chosen_scheme = scheme_factory.generate (cam16_color, is_dark);
 
-    var error_hex = is_dark ? "#F2B8B5" : "#B3261E";
-    var on_error_hex = is_dark ? "#601410" : "#FFFFFF";
-    var error_container_hex = is_dark ? "#410E0B" : "#F9DEDC";
-    var on_error_container_hex = is_dark ? "#F9DEDC" : "#8C1D18";
-
     // HCT Color blendin'
+    var error_hct = is_dark ?
+    Color.hct_blend (Color.from_params (20.0, 25.0, 80.0), Color.from_params (cam16_color.h, cam16_color.c, 80.0)) :
+    Color.hct_blend (Color.from_params (25.0, 75.0, 40.0), Color.from_params (cam16_color.h, cam16_color.c, 40.0)) ;
+    var error_hex = Color.hct_to_hex (error_hct.h, error_hct.c, error_hct.t);
+
+    var on_error_hct = is_dark ?
+    Color.hct_blend (Color.from_params (25.0, 50.0, 20.0), Color.from_params (cam16_color.h, cam16_color.c, 80.0)) :
+    Color.hct_blend (Color.from_params (0.0, 0.0, 100.0), Color.from_params (cam16_color.h, cam16_color.c, 40.0)) ;
+    var on_error_hex = Color.hct_to_hex (on_error_hct.h, on_error_hct.c, on_error_hct.t);
+
+    var error_container_hct = is_dark ?
+    Color.hct_blend (Color.from_params (25.0, 35.0, 15.0), Color.from_params (cam16_color.h, cam16_color.c, 80.0)) :
+    Color.hct_blend (Color.from_params (20.0, 10.0, 90.0), Color.from_params (cam16_color.h, cam16_color.c, 40.0)) ;
+    var error_container_hex = Color.hct_to_hex (error_container_hct.h, error_container_hct.c, error_container_hct.t);
+
+    var on_error_container_hct = is_dark ?
+    Color.hct_blend (Color.from_params (20.0, 10.0, 90.0), Color.from_params (cam16_color.h, cam16_color.c, 80.0)) :
+    Color.hct_blend (Color.from_params (25.0, 65.0, 30.0), Color.from_params (cam16_color.h, cam16_color.c, 40.0)) ;
+    var on_error_container_hex = Color.hct_to_hex (on_error_container_hct.h, on_error_container_hct.c, on_error_container_hct.t);
+
     var meson_red_hct = is_dark ?
     Color.hct_blend (Color.from_params (8.0, 85.0, 80.0), Color.from_params (cam16_color.h, cam16_color.c, 80.0)) :
     Color.hct_blend (Color.from_params (2.0, 49.0, 40.0), Color.from_params (cam16_color.h, cam16_color.c, 40.0)) ;
