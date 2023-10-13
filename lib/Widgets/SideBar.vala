@@ -86,7 +86,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
             titlebar.show_right_title_buttons = _show_right_title_buttons;
         }
     }
-    
+
     private bool _show_left_title_buttons;
     /**
     * Whether the SideBar should show the buttons.
@@ -198,7 +198,6 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
     construct {
         this.hexpand = false;
         this.hexpand_set = true;
-        titlebar.flat = true;
         has_margins = true;
 
         box.orientation = Gtk.Orientation.VERTICAL;

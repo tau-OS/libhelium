@@ -450,21 +450,33 @@ public class He.AppBar : He.Bin {
         flat = true;
         main_box.add_css_class ("flat-appbar");
 
+        // The following is just a slice of craziness to make the design work
+        // for any type of window titlebar control scheme
         notify["show-left-title-buttons"].connect (() => {
             if (title.empty) {
                 top_box.margin_top = 36;
+            } else if (title.empty && !sidetitle.empty) {
+                top_box.margin_top = 0;
             } else if (!show_left_title_buttons && !show_right_title_buttons) {
                 top_box.margin_top = 36;
             } else {
+                top_box.margin_top = 0;
+            }
+            if (show_left_title_buttons && show_right_title_buttons) {
                 top_box.margin_top = 0;
             }
         });
         notify["show-right-title-buttons"].connect (() => {
             if (title.empty) {
                 top_box.margin_top = 36;
+            } else if (title.empty && !sidetitle.empty) {
+                top_box.margin_top = 0;
             } else if (!show_left_title_buttons && !show_right_title_buttons) {
                 top_box.margin_top = 36;
             } else {
+                top_box.margin_top = 0;
+            }
+            if (show_left_title_buttons && show_right_title_buttons) {
                 top_box.margin_top = 0;
             }
         });
