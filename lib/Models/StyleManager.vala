@@ -72,18 +72,9 @@ public class He.StyleManager : Object {
     if (!is_registered)
       return;
 
-    var rgb_color = accent_color != null ? accent_color :
-                                                               is_dark ? He.Color.DEFAULT_DARK_ACCENT :
-                                                                         He.Color.DEFAULT_LIGHT_ACCENT;
-
+    var rgb_color = accent_color != null ? accent_color : is_dark ? He.Color.DEFAULT_DARK_ACCENT : He.Color.DEFAULT_LIGHT_ACCENT;
     var base_weight = 400 * font_weight;
-
     var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color));
-
-    var derived_card_bg = He.Color.CARD_BLACK;
-
-    var bg_hex = Color.hexcode (derived_card_bg.r, derived_card_bg.g, derived_card_bg.b);
-
     var chosen_scheme = scheme_factory.generate (cam16_color, is_dark);
 
     // HCT Color blendin'
@@ -158,222 +149,116 @@ public class He.StyleManager : Object {
     var gluon_brown_hex = Color.hct_to_hex (gluon_brown_hct.h, gluon_brown_hct.c, gluon_brown_hct.t);
 
     string css = "";
-    if (is_dark) {
-      css = @"
-      @define-color accent_color $(chosen_scheme.primary_hex);
-      @define-color accent_bg_color $(chosen_scheme.primary_hex);
-      @define-color accent_fg_color $(chosen_scheme.on_primary_hex);
-      @define-color accent_container_color $(chosen_scheme.primary_container_hex);
-      @define-color accent_container_bg_color $(chosen_scheme.primary_container_hex);
-      @define-color accent_container_fg_color $(chosen_scheme.on_primary_container_hex);
+    css = @"
+    @define-color accent_color $(chosen_scheme.primary_hex);
+    @define-color accent_bg_color $(chosen_scheme.primary_hex);
+    @define-color accent_fg_color $(chosen_scheme.on_primary_hex);
+    @define-color accent_container_color $(chosen_scheme.primary_container_hex);
+    @define-color accent_container_bg_color $(chosen_scheme.primary_container_hex);
+    @define-color accent_container_fg_color $(chosen_scheme.on_primary_container_hex);
 
-      @define-color window_bg_color mix($(chosen_scheme.surface_bg_hex), $bg_hex, 0.50);
-      @define-color view_bg_color mix($(chosen_scheme.surface_bg_hex), $bg_hex, 0.30);
-      @define-color headerbar_bg_color mix($(chosen_scheme.surface_bg_variant_hex), $bg_hex, 0.50);
-      @define-color popover_bg_color mix($(chosen_scheme.surface_container_high_bg_hex), $bg_hex, 0.20);
-      @define-color card_bg_color mix($(chosen_scheme.surface_container_bg_hex), $bg_hex, 0.30);
-      @define-color window_fg_color $(chosen_scheme.surface_fg_hex);
-      @define-color view_fg_color $(chosen_scheme.surface_fg_variant_hex);
-      @define-color headerbar_fg_color $(chosen_scheme.surface_fg_variant_hex);
-      @define-color popover_fg_color $(chosen_scheme.surface_fg_hex);
-      @define-color card_fg_color $(chosen_scheme.surface_fg_hex);
+    @define-color window_bg_color $(chosen_scheme.surface_bg_hex);
+    @define-color view_bg_color $(chosen_scheme.surface_bg_hex);
+    @define-color headerbar_bg_color $(chosen_scheme.surface_bg_variant_hex);
+    @define-color popover_bg_color $(chosen_scheme.surface_container_high_bg_hex);
+    @define-color card_bg_color $(chosen_scheme.surface_container_bg_hex);
+    @define-color window_fg_color $(chosen_scheme.surface_fg_hex);
+    @define-color view_fg_color $(chosen_scheme.surface_fg_variant_hex);
+    @define-color headerbar_fg_color $(chosen_scheme.surface_fg_variant_hex);
+    @define-color popover_fg_color $(chosen_scheme.surface_fg_hex);
+    @define-color card_fg_color $(chosen_scheme.surface_fg_hex);
 
-      @define-color surface_bright_bg_color $(chosen_scheme.surface_bright_bg_hex);
-      @define-color surface_bg_color $(chosen_scheme.surface_bg_hex);
-      @define-color surface_dim_bg_color $(chosen_scheme.surface_dim_bg_hex);
-      @define-color surface_container_lowest_bg_color $(chosen_scheme.surface_container_lowest_bg_hex);
-      @define-color surface_container_low_bg_color $(chosen_scheme.surface_container_low_bg_hex);
-      @define-color surface_container_bg_color $(chosen_scheme.surface_container_bg_hex);
-      @define-color surface_container_high_bg_color $(chosen_scheme.surface_container_high_bg_hex);
-      @define-color surface_container_highest_bg_color $(chosen_scheme.surface_container_highest_bg_hex);
-      ";
-
-      css += @"
-      @define-color destructive_bg_color $error_hex;
-      @define-color destructive_fg_color $on_error_hex;
-      @define-color destructive_color $error_hex;
-      @define-color destructive_container_color $on_error_container_hex;
-      @define-color destructive_container_bg_color $error_container_hex;
-      @define-color destructive_container_fg_color $on_error_container_hex;
-
-      @define-color suggested_bg_color $(chosen_scheme.secondary_hex);
-      @define-color suggested_fg_color $(chosen_scheme.on_secondary_hex);
-      @define-color suggested_color $(chosen_scheme.secondary_hex);
-      @define-color suggested_container_color $(chosen_scheme.secondary_container_hex);
-      @define-color suggested_container_bg_color $(chosen_scheme.secondary_container_hex);
-      @define-color suggested_container_fg_color $(chosen_scheme.on_secondary_container_hex);
-
-      @define-color error_bg_color $error_hex;
-      @define-color error_fg_color $on_error_hex;
-      @define-color error_color $error_hex;
-      @define-color error_container_color $error_container_hex;
-      @define-color error_container_bg_color $error_container_hex;
-      @define-color error_container_fg_color $on_error_container_hex;
-
-      @define-color success_bg_color $(chosen_scheme.tertiary_hex);
-      @define-color success_fg_color $(chosen_scheme.on_tertiary_hex);
-      @define-color success_color $(chosen_scheme.tertiary_hex);
-      @define-color success_container_color $(chosen_scheme.tertiary_container_hex);
-      @define-color success_container_bg_color $(chosen_scheme.tertiary_container_hex);
-      ";
-
-      css += @"
-      @define-color success_container_fg_color $(chosen_scheme.on_tertiary_container_hex);
-
-      @define-color outline $(chosen_scheme.outline_hex);
-      @define-color borders $(chosen_scheme.outline_variant_hex);
-      @define-color shadow $(chosen_scheme.shadow_hex);
-      @define-color scrim $(chosen_scheme.scrim_hex);
-      @define-color osd_bg_color $(chosen_scheme.inverse_surface_bg_hex);
-      @define-color osd_fg_color $(chosen_scheme.inverse_surface_fg_hex);
-      @define-color osdaccent_color $(chosen_scheme.inverse_primary_hex);
-      ";
-    } else {
-      css = @"
-      @define-color accent_color $(chosen_scheme.primary_hex);
-      @define-color accent_bg_color $(chosen_scheme.primary_hex);
-      @define-color accent_fg_color $(chosen_scheme.on_primary_hex);
-      @define-color accent_container_color $(chosen_scheme.primary_container_hex);
-      @define-color accent_container_bg_color $(chosen_scheme.primary_container_hex);
-      @define-color accent_container_fg_color $(chosen_scheme.on_primary_container_hex);
-
-      @define-color window_bg_color $(chosen_scheme.surface_bg_hex);
-      @define-color view_bg_color $(chosen_scheme.surface_bg_hex);
-      @define-color headerbar_bg_color $(chosen_scheme.surface_bg_variant_hex);
-      @define-color popover_bg_color $(chosen_scheme.surface_container_high_bg_hex);
-      @define-color card_bg_color $(chosen_scheme.surface_container_bg_hex);
-      @define-color window_fg_color $(chosen_scheme.surface_fg_hex);
-      @define-color view_fg_color $(chosen_scheme.surface_fg_variant_hex);
-      @define-color headerbar_fg_color $(chosen_scheme.surface_fg_variant_hex);
-      @define-color popover_fg_color $(chosen_scheme.surface_fg_hex);
-      @define-color card_fg_color $(chosen_scheme.surface_fg_hex);
-
-      @define-color surface_bright_bg_color $(chosen_scheme.surface_bright_bg_hex);
-      @define-color surface_bg_color $(chosen_scheme.surface_bg_hex);
-      @define-color surface_dim_bg_color $(chosen_scheme.surface_dim_bg_hex);
-      @define-color surface_container_lowest_bg_color $(chosen_scheme.surface_container_lowest_bg_hex);
-      @define-color surface_container_low_bg_color $(chosen_scheme.surface_container_low_bg_hex);
-      @define-color surface_container_bg_color $(chosen_scheme.surface_container_bg_hex);
-      @define-color surface_container_high_bg_color $(chosen_scheme.surface_container_high_bg_hex);
-      @define-color surface_container_highest_bg_color $(chosen_scheme.surface_container_highest_bg_hex);
-      ";
-
-      css += @"
-      @define-color destructive_bg_color $error_hex;
-      @define-color destructive_fg_color $on_error_hex;
-      @define-color destructive_color $error_hex;
-      @define-color destructive_container_color $on_error_container_hex;
-      @define-color destructive_container_bg_color $error_container_hex;
-      @define-color destructive_container_fg_color $on_error_container_hex;
-
-      @define-color suggested_bg_color $(chosen_scheme.secondary_hex);
-      @define-color suggested_fg_color $(chosen_scheme.on_secondary_hex);
-      @define-color suggested_color $(chosen_scheme.secondary_hex);
-      @define-color suggested_container_color $(chosen_scheme.secondary_container_hex);
-      @define-color suggested_container_bg_color $(chosen_scheme.secondary_container_hex);
-      @define-color suggested_container_fg_color $(chosen_scheme.on_secondary_container_hex);
-
-      @define-color error_bg_color $error_hex;
-      @define-color error_fg_color $on_error_hex;
-      @define-color error_color $error_hex;
-      @define-color error_container_color $error_container_hex;
-      @define-color error_container_bg_color $error_container_hex;
-      @define-color error_container_fg_color $on_error_container_hex;
-
-      @define-color success_bg_color $(chosen_scheme.tertiary_hex);
-      @define-color success_fg_color $(chosen_scheme.on_tertiary_hex);
-      @define-color success_color $(chosen_scheme.tertiary_hex);
-      @define-color success_container_color $(chosen_scheme.tertiary_container_hex);
-      @define-color success_container_bg_color $(chosen_scheme.tertiary_container_hex);
-      ";
-
-      css += @"
-      @define-color success_container_fg_color $(chosen_scheme.on_tertiary_container_hex);
-
-      @define-color outline $(chosen_scheme.outline_hex);
-      @define-color borders $(chosen_scheme.outline_variant_hex);
-      @define-color shadow $(chosen_scheme.shadow_hex);
-      @define-color scrim $(chosen_scheme.scrim_hex);
-      @define-color osd_bg_color $(chosen_scheme.inverse_surface_bg_hex);
-      @define-color osd_fg_color $(chosen_scheme.inverse_surface_fg_hex);
-      @define-color osdaccent_color $(chosen_scheme.inverse_primary_hex);
-      ";
-    }
+    @define-color surface_bright_bg_color $(chosen_scheme.surface_bright_bg_hex);
+    @define-color surface_bg_color $(chosen_scheme.surface_bg_hex);
+    @define-color surface_dim_bg_color $(chosen_scheme.surface_dim_bg_hex);
+    @define-color surface_container_lowest_bg_color $(chosen_scheme.surface_container_lowest_bg_hex);
+    @define-color surface_container_low_bg_color $(chosen_scheme.surface_container_low_bg_hex);
+    @define-color surface_container_bg_color $(chosen_scheme.surface_container_bg_hex);
+    @define-color surface_container_high_bg_color $(chosen_scheme.surface_container_high_bg_hex);
+    @define-color surface_container_highest_bg_color $(chosen_scheme.surface_container_highest_bg_hex);
+    ";
 
     css += @"
-      @define-color meson_red $meson_red_hex;
-      @define-color lepton_orange $lepton_orange_hex;
-      @define-color electron_yellow $electron_yellow_hex;
-      @define-color muon_green $muon_green_hex;
-      @define-color baryon_mint $baryon_mint_hex;
-      @define-color proton_blue $proton_blue_hex;
-      @define-color photon_indigo $photon_indigo_hex;
-      @define-color tau_purple $tau_purple_hex;
-      @define-color fermion_pink $fermion_pink_hex;
-      @define-color gluon_brown $gluon_brown_hex;
+    @define-color destructive_bg_color $error_hex;
+    @define-color destructive_fg_color $on_error_hex;
+    @define-color destructive_color $error_hex;
+    @define-color destructive_container_color $on_error_container_hex;
+    @define-color destructive_container_bg_color $error_container_hex;
+    @define-color destructive_container_fg_color $on_error_container_hex;
+
+    @define-color suggested_bg_color $(chosen_scheme.secondary_hex);
+    @define-color suggested_fg_color $(chosen_scheme.on_secondary_hex);
+    @define-color suggested_color $(chosen_scheme.secondary_hex);
+    @define-color suggested_container_color $(chosen_scheme.secondary_container_hex);
+    @define-color suggested_container_bg_color $(chosen_scheme.secondary_container_hex);
+    @define-color suggested_container_fg_color $(chosen_scheme.on_secondary_container_hex);
+
+    @define-color error_bg_color $error_hex;
+    @define-color error_fg_color $on_error_hex;
+    @define-color error_color $error_hex;
+    @define-color error_container_color $error_container_hex;
+    @define-color error_container_bg_color $error_container_hex;
+    @define-color error_container_fg_color $on_error_container_hex;
+
+    @define-color success_bg_color $(chosen_scheme.tertiary_hex);
+    @define-color success_fg_color $(chosen_scheme.on_tertiary_hex);
+    @define-color success_color $(chosen_scheme.tertiary_hex);
+    @define-color success_container_color $(chosen_scheme.tertiary_container_hex);
+    @define-color success_container_bg_color $(chosen_scheme.tertiary_container_hex);
+    ";
+
+    css += @"
+    @define-color success_container_fg_color $(chosen_scheme.on_tertiary_container_hex);
+
+    @define-color outline $(chosen_scheme.outline_hex);
+    @define-color borders $(chosen_scheme.outline_variant_hex);
+    @define-color shadow $(chosen_scheme.shadow_hex);
+    @define-color scrim $(chosen_scheme.scrim_hex);
+    @define-color osd_bg_color $(chosen_scheme.inverse_surface_bg_hex);
+    @define-color osd_fg_color $(chosen_scheme.inverse_surface_fg_hex);
+    @define-color osdaccent_color $(chosen_scheme.inverse_primary_hex);
+    ";
+
+    css += @"
+    @define-color meson_red $meson_red_hex;
+    @define-color lepton_orange $lepton_orange_hex;
+    @define-color electron_yellow $electron_yellow_hex;
+    @define-color muon_green $muon_green_hex;
+    @define-color baryon_mint $baryon_mint_hex;
+    @define-color proton_blue $proton_blue_hex;
+    @define-color photon_indigo $photon_indigo_hex;
+    @define-color tau_purple $tau_purple_hex;
+    @define-color fermion_pink $fermion_pink_hex;
+    @define-color gluon_brown $gluon_brown_hex;
     ";
 
     var light_weight = (300 * font_weight);
     var heavy_weight = (700 * font_weight);
 
     css += @"
-    label {
-      font-weight: $base_weight;
-    }
-    button label {
-      font-weight: $heavy_weight;
-    }
-    .view-switcher button label {
-      font-weight: $base_weight;
-    }
-    .big-display {
-      font-weight: $base_weight;
-    }
-    .display {
-      font-weight: $light_weight;
-    }
-    .view-title {
-      font-weight: $light_weight;
-    }
-    .view-subtitle {
-      font-weight: $base_weight;
-    }
-    .cb-title {
-      font-weight: $heavy_weight;
-    }
-    .cb-subtitle {
-      font-weight: $base_weight;
-    }
-    .header {
-      font-weight: $heavy_weight;
-    }
+    label,
+    .view-switcher button label,
+    .big-display,
+    .view-subtitle,
+    .cb-subtitle,
     .body {
       font-weight: $base_weight;
     }
-    .caption {
-      font-weight: $heavy_weight;
-    }
-    .large-title {
+    .large-title,
+    .display,
+    .view-title {
       font-weight: $light_weight;
     }
-    .title-1 {
-      font-weight: $heavy_weight;
-    }
-    .title-2 {
-      font-weight: $heavy_weight;
-    }
-    .title-3 {
-      font-weight: $heavy_weight;
-    }
-    .title-4 {
-      font-weight: $heavy_weight;
-    }
-    .heading {
-      font-weight: $heavy_weight;
-    }
-    .caption-heading {
-      font-weight: $heavy_weight;
-    }
+    .title-1,
+    .title-2,
+    .title-3,
+    .title-4,
+    .heading,
+    .header,
+    .caption,
+    .caption-heading,
+    .cb-title,
+    button label,
     .badge label,
     .badge-info label,
     .tint-badge label,
