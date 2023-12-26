@@ -28,6 +28,7 @@ public class He.AppBar : He.Bin {
     private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box subtitle_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box control_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+    private Gtk.Box win_control_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box win_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box win2_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box sub_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -370,10 +371,21 @@ public class He.AppBar : He.Bin {
 
     construct {
         title_box.halign = Gtk.Align.END;
+        win_box.hexpand = true;
         win_box.halign = Gtk.Align.END;
+        win_box.valign = Gtk.Align.START;
         win2_box.halign = Gtk.Align.START;
+        win2_box.valign = Gtk.Align.START;
         create_start_window_controls ();
         create_end_window_controls ();
+
+        win_control_box.valign = Gtk.Align.START;
+        win_control_box.hexpand = true;
+        win_control_box.margin_start = 6;
+        win_control_box.margin_top = 6;
+        win_control_box.margin_end = 6;
+        win_control_box.append (win_box);
+        win_control_box.prepend (win2_box);
 
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
@@ -399,10 +411,8 @@ public class He.AppBar : He.Bin {
         viewsubtitle.set_visible (false);
 
         top_box.hexpand = true;
-        top_box.append (win2_box);
         top_box.append (control_box);
         top_box.append (title_box);
-        top_box.append (win_box);
 
         subtitle_box.append (viewsubtitle);
         subtitle_box.set_visible (false);
@@ -439,8 +449,12 @@ public class He.AppBar : He.Bin {
         main_box.append (top_box);
         main_box.append (sub_box);
 
+        var win_controls_overlay = new Gtk.Overlay ();
+        win_controls_overlay.set_child (main_box);
+        win_controls_overlay.add_overlay (win_control_box);
+
         var winhandle = new Gtk.WindowHandle ();
-        winhandle.set_child (main_box);
+        winhandle.set_child (win_controls_overlay);
         winhandle.set_parent (this);
         winhandle.hexpand = true;
 
@@ -450,36 +464,7 @@ public class He.AppBar : He.Bin {
         flat = true;
         main_box.add_css_class ("flat-appbar");
 
-        // The following is just a slice of craziness to make the design work
-        // for any type of window titlebar control scheme
-        notify["show-left-title-buttons"].connect (() => {
-            if (title.empty) {
-                top_box.margin_top = 36;
-            } else if (title.empty && !sidetitle.empty) {
-                top_box.margin_top = 0;
-            } else if (!show_left_title_buttons && !show_right_title_buttons) {
-                top_box.margin_top = 36;
-            } else {
-                top_box.margin_top = 0;
-            }
-            if (show_left_title_buttons && show_right_title_buttons) {
-                top_box.margin_top = 0;
-            }
-        });
-        notify["show-right-title-buttons"].connect (() => {
-            if (title.empty) {
-                top_box.margin_top = 36;
-            } else if (title.empty && !sidetitle.empty) {
-                top_box.margin_top = 0;
-            } else if (!show_left_title_buttons && !show_right_title_buttons) {
-                top_box.margin_top = 36;
-            } else {
-                top_box.margin_top = 0;
-            }
-            if (show_left_title_buttons && show_right_title_buttons) {
-                top_box.margin_top = 0;
-            }
-        });
+        top_box.margin_top = 36;
     }
 
     static construct {

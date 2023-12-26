@@ -84,8 +84,7 @@
         viewtitle.margin_end = 12;
         viewtitle.margin_bottom = 6;
 
-        appbar.show_left_title_buttons = true;
-        appbar.show_right_title_buttons = false;
+        appbar.decoration_layout = ":close";
         appbar.show_back = false;
         appbar.hexpand = true;
 
@@ -107,6 +106,7 @@
         this.set_focusable (true);
 
         this.set_modal (true);
+        this.add_css_class ("dialog-content");
 
         on_pages_changed (0, 0, this.stack.pages.get_n_items ());
     }
