@@ -43,5 +43,5 @@ namespace He.Color {
         0.7490 * 255
     };
 
-    private const double LSTAR = 50.0;
+    private const double LSTAR = 49.6;
 }

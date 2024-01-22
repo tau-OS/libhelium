@@ -64,10 +64,10 @@ public class He.ViewingConditions : Object {
     }
 
     public static ViewingConditions make (
-        double[] white_point = {95.047, 100.0, 108.883},
+        double[] white_point = {95.04705586542832, 100.00000000000000, 108.8828736395884},
         double adapting_luminance = -1,
-        double bg_lstar = 50.0,
-        double surround = 2.0,
+        double bg_lstar = 49.6,
+        double surround = 0.69,
         bool discount_illuminant = false
     ) {
       bg_lstar = MathUtils.max (0.1, bg_lstar);
@@ -122,10 +122,10 @@ public class He.ViewingConditions : Object {
         double adapting_luminance = -1;
         lstar = MathUtils.max (0.1, lstar);
         return ViewingConditions.make (
-            {95.047, 100.0, 108.883},
+            {95.04705586542832, 100.00000000000000, 108.8828736395884},
             (adapting_luminance > 0.0) ? adapting_luminance : (200.0 / Math.PI * MathUtils.y_from_lstar (lstar) / 100f),
             lstar,
-            2.0,
+            0.69,
             false
         );
     }
