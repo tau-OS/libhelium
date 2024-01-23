@@ -118,6 +118,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
             ws.has_title = true;
             ws.modal = true;
             ws.parent = this;
+            ws.resizable = false;
             ws.has_back_button = false;
 
             var ws_welcome = new He.WelcomeScreen ("Helium Demo", "This is a welcome screen.");

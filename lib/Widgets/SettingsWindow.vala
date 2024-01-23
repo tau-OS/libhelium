@@ -106,6 +106,7 @@
         this.set_focusable (true);
 
         this.set_modal (true);
+        this.resizable = false;
         this.add_css_class ("dialog-content");
 
         on_pages_changed (0, 0, this.stack.pages.get_n_items ());
