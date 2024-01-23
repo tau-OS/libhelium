@@ -39,12 +39,13 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     private string _left_icon;
     public string left_icon {
         get {
-            return left_icon_img.get_icon_name ();
+            return _left_icon;
         }
         set {
-            if (value != null) {
+            _left_icon = value;
+            if (_left_icon != null) {
                 left_icon_img.set_visible (true);
-                left_icon_img.set_from_icon_name (value);
+                left_icon_img.set_from_icon_name (_left_icon);
             } else {
                 left_icon_img.set_visible (false);
             }
@@ -57,12 +58,13 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     private string _right_icon;
     public string right_icon {
         get {
-            return right_icon_img.get_icon_name ();
+            return _right_icon;
         }
         set {
-            if (value != null) {
-                right_icon_img.set_visible (true);
-                right_icon_img.set_from_icon_name (value);
+            _right_icon = value;
+            if (_right_icon != null) {
+                left_icon_img.set_visible (true);
+                left_icon_img.set_from_icon_name (_right_icon);
             } else {
                 right_icon_img.set_visible (false);
             }
