@@ -36,7 +36,8 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     /**
      * Sets the left icon of the Slider.
      */
-     public string left_icon {
+    private string _left_icon;
+    public string left_icon {
         get {
             return left_icon_img.get_icon_name ();
         }
@@ -53,7 +54,8 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     /**
      * Sets the right icon of the Slider.
      */
-     public string right_icon {
+    private string _right_icon;
+    public string right_icon {
         get {
             return right_icon_img.get_icon_name ();
         }
@@ -70,12 +72,14 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     /**
      * Sets the visibility of the stop indicator of the Slider.
      */
-     public bool stop_indicator_visibility {
+    private bool _stop_indicator_visibility;
+    public bool stop_indicator_visibility {
         get {
-            return value;
+            return _stop_indicator_visibility;
         }
         set {
-            if (value) {
+            _stop_indicator_visibility = value;
+            if (_stop_indicator_visibility) {
                 stop_indicator.set_visible (true);
             } else {
                 stop_indicator.set_visible (false);
@@ -96,10 +100,12 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     }
 
     construct {
-        left_icon_img.xalign = 0;
+        left_icon_img.halign = Gtk.Align.START;
+        left_icon_img.valign = Gtk.Align.CENTER;
         left_icon_img.set_visible (false);
 
-        right_icon_img.xalign = 1;
+        right_icon_img.halign = Gtk.Align.END;
+        right_icon_img.valign = Gtk.Align.CENTER;
         right_icon_img.set_visible (false);
 
         stop_indicator.margin_end = 4;
