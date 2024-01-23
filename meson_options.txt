@@ -1,4 +1,4 @@
-option('demo', type: 'boolean', value: false, description: 'Include Demo app')
+option('demo', type: 'boolean', value: true, description: 'Include Demo app')
 option(
     'stylesheet',
     type: 'boolean',
