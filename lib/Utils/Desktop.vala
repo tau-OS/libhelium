@@ -48,8 +48,6 @@ public class He.Desktop : Object {
 
     private void setup_prefers_color_scheme () {
         try {
-            portal = Portal.Settings.get ();
-
             prefers_color_scheme = (ColorScheme) portal.read (
                 "org.freedesktop.appearance",
                 "color-scheme"
@@ -103,8 +101,6 @@ public class He.Desktop : Object {
 
     private void setup_ensor_scheme () {
         try {
-            portal = Portal.Settings.get ();
-
             ensor_scheme = (EnsorScheme) portal.read (
                 "org.freedesktop.appearance",
                 "ensor-scheme"
@@ -142,16 +138,14 @@ public class He.Desktop : Object {
         iter.next ("d", out cb);
 
         // If any of the values are out of range, the accent is "no preference".
-        if (
-            !(cr >= 0.0 && cr <= 1.0 && cg >= 0.0 && cg <= 1.0 && cb >= 0.0 && cb <= 1.0)
-        ) {
+        if (!(cr >= 0.0 && cr <= 1.0 && cg >= 0.0 && cg <= 1.0 && cb >= 0.0 && cb <= 1.0)) {
             return null;
         }
 
         He.Color.RGBColor rgb_color = {
-            cr * 255,
-            cg * 255,
-            cb * 255
+            cr,
+            cg,
+            cb
         };
 
         return rgb_color;
@@ -159,8 +153,6 @@ public class He.Desktop : Object {
 
     private void setup_accent_color () {
         try {
-            portal = Portal.Settings.get ();
-
             var accent = portal.read (
                 "org.freedesktop.appearance",
                 "accent-color"
@@ -191,8 +183,6 @@ public class He.Desktop : Object {
 
     private void setup_font_weight () {
         try {
-            portal = Portal.Settings.get ();
-
             var fw = portal.read (
                 "org.freedesktop.appearance",
                 "font-weight"
@@ -229,6 +219,7 @@ public class He.Desktop : Object {
     }
 
     construct {
+        portal = Portal.Settings.get ();
         setup_prefers_color_scheme ();
         setup_accent_color ();
         setup_ensor_scheme ();

@@ -87,7 +87,6 @@ public class He.Application : Gtk.Application {
   }
 
   protected override void startup () {
-    base.startup ();
     He.init ();
 
     init_app_styles ();
@@ -99,6 +98,7 @@ public class He.Application : Gtk.Application {
     desktop.notify["prefers-color-scheme"].connect (update_style_manager);
 
     style_manager.register ();
+    base.startup ();
   }
 
   /**
