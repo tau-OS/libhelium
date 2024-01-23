@@ -25,7 +25,7 @@ public class He.StyleManager : Object {
   /**
   * The preferred accent color. If null, a default accent color will be chosen based on the color scheme.
   */
-  public Color.RGBColor? accent_color;
+  public Color.RGBColor? accent_color = null;
 
   /**
   * The preferred font weight.
@@ -308,9 +308,9 @@ public class He.StyleManager : Object {
   */
   public void unregister () {
     Misc.toggle_style_provider (accent, false, STYLE_PROVIDER_PRIORITY_ACCENT);
-    Misc.toggle_style_provider (user_base, false, STYLE_PROVIDER_PRIORITY_USER_BASE);
     Misc.toggle_style_provider (light, false, STYLE_PROVIDER_PRIORITY_PLATFORM);
     Misc.toggle_style_provider (dark, false, STYLE_PROVIDER_PRIORITY_PLATFORM);
+    Misc.toggle_style_provider (user_base, false, STYLE_PROVIDER_PRIORITY_USER_BASE);
     Misc.toggle_style_provider (user_dark, false, STYLE_PROVIDER_PRIORITY_USER_DARK);
 
     is_registered = false;
