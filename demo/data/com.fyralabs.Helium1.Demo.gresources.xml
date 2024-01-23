@@ -1,5 +1,8 @@
 <gresources>
   <gresource prefix="/com/fyralabs/Helium1/Demo">
+    <file preprocess="xml-stripblanks" alias="icons/scalable/apps/com.fyralabs.Helium1.Demo.svg">com.fyralabs.Helium1.Demo.svg</file>
+    <file preprocess="xml-stripblanks" alias="icons/symbolic/apps/com.fyralabs.Helium1.Demo-symbolic.svg">com.fyralabs.Helium1.Demo-symbolic.svg</file>
+
     <file alias="style.css">style.css</file>
     <file alias="style-dark.css">style-dark.css</file>
 

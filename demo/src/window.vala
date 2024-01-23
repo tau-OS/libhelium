@@ -167,7 +167,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
             this,
             "Helium Demo",
             "com.fyralabs.Helium1.Demo",
-            "libhelium",
+            "com.fyralabs.Helium1.Demo",
             Config.VERSION,
             "https://fyralabs.com",
             "https://fyralabs.com",
