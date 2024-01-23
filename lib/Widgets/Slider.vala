@@ -31,7 +31,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     /**
      * The scale inside the Slider.
      */
-    public Gtk.Scale slider = new Gtk.Scale (Gtk.Orientation.HORIZONTAL, null);
+    public Gtk.Scale scale = new Gtk.Scale (Gtk.Orientation.HORIZONTAL, null);
 
     /**
      * Sets the left icon of the Slider.
@@ -63,8 +63,8 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         set {
             _right_icon = value;
             if (_right_icon != null) {
-                left_icon_img.set_visible (true);
-                left_icon_img.set_from_icon_name (_right_icon);
+                right_icon_img.set_visible (true);
+                right_icon_img.set_from_icon_name (_right_icon);
             } else {
                 right_icon_img.set_visible (false);
             }
@@ -117,8 +117,9 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         stop_indicator.add_css_class ("stop-indicator");
 
         var slider_overlay = new Gtk.Overlay ();
+        slider_overlay.hexpand = true;
         slider_overlay.add_overlay (stop_indicator);
-        slider_overlay.set_child (slider);
+        slider_overlay.set_child (scale);
 
         main_box.append (left_icon_img);
         main_box.append (slider_overlay);

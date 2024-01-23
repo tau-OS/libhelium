@@ -17,12 +17,12 @@ blueprints_hack = custom_target('blueprints_hack',
 )
 
 install_data(
-  'libhelium.svg',
+  'com.fyralabs.Helium1.Demo.svg',
   install_dir: get_option('datadir') / 'icons' / 'hicolor' / 'scalable' / 'apps'
 )
 
-install_data(\
-  'libhelium-symbolic.svg',
+install_data(
+  'com.fyralabs.Helium1.Demo-symbolic.svg',
   install_dir: get_option('datadir') / 'icons' / 'hicolor' / 'symbolic' / 'apps'
 )
 

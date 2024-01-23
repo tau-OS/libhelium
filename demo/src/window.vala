@@ -59,7 +59,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
         GLib.Object (
             application: application,
             app: application,
-            icon_name: "libhelium"
+            icon_name: "com.fyralabs.Helium1.Demo"
         );
     }
 
