@@ -25,8 +25,8 @@
 public class He.Slider : He.Bin, Gtk.Buildable {
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
     private Gtk.Box stop_indicator = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-    private Gtk.Image left_icon = new Gtk.Image ();
-    private Gtk.Image right_icon = new Gtk.Image ();
+    private Gtk.Image left_icon_img = new Gtk.Image ();
+    private Gtk.Image right_icon_img = new Gtk.Image ();
 
     /**
      * The scale inside the Slider.
