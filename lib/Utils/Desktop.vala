@@ -34,6 +34,15 @@ public class He.Desktop : Object {
     }
 
     /**
+    * The contrast scheme preference enum, which is used to determine the contrast scheme of the desktop.
+    */
+    public enum ContrastScheme {
+        DEFAULT,
+        HIGH,
+        LOW
+    }
+
+    /**
     * The color scheme preference.
     */
     private ColorScheme? _prefers_color_scheme = null;
@@ -199,32 +208,30 @@ public class He.Desktop : Object {
     }
 
     /**
-     * The system high contrast preference.
+     * The system contrast preference.
      */
-    private bool _high_contrast = false;
-    public bool high_contrast {
+    private ContrastScheme? _contrast = null;
+    public ContrastScheme contrast {
          get {
-             return _high_contrast;
+             return _contrast;
          }
          set {
-             _high_contrast = value;
+             _contrast = value;
          }
     }
-    private void setup_high_contrast () {
+    private void setup_contrast () {
         try {
-            var fw = portal.read (
+            var hc = (ContrastScheme) portal.read (
                 "org.freedesktop.appearance",
-                "high-contrast"
-            ).get_variant ().get_boolean ();
-
-            high_contrast = (bool) fw;
+                "contrast"
+            ).get_variant ().get_uint32 ();
 
             return;
         } catch (Error e) {
             debug ("%s", e.message);
         }
 
-        high_contrast = 1.0;
+        contrast = ContrastScheme.DEFAULT;
     }
 
     private void init_handle_settings_change () {
@@ -241,8 +248,8 @@ public class He.Desktop : Object {
                 ensor_scheme = (EnsorScheme) val.get_uint32 ();
             }
 
-            if (scheme == "org.freedesktop.appearance" && key == "high-contrast") {
-                high_contrast = (bool) val.get_boolean ();
+            if (scheme == "org.freedesktop.appearance" && key == "contrast") {
+                contrast = (ContrastScheme) val.get_uint32 ();
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "color-scheme") {
@@ -257,7 +264,7 @@ public class He.Desktop : Object {
         setup_accent_color ();
         setup_ensor_scheme ();
         setup_font_weight ();
-        setup_high_contrast ();
+        setup_contrast ();
         init_handle_settings_change ();
     }
 }
