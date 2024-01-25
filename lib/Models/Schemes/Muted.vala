@@ -53,33 +53,33 @@ public class He.MutedScheme : SchemeFactory, Object {
             // ___  ____ _ _  _ ____ ____ _   _
             // |__] |__/ | |\/| |__| |__/  \_/
             // |    |  \ | |  | |  | |  \   |
-            primary_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? is_contrast ? 60.0 : 80.0 : is_contrast ? 20.0 : 40.0),
+            primary_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? is_contrast ? 90.0 : 80.0 : is_contrast ? 20.0 : 40.0),
             on_primary_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? 20.0 : 100.0),
-            primary_container_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? is_contrast ? 10.0 : 30.0 : is_contrast ? 70.0 : 90.0),
+            primary_container_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? is_contrast ? 40.0 : 30.0 : is_contrast ? 70.0 : 90.0),
             on_primary_container_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? 90.0 : 10.0),
             inverse_primary_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? 40.0 : 80.0),
 
             // ____ ____ ____ ____ _  _ ___  ____ ____ _   _
             // [__  |___ |    |  | |\ | |  \ |__| |__/  \_/
             // ___] |___ |___ |__| | \| |__/ |  | |  \   |
-            secondary_hex = Color.hct_to_hex (secondary_hue, SECONDARY, is_dark ? is_contrast ? 60.0 : 80.0 : is_contrast ? 20.0 : 40.0),
+            secondary_hex = Color.hct_to_hex (secondary_hue, SECONDARY, is_dark ? is_contrast ? 90.0 : 80.0 : is_contrast ? 20.0 : 40.0),
             on_secondary_hex = Color.hct_to_hex (secondary_hue, SECONDARY, is_dark ? 20.0 : 100.0),
-            secondary_container_hex = Color.hct_to_hex (secondary_hue, SECONDARY, is_dark ? is_contrast ? 10.0 : 30.0 : is_contrast ? 70.0 : 90.0),
+            secondary_container_hex = Color.hct_to_hex (secondary_hue, SECONDARY, is_dark ? is_contrast ? 40.0 : 30.0 : is_contrast ? 70.0 : 90.0),
             on_secondary_container_hex = Color.hct_to_hex (secondary_hue, SECONDARY, is_dark ? 90.0 : 10.0),
 
             // ___ ____ ____ ___ _ ____ ____ _   _
             //  |  |___ |__/  |  | |__| |__/  \_/
             //  |  |___ |  \  |  | |  | |  \   |
-            tertiary_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? is_contrast ? 60.0 : 80.0 : is_contrast ? 20.0 : 40.0),
+            tertiary_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? is_contrast ? 90.0 : 80.0 : is_contrast ? 20.0 : 40.0),
             on_tertiary_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? 20.0 : 100.0),
-            tertiary_container_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? is_contrast ? 10.0 : 30.0 : is_contrast ? 70.0 : 90.0),
+            tertiary_container_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? is_contrast ? 40.0 : 30.0 : is_contrast ? 70.0 : 90.0),
             on_tertiary_container_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? 90.0 : 10.0),
 
             // ____ _  _ ___ _    _ _  _ ____
             // |  | |  |  |  |    | |\ | |___
             // |__| |__|  |  |___ | | \| |___
             outline_hex = Color.hct_to_hex (hue, NEUTRAL2, is_dark ? 60.0 : 50.0),
-            outline_variant_hex = Color.hct_to_hex (hue, NEUTRAL2, is_dark ? is_contrast ? 15.0 : 30.0 : is_contrast ? 60.0 : 80.0),
+            outline_variant_hex = Color.hct_to_hex (hue, NEUTRAL2, is_dark ? is_contrast ? 45.0 : 30.0 : is_contrast ? 60.0 : 80.0),
 
             // ____ _  _ ____ ___  ____ _ _ _
             // [__  |__| |__| |  \ |  | | | |
