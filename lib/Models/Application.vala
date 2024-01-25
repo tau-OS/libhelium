@@ -55,7 +55,6 @@ public class He.Application : Gtk.Application {
   private void update_style_manager () {
     if (default_accent_color != null && override_accent_color) {
       style_manager.accent_color = default_accent_color;
-      style_manager.scheme_factory = ContentScheme ();
     } else if (desktop.accent_color != null) {
       style_manager.accent_color = desktop.accent_color;
     } else {
@@ -64,6 +63,8 @@ public class He.Application : Gtk.Application {
 
     if (scheme_factory != null) {
       style_manager.scheme_factory = scheme_factory;
+    } else if (scheme_factory != null && override_accent_color) {
+      style_manager.scheme_factory = new ContentScheme ();
     } else {
       style_manager.scheme_factory = desktop.ensor_scheme.to_factory ();
     }
