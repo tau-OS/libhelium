@@ -38,6 +38,11 @@ public class He.StyleManager : Object {
   public bool is_dark = false;
 
   /**
+  * Whether to apply styles for high contrast mode.
+  */
+  public bool is_contrast = false;
+
+  /**
   * A function that returns a color scheme from a given accent color and whether dark mode is enabled.
   */
   public SchemeFactory scheme_factory = new DefaultScheme ();
@@ -75,7 +80,7 @@ public class He.StyleManager : Object {
     var rgb_color = accent_color != null ? accent_color : is_dark ? He.Color.DEFAULT_DARK_ACCENT : He.Color.DEFAULT_LIGHT_ACCENT;
     var base_weight = 400 * font_weight;
     var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color));
-    var chosen_scheme = scheme_factory.generate (cam16_color, is_dark);
+    var chosen_scheme = scheme_factory.generate (cam16_color, is_dark, is_contrast);
 
     // HCT Color blendin'
     var error_hct = is_dark ?

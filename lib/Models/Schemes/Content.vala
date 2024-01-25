@@ -17,7 +17,7 @@
 * Boston, MA 02110-1301 USA
 */
 public class He.ContentScheme : SchemeFactory, Object {
-    public Scheme generate (Color.CAM16Color accent, bool is_dark) {
+    public Scheme generate (Color.CAM16Color accent, bool is_dark, bool is_contrast) {
         var hue = accent.h;
         var chroma = accent.c;
 
@@ -51,7 +51,7 @@ public class He.ContentScheme : SchemeFactory, Object {
             // ___  ____ _ _  _ ____ ____ _   _
             // |__] |__/ | |\/| |__| |__/  \_/
             // |    |  \ | |  | |  | |  \   |
-            primary_hex = Color.hct_to_hex (hue, primary, is_dark ? 80.0 : 40.0),
+            primary_hex = Color.hct_to_hex (hue, primary, is_contrast ? is_dark ? 60.0 : 60.0 : is_dark ? 80.0 : 40.0),
             on_primary_hex = Color.hct_to_hex (hue, primary, is_dark ? 20.0 : 100.0),
             primary_container_hex = Color.hct_to_hex (hue, primary, is_dark ? 30.0 : 90.0),
             on_primary_container_hex = Color.hct_to_hex (hue, primary, is_dark ? 90.0 : 10.0),

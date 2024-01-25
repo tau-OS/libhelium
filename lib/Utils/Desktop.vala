@@ -221,7 +221,7 @@ public class He.Desktop : Object {
     }
     private void setup_contrast () {
         try {
-            var hc = (ContrastScheme) portal.read (
+            contrast = (ContrastScheme) portal.read (
                 "org.freedesktop.appearance",
                 "contrast"
             ).get_variant ().get_uint32 ();
@@ -261,10 +261,10 @@ public class He.Desktop : Object {
     construct {
         portal = Portal.Settings.get ();
         setup_prefers_color_scheme ();
+        setup_contrast ();
         setup_accent_color ();
         setup_ensor_scheme ();
         setup_font_weight ();
-        setup_contrast ();
         init_handle_settings_change ();
     }
 }

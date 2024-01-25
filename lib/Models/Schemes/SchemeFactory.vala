@@ -22,5 +22,5 @@
 * Prior runs of the generate method should not affect the output of future runs.
 */
 public interface He.SchemeFactory : Object {
-  public abstract Scheme generate (Color.CAM16Color accent, bool is_dark);
+  public abstract Scheme generate (Color.CAM16Color accent, bool is_dark, bool is_contrast);
 }
