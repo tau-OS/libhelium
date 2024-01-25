@@ -72,7 +72,7 @@ public class He.DefaultScheme : SchemeFactory, Object {
             //  |  |___ |  \  |  | |  | |  \   |
             tertiary_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? is_contrast ? 60.0 : 80.0 : is_contrast ? 20.0 : 40.0),
             on_tertiary_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? 20.0 : 100.0),
-            tertiary_container_hex = Color.hct_to_hex (tertiary_hue, SECONDARY, is_dark ? is_contrast ? 10.0 : 30.0 : is_contrast ? 70.0 : 90.0),
+            tertiary_container_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? is_contrast ? 10.0 : 30.0 : is_contrast ? 70.0 : 90.0),
             on_tertiary_container_hex = Color.hct_to_hex (tertiary_hue, TERTIARY, is_dark ? 90.0 : 10.0),
 
             // ____ _  _ ___ _    _ _  _ ____

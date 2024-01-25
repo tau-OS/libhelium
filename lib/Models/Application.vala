@@ -55,6 +55,7 @@ public class He.Application : Gtk.Application {
   private void update_style_manager () {
     if (default_accent_color != null && override_accent_color) {
       style_manager.accent_color = default_accent_color;
+      style_manager.scheme_factory = ContentScheme ();
     } else if (desktop.accent_color != null) {
       style_manager.accent_color = desktop.accent_color;
     } else {
