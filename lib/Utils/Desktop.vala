@@ -198,6 +198,35 @@ public class He.Desktop : Object {
         font_weight = 1.0;
     }
 
+    /**
+     * The system high contrast preference.
+     */
+    private bool _high_contrast = false;
+    public bool high_contrast {
+         get {
+             return _high_contrast;
+         }
+         set {
+             _high_contrast = value;
+         }
+    }
+    private void setup_high_contrast () {
+        try {
+            var fw = portal.read (
+                "org.freedesktop.appearance",
+                "high-contrast"
+            ).get_variant ().get_boolean ();
+
+            high_contrast = (bool) fw;
+
+            return;
+        } catch (Error e) {
+            debug ("%s", e.message);
+        }
+
+        high_contrast = 1.0;
+    }
+
     private void init_handle_settings_change () {
         portal.setting_changed.connect ((scheme, key, val) => {
             if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
@@ -212,6 +241,10 @@ public class He.Desktop : Object {
                 ensor_scheme = (EnsorScheme) val.get_uint32 ();
             }
 
+            if (scheme == "org.freedesktop.appearance" && key == "high-contrast") {
+                high_contrast = (bool) val.get_boolean ();
+            }
+
             if (scheme == "org.freedesktop.appearance" && key == "color-scheme") {
                 prefers_color_scheme = (ColorScheme) val.get_uint32 ();
             }
@@ -224,6 +257,7 @@ public class He.Desktop : Object {
         setup_accent_color ();
         setup_ensor_scheme ();
         setup_font_weight ();
+        setup_high_contrast ();
         init_handle_settings_change ();
     }
 }
