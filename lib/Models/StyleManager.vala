@@ -298,7 +298,7 @@ public class He.StyleManager : Object {
     .toast-box,
     .text-view,
     windowcontrols > button > image,
-    popover {
+    popover > contents {
       border-radius: $medium_roundness;
     }
     .text-field,
@@ -318,7 +318,11 @@ public class He.StyleManager : Object {
     }
     .disclosure-button,
     .disclosure-button .toggle,
-    .overlay-button {
+    .overlay-button,
+    switch,
+    switch > slider,
+    scale > trough,
+    scale > trough > slider {
       border-radius: $circle_roundness;
     }
     .content-list row:first-child .mini-content-block {
@@ -338,6 +342,13 @@ public class He.StyleManager : Object {
 	    border-top-right-radius: $large_roundness;
       border-bottom-left-radius: $x_large_roundness;
       border-bottom-right-radius: $x_large_roundness;
+    }
+    .segmented-button > button:not(:first-child),
+    .segmented-button > button:not(:last-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
     }
     .segmented-button button:first-child {
         border-top-left-radius: $x_large_roundness;
