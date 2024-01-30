@@ -129,4 +129,11 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         main_box.add_css_class ("slider");
         main_box.set_parent (this);
     }
+
+    /**
+     * Adds a mark with some information along the trough of the Slider.
+     */
+     public void add_mark (double value, string? text) {
+        scale.add_mark (value, Gtk.PositionType.BOTTOM, text);
+     }
 }
