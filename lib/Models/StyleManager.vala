@@ -298,7 +298,8 @@ public class He.StyleManager : Object {
     .toast-box,
     .text-view,
     windowcontrols > button > image,
-    popover > contents {
+    popover > contents,
+    check {
       border-radius: $medium_roundness;
     }
     .text-field,
@@ -322,7 +323,8 @@ public class He.StyleManager : Object {
     switch,
     switch > slider,
     scale > trough,
-    scale > trough > slider {
+    scale > trough > slider,
+    radio {
       border-radius: $circle_roundness;
     }
     .content-list row:first-child .mini-content-block {
