@@ -296,10 +296,10 @@ public class He.Desktop : Object {
         portal = Portal.Settings.get ();
         setup_prefers_color_scheme ();
         setup_contrast ();
+        setup_roundness ();
         setup_accent_color ();
         setup_ensor_scheme ();
         setup_font_weight ();
-        setup_roundness ();
         init_handle_settings_change ();
     }
 }

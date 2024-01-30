@@ -278,9 +278,11 @@ public class He.StyleManager : Object {
     }
     ";
 
-    var small_roundness = (0.5 * roundness);
-    var medium_roundness = (2 * roundness);
-    var large_roundness = (3 * roundness);
+    var small_roundness = (0.5 * base_roundness).to_string () + "px";
+    var medium_roundness = (1 * base_roundness).to_string () + "px";
+    var large_roundness = (2 * base_roundness).to_string () + "px";
+    var x_large_roundness = (3 * base_roundness).to_string () + "px";
+    var circle_roundness = (12.5 * base_roundness).to_string () + "px";
 
     css += @"
     .badge,
@@ -292,13 +294,14 @@ public class He.StyleManager : Object {
     button,
     .toast-box,
     .text-view,
-    windowcontrols > button > image {
-      border-radius: $base_roundness;
+    windowcontrols > button > image,
+    popover {
+      border-radius: $medium_roundness;
     }
     .text-field,
     .navigation-section-button,
     window.csd {
-      border-radius: $medium_roundness;
+      border-radius: $large_roundness;
     }
     .content-block,
     .mini-content-block,
@@ -308,25 +311,30 @@ public class He.StyleManager : Object {
     .navigation-section-list row .mini-content-block,
     window.csd.dialog.message,
     window.csd.dialog-content {
-      border-radius: $large_roundness;
+      border-radius: $x_large_roundness;
+    }
+    .disclosure-button,
+    .disclosure-button .toggle,
+    .overlay-button {
+      border-radius: $circle_roundness;
     }
     .content-list row:first-child .mini-content-block {
-      border-top-left-radius: $large_roundness;
-	    border-top-right-radius: $large_roundness;
-      border-bottom-left-radius: $medium_roundness;
-      border-bottom-right-radius: $medium_roundness;
-    }
-    .content-list row:first-child:last-child .mini-content-block {
-      border-top-left-radius: $medium_roundness;
-	    border-top-right-radius: $medium_roundness;
-      border-bottom-left-radius: $medium_roundness;
-      border-bottom-right-radius: $medium_roundness;
-    }
-    .content-list row:last-child .mini-content-block {
-      border-top-left-radius: $medium_roundness;
-	    border-top-right-radius: $medium_roundness;
+      border-top-left-radius: $x_large_roundness;
+	    border-top-right-radius: $x_large_roundness;
       border-bottom-left-radius: $large_roundness;
       border-bottom-right-radius: $large_roundness;
+    }
+    .content-list row:first-child:last-child .mini-content-block {
+      border-top-left-radius: $large_roundness;
+	    border-top-right-radius: $large_roundness;
+      border-bottom-left-radius: $large_roundness;
+      border-bottom-right-radius: $large_roundness;
+    }
+    .content-list row:last-child .mini-content-block {
+      border-top-left-radius: $large_roundness;
+	    border-top-right-radius: $large_roundness;
+      border-bottom-left-radius: $x_large_roundness;
+      border-bottom-right-radius: $x_large_roundness;
     }
     ";
 
