@@ -285,6 +285,22 @@ public class He.StyleManager : Object {
     var circle_roundness = (12.5 * base_roundness).to_string () + "px";
 
     css += @"
+    .small-radius {
+      border-radius: $small_roundness;
+    }
+    .medium-radius {
+      border-radius: $medium_roundness;
+    }
+    .large-radius {
+      border-radius: $large_roundness;
+    }
+    .x-large-radius {
+      border-radius: $x_large_roundness;
+    }
+    .circle-radius {
+      border-radius: $circle_roundness;
+    }
+
     .view-switcher button.toggle {
       border-radius: 0px;
     }
