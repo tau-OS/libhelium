@@ -295,7 +295,8 @@ public class He.StyleManager : Object {
       border-radius: $base_roundness;
     }
     .text-field,
-    .navigation-section-button {
+    .navigation-section-button,
+    window.csd {
       border-radius: $medium_roundness;
     }
     .content-block,
@@ -303,7 +304,9 @@ public class He.StyleManager : Object {
     .bottom-bar,
     .dialog-content,
     .switchbar,
-    .navigation-section-list row .mini-content-block {
+    .navigation-section-list row .mini-content-block,
+    window.csd.dialog.message,
+    window.csd.dialog-content {
       border-radius: $large_roundness;
     }
     .content-list row:first-child .mini-content-block {
