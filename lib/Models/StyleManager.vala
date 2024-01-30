@@ -320,6 +320,7 @@ public class He.StyleManager : Object {
     .disclosure-button,
     .disclosure-button .toggle,
     .overlay-button,
+    .iconic-button,
     switch,
     switch > slider,
     scale > trough,
