@@ -291,7 +291,8 @@ public class He.StyleManager : Object {
     }
     button,
     .toast-box,
-    .text-view {
+    .text-view,
+    windowcontrols > button > image {
       border-radius: $base_roundness;
     }
     .text-field,
