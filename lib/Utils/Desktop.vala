@@ -222,12 +222,12 @@ public class He.Desktop : Object {
  
      private void setup_roundness () {
          try {
-             var fw = portal.read (
+             var round = portal.read (
                  "org.freedesktop.appearance",
                  "roundness"
              ).get_variant ().get_double ();
  
-             roundness = (double) fw;
+             roundness = (double) round;
  
              return;
          } catch (Error e) {
