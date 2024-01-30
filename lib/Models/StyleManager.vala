@@ -84,7 +84,7 @@ public class He.StyleManager : Object {
 
     var rgb_color = accent_color != null ? accent_color : is_dark ? He.Color.DEFAULT_DARK_ACCENT : He.Color.DEFAULT_LIGHT_ACCENT;
     var base_weight = 400 * font_weight;
-    var base_roundness = 4 * roundness;
+    var base_roundness = roundness != 0 ? 4 * roundness : 0;
     var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color));
     var chosen_scheme = scheme_factory.generate (cam16_color, is_dark, is_contrast);
 
@@ -285,6 +285,9 @@ public class He.StyleManager : Object {
     var circle_roundness = (12.5 * base_roundness).to_string () + "px";
 
     css += @"
+    .view-switcher button.toggle {
+      border-radius: 0px;
+    }
     .badge,
     .badge-info,
     .tint-badge,
