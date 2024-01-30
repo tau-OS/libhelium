@@ -339,6 +339,22 @@ public class He.StyleManager : Object {
       border-bottom-left-radius: $x_large_roundness;
       border-bottom-right-radius: $x_large_roundness;
     }
+    .segmented-button button:first-child {
+        border-top-left-radius: $x_large_roundness;
+        border-bottom-left-radius: $x_large_roundness;
+    }
+    .segmented-button button:first-child:dir(rtl) {
+        border-top-right-radius: $x_large_roundness;
+        border-bottom-right-radius: $x_large_roundness;
+    }
+    .segmented-button button:last-child {
+        border-top-right-radius: $x_large_roundness;
+        border-bottom-right-radius: $x_large_roundness;
+    }
+    .segmented-button button:last-child:dir(rtl) {
+        border-top-left-radius: $x_large_roundness;
+        border-bottom-left-radius: $x_large_roundness;
+    }
     ";
 
     Misc.init_css_provider_from_string (accent, css);
