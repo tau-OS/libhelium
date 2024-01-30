@@ -287,16 +287,16 @@ public class He.StyleManager : Object {
     .badge-info,
     .tint-badge,
     .modifier-badge {
-      font-weight: $small_roundness;
+      border-radius: $small_roundness;
     }
     button,
     .toast-box,
     .text-view {
-      font-weight: $base_roundness;
+      border-radius: $base_roundness;
     }
     .text-field,
     .navigation-section-button {
-      font-weight: $medium_roundness;
+      border-radius: $medium_roundness;
     }
     .content-block,
     .mini-content-block,
@@ -304,7 +304,7 @@ public class He.StyleManager : Object {
     .dialog-content,
     .switchbar,
     .navigation-section-list row .mini-content-block {
-      font-weight: $large_roundness;
+      border-radius: $large_roundness;
     }
     .content-list row:first-child .mini-content-block {
       border-top-left-radius: $large_roundness;
