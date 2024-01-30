@@ -72,6 +72,7 @@ public class He.Application : Gtk.Application {
     style_manager.is_dark = desktop.prefers_color_scheme == Desktop.ColorScheme.DARK;
     style_manager.is_contrast = desktop.contrast == Desktop.ContrastScheme.HIGH;
     style_manager.font_weight = desktop.font_weight;
+    style_manager.roundness = desktop.roundness;
 
     style_manager.update ();
   }
@@ -98,6 +99,7 @@ public class He.Application : Gtk.Application {
     desktop.notify["accent-color"].connect (update_style_manager);
     desktop.notify["ensor-scheme"].connect (update_style_manager);
     desktop.notify["font-weight"].connect (update_style_manager);
+    desktop.notify["roundness"].connect (update_style_manager);
     desktop.notify["prefers-color-scheme"].connect (update_style_manager);
     desktop.notify["contrast"].connect (update_style_manager);
 

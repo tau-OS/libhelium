@@ -208,6 +208,36 @@ public class He.Desktop : Object {
     }
 
     /**
+     * The system UI roundness preference.
+     */
+     private double _roundness = 1.0;
+     public double roundness {
+         get {
+             return _roundness;
+         }
+         set {
+             _roundness = value;
+         }
+     }
+ 
+     private void setup_roundness () {
+         try {
+             var fw = portal.read (
+                 "org.freedesktop.appearance",
+                 "roundness"
+             ).get_variant ().get_double ();
+ 
+             roundness = (double) fw;
+ 
+             return;
+         } catch (Error e) {
+             debug ("%s", e.message);
+         }
+ 
+         roundness = 1.0;
+     }
+
+    /**
      * The system contrast preference.
      */
     private ContrastScheme? _contrast = null;
@@ -244,6 +274,10 @@ public class He.Desktop : Object {
                 font_weight = (double) val.get_double ();
             }
 
+            if (scheme == "org.freedesktop.appearance" && key == "roundness") {
+                roundness = (double) val.get_double ();
+            }
+
             if (scheme == "org.freedesktop.appearance" && key == "ensor-scheme") {
                 ensor_scheme = (EnsorScheme) val.get_uint32 ();
             }
@@ -265,6 +299,7 @@ public class He.Desktop : Object {
         setup_accent_color ();
         setup_ensor_scheme ();
         setup_font_weight ();
+        setup_roundness ();
         init_handle_settings_change ();
     }
 }

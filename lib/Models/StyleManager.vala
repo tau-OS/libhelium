@@ -33,6 +33,11 @@ public class He.StyleManager : Object {
   public double font_weight = 1.0;
 
   /**
+  * The preferred UI roundness.
+  */
+  public double roundness = 1.0;
+
+  /**
   * Whether to apply styles for dark mode.
   */
   public bool is_dark = false;
@@ -79,6 +84,7 @@ public class He.StyleManager : Object {
 
     var rgb_color = accent_color != null ? accent_color : is_dark ? He.Color.DEFAULT_DARK_ACCENT : He.Color.DEFAULT_LIGHT_ACCENT;
     var base_weight = 400 * font_weight;
+    var base_roundness = 4 * roundness;
     var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color));
     var chosen_scheme = scheme_factory.generate (cam16_color, is_dark, is_contrast);
 
@@ -269,6 +275,54 @@ public class He.StyleManager : Object {
     .tint-badge label,
     .modifier-badge label {
       font-weight: $heavy_weight;
+    }
+    ";
+
+    var small_roundness = (0.5 * roundness);
+    var medium_roundness = (2 * roundness);
+    var large_roundness = (3 * roundness);
+
+    css += @"
+    .badge,
+    .badge-info,
+    .tint-badge,
+    .modifier-badge {
+      font-weight: $small_roundness;
+    }
+    button,
+    .toast-box,
+    .text-view {
+      font-weight: $base_roundness;
+    }
+    .text-field,
+    .navigation-section-button {
+      font-weight: $medium_roundness;
+    }
+    .content-block,
+    .mini-content-block,
+    .bottom-bar,
+    .dialog-content,
+    .switchbar,
+    .navigation-section-list row .mini-content-block {
+      font-weight: $large_roundness;
+    }
+    .content-list row:first-child .mini-content-block {
+      border-top-left-radius: $large_roundness;
+	    border-top-right-radius: $large_roundness;
+      border-bottom-left-radius: $medium_roundness;
+      border-bottom-right-radius: $medium_roundness;
+    }
+    .content-list row:first-child:last-child .mini-content-block {
+      border-top-left-radius: $medium_roundness;
+	    border-top-right-radius: $medium_roundness;
+      border-bottom-left-radius: $medium_roundness;
+      border-bottom-right-radius: $medium_roundness;
+    }
+    .content-list row:last-child .mini-content-block {
+      border-top-left-radius: $medium_roundness;
+	    border-top-right-radius: $medium_roundness;
+      border-bottom-left-radius: $large_roundness;
+      border-bottom-right-radius: $large_roundness;
     }
     ";
 
