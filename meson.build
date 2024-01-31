@@ -107,3 +107,19 @@ endif
 if get_option('gidoc') or get_option('valadoc')
     subdir('doc')
 endif
+
+# GSettings schemas, merged from tau-gsettings-schemas since
+# it's now standard for all Helium-based apps.
+
+settings_schemas = [ 'data/com.fyralabs.desktop.appearance.gschema.xml' ]
+
+gnome.compile_schemas(depend_files: files(settings_schemas))
+
+schemas_dir = get_option('prefix') / get_option('datadir') / 'glib-2.0' / 'schemas'
+
+install_data(settings_schemas, install_dir: schemas_dir)
+
+meson.add_install_script('glib-compile-schemas', schemas_dir)
+
+
+# end schema stuff
