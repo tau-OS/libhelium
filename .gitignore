@@ -7,3 +7,5 @@ subprojects/libbismuth
 *.rpm
 *.tar.gz
 *~
+builddir
+*/builddir
