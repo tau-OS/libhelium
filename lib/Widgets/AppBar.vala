@@ -302,7 +302,12 @@ public class He.AppBar : He.Bin {
             back_button.set_visible (value);
 
             if (_show_back) {
-                top_box.margin_top = 0;
+                if (_show_left_title_buttons) {
+                    top_box.margin_top = 32;
+                    top_box.margin_start = 2;
+                } else {
+                    top_box.margin_top = 0;
+                }
             } else {
                 top_box.margin_top = 32;
             }
