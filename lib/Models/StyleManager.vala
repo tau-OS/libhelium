@@ -320,6 +320,8 @@ public class He.StyleManager : Object {
     }
     .text-field,
     .navigation-section-button,
+    scale > trough,
+    scale > trough > slider,
     window.csd {
       border-radius: $large_roundness;
     }
@@ -339,8 +341,6 @@ public class He.StyleManager : Object {
     .iconic-button,
     switch,
     switch > slider,
-    scale > trough,
-    scale > trough > slider,
     radio {
       border-radius: $circle_roundness;
     }
@@ -384,6 +384,25 @@ public class He.StyleManager : Object {
     .segmented-button button:last-child:dir(rtl) {
         border-top-left-radius: $x_large_roundness;
         border-bottom-left-radius: $x_large_roundness;
+    }
+    progressbar > trough > progress {
+      border-radius: $large_roundness;
+    }
+    progressbar > trough > progress.left {
+      border-top-left-radius: $large_roundness;
+      border-bottom-left-radius: $large_roundness;
+    }
+    progressbar > trough > progress.right {
+      border-top-right-radius: $large_roundness;
+      border-bottom-right-radius: $large_roundness;
+    }
+    progressbar > trough > progress.top {
+      border-top-right-radius: $large_roundness;
+      border-top-left-radius: $large_roundness;
+    }
+    progressbar > trough > progress.bottom {
+      border-bottom-right-radius: $large_roundness;
+      border-bottom-left-radius: $large_roundness;
     }
     ";
 
