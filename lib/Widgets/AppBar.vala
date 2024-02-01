@@ -300,6 +300,12 @@ public class He.AppBar : He.Bin {
         set {
             _show_back = value;
             back_button.set_visible (value);
+
+            if (_show_back) {
+                top_box.margin_top = 0;
+            } else {
+                top_box.margin_top = 32;
+            }
         }
     }
 
