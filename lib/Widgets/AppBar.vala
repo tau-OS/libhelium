@@ -381,9 +381,6 @@ public class He.AppBar : He.Bin {
 
         win_control_box.valign = Gtk.Align.START;
         win_control_box.hexpand = true;
-        win_control_box.margin_start = 6;
-        win_control_box.margin_top = 6;
-        win_control_box.margin_end = 6;
         win_control_box.append (win_box);
         win_control_box.prepend (win2_box);
 
@@ -422,10 +419,10 @@ public class He.AppBar : He.Bin {
         labels_box.visible = false;
         labels_box.append (viewtitle);
         labels_box.append (subtitle_box);
-        labels_box.margin_start = 14;
+        labels_box.margin_start = 12;
 
         btn_box.valign = Gtk.Align.END;
-        btn_box.margin_end = 14;
+        btn_box.margin_end = 12;
         btn_box.set_visible (false);
 
         // Make title align with other titles if no buttons are added.
@@ -464,7 +461,7 @@ public class He.AppBar : He.Bin {
         flat = true;
         main_box.add_css_class ("flat-appbar");
 
-        top_box.margin_top = 36;
+        top_box.margin_top = 32;
     }
 
     static construct {
