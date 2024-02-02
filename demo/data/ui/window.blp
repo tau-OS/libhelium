@@ -8,7 +8,7 @@ menu bottombar_menu {
   item (_("Menu Item"))
 }
 
-template DemoMainWindow : He.ApplicationWindow {
+template $DemoMainWindow : He.ApplicationWindow {
   visible: true;
   default-height: 600;
   default-width: 1550;
@@ -17,7 +17,6 @@ template DemoMainWindow : He.ApplicationWindow {
       child:
       He.SideBar {
         title: "Sidebar";
-        subtitle: "";
         show-left-title-buttons: true;
         show-right-title-buttons: false;
         show-back: false;
@@ -151,7 +150,7 @@ template DemoMainWindow : He.ApplicationWindow {
                 icon: "list-add-symbolic";
                 activatable-widget: miniswitch;
 
-                Switch miniswitch {
+                He.Switch miniswitch {
 
                 }
               }
@@ -183,7 +182,7 @@ template DemoMainWindow : He.ApplicationWindow {
                 icon: "list-add-symbolic";
                 activatable-widget: miniswitch3;
 
-                Switch miniswitch3 {
+                He.Switch miniswitch3 {
 
                 }
               }
@@ -213,7 +212,6 @@ template DemoMainWindow : He.ApplicationWindow {
               margin-start: 10;
             }
           ;
-          viewsubtitle-label: ""; // this does a double-storey AppBar like the HIG :)
 
           MenuButton {
             icon-name: "view-more";
@@ -221,6 +219,7 @@ template DemoMainWindow : He.ApplicationWindow {
 
           He.DisclosureButton {
             icon-name: "list-add-symbolic";
+            styles ["image-button"]
           }
         }
 
@@ -501,6 +500,11 @@ template DemoMainWindow : He.ApplicationWindow {
                                 spacing: 18;
 
                                 He.TextField {
+                                }
+
+                                He.Switch {
+                                  left-icon: "weather-clear-night-symbolic";
+                                  right-icon: "weather-clear-symbolic";
                                 }
 
                                 He.Switch {

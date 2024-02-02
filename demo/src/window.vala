@@ -158,7 +158,9 @@ public class Demo.MainWindow : He.ApplicationWindow {
 
         var adj = new Gtk.Adjustment (-1, 0.0, 100.0, 0.1, 0, 0);
         sl.scale.set_adjustment (adj);
-        sl.add_mark (1.0, null);
+        sl.add_mark (25.0, null);
+        sl.add_mark (50.0, null);
+        sl.add_mark (75.0, null);
 
         this.show ();
     }
@@ -178,8 +180,8 @@ public class Demo.MainWindow : He.ApplicationWindow {
             this,
             "Helium Demo",
             "com.fyralabs.Helium1.Demo",
-            "com.fyralabs.Helium1.Demo",
             Config.VERSION,
+            "com.fyralabs.Helium1.Demo",
             "https://fyralabs.com",
             "https://fyralabs.com",
             "https://fyralabs.com",

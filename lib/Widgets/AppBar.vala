@@ -321,7 +321,6 @@ public class He.AppBar : He.Bin {
     public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         btn_box.prepend ((Gtk.Widget)child);
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
-        ((Gtk.Widget) child).remove_css_class ("image-button");
         labels_box.visible = true;
         btn_box.visible = true;
         main_box.spacing = 6;
@@ -335,7 +334,6 @@ public class He.AppBar : He.Bin {
     public void append (Gtk.Widget child) {
         btn_box.append (child);
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
-        ((Gtk.Widget) child).remove_css_class ("image-button");
         labels_box.visible = true;
         btn_box.visible = true;
         main_box.spacing = 6;

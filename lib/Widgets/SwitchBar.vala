@@ -68,7 +68,7 @@ public class He.SwitchBar : He.Bin, Gtk.Buildable {
     /**
      * The switch related to this switchbar.
      */
-    public Gtk.Switch main_switch = new Gtk.Switch ();
+    public He.Switch main_switch = new He.Switch ();
 
     /**
      * Sets the sensitive widget of the switchbar, if any.
@@ -85,7 +85,7 @@ public class He.SwitchBar : He.Bin, Gtk.Buildable {
 
             if (value != null) {
                 _sensitive_widget = value;
-                sensitive_binding = main_switch.bind_property ("active", _sensitive_widget, "sensitive", SYNC_CREATE);
+                sensitive_binding = main_switch.iswitch.bind_property ("active", _sensitive_widget, "sensitive", SYNC_CREATE);
             }
         }
     }
@@ -118,8 +118,6 @@ public class He.SwitchBar : He.Bin, Gtk.Buildable {
         info_box.valign = Gtk.Align.CENTER;
         info_box.hexpand = true;
 
-        main_switch.valign = Gtk.Align.CENTER;
-
         var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 16);
         box.append (info_box);
         box.append (main_switch);
@@ -139,7 +137,7 @@ public class He.SwitchBar : He.Bin, Gtk.Buildable {
 
     private void on_activate () {
         if (main_switch != null)
-            main_switch.set_active (main_button.active);
+            main_switch.iswitch.set_active (main_button.active);
     }
 
 }
