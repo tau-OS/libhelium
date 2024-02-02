@@ -156,7 +156,7 @@ public class Demo.MainWindow : He.ApplicationWindow {
 
         pb.progressbar.set_fraction (0.25);
 
-        var adj = new Gtk.Adjustment (-1, 0.0, 100.0, 0.4, 0.0, 0.0);
+        var adj = new Gtk.Adjustment (-1, 0.0, 100.0, 0.1, 0, 0);
         sl.scale.set_adjustment (adj);
         sl.add_mark (1.0, null);
 
