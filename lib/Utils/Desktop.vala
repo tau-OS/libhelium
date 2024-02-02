@@ -219,21 +219,21 @@ public class He.Desktop : Object {
              _roundness = value;
          }
      }
- 
+
      private void setup_roundness () {
          try {
              var round = portal.read (
                  "org.freedesktop.appearance",
                  "roundness"
              ).get_variant ().get_double ();
- 
+
              roundness = (double) round;
- 
+
              return;
          } catch (Error e) {
              debug ("%s", e.message);
          }
- 
+
          roundness = 1.0;
      }
 
