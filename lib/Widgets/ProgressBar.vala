@@ -80,7 +80,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
     }
 
     construct {
-        stop_indicator.margin_end = 4;
+        stop_indicator.margin_end = 14;
         stop_indicator.valign = Gtk.Align.CENTER;
         stop_indicator.halign = Gtk.Align.END;
         stop_indicator.set_visible (true);
