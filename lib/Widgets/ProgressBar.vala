@@ -48,6 +48,24 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         }
     }
 
+    /**
+     * Sets the OSD styling of the Progressbar.
+     */
+    private bool _is_osd;
+    public bool is_osd {
+        get {
+            return _is_osd;
+        }
+        set {
+            _is_osd = value;
+            if (_is_osd) {
+                progressbar.add_css_class ("osd");
+            } else {
+                progressbar.remove_css_class ("osd");
+           }
+        }
+    }
+
 
     /**
      * Constructs a new Progressbar.
@@ -78,5 +96,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         main_box.hexpand = true;
         main_box.add_css_class ("progressbar");
         main_box.set_parent (this);
+
+        is_osd = false;
     }
 }
