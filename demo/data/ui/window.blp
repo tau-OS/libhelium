@@ -496,7 +496,18 @@ template DemoMainWindow : He.ApplicationWindow {
                               }
 
                               [right]
-                              He.TextField {
+                              Box {
+                                orientation: vertical;
+                                spacing: 18;
+
+                                He.TextField {
+                                }
+
+                                He.Switch {
+                                }
+
+                                He.ProgressBar {
+                                }
                               }
                             };
                           }
