@@ -55,6 +55,8 @@ public class Demo.MainWindow : He.ApplicationWindow {
     private unowned Gtk.Box extra_box;
     [GtkChild]
     private unowned He.ProgressBar pb;
+    [GtkChild]
+    private unowned He.Slider sl;
 
     public He.Application app { get; construct; }
     public MainWindow (He.Application application) {
@@ -153,6 +155,10 @@ public class Demo.MainWindow : He.ApplicationWindow {
         switcher.new_tab_requested.connect (on_new_tab_requested);
 
         pb.progressbar.set_fraction (0.25);
+
+        var adj = new Gtk.Adjustment (-1, 0.0, 100.0, 0.4, 0.0, 0.0);
+        sl.scale.set_adjustment (adj);
+        sl.add_mark (1.0, null);
 
         this.show ();
     }
