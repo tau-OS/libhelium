@@ -20,7 +20,11 @@
 /**
 * A Slider is a widget that is used to select a value by means of a
 * dial running across a trough. Contains optional icons for the slider
-* purpose, and a disable-able stop indicator for accessibility purposes.
+* purpose, and a disable-able Stop Indicator for accessibility purposes.
+*
+* When using the Stop Indicator, it's advisable to add a mark with the value
+* of 1.0 along the trough of the Slider so that the user can discern why the
+* end point is marked.
 */
 public class He.Slider : He.Bin, Gtk.Buildable {
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
@@ -110,7 +114,8 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         right_icon_img.valign = Gtk.Align.CENTER;
         right_icon_img.set_visible (false);
 
-        stop_indicator.margin_end = 4;
+        stop_indicator.margin_end = 16;
+        stop_indicator.margin_bottom = 12;
         stop_indicator.valign = Gtk.Align.CENTER;
         stop_indicator.halign = Gtk.Align.END;
         stop_indicator.set_visible (false);
