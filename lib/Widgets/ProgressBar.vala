@@ -98,5 +98,6 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         main_box.set_parent (this);
 
         is_osd = false;
+        stop_indicator_visibility = true;
     }
 }

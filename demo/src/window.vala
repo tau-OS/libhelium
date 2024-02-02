@@ -53,6 +53,8 @@ public class Demo.MainWindow : He.ApplicationWindow {
     private unowned He.FillButton ws_button;
     [GtkChild]
     private unowned Gtk.Box extra_box;
+    [GtkChild]
+    private unowned He.ProgressBar pb;
 
     public He.Application app { get; construct; }
     public MainWindow (He.Application application) {
@@ -149,6 +151,8 @@ public class Demo.MainWindow : He.ApplicationWindow {
         extra_box.append (switcher);
 
         switcher.new_tab_requested.connect (on_new_tab_requested);
+
+        pb.progressbar.set_fraction (0.25);
 
         this.show ();
     }
