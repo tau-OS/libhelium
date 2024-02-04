@@ -18,7 +18,7 @@ Welcome! Please see the various resources below. If you have any questions, our 
 
 <!-- TODO: Proper getting started tutorial, and much much more docs -->
 
-- [The Helium HIG](https://developer.fyralabs.com/helium/hig/introduction)
+- [The Helium HIG](https://developer.fyralabs.com/helium/hig)
 - [libhelium's gidoc](https://docs.developers.tauos.co/libhelium/libhelium-1)
 - [libhelium's valadoc](https://docs.developers.tauos.co/libhelium/valadoc/libhelium-1/index.htm)
 - [libhelium's rustdoc](https://docs.developers.tauos.co/rust/libhelium/index.html)
