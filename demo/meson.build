@@ -33,6 +33,8 @@ executable(
     vala_args: [
         meson.project_source_root() + '/demo/src/config.vapi',
         '--gresourcesdir=demo/data/ui/',
+        '--gresourcesdir',
+        meson.current_build_dir() / 'data',
     ],
     install: true,
 )
