@@ -135,11 +135,7 @@ public class He.TimePicker : Gtk.Entry {
             return false;
         });
 
-        /* 
-         * Translators: This is the separator between the hour and the minute.
-         * Use what separates hours from minutes in your language.
-         */
-        var separation_label = new Gtk.Label (_(":"));
+        var separation_label = new Gtk.Label (":");
         separation_label.add_css_class ("display");
 
         var pop_grid = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6) {
