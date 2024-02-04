@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libhelium\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-03 21:24-0800\n"
+"POT-Creation-Date: 2024-02-04 10:20-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -136,8 +136,4 @@ msgstr ""
 
 #: lib/Widgets/TimePicker.vala:96
 msgid "PM"
-msgstr ""
-
-#: lib/Widgets/TimePicker.vala:138
-msgid ":"
 msgstr ""
