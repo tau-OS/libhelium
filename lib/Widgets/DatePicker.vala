@@ -47,6 +47,7 @@ public class He.DatePicker : Gtk.Entry {
             position = Gtk.PositionType.BOTTOM
         };
         popover.set_parent (this);
+        popover.has_arrow = false;
 
         date = new GLib.DateTime.now_local ();
 

@@ -156,6 +156,7 @@ public class He.TimePicker : Gtk.Entry {
             position = Gtk.PositionType.BOTTOM,
         };
         popover.set_parent (this);
+        popover.has_arrow = false;
 
         var focus_controller = new Gtk.EventControllerFocus ();
         var scroll_controller = new Gtk.EventControllerScroll (
