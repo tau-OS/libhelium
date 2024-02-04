@@ -55,15 +55,15 @@ libhelium_sources += files(
     'Widgets/ContentList.vala',
     'Widgets/DatePicker.vala',
     'Widgets/Dialog.vala',
-    'Widgets/Divider.vala',
     'Widgets/DisclosureButton.vala',
+    'Widgets/Divider.vala',
     'Widgets/EmptyPage.vala',
     'Widgets/FillButton.vala',
     'Widgets/IconicButton.vala',
     'Widgets/MiniContentBlock.vala',
     'Widgets/ModifierBadge.vala',
-    'Widgets/NavigationSection.vala',
     'Widgets/NavigationRail.vala',
+    'Widgets/NavigationSection.vala',
     'Widgets/OutlineButton.vala',
     'Widgets/OverlayButton.vala',
     'Widgets/PillButton.vala',
@@ -93,6 +93,7 @@ libhelium_sources += files(
     'Widgets/ViewSwitcher.vala',
     'Widgets/ViewTitle.vala',
     'Widgets/WelcomeScreen.vala',
+    'Config.vapi',
     'Main.vala',
 )
 
@@ -119,6 +120,18 @@ if get_option('stylesheet')
     resources += gresource
 endif
 
+config = configuration_data()
+config.set_quoted('GETTEXT_PACKAGE', meson.project_name())
+config.set_quoted(
+    'LOCALEDIR',
+    join_paths(get_option('prefix'), get_option('localedir')),
+)
+
+configure_file(
+    output: 'config.h',
+    configuration: config,
+)
+
 libhelium = library(
     'libhelium-1',
 
@@ -135,6 +148,9 @@ libhelium = library(
     vala_gir: libhelium_gir,
     vala_header: 'libhelium-1.h',
     vala_vapi: 'libhelium-1.vapi',
+
+    vala_args: libhelium_vala_args,
+    c_args: libhelium_c_args,
 
     version: libhelium_gi_version,
     install: true,

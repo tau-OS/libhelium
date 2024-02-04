@@ -31,22 +31,17 @@ public class He.AboutWindow : He.Window {
   private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
   private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
   private Gtk.Box text_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
-  private Gtk.Box developers_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-  private Gtk.Box license_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 
   private Gtk.Label title_label = new Gtk.Label (null);
-  private Gtk.Label developers_copyright = new Gtk.Label (null);
-  private Gtk.Label developers_label = new Gtk.Label (null);
+  private Gtk.Label copyright_label = new Gtk.Label (null);
   private Gtk.Label translators_label = new Gtk.Label (null);
-  private Gtk.Label license_label = new Gtk.Label ("This program is licensed under ");
-
-  private Gtk.LinkButton license_link = new Gtk.LinkButton ("about:blank");
+  private Gtk.Label license_label = new Gtk.Label (null);
 
   private Gtk.Image icon_image = new Gtk.Image ();
 
-  private He.TextButton translate_app_button = new He.TextButton ("Translate App");
-  private He.TintButton report_button = new He.TintButton ("Report a Problem");
-  private He.FillButton more_info_button = new He.FillButton ("More Info…");
+  private He.TextButton translate_app_button = new He.TextButton (_("Translate App"));
+  private He.TintButton report_button = new He.TintButton (_("Report a Problem"));
+  private He.FillButton more_info_button = new He.FillButton (_("More Info…"));
 
   private He.ModifierBadge version_badge = new He.ModifierBadge ("");
 
@@ -126,8 +121,6 @@ public class He.AboutWindow : He.Window {
       report_button.color = value;
       more_info_button.color = value;
       version_badge.color = value;
-      if (_color != He.Colors.NONE) license_link.remove_css_class (_color.to_css_class ());
-      if (value != He.Colors.NONE) license_link.add_css_class (value.to_css_class ());
     }
   }
 
@@ -140,8 +133,7 @@ public class He.AboutWindow : He.Window {
     get { return _license; }
     set {
       _license = value;
-      license_link.label = value.get_name ();
-      license_link.uri = value.get_url ();
+      license_label.set_markup (_("This program is licensed under %s").printf ("<a href=\"%s\">%s</a>").printf (value.get_url (), value.get_name ()));
     }
   }
 
@@ -178,12 +170,27 @@ public class He.AboutWindow : He.Window {
     set {
       translators = value;
       if (translators.length > 0) {
-        translators_label.set_text ("Translated By: " + string.joinv (", ", translators));
+        translators_label.set_text (_("Translated By: %s").printf (string.joinv (", ", translators)));
         translators_label.visible = true;
       } else {
         translators_label.set_text ("");
         translators_label.visible = false;
       }
+    }
+  }
+
+  private void update_copyright (int year, string[] developers) {
+    var developers_text = developers.length > 0 ? string.joinv (", ", developers) : "";
+
+    if (year > 0) {
+      copyright_label.set_text (_("Copyright © %i %s").printf (year, developers_text));
+      copyright_label.visible = true;
+    } else if (developers_text != "") {
+      copyright_label.set_text (_("Copyright © %s").printf (developers_text));
+      copyright_label.visible = true;
+    } else {
+      copyright_label.set_text ("");
+      copyright_label.visible = false;
     }
   }
 
@@ -195,13 +202,7 @@ public class He.AboutWindow : He.Window {
     get { return developers; }
     set {
       developers = value;
-      if (developers.length > 0) {
-        developers_label.set_text (string.joinv (", ", developers));
-        developers_label.visible = true;
-      } else {
-        developers_label.set_text ("");
-        developers_label.visible = false;
-      }
+      update_copyright (copyright_year, value);
     }
   }
 
@@ -213,13 +214,7 @@ public class He.AboutWindow : He.Window {
     get { return _copyright_year; }
     set {
       _copyright_year = value;
-      if (value > 0) {
-        developers_copyright.set_text ("Copyright © " + value.to_string () + " ");
-        developers_copyright.visible = true;
-      } else {
-        developers_copyright.set_text ("");
-        developers_copyright.visible = false;
-      }
+      update_copyright (value, developers);
     }
   }
 
@@ -306,23 +301,17 @@ public class He.AboutWindow : He.Window {
     title_box.append (title_label);
     title_box.append (version_badge);
 
-    developers_copyright.visible = false;
-    developers_label.visible = false;
-    developers_box.append (developers_copyright);
-    developers_box.append (developers_label);
+    copyright_label.xalign = 0;
+    copyright_label.visible = false;
+    text_box.append (copyright_label);
 
-    text_box.append (developers_box);
     translators_label.xalign = 0;
     translators_label.visible = false;
     text_box.append (translators_label);
 
-    license_link.remove_css_class ("text-button");
-    license_link.remove_css_class ("link");
-    license_link.add_css_class ("link-button");
-    license_box.append (license_label);
-    license_box.append (license_link);
-
-    text_box.append (license_box);
+    license_label.xalign = 0;
+    license_label.visible = true;
+    text_box.append (license_label);
 
     button_box.valign = Gtk.Align.CENTER;
     button_box.homogeneous = true;

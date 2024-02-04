@@ -19,10 +19,8 @@ apiversion = helium_version_major.to_string()
 gnome = import('gnome')
 fs = import('fs')
 
-add_project_arguments(
-    '-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()),
-    language: ['c'],
-)
+libhelium_c_args = ['-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name())]
+libhelium_vala_args = ['--abi-stability']
 
 vala_os_arg = ['--define=LINUX']
 glib_min_version = '2.50'
@@ -30,10 +28,6 @@ gio_os_dep = dependency('gio-unix-2.0', version: '>=' + glib_min_version)
 
 add_project_arguments(
     vala_os_arg,
-    '--abi-stability',
-    '--target-glib=' + glib_min_version,
-    '--gresourcesdir',
-    meson.current_build_dir() / 'demo' / 'data',
     language: ['vala'],
 )
 
@@ -47,15 +41,16 @@ libhelium_deps = [
 
 # NOTE(lexisother): Call upon the antichrist for this is the worst thing this
 # organisation has seen in a Meson script.
-gtk4_12 = dependency('gtk4', version: '>=4.12', required: false)
+gtk4_12 = dependency(
+    'gtk4',
+    version: '>=4.12',
+    required: false,
+)
 valadoc_flags = []
 if gtk4_12.found()
     gtk4 = dependency('gtk4', version: '>=4.12')
     valadoc_flags += '--define=GTK4_IS_12'
-    add_project_arguments(
-        '--define=GTK4_IS_12',
-        language: ['vala']
-    )
+    add_project_arguments('--define=GTK4_IS_12', language: ['vala'])
 else
     gtk4 = dependency('gtk4', version: '>=4.4')
 endif
@@ -84,10 +79,7 @@ if get_option('stylesheet')
         dependencies: [generate_gtk4_light, generate_gtk4_dark],
     )
 
-    add_project_arguments(
-        '--define=BUNDLED_STYLESHEET',
-        language: ['vala'],
-    )
+    libhelium_vala_args += '--define=BUNDLED_STYLESHEET'
 endif
 
 hgresource = gnome.compile_resources(
@@ -98,6 +90,7 @@ hgresource = gnome.compile_resources(
 
 
 subdir('lib')
+subdir('po')
 
 if get_option('demo')
     subproject('blueprint-compiler', required: false)
@@ -111,7 +104,7 @@ endif
 # GSettings schemas, merged from tau-gsettings-schemas since
 # it's now standard for all Helium-based apps.
 
-settings_schemas = [ 'data/com.fyralabs.desktop.appearance.gschema.xml' ]
+settings_schemas = ['data/com.fyralabs.desktop.appearance.gschema.xml']
 
 gnome.compile_schemas(depend_files: files(settings_schemas))
 

@@ -93,5 +93,9 @@ namespace He {
         typeof (He.ViewTitle).ensure ();
         typeof (He.WelcomeScreen).ensure ();
         typeof (He.Window).ensure ();
+
+        // Setup gettext
+        Intl.bindtextdomain (Config.GETTEXT_PACKAGE, Config.LOCALEDIR);
+        Intl.bind_textdomain_codeset (Config.GETTEXT_PACKAGE, "UTF-8");
     }
 }
