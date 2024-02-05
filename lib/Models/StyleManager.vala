@@ -337,6 +337,7 @@ public class He.StyleManager : Object {
     .overlay-button,
     .iconic-button,
     .text-field.search,
+    .switch,
     switch,
     switch > slider,
     radio {
