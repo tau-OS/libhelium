@@ -338,6 +338,7 @@ public class He.StyleManager : Object {
     .iconic-button,
     .text-field.search,
     .switch,
+    .switch > slider,
     switch,
     switch > slider,
     radio {
