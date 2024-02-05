@@ -216,9 +216,6 @@ public class He.StyleManager : Object {
     @define-color success_color $(chosen_scheme.tertiary_hex);
     @define-color success_container_color $(chosen_scheme.tertiary_container_hex);
     @define-color success_container_bg_color $(chosen_scheme.tertiary_container_hex);
-    ";
-
-    css += @"
     @define-color success_container_fg_color $(chosen_scheme.on_tertiary_container_hex);
 
     @define-color outline $(chosen_scheme.outline_hex);
@@ -227,7 +224,7 @@ public class He.StyleManager : Object {
     @define-color scrim $(chosen_scheme.scrim_hex);
     @define-color osd_bg_color $(chosen_scheme.inverse_surface_bg_hex);
     @define-color osd_fg_color $(chosen_scheme.inverse_surface_fg_hex);
-    @define-color osdaccent_color $(chosen_scheme.inverse_primary_hex);
+    @define-color osd_accent_color $(chosen_scheme.inverse_primary_hex);
     ";
 
     css += @"
