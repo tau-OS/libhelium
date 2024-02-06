@@ -24,10 +24,13 @@ public class He.Avatar : He.Bin {
     private string? _image;
     private int _size;
     private string? _text;
+    private bool _status;
 
     private Gtk.Image img = new Gtk.Image ();
     private Gtk.Image img_blur = new Gtk.Image ();
     private Gtk.Label label = new Gtk.Label ("");
+
+    private He.ModifierBadge status_badge = new He.ModifierBadge ("");
 
     /**
     * The size of the avatar.
@@ -67,6 +70,24 @@ public class He.Avatar : He.Bin {
             _text = value;
             if (value != null) {
                 label.label = extract_initials (value);
+            }
+        }
+    }
+
+    /**
+    * The status shown on top of the avatar with a badge.
+    * e.g. when the user is offline, set it to false.
+    */
+    public bool status {
+        get {
+            return _status;
+        }
+        set {
+            _status = value;
+            if (value) {
+                status_badge.visible = true;
+            } else {
+                status_badge.visible = false;
             }
         }
     }
@@ -154,12 +175,13 @@ public class He.Avatar : He.Bin {
     *
     * @since 1.1
     */
-    public Avatar (int size, string? image, string? text) {
+    public Avatar (int size, string? image, string? text, bool? status) {
         base ();
 
         this.image = image;
         this.text = text;
         this.size = size;
+        this.status = status;
     }
 
     construct {
@@ -177,14 +199,23 @@ public class He.Avatar : He.Bin {
         label.add_css_class ("avatar-label");
         label.visible = false;
 
+        status_badge.halign = Gtk.Align.END;
+        status_badge.valign = Gtk.Align.END;
+        status_badge.visible = false;
+        status_badge.color = He.Colors.GREEN;
+
         var ioverlay = new Gtk.Overlay ();
         ioverlay.set_child (img_blur);
         ioverlay.add_overlay (img);
 
-        var overlay = new Gtk.Overlay ();
-        overlay.set_child (ioverlay);
-        overlay.add_overlay (label);
+        var loverlay = new Gtk.Overlay ();
+        loverlay.set_child (ioverlay);
+        loverlay.add_overlay (label);
 
-        overlay.set_parent (this);
+        var overlay = new Gtk.Overlay ();
+        overlay.set_child (loverlay);
+        overlay.add_overlay (status_badge);
+
+        child = overlay;
     }
 }
