@@ -21,7 +21,7 @@
  * A ModiferBadge is a badge that can be used to show that the state of something has changed.
  */
 public class He.ModifierBadge : He.Bin {
-    private Gtk.Label _label;
+    private Gtk.Label _label = new Gtk.Label ("");
     private He.Colors _color;
 
     /**
@@ -69,18 +69,12 @@ public class He.ModifierBadge : He.Bin {
         }
 
         set {
-            if (value == null) {
-                this._label = null;
-                _label.unparent ();
-                return;
+            if (value == "") {
+                _label.visible = false;
+            } else {
+                _label.set_text (value);
+                _label.visible = true;
             }
-
-            if (_label == null) {
-                _label = new Gtk.Label (null);
-                _label.set_parent (this);
-            }
-
-            _label.set_text (value);
         }
     }
 
@@ -155,6 +149,9 @@ public class He.ModifierBadge : He.Bin {
     }
 
     construct {
+        _label.visible = false;
+        _label.set_parent (this);
+
         this.color = He.Colors.YELLOW;
         this.height_request = 16;
         this.add_css_class ("modifier-badge");

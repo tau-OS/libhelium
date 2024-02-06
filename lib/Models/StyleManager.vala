@@ -303,8 +303,7 @@ public class He.StyleManager : Object {
     }
     .badge,
     .badge-info,
-    .tint-badge,
-    .modifier-badge {
+    .tint-badge {
       border-radius: $small_roundness;
     }
     button,
@@ -339,6 +338,8 @@ public class He.StyleManager : Object {
     .text-field.search,
     .switch,
     .switch > slider,
+    .modifier-badge,
+    .circular,
     switch,
     switch > slider,
     radio {
