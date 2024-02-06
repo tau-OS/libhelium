@@ -117,7 +117,7 @@ public class He.Avatar : He.Bin {
         set {
             _image = value;
 
-            if (value != null) {
+            if (value != "") {
                 label.visible = false;
             } else {
                 label.visible = true;
