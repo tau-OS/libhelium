@@ -303,13 +303,13 @@ public class He.AppBar : He.Bin {
 
             if (_show_back) {
                 if (_show_left_title_buttons) {
-                    top_box.margin_top = 32;
+                    top_box.margin_top = 28;
                     top_box.margin_start = 2;
                 } else {
                     top_box.margin_top = 0;
                 }
             } else {
-                top_box.margin_top = 32;
+                top_box.margin_top = 28;
             }
         }
     }
@@ -470,7 +470,7 @@ public class He.AppBar : He.Bin {
         flat = true;
         main_box.add_css_class ("flat-appbar");
 
-        top_box.margin_top = 32;
+        top_box.margin_top = 28;
     }
 
     static construct {
