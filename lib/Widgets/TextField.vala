@@ -169,7 +169,7 @@
       }
       set {
          _support_text = value;
-         if (value == null) {
+         if (value == "") {
              support_label.visible = false;
          } else {
              support_label.visible = true;
@@ -239,6 +239,7 @@
     construct {
         is_search = false;
         is_outline = false;
+        visibility = true;
 
         empty_title = new Gtk.Label (placeholder_text);
         empty_title.visible = false;
