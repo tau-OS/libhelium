@@ -76,8 +76,13 @@
         }
         set {
            _is_search = value;
-           if (value)
+           if (value) {
+                _prefix_icon = "system-search-symbolic";
                 row_box.add_css_class ("search");
+           } else {
+                row_box.remove_css_class ("search");
+                _prefix_icon = "";
+           }
         }
     }
     /**
@@ -90,8 +95,11 @@
         }
         set {
            _is_outline = value;
-           if (value)
+           if (value) {
                 row_box.add_css_class ("outline");
+           } else {
+                row_box.remove_css_class ("outline");
+           }
         }
     }
 
@@ -318,17 +326,17 @@
         entry.changed.connect_after (() => {
             if (needs_validation) {
                 if (entry.text == "") {
-                    suffix_img.icon_name = null;
+                    _suffix_icon = "";
                     row_box.remove_css_class ("tf-error");
                     row_box.remove_css_class ("tf-success");
                     entry.overflow = Gtk.Overflow.VISIBLE;
                 } else if (is_valid) {
-                    suffix_img.icon_name = "process-completed-symbolic";
+                    _suffix_icon = "process-completed-symbolic";
                     row_box.remove_css_class ("tf-error");
                     row_box.add_css_class ("tf-success");
                     entry.overflow = Gtk.Overflow.HIDDEN;
                 } else {
-                    suffix_img.icon_name = "process-error-symbolic";
+                    _suffix_icon = "process-error-symbolic";
                     row_box.add_css_class ("tf-error");
                     row_box.remove_css_class ("tf-success");
                     entry.overflow = Gtk.Overflow.HIDDEN;
