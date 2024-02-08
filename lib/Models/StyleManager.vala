@@ -340,6 +340,7 @@ public class He.StyleManager : Object {
     .switch > slider,
     .modifier-badge,
     .circular,
+    .pill-button,
     switch,
     switch > slider,
     radio {
