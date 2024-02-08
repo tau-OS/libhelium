@@ -76,7 +76,7 @@
         }
         set {
            _is_search = value;
-           if (value != false)
+           if (value)
                 row_box.add_css_class ("search");
         }
     }
@@ -90,7 +90,7 @@
         }
         set {
            _is_outline = value;
-           if (value != false)
+           if (value)
                 row_box.add_css_class ("outline");
         }
     }
@@ -106,6 +106,8 @@
     private Gtk.Label empty_title = new Gtk.Label ("");
     private Gtk.Label support_label;
     private Gtk.Box row_box;
+    private Gtk.Image suffix_img = new Gtk.Image ();
+    private Gtk.Image prefix_img = new Gtk.Image ();
 
     /**
      * The entry text.
@@ -119,6 +121,42 @@
          _text = value;
          entry.text = value;
       }
+    }
+
+    /**
+     * The suffix icon.
+     */
+    private string? _suffix_icon;
+    public string? suffix_icon {
+        get {
+            return _suffix_icon;
+        }
+        set {
+            if (value == "") {
+                suffix_img.set_visible (false);
+            } else {
+                suffix_img.set_visible (true);
+                suffix_img.set_from_icon_name (value);
+            }
+        }
+    }
+
+    /**
+     * The prefix icon.
+     */
+    private string? _prefix_icon;
+    public string? prefix_icon {
+        get {
+            return _prefix_icon;
+        }
+        set {
+            if (value == "") {
+                prefix_img.set_visible (false);
+            } else {
+                prefix_img.set_visible (true);
+                prefix_img.set_from_icon_name (value);
+            }
+        }
     }
 
     /**
@@ -214,13 +252,16 @@
         entry.vexpand = true;
         entry.valign = Gtk.Align.CENTER;
 
-        var suffix_img = new Gtk.Image ();
-        suffix_img.margin_end = 16;
+        prefix_img.margin_start = 12;
+        prefix_img.set_visible (false);
+
+        suffix_img.margin_end = 12;
+        suffix_img.set_visible (false);
 
         support_label = new Gtk.Label (support_text);
         support_label.halign = Gtk.Align.START;
-        support_label.margin_start = 16;
         support_label.visible = false;
+        support_label.margin_start = 16;
         support_label.add_css_class ("caption");
         support_label.add_css_class ("dim-label");
 
@@ -230,6 +271,7 @@
         entry_box.append (entry);
 
         row_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+        row_box.append (prefix_img);
         row_box.append (entry_box);
         row_box.append (suffix_img);
         row_box.add_css_class ("text-field");
