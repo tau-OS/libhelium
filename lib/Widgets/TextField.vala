@@ -252,7 +252,6 @@
         entry.vexpand = true;
         entry.valign = Gtk.Align.CENTER;
 
-        prefix_img.margin_start = 12;
         prefix_img.set_visible (false);
 
         suffix_img.margin_end = 12;
