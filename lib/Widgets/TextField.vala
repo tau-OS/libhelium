@@ -104,11 +104,19 @@
     }
 
     /**
-     * The entry widget to allow using Gtk.Editable props.
+     * The Gtk.Text widget to allow using Gtk.Editable props.
      */
-    private Gtk.Text entry = new Gtk.Text ();
+    private Gtk.Text _entry = new Gtk.Text ();
+    public Gtk.Text entry {
+        get {
+            return _entry;
+        }
+    }
+    /**
+     * A function to be used in code (not Blueprint) to get the Gtk.Text widget.
+     */
     public Gtk.Text get_entry () {
-      return entry;
+      return _entry;
     }
 
     private Gtk.Label empty_title = new Gtk.Label ("");
