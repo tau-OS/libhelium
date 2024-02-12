@@ -115,7 +115,7 @@
     /**
      * A function to be used in code (not Blueprint) to get the Gtk.Text widget.
      */
-    public Gtk.Text get_entry () {
+    public Gtk.Text get_internal_entry () {
       return _entry;
     }
 
