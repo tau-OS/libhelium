@@ -234,9 +234,6 @@
         notebook.add_css_class ("tab-holder");
 
         var add_button = new He.DisclosureButton.from_icon ("list-add-symbolic");
-        add_button.margin_top = 6;
-        add_button.margin_bottom = 6;
-        add_button.margin_end = 6;
         add_button.tooltip_text = _("New Tab");
 
         notebook.set_action_widget (add_button, Gtk.PackType.END);

@@ -206,6 +206,7 @@
     construct {
         _label = new Gtk.Label (null);
         _label.hexpand = true;
+        _label.valign = Gtk.Align.CENTER;
         _label.ellipsize = Pango.EllipsizeMode.END;
 
         close_button = new Gtk.Button.from_icon_name ("window-close");
@@ -218,6 +219,7 @@
 
         tab_layout = new Gtk.CenterBox ();
         tab_layout.hexpand = true;
+        tab_layout.valign = Gtk.Align.CENTER;
         tab_layout.set_end_widget (close_button);
         tab_layout.set_center_widget (_label);
 
