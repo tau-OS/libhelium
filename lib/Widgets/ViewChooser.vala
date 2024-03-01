@@ -80,6 +80,7 @@
 
         var menu_popover = new Gtk.Popover ();
         menu_popover.child = menu_box;
+        menu_popover.has_arrow = false;
 
         var menu = new Gtk.MenuButton ();
         menu.add_css_class ("flat");
@@ -123,7 +124,9 @@
                 icon_name = "emblem-ok-symbolic"
             };
 
-            var button_child_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+            var button_child_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6) {
+                height_request = 42
+            };
             button_child_box.append (button_label);
             button_child_box.append (button_img);
 
@@ -145,7 +148,7 @@
             position++;
         }
 
-        this._stack_pages.get_item (0).bind_property ("title", menu_label, "label", SYNC_CREATE);
+        this._stack_pages.get_item (position).bind_property ("title", menu_label, "label", SYNC_CREATE);
     }
 
     private void on_selected_stack_page_changed (uint position, uint n_items) {
@@ -172,5 +175,19 @@
         }
 
         this._stack_pages.unselect_item (position);
+    }
+
+    public void stack_clear () {
+        if (this._stack_pages.get_n_items () >= 1) {
+            for (int i = 0; i <= this._stack_pages.get_n_items (); i++) {
+                this._stack_pages.get_item (i).dispose ();
+            }
+        }
+
+        if (!this._buttons.is_empty ()) {
+            for (int i = 0; i <= this._buttons.length (); i++) {
+                this._buttons.remove (this._buttons.nth_data (i));
+            }
+        }
     }
 }
