@@ -19,24 +19,25 @@
 public class He.DefaultScheme : SchemeFactory, Object {
     public Scheme generate (Color.CAM16Color accent, bool is_dark, bool is_contrast) {
         var hue = accent.h;
+        var chroma = accent.c;
 
         double primary_hue = MathUtils.sanitize_degrees (hue);
         double secondary_hue = MathUtils.sanitize_degrees (hue);
         double tertiary_hue = MathUtils.sanitize_degrees (hue + 60.0);
 
-        const double PRIMARY = 40.0;
+        double primary = Math.fmax (48, chroma);
         const double SECONDARY = 16.0;
         const double TERTIARY = 24.0;
-        const double NEUTRAL = 6.0;
+        const double NEUTRAL = 4.0;
         const double NEUTRAL2 = 8.0;
 
         return Scheme () {
             // _  _ ____ _  _ ___ ____ ____ _
             // |\ | |___ |  |  |  |__/ |__| |
             // | \| |___ |__|  |  |  \ |  | |___
-            surface_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 6.0 : 98.0),
+            surface_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 6.0 : 99.0),
             surface_bg_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 24.0 : 90.0),
-            surface_fg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 98.0 : 10.0),
+            surface_fg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 99.0 : 10.0),
             surface_fg_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 80.0 : 30.0),
             inverse_surface_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 90.0 : 20.0),
             inverse_surface_fg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 20.0 : 95.0),
@@ -53,11 +54,11 @@ public class He.DefaultScheme : SchemeFactory, Object {
             // ___  ____ _ _  _ ____ ____ _   _
             // |__] |__/ | |\/| |__| |__/  \_/
             // |    |  \ | |  | |  | |  \   |
-            primary_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? is_contrast ? 90.0 : 80.0 : is_contrast ? 20.0 : 40.0),
-            on_primary_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? 20.0 : 100.0),
-            primary_container_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? is_contrast ? 40.0 : 30.0 : is_contrast ? 70.0 : 90.0),
-            on_primary_container_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? 90.0 : 10.0),
-            inverse_primary_hex = Color.hct_to_hex (primary_hue, PRIMARY, is_dark ? 40.0 : 80.0),
+            primary_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? is_contrast ? 90.0 : 80.0 : is_contrast ? 20.0 : 40.0),
+            on_primary_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? 20.0 : 100.0),
+            primary_container_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? is_contrast ? 40.0 : 30.0 : is_contrast ? 70.0 : 90.0),
+            on_primary_container_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? 90.0 : 10.0),
+            inverse_primary_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? 40.0 : 80.0),
 
             // ____ ____ ____ ____ _  _ ___  ____ ____ _   _
             // [__  |___ |    |  | |\ | |  \ |__| |__/  \_/

@@ -298,7 +298,8 @@ public class He.StyleManager : Object {
       border-radius: $circle_roundness;
     }
 
-    .view-switcher button.toggle {
+    .view-switcher button.toggle,
+    .bottom-bar {
       border-radius: 0px;
     }
     .badge,
@@ -323,7 +324,6 @@ public class He.StyleManager : Object {
     }
     .content-block,
     .mini-content-block,
-    .bottom-bar,
     .dialog-content,
     .switchbar,
     .navigation-section-list row .mini-content-block,
