@@ -8,13 +8,17 @@ msgstr ""
 "Project-Id-Version: libhelium\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-04 10:20-0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-04-28 20:49+0000\n"
+"Last-Translator: Alicja Michalska <ahplka19@gmail.com>\n"
+"Language-Team: Polish <https://weblate.fyralabs.com/projects/tauOS/libhelium/"
+"pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.4.2\n"
 
 #: lib/Utils/Misc.vala:185
 msgid "Shift"
@@ -31,22 +35,22 @@ msgstr ""
 #. /TRANSLATORS: The Alt key on the left side of the keyboard
 #: lib/Utils/Misc.vala:211
 msgid "Left Alt"
-msgstr ""
+msgstr "Lewy Alt"
 
 #. /TRANSLATORS: The Alt key on the right side of the keyboard
 #: lib/Utils/Misc.vala:215
 msgid "Right Alt"
-msgstr ""
+msgstr "Prawy Alt"
 
 #. /TRANSLATORS: The Ctrl key on the right side of the keyboard
 #: lib/Utils/Misc.vala:222
 msgid "Right Ctrl"
-msgstr ""
+msgstr "Prawy Ctrl"
 
 #. /TRANSLATORS: The Ctrl key on the left side of the keyboard
 #: lib/Utils/Misc.vala:226
 msgid "Left Ctrl"
-msgstr ""
+msgstr "Lewy Ctrl"
 
 #. /TRANSLATORS: This is a non-symbol representation of the "-" key
 #: lib/Utils/Misc.vala:231
@@ -61,7 +65,7 @@ msgstr ""
 #. /TRANSLATORS: This is a non-symbol representation of the "=" key
 #: lib/Utils/Misc.vala:241
 msgid "Equals"
-msgstr ""
+msgstr "Znak równości"
 
 #: lib/Utils/Misc.vala:244
 msgid "Enter"
@@ -70,12 +74,12 @@ msgstr ""
 #. /TRANSLATORS: The Shift key on the left side of the keyboard
 #: lib/Utils/Misc.vala:248
 msgid "Left Shift"
-msgstr ""
+msgstr "Lewy Shift"
 
 #. /TRANSLATORS: The Shift key on the right side of the keyboard
 #: lib/Utils/Misc.vala:252
 msgid "Right Shift"
-msgstr ""
+msgstr "Prawy Shift"
 
 #. /TRANSLATORS: This is a delimiter that separates two keyboard shortcut labels like "⌘ + →, Control + A"
 #: lib/Utils/Misc.vala:315
@@ -84,43 +88,43 @@ msgstr ""
 
 #: lib/Widgets/AboutWindow.vala:42
 msgid "Translate App"
-msgstr ""
+msgstr "Przetłumacz aplikację"
 
 #: lib/Widgets/AboutWindow.vala:43
 msgid "Report a Problem"
-msgstr ""
+msgstr "Zgłoś problem"
 
 #: lib/Widgets/AboutWindow.vala:44
 msgid "More Info…"
-msgstr ""
+msgstr "Więcej informacji…"
 
 #: lib/Widgets/AboutWindow.vala:136
 #, c-format
 msgid "This program is licensed under %s"
-msgstr ""
+msgstr "Ten program jest licencjonowany przy użyciu %s"
 
 #: lib/Widgets/AboutWindow.vala:173
 #, c-format
 msgid "Translated By: %s"
-msgstr ""
+msgstr "Przełumaczono przez: %s"
 
 #: lib/Widgets/AboutWindow.vala:186
 #, c-format
 msgid "Copyright © %i %s"
-msgstr ""
+msgstr "Prawa autorskie © %i %s"
 
 #: lib/Widgets/AboutWindow.vala:189
 #, c-format
 msgid "Copyright © %s"
-msgstr ""
+msgstr "Prawa autorskie © %s"
 
 #: lib/Widgets/Dialog.vala:189
 msgid "Cancel"
-msgstr ""
+msgstr "Anuluj"
 
 #: lib/Widgets/TabSwitcher.vala:240
 msgid "New Tab"
-msgstr ""
+msgstr "Nowa karta"
 
 #: lib/Widgets/TimePicker.vala:81
 msgid "%-l:%M %p"
