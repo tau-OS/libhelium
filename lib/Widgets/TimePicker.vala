@@ -442,7 +442,9 @@ public class He.TimePicker : Gtk.Entry {
         private int selected_hour = 0;
         private int selected_minute = 0;
         private double last_angle = 0.0;
+        private bool is_dark = false;
 
+        private He.Desktop desktop = new He.Desktop ();
         private Gdk.RGBA _accent_color = { 1, 1, 1, 1 };
         public Gdk.RGBA accent_color {
             get { return _accent_color; }
@@ -467,6 +469,13 @@ public class He.TimePicker : Gtk.Entry {
         }
 
         public signal void time_selected (int hour, int minute);
+
+        public ClockWidget () {
+            is_dark = desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK ? true : false;
+
+            update_style_manager ();
+            desktop.notify["accent-color"].connect (update_style_manager);
+        }
 
         construct {
             var click_gesture = new Gtk.GestureClick ();
@@ -512,7 +521,7 @@ public class He.TimePicker : Gtk.Entry {
             cr.select_font_face (FONT_FAMILY, Cairo.FontSlant.NORMAL, Cairo.FontWeight.NORMAL);
 
             // Draw clock face
-            cr.set_source_rgba ((0.15 * 1), (0.15 * 1), (0.15 * 1), 0.08);
+            cr.set_source_rgba (((is_dark ? 0.92 : 0.17) * accent_color.red), ((is_dark ? 0.92 : 0.17) * accent_color.green), ((is_dark ? 0.92 : 0.17) * accent_color.blue), 0.08);
             cr.arc (CENTER, CENTER, RADIUS, 0, 2 * Math.PI);
             cr.fill ();
 
@@ -521,15 +530,15 @@ public class He.TimePicker : Gtk.Entry {
             double hand_radius = get_hand_radius (RADIUS);
             double hand_x = CENTER + hand_radius * Math.cos (hand_angle);
             double hand_y = CENTER + hand_radius * Math.sin (hand_angle);
-            cr.set_source_rgba (accent_color.red, accent_color.green, accent_color.blue, 1);
+            cr.set_source_rgba (((is_dark? 0.50 : 0.50) * accent_color.red), ((is_dark? 0.50 : 0.50) * accent_color.green), ((is_dark? 0.50 : 0.50) * accent_color.blue), 1);
             cr.arc (CENTER, CENTER, HAND_CENTER_WIDTH, 0, 2 * Math.PI);
             cr.fill_preserve ();
-            cr.set_source_rgba (accent_color.red, accent_color.green, accent_color.blue, 1);
+            cr.set_source_rgba (((is_dark? 0.50 : 0.50) * accent_color.red), ((is_dark? 0.50 : 0.50) * accent_color.green), ((is_dark? 0.50 : 0.50) * accent_color.blue), 1);
             cr.set_line_width (HAND_LINE_WIDTH);
             cr.move_to (CENTER, CENTER);
             cr.line_to (hand_x, hand_y);
             cr.stroke ();
-            cr.set_source_rgba (accent_color.red, accent_color.green, accent_color.blue, 1);
+            cr.set_source_rgba (((is_dark? 0.50 : 0.50) * accent_color.red), ((is_dark? 0.50 : 0.50) * accent_color.green), ((is_dark? 0.50 : 0.50) * accent_color.blue), 1);
             cr.arc (hand_x, hand_y, SELECTION_CIRCLE_RADIUS, 0, 2 * Math.PI);
             cr.fill ();
             
@@ -552,9 +561,9 @@ public class He.TimePicker : Gtk.Entry {
                     bool is_selected = Math.fabs (selection_angle - label_angle) < Math.PI / MINUTES;
 
                     if (is_selected) {
-                        cr.set_source_rgba ((0.32 * 1), (0.32 * 1), (0.32 * 1), 1);
+                        cr.set_source_rgba (((is_dark ? 0.20 : 1) * accent_color.red), ((is_dark ? 0.20 : 1) * accent_color.green), ((is_dark ? 0.20 : 1) * accent_color.blue), 1);
                     } else {
-                        cr.set_source_rgba ((0.15 * 1), (0.15 * 1), (0.15 * 1), 1);
+                        cr.set_source_rgba (((is_dark ? 0.99 : 0.10) * accent_color.red), ((is_dark ? 0.99 : 0.10) * accent_color.green), ((is_dark ? 0.99 : 0.10) * accent_color.blue), 1);
                     }
 
                     cr.set_font_size (MINUTE_FONT_SIZE);
@@ -590,11 +599,11 @@ public class He.TimePicker : Gtk.Entry {
                     }
 
                     bool is_selected = Math.fabs (selection_angle - label_angle) < Math.PI / HALF_DAY;
-    
+                    
                     if (is_selected) {
-                        cr.set_source_rgba ((0.32 * 1), (0.32 * 1), (0.32 * 1), 1);
+                        cr.set_source_rgba (((is_dark ? 0.20 : 1) * accent_color.red), ((is_dark ? 0.20 : 1) * accent_color.green), ((is_dark ? 0.20 : 1) * accent_color.blue), 1);
                     } else {
-                        cr.set_source_rgba ((0.15 * 1), (0.15 * 1), (0.15 * 1), 1);
+                        cr.set_source_rgba (((is_dark ? 0.99 : 0.10) * accent_color.red), ((is_dark ? 0.99 : 0.10) * accent_color.green), ((is_dark ? 0.99 : 0.10) * accent_color.blue), 1);
                     }
 
                     if (i >= 10) {
@@ -616,6 +625,17 @@ public class He.TimePicker : Gtk.Entry {
                     // If i is 24, display 0
                     cr.show_text ((i > HALF_DAY ? (i == 24 ? 0 : i) : i).to_string ());
                 }
+            }
+        }
+
+        private void update_style_manager () {
+            if (desktop.accent_color != null) {
+              accent_color = {
+                (float)desktop.accent_color.r,
+                (float)desktop.accent_color.g,
+                (float)desktop.accent_color.b,
+                1
+              };
             }
         }
 
