@@ -162,6 +162,13 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
         btn_box.append ((Gtk.Widget)child);
     }
 
+    /**
+     * Adds a new item to the SettingsRow.
+     * @param child The item to add.
+     */
+    public void add (Gtk.Widget child) {
+        btn_box.append (child);
+    }
 
     /**
     * Constructs a new SettingsRow.
