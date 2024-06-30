@@ -15,10 +15,10 @@ jobs:
         run: sudo apt-get update --yes
       - name: Install dependencies
         run: sudo apt-get install --yes python3-pip gcc-multilib libgirepository1.0-dev libadwaita-1-dev meson libgee-0.8-dev valac valadoc
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
       - name: Install sass from NPM
         run: npm i -g sass
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup meson build
         run: meson _build --prefix=/usr
       - name: Build libhelium
@@ -28,16 +28,16 @@ jobs:
       - name: Discard libhelium source
         run: rm -rf * .[!.]*
       - name: Setup JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: 17.0.6
+          java-version: "21"
       - name: Clone gtk-kn
         run: git clone https://gitlab.com/gtk-kn/gtk-kn.git .
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .ci/ci-gradle.properties ~/.gradle/gradle.properties
       - name: Validate gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/actions/wrapper-validation@v3
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
@@ -46,20 +46,16 @@ jobs:
         run: |
           sudo .ci/install-ubuntu-deps.sh
           pip install -r mkdocs-requirements.txt
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
       - name: Generate bindings
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: gir:run
+        run: ./gradlew gir:run
       - name: Assemble bindings
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: assemble
+        run: ./gradlew assemble
       - name: Publish to publishToMavenLocal
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: publishToMavenLocal
+        run: ./gradlew publishToMavenLocal
       - name: Upload local Maven repository as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: maven-local-repository
           path: ~/.m2/repository
