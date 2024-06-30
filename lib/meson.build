@@ -9,6 +9,7 @@ libhelium_sources += files(
     'Models/Schemes/Default.vala',
     'Models/Schemes/Monochromatic.vala',
     'Models/Schemes/Muted.vala',
+    'Models/Schemes/Salad.vala',
     'Models/Schemes/Scheme.vala',
     'Models/Schemes/SchemeFactory.vala',
     'Models/Schemes/Vibrant.vala',
@@ -174,7 +175,8 @@ if get_option('introspection')
         command: [
             g_ir_compiler,
             '--shared-library=@PLAINNAME@',
-            '--output=@OUTPUT@', join_paths(
+            '--output=@OUTPUT@',
+            join_paths(
                 meson.current_build_dir(),
                 libhelium_gir,
             ),

@@ -17,6 +17,9 @@
 * Boston, MA 02110-1301 USA
 */
 public class He.ContentScheme : SchemeFactory, Object {
+    /**
+     * A theme in which the primary color does not shift. Useful for content.
+     */
     public Scheme generate (Color.CAM16Color accent, bool is_dark, bool is_contrast) {
         var hue = accent.h;
         var chroma = accent.c;
@@ -27,7 +30,7 @@ public class He.ContentScheme : SchemeFactory, Object {
         var primary_hue = MathUtils.sanitize_degrees (hue);
         var secondary_hue = MathUtils.sanitize_degrees (hue);
         var tertiary_hue = MathUtils.sanitize_degrees (hue + 60.0);
-        var neutral = chroma / 16.0;
+        var neutral = chroma / 8.0;
         var neutral2 = ((chroma / 8.0) + 4.0);
 
         return Scheme () {

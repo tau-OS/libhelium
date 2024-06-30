@@ -16,27 +16,30 @@
 * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 * Boston, MA 02110-1301 USA
 */
-public class He.MutedScheme : SchemeFactory, Object {
+public class He.SaladScheme : SchemeFactory, Object {
+    /**
+     * A playful theme - the source color's hue does not appear in the theme.
+     */
     public Scheme generate (Color.CAM16Color accent, bool is_dark, bool is_contrast) {
         var hue = accent.h;
 
-        double primary_hue = MathUtils.sanitize_degrees (hue);
-        double secondary_hue = MathUtils.sanitize_degrees (hue);
-        double tertiary_hue = MathUtils.sanitize_degrees (hue + 60.0);
+        double primary_hue = MathUtils.sanitize_degrees (hue - 50.0);
+        double secondary_hue = MathUtils.sanitize_degrees (hue - 50.0);
+        double tertiary_hue = hue;
 
-        const double PRIMARY = 12.0;
-        const double SECONDARY = 8.0;
-        const double TERTIARY = 16.0;
-        const double NEUTRAL = 2.0;
-        const double NEUTRAL2 = 2.0;
+        const double PRIMARY = 48.0;
+        const double SECONDARY = 36.0;
+        const double TERTIARY = 36.0;
+        const double NEUTRAL = 10.0;
+        const double NEUTRAL2 = 16.0;
 
         return Scheme () {
             // _  _ ____ _  _ ___ ____ ____ _
             // |\ | |___ |  |  |  |__/ |__| |
             // | \| |___ |__|  |  |  \ |  | |___
-            surface_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 6.0 : 98.0),
+            surface_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 6.0 : 99.0),
             surface_bg_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 24.0 : 90.0),
-            surface_fg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 98.0 : 10.0),
+            surface_fg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 99.0 : 10.0),
             surface_fg_variant_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 80.0 : 30.0),
             inverse_surface_bg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 90.0 : 20.0),
             inverse_surface_fg_hex = Color.hct_to_hex (hue, NEUTRAL, is_dark ? 20.0 : 95.0),

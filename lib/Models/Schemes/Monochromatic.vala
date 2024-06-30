@@ -17,6 +17,9 @@
 * Boston, MA 02110-1301 USA
 */
 public class He.MonochromaticScheme : SchemeFactory, Object {
+    /**
+     * A monochorme theme, no colors are seen, only shades of gray.
+     */
     public Scheme generate (Color.CAM16Color accent, bool is_dark, bool is_contrast) {
         var hue = accent.h;
 

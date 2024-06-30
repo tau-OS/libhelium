@@ -17,17 +17,20 @@
 * Boston, MA 02110-1301 USA
 */
 public class He.VibrantScheme : SchemeFactory, Object {
+    /**
+     * A vibrant theme - all colors are electric.
+     */
     public Scheme generate (Color.CAM16Color accent, bool is_dark, bool is_contrast) {
         var hue = accent.h;
 
-        const double PRIMARY = 80.0;
-        const double SECONDARY = 32.0;
-        const double TERTIARY = 48.0;
-        const double NEUTRAL = 12.0;
-        const double NEUTRAL2 = 16.0;
-        const double[] HUES = {0, 41, 61, 101, 131, 181, 251, 301, 360};
-        const double[] SECONDARY_ROTATIONS = {45, 95, 45, 20, 45, 90, 45, 45, 45};
-        const double[] TERTIARY_ROTATIONS = {120, 120, 20, 45, 20, 15, 20, 120, 120};
+        const double PRIMARY = 200.0;
+        const double SECONDARY = 24.0;
+        const double TERTIARY = 32.0;
+        const double NEUTRAL = 10.0;
+        const double NEUTRAL2 = 12.0;
+        const double[] HUES = { 0.0, 41.0, 61.0, 101.0, 131.0, 181.0, 251.0, 301.0, 360.0 };
+        const double[] SECONDARY_ROTATIONS = { 18.0, 15.0, 10.0, 12.0, 15.0, 18.0, 15.0, 12.0, 12.0 };
+        const double[] TERTIARY_ROTATIONS = { 35.0, 30.0, 20.0, 25.0, 30.0, 35.0, 30.0, 25.0, 25.0 };
 
         double primary_hue = MathUtils.sanitize_degrees (hue);
         double secondary_hue = Color.get_rotated_hue (hue, HUES, SECONDARY_ROTATIONS);
