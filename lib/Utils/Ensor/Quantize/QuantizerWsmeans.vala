@@ -115,8 +115,6 @@ public class He.QuantizerWsmeans : Object {
     var distance_to_index_matrix = create_2d_list (cluster_count, cluster_count, (i) => new DistanceToIndex ());
 
     for (int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
-      print ("starting iteration %d\n", iteration);
-
       // Calculate cluster distances
       for (int i = 0; i < cluster_count; i++) {
         for (int j = i + 1; j < cluster_count; j++) {
@@ -200,11 +198,7 @@ public class He.QuantizerWsmeans : Object {
         double c = component_c_sums[i] / count;
         clusters.insert_val (i, {a, b, c});
       }
-
-      print ("finished iteration %u\n", iteration);
     }
-
-    print ("checkpoint neko\n");
 
     var swatches = new GLib.Array<Swatch> ();
     var cluster_argbs = new GLib.Array<int?> ();

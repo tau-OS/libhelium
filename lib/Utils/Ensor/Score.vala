@@ -4,13 +4,13 @@
 namespace He {
   public class Score {
 
-    const double CUTOFF_CHROMA = 15.0;
-    const double CUTOFF_EXCITED_PROPORTION = 0.01;
-    const double CUTOFF_TONE = 10.0;
     const double TARGET_CHROMA = 48.0;
+    const double WEIGHT_PROPORTION = 0.7;
     const double WEIGHT_CHROMA_ABOVE = 0.3;
     const double WEIGHT_CHROMA_BELOW = 0.1;
-    const double WEIGHT_PROPORTION = 0.7;
+    const double CUTOFF_CHROMA = 5.0;
+    const double CUTOFF_EXCITED_PROPORTION = 0.01;
+    const string TAU_PURPLE = "#FF8C56BF";
 
     public class AnnotatedColor {
       public int argb;
@@ -54,8 +54,6 @@ namespace He {
         int hue = (int)He.MathUtils.sanitize_degrees (Math.round (cam.h));
         hue_proportions[hue] += proportion;
 
-        //print ("HUE PROPORTIONS FOR HUE %d: %f\n", hue, hue_proportions[sanitized_hue]);
-
         colors.add (new AnnotatedColor () {
           argb = argbs[i],
           cam_hue = cam.h,
@@ -67,7 +65,7 @@ namespace He {
 
       for (int i = 0; i < input_size; i++) {
         int hue = (int)Math.round (colors.get (i).cam_hue);
-        for (int j = (hue - 15); j < (hue + 15); j++) {
+        for (int j = (hue - 14); j < (hue + 16); j++) {
           int sanitized_hue = (int)He.MathUtils.sanitize_degrees (j);
           colors.get (i).excited_proportion += hue_proportions[sanitized_hue];
         }
@@ -82,13 +80,7 @@ namespace He {
         colors.get (i).score = chroma_score + proportion_score;
       }
 
-      for (int i = 0; i < input_size; i++) {
-        print ("COLORS #%d BEFORE: %s SCORE: %f\n", i, Color.hexcode_argb (colors.get (i).argb), colors.get (i).score);
-      }
       colors.sort (AnnotatedColor.cmp);
-      for (int i = 0; i < input_size; i++) {
-        print ("COLORS #%d AFTER: %s SCORE: %f\n", i, Color.hexcode_argb (colors.get (i).argb), colors.get (i).score);
-      }
 
       GLib.GenericArray<AnnotatedColor> selected_colors = new GLib.GenericArray<AnnotatedColor> ();
       for (int i = 0; i < input_size; i++) {
@@ -111,13 +103,9 @@ namespace He {
         selected_colors.add (colors.get (i));
       }
 
-      for (int i = 0; i < selected_colors.length; i++) {
-        print ("COLORS #%d AFTER SELECTION: %s\n", i, Color.hexcode_argb (selected_colors.get (i).argb));
-      }
-
       if (selected_colors.length == 0) {
         selected_colors.add (new AnnotatedColor () {
-          argb = int.parse ("#FF8C56BF"),
+          argb = int.parse (TAU_PURPLE),
           cam_hue = 311.12,
           cam_chroma = 57.36,
           excited_proportion = 0,
@@ -138,7 +126,6 @@ namespace He {
 
     bool good_color_finder (AnnotatedColor color) {
       return color.cam_chroma >= CUTOFF_CHROMA &&
-             He.MathUtils.lstar_from_argb (color.argb) >= CUTOFF_TONE &&
              color.excited_proportion >= CUTOFF_EXCITED_PROPORTION;
     }
 
