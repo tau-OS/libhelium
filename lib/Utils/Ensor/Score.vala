@@ -123,10 +123,10 @@ namespace He {
         return_value.append_val (selected_colors.get (j).argb);
       }
 
-      print ("FIRST ENSOR ARGB RESULT: %d\n", return_value.index (0));
-      print ("SECOND ENSOR ARGB RESULT: %d\n", return_value.index (1));
-      print ("THIRD ENSOR ARGB RESULT: %d\n", return_value.index (2));
-      print ("FOURTH ENSOR ARGB RESULT: %d\n", return_value.index (3));
+      if (return_value.index (0) != null) print ("FIRST ENSOR ARGB RESULT: %d\n", return_value.index (0));
+      if (return_value.index (1) != null) print ("SECOND ENSOR ARGB RESULT: %d\n", return_value.index (1));
+      if (return_value.index (2) != null) print ("THIRD ENSOR ARGB RESULT: %d\n", return_value.index (2));
+      if (return_value.index (3) != null) print ("FOURTH ENSOR ARGB RESULT: %d\n", return_value.index (3));
 
       return return_value;
     }
