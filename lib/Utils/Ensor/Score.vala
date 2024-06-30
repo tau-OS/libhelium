@@ -100,10 +100,6 @@ namespace He {
           continue;
         }
 
-        if (selected_colors.length >= desired) {
-          break;
-        }
-
         selected_colors.add (colors.get (i));
       }
 
@@ -119,15 +115,11 @@ namespace He {
 
       GLib.Array<int?> return_value = new GLib.Array<int?> ();
 
-      for (int j = 0; j < selected_colors.length; j++) {
+      for (int j = 0; j <= desired; j++) {
         return_value.append_val (selected_colors.get (j).argb);
       }
 
       if (return_value.index (0) != null) print ("FIRST ENSOR ARGB RESULT: %d\n", return_value.index (0));
-      if (return_value.index (1) != null) print ("SECOND ENSOR ARGB RESULT: %d\n", return_value.index (1));
-      if (return_value.index (2) != null) print ("THIRD ENSOR ARGB RESULT: %d\n", return_value.index (2));
-      if (return_value.index (3) != null) print ("FOURTH ENSOR ARGB RESULT: %d\n", return_value.index (3));
-
       return return_value;
     }
 
