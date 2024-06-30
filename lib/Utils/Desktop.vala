@@ -77,7 +77,8 @@ public class He.Desktop : Object {
         DEFAULT,
         VIBRANT,
         MUTED,
-        MONOCHROMATIC;
+        MONOCHROMATIC,
+        SALAD;
 
         public SchemeFactory to_factory () {
             switch (this) {
@@ -89,6 +90,8 @@ public class He.Desktop : Object {
                     return new MutedScheme ();
                 case MONOCHROMATIC:
                     return new MonochromaticScheme ();
+                case SALAD:
+                    return new SaladScheme ();
                 default:
                     return new DefaultScheme ();
             }
@@ -293,13 +296,17 @@ public class He.Desktop : Object {
     }
 
     construct {
-        portal = Portal.Settings.get ();
-        setup_prefers_color_scheme ();
-        setup_contrast ();
-        setup_roundness ();
-        setup_accent_color ();
-        setup_ensor_scheme ();
-        setup_font_weight ();
-        init_handle_settings_change ();
+        try {
+            portal = Portal.Settings.get ();
+            setup_prefers_color_scheme ();
+            setup_contrast ();
+            setup_roundness ();
+            setup_accent_color ();
+            setup_ensor_scheme ();
+            setup_font_weight ();
+            init_handle_settings_change ();
+        } catch (Error e) {
+            debug ("%s", e.message);
+        }
     }
 }

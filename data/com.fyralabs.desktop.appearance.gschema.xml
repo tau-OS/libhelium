@@ -5,6 +5,7 @@
     <value nick="vibrant" value="1"/>
     <value nick="muted" value="2"/>
     <value nick="mono" value="3"/>
+    <value nick="salad" value="4"/>
   </enum>
   <enum id="com.fyralabs.desktop.appearance.contrast-scheme">
     <value nick="default" value="0"/>
