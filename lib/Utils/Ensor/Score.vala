@@ -25,7 +25,7 @@ namespace He {
       };
     }
 
-    public GLib.Array<int> score (HashTable<int?, int?> colors_to_population) {
+    public GLib.Array<int> score (HashTable<int?, int?> colors_to_population, int? desired) {
       double population_sum = 0.0;
       uint input_size = colors_to_population.size ();
 
@@ -100,6 +100,10 @@ namespace He {
           continue;
         }
 
+        if (selected_colors.length >= desired) {
+          break;
+        }
+
         selected_colors.add (colors.get (i));
       }
 
@@ -120,6 +124,9 @@ namespace He {
       }
 
       print ("FIRST ENSOR ARGB RESULT: %d\n", return_value.index (0));
+      print ("SECOND ENSOR ARGB RESULT: %d\n", return_value.index (1));
+      print ("THIRD ENSOR ARGB RESULT: %d\n", return_value.index (2));
+      print ("FOURTH ENSOR ARGB RESULT: %d\n", return_value.index (3));
 
       return return_value;
     }

@@ -22,7 +22,7 @@ namespace He.Ensor {
     var celebi = new He.QuantizerCelebi ();
     var result = celebi.quantize (pixels_to_argb_array (pixels, alpha), 128);
     var score = new He.Score ();
-    return score.score (result);
+    return score.score (result, 4); // We only need 4.
   }
 
   private int[] pixels_to_argb_array (uint8[] pixels, bool alpha) {
