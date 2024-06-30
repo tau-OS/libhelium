@@ -115,11 +115,10 @@ namespace He {
 
       GLib.Array<int?> return_value = new GLib.Array<int?> ();
 
-      for (int j = 0; j <= desired; j++) {
+      for (int j = 0; j < desired; j++) {
         return_value.append_val (selected_colors.get (j).argb);
+        print ("#%d ENSOR ARGB RESULT: %d\n", j, return_value.index (j));
       }
-
-      if (return_value.index (0) != null) print ("FIRST ENSOR ARGB RESULT: %d\n", return_value.index (0));
       return return_value;
     }
 
