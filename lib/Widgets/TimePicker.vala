@@ -459,7 +459,7 @@ public class He.TimePicker : Gtk.Entry {
                 queue_draw ();
             }
         }
-    
+
         public int minute {
             get { return selected_minute; }
             set {
@@ -479,7 +479,7 @@ public class He.TimePicker : Gtk.Entry {
 
         construct {
             var click_gesture = new Gtk.GestureClick ();
-            click_gesture.pressed.connect ((n_press, x, y) => { 
+            click_gesture.pressed.connect ((n_press, x, y) => {
                 last_angle = get_angle_from_coords (x, y);
             });
             click_gesture.released.connect (() => {
@@ -492,7 +492,7 @@ public class He.TimePicker : Gtk.Entry {
                 }
             });
             add_controller (click_gesture);
-    
+
             var drag_gesture = new Gtk.GestureDrag ();
             drag_gesture.drag_update.connect ((offset_x, offset_y) => {
                 double x, y;
@@ -541,14 +541,14 @@ public class He.TimePicker : Gtk.Entry {
             cr.set_source_rgba (((is_dark? 0.50 : 0.50) * accent_color.red), ((is_dark? 0.50 : 0.50) * accent_color.green), ((is_dark? 0.50 : 0.50) * accent_color.blue), 1);
             cr.arc (hand_x, hand_y, SELECTION_CIRCLE_RADIUS, 0, 2 * Math.PI);
             cr.fill ();
-            
+
             // Draw minutes
             if (!selecting_hour) {
                 for (int i = 0; i < MINUTES; i += 5) {
                     double minute_angle = (i - 15) * (2 * Math.PI) / MINUTES;
                     double minute_x = CENTER + OUTER_RADIUS * Math.cos (minute_angle);
                     double minute_y = CENTER + OUTER_RADIUS * Math.sin (minute_angle);
-    
+
                     double selection_angle = get_minute_angle ();
                     if (selection_angle < -Math.PI / 2) {
                         selection_angle += 2 * Math.PI;
@@ -557,7 +557,7 @@ public class He.TimePicker : Gtk.Entry {
                     if (label_angle < -Math.PI / 2) {
                         label_angle += 2 * Math.PI;
                     }
-                    
+
                     bool is_selected = Math.fabs (selection_angle - label_angle) < Math.PI / MINUTES;
 
                     if (is_selected) {
@@ -567,7 +567,7 @@ public class He.TimePicker : Gtk.Entry {
                     }
 
                     cr.set_font_size (MINUTE_FONT_SIZE);
-    
+
                     if (i >= 6) {
                         cr.move_to (minute_x - 18 / 2.0, minute_y + 16 / 2.0);
                     } else if (i == 1) {
@@ -578,7 +578,7 @@ public class He.TimePicker : Gtk.Entry {
                     cr.show_text (i.to_string ());
                 }
             }
-            
+
             // Draw hours
             if (selecting_hour) {
                 int hour_count = is_military_mode ? FULL_DAY : HALF_DAY;
@@ -599,7 +599,7 @@ public class He.TimePicker : Gtk.Entry {
                     }
 
                     bool is_selected = Math.fabs (selection_angle - label_angle) < Math.PI / HALF_DAY;
-                    
+
                     if (is_selected) {
                         cr.set_source_rgba (((is_dark ? 0.20 : 1) * accent_color.red), ((is_dark ? 0.20 : 1) * accent_color.green), ((is_dark ? 0.20 : 1) * accent_color.blue), 1);
                     } else {
@@ -642,7 +642,7 @@ public class He.TimePicker : Gtk.Entry {
         private void emit_time_selected () {
             time_selected (selected_hour, selected_minute);
         }
-        
+
         private void reset_to_hour_selection () {
             selecting_hour = true;
             queue_draw ();
@@ -654,7 +654,7 @@ public class He.TimePicker : Gtk.Entry {
             double angle = (hour * (2 * Math.PI / HALF_DAY)) - Math.PI / 2;
             return angle;
         }
-    
+
         private double get_minute_angle () {
             return (selected_minute % MINUTES) * (2 * Math.PI / MINUTES) - Math.PI / 2;
         }
@@ -666,7 +666,7 @@ public class He.TimePicker : Gtk.Entry {
                 return OUTER_RADIUS;
             }
         }
-    
+
         private void update_selection (double x, double y) {
             double dx = x - CENTER;
             double dy = y - CENTER;
