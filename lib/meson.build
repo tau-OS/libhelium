@@ -1,12 +1,13 @@
 libhelium_sources = []
 libhelium_sources += files(
+    'Models/Animation/Animation.vala',
+    'Models/Animation/SpringAnimation.vala',
+    'Models/Animation/TimedAnimation.vala',
     'Models/Application.vala',
     'Models/Bin.vala',
     'Models/Button.vala',
     'Models/ButtonContent.vala',
     'Models/Colors.vala',
-    'Models/Animation/Animation.vala',
-    'Models/Animation/SpringAnimation.vala',
     'Models/Schemes/Content.vala',
     'Models/Schemes/Default.vala',
     'Models/Schemes/Monochromatic.vala',
