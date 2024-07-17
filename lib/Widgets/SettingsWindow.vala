@@ -31,9 +31,9 @@
      * Add SettingsList or SettingsPage children to this window
      */
     public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-        if (child.get_type () == typeof (He.SettingsList)) {
+        if (type == "list") {
             add_list (child as He.SettingsList);
-        } else if (child.get_type () == typeof (He.SettingsPage)) {
+        } else if (type == "page") {
             add_page (child as He.SettingsPage);
         } else {
             warning (@"Child of type $(child.get_type ().to_string ()) is not supported.");
