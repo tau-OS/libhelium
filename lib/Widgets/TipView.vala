@@ -105,7 +105,6 @@ public class He.TipView : He.Bin {
         var close_button = new He.DisclosureButton ("window-close-symbolic");
         close_button.set_valign (Gtk.Align.START);
         close_button.remove_css_class ("image-button");
-        close_button.width_request = 32;
         close_button.clicked.connect (() => {
             this.visible = false;
             closed ();
