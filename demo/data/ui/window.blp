@@ -69,6 +69,15 @@ template $DemoMainWindow : He.ApplicationWindow {
             margin-end: 18;
             margin-bottom: 18;
 
+            He.TipView {
+              tip: He.Tip {
+                image: "view-list-symbolic";
+                title: "Lists";
+                message: "This is a list. It may contain actionable blocks.";
+              };
+              tip-style: view;
+            }
+
             He.MiniContentBlock {
               title: "Mini Content Block";
               subtitle: "Subtitle";

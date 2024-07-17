@@ -83,6 +83,9 @@ namespace He {
         typeof (He.TextField).ensure ();
         typeof (He.TimePicker).ensure ();
         typeof (He.TintButton).ensure ();
+        typeof (He.Tip).ensure ();
+        typeof (He.TipView).ensure ();
+        typeof (He.TipViewStyle).ensure ();
         typeof (He.Toast).ensure ();
         typeof (He.View).ensure ();
         typeof (He.ViewAux).ensure ();
