@@ -119,6 +119,8 @@ public class He.TipView : He.Bin {
         message.set_width_chars (20);
         message.set_ellipsize (Pango.EllipsizeMode.END);
         message.set_lines (2);
+        message.set_margin_top (12);
+        message.set_margin_bottom (12);
 
         label_box.append (title);
         label_box.append (message);
