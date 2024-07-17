@@ -70,11 +70,11 @@ public class He.TimePicker : Gtk.Entry {
     private ClockWidget clock;
 
     /**
-    * Creates a new TimePicker widget with the given format strings.
-    *
-    * @param format_12 The string format of how to display the time when in 12h mode.
-    * @param format_24 The string format of how to display the time when in 24h mode.
-    */
+     * Creates a new TimePicker widget with the given format strings.
+     *
+     * @param format_12 The string format of how to display the time when in 12h mode.
+     * @param format_24 The string format of how to display the time when in 24h mode.
+     */
     public TimePicker.with_format (string format_12, string format_24) {
         Object (format_12: format_12, format_24: format_24);
     }
@@ -188,7 +188,7 @@ public class He.TimePicker : Gtk.Entry {
 
         var focus_controller = new Gtk.EventControllerFocus ();
         var scroll_controller = new Gtk.EventControllerScroll (
-            Gtk.EventControllerScrollFlags.BOTH_AXES | Gtk.EventControllerScrollFlags.DISCRETE
+                                                               Gtk.EventControllerScrollFlags.BOTH_AXES | Gtk.EventControllerScrollFlags.DISCRETE
         );
 
         add_controller (focus_controller);
@@ -436,8 +436,8 @@ public class He.TimePicker : Gtk.Entry {
         private const int FULL_DAY = 24;
         private const int MINUTES = 60;
 
-        public bool selecting_hour { get; set; default = true;}
-        public bool is_military_mode { get; set; default = false;}
+        public bool selecting_hour { get; set; default = true; }
+        public bool is_military_mode { get; set; default = false; }
 
         private int selected_hour = 0;
         private int selected_minute = 0;
@@ -454,8 +454,8 @@ public class He.TimePicker : Gtk.Entry {
         public int hour {
             get { return selected_hour; }
             set {
-                selected_hour = ((int)(value * (is_military_mode ? FULL_DAY : HALF_DAY) / (2 * Math.PI)) + 3) % (is_military_mode ? FULL_DAY : HALF_DAY);
-                if (selected_hour == 0) selected_hour = (is_military_mode ? FULL_DAY : HALF_DAY);
+                selected_hour = ((int) (value * (is_military_mode ? FULL_DAY : HALF_DAY) / (2 * Math.PI)) + 3) % (is_military_mode ? FULL_DAY : HALF_DAY);
+                if (selected_hour == 0)selected_hour = (is_military_mode ? FULL_DAY : HALF_DAY);
                 queue_draw ();
             }
         }
@@ -463,7 +463,7 @@ public class He.TimePicker : Gtk.Entry {
         public int minute {
             get { return selected_minute; }
             set {
-                selected_minute = (int)Math.round ((value * 30 / Math.PI) + 15) % MINUTES;
+                selected_minute = (int) Math.round ((value * 30 / Math.PI) + 15) % MINUTES;
                 queue_draw ();
             }
         }
@@ -503,8 +503,8 @@ public class He.TimePicker : Gtk.Entry {
 
             hexpand = true;
             vexpand = true;
-            width_request = (int)SIZE;
-            height_request = (int)SIZE;
+            width_request = (int) SIZE;
+            height_request = (int) SIZE;
         }
 
         protected override void dispose () {
@@ -514,7 +514,7 @@ public class He.TimePicker : Gtk.Entry {
 
         protected override void snapshot (Gtk.Snapshot snapshot) {
             var rect = Graphene.Rect ();
-            rect.init (0, 0, (float)SIZE, (float)SIZE);
+            rect.init (0, 0, (float) SIZE, (float) SIZE);
             var cr = snapshot.append_cairo (rect);
 
             // Font used
@@ -530,15 +530,15 @@ public class He.TimePicker : Gtk.Entry {
             double hand_radius = get_hand_radius (RADIUS);
             double hand_x = CENTER + hand_radius * Math.cos (hand_angle);
             double hand_y = CENTER + hand_radius * Math.sin (hand_angle);
-            cr.set_source_rgba (((is_dark? 0.50 : 0.50) * accent_color.red), ((is_dark? 0.50 : 0.50) * accent_color.green), ((is_dark? 0.50 : 0.50) * accent_color.blue), 1);
+            cr.set_source_rgba (((is_dark ? 0.50 : 0.50) * accent_color.red), ((is_dark ? 0.50 : 0.50) * accent_color.green), ((is_dark ? 0.50 : 0.50) * accent_color.blue), 1);
             cr.arc (CENTER, CENTER, HAND_CENTER_WIDTH, 0, 2 * Math.PI);
             cr.fill_preserve ();
-            cr.set_source_rgba (((is_dark? 0.50 : 0.50) * accent_color.red), ((is_dark? 0.50 : 0.50) * accent_color.green), ((is_dark? 0.50 : 0.50) * accent_color.blue), 1);
+            cr.set_source_rgba (((is_dark ? 0.50 : 0.50) * accent_color.red), ((is_dark ? 0.50 : 0.50) * accent_color.green), ((is_dark ? 0.50 : 0.50) * accent_color.blue), 1);
             cr.set_line_width (HAND_LINE_WIDTH);
             cr.move_to (CENTER, CENTER);
             cr.line_to (hand_x, hand_y);
             cr.stroke ();
-            cr.set_source_rgba (((is_dark? 0.50 : 0.50) * accent_color.red), ((is_dark? 0.50 : 0.50) * accent_color.green), ((is_dark? 0.50 : 0.50) * accent_color.blue), 1);
+            cr.set_source_rgba (((is_dark ? 0.50 : 0.50) * accent_color.red), ((is_dark ? 0.50 : 0.50) * accent_color.green), ((is_dark ? 0.50 : 0.50) * accent_color.blue), 1);
             cr.arc (hand_x, hand_y, SELECTION_CIRCLE_RADIUS, 0, 2 * Math.PI);
             cr.fill ();
 
@@ -561,21 +561,30 @@ public class He.TimePicker : Gtk.Entry {
                     bool is_selected = Math.fabs (selection_angle - label_angle) < Math.PI / MINUTES;
 
                     if (is_selected) {
-                        cr.set_source_rgba (((is_dark ? 0.20 : 1) * accent_color.red), ((is_dark ? 0.20 : 1) * accent_color.green), ((is_dark ? 0.20 : 1) * accent_color.blue), 1);
+                        cr.set_source_rgba (((is_dark ? 0.20 * accent_color.red : 1.0)), ((is_dark ? 0.20 * accent_color.green : 1.0)), ((is_dark ? 0.20 * accent_color.blue : 1.0)), 1);
+                        cr.set_font_size (MINUTE_FONT_SIZE);
+
+                        if (i >= 6) {
+                            cr.move_to (minute_x - 18 / 2.0, minute_y + 16 / 2.0);
+                        } else if (i == 1) {
+                            cr.move_to (minute_x - 6 / 2.0, minute_y + 16 / 2.0);
+                        } else {
+                            cr.move_to (minute_x - 10 / 2.0, minute_y + 16 / 2.0);
+                        }
+                        cr.show_text (i.to_string ());
                     } else {
                         cr.set_source_rgba (((is_dark ? 0.99 : 0.10) * accent_color.red), ((is_dark ? 0.99 : 0.10) * accent_color.green), ((is_dark ? 0.99 : 0.10) * accent_color.blue), 1);
-                    }
+                        cr.set_font_size (MINUTE_FONT_SIZE);
 
-                    cr.set_font_size (MINUTE_FONT_SIZE);
-
-                    if (i >= 6) {
-                        cr.move_to (minute_x - 18 / 2.0, minute_y + 16 / 2.0);
-                    } else if (i == 1) {
-                        cr.move_to (minute_x - 6 / 2.0, minute_y + 16 / 2.0);
-                    } else {
-                        cr.move_to (minute_x - 10 / 2.0, minute_y + 16 / 2.0);
+                        if (i >= 6) {
+                            cr.move_to (minute_x - 18 / 2.0, minute_y + 16 / 2.0);
+                        } else if (i == 1) {
+                            cr.move_to (minute_x - 6 / 2.0, minute_y + 16 / 2.0);
+                        } else {
+                            cr.move_to (minute_x - 10 / 2.0, minute_y + 16 / 2.0);
+                        }
+                        cr.show_text (i.to_string ());
                     }
-                    cr.show_text (i.to_string ());
                 }
             }
 
@@ -601,41 +610,58 @@ public class He.TimePicker : Gtk.Entry {
                     bool is_selected = Math.fabs (selection_angle - label_angle) < Math.PI / HALF_DAY;
 
                     if (is_selected) {
-                        cr.set_source_rgba (((is_dark ? 0.20 : 1) * accent_color.red), ((is_dark ? 0.20 : 1) * accent_color.green), ((is_dark ? 0.20 : 1) * accent_color.blue), 1);
+                        cr.set_source_rgba (((is_dark ? 0.20 * accent_color.red : 1.0)), ((is_dark ? 0.20 * accent_color.green : 1.0)), ((is_dark ? 0.20 * accent_color.blue : 1.0)), 1);
+                        if (i >= 10) {
+                            cr.move_to (label_x - 18 / 2.0, label_y + 16 / 2.0);
+                        } else if (i == 1) {
+                            cr.move_to (label_x - 6 / 2.0, label_y + 16 / 2.0);
+                        } else {
+                            cr.move_to (label_x - 10 / 2.0, label_y + 16 / 2.0);
+                        }
+
+                        if (i <= HALF_DAY) {
+                            cr.set_font_size (HOUR_FONT_SIZE);
+                        } else {
+                            cr.set_font_size (MINUTE_FONT_SIZE);
+                        }
+
+                        // If i is 1 to 12, display 1 to 12
+                        // If i is 13 to 23, display 13 to 23
+                        // If i is 24, display 0
+                        cr.show_text ((i > HALF_DAY ? (i == 24 ? 0 : i) : i).to_string ());
                     } else {
                         cr.set_source_rgba (((is_dark ? 0.99 : 0.10) * accent_color.red), ((is_dark ? 0.99 : 0.10) * accent_color.green), ((is_dark ? 0.99 : 0.10) * accent_color.blue), 1);
-                    }
+                        if (i >= 10) {
+                            cr.move_to (label_x - 18 / 2.0, label_y + 16 / 2.0);
+                        } else if (i == 1) {
+                            cr.move_to (label_x - 6 / 2.0, label_y + 16 / 2.0);
+                        } else {
+                            cr.move_to (label_x - 10 / 2.0, label_y + 16 / 2.0);
+                        }
 
-                    if (i >= 10) {
-                        cr.move_to (label_x - 18 / 2.0, label_y + 16 / 2.0);
-                    } else if (i == 1) {
-                        cr.move_to (label_x - 6 / 2.0, label_y + 16 / 2.0);
-                    } else {
-                        cr.move_to (label_x - 10 / 2.0, label_y + 16 / 2.0);
-                    }
+                        if (i <= HALF_DAY) {
+                            cr.set_font_size (HOUR_FONT_SIZE);
+                        } else {
+                            cr.set_font_size (MINUTE_FONT_SIZE);
+                        }
 
-                    if (i <= HALF_DAY) {
-                        cr.set_font_size (HOUR_FONT_SIZE);
-                    } else {
-                        cr.set_font_size (MINUTE_FONT_SIZE);
+                        // If i is 1 to 12, display 1 to 12
+                        // If i is 13 to 23, display 13 to 23
+                        // If i is 24, display 0
+                        cr.show_text ((i > HALF_DAY ? (i == 24 ? 0 : i) : i).to_string ());
                     }
-
-                    // If i is 1 to 12, display 1 to 12
-                    // If i is 13 to 23, display 13 to 23
-                    // If i is 24, display 0
-                    cr.show_text ((i > HALF_DAY ? (i == 24 ? 0 : i) : i).to_string ());
                 }
             }
         }
 
         private void update_style_manager () {
             if (desktop.accent_color != null) {
-              accent_color = {
-                (float)desktop.accent_color.r,
-                (float)desktop.accent_color.g,
-                (float)desktop.accent_color.b,
-                1
-              };
+                accent_color = {
+                    (float) desktop.accent_color.r,
+                    (float) desktop.accent_color.g,
+                    (float) desktop.accent_color.b,
+                    1
+                };
             }
         }
 
@@ -650,7 +676,7 @@ public class He.TimePicker : Gtk.Entry {
 
         private double get_hour_angle () {
             double hour = selected_hour % HALF_DAY;
-            if (hour == 0) hour = HALF_DAY;
+            if (hour == 0)hour = HALF_DAY;
             double angle = (hour * (2 * Math.PI / HALF_DAY)) - Math.PI / 2;
             return angle;
         }
@@ -678,8 +704,8 @@ public class He.TimePicker : Gtk.Entry {
             }
 
             if (selecting_hour) {
-                int temp_hour = (int)Math.round ((angle * HALF_DAY / (2 * Math.PI)));
-                if (temp_hour <= 0) temp_hour += HALF_DAY;
+                int temp_hour = (int) Math.round ((angle * HALF_DAY / (2 * Math.PI)));
+                if (temp_hour <= 0)temp_hour += HALF_DAY;
                 if (is_military_mode) {
                     if (distance < INNER_RADIUS) {
                         temp_hour += HALF_DAY;
@@ -687,8 +713,8 @@ public class He.TimePicker : Gtk.Entry {
                 }
                 selected_hour = temp_hour;
             } else {
-                selected_minute = (int)Math.round ((angle * MINUTES / (2 * Math.PI))) % MINUTES;
-                if (selected_minute < 0) selected_minute += MINUTES;
+                selected_minute = (int) Math.round ((angle * MINUTES / (2 * Math.PI))) % MINUTES;
+                if (selected_minute < 0)selected_minute += MINUTES;
             }
 
             last_angle = angle;

@@ -1,21 +1,21 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
  * TextField is a {@link Gtk.Entry}-like subclass that is meant to be used in
@@ -49,7 +49,7 @@
  *   }
  * }}}
  */
- public class He.TextField : Gtk.ListBoxRow {
+public class He.TextField : Gtk.ListBoxRow {
     /**
      * Whether or not text is considered valid input.
      */
@@ -72,17 +72,17 @@
     private bool _is_search;
     public bool is_search {
         get {
-           return _is_search;
+            return _is_search;
         }
         set {
-           _is_search = value;
-           if (value) {
+            _is_search = value;
+            if (value) {
                 _prefix_icon = "system-search-symbolic";
                 row_box.add_css_class ("search");
-           } else {
+            } else {
                 row_box.remove_css_class ("search");
                 _prefix_icon = "";
-           }
+            }
         }
     }
     /**
@@ -91,15 +91,15 @@
     private bool _is_outline;
     public bool is_outline {
         get {
-           return _is_outline;
+            return _is_outline;
         }
         set {
-           _is_outline = value;
-           if (value) {
+            _is_outline = value;
+            if (value) {
                 row_box.add_css_class ("outline");
-           } else {
+            } else {
                 row_box.remove_css_class ("outline");
-           }
+            }
         }
     }
 
@@ -116,7 +116,7 @@
      * A function to be used in code (not Blueprint) to get the Gtk.Text widget.
      */
     public Gtk.Text get_internal_entry () {
-      return _entry;
+        return _entry;
     }
 
     private Gtk.Label empty_title = new Gtk.Label ("");
@@ -130,13 +130,13 @@
      */
     private string? _text;
     public string? text {
-      get {
-         return _text;
-      }
-      set {
-         _text = value;
-         entry.text = value;
-      }
+        get {
+            return _text;
+        }
+        set {
+            _text = value;
+            entry.text = value;
+        }
     }
 
     /**
@@ -180,18 +180,18 @@
      */
     private string? _support_text;
     public string? support_text {
-      get {
-         return _support_text;
-      }
-      set {
-         _support_text = value;
-         if (value == "") {
-             support_label.visible = false;
-         } else {
-             support_label.visible = true;
-             support_label.label = value;
-         }
-      }
+        get {
+            return _support_text;
+        }
+        set {
+            _support_text = value;
+            if (value == "") {
+                support_label.visible = false;
+            } else {
+                support_label.visible = true;
+                support_label.label = value;
+            }
+        }
     }
 
     /**
@@ -199,13 +199,13 @@
      */
     private string? _placeholder_text;
     public string? placeholder_text {
-      get {
-         return _placeholder_text;
-      }
-      set {
-         _placeholder_text = value;
-         entry.placeholder_text = value;
-      }
+        get {
+            return _placeholder_text;
+        }
+        set {
+            _placeholder_text = value;
+            entry.placeholder_text = value;
+        }
     }
 
     /**
@@ -213,13 +213,13 @@
      */
     private int _max_length;
     public int max_length {
-      get {
-         return _max_length;
-      }
-      set {
-         _max_length = value;
-         entry.max_length = value;
-      }
+        get {
+            return _max_length;
+        }
+        set {
+            _max_length = value;
+            entry.max_length = value;
+        }
     }
 
     /**
@@ -227,13 +227,13 @@
      */
     private bool _visibility;
     public bool visibility {
-      get {
-         return _visibility;
-      }
-      set {
-         _visibility = value;
-         entry.visibility = value;
-      }
+        get {
+            return _visibility;
+        }
+        set {
+            _visibility = value;
+            entry.visibility = value;
+        }
     }
 
     /**
@@ -337,7 +337,7 @@
                     _suffix_icon = "";
                     row_box.remove_css_class ("tf-error");
                     row_box.remove_css_class ("tf-success");
-                    entry.overflow = Gtk.Overflow.VISIBLE;
+                    entry.overflow = Gtk.Overflow.HIDDEN;
                 } else if (is_valid) {
                     _suffix_icon = "process-completed-symbolic";
                     row_box.remove_css_class ("tf-error");
@@ -350,7 +350,7 @@
                     entry.overflow = Gtk.Overflow.HIDDEN;
                 }
             } else {
-                entry.overflow = Gtk.Overflow.VISIBLE;
+                entry.overflow = Gtk.Overflow.HIDDEN;
             }
         });
     }
