@@ -116,6 +116,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
 
         stop_indicator.margin_end = 16;
         stop_indicator.margin_bottom = 12;
+        stop_indicator.margin_top = 12;
         stop_indicator.valign = Gtk.Align.CENTER;
         stop_indicator.halign = Gtk.Align.END;
         stop_indicator.set_visible (false);

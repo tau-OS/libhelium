@@ -249,8 +249,6 @@ public class He.StyleManager : Object {
     .view-subtitle,
     .cb-subtitle,
     .body,
-    .view-switcher button.toggle:checked, 
-    .view-switcher button.toggle:active,
     .navigation-rail-button label,
     .navigation-section-button label,
     .navigation-section-list row .mini-content-block label,
@@ -260,7 +258,7 @@ public class He.StyleManager : Object {
     .large-title,
     .display,
     .view-title,
-    .view-switcher button.toggle,
+    .view-switcher button.toggle label,
     .appbar .text-field text,
     .flat-appbar .text-field text {
       font-weight: $light_weight;
@@ -275,11 +273,13 @@ public class He.StyleManager : Object {
     .caption-heading,
     .cb-title,
     button label,
-    .toast-box button,
+    .toast-box button label,
     .badge label,
     .badge-info label,
     .tint-badge label,
     .modifier-badge label,
+    .view-switcher button.toggle:checked label, 
+    .view-switcher button.toggle:active label,
     .navigation-rail-button:checked label,
     .navigation-section-button:checked label {
       font-weight: $heavy_weight;
