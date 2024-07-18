@@ -20,7 +20,6 @@
 /**
  * A ViewTitle is a widget that displays a view's title.
  */
-[Version (deprecated = true)]
 public class He.ViewTitle : He.Bin, Gtk.Buildable {
     private Gtk.Label? _label;
     /**
@@ -50,10 +49,6 @@ public class He.ViewTitle : He.Bin, Gtk.Buildable {
         _label.xalign = 0;
         _label.valign = Gtk.Align.CENTER;
         _label.add_css_class ("view-title");
-        _label.margin_top = 6;
-        _label.margin_start = 18;
-        _label.margin_end = 12;
-        _label.margin_bottom = 6;
 
         _label.set_parent (this);
     }
