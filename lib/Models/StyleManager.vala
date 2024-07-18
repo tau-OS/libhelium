@@ -50,7 +50,7 @@ public class He.StyleManager : Object {
   /**
   * A function that returns a color scheme from a given accent color and whether dark mode is enabled.
   */
-  public SchemeFactory scheme_factory = new DefaultScheme ();
+  public SchemeFactory scheme_factory = new DefaultScheme ();https://github.com/FyraLabs/devdocs/pull/39
 
   /**
   * Whether the style manager has been registered. Unregistered style managers will not apply their styles.
@@ -240,8 +240,8 @@ public class He.StyleManager : Object {
     @define-color gluon_brown $gluon_brown_hex;
     ";
 
-    var light_weight = (300 * font_weight);
-    var heavy_weight = (700 * font_weight);
+    var light_weight = (200 * font_weight);
+    var heavy_weight = (600 * font_weight);
 
     css += @"
     label,
