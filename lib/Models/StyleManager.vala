@@ -245,16 +245,24 @@ public class He.StyleManager : Object {
 
     css += @"
     label,
-    .view-switcher button label,
     .big-display,
     .view-subtitle,
     .cb-subtitle,
-    .body {
+    .body,
+    .view-switcher button.toggle:checked, 
+    .view-switcher button.toggle:active,
+    .navigation-rail-button label,
+    .navigation-section-button label,
+    .navigation-section-list row .mini-content-block label,
+    .text-field .placeholder {
       font-weight: $base_weight;
     }
     .large-title,
     .display,
-    .view-title {
+    .view-title,
+    .view-switcher button.toggle,
+    .appbar .text-field text,
+    .flat-appbar .text-field text {
       font-weight: $light_weight;
     }
     .title-1,
@@ -267,10 +275,13 @@ public class He.StyleManager : Object {
     .caption-heading,
     .cb-title,
     button label,
+    .toast-box button,
     .badge label,
     .badge-info label,
     .tint-badge label,
-    .modifier-badge label {
+    .modifier-badge label,
+    .navigation-rail-button:checked label,
+    .navigation-section-button:checked label {
       font-weight: $heavy_weight;
     }
     ";
