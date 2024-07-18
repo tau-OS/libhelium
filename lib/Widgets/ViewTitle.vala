@@ -50,7 +50,8 @@ public class He.ViewTitle : He.Bin, Gtk.Buildable {
         _label.valign = Gtk.Align.CENTER;
         _label.add_css_class ("view-title");
 
-        _label.set_parent (this);
+        this.child = _label;
+        valign = Gtk.Align.CENTER;
     }
 
     static construct {

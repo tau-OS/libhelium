@@ -25,6 +25,7 @@ public class He.AppBar : He.Bin {
     private Gtk.Label viewsubtitle;
     private Gtk.Box top_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+    private Gtk.Box view_title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
     private Gtk.Box subtitle_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box control_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box win_control_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -164,7 +165,7 @@ public class He.AppBar : He.Bin {
             if (value != null && _viewtitle_widget == null) {
                 viewtitle.label = value;
                 labels_box.visible = true;
-                main_box.spacing = 6;
+                view_title_box.set_visible (true);
             } else {
                 viewtitle.label = null;
             }
@@ -182,10 +183,10 @@ public class He.AppBar : He.Bin {
 
             if (value != null) {
                 labels_box.visible = true;
-                main_box.spacing = 6;
-                labels_box.prepend (value);
+                view_title_box.visible = true;
+                view_title_box.append (value);
             } else {
-                labels_box.remove (value);
+                view_title_box.remove (value);
             }
         }
     }
@@ -304,8 +305,8 @@ public class He.AppBar : He.Bin {
             control_box.set_visible (value);
 
             if (value) {
-                top_box.margin_top = 0;
-                top_box.margin_start = 2;
+                labels_box.margin_start = 12;
+                labels_box.margin_top = 0; 
             }
         }
     }
@@ -319,7 +320,6 @@ public class He.AppBar : He.Bin {
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         labels_box.visible = true;
         btn_box.visible = true;
-        main_box.spacing = 6;
     }
 
     /**
@@ -332,7 +332,6 @@ public class He.AppBar : He.Bin {
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         labels_box.visible = true;
         btn_box.visible = true;
-        main_box.spacing = 6;
     }
 
     /**
@@ -388,17 +387,17 @@ public class He.AppBar : He.Bin {
         win_control_box.append (win_box);
         win_control_box.prepend (win2_box);
 
-        back_button.set_icon_name ("go-previous-symbolic");
+        back_button.set_icon_name ("pan-start-symbolic");
         back_button.set_tooltip_text ("Go Back");
-        back_button.add_css_class ("flat");
-        back_button.add_css_class ("title-button");
+        back_button.add_css_class ("disclosure-button");
+        back_button.add_css_class ("image-button");
         back_button.clicked.connect (() => {
             var selected_page = stack.pages.get_selection ();
             stack.pages.select_item (int.max (((int)selected_page.get_nth (0) - 1), 0), true);
         });
         control_box.append (back_button);
         control_box.halign = Gtk.Align.START;
-        control_box.hexpand = true;
+        control_box.set_visible (false);
 
         viewtitle = new Gtk.Label (null);
         viewtitle.halign = Gtk.Align.START;
@@ -413,8 +412,11 @@ public class He.AppBar : He.Bin {
         viewsubtitle.set_visible (false);
 
         top_box.hexpand = true;
-        top_box.append (control_box);
         top_box.append (title_box);
+
+        view_title_box.append (control_box);
+        view_title_box.append (viewtitle);
+        view_title_box.set_visible (false);
 
         subtitle_box.append (viewsubtitle);
         subtitle_box.set_visible (false);
@@ -422,27 +424,13 @@ public class He.AppBar : He.Bin {
         labels_box.homogeneous = true;
         labels_box.hexpand = true;
         labels_box.visible = false;
-        labels_box.append (viewtitle);
+        labels_box.append (view_title_box);
         labels_box.append (subtitle_box);
         labels_box.margin_start = 12;
 
         btn_box.valign = Gtk.Align.END;
         btn_box.margin_end = 12;
         btn_box.set_visible (false);
-
-        // Make title align with other titles if no buttons are added.
-        if (btn_box.visible) {
-            labels_box.margin_top = 0;
-        } else {
-            labels_box.margin_top = 6;
-        }
-        btn_box.notify["visible"].connect (() => {
-            if (btn_box.visible) {
-                labels_box.margin_top = 0;
-            } else {
-                labels_box.margin_top = 6;
-            }
-        });
 
         sub_box.append (labels_box);
         sub_box.append (btn_box);
@@ -465,7 +453,23 @@ public class He.AppBar : He.Bin {
         show_back = false;
         main_box.add_css_class ("flat-appbar");
 
-        top_box.margin_top = 26;
+        top_box.margin_top = 42;
+
+        margin_bottom = 6;
+
+        // Make title align with other titles if no buttons are added.
+        if (btn_box.visible) {
+            labels_box.margin_top = 0;
+        } else {
+            labels_box.margin_top = 6;
+        }
+        btn_box.notify["visible"].connect (() => {
+            if (btn_box.visible) {
+                labels_box.margin_top = 0;
+            } else {
+                labels_box.margin_top = 6;
+            }
+        });
     }
 
     static construct {
