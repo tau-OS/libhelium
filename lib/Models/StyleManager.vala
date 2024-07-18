@@ -249,6 +249,8 @@ public class He.StyleManager : Object {
     .view-subtitle,
     .cb-subtitle,
     .body,
+    .view-switcher button.toggle:checked label, 
+    .view-switcher button.toggle:active label,
     .navigation-rail-button label,
     .navigation-section-button label,
     .navigation-section-list row .mini-content-block label,
@@ -278,8 +280,6 @@ public class He.StyleManager : Object {
     .badge-info label,
     .tint-badge label,
     .modifier-badge label,
-    .view-switcher button.toggle:checked label, 
-    .view-switcher button.toggle:active label,
     .navigation-rail-button:checked label,
     .navigation-section-button:checked label {
       font-weight: $heavy_weight;
