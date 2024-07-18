@@ -303,14 +303,9 @@ public class He.AppBar : He.Bin {
             back_button.set_visible (value);
             control_box.set_visible (value);
 
-            if (_show_back) {
-                if (_show_left_title_buttons) {
-                    top_box.margin_top = 28;
-                } else {
-                    top_box.margin_top = 0;
-                }
-            } else {
-                top_box.margin_top = 28;
+            if (value) {
+                top_box.margin_top = 0;
+                top_box.margin_start = 2;
             }
         }
     }
@@ -396,6 +391,7 @@ public class He.AppBar : He.Bin {
         back_button.set_icon_name ("go-previous-symbolic");
         back_button.set_tooltip_text ("Go Back");
         back_button.add_css_class ("flat");
+        back_button.add_css_class ("title-button");
         back_button.clicked.connect (() => {
             var selected_page = stack.pages.get_selection ();
             stack.pages.select_item (int.max (((int)selected_page.get_nth (0) - 1), 0), true);
@@ -469,7 +465,7 @@ public class He.AppBar : He.Bin {
         show_back = false;
         main_box.add_css_class ("flat-appbar");
 
-        top_box.margin_top = 28;
+        top_box.margin_top = 26;
     }
 
     static construct {
