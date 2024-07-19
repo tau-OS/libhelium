@@ -366,7 +366,10 @@ public class He.StyleManager : Object {
     switch > slider,
     radio,
     window.csd.dialog-content windowcontrols > button > image,
-    window.csd.dialog-content button {
+    window.csd.dialog-content .fill-button,
+    window.csd.dialog-content .pill-button,
+    window.csd.dialog-content .tint-button,
+    window.csd.dialog-content .outline-button {
       border-radius: $circle_roundness;
     }
     .content-list row:first-child .mini-content-block {
