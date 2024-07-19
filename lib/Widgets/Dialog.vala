@@ -79,7 +79,7 @@ public class He.Dialog : He.Window {
         }
 
         set {
-            image.pixel_size = ((Gtk.IconSize)64);
+            image.pixel_size = ((Gtk.IconSize)48);
             image.set_from_icon_name (value);
         }
     }
