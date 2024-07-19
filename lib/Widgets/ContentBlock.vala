@@ -24,8 +24,8 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
     private Gtk.Label title_label = new Gtk.Label (null);
     private Gtk.Label subtitle_label = new Gtk.Label (null);
     private Gtk.Image image = new Gtk.Image ();
-    private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-    private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 24);
+    private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+    private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
     private He.Button _secondary_button;
     private He.Button _primary_button;
 
@@ -172,7 +172,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
     construct {
         this.add_css_class ("content-block");
 
-        image.pixel_size = ((Gtk.IconSize)64);
+        image.pixel_size = ((Gtk.IconSize)48);
         image.halign = Gtk.Align.START;
         image.valign = Gtk.Align.CENTER;
         image.set_visible (false);
@@ -183,6 +183,9 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
 
         subtitle_label.xalign = 0;
         subtitle_label.add_css_class ("cb-subtitle");
+        subtitle_label.wrap = true;
+        subtitle_label.hexpand = true;
+        subtitle_label.ellipsize = Pango.EllipsizeMode.END;
         subtitle_label.set_visible (false);
 
         info_box.append (image);

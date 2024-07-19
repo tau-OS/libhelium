@@ -26,7 +26,7 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
     private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
     private Gtk.Image image = new Gtk.Image ();
     private He.Button _primary_button;
-    private Gtk.Box btn_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+    private Gtk.Box btn_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 9);
 
     /**
      * Sets the title of the content block.
@@ -162,7 +162,7 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
     }
 
     construct {
-        this.image.pixel_size = ((Gtk.IconSize)32);
+        this.image.pixel_size = ((Gtk.IconSize)24);
         this.image.set_valign (Gtk.Align.CENTER);
         this.image.set_halign (Gtk.Align.START);
         this.image.set_visible (false);
@@ -174,6 +174,7 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
         this.subtitle_label.xalign = 0;
         this.subtitle_label.add_css_class ("cb-subtitle");
         this.subtitle_label.wrap = true;
+        this.subtitle_label.hexpand = true;
         this.subtitle_label.ellipsize = Pango.EllipsizeMode.END;
         this.subtitle_label.set_visible (false);
 
