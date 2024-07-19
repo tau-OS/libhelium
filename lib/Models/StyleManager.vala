@@ -369,6 +369,7 @@ public class He.StyleManager : Object {
     window.csd.dialog-content .fill-button,
     window.csd.dialog-content .pill-button,
     window.csd.dialog-content .tint-button,
+    window.csd.dialog-content .textual-button,
     window.csd.dialog-content .outline-button {
       border-radius: $circle_roundness;
     }
