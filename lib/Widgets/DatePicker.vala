@@ -90,6 +90,8 @@ private class He.CalendarWidget : He.Bin {
     public int month { get; set; }
     public int year { get; set; }
 
+    private int curr_day { get; set; }
+
     private string[] month_names = {_("January"), _("February"), _("March"), _("April"), _("May"), _("June"), _("July"), _("August"), _("September"), _("October"), _("November"), _("December")};
     private int[] days_in_month = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
@@ -98,6 +100,7 @@ private class He.CalendarWidget : He.Bin {
         day = date.get_day_of_month ();
         month = date.get_month () - 1; // 0-indexed
         year = date.get_year ();
+        curr_day = date.get_day_of_month ();
 
         Gtk.Box main_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 6) {
             margin_bottom = margin_top = 18
@@ -153,6 +156,8 @@ private class He.CalendarWidget : He.Bin {
         showing_days = true;
         update_calendar_grid();
         this.child = (main_box);
+
+        add_css_class("calendar");
     }
 
     private void toggle_view() {
@@ -197,13 +202,14 @@ private class He.CalendarWidget : He.Bin {
                     };
                     day_label.add_css_class("numeric");
                     day_label.add_css_class("circular");
+                    day_label.remove_css_class("textual-button");
                     day_label.clicked.connect(() => day_selected (int.parse(day_label.get_label()), month, year));
 
-                    if (day_label.get_label() == day.to_string()) {
-                        day_label.add_css_class("surface-container-highest-bg-color");
+                    if (day == curr_day) {
+                        day_label.add_css_class("day");
                         day_label.remove_css_class("flat");
                     } else {
-                        day_label.remove_css_class("surface-container-highest-bg-color");
+                        day_label.remove_css_class("day");
                         day_label.add_css_class("flat");
                     }
 
@@ -253,7 +259,7 @@ private class He.CalendarWidget : He.Bin {
     }
 
     public void select_day (DateTime date) {
-        day = date.get_day_of_month ();
+        curr_day = date.get_day_of_month ();
         update_calendar_grid();
     }
 
