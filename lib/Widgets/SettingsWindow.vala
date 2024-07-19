@@ -22,6 +22,7 @@
  */
  public class He.SettingsWindow : He.Window, Gtk.Buildable {
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+    private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
     private Gtk.Stack stack = new Gtk.Stack ();
     private He.ViewSwitcher switcher = new He.ViewSwitcher ();
     private He.ViewTitle viewtitle = new He.ViewTitle ();
@@ -93,14 +94,16 @@
         stack.set_margin_start (24);
         stack.set_margin_end (24);
 
-        var title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
         title_box.append (close_button);
         title_box.append (switcher);
 
         box.append (title_box);
         box.append (stack);
 
-        this.set_child (box);
+        var window_handle = new Gtk.WindowHandle ();
+        window_handle.set_child (box);
+
+        this.set_child (window_handle);
 
         this.set_size_request (360, 400);
         this.set_default_size (360, 400);
@@ -116,21 +119,21 @@
 
     private void on_pages_changed (uint position, uint removed, uint added) {
         if (this.stack.pages.get_n_items () <= 1) {
-            if (this.switcher.get_parent () != null && this.switcher.get_parent () == this.box) {
-                this.box.remove (switcher);
-                this.box.insert_child_after (viewtitle, close_button);
+            if (this.switcher.get_parent () != null && this.switcher.get_parent () == this.title_box) {
+                this.title_box.remove (switcher);
+                this.title_box.insert_child_after (viewtitle, close_button);
             } else if (this.viewtitle.get_parent () == null) {
-                this.box.insert_child_after (viewtitle, close_button);
+                this.title_box.insert_child_after (viewtitle, close_button);
             } else {
                 // Everything has been added
                 return;
             }
         } else {
-            if (this.viewtitle.get_parent () != null && this.viewtitle.get_parent () == this.box) {
-                this.box.remove (viewtitle);
-                this.box.insert_child_after (switcher, close_button);
+            if (this.viewtitle.get_parent () != null && this.viewtitle.get_parent () == this.title_box) {
+                this.title_box.remove (viewtitle);
+                this.title_box.insert_child_after (switcher, close_button);
             } else if (this.switcher.get_parent () == null) {
-                this.box.insert_child_after (switcher, close_button);
+                this.title_box.insert_child_after (switcher, close_button);
             } else {
                 // Everything has been added
                 return;
