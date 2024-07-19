@@ -74,7 +74,6 @@ public class He.BottomSheet : Gtk.Widget {
         sheet_bin = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
         sheet_bin.set_child_visible (false);
         sheet_bin.halign = Gtk.Align.CENTER;
-        sheet_bin.add_css_class ("bottom-sheet");
         sheet_bin.set_parent (this);
 
         var cancel_button = new Gtk.Button ();
@@ -188,7 +187,16 @@ public class He.BottomSheet : Gtk.Widget {
         int offset_rounded = (int) Math.round (animation.avalue * sheet_height);
 
         var t = new Gsk.Transform ();
-        t = t.translate ({ 0, height - offset_rounded });
+
+        if (width <= 408) { // Mobile size (360) + accounting for sheet horizontal margins (24+24)
+            t = t.translate ({ 0, height - offset_rounded });
+            sheet_bin.add_css_class ("bottom-sheet");
+            sheet_bin.remove_css_class ("dialog-sheet");
+        } else {
+            t = t.translate ({ 0, (height - offset_rounded) / 2 });
+            sheet_bin.add_css_class ("dialog-sheet");
+            sheet_bin.remove_css_class ("bottom-sheet");
+        }
 
         sheet_height = int.max (sheet_height, offset_rounded);
 
