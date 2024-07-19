@@ -82,6 +82,7 @@ public class He.BottomSheet : Gtk.Widget {
         cancel_button.hexpand = true;
         cancel_button.halign = Gtk.Align.END;
         cancel_button.add_css_class ("close-button");
+        cancel_button.add_css_class ("circular");
         cancel_button.set_tooltip_text (_("Cancel"));
         title_label = new Gtk.Label ("");
         title_label.add_css_class ("view-title");
