@@ -88,9 +88,8 @@ public class He.TimePicker : Gtk.Entry {
             format_24 = _("%H:%M");
         }
 
-        max_length = 8;
-        primary_icon_gicon = new ThemedIcon.with_default_fallbacks ("clock-symbolic");
-        secondary_icon_gicon = new ThemedIcon.with_default_fallbacks ("pan-down-symbolic");
+        width_chars = 8;
+        secondary_icon_gicon = new ThemedIcon.with_default_fallbacks ("clock-symbolic");
         icon_release.connect (on_icon_press);
 
         am_togglebutton = new Gtk.ToggleButton.with_label (_("AM")) {

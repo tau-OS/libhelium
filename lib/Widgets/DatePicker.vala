@@ -58,8 +58,8 @@ public class He.DatePicker : Gtk.Entry {
         calendar.year = date.get_year ();
 
         editable = false;
-        primary_icon_gicon = new ThemedIcon.with_default_fallbacks ("office-calendar-symbolic");
-        secondary_icon_gicon = new ThemedIcon.with_default_fallbacks ("pan-down-symbolic");
+        width_chars = 11;
+        secondary_icon_gicon = new ThemedIcon.with_default_fallbacks ("office-calendar-symbolic");
 
         icon_release.connect (() => {
             popover.popup ();
