@@ -115,6 +115,5 @@ public class He.WelcomeScreen : He.Bin {
 
         main_box.set_parent (this);
         this.set_size_request (360, 400);
-        this.add_css_class ("dialog-content");
     }
 }
