@@ -67,7 +67,7 @@ public class He.ViewAux : He.View {
         box.hexpand = true;
         box.append (left_box);
 
-        var separator = new Gtk.Separator (Gtk.Orientation.VERTICAL);
+        var separator = new He.Divider ();
 
         var revealer_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
         revealer_box.hexpand = false;

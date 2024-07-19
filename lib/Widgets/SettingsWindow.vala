@@ -23,9 +23,9 @@
  public class He.SettingsWindow : He.Window, Gtk.Buildable {
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
     private Gtk.Stack stack = new Gtk.Stack ();
-    private He.AppBar appbar = new He.AppBar ();
     private He.ViewSwitcher switcher = new He.ViewSwitcher ();
-    private Gtk.Label viewtitle = new Gtk.Label (null);
+    private He.ViewTitle viewtitle = new He.ViewTitle ();
+    private Gtk.Button close_button = new Gtk.Button ();
 
     /**
      * Add SettingsList or SettingsPage children to this window
@@ -76,26 +76,28 @@
         this.stack.pages.items_changed.connect (on_pages_changed);
 
         viewtitle.label = "Settings";
-        viewtitle.add_css_class ("view-title");
-        viewtitle.xalign = 0;
-        viewtitle.valign = Gtk.Align.CENTER;
-        viewtitle.margin_top = 6;
-        viewtitle.margin_start = 18;
-        viewtitle.margin_end = 12;
-        viewtitle.margin_bottom = 6;
 
-        appbar.decoration_layout = ":close";
-        appbar.show_back = false;
-        appbar.hexpand = true;
+        close_button.set_icon_name ("window-close-symbolic");
+        close_button.halign = Gtk.Align.START;
+        close_button.valign = Gtk.Align.START;
+        close_button.margin_top = 24;
+        close_button.margin_start = 24;
+        close_button.margin_bottom = 24;
+        close_button.add_css_class ("circular");
+        close_button.set_tooltip_text (_("Close"));
+        close_button.clicked.connect (close);
 
         switcher.stack = stack;
-        switcher.set_margin_start (18);
-        switcher.set_margin_end (18);
-        stack.set_margin_start (18);
-        stack.set_margin_end (18);
+        switcher.set_margin_start (24);
+        switcher.set_margin_end (24);
+        stack.set_margin_start (24);
+        stack.set_margin_end (24);
 
-        box.append (appbar);
-        box.append (switcher);
+        var title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+        title_box.append (close_button);
+        title_box.append (switcher);
+
+        box.append (title_box);
         box.append (stack);
 
         this.set_child (box);
@@ -116,9 +118,9 @@
         if (this.stack.pages.get_n_items () <= 1) {
             if (this.switcher.get_parent () != null && this.switcher.get_parent () == this.box) {
                 this.box.remove (switcher);
-                this.box.insert_child_after (viewtitle, appbar);
+                this.box.insert_child_after (viewtitle, close_button);
             } else if (this.viewtitle.get_parent () == null) {
-                this.box.insert_child_after (viewtitle, appbar);
+                this.box.insert_child_after (viewtitle, close_button);
             } else {
                 // Everything has been added
                 return;
@@ -126,9 +128,9 @@
         } else {
             if (this.viewtitle.get_parent () != null && this.viewtitle.get_parent () == this.box) {
                 this.box.remove (viewtitle);
-                this.box.insert_child_after (switcher, appbar);
+                this.box.insert_child_after (switcher, close_button);
             } else if (this.switcher.get_parent () == null) {
-                this.box.insert_child_after (switcher, appbar);
+                this.box.insert_child_after (switcher, close_button);
             } else {
                 // Everything has been added
                 return;
