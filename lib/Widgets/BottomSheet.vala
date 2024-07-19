@@ -5,7 +5,7 @@ public class He.BottomSheet : Gtk.Widget {
 
     private Gtk.Widget dimming;
     private Gtk.Box sheet_bin;
-    private Gtk.Label title_label;
+    private He.ViewTitle title_label;
     private He.SpringAnimation animation;
 
     private Gtk.Widget? _sheet;
@@ -78,16 +78,14 @@ public class He.BottomSheet : Gtk.Widget {
 
         var cancel_button = new Gtk.Button ();
         cancel_button.set_icon_name ("window-close-symbolic");
-        cancel_button.hexpand = true;
-        cancel_button.halign = Gtk.Align.END;
-        cancel_button.add_css_class ("close-button");
+        cancel_button.halign = Gtk.Align.START;
         cancel_button.add_css_class ("circular");
         cancel_button.set_tooltip_text (_("Cancel"));
-        title_label = new Gtk.Label ("");
-        title_label.add_css_class ("view-title");
-        var header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-        header_box.append (title_label);
+        title_label = new He.ViewTitle ();
+        title_label.hexpand = true;
+        var header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
         header_box.append (cancel_button);
+        header_box.append (title_label);
 
         var header_wh = new Gtk.WindowHandle ();
         header_wh.set_child (header_box);

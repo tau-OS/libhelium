@@ -21,8 +21,6 @@
 * An AboutWindow is a window that displays information about the application.
 */
 public class He.AboutWindow : He.Window {
-  private He.AppBar app_bar = new He.AppBar ();
-
   private Gtk.Overlay window_overlay = new Gtk.Overlay ();
 
   private Gtk.Box about_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 30);
@@ -273,11 +271,16 @@ public class He.AboutWindow : He.Window {
     this.modal = true;
     this.resizable = false;
 
-    this.app_bar.valign = Gtk.Align.START;
-    this.app_bar.show_back = false;
-    this.app_bar.decoration_layout = ":close";
+    var close_button = new Gtk.Button ();
+    close_button.set_icon_name ("window-close-symbolic");
+    close_button.halign = Gtk.Align.START;
+    close_button.valign = Gtk.Align.START;
+    close_button.margin_top = 24;
+    close_button.margin_start = 24;
+    close_button.add_css_class ("circular");
+    close_button.set_tooltip_text (_("Close"));
 
-    window_overlay.add_overlay (app_bar);
+    window_overlay.add_overlay (close_button);
     window_overlay.set_child (about_box);
 
     about_box.add_css_class ("dialog-content");
@@ -286,7 +289,7 @@ public class He.AboutWindow : He.Window {
 
     icon_image.valign = Gtk.Align.START;
     icon_image.pixel_size = 128;
-    icon_image.margin_top = 18;
+    icon_image.margin_top = 24;
     icon_image.add_css_class ("icon-dropshadow");
 
     content_box.append (icon_image);
@@ -296,7 +299,7 @@ public class He.AboutWindow : He.Window {
     info_box.append (text_box);
 
     version_badge.tinted = true;
-    version_badge.margin_end = 18;
+    version_badge.margin_end = 24;
     title_label.add_css_class ("display");
     title_box.append (title_label);
     title_box.append (version_badge);
@@ -330,6 +333,8 @@ public class He.AboutWindow : He.Window {
     more_info_button.clicked.connect (() => {
       Gtk.show_uri (this.parent, more_info_url, Gdk.CURRENT_TIME);
     });
+
+    close_button.clicked.connect (close);
 
     var window_handle = new Gtk.WindowHandle ();
     window_handle.set_child (window_overlay);

@@ -290,6 +290,7 @@ public class He.StyleManager : Object {
     var medium_roundness = (1 * base_roundness).to_string () + "px";
     var large_roundness = (2 * base_roundness).to_string () + "px";
     var x_large_roundness = (3 * base_roundness).to_string () + "px";
+    var xx_large_roundness = (6 * base_roundness).to_string () + "px";
     var circle_roundness = (12.5 * base_roundness).to_string () + "px";
 
     css += @"
@@ -337,10 +338,19 @@ public class He.StyleManager : Object {
     .mini-content-block,
     .dialog-content,
     .switchbar,
-    .navigation-section-list row .mini-content-block,
-    window.csd.dialog.message,
-    window.csd.dialog-content {
+    .navigation-section-list row .mini-content-block {
       border-radius: $x_large_roundness;
+    }
+    window.csd.dialog.message,
+    window.csd.dialog-content,
+    .dialog-sheet {
+      border-radius: $xx_large_roundness;
+    }
+    .bottom-sheet {
+        border-top-left-radius: $xx_large_roundness;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: $xx_large_roundness;
+        border-bottom-right-radius: 0;
     }
     .disclosure-button,
     .disclosure-button .toggle,
@@ -354,7 +364,9 @@ public class He.StyleManager : Object {
     .pill-button,
     switch,
     switch > slider,
-    radio {
+    radio,
+    window.csd.dialog-content windowcontrols > button > image,
+    window.csd.dialog-content button {
       border-radius: $circle_roundness;
     }
     .content-list row:first-child .mini-content-block {
