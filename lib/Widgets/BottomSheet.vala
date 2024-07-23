@@ -107,9 +107,6 @@ public class He.BottomSheet : Gtk.Widget {
         header_box.append (cancel_button);
         header_box.append (title_label);
 
-        var header_wh = new Gtk.WindowHandle ();
-        header_wh.set_child (header_box);
-
         var handle_wh = new Gtk.WindowHandle ();
         handle_wh.add_css_class ("drag-handle-container");
         handle_wh.set_child (handle);
@@ -117,7 +114,7 @@ public class He.BottomSheet : Gtk.Widget {
         var divider = new He.Divider ();
 
         sheet_bin.prepend (divider);
-        sheet_bin.prepend (header_wh);
+        sheet_bin.prepend (header_box);
         sheet_bin.prepend (handle_wh);
 
         cancel_button.clicked.connect (close_sheet);
@@ -145,6 +142,8 @@ public class He.BottomSheet : Gtk.Widget {
             }
         });
         animation.epsilon = 0.001;
+
+        show_handle = true;
     }
 
     private void close_sheet () {
