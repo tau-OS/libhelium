@@ -4,6 +4,7 @@ public class He.BottomSheet : Gtk.Widget {
     public signal void hidden ();
 
     private Gtk.Widget dimming;
+    private Gtk.Widget handle;
     private Gtk.Box sheet_bin;
     private He.ViewTitle title_label;
     private He.SpringAnimation animation;
@@ -50,6 +51,18 @@ public class He.BottomSheet : Gtk.Widget {
         }
     }
 
+    private bool _show_handle;
+    public bool show_handle {
+        get { return _show_handle; }
+        set {
+            if (show_handle == value)
+                return;
+
+            _show_handle = value;
+            handle.visible = value;
+        }
+    }
+
     private int _preferred_sheet_height;
     public int preferred_sheet_height {
         get { return _preferred_sheet_height; }
@@ -76,6 +89,13 @@ public class He.BottomSheet : Gtk.Widget {
         sheet_bin.halign = Gtk.Align.CENTER;
         sheet_bin.set_parent (this);
 
+        handle = new He.Bin ();
+        handle.visible = false;
+        handle.can_focus = false;
+        handle.can_target = false;
+        handle.add_css_class ("drag-handle");
+        handle.add_css_class ("large-radius");
+
         var cancel_button = new Gtk.Button ();
         cancel_button.set_icon_name ("window-close-symbolic");
         cancel_button.halign = Gtk.Align.START;
@@ -90,7 +110,11 @@ public class He.BottomSheet : Gtk.Widget {
         var header_wh = new Gtk.WindowHandle ();
         header_wh.set_child (header_box);
 
+        var handle_wh = new Gtk.WindowHandle ();
+        handle_wh.set_child (handle);
+
         sheet_bin.prepend (header_wh);
+        sheet_bin.prepend (handle_wh);
 
         cancel_button.clicked.connect (close_sheet);
 
@@ -149,10 +173,15 @@ public class He.BottomSheet : Gtk.Widget {
                                      out int nat_baseline) {
         int sheet_min, sheet_nat;
         int dimming_min, dimming_nat;
+        int handle_min, handle_nat;
         min = nat = 0;
 
         sheet_bin.measure (orientation, for_size, out sheet_min, out sheet_nat, null, null);
         dimming.measure (orientation, for_size, out dimming_min, out dimming_nat, null, null);
+
+        if (handle != null) {
+            handle.measure(orientation, for_size, out handle_min, out handle_nat, null, null);
+        }
 
         if (orientation == HORIZONTAL) {
             min = int.max (dimming_min, sheet_min);
@@ -190,14 +219,34 @@ public class He.BottomSheet : Gtk.Widget {
             t = t.translate ({ 0, height - offset_rounded });
             sheet_bin.add_css_class ("bottom-sheet");
             sheet_bin.remove_css_class ("dialog-sheet");
+            handle.visible = show_handle;
         } else {
             t = t.translate ({ 0, (height - offset_rounded) / 2 });
             sheet_bin.add_css_class ("dialog-sheet");
             sheet_bin.remove_css_class ("bottom-sheet");
+            handle.visible = false;
         }
 
         sheet_height = int.max (sheet_height, offset_rounded);
 
         sheet_bin.allocate (width, sheet_height, baseline, t);
+
+        if (handle != null) {
+            int handle_width = 0, handle_height = 0, handle_x;
+
+            handle.measure(Gtk.Orientation.HORIZONTAL, -1, null, out handle_width, null, null);
+            handle.measure(Gtk.Orientation.VERTICAL, -1, null, out handle_height, null, null);
+
+            handle_width = (int)Math.fmin (handle_width, width);
+            handle_height = (int)Math.fmin (handle_height, height);
+
+            handle_x = (int)Math.round (((width - handle_width) - 48) / 2); // 48 = account for margins
+
+            var t2 = new Gsk.Transform ();
+
+            t2 = t2.translate ({handle_x, 0});
+
+            handle.allocate(handle_width, handle_height, baseline, t2);
+        }
     }
 }
