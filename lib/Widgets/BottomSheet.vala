@@ -111,6 +111,7 @@ public class He.BottomSheet : Gtk.Widget {
         header_wh.set_child (header_box);
 
         var handle_wh = new Gtk.WindowHandle ();
+        handle_wh.add_css_class ("drag-handle-container");
         handle_wh.set_child (handle);
 
         sheet_bin.prepend (header_wh);
