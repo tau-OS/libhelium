@@ -8,6 +8,7 @@ public class He.BottomSheet : Gtk.Widget {
     private Gtk.Box sheet_bin;
     private He.ViewTitle title_label;
     private He.SpringAnimation animation;
+    private Gtk.WindowHandle handle_wh;
 
     private Gtk.Widget? _sheet;
     public Gtk.Widget? sheet {
@@ -48,6 +49,18 @@ public class He.BottomSheet : Gtk.Widget {
             animation.value_from = animation.avalue;
             animation.value_to = show_sheet ? 1 : 0;
             animation.play ();
+        }
+    }
+
+    private bool _modal;
+    public bool modal {
+        get { return _modal; }
+        set {
+            if (modal == value)
+                return;
+
+            _modal = value;
+            handle_wh.visible = value;
         }
     }
 
@@ -100,6 +113,7 @@ public class He.BottomSheet : Gtk.Widget {
         cancel_button.set_icon_name ("window-close-symbolic");
         cancel_button.halign = Gtk.Align.START;
         cancel_button.add_css_class ("circular");
+        cancel_button.add_css_class ("disclosure-button");
         cancel_button.set_tooltip_text (_("Cancel"));
         title_label = new He.ViewTitle ();
         title_label.hexpand = true;
@@ -107,7 +121,7 @@ public class He.BottomSheet : Gtk.Widget {
         header_box.append (cancel_button);
         header_box.append (title_label);
 
-        var handle_wh = new Gtk.WindowHandle ();
+        handle_wh = new Gtk.WindowHandle ();
         handle_wh.add_css_class ("drag-handle-container");
         handle_wh.set_child (handle);
 
@@ -144,6 +158,7 @@ public class He.BottomSheet : Gtk.Widget {
         animation.epsilon = 0.001;
 
         show_handle = true;
+        modal = true;
     }
 
     private void close_sheet () {
