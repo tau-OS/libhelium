@@ -84,7 +84,7 @@ public class He.BottomSheet : Gtk.Widget {
         dimming.add_css_class ("dimming");
         dimming.set_parent (this);
 
-        sheet_bin = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+        sheet_bin = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
         sheet_bin.set_child_visible (false);
         sheet_bin.halign = Gtk.Align.CENTER;
         sheet_bin.set_parent (this);
@@ -114,6 +114,9 @@ public class He.BottomSheet : Gtk.Widget {
         handle_wh.add_css_class ("drag-handle-container");
         handle_wh.set_child (handle);
 
+        var divider = new He.Divider ();
+
+        sheet_bin.prepend (divider);
         sheet_bin.prepend (header_wh);
         sheet_bin.prepend (handle_wh);
 
@@ -216,7 +219,7 @@ public class He.BottomSheet : Gtk.Widget {
 
         var t = new Gsk.Transform ();
 
-        if (width <= 408) { // Mobile size (360) + accounting for sheet horizontal margins (24+24)
+        if (width <= 396) { // Mobile size (360) + accounting for sheet horizontal margins (18+18)
             t = t.translate ({ 0, height - offset_rounded });
             sheet_bin.add_css_class ("bottom-sheet");
             sheet_bin.remove_css_class ("dialog-sheet");
@@ -241,7 +244,7 @@ public class He.BottomSheet : Gtk.Widget {
             handle_width = (int)Math.fmin (handle_width, width);
             handle_height = (int)Math.fmin (handle_height, height);
 
-            handle_x = (int)Math.round (((width - handle_width) - 48) / 2); // 48 = account for margins
+            handle_x = (int)Math.round (((width - handle_width) - 36) / 2); // accounting for sheet horizontal margins (18+18)
 
             var t2 = new Gsk.Transform ();
 
