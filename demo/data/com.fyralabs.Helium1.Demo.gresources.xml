@@ -7,6 +7,7 @@
     <file alias="settings.ui">ui/settings.ui</file>
 
     <file alias="bottomsheet.ui">ui/sections/bottomsheet.ui</file>
+    <file alias="welcome.ui">ui/sections/welcome.ui</file>
 
     <file alias="mountain.jpg">assets/landscapes/mountain.jpg</file>
     <file alias="sand.jpg">assets/landscapes/sand.jpg</file>
@@ -16,6 +17,7 @@
   <gresource prefix="/com/fyralabs/Helium1/Demo/icons">
     <file alias="scalable/apps/com.fyralabs.Helium1.Demo.svg">icons/com.fyralabs.Helium1.Demo.svg</file>
     <file alias="symbolic/apps/com.fyralabs.Helium1.Demo-symbolic.svg">icons/com.fyralabs.Helium1.Demo-symbolic.svg</file>
+    <file alias="symbolic/apps/com.fyralabs.Helium1.Demo-filled-symbolic.svg">icons/com.fyralabs.Helium1.Demo-filled-symbolic.svg</file>
 
     <file alias="symbolic/apps/bottom-sheet-symbolic.svg">icons/bottom-sheet-symbolic.svg</file>
     <file alias="symbolic/apps/bottom-sheet-filled-symbolic.svg">icons/bottom-sheet-filled-symbolic.svg</file>

@@ -50,8 +50,9 @@ template $DemoBottomSheet : He.Bin {
 
                         child: Gtk.TextView {
                             editable: false;
+                            monospace: true;
                             buffer: Gtk.TextBuffer { 
-                                text: "var my_bottomsheet = new He.BottomSheet () {\n\ttitle: _(\"Title (max 3 words.\"),\n\tsheet: my_sheetcontent,\n\tbutton: my_sheet_button\n}";
+                                text: "var my_bottomsheet = new He.BottomSheet () {\n    title: _(\"Title (max 3 words.\"),\n    sheet: my_sheetcontent,\n    button: my_sheet_button\n};";
                             };
                             styles ["text-view"]
                         };
@@ -62,8 +63,9 @@ template $DemoBottomSheet : He.Bin {
 
                         child: Gtk.TextView {
                             editable: false;
+                            monospace: true;
                             buffer: Gtk.TextBuffer { 
-                                text: "He.BottomSheet my_bottomsheet {\n\ttitle: _(\"Title (max 3 words.\");\n\tsheet: my_sheetcontent;\n\tbutton: my_sheet_button;\n}";
+                                text: "He.BottomSheet my_bottomsheet {\n  title: _(\"Title (max 3 words.\");\n  sheet: my_sheetcontent;\n  button: my_sheet_button;\n}";
                             };
                             styles ["text-view"]
                         };

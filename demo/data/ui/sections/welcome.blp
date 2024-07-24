@@ -1,0 +1,24 @@
+using Gtk 4.0;
+using He 1;
+
+template $DemoWelcome : He.Bin {
+    hexpand: true;
+    vexpand: true;
+    child: Gtk.Box {
+        orientation: vertical;
+        spacing: 6;
+        margin-bottom: 18;
+
+        He.AppBar app_bar {
+            show-left-title-buttons: false;
+            show-right-title-buttons: true;
+            show-back: false;
+        }
+
+        He.EmptyPage empty_page {
+            icon: "com.fyralabs.Helium1.Demo-symbolic";
+            title: "Helium Demo";
+            description: "Welcome to the Helium Demo";
+        }
+    };
+}

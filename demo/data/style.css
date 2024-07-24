@@ -7,3 +7,7 @@
 .text-view.view text {
   background: shade(@view_bg_color, 0.98);
 }
+
+.monospace {
+  font-family: "Geist Mono", Courier, monospace;
+}

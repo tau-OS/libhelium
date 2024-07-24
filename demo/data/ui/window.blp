@@ -26,6 +26,7 @@ template $DemoMainWindow : He.ApplicationWindow {
         show-back: false;
         has-margins: false;
         width-request: 213;
+        scroller: s;
 
         [titlebar-button]
         MenuButton main_menu {
@@ -36,6 +37,11 @@ template $DemoMainWindow : He.ApplicationWindow {
         He.NavigationSection {
           stack: stack;
           orientation: vertical;
+          valign: start;
+        }
+
+        Gtk.ScrolledWindow s {
+          visible: false;
         }
       };
     }
@@ -45,6 +51,12 @@ template $DemoMainWindow : He.ApplicationWindow {
         orientation: vertical;
 
         Gtk.Stack stack {
+          Gtk.StackPage {
+            title: "Welcome";
+            name: "welcome";
+            icon-name: "com.fyralabs.Helium1.Demo-symbolic";
+            child: $DemoWelcome {};
+          }
           Gtk.StackPage {
             title: "Bottom Sheet";
             name: "bottomsheet";

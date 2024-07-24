@@ -1,25 +1,25 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
-* An AboutWindow is a window that displays information about the application.
-*/
+ * An AboutWindow is a window that displays information about the application.
+ */
 public class He.AboutWindow : He.Window {
   private Gtk.Overlay window_overlay = new Gtk.Overlay ();
 
@@ -44,8 +44,8 @@ public class He.AboutWindow : He.Window {
   private He.ModifierBadge version_badge = new He.ModifierBadge ("");
 
   /**
-  * An enum of commonly used licenses to be used in AboutWindow.
-  */
+   * An enum of commonly used licenses to be used in AboutWindow.
+   */
   public enum Licenses {
     GPLV3,
     MIT,
@@ -56,50 +56,50 @@ public class He.AboutWindow : He.Window {
     PROPRIETARY;
 
     /**
-    * Returns the license url for the license.
-    */
+     * Returns the license url for the license.
+     */
     public string get_url () {
       switch (this) {
-        case Licenses.GPLV3:
-          return "https://choosealicense.com/licenses/gpl-3.0";
-        case Licenses.MIT:
-          return "https://choosealicense.com/licenses/mit";
-        case Licenses.MPLV2:
-          return "https://choosealicense.com/licenses/mpl-2.0";
-        case Licenses.UNLICENSE:
-          return "https://choosealicense.com/licenses/unlicense";
-        case Licenses.APACHEV2:
-          return "https://choosealicense.com/licenses/apache-2.0";
-        case Licenses.WTFPL:
-          return "https://choosealicense.com/licenses/wtfpl";
-        case Licenses.PROPRIETARY:
-          return "https://choosealicense.com/no-permission";
-        default:
-          return "about:blank";
+      case Licenses.GPLV3:
+        return "https://choosealicense.com/licenses/gpl-3.0";
+      case Licenses.MIT:
+        return "https://choosealicense.com/licenses/mit";
+      case Licenses.MPLV2:
+        return "https://choosealicense.com/licenses/mpl-2.0";
+      case Licenses.UNLICENSE:
+        return "https://choosealicense.com/licenses/unlicense";
+      case Licenses.APACHEV2:
+        return "https://choosealicense.com/licenses/apache-2.0";
+      case Licenses.WTFPL:
+        return "https://choosealicense.com/licenses/wtfpl";
+      case Licenses.PROPRIETARY:
+        return "https://choosealicense.com/no-permission";
+      default:
+        return "about:blank";
       }
     }
 
     /**
-    * Returns the license name for the license.
-    */
+     * Returns the license name for the license.
+     */
     public string get_name () {
       switch (this) {
-        case Licenses.GPLV3:
-          return "GPLv3";
-        case Licenses.MIT:
-          return "MIT";
-        case Licenses.MPLV2:
-          return "MPLv2";
-        case Licenses.UNLICENSE:
-          return "Unlicense";
-        case Licenses.APACHEV2:
-          return "Apache License v2";
-        case Licenses.WTFPL:
-          return "WTFPL";
-        case Licenses.PROPRIETARY:
-          return "a proprietary license";
-        default:
-          return "N/A";
+      case Licenses.GPLV3:
+        return "GPLv3";
+      case Licenses.MIT:
+        return "MIT";
+      case Licenses.MPLV2:
+        return "MPLv2";
+      case Licenses.UNLICENSE:
+        return "Unlicense";
+      case Licenses.APACHEV2:
+        return "Apache License v2";
+      case Licenses.WTFPL:
+        return "WTFPL";
+      case Licenses.PROPRIETARY:
+        return "a proprietary license";
+      default:
+        return "N/A";
       }
     }
   }
@@ -107,8 +107,8 @@ public class He.AboutWindow : He.Window {
   private He.Colors _color = Colors.PURPLE;
 
   /**
-  * The theme color of the AboutWindow.
-  */
+   * The theme color of the AboutWindow.
+   */
   public He.Colors color {
     get {
       return _color;
@@ -125,8 +125,8 @@ public class He.AboutWindow : He.Window {
 
   private Licenses _license = Licenses.GPLV3;
   /**
-  * The license shown in the AboutWindow.
-  */
+   * The license shown in the AboutWindow.
+   */
   public Licenses license {
     get { return _license; }
     set {
@@ -136,24 +136,24 @@ public class He.AboutWindow : He.Window {
   }
 
   /**
-  * The version shown in the AboutWindow.
-  */
+   * The version shown in the AboutWindow.
+   */
   public string version {
     get { return version_badge.label; }
     set { version_badge.label = value; }
   }
 
   /**
-  * The name of the application shown in the AboutWindow.
-  */
+   * The name of the application shown in the AboutWindow.
+   */
   public string app_name {
     get { return title_label.get_text (); }
     set { title_label.set_text (value); }
   }
 
   /**
-  *  The icon shown in the AboutWindow.
-  */
+   *  The icon shown in the AboutWindow.
+   */
   public string icon {
     get { return icon_image.get_icon_name (); }
     set { icon_image.set_from_icon_name (value); }
@@ -161,8 +161,8 @@ public class He.AboutWindow : He.Window {
 
   private string[] translators = {};
   /**
-  * The translators shown in the AboutWindow.
-  */
+   * The translators shown in the AboutWindow.
+   */
   public string[] translator_names {
     get { return translators; }
     set {
@@ -194,8 +194,8 @@ public class He.AboutWindow : He.Window {
 
   private string[] developers = {};
   /**
-  * The developers shown in the AboutWindow.
-  */
+   * The developers shown in the AboutWindow.
+   */
   public string[] developer_names {
     get { return developers; }
     set {
@@ -206,8 +206,8 @@ public class He.AboutWindow : He.Window {
 
   private int _copyright_year;
   /**
-  * The copyright year shown in the AboutWindow.
-  */
+   * The copyright year shown in the AboutWindow.
+   */
   public int copyright_year {
     get { return _copyright_year; }
     set {
@@ -221,12 +221,12 @@ public class He.AboutWindow : He.Window {
   private string? _more_info_url;
 
   /**
-  * Your application's reverse-domain name.
-  */
+   * Your application's reverse-domain name.
+   */
   public string app_id { get; set; default = ""; }
   /**
-  * A URL where contributors can help translate the application.
-  */
+   * A URL where contributors can help translate the application.
+   */
   public string? translate_url {
     get { return _translate_url; }
     set {
@@ -239,8 +239,8 @@ public class He.AboutWindow : He.Window {
     }
   }
   /**
-  * A URL where users can report a problem with the application.
-  */
+   * A URL where users can report a problem with the application.
+   */
   public string? issue_url {
     get { return _issue_url; }
     set {
@@ -253,8 +253,8 @@ public class He.AboutWindow : He.Window {
     }
   }
   /**
-  * A URL where users can get more information about the application.
-  */
+   * A URL where users can get more information about the application.
+   */
   public string? more_info_url {
     get { return _more_info_url; }
     set {
@@ -345,25 +345,24 @@ public class He.AboutWindow : He.Window {
   }
 
   /**
-  * Creates a new AboutWindow.
-  * @param parent The parent window.
-  * @param app_name Your application's name.
-  * @param app_id Your application's reverse-domain name.
-  * @param version Your application's version.
-  * @param icon Your application's icon.
-  * @param translate_url A URL where contributors can help translate the application.
-  * @param issue_url A URL where users can report a problem with the application.
-  * @param more_info_url A URL where users can get more information about the application.
-  * @param translators Your application's translators.
-  * @param developers Your application's developers.
-  * @param copyright_year Your application's copyright year.
-  * @param license Your application's license.
-  * @param color The color of the AboutWindow.
-  *
-  * @since 1.0
-  */
-  public AboutWindow (
-    Gtk.Window parent,
+   * Creates a new AboutWindow.
+   * @param parent The parent window.
+   * @param app_name Your application's name.
+   * @param app_id Your application's reverse-domain name.
+   * @param version Your application's version.
+   * @param icon Your application's icon.
+   * @param translate_url A URL where contributors can help translate the application.
+   * @param issue_url A URL where users can report a problem with the application.
+   * @param more_info_url A URL where users can get more information about the application.
+   * @param translators Your application's translators.
+   * @param developers Your application's developers.
+   * @param copyright_year Your application's copyright year.
+   * @param license Your application's license.
+   * @param color The color of the AboutWindow.
+   *
+   * @since 1.0
+   */
+  public AboutWindow (Gtk.Window parent,
     string app_name,
     string app_id,
     string version,
@@ -375,8 +374,7 @@ public class He.AboutWindow : He.Window {
     string[] developers,
     int copyright_year,
     Licenses license,
-    He.Colors color
-  ) {
+    He.Colors color) {
     this.parent = parent;
     this.app_name = app_name;
     this.app_id = app_id;

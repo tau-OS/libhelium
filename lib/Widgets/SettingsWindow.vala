@@ -1,26 +1,26 @@
 /*
-* Copyright (c) 2022-2024 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022-2024 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
  * A modal window that accepts SettingsLists or SettingsPages
  */
- public class He.SettingsWindow : He.Window, Gtk.Buildable {
+public class He.SettingsWindow : He.Window, Gtk.Buildable {
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
     private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
     private Gtk.Stack stack = new Gtk.Stack ();
@@ -77,12 +77,13 @@
         this.stack.pages.items_changed.connect (on_pages_changed);
 
         viewtitle.label = "Settings";
+        viewtitle.margin_start = 24;
 
         close_button.set_icon_name ("window-close-symbolic");
         close_button.halign = Gtk.Align.END;
         close_button.valign = Gtk.Align.START;
+        close_button.hexpand = true;
         close_button.margin_top = 24;
-        close_button.margin_end = 24;
         close_button.margin_bottom = 24;
         close_button.add_css_class ("disclosure-button");
         close_button.set_tooltip_text (_("Close"));
@@ -94,8 +95,8 @@
         stack.set_margin_start (24);
         stack.set_margin_end (24);
 
-        title_box.append (switcher);
         title_box.append (close_button);
+        title_box.prepend (switcher);
 
         box.append (title_box);
         box.append (stack);
@@ -121,9 +122,9 @@
         if (this.stack.pages.get_n_items () <= 1) {
             if (this.switcher.get_parent () != null && this.switcher.get_parent () == this.title_box) {
                 this.title_box.remove (switcher);
-                this.title_box.insert_child_after (viewtitle, close_button);
+                this.title_box.prepend (viewtitle);
             } else if (this.viewtitle.get_parent () == null) {
-                this.title_box.insert_child_after (viewtitle, close_button);
+                this.title_box.prepend (viewtitle);
             } else {
                 // Everything has been added
                 return;
@@ -131,9 +132,9 @@
         } else {
             if (this.viewtitle.get_parent () != null && this.viewtitle.get_parent () == this.title_box) {
                 this.title_box.remove (viewtitle);
-                this.title_box.insert_child_after (switcher, close_button);
+                this.title_box.prepend (switcher);
             } else if (this.switcher.get_parent () == null) {
-                this.title_box.insert_child_after (switcher, close_button);
+                this.title_box.prepend (switcher);
             } else {
                 // Everything has been added
                 return;

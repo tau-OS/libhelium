@@ -17,5 +17,8 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "clangd.arguments": ["--compile-commands-dir=_build"],
-  "C_Cpp.default.compileCommands": "_build/vscode_compile_commands.json"
+  "C_Cpp.default.compileCommands": "_build/vscode_compile_commands.json",
+  "[vala]": {
+    "editor.defaultFormatter": "prince781.vala"
+  }
 }

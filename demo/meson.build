@@ -23,6 +23,7 @@ example_sources = helium_demo_resources
 example_sources += files(
     'src/main.vala',
     'src/sections/bottomsheet.vala',
+    'src/sections/welcome.vala',
     'src/settings.vala',
     'src/window.vala',
 )
