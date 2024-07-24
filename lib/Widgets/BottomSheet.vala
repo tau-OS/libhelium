@@ -6,7 +6,7 @@ public class He.BottomSheet : Gtk.Widget {
     private Gtk.Widget dimming;
     private Gtk.Widget handle;
     private Gtk.Box sheet_bin;
-    private He.ViewSubtitle title_label;
+    private He.ViewSubTitle title_label;
     private He.SpringAnimation animation;
     private Gtk.WindowHandle handle_wh;
 
@@ -108,7 +108,7 @@ public class He.BottomSheet : Gtk.Widget {
         handle.add_css_class ("drag-handle");
         handle.add_css_class ("large-radius");
 
-        title_label = new He.ViewSubtitle ();
+        title_label = new He.ViewSubTitle ();
         title_label.hexpand = true;
 
         handle_wh = new Gtk.WindowHandle ();
