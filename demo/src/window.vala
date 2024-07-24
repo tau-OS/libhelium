@@ -57,6 +57,10 @@ public class Demo.MainWindow : He.ApplicationWindow {
     private unowned He.ProgressBar pb;
     [GtkChild]
     private unowned He.Slider sl;
+    [GtkChild]
+    private unowned He.FillButton bottom_sheet_button;
+    [GtkChild]
+    private unowned He.BottomSheet sheet;
 
     public He.Application app { get; construct; }
     public MainWindow (He.Application application) {
@@ -89,6 +93,11 @@ public class Demo.MainWindow : He.ApplicationWindow {
 
         toast_button.clicked.connect (() => {
             toast.send_notification ();
+        });
+
+        sheet.show_sheet = false;
+        bottom_sheet_button.clicked.connect (() => {
+            sheet.show_sheet = true;
         });
 
         dialog_button.clicked.connect (() => {
@@ -161,8 +170,6 @@ public class Demo.MainWindow : He.ApplicationWindow {
         sl.add_mark (25.0, null);
         sl.add_mark (50.0, null);
         sl.add_mark (75.0, null);
-
-        this.show ();
     }
 
     private void on_new_tab_requested () {
