@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2022-2023 Fyra Labs
+* Copyright (c) 2022-2024 Fyra Labs
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public
@@ -79,12 +79,12 @@
         viewtitle.label = "Settings";
 
         close_button.set_icon_name ("window-close-symbolic");
-        close_button.halign = Gtk.Align.START;
+        close_button.halign = Gtk.Align.END;
         close_button.valign = Gtk.Align.START;
         close_button.margin_top = 24;
         close_button.margin_start = 24;
         close_button.margin_bottom = 24;
-        close_button.add_css_class ("circular");
+        close_button.add_css_class ("disclosure-button");
         close_button.set_tooltip_text (_("Close"));
         close_button.clicked.connect (close);
 
@@ -94,8 +94,8 @@
         stack.set_margin_start (24);
         stack.set_margin_end (24);
 
-        title_box.append (close_button);
         title_box.append (switcher);
+        title_box.append (close_button);
 
         box.append (title_box);
         box.append (stack);

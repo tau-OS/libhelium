@@ -273,11 +273,11 @@ public class He.AboutWindow : He.Window {
 
     var close_button = new Gtk.Button ();
     close_button.set_icon_name ("window-close-symbolic");
-    close_button.halign = Gtk.Align.START;
+    close_button.halign = Gtk.Align.END;
     close_button.valign = Gtk.Align.START;
     close_button.margin_top = 24;
     close_button.margin_start = 24;
-    close_button.add_css_class ("circular");
+    close_button.add_css_class ("disclosure-button");
     close_button.set_tooltip_text (_("Close"));
 
     window_overlay.add_overlay (close_button);

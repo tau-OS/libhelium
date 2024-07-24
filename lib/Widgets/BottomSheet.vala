@@ -60,7 +60,7 @@ public class He.BottomSheet : Gtk.Widget {
                 return;
 
             _modal = value;
-            handle_wh.visible = value;
+            dimming.remove_css_class ("dimming");
         }
     }
 
@@ -98,7 +98,6 @@ public class He.BottomSheet : Gtk.Widget {
         dimming.set_parent (this);
 
         sheet_bin = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-        sheet_bin.set_child_visible (false);
         sheet_bin.halign = Gtk.Align.CENTER;
         sheet_bin.set_parent (this);
 
@@ -109,16 +108,8 @@ public class He.BottomSheet : Gtk.Widget {
         handle.add_css_class ("drag-handle");
         handle.add_css_class ("large-radius");
 
-        var cancel_button = new Gtk.Button ();
-        cancel_button.set_icon_name ("window-close-symbolic");
-        cancel_button.halign = Gtk.Align.START;
-        cancel_button.add_css_class ("circular");
-        cancel_button.set_tooltip_text (_("Cancel"));
         title_label = new He.ViewTitle ();
         title_label.hexpand = true;
-        var header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-        header_box.append (cancel_button);
-        header_box.append (title_label);
 
         handle_wh = new Gtk.WindowHandle ();
         handle_wh.add_css_class ("drag-handle-container");
@@ -127,10 +118,12 @@ public class He.BottomSheet : Gtk.Widget {
         var divider = new He.Divider ();
 
         sheet_bin.prepend (divider);
-        sheet_bin.prepend (header_box);
+        sheet_bin.prepend (title_label);
         sheet_bin.prepend (handle_wh);
 
-        cancel_button.clicked.connect (close_sheet);
+        var click_gesture = new Gtk.GestureClick ();
+        click_gesture.end.connect (close_sheet);
+        dimming.add_controller (click_gesture);
 
         animation = new He.SpringAnimation (
                                             this,
@@ -157,7 +150,7 @@ public class He.BottomSheet : Gtk.Widget {
         animation.epsilon = 0.001;
 
         show_handle = true;
-        modal = true;
+        modal = false;
     }
 
     private void close_sheet () {

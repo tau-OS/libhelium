@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2022 Fyra Labs
+* Copyright (c) 2022-2024 Fyra Labs
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public
@@ -29,27 +29,14 @@ public class He.ApplicationWindow : Gtk.ApplicationWindow {
     */
     public ApplicationWindow (He.Application app) {
         Object (application: app);
-
-        var base_path = app.get_resource_base_path ();
-        if (base_path == null) {
-            return;
-        }
-
-        string base_uri = "resource://" + base_path;
-        File base_file = File.new_for_uri (base_uri);
-
-        if (base_file.get_child ("gtk/help-overlay.ui").query_exists (null)) {
-            Gtk.Builder builder = new Gtk.Builder.from_file (base_path + "/gtk/help-overlay.ui");
-            this.set_help_overlay (builder.get_object ("help_overlay") as Gtk.ShortcutsWindow);
-        }
     }
 
     private new He.AppBar title = new He.AppBar ();
 
-    private bool _has_title;
     /**
     * Whether this window should display a title.
     */
+    private bool _has_title;
     public bool has_title {
         get {
             return _has_title;
@@ -58,6 +45,7 @@ public class He.ApplicationWindow : Gtk.ApplicationWindow {
             _has_title = value;
             if (!value) {
                 var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+                box.visible = false;
                 this.set_titlebar (box);
             } else {
                 title.add_css_class ("flat");
@@ -66,10 +54,10 @@ public class He.ApplicationWindow : Gtk.ApplicationWindow {
         }
     }
 
-    private new bool _has_back_button;
     /**
     * Whether this window should display a back button.
     */
+    private new bool _has_back_button;
     public new bool has_back_button {
         get {
             return has_back_button;
