@@ -1,1 +1,9 @@
-/* dummy */
+.text-view {
+  padding: 12px;
+  font-size: 16px;
+  box-shadow: inset 0 0 0 1px alpha(@outline, 0.32);
+}
+.text-view.view,
+.text-view.view text {
+  background: shade(@view_bg_color, 0.98);
+}

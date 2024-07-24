@@ -5,37 +5,89 @@ template $DemoBottomSheet : He.Bin {
     hexpand: true;
     vexpand: true;
     child: Gtk.Overlay {
+        hexpand: true;
+        vexpand: true;
         Gtk.Box {
             orientation: vertical;
-            spacing: 12;
+            spacing: 6;
+            margin-bottom: 18;
 
-            Gtk.Label {
-                width-chars: 80;
-                margin-start: 18;
-                margin-end: 18;
-                ellipsize: end;
-                wrap: true;
-                lines: 5;
-                label: "Bottom Sheets are useful widgets for overlaying secondary UI\non top of the View. On desktop they become Dialogs.";
+            He.AppBar app_bar {
+                show-left-title-buttons: false;
+                show-right-title-buttons: true;
+                show-back: false;
+
+                viewtitle-widget: He.ViewTitle {
+                    label: "Bottom Sheets";
+                };
             }
 
-            He.PillButton open {
-                halign: center;
-                label: "Open Bottom Sheet";
+            Gtk.Box {
+                margin-start: 18;
+                margin-end: 18;
+                orientation: vertical;
+                spacing: 12;
+
+                Gtk.Label {
+                    ellipsize: end;
+                    wrap: true;
+                    lines: 5;
+                    xalign: 0;
+                    label: "Bottom Sheets show secondary content anchored to the bottom of the screen. On desktop they become Dialogs.";
+                }
+
+                He.ViewSwitcher {
+                    stack: s;
+                    styles ["mini"]
+                }
+
+                Gtk.Stack s {
+                    vexpand: true;
+
+                    Gtk.StackPage {
+                        name: "vala";
+                        title: "Vala";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            buffer: Gtk.TextBuffer { 
+                                text: "var my_bottomsheet = new He.BottomSheet () {\n\ttitle: _(\"Title (max 3 words.\"),\n\tsheet: my_sheetcontent,\n\tbutton: my_sheet_button\n}";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                    Gtk.StackPage {
+                        name: "blueprint";
+                        title: "Blueprint";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            buffer: Gtk.TextBuffer { 
+                                text: "He.BottomSheet my_bottomsheet {\n\ttitle: _(\"Title (max 3 words.\");\n\tsheet: my_sheetcontent;\n\tbutton: my_sheet_button;\n}";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                }
+
+                He.PillButton open {
+                    halign: center;
+                    label: "Open Bottom Sheet";
+                }
             }
         }
 
         [overlay]
         He.BottomSheet sheet {
             preferred-sheet-height: 360;
-            width-request: 360;
             title: "Title";
             sheet: Gtk.Box {
                 Gtk.Label {
                     label: "Body";
                     vexpand: true;
-                    valign: start;
+                    valign: center;
                     margin-top: 12;
+                    width-request: 320;
                 }
             };
             button: He.PillButton {

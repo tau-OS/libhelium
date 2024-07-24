@@ -16,5 +16,8 @@
   <gresource prefix="/com/fyralabs/Helium1/Demo/icons">
     <file alias="scalable/apps/com.fyralabs.Helium1.Demo.svg">icons/com.fyralabs.Helium1.Demo.svg</file>
     <file alias="symbolic/apps/com.fyralabs.Helium1.Demo-symbolic.svg">icons/com.fyralabs.Helium1.Demo-symbolic.svg</file>
+
+    <file alias="symbolic/apps/bottom-sheet-symbolic.svg">icons/bottom-sheet-symbolic.svg</file>
+    <file alias="symbolic/apps/bottom-sheet-filled-symbolic.svg">icons/bottom-sheet-filled-symbolic.svg</file>
   </gresource>
 </gresources>

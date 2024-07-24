@@ -22,6 +22,8 @@ public class Demo.BottomSheet : He.Bin {
     [GtkChild]
     private unowned He.PillButton open;
     [GtkChild]
+    private unowned He.AppBar app_bar;
+    [GtkChild]
     private unowned He.BottomSheet sheet;
 
     construct {

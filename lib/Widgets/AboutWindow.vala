@@ -276,7 +276,8 @@ public class He.AboutWindow : He.Window {
     close_button.halign = Gtk.Align.END;
     close_button.valign = Gtk.Align.START;
     close_button.margin_top = 24;
-    close_button.margin_start = 24;
+    close_button.margin_end = 24;
+    close_button.margin_bottom = 24;
     close_button.add_css_class ("disclosure-button");
     close_button.set_tooltip_text (_("Close"));
 
