@@ -1,5 +1,5 @@
 public class He.BottomSheet : Gtk.Widget {
-    private const int TOP_MARGIN = 64;
+    private const int TOP_MARGIN = 54;
 
     public signal void hidden ();
 
@@ -19,7 +19,22 @@ public class He.BottomSheet : Gtk.Widget {
 
             _sheet = value;
 
+            sheet.unparent (); // Avoiding stacked children
             sheet_bin.append (sheet);
+        }
+    }
+
+    private Gtk.Widget? _button;
+    public Gtk.Widget? button {
+        get { return _button; }
+        set {
+            if (button == value)
+                return;
+
+            _button = value;
+
+            button.unparent (); // Avoiding stacked children
+            sheet_bin.append (button);
         }
     }
 
