@@ -108,7 +108,7 @@ public class He.BottomSheet : Gtk.Widget {
         handle.add_css_class ("drag-handle");
         handle.add_css_class ("large-radius");
 
-        title_label = new He.ViewTitle ();
+        title_label = new He.ViewSubtitle ();
         title_label.hexpand = true;
 
         handle_wh = new Gtk.WindowHandle ();
