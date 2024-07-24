@@ -1,25 +1,25 @@
 /*
-* Copyright (c) 2023 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2023 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
-* An Avatar is an element that displays an image that represents a person.
-*/
+ * An Avatar is an element that displays an image that represents a person.
+ */
 public class He.Avatar : He.Bin {
     private string? _image;
     private int _size;
@@ -33,8 +33,8 @@ public class He.Avatar : He.Bin {
     private He.ModifierBadge status_badge = new He.ModifierBadge ("");
 
     /**
-    * The size of the avatar.
-    */
+     * The size of the avatar.
+     */
     public int size {
         get {
             return _size;
@@ -60,24 +60,24 @@ public class He.Avatar : He.Bin {
     }
 
     /**
-    * The text of the avatar.
-    */
+     * The text of the avatar.
+     */
     public string? text {
         get {
             return _text;
         }
         set {
             _text = value;
-            if (value != "") {
+            if (value != null) {
                 label.label = extract_initials (value);
             }
         }
     }
 
     /**
-    * The status shown on top of the avatar with a badge.
-    * e.g. when the user is offline, set it to false.
-    */
+     * The status shown on top of the avatar with a badge.
+     * e.g. when the user is offline, set it to false.
+     */
     public bool status {
         get {
             return _status;
@@ -108,8 +108,8 @@ public class He.Avatar : He.Bin {
     }
 
     /**
-    * The image of the avatar.
-    */
+     * The image of the avatar.
+     */
     public string? image {
         get {
             return _image;
@@ -117,7 +117,7 @@ public class He.Avatar : He.Bin {
         set {
             _image = value;
 
-            if (value != "") {
+            if (value != null) {
                 label.visible = false;
             } else {
                 label.visible = true;
@@ -170,11 +170,11 @@ public class He.Avatar : He.Bin {
 
 
     /**
-    * Creates a new Avatar.
-    * @param image The image to display
-    *
-    * @since 1.1
-    */
+     * Creates a new Avatar.
+     * @param image The image to display
+     *
+     * @since 1.1
+     */
     public Avatar (int size, string? image, string? text, bool? status) {
         base ();
 

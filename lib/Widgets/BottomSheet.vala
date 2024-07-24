@@ -145,7 +145,7 @@ public class He.BottomSheet : Gtk.Widget {
                                             this,
                                             0,
                                             1,
-                                            new He.SpringParams (0.8, 1, 200),
+                                            new He.SpringParams (0.9, 1, 200),
                                             new He.CallbackAnimationTarget ((value) => {
             dimming.opacity = value.clamp (0, 1);
             dimming.set_child_visible (value > 0);
@@ -206,7 +206,7 @@ public class He.BottomSheet : Gtk.Widget {
         dimming.measure (orientation, for_size, out dimming_min, out dimming_nat, null, null);
 
         if (handle != null) {
-            handle.measure(orientation, for_size, out handle_min, out handle_nat, null, null);
+            handle.measure (orientation, for_size, out handle_min, out handle_nat, null, null);
         }
 
         if (orientation == HORIZONTAL) {
@@ -260,19 +260,19 @@ public class He.BottomSheet : Gtk.Widget {
         if (handle != null) {
             int handle_width = 0, handle_height = 0, handle_x;
 
-            handle.measure(Gtk.Orientation.HORIZONTAL, -1, null, out handle_width, null, null);
-            handle.measure(Gtk.Orientation.VERTICAL, -1, null, out handle_height, null, null);
+            handle.measure (Gtk.Orientation.HORIZONTAL, -1, null, out handle_width, null, null);
+            handle.measure (Gtk.Orientation.VERTICAL, -1, null, out handle_height, null, null);
 
-            handle_width = (int)Math.fmin (handle_width, width);
-            handle_height = (int)Math.fmin (handle_height, height);
+            handle_width = (int) Math.fmin (handle_width, width);
+            handle_height = (int) Math.fmin (handle_height, height);
 
-            handle_x = (int)Math.round (((width - handle_width) - 36) / 2); // accounting for sheet horizontal margins (18+18)
+            handle_x = (int) Math.round (((width - handle_width) - 36) / 2); // accounting for sheet horizontal margins (18+18)
 
             var t2 = new Gsk.Transform ();
 
-            t2 = t2.translate ({handle_x, 0});
+            t2 = t2.translate ({ handle_x, 0 });
 
-            handle.allocate(handle_width, handle_height, baseline, t2);
+            handle.allocate (handle_width, handle_height, baseline, t2);
         }
     }
 }
