@@ -4,16 +4,17 @@
     <file alias="style-dark.css">style-dark.css</file>
 
     <file alias="window.ui">ui/window.ui</file>
-    <file alias="menu.ui">ui/menu.ui</file>
     <file alias="settings.ui">ui/settings.ui</file>
 
-    <file alias="mountain.jpg">landscapes/mountain.jpg</file>
-    <file alias="sand.jpg">landscapes/sand.jpg</file>
-    <file alias="snow.jpg">landscapes/snow.jpg</file>
-    <file alias="stone.jpg">landscapes/stone.jpg</file>
+    <file alias="bottomsheet.ui">ui/sections/bottomsheet.ui</file>
+
+    <file alias="mountain.jpg">assets/landscapes/mountain.jpg</file>
+    <file alias="sand.jpg">assets/landscapes/sand.jpg</file>
+    <file alias="snow.jpg">assets/landscapes/snow.jpg</file>
+    <file alias="stone.jpg">assets/landscapes/stone.jpg</file>
   </gresource>
   <gresource prefix="/com/fyralabs/Helium1/Demo/icons">
-    <file alias="scalable/apps/com.fyralabs.Helium1.Demo.svg">com.fyralabs.Helium1.Demo.svg</file>
-    <file alias="symbolic/apps/com.fyralabs.Helium1.Demo-symbolic.svg">com.fyralabs.Helium1.Demo-symbolic.svg</file>
+    <file alias="scalable/apps/com.fyralabs.Helium1.Demo.svg">icons/com.fyralabs.Helium1.Demo.svg</file>
+    <file alias="symbolic/apps/com.fyralabs.Helium1.Demo-symbolic.svg">icons/com.fyralabs.Helium1.Demo-symbolic.svg</file>
   </gresource>
 </gresources>

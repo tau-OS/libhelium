@@ -113,6 +113,7 @@ public class He.BottomSheet : Gtk.Widget {
         dimming.set_parent (this);
 
         sheet_bin = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        sheet_bin.set_child_visible (false);
         sheet_bin.halign = Gtk.Align.CENTER;
         sheet_bin.set_parent (this);
 

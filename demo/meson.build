@@ -22,6 +22,7 @@ example_deps += [
 example_sources = helium_demo_resources
 example_sources += files(
     'src/main.vala',
+    'src/sections/bottomsheet.vala',
     'src/settings.vala',
     'src/window.vala',
 )
@@ -33,8 +34,7 @@ executable(
     vala_args: [
         meson.project_source_root() + '/demo/src/config.vapi',
         '--gresourcesdir=demo/data/ui/',
-        '--gresourcesdir',
-        meson.current_build_dir() / 'data',
+        '--gresourcesdir', meson.current_build_dir() / 'data',
     ],
     install: true,
 )

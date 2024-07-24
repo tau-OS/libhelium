@@ -40,6 +40,8 @@ public class Demo.Application : He.Application {
 
         Bis.init ();
 
+        typeof(Demo.BottomSheet).ensure ();
+
         add_action_entries (APP_ENTRIES, this);
     }
     protected override void activate () {

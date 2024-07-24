@@ -1,0 +1,46 @@
+using Gtk 4.0;
+using He 1;
+
+template $DemoBottomSheet : He.Bin {
+    hexpand: true;
+    vexpand: true;
+    child: Gtk.Overlay {
+        Gtk.Box {
+            orientation: vertical;
+            spacing: 12;
+
+            Gtk.Label {
+                width-chars: 80;
+                margin-start: 18;
+                margin-end: 18;
+                ellipsize: end;
+                wrap: true;
+                lines: 5;
+                label: "Bottom Sheets are useful widgets for overlaying secondary UI\non top of the View. On desktop they become Dialogs.";
+            }
+
+            He.PillButton open {
+                halign: center;
+                label: "Open Bottom Sheet";
+            }
+        }
+
+        [overlay]
+        He.BottomSheet sheet {
+            preferred-sheet-height: 360;
+            width-request: 360;
+            title: "Title";
+            sheet: Gtk.Box {
+                Gtk.Label {
+                    label: "Body";
+                    vexpand: true;
+                    valign: start;
+                    margin-top: 12;
+                }
+            };
+            button: He.PillButton {
+                label: "Action Button";
+            };
+        }
+    };
+}
