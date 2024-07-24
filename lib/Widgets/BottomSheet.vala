@@ -6,7 +6,7 @@ public class He.BottomSheet : Gtk.Widget {
     private Gtk.Widget dimming;
     private Gtk.Widget handle;
     private Gtk.Box sheet_bin;
-    private He.ViewTitle title_label;
+    private He.ViewSubtitle title_label;
     private He.SpringAnimation animation;
     private Gtk.WindowHandle handle_wh;
 
