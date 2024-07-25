@@ -2,6 +2,7 @@ blueprints = custom_target(
   'blueprints',
   input: files(
     'ui/sections/bottomsheet.blp',
+    'ui/sections/overlaybutton.blp',
     'ui/sections/welcome.blp',
     'ui/settings.blp',
     'ui/window.blp',

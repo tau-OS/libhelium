@@ -58,6 +58,12 @@ template $DemoMainWindow : He.ApplicationWindow {
             child: $DemoWelcome {};
           }
           Gtk.StackPage {
+            title: "Overlay Button";
+            name: "overlaybutton";
+            icon-name: "overlay-button-symbolic";
+            child: $DemoOverlayButton {};
+          }
+          Gtk.StackPage {
             title: "Bottom Sheet";
             name: "bottomsheet";
             icon-name: "bottom-sheet-symbolic";

@@ -7,6 +7,7 @@
     <file alias="settings.ui">ui/settings.ui</file>
 
     <file alias="bottomsheet.ui">ui/sections/bottomsheet.ui</file>
+    <file alias="overlaybutton.ui">ui/sections/overlaybutton.ui</file>
     <file alias="welcome.ui">ui/sections/welcome.ui</file>
 
     <file alias="mountain.jpg">assets/landscapes/mountain.jpg</file>
@@ -21,5 +22,7 @@
 
     <file alias="symbolic/apps/bottom-sheet-symbolic.svg">icons/bottom-sheet-symbolic.svg</file>
     <file alias="symbolic/apps/bottom-sheet-filled-symbolic.svg">icons/bottom-sheet-filled-symbolic.svg</file>
+    <file alias="symbolic/apps/overlay-button-symbolic.svg">icons/overlay-button-symbolic.svg</file>
+    <file alias="symbolic/apps/overlay-button-filled-symbolic.svg">icons/overlay-button-filled-symbolic.svg</file>
   </gresource>
 </gresources>

@@ -8,7 +8,6 @@ conf.set_quoted(
     join_paths(get_option('prefix'), get_option('localedir')),
 )
 configure_file(output: 'config.h', configuration: conf)
-config_h_dir = include_directories('.')
 
 example_deps = libhelium_deps
 example_deps += [
@@ -23,6 +22,7 @@ example_sources = helium_demo_resources
 example_sources += files(
     'src/main.vala',
     'src/sections/bottomsheet.vala',
+    'src/sections/overlaybutton.vala',
     'src/sections/welcome.vala',
     'src/settings.vala',
     'src/window.vala',

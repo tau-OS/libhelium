@@ -1,13 +1,18 @@
 using Gtk 4.0;
 using He 1;
 
-template $DemoBottomSheet : He.Bin {
+template $DemoOverlayButton : He.Bin {
     hexpand: true;
     vexpand: true;
-    child: Gtk.Overlay {
+    child: He.OverlayButton {
         hexpand: true;
         vexpand: true;
-        Gtk.Box {
+        typeb: primary;
+        typeb2: secondary;
+        icon: "list-add-symbolic";
+        secondary-icon: "document-export-symbolic";
+
+        child: Gtk.Box {
             orientation: vertical;
             spacing: 6;
             margin-bottom: 18;
@@ -18,7 +23,7 @@ template $DemoBottomSheet : He.Bin {
                 show-back: false;
 
                 viewtitle-widget: He.ViewTitle {
-                    label: "Bottom Sheets";
+                    label: "Overlay Button";
                 };
             }
 
@@ -33,7 +38,7 @@ template $DemoBottomSheet : He.Bin {
                     wrap: true;
                     lines: 5;
                     xalign: 0;
-                    label: "Bottom Sheets show secondary content anchored to the bottom of the app. On desktop they become Dialogs.";
+                    label: "Overlay Buttons help people take primary actions. Use an Overlay Button for the most common or important action on an app.";
                 }
 
                 He.ViewSwitcher {
@@ -52,7 +57,7 @@ template $DemoBottomSheet : He.Bin {
                             editable: false;
                             monospace: true;
                             buffer: Gtk.TextBuffer { 
-                                text: "var my_bottomsheet = new He.BottomSheet () {\n    title: _(\"Title (max 3 words.\"),\n    sheet: my_sheetcontent,\n    button: my_sheet_button\n};";
+                                text: "var my_overlaybutton = new He.OverlayButton () {\n    typeb: He.TypeButton.PRIMARY,\n    icon: \"list-add-symbolic\"\n};";
                             };
                             styles ["text-view"]
                         };
@@ -65,36 +70,13 @@ template $DemoBottomSheet : He.Bin {
                             editable: false;
                             monospace: true;
                             buffer: Gtk.TextBuffer { 
-                                text: "He.BottomSheet my_bottomsheet {\n  title: _(\"Title (max 3 words.\");\n  sheet: my_sheetcontent;\n  button: my_sheet_button;\n}";
+                                text: "He.OverlayButton my_overlaybutton {\n  typeb: primary;\n  icon: \"list-add-symbolic\"\n}";
                             };
                             styles ["text-view"]
                         };
                     }
                 }
-
-                He.PillButton open {
-                    halign: center;
-                    label: "Open Bottom Sheet";
-                }
             }
-        }
-
-        [overlay]
-        He.BottomSheet sheet {
-            preferred-sheet-height: 360;
-            title: "Title";
-            sheet: Gtk.Box {
-                Gtk.Label {
-                    label: "Body";
-                    vexpand: true;
-                    valign: center;
-                    margin-top: 12;
-                    width-request: 320;
-                }
-            };
-            button: He.PillButton {
-                label: "Action Button";
-            };
-        }
+        };
     };
 }
