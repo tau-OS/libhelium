@@ -163,6 +163,7 @@ public class He.BottomSheet : Gtk.Widget {
         gesture_drag.drag_end.connect (on_drag_end);
 
         title_label = new He.ViewSubTitle ();
+        title_label.valign = Gtk.Align.END;
         title_label.hexpand = true;
 
         handle_wh = new Gtk.WindowHandle ();
