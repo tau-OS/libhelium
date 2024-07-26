@@ -57,7 +57,6 @@ else
 endif
 libhelium_deps += gtk4
 
-pkgconfig = import('pkgconfig')
 i18n = import('i18n')
 
 if get_option('stylesheet')
@@ -89,7 +88,6 @@ hgresource = gnome.compile_resources(
     source_dir: 'data',
 )
 
-
 subdir('lib')
 subdir('po')
 
@@ -114,6 +112,5 @@ schemas_dir = get_option('prefix') / get_option('datadir') / 'glib-2.0' / 'schem
 install_data(settings_schemas, install_dir: schemas_dir)
 
 meson.add_install_script('glib-compile-schemas', schemas_dir)
-
 
 # end schema stuff

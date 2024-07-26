@@ -117,7 +117,6 @@ include_dir = join_paths(get_option('prefix'), get_option('includedir'))
 
 # compile shared library, generate GIR, header, and vapi file
 datadir = get_option('datadir')
-libdir = get_option('libdir')
 typelibdir = get_option('libdir') / 'girepository-1.0'
 
 resources = [
