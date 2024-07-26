@@ -20,11 +20,15 @@
 /**
  * A BottomSheet is a UI component made to showcase accessory actions.
  * It may have an action button.
- * It has a title label.
+ * It has a title label and contents.
  */
 public class He.BottomSheet : Gtk.Widget {
     private const int TOP_MARGIN = 54;
+    private const int MINIMUM_HEIGHT = 300;
 
+    /**
+     * The hidden signal fires when the sheet is hidden.
+     */
     public signal void hidden ();
 
     private Gtk.Widget dimming;
@@ -33,11 +37,17 @@ public class He.BottomSheet : Gtk.Widget {
     private He.ViewSubTitle title_label;
     private He.SpringAnimation show_animation;
     private Gtk.WindowHandle handle_wh;
+    private GLib.TimeoutSource? resize_timeout;
 
     private bool dragging = false;
     private double initial_y = 0;
     private int initial_height = 0;
+    private int target_height = 0;
+    private int update_interval = 16; // Default for 60Hz
 
+    /**
+     * The sheet to display (the content).
+     */
     private Gtk.Widget? _sheet;
     public Gtk.Widget? sheet {
         get { return _sheet; }
@@ -52,6 +62,9 @@ public class He.BottomSheet : Gtk.Widget {
         }
     }
 
+    /**
+     * The action button to use.
+     */
     private Gtk.Widget? _button;
     public Gtk.Widget? button {
         get { return _button; }
@@ -66,6 +79,9 @@ public class He.BottomSheet : Gtk.Widget {
         }
     }
 
+    /**
+     * The title to use.
+     */
     private string? _title;
     public string? title {
         get { return _title; }
@@ -79,6 +95,9 @@ public class He.BottomSheet : Gtk.Widget {
         }
     }
 
+    /**
+     * Shows or hides the sheet
+     */
     private bool _show_sheet;
     public bool show_sheet {
         get { return _show_sheet; }
@@ -95,6 +114,9 @@ public class He.BottomSheet : Gtk.Widget {
         }
     }
 
+    /**
+     * Makes the sheet modal (with background scrim) or not.
+     */
     private bool _modal;
     public bool modal {
         get { return _modal; }
@@ -112,6 +134,10 @@ public class He.BottomSheet : Gtk.Widget {
         }
     }
 
+
+    /**
+     * Shows or hides the drag handle to be able to adjust sheet height
+     */
     private bool _show_handle;
     public bool show_handle {
         get { return _show_handle; }
@@ -124,6 +150,10 @@ public class He.BottomSheet : Gtk.Widget {
         }
     }
 
+
+    /**
+     * The preferred sheet initial height. A good value is between 400 and 500;
+     */
     private int _preferred_sheet_height;
     public int preferred_sheet_height {
         get { return _preferred_sheet_height; }
@@ -136,6 +166,10 @@ public class He.BottomSheet : Gtk.Widget {
             // Animation state as well
             if (show_animation.avalue > 0)
                 queue_allocate ();
+
+            // Set a consistent default
+            if (value <= MINIMUM_HEIGHT)
+                _preferred_sheet_height = MINIMUM_HEIGHT;
         }
     }
 
@@ -208,6 +242,16 @@ public class He.BottomSheet : Gtk.Widget {
         show_sheet = false;
     }
 
+    private void update_refresh_rate () {
+        var monitor = get_display ().get_monitor_at_surface (get_native ().get_surface ());
+        if (monitor != null) {
+            var refresh_rate = monitor.get_refresh_rate ();
+            if (refresh_rate > 0) {
+                update_interval = (int) (1000 / (refresh_rate / 1000));
+            }
+        }
+    }
+
     private void on_drag_begin (Gtk.GestureDrag gesture, double x, double y) {
         dragging = true;
         initial_y = y;
@@ -216,24 +260,52 @@ public class He.BottomSheet : Gtk.Widget {
 
     private void on_drag_update (Gtk.GestureDrag gesture, double offset_x, double offset_y) {
         if (dragging) {
-            // Calculate the new height based on the drag offset
-            int new_height = initial_height - (int) offset_y;
+            // Calculate the new target height based on the drag offset
+            target_height = initial_height - (int) offset_y;
 
-            int height;
-            measure (VERTICAL, -1, null, out height, null, null);
+            // Ensure the new target height is within acceptable bounds
+            target_height = int.max (target_height, 0);
 
-            // Ensure the new height is within acceptable bounds
-            int clamped_height;
-            clamped_height = int.min (new_height, 0);
-            clamped_height = int.max (new_height, height - TOP_MARGIN);
+            // Start the resize timer if not already running
+            if (resize_timeout == null) {
+                update_refresh_rate ();
 
-            // Update the preferred height
-            preferred_sheet_height = clamped_height;
+                resize_timeout = new GLib.TimeoutSource (update_interval);
+                resize_timeout.set_callback (() => {
+                    // Smoothly update the preferred height towards the target height
+                    if (Math.fabs (preferred_sheet_height - target_height) > 1) {
+                        preferred_sheet_height += (target_height - preferred_sheet_height) / 4;
+                    } else {
+                        preferred_sheet_height = target_height;
+
+                        // Stop the timer if the target height is reached
+                        resize_timeout = null;
+                        return false;
+                    }
+
+                    // Continue the timer
+                    return true;
+                });
+                resize_timeout.attach (GLib.MainContext.default ());
+            }
         }
     }
 
-    private void on_drag_end (Gtk.GestureDrag gesture, double x, double y) {
+    private void on_drag_end (Gtk.GestureDrag gesture, double offset_x, double offset_y) {
         dragging = false;
+        initial_height = 0;
+
+        // If sheet is too small, just hide it, and set default height;
+        if (preferred_sheet_height <= MINIMUM_HEIGHT) {
+            close_sheet ();
+            preferred_sheet_height = MINIMUM_HEIGHT;
+        }
+
+        // Stop the resize timer
+        if (resize_timeout != null) {
+            resize_timeout.destroy ();
+            resize_timeout = null;
+        }
     }
 
     protected override void dispose () {
