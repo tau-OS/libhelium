@@ -25,6 +25,7 @@
 public class He.BottomSheet : Gtk.Widget {
     private const int TOP_MARGIN = 54;
     private const int MINIMUM_HEIGHT = 300;
+    private const int DEFAULT_HEIGHT = 440; // Dialog HIG
 
     /**
      * The hidden signal fires when the sheet is hidden.
@@ -169,7 +170,7 @@ public class He.BottomSheet : Gtk.Widget {
 
             // Set a consistent default
             if (value <= MINIMUM_HEIGHT)
-                _preferred_sheet_height = MINIMUM_HEIGHT;
+                _preferred_sheet_height = DEFAULT_HEIGHT;
         }
     }
 
@@ -295,10 +296,9 @@ public class He.BottomSheet : Gtk.Widget {
         dragging = false;
         initial_height = 0;
 
-        // If sheet is too small, just hide it, and set default height;
+        // If sheet is too small, just hide it;
         if (preferred_sheet_height <= MINIMUM_HEIGHT) {
             close_sheet ();
-            preferred_sheet_height = MINIMUM_HEIGHT;
         }
 
         // Stop the resize timer
