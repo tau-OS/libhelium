@@ -317,7 +317,11 @@ public class He.BottomSheet : Gtk.Widget {
             sheet_bin.remove_css_class ("dialog-sheet");
             handle.visible = show_handle;
         } else {
-            t = t.translate ({ 0, (height - offset_rounded) / 2 });
+            if (!dragging) {
+                t = t.translate ({ 0, (height - offset_rounded) / 2 });
+                sheet_height = int.max (sheet_height, offset_rounded);
+                sheet_bin.allocate (width, sheet_height, baseline, t);
+            }
             sheet_bin.add_css_class ("dialog-sheet");
             sheet_bin.remove_css_class ("bottom-sheet");
             handle.visible = false;
