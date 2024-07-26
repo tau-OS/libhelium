@@ -1,3 +1,27 @@
+/*
+ * Copyright (c) 2024 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
+
+/**
+ * A BottomSheet is a UI component made to showcase accessory actions.
+ * It may have an action button.
+ * It has a title label.
+ */
 public class He.BottomSheet : Gtk.Widget {
     private const int TOP_MARGIN = 54;
 
@@ -7,8 +31,12 @@ public class He.BottomSheet : Gtk.Widget {
     private Gtk.Widget handle;
     private Gtk.Box sheet_bin;
     private He.ViewSubTitle title_label;
-    private He.SpringAnimation animation;
+    private He.SpringAnimation show_animation;
     private Gtk.WindowHandle handle_wh;
+
+    private bool dragging = false;
+    private double initial_y = 0;
+    private int initial_height = 0;
 
     private Gtk.Widget? _sheet;
     public Gtk.Widget? sheet {
@@ -60,10 +88,10 @@ public class He.BottomSheet : Gtk.Widget {
 
             _show_sheet = value;
 
-            animation.latch = !show_sheet;
-            animation.value_from = animation.avalue;
-            animation.value_to = show_sheet ? 1 : 0;
-            animation.play ();
+            show_animation.latch = !show_sheet;
+            show_animation.value_from = show_animation.avalue;
+            show_animation.value_to = show_sheet ? 1 : 0;
+            show_animation.play ();
         }
     }
 
@@ -75,7 +103,12 @@ public class He.BottomSheet : Gtk.Widget {
                 return;
 
             _modal = value;
-            dimming.remove_css_class ("dimming");
+
+            if (value) {
+                dimming.add_css_class ("dimming");
+            } else {
+                dimming.remove_css_class ("dimming");
+            }
         }
     }
 
@@ -100,7 +133,8 @@ public class He.BottomSheet : Gtk.Widget {
 
             _preferred_sheet_height = value;
 
-            if (animation.avalue > 0)
+            // Animation state as well
+            if (show_animation.avalue > 0)
                 queue_allocate ();
         }
     }
@@ -119,58 +153,86 @@ public class He.BottomSheet : Gtk.Widget {
 
         handle = new He.Bin ();
         handle.visible = false;
-        handle.can_focus = false;
-        handle.can_target = false;
         handle.add_css_class ("drag-handle");
         handle.add_css_class ("large-radius");
+
+        var gesture_drag = new Gtk.GestureDrag ();
+        handle.add_controller (gesture_drag);
+        gesture_drag.drag_begin.connect (on_drag_begin);
+        gesture_drag.drag_update.connect (on_drag_update);
+        gesture_drag.drag_end.connect (on_drag_end);
 
         title_label = new He.ViewSubTitle ();
         title_label.hexpand = true;
 
         handle_wh = new Gtk.WindowHandle ();
         handle_wh.add_css_class ("drag-handle-container");
-        handle_wh.set_child (handle);
+        handle_wh.set_child (title_label);
 
-        var divider = new He.Divider ();
-
-        sheet_bin.prepend (divider);
-        sheet_bin.prepend (title_label);
         sheet_bin.prepend (handle_wh);
+        sheet_bin.prepend (handle);
 
         var click_gesture = new Gtk.GestureClick ();
         click_gesture.end.connect (close_sheet);
         dimming.add_controller (click_gesture);
 
-        animation = new He.SpringAnimation (
-                                            this,
-                                            0,
-                                            1,
-                                            new He.SpringParams (0.9, 1, 200),
-                                            new He.CallbackAnimationTarget ((value) => {
+        show_animation = new He.SpringAnimation (
+                                                 this,
+                                                 0,
+                                                 1,
+                                                 new He.SpringParams (0.9, 1, 200),
+                                                 new He.CallbackAnimationTarget ((value) => {
             dimming.opacity = value.clamp (0, 1);
             dimming.set_child_visible (value > 0);
             sheet_bin.set_child_visible (value > 0);
             queue_allocate ();
-        })
-        );
-        animation.done.connect (() => {
+        }));
+        show_animation.done.connect (() => {
             queue_allocate ();
 
-            if (animation.avalue < 0.5) {
+            if (show_animation.avalue < 0.5) {
                 dimming.set_child_visible (false);
                 sheet_bin.set_child_visible (false);
 
                 hidden ();
             }
         });
-        animation.epsilon = 0.001;
+        show_animation.epsilon = 0.001;
 
         show_handle = true;
-        modal = false;
+        modal = true;
     }
 
     private void close_sheet () {
         show_sheet = false;
+    }
+
+    private void on_drag_begin (Gtk.GestureDrag gesture, double x, double y) {
+        dragging = true;
+        initial_y = y;
+        initial_height = preferred_sheet_height;
+    }
+
+    private void on_drag_update (Gtk.GestureDrag gesture, double offset_x, double offset_y) {
+        if (dragging) {
+            // Calculate the new height based on the drag offset
+            int new_height = initial_height - (int) offset_y;
+
+            int height;
+            measure (VERTICAL, -1, null, out height, null, null);
+
+            // Ensure the new height is within acceptable bounds
+            int clamped_height;
+            clamped_height = int.min (new_height, 0);
+            clamped_height = int.max (new_height, height - TOP_MARGIN);
+
+            // Update the preferred height
+            preferred_sheet_height = clamped_height;
+        }
+    }
+
+    private void on_drag_end (Gtk.GestureDrag gesture, double x, double y) {
+        dragging = false;
     }
 
     protected override void dispose () {
@@ -225,24 +287,32 @@ public class He.BottomSheet : Gtk.Widget {
 
         dimming.allocate (width, height, baseline, null);
 
-        int sheet_height, min_sheet_height;
+        int sheet_height;
 
         if (preferred_sheet_height < 0) {
-            sheet_bin.measure (VERTICAL, -1, out min_sheet_height, out sheet_height, null, null);
+            sheet_bin.measure (VERTICAL, -1, null, out sheet_height, null, null);
         } else {
-            sheet_bin.measure (VERTICAL, -1, out min_sheet_height, null, null, null);
+            sheet_bin.measure (VERTICAL, -1, null, null, null, null);
             sheet_height = preferred_sheet_height;
         }
 
-        sheet_height = int.max (sheet_height, min_sheet_height);
+        sheet_height = int.max (sheet_height, 0);
         sheet_height = int.min (sheet_height, height - TOP_MARGIN);
 
-        int offset_rounded = (int) Math.round (animation.avalue * sheet_height);
+        int offset_rounded = (int) Math.round (show_animation.avalue * sheet_height);
 
         var t = new Gsk.Transform ();
 
         if (width <= 396) { // Mobile size (360) + accounting for sheet horizontal margins (18+18)
-            t = t.translate ({ 0, height - offset_rounded });
+            if (dragging) {
+                t = t.translate ({ 0, height - offset_rounded });
+                sheet_height = int.max (sheet_height, offset_rounded);
+                sheet_bin.allocate (width, sheet_height, baseline, t);
+            } else {
+                t = t.translate ({ 0, height - offset_rounded });
+                sheet_height = int.max (sheet_height, offset_rounded);
+                sheet_bin.allocate (width, sheet_height, baseline, t);
+            }
             sheet_bin.add_css_class ("bottom-sheet");
             sheet_bin.remove_css_class ("dialog-sheet");
             handle.visible = show_handle;
@@ -252,10 +322,6 @@ public class He.BottomSheet : Gtk.Widget {
             sheet_bin.remove_css_class ("bottom-sheet");
             handle.visible = false;
         }
-
-        sheet_height = int.max (sheet_height, offset_rounded);
-
-        sheet_bin.allocate (width, sheet_height, baseline, t);
 
         if (handle != null) {
             int handle_width = 0, handle_height = 0, handle_x;
