@@ -167,10 +167,6 @@ public class He.BottomSheet : Gtk.Widget {
             // Animation state as well
             if (show_animation.avalue > 0)
                 queue_allocate ();
-
-            // Set a consistent default
-            if (value <= MINIMUM_HEIGHT)
-                _preferred_sheet_height = DEFAULT_HEIGHT;
         }
     }
 
@@ -296,9 +292,10 @@ public class He.BottomSheet : Gtk.Widget {
         dragging = false;
         initial_height = 0;
 
-        // If sheet is too small, just hide it;
+        // If sheet is too small, just hide it, and set default height;
         if (preferred_sheet_height <= MINIMUM_HEIGHT) {
             close_sheet ();
+            preferred_sheet_height = DEFAULT_HEIGHT;
         }
 
         // Stop the resize timer
