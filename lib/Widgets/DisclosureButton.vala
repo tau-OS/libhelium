@@ -66,7 +66,7 @@ public class He.DisclosureButton : He.Button {
   }
 
   construct {
-    this.add_css_class ("disclosure-button");
-    this.valign = Gtk.Align.CENTER;
+    add_css_class ("disclosure-button");
+    remove_css_class ("image-button");
   }
 }

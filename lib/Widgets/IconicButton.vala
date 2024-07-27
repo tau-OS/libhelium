@@ -72,8 +72,6 @@ public class He.IconicButton : He.Button {
   }
 
   construct {
-    this.add_css_class ("iconic-button");
-    this.valign = Gtk.Align.CENTER;
-    this.color = He.Colors.NONE;
+    add_css_class ("iconic-button");
   }
 }
