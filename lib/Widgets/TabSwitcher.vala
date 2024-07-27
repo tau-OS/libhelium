@@ -1,26 +1,26 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
  * TabBar widget designed for a variable number of tabs.
  */
- public class He.TabSwitcher : He.Bin, Gtk.Buildable {
+public class He.TabSwitcher : He.Bin, Gtk.Buildable {
     /**
      * The internal Gtk.Notebook. This should only be accessed by a widget implementation
      */
@@ -193,7 +193,7 @@
     public GLib.Menu menu { get; private set; }
 
     private Gtk.PopoverMenu popover { get; set; }
-    private Tab? old_tab; //stores a reference for tab_switched
+    private Tab? old_tab; // stores a reference for tab_switched
     private const int MIN_TAB_WIDTH = 80;
     private const int MAX_TAB_WIDTH = 150;
     private int tab_width = MAX_TAB_WIDTH;
@@ -234,6 +234,11 @@
         notebook.add_css_class ("tab-holder");
 
         var add_button = new He.DisclosureButton.from_icon ("list-add-symbolic");
+        add_button.valign = Gtk.Align.CENTER;
+        add_button.add_css_class ("flat");
+        add_button.add_css_class ("medium-radius");
+        add_button.remove_css_class ("disclosure-button");
+        add_button.remove_css_class ("image-button");
         add_button.tooltip_text = _("New Tab");
 
         notebook.set_action_widget (add_button, Gtk.PackType.END);
@@ -268,7 +273,7 @@
         notebook.set_parent (this);
 
         notebook.hexpand = true;
-    notebook.vexpand = true;
+        notebook.vexpand = true;
     }
 
     static construct {
@@ -288,10 +293,10 @@
 
         click.pressed.connect ((n_press, x, y) => {
             if (click.get_current_button () == Gdk.BUTTON_SECONDARY) {
-                Gdk.Rectangle rect = {(int)x,
-                                      (int)y,
-                                      0,
-                                      0};
+                Gdk.Rectangle rect = { (int) x,
+                                       (int) y,
+                                       0,
+                                       0 };
                 popover.set_pointing_to (rect);
                 popover.popup ();
             }
@@ -299,11 +304,11 @@
     }
 
     void on_switch_page (Gtk.Widget page, uint pagenum) {
-        var new_tab = (page as TabPage)?.tab;
+        var new_tab = (page as TabPage) ? .tab;
 
         // update property accordingly for previous selected tab
         if (old_tab != null)
-           old_tab.is_current_tab = false;
+            old_tab.is_current_tab = false;
 
         // now set the new tab as current
         new_tab.is_current_tab = true;
@@ -314,7 +319,7 @@
     }
 
     void on_page_added (Gtk.Widget page, uint pagenum) {
-        var t = (page as TabPage)?.tab;
+        var t = (page as TabPage) ? .tab;
 
         insert_callbacks (t);
         tab_added (t);
@@ -322,7 +327,7 @@
     }
 
     void on_page_removed (Gtk.Widget page, uint pagenum) {
-        var t = (page as TabPage)?.tab;
+        var t = (page as TabPage) ? .tab;
 
         remove_callbacks (t);
         tab_removed (t);
@@ -342,7 +347,7 @@
 
         var pinned_tabs = 0;
         for (var i = 0; i < this.notebook.get_n_pages (); i++) {
-            if ((this.notebook.get_nth_page (i) as TabPage)?.tab.pinned) {
+            if ((this.notebook.get_nth_page (i) as TabPage) ? .tab.pinned) {
                 pinned_tabs++;
             }
         }
@@ -350,7 +355,7 @@
         for (var p = 0; p < pinned_tabs; p++) {
             int sel = p;
             for (var i = p; i < this.notebook.get_n_pages (); i++) {
-                if ((this.notebook.get_nth_page (i) as TabPage)?.tab.pinned) {
+                if ((this.notebook.get_nth_page (i) as TabPage) ? .tab.pinned) {
                     sel = i;
                     break;
                 }
