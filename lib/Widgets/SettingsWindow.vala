@@ -24,9 +24,11 @@ public class He.SettingsWindow : He.Window, Gtk.Buildable {
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
     private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
     private Gtk.Stack stack = new Gtk.Stack ();
+    private Gtk.Overlay window_overlay = new Gtk.Overlay ();
+
     private He.ViewSwitcher switcher = new He.ViewSwitcher ();
     private He.ViewTitle viewtitle = new He.ViewTitle ();
-    private Gtk.Button close_button = new Gtk.Button ();
+    private He.DisclosureButton close_button = new He.DisclosureButton ("window-close-symbolic");
 
     /**
      * Add SettingsList or SettingsPage children to this window
@@ -79,14 +81,12 @@ public class He.SettingsWindow : He.Window, Gtk.Buildable {
         viewtitle.label = "Settings";
         viewtitle.margin_start = 24;
 
-        close_button.set_icon_name ("window-close-symbolic");
         close_button.halign = Gtk.Align.END;
         close_button.valign = Gtk.Align.START;
         close_button.hexpand = true;
         close_button.margin_top = 24;
         close_button.margin_end = 24;
-        close_button.margin_bottom = 24;
-        close_button.add_css_class ("disclosure-button");
+        close_button.remove_css_class ("image-button");
         close_button.set_tooltip_text (_("Close"));
         close_button.clicked.connect (close);
 
@@ -96,8 +96,8 @@ public class He.SettingsWindow : He.Window, Gtk.Buildable {
         stack.set_margin_start (24);
         stack.set_margin_end (24);
 
-        title_box.append (close_button);
         title_box.prepend (switcher);
+        title_box.margin_top = 31; // Align to close button
 
         box.append (title_box);
         box.append (stack);
@@ -105,7 +105,10 @@ public class He.SettingsWindow : He.Window, Gtk.Buildable {
         var window_handle = new Gtk.WindowHandle ();
         window_handle.set_child (box);
 
-        this.set_child (window_handle);
+        window_overlay.add_overlay (close_button);
+        window_overlay.set_child (window_handle);
+
+        this.set_child (window_overlay);
 
         this.set_size_request (360, 400);
         this.set_default_size (360, 400);

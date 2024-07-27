@@ -195,11 +195,24 @@ public class He.BottomSheet : Gtk.Widget {
 
         title_label = new He.ViewSubTitle ();
         title_label.valign = Gtk.Align.END;
+        title_label.halign = Gtk.Align.START;
         title_label.hexpand = true;
+
+        var close_button = new He.DisclosureButton ("window-close-symbolic");
+        close_button.remove_css_class ("image-button");
+        close_button.valign = Gtk.Align.END;
+        close_button.halign = Gtk.Align.END;
+        close_button.clicked.connect (() => {
+            show_sheet = false;
+        });
+
+        var title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+        title_box.append (title_label);
+        title_box.append (close_button);
 
         handle_wh = new Gtk.WindowHandle ();
         handle_wh.add_css_class ("drag-handle-container");
-        handle_wh.set_child (title_label);
+        handle_wh.set_child (title_box);
 
         sheet_bin.prepend (handle_wh);
         sheet_bin.prepend (handle);
