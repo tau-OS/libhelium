@@ -40,7 +40,7 @@ public class He.AppBar : He.Bin {
     /**
      * The button to go back one view displayed in the AppBar.
      */
-    public Gtk.Button back_button = new Gtk.Button ();
+    public He.DisclosureButton back_button = new He.DisclosureButton ("pan-start-symbolic");
 
     /**
      * The button box in the AppBar, shows below and to the right side of the title, or alongside the window controls, based on scrollers.
@@ -344,15 +344,40 @@ public class He.AppBar : He.Bin {
     public void append (Gtk.Widget child) {
         btn_box.append (child);
 
-        if (((Gtk.Widget) child).get_first_child ().get_type () == typeof (Gtk.ToggleButton)) {
-            ((Gtk.Widget) child).add_css_class ("disclosure-button");
-            ((Gtk.Widget) child).remove_css_class ("image-button");
+        ((Gtk.Widget) child).add_css_class ("disclosure-button");
+        ((Gtk.Widget) child).remove_css_class ("image-button");
 
-            ((Gtk.Widget) child).get_parent ().remove_css_class ("disclosure-button");
-        } else {
-            ((Gtk.Widget) child).add_css_class ("disclosure-button");
-            ((Gtk.Widget) child).remove_css_class ("image-button");
-        }
+        labels_box.visible = true;
+        btn_box.visible = true;
+    }
+
+    /**
+     * Append a togglebutton child to the AppBar.
+     * Please note that an AppBar should only have at most three children.
+     * @param child The child to append.
+     */
+    public void append_toggle (Gtk.Widget child) {
+        btn_box.append (child);
+
+        ((Gtk.Widget) child).add_css_class ("disclosure-button");
+        ((Gtk.Widget) child).remove_css_class ("image-button");
+
+        labels_box.visible = true;
+        btn_box.visible = true;
+    }
+
+    /**
+     * Append a menubutton child to the AppBar.
+     * Please note that an AppBar should only have at most three children.
+     * @param child The child to append.
+     */
+    public void append_menu (Gtk.Widget child) {
+        btn_box.append (child);
+
+        ((Gtk.Widget) child).get_first_child ().add_css_class ("disclosure-button");
+        ((Gtk.Widget) child).get_first_child ().remove_css_class ("image-button");
+
+        ((Gtk.Widget) child).remove_css_class ("image-button");
 
         labels_box.visible = true;
         btn_box.visible = true;
@@ -411,9 +436,7 @@ public class He.AppBar : He.Bin {
         win_control_box.append (win_box);
         win_control_box.prepend (win2_box);
 
-        back_button.set_icon_name ("pan-start-symbolic");
         back_button.set_tooltip_text ("Go Back");
-        back_button.add_css_class ("disclosure-button");
         back_button.clicked.connect (() => {
             var selected_page = stack.pages.get_selection ();
             stack.pages.select_item (int.max (((int) selected_page.get_nth (0) - 1), 0), true);
