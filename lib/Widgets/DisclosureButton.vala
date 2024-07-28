@@ -66,7 +66,7 @@ public class He.DisclosureButton : He.Button {
   }
 
   construct {
-    add_css_class ("disclosure-button");
-    remove_css_class ("image-button");
+    this.add_css_class ("disclosure-button");
+    this.remove_css_class ("image-button");
   }
 }
