@@ -23,13 +23,15 @@ public class He.ContentScheme : SchemeFactory, Object {
     public Scheme generate (Color.CAM16Color accent, bool is_dark, bool is_contrast) {
         var hue = accent.h;
         var chroma = accent.c;
+        He.Color.LABColor lab = He.Color.xyz_to_lab (He.Color.cam16_to_xyz (accent));
+
+        var primary_hue = MathUtils.sanitize_degrees (hue);
+        var secondary_hue = MathUtils.sanitize_degrees (hue);
+        var tertiary_hue = He.Color.fix_disliked ({ MathUtils.sanitize_degrees (hue + 61.0), chroma, lab.l }).h;
 
         var primary = chroma;
         var secondary = Math.fmax (chroma - 32.0, chroma * 0.5);
         var tertiary = Math.fmax (chroma + 16.0, chroma / 0.3);
-        var primary_hue = MathUtils.sanitize_degrees (hue);
-        var secondary_hue = MathUtils.sanitize_degrees (hue);
-        var tertiary_hue = MathUtils.sanitize_degrees (hue + 60.0);
         var neutral = chroma / 8.0;
         var neutral2 = ((chroma / 8.0) + 4.0);
 

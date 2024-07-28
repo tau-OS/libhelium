@@ -41,6 +41,7 @@ libhelium_sources += files(
     'Utils/Ensor/Quantize/QuantizerWsmeans.vala',
     'Utils/Ensor/Quantize/QuantizerWu.vala',
     'Utils/Ensor/Score.vala',
+    'Utils/Ensor/TemperatureCache.vala',
     'Utils/Math.vala',
     'Utils/Misc.vala',
     'Utils/Portal.vala',

@@ -36,6 +36,16 @@ namespace He.MathUtils {
         return (int)(x > 0) - (int)(x < 0);
     }
 
+    // Convert radians to degrees
+    public double to_degrees(double radians) {
+        return radians * (180.0 / Math.PI);
+    }
+    
+    // Convert degrees to radians
+    public double to_radians(double degrees) {
+        return degrees * (Math.PI / 180.0);
+    }
+
     public double chromatic_adaptation (double component) {
         double af = Math.pow (MathUtils.abs (component), 0.42);
         return signum (component) * 400.0 * af / (af + 27.13);

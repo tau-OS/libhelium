@@ -79,6 +79,7 @@ namespace He {
         typeof (He.Tab).ensure ();
         typeof (He.TabPage).ensure ();
         typeof (He.TabSwitcher).ensure ();
+        typeof (He.TemperatureCache).ensure ();
         typeof (He.TextButton).ensure ();
         typeof (He.TextField).ensure ();
         typeof (He.TimePicker).ensure ();
