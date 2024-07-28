@@ -68,5 +68,6 @@ public class He.DisclosureButton : He.Button {
   construct {
     this.add_css_class ("disclosure-button");
     this.remove_css_class ("image-button");
+    this.valign = Gtk.Align.CENTER;
   }
 }
