@@ -23,15 +23,15 @@ public class He.DefaultScheme : SchemeFactory, Object {
         He.Color.LABColor lab = He.Color.xyz_to_lab (He.Color.cam16_to_xyz (accent));
         var tc = new TemperatureCache ({ hue, chroma, lab.l });
 
-        double primary_hue = MathUtils.sanitize_degrees (hue);
-        double secondary_hue = MathUtils.sanitize_degrees (hue);
-        double tertiary_hue = He.Color.fix_disliked ({ MathUtils.sanitize_degrees (tc.get_complement ().h + 61.0), chroma, lab.l }).h;
+        double primary_hue = hue;
+        double secondary_hue = hue;
+        double tertiary_hue = He.Color.fix_disliked ({ tc.get_complement ().h, chroma, lab.l }).h + 61.0;
 
-        double primary = chroma;
+        double primary = chroma > 0.0 ? Math.fmax (48.0, chroma) : 0.0; // Catch mono colors
         double secondary = Math.fmax (chroma - 32.0, chroma * 0.5);
         double tertiary = tc.get_complement ().c;
-        double neutral = 4.0;
-        double neutral_variant = 8.0;
+        double neutral = (primary / 8.0);
+        double neutral_variant = (primary / 8.0) + 4.0;
 
         return Scheme () {
                    // _  _ ____ _  _ ___ ____ ____ _

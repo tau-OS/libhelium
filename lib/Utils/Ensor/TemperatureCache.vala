@@ -183,6 +183,7 @@ namespace He {
                 He.Color.HCTColor color_at_hue = { hue, input_color.c, input_color.t };
                 hcts += color_at_hue;
             }
+            sort_hcts(hcts, true);
             hcts += input_color;
 
             cached_hcts_by_temp = hcts;
@@ -199,8 +200,81 @@ namespace He {
             foreach (var color in hcts) {
                 temps_by_hct += raw_temp(color);
             }
+            sort(temps_by_hct, true);
             cached_temps_by_hct = temps_by_hct;
             return cached_temps_by_hct;
+        }
+
+        private double[] sort(double[] array, bool ascending) {
+            double temp;
+            bool swapped;
+
+            for (int i = 0; i < array.length - 1; i++) {
+                swapped = false;
+
+                for (int j = 0; j < array.length - i - 1; j++) {
+                    if (ascending) {
+                        if (array[j] > array[j + 1]) {
+                            // Swap array[j] and array[j + 1]
+                            temp = array[j];
+                            array[j] = array[j + 1];
+                            array[j + 1] = temp;
+                            swapped = true;
+                        }
+                    } else {
+                        if (array[j] < array[j + 1]) {
+                            // Swap array[j] and array[j + 1]
+                            temp = array[j];
+                            array[j] = array[j + 1];
+                            array[j + 1] = temp;
+                            swapped = true;
+                        }
+                    }
+                }
+
+                // If no two elements were swapped in the inner loop, then the array is already sorted
+                if (!swapped) {
+                    break;
+                }
+            }
+
+            return array;
+        }
+
+        private He.Color.HCTColor[] sort_hcts(He.Color.HCTColor[] array, bool ascending) {
+            double temp;
+            bool swapped;
+
+            for (int i = 0; i < array.length - 1; i++) {
+                swapped = false;
+
+                for (int j = 0; j < array.length - i - 1; j++) {
+                    if (ascending) {
+                        if (array[j].h > array[j + 1].h) {
+                            // Swap array[j] and array[j + 1]
+                            temp = array[j].h;
+                            array[j].h = array[j + 1].h;
+                            array[j + 1].h = temp;
+                            swapped = true;
+                        }
+                    } else {
+                        if (array[j].h < array[j + 1].h) {
+                            // Swap array[j] and array[j + 1]
+                            temp = array[j].h;
+                            array[j].h = array[j + 1].h;
+                            array[j + 1].h = temp;
+                            swapped = true;
+                        }
+                    }
+                }
+
+                // If no two elements were swapped in the inner loop, then the array is already sorted
+                if (!swapped) {
+                    break;
+                }
+            }
+
+            return array;
         }
     }
 }
