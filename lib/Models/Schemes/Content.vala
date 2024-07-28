@@ -26,13 +26,12 @@ public class He.ContentScheme : SchemeFactory, Object {
 
         var primary = chroma;
         var secondary = Math.fmax (chroma - 32.0, chroma * 0.5);
-        var tertiary = He.Color.fix_disliked ({ hue, Math.fmax (chroma + 16.0, chroma / 0.3), accent.s }).c;
-        var neutral = chroma / 8.0;
-        var neutral2 = ((chroma / 8.0) + 4.0);
-
+        var tertiary = Math.fmax (chroma + 16.0, chroma / 0.3);
         var primary_hue = MathUtils.sanitize_degrees (hue);
         var secondary_hue = MathUtils.sanitize_degrees (hue);
-        var tertiary_hue = MathUtils.sanitize_degrees (hue + 61.0);
+        var tertiary_hue = MathUtils.sanitize_degrees (hue + 60.0);
+        var neutral = chroma / 8.0;
+        var neutral2 = ((chroma / 8.0) + 4.0);
 
         return Scheme () {
                    // _  _ ____ _  _ ___ ____ ____ _
