@@ -37,7 +37,7 @@
       </description>
     </key>
     <key name="contrast" type="d">
-      <default>1.0</default>
+      <default>2.0</default>
       <summary>System Contrast</summary>
       <description>
         The preferred contrast for the user interface. Makes user interface low, default, medium, or high contrast to the user's choice.
