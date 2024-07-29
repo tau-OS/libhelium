@@ -39,9 +39,9 @@ namespace He {
                 if (target <= -1.0) {
                     return this.low;
                 } else if (target == 0.0) {
-                    return He.MathUtils.lerp (this.low, this.normal, (_contrast_level - (-1)) / 1);
+                    return this.normal;
                 } else if (target == 0.5) {
-                    return He.MathUtils.lerp (this.normal, this.medium, (_contrast_level - 0) / 0.5);
+                    return this.medium;
                 } else if (target >= 1.0) {
                     return this.high;
                 } else {
