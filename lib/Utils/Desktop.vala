@@ -234,7 +234,7 @@ public class He.Desktop : Object {
     /**
      * The system contrast preference.
      */
-    private double? _contrast = null;
+    private double? _contrast = 1.0;
     public double contrast {
         get {
             return _contrast;
