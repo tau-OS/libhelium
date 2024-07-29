@@ -25,7 +25,7 @@ public class He.DefaultScheme : SchemeFactory, Object {
 
         double primary_hue = hue;
         double secondary_hue = hue;
-        double tertiary_hue = He.Color.fix_disliked ({ tc.get_complement ().h, chroma, lab.l }).h + 61.0;
+        double tertiary_hue = He.Color.fix_disliked ({ hue, chroma, lab.l }).h + 61.0;
 
         double primary = chroma > 0.0 || chroma < 100.0 ? Math.fmax (48.0, chroma) : 0.0; // Catch mono colors
         double secondary = Math.fmax (chroma - 32.0, chroma * 0.5);
