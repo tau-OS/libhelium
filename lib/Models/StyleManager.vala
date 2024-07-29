@@ -44,9 +44,9 @@ public class He.StyleManager : Object {
 
   /**
    * Whether to apply styles for contrast modes.
-   * -1.0 = low, 0.0 = default, 0.5 = medium, 1.0 = high
+   * 0.0 = low, 1.0 = default, 2.0 = medium, 3.0 = high
    */
-  public double contrast = 0.0;
+  public double contrast = 1.0;
 
   /**
    * A function that returns a color scheme from a given accent color and whether dark mode is enabled.

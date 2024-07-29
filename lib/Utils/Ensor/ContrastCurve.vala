@@ -36,16 +36,16 @@ namespace He {
         private double _contrast_level;
         public double contrast_level {
             get {
-                if (target <= -1.0) {
+                if (target <= 0.0) {
                     return this.low;
-                } else if (target == 0.0) {
+                } else if (target == 1.0) {
                     return this.normal;
-                } else if (target == 0.5) {
+                } else if (target == 2.0) {
                     return this.medium;
-                } else if (target >= 1.0) {
+                } else if (target >= 3.0) {
                     return this.high;
                 } else {
-                    return 0.0;
+                    return this.normal;
                 }
             }
             set {
