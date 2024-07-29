@@ -437,6 +437,10 @@ public class He.AppBar : He.Bin {
         win_control_box.prepend (win2_box);
 
         back_button.set_tooltip_text ("Go Back");
+        back_button.add_css_class ("flat");
+        back_button.add_css_class ("circular");
+        back_button.remove_css_class ("disclosure-button");
+        ((Gtk.Image) back_button.get_first_child ()).pixel_size = 24;
         back_button.clicked.connect (() => {
             var selected_page = stack.pages.get_selection ();
             stack.pages.select_item (int.max (((int) selected_page.get_nth (0) - 1), 0), true);
