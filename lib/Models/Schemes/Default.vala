@@ -21,7 +21,6 @@ public class He.DefaultScheme : SchemeFactory, Object {
         var hue = accent.h;
         var chroma = accent.c;
         He.Color.LABColor lab = He.Color.xyz_to_lab (He.Color.cam16_to_xyz (accent));
-        var tc = new TemperatureCache ({ hue, chroma, lab.l });
 
         var primary_hue = MathUtils.sanitize_degrees (hue);
         var secondary_hue = MathUtils.sanitize_degrees (hue);
