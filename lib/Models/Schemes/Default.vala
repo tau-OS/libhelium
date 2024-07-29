@@ -29,7 +29,7 @@ public class He.DefaultScheme : SchemeFactory, Object {
 
         double primary = chroma > 0.0 || chroma < 100.0 ? Math.fmax (48.0, chroma) : 0.0; // Catch mono colors
         double secondary = Math.fmax (chroma - 32.0, chroma * 0.5);
-        double tertiary = tc.get_complement ().c;
+        double tertiary = chroma;
         double neutral = 6.0;
         double neutral_variant = (primary / 8.0) + 6.0;
 
