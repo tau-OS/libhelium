@@ -42,6 +42,7 @@ namespace He {
         typeof (He.ContentBlockImage).ensure ();
         typeof (He.ContentBlockImageCluster).ensure ();
         typeof (He.ContentList).ensure ();
+        typeof (He.ContrastCurve).ensure ();
         typeof (He.DatePicker).ensure ();
         typeof (He.Desktop).ensure ();
         typeof (He.Dialog).ensure ();

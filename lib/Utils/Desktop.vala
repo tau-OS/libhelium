@@ -1,32 +1,32 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
-* Helper class to deal with desktop-specific settings.
-*/
+ * Helper class to deal with desktop-specific settings.
+ */
 [SingleInstance]
 public class He.Desktop : Object {
     private Portal.Settings? portal = null;
 
     /**
-    * The color scheme preference enum, which is used to determine the color scheme of the desktop.
-    */
+     * The color scheme preference enum, which is used to determine the color scheme of the desktop.
+     */
     public enum ColorScheme {
         NO_PREFERENCE,
         DARK,
@@ -34,17 +34,8 @@ public class He.Desktop : Object {
     }
 
     /**
-    * The contrast scheme preference enum, which is used to determine the contrast scheme of the desktop.
-    */
-    public enum ContrastScheme {
-        DEFAULT,
-        HIGH,
-        LOW
-    }
-
-    /**
-    * The color scheme preference.
-    */
+     * The color scheme preference.
+     */
     private ColorScheme? _prefers_color_scheme = null;
     public ColorScheme prefers_color_scheme {
         get {
@@ -58,8 +49,8 @@ public class He.Desktop : Object {
     private void setup_prefers_color_scheme () {
         try {
             prefers_color_scheme = (ColorScheme) portal.read (
-                "org.freedesktop.appearance",
-                "color-scheme"
+                                                              "org.freedesktop.appearance",
+                                                              "color-scheme"
             ).get_variant ().get_uint32 ();
 
             return;
@@ -71,8 +62,8 @@ public class He.Desktop : Object {
     }
 
     /**
-    * The Ensor scheme preference enum, which is used to determine the Ensor scheme of the desktop.
-    */
+     * The Ensor scheme preference enum, which is used to determine the Ensor scheme of the desktop.
+     */
     public enum EnsorScheme {
         DEFAULT,
         VIBRANT,
@@ -82,25 +73,25 @@ public class He.Desktop : Object {
 
         public SchemeFactory to_factory () {
             switch (this) {
-                case DEFAULT:
-                    return new DefaultScheme ();
-                case VIBRANT:
-                    return new VibrantScheme ();
-                case MUTED:
-                    return new MutedScheme ();
-                case MONOCHROMATIC:
-                    return new MonochromaticScheme ();
-                case SALAD:
-                    return new SaladScheme ();
-                default:
-                    return new DefaultScheme ();
+            case DEFAULT :
+                return new DefaultScheme ();
+            case VIBRANT :
+                return new VibrantScheme ();
+            case MUTED:
+                return new MutedScheme ();
+            case MONOCHROMATIC:
+                return new MonochromaticScheme ();
+            case SALAD:
+                return new SaladScheme ();
+            default:
+                return new DefaultScheme ();
             }
         }
     }
 
     /**
-    * The Ensor color scheme preference.
-    */
+     * The Ensor color scheme preference.
+     */
     private EnsorScheme? _ensor_scheme = null;
     public EnsorScheme ensor_scheme {
         get {
@@ -114,8 +105,8 @@ public class He.Desktop : Object {
     private void setup_ensor_scheme () {
         try {
             ensor_scheme = (EnsorScheme) portal.read (
-                "org.freedesktop.appearance",
-                "ensor-scheme"
+                                                      "org.freedesktop.appearance",
+                                                      "ensor-scheme"
             ).get_variant ().get_uint32 ();
 
             return;
@@ -127,8 +118,8 @@ public class He.Desktop : Object {
     }
 
     /**
-    * The accent color preference.
-    */
+     * The accent color preference.
+     */
     private He.Color.RGBColor? _accent_color;
     public He.Color.RGBColor? accent_color {
         get {
@@ -166,8 +157,8 @@ public class He.Desktop : Object {
     private void setup_accent_color () {
         try {
             var accent = portal.read (
-                "org.freedesktop.appearance",
-                "accent-color"
+                                      "org.freedesktop.appearance",
+                                      "accent-color"
             ).get_variant ();
 
             accent_color = parse_accent_color (accent);
@@ -196,8 +187,8 @@ public class He.Desktop : Object {
     private void setup_font_weight () {
         try {
             var fw = portal.read (
-                "org.freedesktop.appearance",
-                "font-weight"
+                                  "org.freedesktop.appearance",
+                                  "font-weight"
             ).get_variant ().get_double ();
 
             font_weight = (double) fw;
@@ -213,58 +204,58 @@ public class He.Desktop : Object {
     /**
      * The system UI roundness preference.
      */
-     private double _roundness = 1.0;
-     public double roundness {
-         get {
-             return _roundness;
-         }
-         set {
-             _roundness = value;
-         }
-     }
-
-     private void setup_roundness () {
-         try {
-             var round = portal.read (
-                 "org.freedesktop.appearance",
-                 "roundness"
-             ).get_variant ().get_double ();
-
-             roundness = (double) round;
-
-             return;
-         } catch (Error e) {
-             debug ("%s", e.message);
-         }
-
-         roundness = 1.0;
-     }
-
-    /**
-     * The system contrast preference.
-     */
-    private ContrastScheme? _contrast = null;
-    public ContrastScheme contrast {
-         get {
-             return _contrast;
-         }
-         set {
-             _contrast = value;
-         }
+    private double _roundness = 1.0;
+    public double roundness {
+        get {
+            return _roundness;
+        }
+        set {
+            _roundness = value;
+        }
     }
-    private void setup_contrast () {
+
+    private void setup_roundness () {
         try {
-            contrast = (ContrastScheme) portal.read (
-                "org.freedesktop.appearance",
-                "contrast"
-            ).get_variant ().get_uint32 ();
+            var round = portal.read (
+                                     "org.freedesktop.appearance",
+                                     "roundness"
+            ).get_variant ().get_double ();
+
+            roundness = (double) round;
 
             return;
         } catch (Error e) {
             debug ("%s", e.message);
         }
 
-        contrast = ContrastScheme.DEFAULT;
+        roundness = 1.0;
+    }
+
+    /**
+     * The system contrast preference.
+     */
+    private double? _contrast = null;
+    public double contrast {
+        get {
+            return _contrast;
+        }
+        set {
+            _contrast = value;
+        }
+    }
+    private void setup_contrast () {
+        try {
+            contrast = portal.read (
+                                    "org.freedesktop.appearance",
+                                    "contrast"
+            ).get_variant ().get_double ();
+
+            return;
+        } catch (Error e) {
+            debug ("%s", e.message);
+        }
+
+        contrast = 1.0;
     }
 
     private void init_handle_settings_change () {
@@ -286,7 +277,7 @@ public class He.Desktop : Object {
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "contrast") {
-                contrast = (ContrastScheme) val.get_uint32 ();
+                contrast = (double) val.get_double ();
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "color-scheme") {

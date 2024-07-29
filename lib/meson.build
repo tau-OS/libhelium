@@ -33,6 +33,7 @@ libhelium_sources += files(
     'Utils/Color/RGB.vala',
     'Utils/Color/XYZ.vala',
     'Utils/Desktop.vala',
+    'Utils/Ensor/ContrastCurve.vala',
     'Utils/Ensor/Ensor.vala',
     'Utils/Ensor/Quantize/Quantizer.vala',
     'Utils/Ensor/Quantize/QuantizerCelebi.vala',

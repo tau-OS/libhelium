@@ -1,32 +1,32 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
-* An application.
-*/
+ * An application.
+ */
 public class He.Application : Gtk.Application {
   private He.Desktop desktop = new He.Desktop ();
   private He.StyleManager style_manager = new He.StyleManager ();
 
   /**
-  * A default accent color if the user has not set one.
-  */
+   * A default accent color if the user has not set one.
+   */
   private He.Color.RGBColor? _default_accent_color = null;
   public He.Color.RGBColor? default_accent_color {
     get { return _default_accent_color; }
@@ -34,18 +34,18 @@ public class He.Application : Gtk.Application {
   }
 
   /**
-  * Whether to override the user's accent color choice. This requires default_accent_color to be set.
-  */
+   * Whether to override the user's accent color choice. This requires default_accent_color to be set.
+   */
   private bool _override_accent_color = false;
   public bool override_accent_color {
     get { return _override_accent_color; }
-    set { _override_accent_color = value; update_style_manager ();}
+    set { _override_accent_color = value; update_style_manager (); }
   }
 
   /**
-  * A scheme factory to use for the application. If not set, the user's preferred scheme will be used.
-  * This is especially useful for applications with their own color needs, such as media applications using the He.new_content_scheme factory.
-  */
+   * A scheme factory to use for the application. If not set, the user's preferred scheme will be used.
+   * This is especially useful for applications with their own color needs, such as media applications using the He.new_content_scheme factory.
+   */
   private SchemeFactory? _scheme_factory = null;
   public SchemeFactory? scheme_factory {
     get { return _scheme_factory; }
@@ -70,7 +70,7 @@ public class He.Application : Gtk.Application {
     }
 
     style_manager.is_dark = desktop.prefers_color_scheme == Desktop.ColorScheme.DARK;
-    style_manager.is_contrast = desktop.contrast == Desktop.ContrastScheme.HIGH;
+    style_manager.contrast = desktop.contrast;
     style_manager.font_weight = desktop.font_weight;
     style_manager.roundness = desktop.roundness;
 
