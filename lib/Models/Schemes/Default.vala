@@ -20,17 +20,16 @@ public class He.DefaultScheme : SchemeFactory, Object {
     public Scheme generate (Color.CAM16Color accent, bool is_dark, double contrast) {
         var hue = accent.h;
         var chroma = accent.c;
-        He.Color.LABColor lab = He.Color.xyz_to_lab (He.Color.cam16_to_xyz (accent));
 
         var primary_hue = MathUtils.sanitize_degrees (hue);
         var secondary_hue = MathUtils.sanitize_degrees (hue);
         var tertiary_hue = MathUtils.sanitize_degrees (hue + 61.0);
 
-        double primary = chroma > 0.0 || chroma < 100.0 ? Math.fmax (48.0, chroma) : 0.0; // Catch mono colors
-        double secondary = Math.fmax (chroma - 32.0, chroma * 0.5);
-        double tertiary = Math.fmax (chroma + 16.0, chroma / 0.3);
-        double neutral = 6.0;
-        double neutral_variant = (primary / 8.0) + 6.0;
+        double primary = chroma > 0.0 || chroma < 100.0 ? 48.0 : 0.0; // Catch mono colors
+        double secondary = chroma > 0.0 || chroma < 100.0 ? 16.0 : 0.0;
+        double tertiary = chroma > 0.0 || chroma < 100.0 ? 32.0 : 0.0;
+        double neutral = chroma > 0.0 || chroma < 100.0 ? 6.0 : 0.0;
+        double neutral_variant = chroma > 0.0 || chroma < 100.0 ? 4.0 : 0.0;
 
         return Scheme () {
                    // _  _ ____ _  _ ___ ____ ____ _
