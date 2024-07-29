@@ -234,7 +234,7 @@ public class He.Desktop : Object {
     /**
      * The system contrast preference.
      */
-    private double? _contrast = 1.0;
+    private double? _contrast = 2.0;
     public double contrast {
         get {
             return _contrast;
@@ -255,7 +255,7 @@ public class He.Desktop : Object {
             debug ("%s", e.message);
         }
 
-        contrast = 1.0;
+        contrast = 2.0;
     }
 
     private void init_handle_settings_change () {
