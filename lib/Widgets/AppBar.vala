@@ -440,6 +440,7 @@ public class He.AppBar : He.Bin {
         back_button.add_css_class ("flat");
         back_button.add_css_class ("circular");
         back_button.remove_css_class ("disclosure-button");
+        back_button.set_size_request (50, 50);
         ((Gtk.Image) back_button.get_first_child ()).pixel_size = 24;
         back_button.clicked.connect (() => {
             var selected_page = stack.pages.get_selection ();
