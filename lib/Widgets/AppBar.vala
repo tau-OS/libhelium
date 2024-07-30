@@ -40,7 +40,7 @@ public class He.AppBar : He.Bin {
     /**
      * The button to go back one view displayed in the AppBar.
      */
-    public He.Button back_button = new He.Button ("pan-start-symbolic", null);
+    public He.Button back_button = new He.Button ("pan-start-symbolic", "");
 
     /**
      * The button box in the AppBar, shows below and to the right side of the title, or alongside the window controls, based on scrollers.

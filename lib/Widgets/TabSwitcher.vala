@@ -233,7 +233,7 @@ public class He.TabSwitcher : He.Bin, Gtk.Buildable {
         _tab_bar_behavior = TabBarBehavior.ALWAYS;
         notebook.add_css_class ("tab-holder");
 
-        var add_button = new He.Button ("list-add-symbolic", null);
+        var add_button = new He.Button ("list-add-symbolic", "");
         add_button.valign = Gtk.Align.CENTER;
         add_button.add_css_class ("tab-button");
         add_button.tooltip_text = _("New Tab");

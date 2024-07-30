@@ -139,7 +139,7 @@ public class He.Tab : He.Bin {
     public GLib.Menu menu { get; private set; }
     private MenuItem pin_menuitem;
 
-    private Gtk.Button close_button;
+    private He.Button close_button;
 
     private Gtk.CenterBox tab_layout;
     private Gtk.PopoverMenu popover { get; set; }
@@ -214,7 +214,7 @@ public class He.Tab : He.Bin {
         _label.valign = Gtk.Align.CENTER;
         _label.ellipsize = Pango.EllipsizeMode.END;
 
-        close_button = new Gtk.Button.from_icon_name ("window-close");
+        close_button = new He.Button ("window-close-symbolic", "");
         close_button.valign = Gtk.Align.CENTER;
         close_button.add_css_class ("tab-button");
 

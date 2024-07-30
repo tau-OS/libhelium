@@ -28,7 +28,21 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
      * The color of the button.
      * @since 1.0
      */
-    public He.Colors color { get; set; }
+    private He.Colors _color;
+    public He.Colors color {
+        set {
+            if (_color != He.Colors.NONE)
+                this.remove_css_class (_color.to_css_class ());
+            if (value != He.Colors.NONE)
+                this.add_css_class (value.to_css_class ());
+
+            _color = value;
+        }
+
+        get {
+            return _color;
+        }
+    }
 
     /**
      * If the button is disclosure styled
@@ -43,8 +57,12 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
             color = He.Colors.NONE;
             if (value) {
                 this.add_css_class ("disclosure-button");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             } else {
                 this.remove_css_class ("disclosure-button");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             }
         }
     }
@@ -63,9 +81,13 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
             if (value) {
                 this.add_css_class ("iconic-button");
                 this.add_css_class ("flat");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             } else {
                 this.remove_css_class ("iconic-button");
                 this.remove_css_class ("flat");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             }
         }
     }
@@ -82,8 +104,12 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
             _is_outline = value;
             if (value) {
                 this.add_css_class ("outline-button");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             } else {
                 this.remove_css_class ("outline-button");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             }
         }
     }
@@ -100,8 +126,12 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
             _is_tint = value;
             if (value) {
                 this.add_css_class ("tint-button");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             } else {
                 this.remove_css_class ("tint-button");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             }
         }
     }
@@ -118,8 +148,12 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
             _is_fill = value;
             if (value) {
                 this.add_css_class ("fill-button");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             } else {
                 this.remove_css_class ("fill-button");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             }
         }
     }
@@ -136,8 +170,12 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
             _is_pill = value;
             if (value) {
                 this.add_css_class ("pill-button");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             } else {
                 this.remove_css_class ("pill-button");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             }
         }
     }
@@ -154,8 +192,12 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
             _is_textual = value;
             if (value) {
                 this.add_css_class ("textual-button");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             } else {
                 this.remove_css_class ("textual-button");
+                this.remove_css_class ("image-button");
+                this.remove_css_class ("text-button");
             }
         }
     }
@@ -164,13 +206,15 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
      * The icon of the Button.
      * @since 1.0
      */
-    public string icon {
+    private string? _icon;
+    public string? icon {
         set {
-            set_icon_name (value);
+            _icon = value;
+            set_icon_name (_icon);
         }
 
-        owned get {
-            return icon_name;
+        get {
+            return _icon;
         }
     }
 
@@ -178,13 +222,16 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
      * The label of the Button.
      * @since 1.0
      */
+    private string? _label;
     public new string label {
         set {
-            set_label (value);
+            _label = value;
+            if (_label != "")
+                set_label (_label);
         }
 
-        owned get {
-            return label;
+        get {
+            return _label;
         }
     }
 
@@ -202,8 +249,6 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
         is_disclosure = false;
         is_iconic = false;
 
-        this.remove_css_class ("image-button");
-        this.remove_css_class ("text-button");
         this.valign = Gtk.Align.CENTER;
     }
 }

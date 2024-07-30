@@ -271,7 +271,7 @@ public class He.AboutWindow : He.Window {
     this.modal = true;
     this.resizable = false;
 
-    var close_button = new He.Button ("window-close-symbolic", null);
+    var close_button = new He.Button ("window-close-symbolic", "");
     close_button.is_disclosure = true;
     close_button.halign = Gtk.Align.END;
     close_button.valign = Gtk.Align.START;

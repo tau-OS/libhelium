@@ -28,7 +28,7 @@ public class He.SettingsWindow : He.Window, Gtk.Buildable {
 
     private He.ViewSwitcher switcher = new He.ViewSwitcher ();
     private He.ViewTitle viewtitle = new He.ViewTitle ();
-    private He.Button close_button = new He.Button ("window-close-symbolic", null);
+    private He.Button close_button = new He.Button ("window-close-symbolic", "");
 
     /**
      * Add SettingsList or SettingsPage children to this window
