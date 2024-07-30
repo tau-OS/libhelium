@@ -40,7 +40,7 @@ public class He.AppBar : He.Bin {
     /**
      * The button to go back one view displayed in the AppBar.
      */
-    public He.DisclosureButton back_button = new He.DisclosureButton ("pan-start-symbolic");
+    public He.Button back_button = new He.Button ("pan-start-symbolic", null);
 
     /**
      * The button box in the AppBar, shows below and to the right side of the title, or alongside the window controls, based on scrollers.
@@ -438,8 +438,7 @@ public class He.AppBar : He.Bin {
 
         back_button.set_tooltip_text ("Go Back");
         back_button.add_css_class ("flat");
-        back_button.add_css_class ("circular");
-        back_button.remove_css_class ("disclosure-button");
+        back_button.is_disclosure = true;
         back_button.set_size_request (50, 50);
         ((Gtk.Image) back_button.get_first_child ()).pixel_size = 24;
         back_button.clicked.connect (() => {

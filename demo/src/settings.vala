@@ -1,22 +1,22 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ *
+ */
 [GtkTemplate (ui = "/com/fyralabs/Helium1/Demo/settings.ui")]
 public class Demo.SettingsWindow : He.SettingsWindow {
   private MainWindow _window;
@@ -43,9 +43,9 @@ public class Demo.SettingsWindow : He.SettingsWindow {
       1.0f
     };
     clr_btn.set_rgba (
-      this._window.app.default_accent_color == null ?
-      default_color :
-      He.Color.to_gdk_rgba (this._window.app.default_accent_color)
+                      this._window.app.default_accent_color == null ?
+                      default_color :
+                      He.Color.to_gdk_rgba (this._window.app.default_accent_color)
     );
     clr_btn.color_set.connect (() => {
       // do thing with color
@@ -70,15 +70,15 @@ public class Demo.SettingsWindow : He.SettingsWindow {
 
     // Setting scale is slow, so we wait while pressed to keep UI responsive
     font_weight_adjustment.value_changed.connect (() => {
-        if (fwscale_timeout != 0) {
-            GLib.Source.remove (fwscale_timeout);
-        }
+      if (fwscale_timeout != 0) {
+        GLib.Source.remove (fwscale_timeout);
+      }
 
-        fwscale_timeout = Timeout.add (300, () => {
-            fwscale_timeout = 0;
-            tau_appearance_settings.set_double ("font-weight", font_weight_adjustment.value);
-            return false;
-        });
+      fwscale_timeout = Timeout.add (300, () => {
+        fwscale_timeout = 0;
+        tau_appearance_settings.set_double ("font-weight", font_weight_adjustment.value);
+        return false;
+      });
     });
   }
 }

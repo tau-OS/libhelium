@@ -72,9 +72,10 @@ template $DemoBottomSheet : He.Bin {
                     }
                 }
 
-                He.PillButton open {
+                He.Button open {
                     halign: center;
                     label: "Open Bottom Sheet";
+                    is_pill: true;
                 }
             }
         }
@@ -92,8 +93,9 @@ template $DemoBottomSheet : He.Bin {
                     width-request: 360;
                 }
             };
-            button: He.PillButton {
+            button: He.Button {
                 label: "Action Button";
+                is_pill: true;
             };
         }
     };

@@ -1,21 +1,21 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
  * Miscellaneous functions
@@ -49,32 +49,33 @@ namespace He.Misc {
    * @since 1.0
    */
   public double contrast_ratio (double red, double green, double blue, double red2, double green2, double blue2) {
-      // From WCAG 2.0 https://www.w3.org/TR/WCAG20/#contrast-ratiodef
-      var bg_luminance = get_luminance (red, green, blue);
-      var fg_luminance = get_luminance (red2, green2, blue2);
+    // From WCAG 2.0 https://www.w3.org/TR/WCAG20/#contrast-ratiodef
+    var bg_luminance = get_luminance (red, green, blue);
+    var fg_luminance = get_luminance (red2, green2, blue2);
 
-      if (bg_luminance > fg_luminance) {
-          return (bg_luminance + 0.05) / (fg_luminance + 0.05);
-      }
+    if (bg_luminance > fg_luminance) {
+      return (bg_luminance + 0.05) / (fg_luminance + 0.05);
+    }
 
-      return (fg_luminance + 0.05) / (bg_luminance + 0.05);
+    return (fg_luminance + 0.05) / (bg_luminance + 0.05);
   }
 
   private double get_luminance (double red, double green, double blue) {
-      // Values from WCAG 2.0 https://www.w3.org/TR/WCAG20/#relativeluminancedef
-      var r = sanitize_color (red) * 0.2126;
-      var g = sanitize_color (green) * 0.7152;
-      var b = sanitize_color (blue) * 0.0722;
+    // Values from WCAG 2.0 https://www.w3.org/TR/WCAG20/#relativeluminancedef
+    var r = sanitize_color (red) * 0.2126;
+    var g = sanitize_color (green) * 0.7152;
+    var b = sanitize_color (blue) * 0.0722;
 
-      return r + g + b;
+    return r + g + b;
   }
-  private double sanitize_color (double color) {
-      // From WCAG 2.0 https://www.w3.org/TR/WCAG20/#relativeluminancedef
-      if (color <= 0.03928) {
-          return (color) / 12.92;
-      }
 
-      return Math.pow ((color + 0.055) / 1.055, 2.4);
+  private double sanitize_color (double color) {
+    // From WCAG 2.0 https://www.w3.org/TR/WCAG20/#relativeluminancedef
+    if (color <= 0.03928) {
+      return (color) / 12.92;
+    }
+
+    return Math.pow ((color + 0.055) / 1.055, 2.4);
   }
 
   // Adapted from https://github.com/gka/chroma.js
@@ -82,7 +83,7 @@ namespace He.Misc {
     var r = Math.round (red + 0.5 * (red2 - red));
     var g = Math.round (green + 0.5 * (green2 - green));
     var b = Math.round (blue + 0.5 * (blue2 - blue));
-    double[] interp_color = {r, g, b};
+    double[] interp_color = { r, g, b };
 
     return interp_color;
   }
@@ -90,9 +91,9 @@ namespace He.Misc {
   // Adapted from https://github.com/gka/chroma.js
   private double[] adjust_luminance (double red, double green, double blue, double target) {
     var cur_lum = get_luminance (red, green, blue);
-    double[] black = {0, 0, 0};
-    double[] white = {1, 1, 1};
-    double[] color = {red, green, blue};
+    double[] black = { 0, 0, 0 };
+    double[] white = { 1, 1, 1 };
+    double[] color = { red, green, blue };
 
     return cur_lum > target ? test (black, color, target) : test (color, white, target);
   }
@@ -128,7 +129,7 @@ namespace He.Misc {
     var fg_luminance = get_luminance (red2, green2, blue2);
 
     var ratio = contrast_ratio (red, green, blue, red2, green2, blue2);
-    double[] color = {red2, green2, blue2};
+    double[] color = { red2, green2, blue2 };
 
     if (ratio >= 7) {
       return color;
@@ -166,7 +167,7 @@ namespace He.Misc {
    */
   public static string accel_label (string? accel) {
     if (accel == null) {
-        return "";
+      return "";
     }
 
     // We need to make sure that the library is up
@@ -178,91 +179,91 @@ namespace He.Misc {
 
     string[] arr = {};
     if (Gdk.ModifierType.SUPER_MASK in accel_mods) {
-        arr += "⯁";
+      arr += "⯁";
     }
 
     if (Gdk.ModifierType.SHIFT_MASK in accel_mods) {
-        arr += _("Shift");
+      arr += _("Shift");
     }
 
     if (Gdk.ModifierType.CONTROL_MASK in accel_mods) {
-        arr += _("Ctrl");
+      arr += _("Ctrl");
     }
 
     if (Gdk.ModifierType.ALT_MASK in accel_mods) {
-        arr += _("Alt");
+      arr += _("Alt");
     }
 
     switch (accel_key) {
-        case Gdk.Key.Up:
-            arr += "↑";
-            break;
-        case Gdk.Key.Down:
-            arr += "↓";
-            break;
-        case Gdk.Key.Left:
-            arr += "←";
-            break;
-        case Gdk.Key.Right:
-            arr += "→";
-            break;
-        case Gdk.Key.Alt_L:
-            ///TRANSLATORS: The Alt key on the left side of the keyboard
-            arr += _("Left Alt");
-            break;
-        case Gdk.Key.Alt_R:
-            ///TRANSLATORS: The Alt key on the right side of the keyboard
-            arr += _("Right Alt");
-            break;
-        case Gdk.Key.backslash:
-            arr += "\\";
-            break;
-        case Gdk.Key.Control_R:
-            ///TRANSLATORS: The Ctrl key on the right side of the keyboard
-            arr += _("Right Ctrl");
-            break;
-        case Gdk.Key.Control_L:
-            ///TRANSLATORS: The Ctrl key on the left side of the keyboard
-            arr += _("Left Ctrl");
-            break;
-        case Gdk.Key.minus:
-        case Gdk.Key.KP_Subtract:
-            ///TRANSLATORS: This is a non-symbol representation of the "-" key
-            arr += _("Minus");
-            break;
-        case Gdk.Key.KP_Add:
-        case Gdk.Key.plus:
-            ///TRANSLATORS: This is a non-symbol representation of the "+" key
-            arr += _("Plus");
-            break;
-        case Gdk.Key.KP_Equal:
-        case Gdk.Key.equal:
-            ///TRANSLATORS: This is a non-symbol representation of the "=" key
-            arr += _("Equals");
-            break;
-        case Gdk.Key.Return:
-            arr += _("Enter");
-            break;
-        case Gdk.Key.Shift_L:
-            ///TRANSLATORS: The Shift key on the left side of the keyboard
-            arr += _("Left Shift");
-            break;
-        case Gdk.Key.Shift_R:
-            ///TRANSLATORS: The Shift key on the right side of the keyboard
-            arr += _("Right Shift");
-            break;
-        default:
-            // If a specified accelarator contains only modifiers e.g. "<Control><Shift>",
-            // we don't get anything from accelerator_get_label method, so skip that case
-            string accel_label = Gtk.accelerator_get_label (accel_key, 0);
-            if (accel_label != "") {
-                arr += accel_label;
-            }
-            break;
+    case Gdk.Key.Up :
+      arr += "↑";
+      break;
+    case Gdk.Key.Down:
+      arr += "↓";
+      break;
+    case Gdk.Key.Left:
+      arr += "←";
+      break;
+    case Gdk.Key.Right:
+      arr += "→";
+      break;
+    case Gdk.Key.Alt_L:
+      ///TRANSLATORS: The Alt key on the left side of the keyboard
+      arr += _("Left Alt");
+      break;
+    case Gdk.Key.Alt_R:
+      ///TRANSLATORS: The Alt key on the right side of the keyboard
+      arr += _("Right Alt");
+      break;
+    case Gdk.Key.backslash:
+      arr += "\\";
+      break;
+    case Gdk.Key.Control_R:
+      ///TRANSLATORS: The Ctrl key on the right side of the keyboard
+      arr += _("Right Ctrl");
+      break;
+    case Gdk.Key.Control_L:
+      ///TRANSLATORS: The Ctrl key on the left side of the keyboard
+      arr += _("Left Ctrl");
+      break;
+    case Gdk.Key.minus:
+    case Gdk.Key.KP_Subtract:
+      ///TRANSLATORS: This is a non-symbol representation of the "-" key
+      arr += _("Minus");
+      break;
+    case Gdk.Key.KP_Add:
+    case Gdk.Key.plus:
+      ///TRANSLATORS: This is a non-symbol representation of the "+" key
+      arr += _("Plus");
+      break;
+    case Gdk.Key.KP_Equal:
+    case Gdk.Key.equal:
+      ///TRANSLATORS: This is a non-symbol representation of the "=" key
+      arr += _("Equals");
+      break;
+    case Gdk.Key.Return:
+      arr += _("Enter");
+      break;
+    case Gdk.Key.Shift_L:
+      ///TRANSLATORS: The Shift key on the left side of the keyboard
+      arr += _("Left Shift");
+      break;
+    case Gdk.Key.Shift_R:
+      ///TRANSLATORS: The Shift key on the right side of the keyboard
+      arr += _("Right Shift");
+      break;
+    default:
+      // If a specified accelarator contains only modifiers e.g. "<Control><Shift>",
+      // we don't get anything from accelerator_get_label method, so skip that case
+      string accel_label = Gtk.accelerator_get_label (accel_key, 0);
+      if (accel_label != "") {
+        arr += accel_label;
+      }
+      break;
     }
 
     if (accel_mods != 0) {
-        return string.joinv (" + ", arr);
+      return string.joinv (" + ", arr);
     }
 
     return arr[0];
@@ -290,34 +291,34 @@ namespace He.Misc {
   public static string accel_string (string[]? accels, string? description = null) {
     string[] parts = {};
     if (description != null && description != "") {
-        parts += description;
+      parts += description;
     }
 
     if (accels != null && accels.length > 0) {
-        string[] unique_accels = {};
+      string[] unique_accels = {};
 
-        // We need to make sure that the translation domain is correctly setup
-        He.init ();
+      // We need to make sure that the translation domain is correctly setup
+      He.init ();
 
-        for (int i = 0; i < accels.length; i++) {
-            if (accels[i] == "") {
-                continue;
-            }
-
-            var accel_string = accel_label (accels[i]);
-            if (!(accel_string in unique_accels)) {
-                unique_accels += accel_string;
-            }
+      for (int i = 0; i < accels.length; i++) {
+        if (accels[i] == "") {
+          continue;
         }
 
-        if (unique_accels.length > 0) {
-            ///TRANSLATORS: This is a delimiter that separates two keyboard shortcut labels like "⌘ + →, Control + A"
-            var accel_label = string.joinv (_(", "), unique_accels);
-
-            var accel_markup = TOOLTIP_SECONDARY_TEXT_MARKUP.printf (accel_label);
-
-            parts += accel_markup;
+        var accel_string = accel_label (accels[i]);
+        if (!(accel_string in unique_accels)) {
+          unique_accels += accel_string;
         }
+      }
+
+      if (unique_accels.length > 0) {
+        ///TRANSLATORS: This is a delimiter that separates two keyboard shortcut labels like "⌘ + →, Control + A"
+        var accel_label = string.joinv (_(", "), unique_accels);
+
+        var accel_markup = TOOLTIP_SECONDARY_TEXT_MARKUP.printf (accel_label);
+
+        parts += accel_markup;
+      }
     }
 
     return string.joinv ("\n", parts);
@@ -327,7 +328,7 @@ namespace He.Misc {
     Gdk.Display display = Gdk.Display.get_default ();
 
     if (display == null)
-    return;
+      return;
 
     if (enabled) {
       Gtk.StyleContext.add_provider_for_display (display, provider, priority);
@@ -343,28 +344,27 @@ namespace He.Misc {
   }
 
   #if !GTK4_IS_12
-    // This is to cope with the fact that the Gtk.CssProvider.load_from_data vapi has changed between patch versions
-    // This can cause strange compilation issues with distros that ship these different versions
-    // To be clear the actual C API hasn't changed, so this is *fine*
-    // Luckily we only use gtk_css_provider_load_from_data pre-GTK 4.12
-    [CCode (cname = "gtk_css_provider_load_from_data", cheader_filename = "gtk/gtk.h")]
-    private extern void css_provider_load_from_data_fix (
-      Gtk.CssProvider css_provider,
-      [CCode (
-        array_length_cname = "length",
-        array_length_pos = 2.1,
-        array_length_type = "gssize",
-        type = "const char*"
-      )]
-      uint8[] data
-    );
+  // This is to cope with the fact that the Gtk.CssProvider.load_from_data vapi has changed between patch versions
+  // This can cause strange compilation issues with distros that ship these different versions
+  // To be clear the actual C API hasn't changed, so this is *fine*
+  // Luckily we only use gtk_css_provider_load_from_data pre-GTK 4.12
+  [CCode (cname = "gtk_css_provider_load_from_data", cheader_filename = "gtk/gtk.h")]
+  private extern void css_provider_load_from_data_fix (Gtk.CssProvider css_provider,
+    [CCode (
+            array_length_cname = "length",
+            array_length_pos = 2.1,
+            array_length_type = "gssize",
+            type = "const char*"
+     )]
+    uint8[] data);
+
   #endif
 
   private void init_css_provider_from_string (Gtk.CssProvider provider, string css) {
     #if GTK4_IS_12
-      provider.load_from_string (css);
+    provider.load_from_string (css);
     #else
-      css_provider_load_from_data_fix (provider, css.data);
+    css_provider_load_from_data_fix (provider, css.data);
     #endif
   }
 }

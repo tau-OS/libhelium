@@ -1,25 +1,25 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
-* A MiniContentBlock is a content block that is used to display content in a small area.
-*/
+ * A MiniContentBlock is a content block that is used to display content in a small area.
+ */
 public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
     private Gtk.Label title_label = new Gtk.Label (null);
     private Gtk.Label subtitle_label = new Gtk.Label (null);
@@ -31,7 +31,7 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
     /**
      * Sets the title of the content block.
      */
-     public string title {
+    public string title {
         get {
             return title_label.get_text ();
         }
@@ -109,8 +109,8 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
     }
 
     /**
-    * The primary button of the content block.
-    */
+     * The primary button of the content block.
+     */
     public He.Button primary_button {
         get {
             return _primary_button;
@@ -123,18 +123,19 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
 
             value.hexpand = true;
             value.halign = Gtk.Align.END;
+            value.is_fill = true;
             _primary_button = value;
             btn_box.append (_primary_button);
         }
     }
 
     /**
-    * Constructs a new MiniContentBlock.
-    * @param title The title of the content block.
-    * @param subtitle The subtitle of the content block.
-    * @param primary_button The primary button of the content block.
-    */
-    public MiniContentBlock.with_details (string? title, string? subtitle, He.Button? primary_button) {
+     * Constructs a new MiniContentBlock.
+     * @param title The title of the content block.
+     * @param subtitle The subtitle of the content block.
+     * @param primary_button The primary button of the content block.
+     */
+    public MiniContentBlock.with_details (string? title, string? subtitle, He.Button ? primary_button) {
         base ();
         this.title = title;
         this.subtitle = subtitle;
@@ -145,12 +146,12 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
      * Add a child to the ContentBlock, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
      */
     public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-        btn_box.append ((Gtk.Widget)child);
+        btn_box.append ((Gtk.Widget) child);
     }
 
-     /**
-      * Constructs a new MiniContentBlock.
-      *
+    /**
+     * Constructs a new MiniContentBlock.
+     *
      * @since 1.0
      */
     public MiniContentBlock () {
@@ -162,7 +163,7 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
     }
 
     construct {
-        this.image.pixel_size = ((Gtk.IconSize)24);
+        this.image.pixel_size = ((Gtk.IconSize) 24);
         this.image.set_valign (Gtk.Align.CENTER);
         this.image.set_halign (Gtk.Align.START);
         this.image.set_visible (false);

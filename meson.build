@@ -92,7 +92,7 @@ subdir('lib')
 subdir('po')
 
 if get_option('demo')
-    subproject('blueprint-compiler', required: false)
+    subproject('blueprint-compiler', required: true)
     subdir('demo')
 endif
 
@@ -112,5 +112,3 @@ schemas_dir = get_option('prefix') / get_option('datadir') / 'glib-2.0' / 'schem
 install_data(settings_schemas, install_dir: schemas_dir)
 
 meson.add_install_script('glib-compile-schemas', schemas_dir)
-
-# end schema stuff

@@ -1,26 +1,26 @@
 /*
-* Copyright (c) 2023 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2023 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
-* A SettingsRow is a settings row that is used to display content
-* in a small area that is activatable if desired.
-*/
+ * A SettingsRow is a settings row that is used to display content
+ * in a small area that is activatable if desired.
+ */
 public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
     private Gtk.Label title_label = new Gtk.Label (null);
     private Gtk.Label subtitle_label = new Gtk.Label (null);
@@ -37,7 +37,7 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
     /**
      * Sets the title of the settings row.
      */
-     public string title {
+    public string title {
         get {
             return title_label.get_text ();
         }
@@ -87,8 +87,8 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
     }
 
     /**
-    * Sets the icon of the settings row as a GLib.Icon.
-    */
+     * Sets the icon of the settings row as a GLib.Icon.
+     */
     public GLib.Icon gicon {
         set {
             if (value == null) {
@@ -101,8 +101,8 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
     }
 
     /**
-    * Sets the icon of the settings row as a Gdk.Paintable.
-    */
+     * Sets the icon of the settings row as a Gdk.Paintable.
+     */
     public Gdk.Paintable paintable {
         set {
             if (value == null) {
@@ -115,8 +115,8 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
     }
 
     /**
-    * The primary button of the settings row.
-    */
+     * The primary button of the settings row.
+     */
     public He.Button primary_button {
         get {
             return _primary_button;
@@ -159,7 +159,7 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
      * Add a child to the SettingsRow, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
      */
     public void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-        btn_box.append ((Gtk.Widget)child);
+        btn_box.append ((Gtk.Widget) child);
     }
 
     /**
@@ -171,20 +171,20 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
     }
 
     /**
-    * Constructs a new SettingsRow.
-    * @param title The title of the settings row.
-    * @param subtitle The subtitle of the settings row.
-    * @param primary_button The primary button of the settings row.
-    */
-    public SettingsRow.with_details (string? title, string? subtitle, He.Button? primary_button) {
+     * Constructs a new SettingsRow.
+     * @param title The title of the settings row.
+     * @param subtitle The subtitle of the settings row.
+     * @param primary_button The primary button of the settings row.
+     */
+    public SettingsRow.with_details (string? title, string? subtitle, He.Button ? primary_button) {
         this.title = title;
         this.subtitle = subtitle;
         this.primary_button = primary_button;
     }
 
-     /**
-      * Constructs a new SettingsRow.
-      *
+    /**
+     * Constructs a new SettingsRow.
+     *
      * @since 1.0
      */
     public SettingsRow () {
@@ -235,6 +235,7 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
         if (this == row)
             this.activated ();
     }
+
     private void parent_cb () {
         Gtk.Widget? parent = this.get_parent ();
 
@@ -246,11 +247,11 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
             return;
 
         _previous_parent = parent;
-        ((Gtk.ListBox)parent).row_activated.connect (row_activated_cb);
+        ((Gtk.ListBox) parent).row_activated.connect (row_activated_cb);
     }
+
     private void on_activate () {
         if (_activatable_widget != null)
             _activatable_widget.mnemonic_activate (false);
     }
-
 }

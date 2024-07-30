@@ -1,21 +1,21 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
  * A Toast is a widget containing a quick little message for the user with an optional action button.
@@ -90,14 +90,13 @@ public class He.Toast : He.Bin {
         valign = Gtk.Align.START;
         visible = false;
 
-        default_action_button = new He.FillButton ("") {
-            visible = false
+        default_action_button = new He.Button (null, "") {
+            visible = false,
+            is_fill = true
         };
 
-        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic");
-        close_button.valign = Gtk.Align.CENTER;
-        close_button.add_css_class ("flat");
-        close_button.add_css_class ("circular");
+        var close_button = new He.Button ("window-close-symbolic", null);
+        close_button.is_iconic = true;
 
         notification_label = new Gtk.Label (label) {
             wrap = true,
@@ -161,6 +160,7 @@ public class He.Toast : He.Bin {
             return GLib.Source.REMOVE;
         });
     }
+
     private void stop_timeout () {
         if (timeout_id != 0) {
             Source.remove (timeout_id);

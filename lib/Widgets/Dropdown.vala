@@ -59,8 +59,8 @@ public sealed class He.Dropdown : Gtk.Grid {
     private ListStore liststore;
 
     /**
-     * Creates a new {@link He.DropDownText}.
-     * @return A new {@link He.DropDownText}
+     * Creates a new {@link He.Dropdown}.
+     * @return A new {@link He.Dropdown}
      */
     public Dropdown () {
     }
@@ -129,7 +129,7 @@ public sealed class He.Dropdown : Gtk.Grid {
     /**
      * Appends text to the list of strings stored in this.
      *
-     * This is the same as calling {@link He.DropDownText.insert} with a position of -1.
+     * This is the same as calling {@link He.Dropdown.insert} with a position of -1.
      *
      * @param text      A string
      */
@@ -157,7 +157,7 @@ public sealed class He.Dropdown : Gtk.Grid {
      * Inserts text at position in the list of strings stored in this.
      *
      * If position is negative then text is appended.<<BR>>
-     * This is the same as calling {@link He.DropDownText.insert} with a null ID string.
+     * This is the same as calling {@link He.Dropdown.insert} with a null ID string.
      *
      * @param position  An index to insert text
      * @param text      A string
@@ -169,7 +169,7 @@ public sealed class He.Dropdown : Gtk.Grid {
     /**
      * Prepends text to the list of strings stored in this.
      *
-     * This is the same as calling {@link He.DropDownText.insert} with a position of 0.
+     * This is the same as calling {@link He.Dropdown.insert} with a position of 0.
      *
      * @param text      A string
      */

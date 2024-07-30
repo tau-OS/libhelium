@@ -1,26 +1,26 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
  * Standard tab designed for TabSwitcher, used to form a tabbed UI
  */
- public class He.Tab : He.Bin {
+public class He.Tab : He.Bin {
     /**
      * The label/title of the tab
      **/
@@ -130,7 +130,7 @@
     internal TabPage page_container;
 
     He.TabSwitcher tab_switcher {
-        get { return (get_parent () as Gtk.Notebook)?.get_parent () as He.TabSwitcher; }
+        get { return (get_parent () as Gtk.Notebook) ? .get_parent () as He.TabSwitcher; }
     }
 
     /**
@@ -170,18 +170,23 @@
     private void action_close () {
         closed ();
     }
+
     private void action_close_other () {
         close_others ();
     }
+
     private void action_close_right () {
         close_others_right ();
     }
+
     private void action_duplicate () {
         duplicate ();
     }
+
     private void action_pin () {
         pinned = !pinned;
     }
+
     private void action_new_window () {
         new_window ();
     }
@@ -193,7 +198,7 @@
      */
     public Tab (string? label = null, Gtk.Widget? page = null) {
         Object (
-            label: label
+                label : label
         );
 
         if (page != null) {
@@ -269,10 +274,10 @@
 
         click.pressed.connect ((n_press, x, y) => {
             if (click.get_current_button () == Gdk.BUTTON_SECONDARY) {
-                Gdk.Rectangle rect = {(int)x,
-                                      (int)y,
-                                      0,
-                                      0};
+                Gdk.Rectangle rect = { (int) x,
+                                       (int) y,
+                                       0,
+                                       0 };
                 popover.set_pointing_to (rect);
                 popover.popup ();
             }

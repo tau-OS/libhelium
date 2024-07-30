@@ -1,31 +1,31 @@
 /*
-* Copyright (c) 2024 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2024 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
-* A Slider is a widget that is used to select a value by means of a
-* dial running across a trough. Contains optional icons for the slider
-* purpose, and a disable-able Stop Indicator for accessibility purposes.
-*
-* When using the Stop Indicator, it's advisable to add a mark with the value
-* of 1.0 along the trough of the Slider so that the user can discern why the
-* end point is marked.
-*/
+ * A Slider is a widget that is used to select a value by means of a
+ * dial running across a trough. Contains optional icons for the slider
+ * purpose, and a disable-able Stop Indicator for accessibility purposes.
+ *
+ * When using the Stop Indicator, it's advisable to add a mark with the value
+ * of 1.0 along the trough of the Slider so that the user can discern why the
+ * end point is marked.
+ */
 public class He.Slider : He.Bin, Gtk.Buildable {
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
     private Gtk.Box stop_indicator = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -93,9 +93,9 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         }
     }
 
-     /**
-      * Constructs a new Slider.
-      *
+    /**
+     * Constructs a new Slider.
+     *
      * @since 1.0
      */
     public Slider () {
@@ -139,7 +139,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     /**
      * Adds a mark with some information along the trough of the Slider.
      */
-     public void add_mark (double value, string? text) {
+    public void add_mark (double value, string? text) {
         scale.add_mark (value, Gtk.PositionType.BOTTOM, text);
-     }
+    }
 }

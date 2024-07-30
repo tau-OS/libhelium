@@ -104,7 +104,7 @@ public class He.TimePicker : Gtk.Entry {
             valign = Gtk.Align.START,
             margin_start = 16
         };
-        am_pm_box.add_css_class ("linked");
+        am_pm_box.add_css_class ("segmented-button");
         am_pm_box.append (am_togglebutton);
         am_pm_box.append (pm_togglebutton);
 

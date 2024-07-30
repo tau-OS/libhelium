@@ -1,21 +1,21 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
  * An EmptyPage is a page that is used to display a message and a button when there is no data to display.
@@ -37,7 +37,7 @@ public class He.EmptyPage : He.Bin {
      * Can connect to the clicked signal to get notified when the button is clicked.
      * e.g. action_button.clicked.connect(() => { ... });
      */
-    public He.PillButton action_button = new He.PillButton ("");
+    public He.Button action_button = new He.Button (null, null);
 
     /**
      * Sets the title of the empty page.
@@ -104,7 +104,12 @@ public class He.EmptyPage : He.Bin {
         }
         set {
             _button = value;
-            action_button.label = value;
+
+            if (value != null) {
+                action_button.label = value;
+            } else {
+                action_button.visible = false;
+            }
         }
     }
 

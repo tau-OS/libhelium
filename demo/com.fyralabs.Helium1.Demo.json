@@ -1,43 +1,43 @@
 {
-    "app-id" : "com.fyralabs.Helium1.Demo",
-    "runtime" : "com.fyralabs.Platform",
-    "runtime-version" : "daily",
-    "sdk" : "com.fyralabs.Sdk",
-    "command" : "com.fyralabs.Helium1.Demo",
-    "finish-args" : [
-        "--device=dri",
-        "--share=ipc",
-        "--socket=wayland",
-        "--socket=fallback-x11",
-        "--filesystem=xdg-run/gvfsd"
-    ],
-    "modules" : [
+  "app-id": "com.fyralabs.Helium1.Demo",
+  "runtime": "com.fyralabs.Platform",
+  "runtime-version": "daily",
+  "sdk": "com.fyralabs.Sdk",
+  "command": "com.fyralabs.Helium1.Demo",
+  "finish-args": [
+    "--device=dri",
+    "--share=ipc",
+    "--socket=wayland",
+    "--socket=fallback-x11",
+    "--filesystem=xdg-run/gvfsd"
+  ],
+  "modules": [
+    {
+      "name": "libhelium",
+      "buildsystem": "meson",
+      "builddir": true,
+      "config-opts": [
+        "-Ddemo=true",
+        "-Dintrospection=true",
+        "-Dvapi=true",
+        "-Ddocumentation=false"
+      ],
+      "sources": [
         {
-            "name" : "libhelium",
-            "buildsystem" : "meson",
-            "builddir" : true,
-            "config-opts" : [
-                "-Ddemo=true",
-                "-Dintrospection=true",
-                "-Dvapi=true",
-                "-Ddocumentation=false"
-            ],
-            "sources" : [
-                {
-                    "type" : "git",
-                    "url" : "https://github.com/tau-OS/libhelium.git",
-                    "branch" : "main"
-                },
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/jwestman/blueprint-compiler.git",
-                    "branch": "main",
-                    "dest": "./subprojects/blueprint-compiler"
-                }
-            ]
+          "type": "git",
+          "url": "https://github.com/tau-OS/libhelium.git",
+          "branch": "main"
+        },
+        {
+          "type": "git",
+          "url": "https://gitlab.gnome.org/jwestman/blueprint-compiler.git",
+          "branch": "main",
+          "dest": "./subprojects/blueprint-compiler"
         }
-    ],
-    "build-options" : {
-        "env" : {        }
+      ]
     }
+  ],
+  "build-options": {
+    "env": {}
+  }
 }

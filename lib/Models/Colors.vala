@@ -1,21 +1,21 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
  * An enum that maps colors to internal CSS classes as per HIG.
@@ -40,45 +40,45 @@ public enum He.Colors {
      */
     public string to_css_class () {
         switch (this) {
-            case RED:
-                return "meson-red";
+        case RED:
+            return "meson-red";
 
-            case ORANGE:
-                return "lepton-orange";
+        case ORANGE:
+            return "lepton-orange";
 
-            case YELLOW:
-                return "electron-yellow";
+        case YELLOW:
+            return "electron-yellow";
 
-            case GREEN:
-                return "muon-green";
+        case GREEN:
+            return "muon-green";
 
-            case BLUE:
-                return "proton-blue";
+        case BLUE:
+            return "proton-blue";
 
-            case INDIGO:
-                return "photon-indigo";
+        case INDIGO:
+            return "photon-indigo";
 
-            case PURPLE:
-                return "tau-purple";
+        case PURPLE:
+            return "tau-purple";
 
-            case PINK:
-                return "fermion-pink";
+        case PINK:
+            return "fermion-pink";
 
-            case MINT:
-                return "baryon-mint";
+        case MINT:
+            return "baryon-mint";
 
-            case BROWN:
-                return "gluon-brown";
+        case BROWN:
+            return "gluon-brown";
 
-            case LIGHT:
-                return "neutron-light";
+        case LIGHT:
+            return "neutron-light";
 
-            case DARK:
-                return "graviton-dark";
+        case DARK:
+            return "graviton-dark";
 
-            case NONE:
-            default:
-                return "";
+        case NONE:
+        default:
+            return "";
         }
     }
 

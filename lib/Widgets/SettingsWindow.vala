@@ -28,7 +28,7 @@ public class He.SettingsWindow : He.Window, Gtk.Buildable {
 
     private He.ViewSwitcher switcher = new He.ViewSwitcher ();
     private He.ViewTitle viewtitle = new He.ViewTitle ();
-    private He.DisclosureButton close_button = new He.DisclosureButton ("window-close-symbolic");
+    private He.Button close_button = new He.Button ("window-close-symbolic", null);
 
     /**
      * Add SettingsList or SettingsPage children to this window
@@ -86,7 +86,6 @@ public class He.SettingsWindow : He.Window, Gtk.Buildable {
         close_button.hexpand = true;
         close_button.margin_top = 24;
         close_button.margin_end = 24;
-        close_button.remove_css_class ("image-button");
         close_button.set_tooltip_text (_("Close"));
         close_button.clicked.connect (close);
 

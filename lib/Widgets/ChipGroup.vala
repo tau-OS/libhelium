@@ -1,26 +1,26 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
  * A ChipGroup is a holder widget for Chips.
  */
- public class He.ChipGroup : He.Bin {
+public class He.ChipGroup : He.Bin {
     private Gtk.SingleSelection _selection_model;
     private List<He.Chip> _buttons;
     private Gtk.FlowBox flowbox;
@@ -33,7 +33,7 @@
     public Gtk.SingleSelection selection_model {
         get { return this._selection_model; }
         set {
-            if (this._selection_model == value) return;
+            if (this._selection_model == value)return;
 
             if (this._selection_model != null) {
                 this._selection_model.selection_changed.disconnect (on_selection_changed);
@@ -59,7 +59,7 @@
             _single_line = value;
             if (value) {
                 flowbox.min_children_per_line = 999;
-                sw.hscrollbar_policy = (Gtk.PolicyType.ALWAYS);
+                sw.hscrollbar_policy = (Gtk.PolicyType.AUTOMATIC);
             } else {
                 flowbox.min_children_per_line = 3;
                 sw.hscrollbar_policy = (Gtk.PolicyType.NEVER);
@@ -82,6 +82,7 @@
         sw = new Gtk.ScrolledWindow ();
         sw.hexpand = true;
         sw.vexpand = true;
+        sw.valign = Gtk.Align.CENTER;
         sw.vscrollbar_policy = (Gtk.PolicyType.NEVER);
         sw.set_child (flowbox);
 

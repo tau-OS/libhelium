@@ -37,9 +37,9 @@ public class He.AboutWindow : He.Window {
 
   private Gtk.Image icon_image = new Gtk.Image ();
 
-  private He.TextButton translate_app_button = new He.TextButton (_("Translate App"));
-  private He.TintButton report_button = new He.TintButton (_("Report a Problem"));
-  private He.FillButton more_info_button = new He.FillButton (_("More Info…"));
+  private He.Button translate_app_button = new He.Button (null, _("Translate App"));
+  private He.Button report_button = new He.Button (null, _("Report a Problem"));
+  private He.Button more_info_button = new He.Button (null, _("More Info…"));
 
   private He.ModifierBadge version_badge = new He.ModifierBadge ("");
 
@@ -271,12 +271,12 @@ public class He.AboutWindow : He.Window {
     this.modal = true;
     this.resizable = false;
 
-    var close_button = new He.DisclosureButton ("window-close-symbolic");
+    var close_button = new He.Button ("window-close-symbolic", null);
+    close_button.is_disclosure = true;
     close_button.halign = Gtk.Align.END;
     close_button.valign = Gtk.Align.START;
     close_button.margin_top = 24;
     close_button.margin_end = 24;
-    close_button.remove_css_class ("image-button");
     close_button.set_tooltip_text (_("Close"));
 
     window_overlay.add_overlay (close_button);
@@ -314,6 +314,10 @@ public class He.AboutWindow : He.Window {
     license_label.xalign = 0;
     license_label.visible = true;
     text_box.append (license_label);
+
+    translate_app_button.is_textual = true;
+    report_button.is_tint = true;
+    more_info_button.is_fill = true;
 
     button_box.valign = Gtk.Align.CENTER;
     button_box.homogeneous = true;

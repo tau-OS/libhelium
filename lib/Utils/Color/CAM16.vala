@@ -10,18 +10,18 @@ namespace He.Color {
     }
 
     private const double[,] XYZ_TO_CAM16RGB = {
-        {0.401288, 0.650173, -0.051461},
-        {-0.250268, 1.204414, 0.045854},
-        {-0.002079, 0.048952, 0.953127}
+        { 0.401288, 0.650173, -0.051461 },
+        { -0.250268, 1.204414, 0.045854 },
+        { -0.002079, 0.048952, 0.953127 }
     };
 
     public CAM16Color xyz_to_cam16 (XYZColor color) {
         ViewingConditions vc = ViewingConditions.with_lstar (LSTAR);
 
         double[,] matrix = XYZ_TO_CAM16RGB;
-        double r_t = (color.x * matrix[0,0]) + (color.y * matrix[0,1]) + (color.z * matrix[0,2]);
-        double g_t = (color.x * matrix[1,0]) + (color.y * matrix[1,1]) + (color.z * matrix[1,2]);
-        double b_t = (color.x * matrix[2,0]) + (color.y * matrix[2,1]) + (color.z * matrix[2,2]);
+        double r_t = (color.x * matrix[0, 0]) + (color.y * matrix[0, 1]) + (color.z * matrix[0, 2]);
+        double g_t = (color.x * matrix[1, 0]) + (color.y * matrix[1, 1]) + (color.z * matrix[1, 2]);
+        double b_t = (color.x * matrix[2, 0]) + (color.y * matrix[2, 1]) + (color.z * matrix[2, 2]);
 
         double r_d = vc.rgb_d[0] * r_t;
         double g_d = vc.rgb_d[1] * g_t;

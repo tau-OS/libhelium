@@ -1,21 +1,21 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
  * A ContentBlock displays a single block of content, which contains an icon, text and optional buttons.
@@ -104,8 +104,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
                 button_box.remove (_secondary_button);
             }
 
-            value.add_css_class ("tint-button");
-            value.add_css_class ("pill");
+            value.is_tint = true;
             _secondary_button = value;
             button_box.prepend (_secondary_button);
         }
@@ -129,6 +128,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
             }
 
             _primary_button = value;
+            value.is_fill = true;
             button_box.append (_primary_button);
         }
     }
@@ -141,13 +141,11 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
      * @param primary_button The primary button of the content block.
      * @param secondary_button The secondary button of the content block.
      */
-    public ContentBlock (
-        string title,
+    public ContentBlock (string title,
         string subtitle,
         string icon,
         He.Button primary_button,
-        He.Button secondary_button
-    ) {
+        He.Button secondary_button) {
         base ();
         this.title = title;
         this.subtitle = subtitle;
@@ -162,7 +160,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
      * @since 1.0
      */
     public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-        button_box.append ((Gtk.Widget)child);
+        button_box.append ((Gtk.Widget) child);
     }
 
     static construct {
@@ -172,7 +170,7 @@ public class He.ContentBlock : He.Bin, Gtk.Buildable {
     construct {
         this.add_css_class ("content-block");
 
-        image.pixel_size = ((Gtk.IconSize)48);
+        image.pixel_size = 48;
         image.halign = Gtk.Align.START;
         image.valign = Gtk.Align.CENTER;
         image.set_visible (false);

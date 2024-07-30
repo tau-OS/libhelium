@@ -1,21 +1,21 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
  * A Dialog is a modal window that asks the user for input or shows a message.
@@ -28,13 +28,13 @@ public class He.Dialog : He.Window {
     private Gtk.Box child_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
     private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
     private Gtk.WindowHandle dialog_handle = new Gtk.WindowHandle ();
-    private He.TintButton _secondary_button;
-    private He.FillButton _primary_button;
+    private He.Button _secondary_button;
+    private He.Button _primary_button;
 
     /**
      * The cancel button in the dialog.
      */
-    public He.TextButton cancel_button;
+    public He.Button cancel_button;
 
     /**
      * Sets the title of the dialog.
@@ -79,7 +79,7 @@ public class He.Dialog : He.Window {
         }
 
         set {
-            image.pixel_size = ((Gtk.IconSize)48);
+            image.pixel_size = ((Gtk.IconSize) 48);
             image.set_from_icon_name (value);
         }
     }
@@ -87,13 +87,14 @@ public class He.Dialog : He.Window {
     /**
      * Sets the secondary button of the dialog.
      */
-    public He.TintButton secondary_button {
+    public He.Button secondary_button {
         set {
             if (_secondary_button != null) {
                 button_box.remove (_secondary_button);
             }
 
             _secondary_button = value;
+            value.is_tint = true;
             button_box.prepend (_secondary_button);
             button_box.reorder_child_after (_secondary_button, cancel_button);
         }
@@ -106,7 +107,7 @@ public class He.Dialog : He.Window {
     /**
      * Sets the primary button of the dialog.
      */
-    public He.FillButton primary_button {
+    public He.Button primary_button {
         get {
             return _primary_button;
         }
@@ -117,6 +118,7 @@ public class He.Dialog : He.Window {
             }
 
             _primary_button = value;
+            value.is_fill = true;
             button_box.append (_primary_button);
 
             if (_secondary_button != null) {
@@ -148,16 +150,14 @@ public class He.Dialog : He.Window {
      *
      * @since 1.0
      */
-    public Dialog (
-        bool modal,
+    public Dialog (bool modal,
         Gtk.Window? parent,
         string title,
         string subtitle,
         string info,
         string icon,
-        He.FillButton? primary_button,
-        He.TintButton? secondary_button
-    ) {
+        He.Button? primary_button,
+        He.Button? secondary_button) {
         this.modal = modal;
         this.parent = parent;
         this.title = title;
@@ -188,7 +188,8 @@ public class He.Dialog : He.Window {
         info_box.append (title_label);
         info_box.append (info_label);
 
-        cancel_button = new He.TextButton (_("Cancel"));
+        cancel_button = new He.Button (null, _("Cancel"));
+        cancel_button.is_textual = true;
         cancel_button.clicked.connect (() => {
             this.close ();
         });

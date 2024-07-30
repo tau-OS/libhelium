@@ -1,25 +1,25 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
-* A ContentBlockImageCluster is a cluster of images that are rendered together in the same content block.
-*/
+ * A ContentBlockImageCluster is a cluster of images that are rendered together in the same content block.
+ */
 public class He.ContentBlockImageCluster : He.Bin {
   private Gtk.Label title_label = new Gtk.Label (null);
   private Gtk.Label subtitle_label = new Gtk.Label (null);
@@ -28,8 +28,8 @@ public class He.ContentBlockImageCluster : He.Bin {
   private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 
   /**
-  * The title of the cluster.
-  */
+   * The title of the cluster.
+   */
   public string title {
     get {
       return title_label.get_text ();
@@ -40,8 +40,8 @@ public class He.ContentBlockImageCluster : He.Bin {
   }
 
   /**
-  * The subtitle of the cluster.
-  */
+   * The subtitle of the cluster.
+   */
   public string subtitle {
     get {
       return subtitle_label.get_text ();
@@ -52,8 +52,8 @@ public class He.ContentBlockImageCluster : He.Bin {
   }
 
   /**
-  * The image of the cluster.
-  */
+   * The image of the cluster.
+   */
   public string icon {
     get {
       return image.get_icon_name ();
@@ -65,8 +65,8 @@ public class He.ContentBlockImageCluster : He.Bin {
   }
 
   /**
-  * The position of the cluster image in the cluster.
-  */
+   * The position of the cluster image in the cluster.
+   */
   public enum ImagePosition {
     TOP_LEFT,
     BOTTOM_LEFT,
@@ -74,30 +74,30 @@ public class He.ContentBlockImageCluster : He.Bin {
     BOTTOM_RIGHT;
 
     /**
-    * Gets the column of the position.
-    */
+     * Gets the column of the position.
+     */
     public int get_column () {
       switch (this) {
-        case ImagePosition.TOP_LEFT:
-        case ImagePosition.BOTTOM_LEFT:
+      case ImagePosition.TOP_LEFT:
+      case ImagePosition.BOTTOM_LEFT:
         return 0;
-        case ImagePosition.TOP_RIGHT:
-        case ImagePosition.BOTTOM_RIGHT:
+      case ImagePosition.TOP_RIGHT:
+      case ImagePosition.BOTTOM_RIGHT:
         return 1;
       }
       return 0;
     }
 
     /**
-    * Gets the row of the position.
-    */
+     * Gets the row of the position.
+     */
     public int get_row () {
       switch (this) {
-        case ImagePosition.TOP_LEFT:
-        case ImagePosition.TOP_RIGHT:
+      case ImagePosition.TOP_LEFT:
+      case ImagePosition.TOP_RIGHT:
         return 0;
-        case ImagePosition.BOTTOM_LEFT:
-        case ImagePosition.BOTTOM_RIGHT:
+      case ImagePosition.BOTTOM_LEFT:
+      case ImagePosition.BOTTOM_RIGHT:
         return 1;
       }
       return 0;
@@ -105,10 +105,10 @@ public class He.ContentBlockImageCluster : He.Bin {
   }
 
   /**
-  * Sets an image to be displayed in the cluster.
-  * @param image The image to display.
-  * @param position The position of the image in the cluster.
-  */
+   * Sets an image to be displayed in the cluster.
+   * @param image The image to display.
+   * @param position The position of the image in the cluster.
+   */
   public void set_image (He.ContentBlockImage image, ImagePosition position) {
     image.requested_height = 64;
     image.requested_width = 64;
@@ -117,20 +117,20 @@ public class He.ContentBlockImageCluster : He.Bin {
   }
 
   /**
-  * Removes an image from the cluster.
-  * @param image The image to remove.
-  */
+   * Removes an image from the cluster.
+   * @param image The image to remove.
+   */
   public void remove_image (He.ContentBlockImage image) {
     this.grid.remove (image);
   }
 
   /**
-  * Creates a new ContentBlockImageCluster.
-  *
-  * @param title The title of the cluster.
-  * @param subtitle The subtitle of the cluster.
-  * @param icon The icon of the cluster.
-  */
+   * Creates a new ContentBlockImageCluster.
+   *
+   * @param title The title of the cluster.
+   * @param subtitle The subtitle of the cluster.
+   * @param icon The icon of the cluster.
+   */
   public ContentBlockImageCluster (string title, string subtitle, string icon) {
     base ();
     this.title = title;
@@ -139,24 +139,24 @@ public class He.ContentBlockImageCluster : He.Bin {
   }
 
   /**
-  * Adds an image child to the cluster. The image will be displayed in the cluster in the position specified by the position type.
-  * Should only be used in UI or Blueprint files.
-  *
-  * @since 1.0
-  */
+   * Adds an image child to the cluster. The image will be displayed in the cluster in the position specified by the position type.
+   * Should only be used in UI or Blueprint files.
+   *
+   * @since 1.0
+   */
   public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
     switch (type) {
-      case "top_left":
-      this.set_image ((He.ContentBlockImage)child, ImagePosition.TOP_LEFT);
+    case "top_left":
+      this.set_image ((He.ContentBlockImage) child, ImagePosition.TOP_LEFT);
       break;
-      case "bottom_left":
-      this.set_image ((He.ContentBlockImage)child, ImagePosition.BOTTOM_LEFT);
+    case "bottom_left":
+      this.set_image ((He.ContentBlockImage) child, ImagePosition.BOTTOM_LEFT);
       break;
-      case "top_right":
-      this.set_image ((He.ContentBlockImage)child, ImagePosition.TOP_RIGHT);
+    case "top_right":
+      this.set_image ((He.ContentBlockImage) child, ImagePosition.TOP_RIGHT);
       break;
-      case "bottom_right":
-      this.set_image ((He.ContentBlockImage)child, ImagePosition.BOTTOM_RIGHT);
+    case "bottom_right":
+      this.set_image ((He.ContentBlockImage) child, ImagePosition.BOTTOM_RIGHT);
       break;
     }
   }
@@ -168,7 +168,7 @@ public class He.ContentBlockImageCluster : He.Bin {
   construct {
     this.add_css_class ("content-block");
 
-    image.pixel_size = ((Gtk.IconSize)64);
+    image.pixel_size = ((Gtk.IconSize) 64);
     image.halign = Gtk.Align.START;
     title_label.xalign = 0;
     title_label.add_css_class ("cb-title");

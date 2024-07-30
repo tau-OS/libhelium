@@ -81,9 +81,9 @@ public class He.DatePicker : Gtk.Entry {
 
 private class He.CalendarWidget : He.Bin {
     private Gtk.Grid calendar_grid;
-    private He.TextButton header_label;
-    private He.DisclosureButton left_arrow;
-    private He.DisclosureButton right_arrow;
+    private He.Button header_label;
+    private He.Button left_arrow;
+    private He.Button right_arrow;
     private bool showing_days;
 
     public int day { get; set; }
@@ -109,10 +109,11 @@ private class He.CalendarWidget : He.Bin {
         // Header with month name and arrows
         Gtk.Box header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 6);
 
-        header_label = new He.TextButton(month_names[month] + " " + year.to_string()) {
+        header_label = new He.Button(null, month_names[month] + " " + year.to_string()) {
             halign = Gtk.Align.START,
             valign = Gtk.Align.CENTER,
             hexpand = true,
+            is_textual = true,
             margin_start = 18,
             tooltip_text = _("Select Month")
         };
@@ -121,14 +122,16 @@ private class He.CalendarWidget : He.Bin {
         header_label.add_css_class("flat");
         header_label.clicked.connect(() => toggle_view());
 
-        left_arrow = new He.DisclosureButton("go-previous-symbolic") {
+        left_arrow = new He.Button("go-previous-symbolic", null) {
             halign = Gtk.Align.END,
+            is_disclosure = true,
             tooltip_text = _("Previous Month")
         };
         left_arrow.clicked.connect(() => change_month(-1));
 
-        right_arrow = new He.DisclosureButton("go-next-symbolic") {
+        right_arrow = new He.Button("go-next-symbolic", null) {
             halign = Gtk.Align.END,
+            is_disclosure = true,
             margin_end = 18,
             tooltip_text = _("Next Month")
         };
@@ -196,9 +199,10 @@ private class He.CalendarWidget : He.Bin {
                     int day = i * 7 + j + 1;
                     if (day > days)break;
 
-                    var day_label = new He.TextButton(day.to_string()) {
+                    var day_label = new He.Button(null, day.to_string()) {
                         halign = Gtk.Align.CENTER,
                         valign = Gtk.Align.CENTER,
+                        is_textual = true
                     };
                     day_label.add_css_class("numeric");
                     day_label.add_css_class("circular");
@@ -221,9 +225,10 @@ private class He.CalendarWidget : He.Bin {
                 for (int j = 0; j < 4; j++) {
                     int month_index = i * 4 + j;
 
-                    var month_label = new He.TextButton(month_names[month_index].substring(0, 3)) {
+                    var month_label = new He.Button(null, month_names[month_index].substring(0, 3)) {
                         halign = Gtk.Align.CENTER,
                         valign = Gtk.Align.CENTER,
+                        is_textual = true,
                         hexpand = true,
                         width_request = 42,
                         height_request = 42

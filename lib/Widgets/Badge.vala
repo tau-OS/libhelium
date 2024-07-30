@@ -1,36 +1,36 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
-* A Badge is a small status indicator that can be used to provide additional information about an object.
-*/
+ * A Badge is a small status indicator that can be used to provide additional information about an object.
+ */
 public class He.Badge : He.Bin {
     private Gtk.Overlay overlay = new Gtk.Overlay ();
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Label _label;
 
     /**
-    * The child of the badge.
-    *
+     * The child of the badge.
+     *
      * @since 1.0
      */
-    public new Gtk.Widget? child {
+    public new Gtk.Widget ? child {
         get {
             return overlay.get_child ();
         }
@@ -41,11 +41,11 @@ public class He.Badge : He.Bin {
     }
 
     /**
-    * Text to display in the badge.
-    */
+     * Text to display in the badge.
+     */
     public string? label {
         get {
-            return _label?.get_text ();
+            return _label ? .get_text ();
         }
 
         set {
@@ -73,8 +73,8 @@ public class He.Badge : He.Bin {
     }
 
     /**
-    * Creates a new badge.
-    */
+     * Creates a new badge.
+     */
     public Badge () {
         base ();
     }

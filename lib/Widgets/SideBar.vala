@@ -182,22 +182,11 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
      */
     public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
         if (type == "titlebar-button") {
-            titlebar.btn_box.append ((Gtk.Widget) child);
-            ((Gtk.Widget) child).add_css_class ("disclosure-button");
-            ((Gtk.Widget) child).remove_css_class ("image-button");
-            titlebar.btn_box.visible = true;
+            titlebar.append ((Gtk.Widget) child);
         } else if (type == "titlebar-menu") {
-            titlebar.btn_box.append ((Gtk.Widget) child);
-            ((Gtk.Widget) child).get_first_child ().add_css_class ("disclosure-button");
-            ((Gtk.Widget) child).get_first_child ().remove_css_class ("image-button");
-
-            ((Gtk.Widget) child).remove_css_class ("image-button");
-            titlebar.btn_box.visible = true;
+            titlebar.append_menu ((Gtk.Widget) child);
         } else if (type == "titlebar-toggle") {
-            titlebar.btn_box.append ((Gtk.Widget) child);
-            ((Gtk.Widget) child).remove_css_class ("image-button");
-            ((Gtk.Widget) child).add_css_class ("disclosure-button");
-            titlebar.btn_box.visible = true;
+            titlebar.append_toggle ((Gtk.Widget) child);
         } else {
             box.append ((Gtk.Widget) child);
         }

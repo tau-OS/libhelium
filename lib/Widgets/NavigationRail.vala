@@ -1,26 +1,26 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
  * A NavigationRail is a vertical switcher that helps navigate a stack.
  */
- public class He.NavigationRail : He.Bin {
+public class He.NavigationRail : He.Bin {
     private Gtk.SelectionModel _stack_pages;
     private List<Gtk.ToggleButton> _buttons;
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -34,7 +34,7 @@
     public Gtk.Stack stack {
         get { return this._stack; }
         set {
-            if (this._stack == value) return;
+            if (this._stack == value)return;
 
             if (this._stack_pages != null) {
                 this._stack_pages.selection_changed.disconnect (on_selected_stack_page_changed);
@@ -60,11 +60,11 @@
     public Gtk.Orientation orientation {
         get { return this._orientation; }
         set {
-            if (this._orientation == value) return;
+            if (this._orientation == value)return;
 
             this._orientation = value;
             main_box.orientation = value;
-            ((Gtk.BoxLayout)this.get_layout_manager ()).orientation = value;
+            ((Gtk.BoxLayout) this.get_layout_manager ()).orientation = value;
 
             if (value == Gtk.Orientation.VERTICAL) {
                 main_box.valign = Gtk.Align.CENTER;
@@ -150,15 +150,15 @@
 
             var button_child_image = new Gtk.Image ();
             this._stack_pages.get_item (position).bind_property (
-                "icon_name",
-                button_child_image,
-                "icon_name",
-                SYNC_CREATE
+                                                                 "icon_name",
+                                                                 button_child_image,
+                                                                 "icon_name",
+                                                                 SYNC_CREATE
             );
 
             var button_child_label = new Gtk.Label ("");
             this._stack_pages.get_item (position).bind_property ("title", button_child_label, "label", SYNC_CREATE);
-            var page = (Gtk.StackPage)this._stack_pages.get_item (position);
+            var page = (Gtk.StackPage) this._stack_pages.get_item (position);
             if (button.active) {
                 this._stack_pages.select_item (position, true);
 
@@ -207,7 +207,7 @@
         }
 
         unowned int position = this._buttons.index (button);
-        var page = (Gtk.StackPage)this._stack_pages.get_item (position);
+        var page = (Gtk.StackPage) this._stack_pages.get_item (position);
 
         if (button.active) {
             this._stack_pages.select_item (position, true);

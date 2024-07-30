@@ -6,35 +6,36 @@ namespace He.Color {
     }
 
     private const double[,] CAM16RGB_TO_XYZ = {
-        {1.8620678, -1.0112547, 0.14918678},
-        {0.38752654, 0.62144744, -0.00897398},
-        {-0.01584150, -0.03412294, 1.0499644}
+        { 1.8620678, -1.0112547, 0.14918678 },
+        { 0.38752654, 0.62144744, -0.00897398 },
+        { -0.01584150, -0.03412294, 1.0499644 }
     };
 
     private const double[,] RGB_TO_XYZ = {
-        {0.4124564, 0.3575761, 0.1804375},
-        {0.2126729, 0.7151522, 0.0721750},
-        {0.0193339, 0.1191920, 0.9503041}
+        { 0.4124564, 0.3575761, 0.1804375 },
+        { 0.2126729, 0.7151522, 0.0721750 },
+        { 0.0193339, 0.1191920, 0.9503041 }
     };
 
     public XYZColor argb_to_xyz (int argb) {
         double r = MathUtils.linearized (red_from_rgba_int (argb));
         double g = MathUtils.linearized (green_from_rgba_int (argb));
         double b = MathUtils.linearized (blue_from_rgba_int (argb));
-        double[] xyz = MathUtils.elem_mul ({r, g, b}, SRGB_TO_XYZ);
-        return {xyz[0], xyz[1], xyz[2]};
+        double[] xyz = MathUtils.elem_mul ({ r, g, b }, SRGB_TO_XYZ);
+        return { xyz[0], xyz[1], xyz[2] };
     }
 
     public double rgb_value_to_xyz (double v) {
-        if ((v /= 255) <= 0.04045) return v / 12.92;
+        if ((v /= 255) <= 0.04045)return v / 12.92;
         return Math.pow ((v + 0.055) / 1.055, 2.4);
     }
+
     public XYZColor rgb_to_xyz (RGBColor color) {
         var r = rgb_value_to_xyz (color.r);
         var g = rgb_value_to_xyz (color.g);
         var b = rgb_value_to_xyz (color.b);
 
-        double[] xyz = MathUtils.elem_mul ({r, g, b}, RGB_TO_XYZ);
+        double[] xyz = MathUtils.elem_mul ({ r, g, b }, RGB_TO_XYZ);
 
         XYZColor result = {
             xyz[0],
@@ -78,16 +79,16 @@ namespace He.Color {
         double b_f = b_c / vc.rgb_d[2];
 
         double[,] matrix = CAM16RGB_TO_XYZ;
-        double x = (r_f * matrix[0,0]) + (g_f * matrix[0,1]) + (b_f * matrix[0,2]);
-        double y = (r_f * matrix[1,0]) + (g_f * matrix[1,1]) + (b_f * matrix[1,2]);
-        double z = (r_f * matrix[2,0]) + (g_f * matrix[2,1]) + (b_f * matrix[2,2]);
+        double x = (r_f * matrix[0, 0]) + (g_f * matrix[0, 1]) + (b_f * matrix[0, 2]);
+        double y = (r_f * matrix[1, 0]) + (g_f * matrix[1, 1]) + (b_f * matrix[1, 2]);
+        double z = (r_f * matrix[2, 0]) + (g_f * matrix[2, 1]) + (b_f * matrix[2, 2]);
 
-        XYZColor xyz = {x, y, z};
+        XYZColor xyz = { x, y, z };
 
         return xyz;
     }
 
-      // Adapted from https://cs.github.com/Ogeon/palette/blob/d4cae1e2510205f7626e880389e5e18b45913bd4/palette/src/xyz.rs#L259
+    // Adapted from https://cs.github.com/Ogeon/palette/blob/d4cae1e2510205f7626e880389e5e18b45913bd4/palette/src/xyz.rs#L259
     public XYZColor lab_to_xyz (LABColor color) {
         // Recip call shows performance benefits in benchmarks for this function
         var y = (color.l + 16.0) * (1 / 116.0);

@@ -1,21 +1,21 @@
 /*
-* Copyright (c) 2022 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2022 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
  * A BottomBar is a toolbar made to make actions on content more visible.
@@ -67,7 +67,7 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    */
   public GLib.MenuModel menu_model {
     get {
-        return menu.get_menu_model ();
+      return menu.get_menu_model ();
     }
     set {
       menu.set_menu_model (value);
@@ -109,16 +109,13 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
   }
 
   private Gtk.Widget create_menu_button (Gtk.Widget child) {
-    var child_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-    var child_image = new Gtk.Image ();
-    child_image.set_from_icon_name (((Gtk.Button)child).get_icon_name ());
-    var child_label = new Gtk.Label (child.get_tooltip_text ());
-    child_box.append (child_image);
-    child_box.append (child_label);
+    var child_content = new He.ButtonContent ();
+    child_content.icon = ((Gtk.Button) child).get_icon_name ();
+    child_content.label = child.get_tooltip_text ();
 
-    var child_button = new Gtk.Button ();
-    child_button.add_css_class ("flat");
-    child_button.set_child (child_box);
+    var child_button = new He.Button (null, null);
+    child_button.is_textual = true;
+    child_button.set_child (child_content);
 
     return child_button;
   }
@@ -127,20 +124,20 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
   /**
    * Whether to collapse actions into a menu.
    */
-   public bool collapse_actions {
-     get { return _collapse_actions; }
-     set {
-       // TODO: Refactor this thing
-       _collapse_actions = value;
+  public bool collapse_actions {
+    get { return _collapse_actions; }
+    set {
+      // TODO: Refactor this thing
+      _collapse_actions = value;
 
-       if (_collapse_actions) {
-         this.box.remove (left_box);
-         this.box.prepend (left_fmenu_box);
+      if (_collapse_actions) {
+        this.box.remove (left_box);
+        this.box.prepend (left_fmenu_box);
 
-         this.box.remove (right_box);
-         this.box.append (right_fmenu_box);
-        } else {
-          this.box.remove (left_fmenu_box);
+        this.box.remove (right_box);
+        this.box.append (right_fmenu_box);
+      } else {
+        this.box.remove (left_fmenu_box);
         this.box.prepend (left_box);
 
         this.box.remove (right_fmenu_box);
@@ -161,13 +158,13 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    * Add a child to the bottombar, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
    */
   public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-      if (type == "left") {
-        this.append_button ((He.IconicButton)child, Position.LEFT);
-      } else if (type == "right") {
-        this.append_button ((He.IconicButton)child, Position.RIGHT);
-      } else {
-        this.append_button ((He.IconicButton)child, Position.LEFT);
-      }
+    if (type == "left") {
+      this.append_button ((He.Button) child, Position.LEFT);
+    } else if (type == "right") {
+      this.append_button ((He.Button) child, Position.RIGHT);
+    } else {
+      this.append_button ((He.Button) child, Position.LEFT);
+    }
   }
 
   /**
@@ -233,7 +230,7 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    * @param icon The iconicbutton of the action.
    * @param position The position of the action.
    */
-  public void append_button (He.IconicButton icon, Position position) {
+  public void append_button (He.Button icon, Position position) {
     var box = position == Position.LEFT ? left_box : right_box;
     var fmenu_box = position == Position.LEFT ? fmenu_box_l : fmenu_box_r;
 
@@ -250,7 +247,7 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    * @param icon The iconicbutton of the action.
    * @param position The position of the action.
    */
-  public void prepend_button (He.IconicButton icon, Position position) {
+  public void prepend_button (He.Button icon, Position position) {
     var box = position == Position.LEFT ? left_box : right_box;
     var fmenu_box = position == Position.LEFT ? fmenu_box_l : fmenu_box_r;
 
@@ -267,7 +264,7 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    * @param icon The iconicbutton of the action.
    * @param position The position of the action.
    */
-  public void remove_button (He.IconicButton icon, Position position) {
+  public void remove_button (He.Button icon, Position position) {
     var box = position == Position.LEFT ? left_box : right_box;
     var fmenu_box = position == Position.LEFT ? fmenu_box_l : fmenu_box_r;
 
@@ -282,7 +279,7 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    * @param after The iconicbutton of the action after which the action is.
    * @param position The position of the action.
    */
-  public void insert_button_after (He.IconicButton icon, He.IconicButton after, Position position) {
+  public void insert_button_after (He.Button icon, He.Button after, Position position) {
     var box = position == Position.LEFT ? left_box : right_box;
     var fmenu_box = position == Position.LEFT ? fmenu_box_l : fmenu_box_r;
 
@@ -300,9 +297,9 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
    * @param sibling The iconicbutton of the action after which the action is.
    * @param position The position of the action.
    *
-     * @since 1.0
-     */
-  public void reorder_button_after (He.IconicButton icon, He.IconicButton sibling, Position position) {
+   * @since 1.0
+   */
+  public void reorder_button_after (He.Button icon, He.Button sibling, Position position) {
     var box = position == Position.LEFT ? left_box : right_box;
     var fmenu_box = position == Position.LEFT ? fmenu_box_l : fmenu_box_r;
 

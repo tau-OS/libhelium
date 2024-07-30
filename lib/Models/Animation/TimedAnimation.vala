@@ -86,7 +86,7 @@ namespace He {
         }
 
         // Constructor
-        public TimedAnimation (Gtk.Widget widget, double from, double to, uint duration, AnimationTarget target) {
+        public TimedAnimation(Gtk.Widget widget, double from, double to, uint duration, AnimationTarget target) {
             Object(widget: widget, value_from: from, value_to: to, duration: duration, target: target);
             this._repeat_count = 1;
             this._easing = He.Easing.EASE_OUT_CUBIC;
@@ -94,22 +94,22 @@ namespace He {
 
         // Estimate Duration Method
         public override uint estimate_duration() {
-            if (repeat_count == 0) return (uint)0xffffffff;
+            if (repeat_count == 0)return (uint) 0xffffffff;
             return duration * repeat_count;
         }
 
         // Calculate Value Method
         public override double calculate_value(uint t) {
-            if (duration == 0) return value_to;
+            if (duration == 0)return value_to;
 
             double iteration;
-            double progress = Math.modf((double)t / duration, out iteration);
+            double progress = Math.modf((double) t / duration, out iteration);
             bool reverse_iteration = false;
 
-            if (alternate) reverse_iteration = ((int)iteration % 2) == 1;
-            if (reverse) reverse_iteration = !reverse_iteration;
+            if (alternate)reverse_iteration = ((int) iteration % 2) == 1;
+            if (reverse)reverse_iteration = !reverse_iteration;
 
-            if (t >= estimate_duration()) 
+            if (t >= estimate_duration())
                 return alternate == reverse_iteration ? value_to : value_from;
 
             progress = reverse_iteration ? (1 - progress) : progress;
@@ -123,15 +123,15 @@ namespace He {
             // Implement the easing function logic
             // This is a placeholder. Replace with actual easing function logic.
             switch (easing) {
-                case He.Easing.LINEAR:
-                    return progress;
-                case He.Easing.EASE_OUT_CUBIC:
-                    return 1 - Math.pow(1 - progress, 3);
-                case He.Easing.EASE_IN_OUT_BOUNCE:
-                    // Placeholder for bounce easing function
-                    return progress < 0.5 ? (1 - Math.pow(1 - (progress * 2), 3)) / 2 : (Math.pow((progress * 2) - 1, 3) + 1) / 2;
-                default:
-                    return progress;
+            case He.Easing.LINEAR:
+                return progress;
+            case He.Easing.EASE_OUT_CUBIC:
+                return 1 - Math.pow(1 - progress, 3);
+            case He.Easing.EASE_IN_OUT_BOUNCE:
+                // Placeholder for bounce easing function
+                return progress < 0.5 ? (1 - Math.pow(1 - (progress * 2), 3)) / 2 : (Math.pow((progress * 2) - 1, 3) + 1) / 2;
+            default:
+                return progress;
             }
         }
 

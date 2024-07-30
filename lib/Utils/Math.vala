@@ -24,25 +24,25 @@ namespace He.MathUtils {
 
     public static double clamp_double (double min, double max, double input) {
         if (input < min) {
-          return min;
+            return min;
         } else if (input > max) {
-          return max;
+            return max;
         }
 
         return input;
     }
 
     public int signum (double x) {
-        return (int)(x > 0) - (int)(x < 0);
+        return (int) (x > 0) - (int) (x < 0);
     }
 
     // Convert radians to degrees
-    public double to_degrees(double radians) {
+    public double to_degrees (double radians) {
         return radians * (180.0 / Math.PI);
     }
-    
+
     // Convert degrees to radians
-    public double to_radians(double degrees) {
+    public double to_radians (double degrees) {
         return degrees * (Math.PI / 180.0);
     }
 
@@ -59,9 +59,9 @@ namespace He.MathUtils {
 
     public double[] lerp_point (double[] source, double t, double[] target) {
         return new double[] {
-            source[0] + (target[0] - source[0]) * t,
-            source[1] + (target[1] - source[1]) * t,
-            source[2] + (target[2] - source[2]) * t,
+                   source[0] + (target[0] - source[0]) * t,
+                   source[1] + (target[1] - source[1]) * t,
+                   source[2] + (target[2] - source[2]) * t,
         };
     }
 
@@ -87,9 +87,9 @@ namespace He.MathUtils {
 
     public double[] elem_mul (double[] row, double[,] matrix) {
         double[] prod = {
-            row[0] * matrix[0,0] + row[1] * matrix[0,1] + row[2] * matrix[0,2],
-            row[0] * matrix[1,0] + row[1] * matrix[1,1] + row[2] * matrix[1,2],
-            row[0] * matrix[2,0] + row[1] * matrix[2,1] + row[2] * matrix[2,2]
+            row[0] * matrix[0, 0] + row[1] * matrix[0, 1] + row[2] * matrix[0, 2],
+            row[0] * matrix[1, 0] + row[1] * matrix[1, 1] + row[2] * matrix[1, 2],
+            row[0] * matrix[2, 0] + row[1] * matrix[2, 1] + row[2] * matrix[2, 2]
         };
         return prod;
     }
@@ -155,9 +155,9 @@ namespace He.MathUtils {
     public double linearized (int rgb_component) {
         double normalized = rgb_component / 255.0;
         if (normalized <= 0.040449936) {
-          return normalized / 12.92 * 100.0;
+            return normalized / 12.92 * 100.0;
         } else {
-          return Math.pow ((normalized + 0.055) / 1.055, 2.4) * 100.0;
+            return Math.pow ((normalized + 0.055) / 1.055, 2.4) * 100.0;
         }
     }
 
@@ -185,7 +185,7 @@ namespace He.MathUtils {
 
     public double[] midpoint (double[] a, double[] b) {
         return new double[] {
-            (a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2,
+                   (a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2,
         };
     }
 
@@ -216,27 +216,27 @@ namespace He.MathUtils {
             double b = coord_b;
             double r = (y - g * k_g - b * k_b) / k_r;
             if (is_bounded_rgb (r)) {
-                return new double[] {r, g, b};
+                return new double[] { r, g, b };
             } else {
-                return new double[] {-1.0, -1.0, -1.0};
+                return new double[] { -1.0, -1.0, -1.0 };
             }
         } else if (n < 8) {
             double b = coord_a;
             double r = coord_b;
             double g = (y - r * k_r - b * k_b) / k_g;
             if (is_bounded_rgb (g)) {
-                return new double[] {r, g, b};
+                return new double[] { r, g, b };
             } else {
-                return new double[] {-1.0, -1.0, -1.0};
+                return new double[] { -1.0, -1.0, -1.0 };
             }
         } else {
             double r = coord_a;
             double g = coord_b;
             double b = (y - r * k_r - g * k_g) / k_b;
             if (is_bounded_rgb (b)) {
-                return new double[] {r, g, b};
+                return new double[] { r, g, b };
             } else {
-                return new double[] {-1.0, -1.0, -1.0};
+                return new double[] { -1.0, -1.0, -1.0 };
             }
         }
     }
@@ -256,11 +256,11 @@ namespace He.MathUtils {
         var epsilon = 6.0 / 29.0;
         var kappa = 108.0 / 841.0;
         var delta = 4.0 / 29.0;
-        return value > epsilon ? Math.pow (value, 3) : (value - delta) * kappa;
+        return value > epsilon? Math.pow (value, 3) : (value - delta) * kappa;
     }
 
     public double[] bisect_to_segment (double y, double target_hue) {
-        double[] left = {-1.0, -1.0, -1.0};
+        double[] left = { -1.0, -1.0, -1.0 };
         double[] right = left;
         double left_hue = 0.0;
         double right_hue = 0.0;
@@ -291,14 +291,14 @@ namespace He.MathUtils {
                 }
             }
         }
-        return new double[] {left[0], left[1], left[2], right[0], right[1], right[2]};
+        return new double[] { left[0], left[1], left[2], right[0], right[1], right[2] };
     }
 
     public double[] bisect_to_limit (double y, double target_hue) {
         double[] segment = bisect_to_segment (y, target_hue);
-        double[] left = {segment[0], segment[1], segment[2]};
+        double[] left = { segment[0], segment[1], segment[2] };
         double left_hue = hue_of (left);
-        double[] right = {segment[3], segment[4], segment[5]};
+        double[] right = { segment[3], segment[4], segment[5] };
         for (int axis = 0; axis < 3; axis++) {
             if (left[axis] != right[axis]) {
                 int l_plane = -1;

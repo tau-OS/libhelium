@@ -1,25 +1,25 @@
 /*
-* Copyright (c) 2024 Fyra Labs
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*/
+ * Copyright (c) 2024 Fyra Labs
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA
+ */
 
 /**
-* A TipView is a helper widget for onboarding flow tips in an app's first launch.
-*/
+ * A TipView is a helper widget for onboarding flow tips in an app's first launch.
+ */
 public class He.TipView : He.Bin {
     private Gtk.Image image = new Gtk.Image ();
     private Gtk.Label title = new Gtk.Label ("");
@@ -33,7 +33,7 @@ public class He.TipView : He.Bin {
     /**
      * The action button of the Tip.
      */
-    public He.TextButton button = new He.TextButton ("");
+    public He.Button button = new He.Button (null, "");
 
     /**
      * The style of the Tip.
@@ -44,8 +44,8 @@ public class He.TipView : He.Bin {
             return _tip_style;
         }
         set {
-            if (_tip_style != He.TipViewStyle.NONE) this.remove_css_class (_tip_style.to_css_class ());
-            if (value != He.TipViewStyle.NONE) this.add_css_class (value.to_css_class ());
+            if (_tip_style != He.TipViewStyle.NONE)this.remove_css_class (_tip_style.to_css_class ());
+            if (value != He.TipViewStyle.NONE)this.add_css_class (value.to_css_class ());
 
             _tip_style = value;
         }
@@ -102,9 +102,9 @@ public class He.TipView : He.Bin {
             hexpand = true
         };
 
-        var close_button = new He.DisclosureButton ("window-close-symbolic");
+        var close_button = new He.Button ("window-close-symbolic", null);
+        close_button.is_disclosure = true;
         close_button.set_valign (Gtk.Align.START);
-        close_button.remove_css_class ("image-button");
         close_button.clicked.connect (() => {
             this.visible = false;
             closed ();
@@ -128,6 +128,7 @@ public class He.TipView : He.Bin {
         body_box.append (label_box);
 
         button.visible = false;
+        button.is_textual = true;
 
         body_box.append (button);
 
