@@ -198,7 +198,7 @@ public class He.BottomSheet : Gtk.Widget {
         title_label.halign = Gtk.Align.START;
         title_label.hexpand = true;
 
-        var close_button = new He.Button ("window-close-symbolic", null);
+        var close_button = new He.Button ("window-close-symbolic", "");
         close_button.is_disclosure = true;
         close_button.valign = Gtk.Align.START;
         close_button.halign = Gtk.Align.END;
