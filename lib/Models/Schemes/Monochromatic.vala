@@ -56,32 +56,32 @@ public class He.MonochromaticScheme : SchemeFactory, Object {
                    // ___  ____ _ _  _ ____ ____ _   _
                    // |__] |__/ | |\/| |__| |__/  \_/
                    // |    |  \ | |  | |  | |  \   |
-                   primary_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level : new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level),
-                   on_primary_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? 20.0 : 100.0),
+                   primary_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? new ContrastCurve (contrast, 95, 100, 100, 100).contrast_level : new ContrastCurve (contrast, 0, 0, 0, 5).contrast_level),
+                   on_primary_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? new ContrastCurve (contrast, 15, 20, 25, 30).contrast_level : new ContrastCurve (contrast, 90, 100, 100, 100).contrast_level),
                    primary_container_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level : new ContrastCurve (contrast, 95, 90, 85, 70).contrast_level),
-                   on_primary_container_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? 90.0 : 10.0),
-                   inverse_primary_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? 40.0 : 80.0),
+                   on_primary_container_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? new ContrastCurve (contrast, 85, 90, 95, 100).contrast_level : new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level),
+                   inverse_primary_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? new ContrastCurve (contrast, 0, 0, 0, 5).contrast_level : new ContrastCurve (contrast, 95, 100, 100, 100).contrast_level),
 
                    // ____ ____ ____ ____ _  _ ___  ____ ____ _   _
                    // [__  |___ |    |  | |\ | |  \ |__| |__/  \_/
                    // ___] |___ |___ |__| | \| |__/ |  | |  \   |
-                   secondary_hex = Color.hct_to_hex (secondary_hue, secondary, is_dark ? new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level : new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level),
-                   on_secondary_hex = Color.hct_to_hex (secondary_hue, secondary, is_dark ? 20.0 : 100.0),
+                   secondary_hex = Color.hct_to_hex (secondary_hue, secondary, is_dark ? new ContrastCurve (contrast, 95, 100, 100, 100).contrast_level : new ContrastCurve (contrast, 0, 0, 0, 5).contrast_level),
+                   on_secondary_hex = Color.hct_to_hex (secondary_hue, secondary, is_dark ? new ContrastCurve (contrast, 15, 20, 25, 30).contrast_level : new ContrastCurve (contrast, 90, 100, 100, 100).contrast_level),
                    secondary_container_hex = Color.hct_to_hex (secondary_hue, secondary, is_dark ? new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level : new ContrastCurve (contrast, 95, 90, 85, 70).contrast_level),
-                   on_secondary_container_hex = Color.hct_to_hex (secondary_hue, secondary, is_dark ? 90.0 : 10.0),
+                   on_secondary_container_hex = Color.hct_to_hex (secondary_hue, secondary, is_dark ? new ContrastCurve (contrast, 85, 90, 95, 100).contrast_level : new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level),
 
                    // ___ ____ ____ ___ _ ____ ____ _   _
                    // |  |___ |__/  |  | |__| |__/  \_/
                    // |  |___ |  \  |  | |  | |  \   |
-                   tertiary_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level : new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level),
-                   on_tertiary_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? 20.0 : 100.0),
+                   tertiary_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? new ContrastCurve (contrast, 95, 100, 100, 100).contrast_level : new ContrastCurve (contrast, 0, 0, 0, 5).contrast_level),
+                   on_tertiary_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? new ContrastCurve (contrast, 15, 20, 25, 30).contrast_level : new ContrastCurve (contrast, 90, 100, 100, 100).contrast_level),
                    tertiary_container_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level : new ContrastCurve (contrast, 95, 90, 85, 70).contrast_level),
-                   on_tertiary_container_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? 90.0 : 10.0),
+                   on_tertiary_container_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? new ContrastCurve (contrast, 85, 90, 95, 100).contrast_level : new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level),
 
                    // ____ _  _ ___ _    _ _  _ ____
                    // |  | |  |  |  |    | |\ | |___
                    // |__| |__|  |  |___ | | \| |___
-                   outline_hex = Color.hct_to_hex (hue, neutral_variant, is_dark ? 60.0 : 50.0),
+                   outline_hex = Color.hct_to_hex (hue, neutral, is_dark ? new ContrastCurve (contrast, 55, 60, 70, 80).contrast_level : new ContrastCurve (contrast, 45, 50, 60, 70).contrast_level),
                    outline_variant_hex = Color.hct_to_hex (hue, neutral_variant, is_dark ? new ContrastCurve (contrast, 30, 30, 40, 45).contrast_level : new ContrastCurve (contrast, 80, 80, 70, 60).contrast_level),
 
                    // ____ _  _ ____ ___  ____ _ _ _
