@@ -419,6 +419,21 @@ public class He.StyleManager : Object {
         border-top-left-radius: $x_large_roundness;
         border-bottom-left-radius: $x_large_roundness;
     }
+    .vertical.segmented-button > button:not(:first-child),
+    .vertical.segmented-button > button:not(:last-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .vertical.segmented-button button:first-child {
+      border-top-left-radius: $x_large_roundness;
+      border-top-right-radius: $x_large_roundness;
+    }
+    .vertical.segmented-button button:last-child {
+      border-bottom-left-radius: $x_large_roundness;
+      border-bottom-right-radius: $x_large_roundness;
+    }
     progressbar > trough > progress {
       border-radius: $large_roundness;
     }
