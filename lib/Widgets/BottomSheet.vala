@@ -386,7 +386,7 @@ public class He.BottomSheet : Gtk.Widget {
 
         var t = new Gsk.Transform ();
 
-        if (width <= 396) { // Mobile size (360) + accounting for sheet horizontal margins (18+18)
+        if (width <= 600) { // Mobile size
             if (dragging) {
                 t = t.translate ({ 0, height - offset_rounded });
                 sheet_height = int.max (sheet_height, offset_rounded);
