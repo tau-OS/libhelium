@@ -39,10 +39,10 @@ public class He.SaladScheme : SchemeFactory, Object {
                    // | \| |___ |__|  |  |  \ |  | |___
                    surface_bg_hex = Color.hct_to_hex (hue, neutral, is_dark ? 6.0 : 98.0),
                    surface_bg_variant_hex = Color.hct_to_hex (hue, neutral, is_dark ? 24.0 : 90.0),
-                   surface_fg_hex = Color.hct_to_hex (hue, neutral, is_dark ? 99.0 : 10.0),
-                   surface_fg_variant_hex = Color.hct_to_hex (hue, neutral, is_dark ? 80.0 : 30.0),
+                   surface_fg_hex = Color.hct_to_hex (hue, neutral, is_dark ? new ContrastCurve (contrast, 85, 90, 95, 100).contrast_level : new ContrastCurve (contrast, 7, 5, 3, 0).contrast_level),
+                   surface_fg_variant_hex = Color.hct_to_hex (hue, neutral, is_dark ? new ContrastCurve (contrast, 85, 90, 95, 99).contrast_level : new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level),
                    inverse_surface_bg_hex = Color.hct_to_hex (hue, neutral, is_dark ? 90.0 : 20.0),
-                   inverse_surface_fg_hex = Color.hct_to_hex (hue, neutral, is_dark ? 20.0 : 95.0),
+                   inverse_surface_fg_hex = Color.hct_to_hex (hue, neutral, is_dark ? new ContrastCurve (contrast, 7, 5, 3, 0).contrast_level : new ContrastCurve (contrast, 85, 90, 95, 100).contrast_level),
 
                    surface_bright_bg_hex = Color.hct_to_hex (hue, neutral, is_dark ? new ContrastCurve (contrast, 22, 24, 30, 34).contrast_level : 98.0),
                    surface_dim_bg_hex = Color.hex_from_hct ({ hue, neutral }, is_dark ? 6.0 : new ContrastCurve (contrast, 84, 87, 80, 75).contrast_level),
