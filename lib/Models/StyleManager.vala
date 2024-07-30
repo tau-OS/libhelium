@@ -83,33 +83,34 @@ public class He.StyleManager : Object {
     if (!is_registered)
       return;
 
-    var rgb_color = accent_color != null ? accent_color : is_dark ? He.Color.DEFAULT_DARK_ACCENT : He.Color.DEFAULT_LIGHT_ACCENT;
+    var rgb_color = accent_color != null ? accent_color : is_dark ? He.DEFAULT_DARK_ACCENT : He.DEFAULT_LIGHT_ACCENT;
     var base_weight = 400 * font_weight;
     var base_roundness = roundness != 0 ? 4 * roundness : 0;
     var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color));
     var chosen_scheme = scheme_factory.generate (cam16_color, is_dark, contrast);
 
-    // HCT Color blendin'
+    // Error, always constant
     var error_hct = is_dark ?
-      Color.hct_blend (Color.from_params (20.0, 25.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      Color.hct_blend (Color.from_params (25.0, 75.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+      Color.from_params (20.0, 25.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level) :
+      Color.from_params (25.0, 75.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level);
     var error_hex = Color.hct_to_hex (error_hct.h, error_hct.c, error_hct.t);
 
     var on_error_hct = is_dark ?
-      Color.hct_blend (Color.from_params (25.0, 50.0, new ContrastCurve (contrast, 17, 20, 23, 27).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 17, 20, 23, 27).contrast_level)) :
-      Color.hct_blend (Color.from_params (0.0, 0.0, new ContrastCurve (contrast, 90, 100, 100, 100).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 90, 100, 100, 100).contrast_level));
+      Color.from_params (25.0, 50.0, new ContrastCurve (contrast, 17, 20, 23, 27).contrast_level) :
+      Color.from_params (0.0, 0.0, new ContrastCurve (contrast, 90, 100, 100, 100).contrast_level);
     var on_error_hex = Color.hct_to_hex (on_error_hct.h, on_error_hct.c, on_error_hct.t);
 
     var error_container_hct = is_dark ?
-      Color.hct_blend (Color.from_params (25.0, 35.0, new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      Color.hct_blend (Color.from_params (20.0, 10.0, new ContrastCurve (contrast, 95, 90, 85, 70).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+      Color.from_params (25.0, 35.0, new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level) :
+      Color.from_params (20.0, 10.0, new ContrastCurve (contrast, 95, 90, 85, 70).contrast_level);
     var error_container_hex = Color.hct_to_hex (error_container_hct.h, error_container_hct.c, error_container_hct.t);
 
     var on_error_container_hct = is_dark ?
-      Color.hct_blend (Color.from_params (20.0, 10.0, 90.0), Color.from_params (cam16_color.h, cam16_color.c, 90.0)) :
-      Color.hct_blend (Color.from_params (25.0, 65.0, 30.0), Color.from_params (cam16_color.h, cam16_color.c, 10.0));
+      Color.from_params (20.0, 10.0, 90.0) :
+      Color.from_params (25.0, 65.0, 30.0);
     var on_error_container_hex = Color.hct_to_hex (on_error_container_hct.h, on_error_container_hct.c, on_error_container_hct.t);
 
+    // HCT Color blendin'
     var meson_red_hct = is_dark ?
       Color.hct_blend (Color.from_params (8.0, 85.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
       Color.hct_blend (Color.from_params (2.0, 49.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
