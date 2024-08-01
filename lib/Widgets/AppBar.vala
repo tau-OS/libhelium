@@ -162,7 +162,7 @@ public class He.AppBar : He.Bin {
         set {
             this._viewtitle_label = value;
 
-            if (value != null && _viewtitle_widget == null) {
+            if (value != "" && _viewtitle_widget == null) {
                 viewtitle.label = value;
                 labels_box.visible = true;
                 view_title_box.set_visible (true);
@@ -504,8 +504,7 @@ public class He.AppBar : He.Bin {
         main_box.add_css_class ("flat-appbar");
 
         top_box.margin_top = 42;
-
-        margin_bottom = 6;
+        sub_box.margin_bottom = 6;
 
         // Make title align with other titles if no buttons are added.
         if (btn_box.visible) {
