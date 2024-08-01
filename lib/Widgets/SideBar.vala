@@ -32,7 +32,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
             return titlebar.viewtitle_label;
         }
         set {
-            if (value != null && titlewidget == null) {
+            if (value != "" && titlewidget == null) {
                 titlebar.viewtitle_label = value;
             } else {
                 titlebar.viewtitle_label = null;
@@ -64,7 +64,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
             return titlebar.viewsubtitle_label;
         }
         set {
-            if (value != null) {
+            if (value != "") {
                 titlebar.viewsubtitle_label = value;
             } else {
                 titlebar.viewsubtitle_label = null;

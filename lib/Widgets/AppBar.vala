@@ -200,7 +200,7 @@ public class He.AppBar : He.Bin {
         set {
             this._viewsubtitle_label = value;
 
-            if (value != null) {
+            if (value != "") {
                 viewsubtitle.label = value;
                 viewsubtitle.visible = true;
                 subtitle_box.set_visible (true);
@@ -302,7 +302,8 @@ public class He.AppBar : He.Bin {
             _show_back = value;
             back_button.set_visible (value);
             control_box.set_visible (value);
-            view_title_box.visible = true;
+            view_title_box.set_visible (value);
+            labels_box.set_visible (value);
 
             if (value) {
                 labels_box.margin_start = 12;
