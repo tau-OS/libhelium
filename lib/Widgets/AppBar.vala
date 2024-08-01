@@ -302,6 +302,7 @@ public class He.AppBar : He.Bin {
             _show_back = value;
             back_button.set_visible (value);
             control_box.set_visible (value);
+            view_title_box.visible = true;
 
             if (value) {
                 labels_box.margin_start = 12;
