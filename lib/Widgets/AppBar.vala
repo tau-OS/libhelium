@@ -164,7 +164,7 @@ public class He.AppBar : He.Bin {
 
             if (value != "" && _viewtitle_widget == null) {
                 viewtitle.label = value;
-                labels_box.visible = true;
+
                 view_title_box.set_visible (true);
             } else {
                 viewtitle.label = null;
@@ -182,9 +182,10 @@ public class He.AppBar : He.Bin {
             this._viewtitle_widget = value;
 
             if (value != null) {
-                labels_box.visible = true;
-                view_title_box.visible = true;
                 view_title_box.append (value);
+
+                view_title_box.set_visible (true);
+                labels_box.set_visible (true);
             } else {
                 view_title_box.remove (value);
             }
@@ -302,8 +303,6 @@ public class He.AppBar : He.Bin {
             _show_back = value;
             back_button.set_visible (value);
             control_box.set_visible (value);
-            view_title_box.set_visible (value);
-            labels_box.set_visible (value);
 
             if (value) {
                 labels_box.margin_start = 12;
@@ -334,8 +333,7 @@ public class He.AppBar : He.Bin {
             ((Gtk.Widget) child).add_css_class ("disclosure-button");
         }
 
-        labels_box.visible = true;
-        btn_box.visible = true;
+        btn_box.set_visible (true);
     }
 
     /**
@@ -349,7 +347,6 @@ public class He.AppBar : He.Bin {
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
 
-        labels_box.visible = true;
         btn_box.visible = true;
     }
 
@@ -364,7 +361,6 @@ public class He.AppBar : He.Bin {
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
 
-        labels_box.visible = true;
         btn_box.visible = true;
     }
 
@@ -381,7 +377,6 @@ public class He.AppBar : He.Bin {
 
         ((Gtk.Widget) child).remove_css_class ("image-button");
 
-        labels_box.visible = true;
         btn_box.visible = true;
     }
 
@@ -468,14 +463,12 @@ public class He.AppBar : He.Bin {
 
         view_title_box.append (control_box);
         view_title_box.append (viewtitle);
-        view_title_box.set_visible (false);
 
         subtitle_box.append (viewsubtitle);
         subtitle_box.set_visible (false);
 
         labels_box.homogeneous = true;
         labels_box.hexpand = true;
-        labels_box.visible = false;
         labels_box.append (view_title_box);
         labels_box.append (subtitle_box);
         labels_box.margin_start = 12;
