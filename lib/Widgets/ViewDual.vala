@@ -20,7 +20,7 @@
 /**
  * A ViewDual is a view that displays two views side by side.
  */
-public class He.ViewDual : He.Bin {
+public class He.ViewDual : Gtk.Widget {
     private const double MIDDLE_SPACING = 24.0;
 
     private Gtk.Widget handle;
@@ -114,7 +114,7 @@ public class He.ViewDual : He.Bin {
         this.margin_start = this.margin_end = this.margin_bottom = 8;
 
         base_bin = new He.Bin ();
-        this.child = base_bin;
+        base_bin.set_parent (this);
 
         child_start_bin = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
         child_start_bin.set_parent (base_bin);
