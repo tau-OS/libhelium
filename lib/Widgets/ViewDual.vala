@@ -20,7 +20,7 @@
 /**
  * A ViewDual is a view that displays two views side by side.
  */
-public class He.ViewDual : Gtk.Widget {
+public class He.ViewDual : Gtk.Widget, Gtk.Buildable {
     private const double MIDDLE_SPACING = 24.0;
 
     private Gtk.Widget handle;
@@ -48,6 +48,7 @@ public class He.ViewDual : Gtk.Widget {
         set {
             _orientation = value;
             update_handle_look ();
+            queue_draw ();
         }
     }
 
@@ -107,10 +108,29 @@ public class He.ViewDual : Gtk.Widget {
         }
     }
 
+    /**
+     * Add a child to the widget, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+     */
+    public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
+        if (type == "start") {
+            _child_start.unparent ();
+            child_start_bin.append ((Gtk.Widget) child);
+        } else if (type == "end") {
+            _child_end.unparent ();
+            child_end_bin.append ((Gtk.Widget) child);
+        } else {
+            _child_start.unparent ();
+            child_start_bin.append ((Gtk.Widget) child);
+        }
+    }
+
     public ViewDual (Gtk.Orientation orientation = Gtk.Orientation.HORIZONTAL, bool show_handle = true) {
         this.orientation = orientation;
         this.handle_position = 1.0;
         this.show_handle = show_handle;
+    }
+
+    construct {
         this.margin_start = this.margin_end = this.margin_bottom = 8;
 
         base_bin = new He.Bin ();
@@ -242,6 +262,9 @@ public class He.ViewDual : Gtk.Widget {
         }
         if (handle_bin != null) {
             handle_bin.unparent ();
+        }
+        if (base_bin != null) {
+            base_bin.unparent ();
         }
         base.dispose ();
     }
