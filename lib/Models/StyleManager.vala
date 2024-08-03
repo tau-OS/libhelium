@@ -327,23 +327,23 @@ public class He.StyleManager : Object {
     button,
     .toast-box,
     .text-view,
-    windowcontrols > button > image,
     popover > contents,
     check {
       border-radius: $medium_roundness;
     }
     .text-field,
     .navigation-section-button,
+    windowcontrols > button > image,
     scale > trough,
-    scale > trough > slider,
-    window.csd {
+    scale > trough > slider {
       border-radius: $large_roundness;
     }
     .content-block,
     .mini-content-block,
     .dialog-content,
     .switchbar,
-    .navigation-section-list row .mini-content-block {
+    .navigation-section-list row .mini-content-block,
+    window.csd {
       border-radius: $x_large_roundness;
     }
     window.csd.dialog.message,
