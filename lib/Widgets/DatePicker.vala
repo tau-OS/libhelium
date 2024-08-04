@@ -109,7 +109,7 @@ private class He.CalendarWidget : He.Bin {
         // Header with month name and arrows
         Gtk.Box header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 6);
 
-        header_label = new He.Button(null, month_names[month] + " " + year.to_string()) {
+        header_label = new He.Button("", month_names[month] + " " + year.to_string()) {
             halign = Gtk.Align.START,
             valign = Gtk.Align.CENTER,
             hexpand = true,
@@ -122,14 +122,14 @@ private class He.CalendarWidget : He.Bin {
         header_label.add_css_class("flat");
         header_label.clicked.connect(() => toggle_view());
 
-        left_arrow = new He.Button("go-previous-symbolic", null) {
+        left_arrow = new He.Button("go-previous-symbolic", "") {
             halign = Gtk.Align.END,
             is_disclosure = true,
             tooltip_text = _("Previous Month")
         };
         left_arrow.clicked.connect(() => change_month(-1));
 
-        right_arrow = new He.Button("go-next-symbolic", null) {
+        right_arrow = new He.Button("go-next-symbolic", "") {
             halign = Gtk.Align.END,
             is_disclosure = true,
             margin_end = 18,
