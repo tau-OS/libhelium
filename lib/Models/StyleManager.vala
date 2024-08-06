@@ -106,8 +106,8 @@ public class He.StyleManager : Object {
     var error_container_hex = Color.hct_to_hex (error_container_hct.h, error_container_hct.c, error_container_hct.t);
 
     var on_error_container_hct = is_dark ?
-      Color.from_params (20.0, 10.0, 90.0) :
-      Color.from_params (25.0, 65.0, 10.0);
+      Color.from_params (20.0, 10.0, new ContrastCurve (contrast, 85, 90, 100, 100).contrast_level) :
+      Color.from_params (25.0, 65.0, new ContrastCurve (contrast, 20, 10, 0, 0).contrast_level);
     var on_error_container_hex = Color.hct_to_hex (on_error_container_hct.h, on_error_container_hct.c, on_error_container_hct.t);
 
     // HCT Color blendin'
