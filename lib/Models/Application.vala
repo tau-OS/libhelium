@@ -43,8 +43,36 @@ public class He.Application : Gtk.Application {
   }
 
   /**
+   * Whether to override the user's dark style choice.
+   */
+  private bool _override_dark_style = false;
+  public bool override_dark_style {
+    get { return _override_dark_style; }
+    set { _override_dark_style = value; update_style_manager (); }
+  }
+
+  /**
+   * Whether to override the user's contrast choice.
+   */
+  private bool _override_contrast = false;
+  public bool override_contrast {
+    get { return _override_contrast; }
+    set { _override_contrast = value; update_style_manager (); }
+  }
+  /**
+   * The chosen contrast mode for the app. Useful if the app requires more/less/fixed contrast than the user choice.
+   * Values are: 1.0 = low, 2.0 = default, 3.0 = medium, 4.0 = high.
+   * Only works if override_contrast is TRUE.
+   */
+  private double _default_contrast = 2.0;
+  public double default_contrast {
+    get { return _default_contrast; }
+    set { _default_contrast = value.clamp(1.0, 4.0); update_style_manager (); }
+  }
+
+  /**
    * A scheme factory to use for the application. If not set, the user's preferred scheme will be used.
-   * This is especially useful for applications with their own color needs, such as media applications using the He.new_content_scheme factory.
+   * This is especially useful for applications with their own color needs, such as media applications using the Content factory.
    */
   private SchemeFactory? _scheme_factory = null;
   public SchemeFactory? scheme_factory {
@@ -69,11 +97,20 @@ public class He.Application : Gtk.Application {
       style_manager.scheme_factory = desktop.ensor_scheme.to_factory ();
     }
 
-    style_manager.is_dark = desktop.prefers_color_scheme == Desktop.ColorScheme.DARK;
-    style_manager.contrast = desktop.contrast;
+    if (override_dark_style) {
+      style_manager.is_dark = true;
+    } else {
+      style_manager.is_dark = desktop.prefers_color_scheme == Desktop.ColorScheme.DARK;
+    }
+
+    if (override_contrast && default_contrast != 0.0) {
+      style_manager.contrast = default_contrast;
+    } else {
+      style_manager.contrast = desktop.contrast;
+    }
+
     style_manager.font_weight = desktop.font_weight;
     style_manager.roundness = desktop.roundness;
-
     style_manager.update ();
   }
 

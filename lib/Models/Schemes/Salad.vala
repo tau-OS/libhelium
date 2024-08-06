@@ -38,8 +38,8 @@ public class He.SaladScheme : SchemeFactory, Object {
                    // |\ | |___ |  |  |  |__/ |__| |
                    // | \| |___ |__|  |  |  \ |  | |___
                    surface_bg_hex = Color.hct_to_hex (hue, neutral, is_dark ? 6.0 : 98.0),
-                   surface_bg_variant_hex = Color.hct_to_hex (hue, neutral, is_dark ? 24.0 : 90.0),
-                   surface_fg_hex = Color.hct_to_hex (hue, neutral, is_dark ? new ContrastCurve (contrast, 85, 90, 95, 100).contrast_level : new ContrastCurve (contrast, 7, 5, 3, 0).contrast_level),
+                   surface_bg_variant_hex = Color.hct_to_hex (hue, neutral, is_dark ? 30.0 : 90.0),
+                   surface_fg_hex = Color.hct_to_hex (hue, neutral, is_dark ? new ContrastCurve (contrast, 85, 90, 95, 100).contrast_level : new ContrastCurve (contrast, 15, 10, 5, 0).contrast_level),
                    surface_fg_variant_hex = Color.hct_to_hex (hue, neutral, is_dark ? new ContrastCurve (contrast, 85, 90, 95, 99).contrast_level : new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level),
                    inverse_surface_bg_hex = Color.hct_to_hex (hue, neutral, is_dark ? 90.0 : 20.0),
                    inverse_surface_fg_hex = Color.hct_to_hex (hue, neutral, is_dark ? new ContrastCurve (contrast, 7, 5, 3, 0).contrast_level : new ContrastCurve (contrast, 85, 90, 95, 100).contrast_level),
@@ -59,7 +59,7 @@ public class He.SaladScheme : SchemeFactory, Object {
                    primary_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level : new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level),
                    on_primary_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? new ContrastCurve (contrast, 15, 20, 25, 30).contrast_level : new ContrastCurve (contrast, 90, 100, 100, 100).contrast_level),
                    primary_container_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level : new ContrastCurve (contrast, 95, 90, 85, 70).contrast_level),
-                   on_primary_container_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? new ContrastCurve (contrast, 85, 90, 95, 100).contrast_level : new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level),
+                   on_primary_container_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? new ContrastCurve (contrast, 85, 90, 100, 100).contrast_level : new ContrastCurve (contrast, 20, 10, 0, 0).contrast_level),
                    inverse_primary_hex = Color.hct_to_hex (primary_hue, primary, is_dark ? new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level : new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level),
 
                    // ____ ____ ____ ____ _  _ ___  ____ ____ _   _
@@ -68,7 +68,7 @@ public class He.SaladScheme : SchemeFactory, Object {
                    secondary_hex = Color.hct_to_hex (secondary_hue, secondary, is_dark ? new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level : new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level),
                    on_secondary_hex = Color.hct_to_hex (secondary_hue, secondary, is_dark ? new ContrastCurve (contrast, 15, 20, 25, 30).contrast_level : new ContrastCurve (contrast, 90, 100, 100, 100).contrast_level),
                    secondary_container_hex = Color.hct_to_hex (secondary_hue, secondary, is_dark ? new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level : new ContrastCurve (contrast, 95, 90, 85, 70).contrast_level),
-                   on_secondary_container_hex = Color.hct_to_hex (secondary_hue, secondary, is_dark ? new ContrastCurve (contrast, 85, 90, 95, 100).contrast_level : new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level),
+                   on_secondary_container_hex = Color.hct_to_hex (secondary_hue, secondary, is_dark ? new ContrastCurve (contrast, 85, 90, 100, 100).contrast_level : new ContrastCurve (contrast, 20, 10, 0, 0).contrast_level),
 
                    // ___ ____ ____ ___ _ ____ ____ _   _
                    // |  |___ |__/  |  | |__| |__/  \_/
@@ -76,12 +76,12 @@ public class He.SaladScheme : SchemeFactory, Object {
                    tertiary_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level : new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level),
                    on_tertiary_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? new ContrastCurve (contrast, 15, 20, 25, 30).contrast_level : new ContrastCurve (contrast, 90, 100, 100, 100).contrast_level),
                    tertiary_container_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level : new ContrastCurve (contrast, 95, 90, 85, 70).contrast_level),
-                   on_tertiary_container_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? new ContrastCurve (contrast, 85, 90, 95, 100).contrast_level : new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level),
+                   on_tertiary_container_hex = Color.hct_to_hex (tertiary_hue, tertiary, is_dark ? new ContrastCurve (contrast, 85, 90, 100, 100).contrast_level : new ContrastCurve (contrast, 20, 10, 0, 0).contrast_level),
 
                    // ____ _  _ ___ _    _ _  _ ____
                    // |  | |  |  |  |    | |\ | |___
                    // |__| |__|  |  |___ | | \| |___
-                   outline_hex = Color.hct_to_hex (hue, neutral, is_dark ? new ContrastCurve (contrast, 55, 60, 70, 80).contrast_level : new ContrastCurve (contrast, 45, 50, 60, 70).contrast_level),
+                   outline_hex = Color.hct_to_hex (hue, neutral_variant, is_dark ? new ContrastCurve (contrast, 55, 60, 70, 80).contrast_level : new ContrastCurve (contrast, 45, 50, 60, 70).contrast_level),
                    outline_variant_hex = Color.hct_to_hex (hue, neutral_variant, is_dark ? new ContrastCurve (contrast, 30, 30, 40, 45).contrast_level : new ContrastCurve (contrast, 80, 80, 70, 60).contrast_level),
 
                    // ____ _  _ ____ ___  ____ _ _ _

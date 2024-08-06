@@ -107,7 +107,7 @@ public class He.StyleManager : Object {
 
     var on_error_container_hct = is_dark ?
       Color.from_params (20.0, 10.0, 90.0) :
-      Color.from_params (25.0, 65.0, 30.0);
+      Color.from_params (25.0, 65.0, 10.0);
     var on_error_container_hex = Color.hct_to_hex (on_error_container_hct.h, on_error_container_hct.c, on_error_container_hct.t);
 
     // HCT Color blendin'
@@ -251,7 +251,7 @@ public class He.StyleManager : Object {
     .view-subtitle,
     .cb-subtitle,
     .body,
-    .view-switcher button.toggle:checked label, 
+    .view-switcher button.toggle:checked label,
     .view-switcher button.toggle:active label,
     .navigation-rail-button label,
     .navigation-section-button label,
@@ -279,6 +279,8 @@ public class He.StyleManager : Object {
     .cb-title,
     button label,
     .toast-box button label,
+    .navigation-section-list row .mini-content-block label.cb-title,
+    .mini-content-block .cb-title,
     .badge label,
     .badge-info label,
     .tint-badge label,
@@ -333,7 +335,6 @@ public class He.StyleManager : Object {
     }
     .text-field,
     .navigation-section-button,
-    windowcontrols > button > image,
     scale > trough,
     scale > trough > slider {
       border-radius: $large_roundness;
@@ -367,6 +368,7 @@ public class He.StyleManager : Object {
     .modifier-badge,
     .circular,
     .pill-button,
+    .navigation-rail-button image,
     switch,
     switch > slider,
     radio,
@@ -375,12 +377,13 @@ public class He.StyleManager : Object {
     window.csd.dialog-content .pill-button,
     window.csd.dialog-content .tint-button,
     window.csd.dialog-content .textual-button,
-    window.csd.dialog-content .outline-button {
+    window.csd.dialog-content .outline-button,
+    windowcontrols > button > image {
       border-radius: $circle_roundness;
     }
     .content-list row:first-child .mini-content-block {
-      border-top-left-radius: $x_large_roundness;
-	    border-top-right-radius: $x_large_roundness;
+      border-top-left-radius: $xx_large_roundness;
+	    border-top-right-radius: $xx_large_roundness;
       border-bottom-left-radius: $large_roundness;
       border-bottom-right-radius: $large_roundness;
     }
@@ -393,8 +396,8 @@ public class He.StyleManager : Object {
     .content-list row:last-child .mini-content-block {
       border-top-left-radius: $large_roundness;
 	    border-top-right-radius: $large_roundness;
-      border-bottom-left-radius: $x_large_roundness;
-      border-bottom-right-radius: $x_large_roundness;
+      border-bottom-left-radius: $xx_large_roundness;
+      border-bottom-right-radius: $xx_large_roundness;
     }
     .segmented-button > button:not(:first-child),
     .segmented-button > button:not(:last-child) {

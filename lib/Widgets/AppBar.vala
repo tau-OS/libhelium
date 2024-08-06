@@ -71,77 +71,21 @@ public class He.AppBar : He.Bin {
             if (value != null) {
                 vadj = value.get_vadjustment ();
                 if (vadj.value != 0) {
-                    if (viewtitle_widget != null) {
-                        viewtitle.set_visible (false);
-                    } else {
-                        viewtitle.set_visible (true);
-                    }
-                    viewtitle.remove_css_class ("view-title");
-                    viewtitle.add_css_class ("view-subtitle");
-                    viewtitle_widget.remove_css_class ("view-title");
-                    viewtitle_widget.add_css_class ("view-subtitle");
-                    viewsubtitle.set_visible (false);
-                    sub_box.set_visible (false);
-                    btn_box.unparent ();
-                    labels_box.unparent ();
-                    title_box.append (labels_box);
-                    title_box.append (btn_box);
+                    is_compact = true;
                     main_box.add_css_class ("appbar");
                     main_box.remove_css_class ("flat-appbar");
                 } else {
-                    if (viewtitle_widget != null) {
-                        viewtitle.set_visible (false);
-                    } else {
-                        viewtitle.set_visible (true);
-                    }
-                    viewtitle.remove_css_class ("view-subtitle");
-                    viewtitle.add_css_class ("view-title");
-                    viewtitle_widget.remove_css_class ("view-subtitle");
-                    viewtitle_widget.add_css_class ("view-title");
-                    viewsubtitle.set_visible (true);
-                    sub_box.set_visible (true);
-                    btn_box.unparent ();
-                    labels_box.unparent ();
-                    sub_box.append (labels_box);
-                    sub_box.append (btn_box);
+                    is_compact = false;
                     main_box.add_css_class ("flat-appbar");
                     main_box.remove_css_class ("appbar");
                 }
                 vadj.value_changed.connect ((a) => {
                     if (vadj.value != 0) {
-                        if (viewtitle_widget != null) {
-                            viewtitle.set_visible (false);
-                        } else {
-                            viewtitle.set_visible (true);
-                        }
-                        viewtitle.remove_css_class ("view-title");
-                        viewtitle.add_css_class ("view-subtitle");
-                        viewtitle_widget.remove_css_class ("view-title");
-                        viewtitle_widget.add_css_class ("view-subtitle");
-                        viewsubtitle.set_visible (false);
-                        sub_box.set_visible (false);
-                        btn_box.unparent ();
-                        labels_box.unparent ();
-                        title_box.append (labels_box);
-                        title_box.append (btn_box);
+                        is_compact = true;
                         main_box.add_css_class ("appbar");
                         main_box.remove_css_class ("flat-appbar");
                     } else {
-                        if (viewtitle_widget != null) {
-                            viewtitle.set_visible (false);
-                        } else {
-                            viewtitle.set_visible (true);
-                        }
-                        viewtitle.remove_css_class ("view-subtitle");
-                        viewtitle.add_css_class ("view-title");
-                        viewtitle_widget.remove_css_class ("view-subtitle");
-                        viewtitle_widget.add_css_class ("view-title");
-                        viewsubtitle.set_visible (true);
-                        sub_box.set_visible (true);
-                        btn_box.unparent ();
-                        labels_box.unparent ();
-                        sub_box.append (labels_box);
-                        sub_box.append (btn_box);
+                        is_compact = false;
                         main_box.add_css_class ("flat-appbar");
                         main_box.remove_css_class ("appbar");
                     }
@@ -149,6 +93,50 @@ public class He.AppBar : He.Bin {
             } else {
                 main_box.add_css_class ("flat-appbar");
                 main_box.remove_css_class ("appbar");
+            }
+        }
+    }
+
+    private bool _is_compact;
+    public bool is_compact {
+        get { return this._is_compact; }
+        set {
+            this._is_compact = value;
+
+            if (value != false) {
+                if (viewtitle_widget != null) {
+                    viewtitle.set_visible (false);
+                } else {
+                    viewtitle.set_visible (true);
+                }
+                viewtitle.remove_css_class ("view-title");
+                viewtitle.add_css_class ("view-subtitle");
+                viewtitle_widget.remove_css_class ("view-title");
+                viewtitle_widget.add_css_class ("view-subtitle");
+                viewsubtitle.set_visible (false);
+                sub_box.set_visible (false);
+                btn_box.unparent ();
+                labels_box.unparent ();
+                title_box.append (labels_box);
+                title_box.append (btn_box);
+                add_css_class ("compact");
+            } else {
+                if (viewtitle_widget != null) {
+                    viewtitle.set_visible (false);
+                } else {
+                    viewtitle.set_visible (true);
+                }
+                viewtitle.remove_css_class ("view-subtitle");
+                viewtitle.add_css_class ("view-title");
+                viewtitle_widget.remove_css_class ("view-subtitle");
+                viewtitle_widget.add_css_class ("view-title");
+                viewsubtitle.set_visible (true);
+                sub_box.set_visible (true);
+                btn_box.unparent ();
+                labels_box.unparent ();
+                sub_box.append (labels_box);
+                sub_box.append (btn_box);
+                remove_css_class ("compact");
             }
         }
     }
@@ -436,7 +424,7 @@ public class He.AppBar : He.Bin {
         back_button.set_tooltip_text ("Go Back");
         back_button.add_css_class ("flat");
         back_button.is_disclosure = true;
-        back_button.set_size_request (50, 50);
+        back_button.set_size_request (26, 26);
         ((Gtk.Image) back_button.get_first_child ()).pixel_size = 24;
         back_button.clicked.connect (() => {
             var selected_page = stack.pages.get_selection ();
@@ -471,7 +459,7 @@ public class He.AppBar : He.Bin {
         labels_box.hexpand = true;
         labels_box.append (view_title_box);
         labels_box.append (subtitle_box);
-        labels_box.margin_start = 12;
+        labels_box.margin_end = 12;
 
         btn_box.valign = Gtk.Align.END;
         btn_box.margin_end = 12;
@@ -496,6 +484,7 @@ public class He.AppBar : He.Bin {
         show_left_title_buttons = true;
         show_right_title_buttons = true;
         show_back = false;
+        is_compact = false;
         main_box.add_css_class ("flat-appbar");
 
         top_box.margin_top = 42;
@@ -505,13 +494,13 @@ public class He.AppBar : He.Bin {
         if (btn_box.visible) {
             labels_box.margin_top = 0;
         } else {
-            labels_box.margin_top = 6;
+            labels_box.margin_top = 11;
         }
         btn_box.notify["visible"].connect (() => {
             if (btn_box.visible) {
                 labels_box.margin_top = 0;
             } else {
-                labels_box.margin_top = 6;
+                labels_box.margin_top = 11;
             }
         });
     }
