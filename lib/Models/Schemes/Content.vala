@@ -31,7 +31,7 @@ public class He.ContentScheme : SchemeFactory, Object {
         var tertiary_analog = new TemperatureCache ({ hue, chroma, lab.l }).get_complement ();
         var tertiary_hue = He.Color.fix_disliked (tertiary_analog).h;
 
-        var primary = chroma;
+        var primary = chroma < 36.0 ? 36.0 : chroma; // Still amp it up so as to not be bad for UI
         var secondary = Math.fmax (chroma - 32.0, chroma * 0.5);
         var tertiary = He.Color.fix_disliked (tertiary_analog).c;
         var neutral = chroma / 8.0;
