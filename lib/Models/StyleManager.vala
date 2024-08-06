@@ -97,7 +97,7 @@ public class He.StyleManager : Object {
 
     var on_error_hct = is_dark ?
       Color.from_params (25.0, 50.0, new ContrastCurve (contrast, 17, 20, 23, 27).contrast_level) :
-      Color.from_params (0.0, 0.0, new ContrastCurve (contrast, 90, 100, 100, 100).contrast_level);
+      Color.from_params (0.0, 0.0, new ContrastCurve (contrast, 95, 100, 100, 100).contrast_level);
     var on_error_hex = Color.hct_to_hex (on_error_hct.h, on_error_hct.c, on_error_hct.t);
 
     var error_container_hct = is_dark ?
