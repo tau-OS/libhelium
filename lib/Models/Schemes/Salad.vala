@@ -40,7 +40,7 @@ public class He.SaladScheme : SchemeFactory, Object {
                    surface_bg_hex = Color.hct_to_hex (hue, neutral, is_dark ? 6.0 : 98.0),
                    surface_bg_variant_hex = Color.hct_to_hex (hue, neutral, is_dark ? 30.0 : 90.0),
                    surface_fg_hex = Color.hct_to_hex (hue, neutral, is_dark ? new ContrastCurve (contrast, 85, 90, 95, 100).contrast_level : new ContrastCurve (contrast, 15, 10, 5, 0).contrast_level),
-                   surface_fg_variant_hex = Color.hct_to_hex (hue, neutral_variant, is_dark ? new ContrastCurve (contrast, 85, 90, 95, 99).contrast_level : new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level),
+                   surface_fg_variant_hex = Color.hct_to_hex (hue, neutral_variant, is_dark ? 90.0 : 30.0),
                    inverse_surface_bg_hex = Color.hct_to_hex (hue, neutral, is_dark ? 90.0 : 20.0),
                    inverse_surface_fg_hex = Color.hct_to_hex (hue, neutral, is_dark ? new ContrastCurve (contrast, 7, 5, 3, 0).contrast_level : new ContrastCurve (contrast, 85, 90, 95, 100).contrast_level),
 
