@@ -1,4 +1,4 @@
-namespace He.Color {
+namespace He {
     public struct RGBColor {
         public double r;
         public double g;

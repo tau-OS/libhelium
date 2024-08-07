@@ -1,12 +1,12 @@
-namespace He.Color {
+namespace He {
   public static int rgb_from_linrgb (int red, int green, int blue) {
     return (255 << 24) | ((red & 255) << 16) | ((green & 255) << 8) | (blue & 255);
   }
 
   public static int argb_from_linrgb (double[] linrgb) {
-    int r = He.MathUtils.delinearized (linrgb[0]);
-    int g = He.MathUtils.delinearized (linrgb[1]);
-    int b = He.MathUtils.delinearized (linrgb[2]);
+    int r = MathUtils.delinearized (linrgb[0]);
+    int g = MathUtils.delinearized (linrgb[1]);
+    int b = MathUtils.delinearized (linrgb[2]);
 
     return argb_from_rgb_int (r, g, b);
   }
@@ -14,7 +14,7 @@ namespace He.Color {
   public int find_result_by_j (double hr, double c, double y) {
     // Initial estimate of j.
     double j = Math.sqrt (y) * 11.0;
-    He.ViewingConditions vc = He.ViewingConditions.default_conditions;
+    ViewingConditions vc = ViewingConditions.default_conditions;
     double tr = 1 / Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73);
     double e_hue = 0.25 * (Math.cos (hr + 2.0) + 3.8);
     double p1 = e_hue * (5e4 / 13.0) * vc.nc * vc.ncb;
@@ -32,12 +32,12 @@ namespace He.Color {
       double r_a = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;
       double g_a = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
       double b_a = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
-      double r_c_scaled = He.MathUtils.inverse_chromatic_adaptation (r_a);
-      double g_c_scaled = He.MathUtils.inverse_chromatic_adaptation (g_a);
-      double b_c_scaled = He.MathUtils.inverse_chromatic_adaptation (b_a);
-      double[] linrgb = He.MathUtils.elem_mul (
-                                               { r_c_scaled, g_c_scaled, b_c_scaled },
-                                               He.MathUtils.LINRGB_FROM_SCALED_DISCOUNT
+      double r_c_scaled = MathUtils.inverse_chromatic_adaptation (r_a);
+      double g_c_scaled = MathUtils.inverse_chromatic_adaptation (g_a);
+      double b_c_scaled = MathUtils.inverse_chromatic_adaptation (b_a);
+      double[] linrgb = MathUtils.elem_mul (
+                                            { r_c_scaled, g_c_scaled, b_c_scaled },
+                                            MathUtils.LINRGB_FROM_SCALED_DISCOUNT
       );
       if (linrgb[0] < 0 || linrgb[1] < 0 || linrgb[2] < 0) {
         return 0;

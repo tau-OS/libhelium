@@ -120,8 +120,8 @@ public class He.Desktop : Object {
     /**
      * The accent color preference.
      */
-    private He.Color.RGBColor? _accent_color;
-    public He.Color.RGBColor? accent_color {
+    private RGBColor? _accent_color;
+    public RGBColor? accent_color {
         get {
             return _accent_color;
         }
@@ -130,7 +130,7 @@ public class He.Desktop : Object {
         }
     }
 
-    private He.Color.RGBColor? parse_accent_color (GLib.Variant val) {
+    private RGBColor ? parse_accent_color (GLib.Variant val) {
         // The accent color is stored as a Gdk.RGBA in the GVariant format "(ddd)"
         // where r,g,b,a are floats between 0.0 and 1.0, except in the case of no preference.
         double cr, cg, cb = 0.0;
@@ -145,7 +145,7 @@ public class He.Desktop : Object {
             return null;
         }
 
-        He.Color.RGBColor rgb_color = {
+        RGBColor rgb_color = {
             cr,
             cg,
             cb

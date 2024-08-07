@@ -304,18 +304,18 @@ namespace He.MathUtils {
                 int l_plane = -1;
                 int r_plane = 255;
                 if (left[axis] < right[axis]) {
-                    l_plane = He.Color.critical_plane_below (double_delinearized (left[axis]));
-                    r_plane = He.Color.critical_plane_above (double_delinearized (right[axis]));
+                    l_plane = critical_plane_below (double_delinearized (left[axis]));
+                    r_plane = critical_plane_above (double_delinearized (right[axis]));
                 } else {
-                    l_plane = He.Color.critical_plane_above (double_delinearized (left[axis]));
-                    r_plane = He.Color.critical_plane_below (double_delinearized (right[axis]));
+                    l_plane = critical_plane_above (double_delinearized (left[axis]));
+                    r_plane = critical_plane_below (double_delinearized (right[axis]));
                 }
                 for (int i = 0; i < 8; i++) {
                     if (MathUtils.abs (r_plane - l_plane) <= 1) {
                         break;
                     } else {
                         int m_plane = (int) Math.floor ((l_plane + r_plane) / 2.0);
-                        double mid_plane_coord = He.Color.CRITICAL_PLANES[m_plane];
+                        double mid_plane_coord = CRITICAL_PLANES[m_plane];
                         double[] mid = set_coordinate (left, mid_plane_coord, right, axis);
                         double mid_hue = hue_of (mid);
                         if (are_in_cyclic_order (left_hue, target_hue, mid_hue)) {
@@ -340,11 +340,11 @@ namespace He.MathUtils {
     public static int argb_from_lstar (double lstar) {
         double y = y_from_lstar (lstar);
         int component = delinearized (y);
-        return He.Color.argb_from_rgb_int (component, component, component);
+        return argb_from_rgb_int (component, component, component);
     }
 
     public static double lstar_from_argb (int argb) {
-        double y = He.Color.argb_to_xyz (argb).y;
+        double y = argb_to_xyz (argb).y;
         return 116.0 * lab_fovea (y / 100.0) - 16.0;
     }
 }

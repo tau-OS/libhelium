@@ -1,4 +1,4 @@
-namespace He.Color {
+namespace He {
   private const double[] CRITICAL_PLANES = {
     0.015176349177441876,
     0.045529047532325624,

@@ -1,4 +1,4 @@
-namespace He.Color {
+namespace He {
     /**
      * Miscellaneous constants for the Lab colorspace
      */
@@ -27,8 +27,8 @@ namespace He.Color {
     }
 
     public double xyz_value_to_lab (double v) {
-        if (v > He.Color.T3)return Math.pow (v, 1d / 3d);
-        return v / He.Color.T2 + He.Color.T0;
+        if (v > T3)return Math.pow (v, 1d / 3d);
+        return v / T2 + T0;
     }
 
     public LABColor xyz_to_lab (XYZColor color) {

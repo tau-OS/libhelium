@@ -1,4 +1,4 @@
-namespace He.Color {
+namespace He {
     public struct CAM16Color {
         public double j;
         public double a;
@@ -82,9 +82,9 @@ namespace He.Color {
         int red = (argb & 0x00ff0000) >> 16;
         int green = (argb & 0x0000ff00) >> 8;
         int blue = (argb & 0x000000ff);
-        double red_l = He.MathUtils.linearized (red);
-        double green_l = He.MathUtils.linearized (green);
-        double blue_l = He.MathUtils.linearized (blue);
+        double red_l = MathUtils.linearized (red);
+        double green_l = MathUtils.linearized (green);
+        double blue_l = MathUtils.linearized (blue);
         double x = 0.41233895 * red_l + 0.35762064 * green_l + 0.18051042 * blue_l;
         double y = 0.2126 * red_l + 0.7152 * green_l + 0.0722 * blue_l;
         double z = 0.01932141 * red_l + 0.11916382 * green_l + 0.95034478 * blue_l;

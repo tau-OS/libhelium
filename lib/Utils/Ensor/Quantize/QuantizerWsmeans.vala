@@ -28,21 +28,17 @@ public class He.QuantizerWsmeans : Object {
 
   delegate DistanceToIndex fill_list_delegate<DistanceToIndex> (int index);
 
-  static void fill_array<DistanceToIndex> (
-    ref Array<DistanceToIndex> list,
-    int size,
-    fill_list_delegate<DistanceToIndex> value_func
-  ) {
+  static void fill_array<DistanceToIndex> (ref Array<DistanceToIndex> list,
+                                           int size,
+                                           fill_list_delegate<DistanceToIndex> value_func) {
     for (int i = 0; i < size; i++) {
       list.append_val (value_func (i));
     }
   }
 
-  static Array<Array<DistanceToIndex>> create_2d_list (
-    int first_size,
-    int second_size,
-    fill_list_delegate<DistanceToIndex> value_func
-  ) {
+  static Array<Array<DistanceToIndex>> create_2d_list (int first_size,
+                                                       int second_size,
+                                                       fill_list_delegate<DistanceToIndex> value_func) {
     var list = new Array<Array<DistanceToIndex>> ();
 
     for (int i = 0; i < first_size; i++) {
@@ -64,7 +60,7 @@ public class He.QuantizerWsmeans : Object {
 
     // Maybe this needs to be uint? See Google's CPP implementation.
     var pixels = new GLib.Array<int?> ();
-    var points = new GLib.Array<Color.LABColor?> ();
+    var points = new GLib.Array<LABColor?> ();
 
     foreach (var pixel in input_pixels) {
       var count = pixel_to_count.lookup (pixel);
@@ -72,9 +68,9 @@ public class He.QuantizerWsmeans : Object {
       if (count != null) {
         pixel_to_count.insert (pixel, count + 1);
       } else {
-          pixels.append_val (pixel);
-          points.append_val (Color.lab_from_argb (pixel));
-          pixel_to_count.insert (pixel, 1);
+        pixels.append_val (pixel);
+        points.append_val (lab_from_argb (pixel));
+        pixel_to_count.insert (pixel, 1);
       }
     }
 
@@ -85,10 +81,10 @@ public class He.QuantizerWsmeans : Object {
     }
 
     var pixel_count_sums = new int[256];
-    var clusters = new GLib.Array<Color.LABColor?> ();
+    var clusters = new GLib.Array<LABColor?> ();
 
     foreach (var argb in starting_clusters) {
-      clusters.append_val (Color.lab_from_argb (argb));
+      clusters.append_val (lab_from_argb (argb));
     }
 
     var random = new Rand.with_seed (42688);
@@ -99,7 +95,7 @@ public class He.QuantizerWsmeans : Object {
         double l = random.next_int () / (double) RAND_MAX * (100.0) + 0.0;
         double a = random.next_int () / (double) RAND_MAX * (100.0 - -100.0) - 100.0;
         double b = random.next_int () / (double) RAND_MAX * (100.0 - -100.0) - 100.0;
-        clusters.append_val ({l, a, b});
+        clusters.append_val ({ l, a, b });
       }
     }
 
@@ -130,9 +126,9 @@ public class He.QuantizerWsmeans : Object {
         var row = distance_to_index_matrix.index (i);
         row.sort (DistanceToIndex.cmp);
 
-          for (int j = 0; j < cluster_count; j++) {
-            index_matrix[i, j] = row.index (j).index;
-          }
+        for (int j = 0; j < cluster_count; j++) {
+          index_matrix[i, j] = row.index (j).index;
+        }
       }
 
       var color_moved = false;
@@ -190,13 +186,13 @@ public class He.QuantizerWsmeans : Object {
       for (int i = 0; i < cluster_count; i++) {
         int count = pixel_count_sums[i];
         if (count == 0) {
-          clusters.insert_val (i, {0, 0, 0});
+          clusters.insert_val (i, { 0, 0, 0 });
           continue;
         }
         double a = component_a_sums[i] / count;
         double b = component_b_sums[i] / count;
         double c = component_c_sums[i] / count;
-        clusters.insert_val (i, {a, b, c});
+        clusters.insert_val (i, { a, b, c });
       }
     }
 
@@ -208,7 +204,7 @@ public class He.QuantizerWsmeans : Object {
       if (count == 0) {
         continue;
       }
-      var possible_new_cluster = Color.lab_to_argb_int (clusters.index (i));
+      var possible_new_cluster = lab_to_argb_int (clusters.index (i));
       int use_new_cluster = 1;
       for (var j = 0; j < swatches.length; j++) {
         if (swatches.index (j).argb == possible_new_cluster) {

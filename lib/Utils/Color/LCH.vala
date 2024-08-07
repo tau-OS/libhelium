@@ -1,4 +1,4 @@
-namespace He.Color {
+namespace He {
     public struct LCHColor {
         public double l;
         public double c;

@@ -19,50 +19,50 @@
 [CCode(gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He {
     public class TemperatureCache : Object {
-        public He.Color.HCTColor input { get; set; }
-        private Gee.HashMap<He.Color.HCTColor?, double?> temps_by_hct_cache = new Gee.HashMap<He.Color.HCTColor?, double?> ();
+        public HCTColor input { get; set; }
+        private Gee.HashMap<HCTColor?, double?> temps_by_hct_cache = new Gee.HashMap<HCTColor?, double?> ();
         private double input_relative_temperature_cache = -1.0;
 
-        public TemperatureCache(He.Color.HCTColor input) {
+        public TemperatureCache(HCTColor input) {
             this.input = input;
         }
 
-        public List<He.Color.HCTColor?> get_hcts_by_temp() {
-            List<He.Color.HCTColor?> hcts = get_hcts_by_hue();
+        public List<HCTColor?> get_hcts_by_temp() {
+            List<HCTColor?> hcts = get_hcts_by_hue();
             hcts.append(input);
             hcts.sort_with_data((a, b) => diff_temps(a, b));
 
             return hcts;
         }
 
-        public int diff_temps(He.Color.HCTColor a, He.Color.HCTColor b) {
+        public int diff_temps(HCTColor a, HCTColor b) {
             return (int) get_temp(a) - (int) get_temp(b);
         }
 
-        public He.Color.HCTColor get_warmest() {
+        public HCTColor get_warmest() {
             return get_hcts_by_temp().last().data;
         }
 
-        public He.Color.HCTColor get_coldest() {
+        public HCTColor get_coldest() {
             return get_hcts_by_temp().first().data;
         }
 
-        public He.Color.HCTColor get_complement() {
+        public HCTColor get_complement() {
             double complement_hue = (input.h + 180.0) % 360.0;
-            return Color.from_params(complement_hue, input.c, input.t);
+            return from_params(complement_hue, input.c, input.t);
         }
 
-        public List<He.Color.HCTColor?> analogous(int count = 5, int divisions = 12) {
-            List<He.Color.HCTColor?> all_colors = get_hcts_by_hue();
+        public List<HCTColor?> analogous(int count = 5, int divisions = 12) {
+            List<HCTColor?> all_colors = get_hcts_by_hue();
             double step = 360.0 / divisions;
-            List<He.Color.HCTColor?> analogous_colors = new List<He.Color.HCTColor?> ();
+            List<HCTColor?> analogous_colors = new List<HCTColor?> ();
 
             for (int i = 0; i < count; i++) {
                 double hue = (input.h + i * step) % 360.0;
                 // Find the closest hue from all_colors
-                He.Color.HCTColor? closest_hct = null;
+                HCTColor? closest_hct = null;
                 double min_diff = 360.0;
-                foreach (He.Color.HCTColor hct in all_colors) {
+                foreach (HCTColor hct in all_colors) {
                     double diff = Math.fabs(hct.h - hue);
                     if (diff < min_diff) {
                         min_diff = diff;
@@ -82,30 +82,30 @@ namespace He {
             return input_relative_temperature_cache;
         }
 
-        private double relative_temperature(He.Color.HCTColor hct) {
+        private double relative_temperature(HCTColor hct) {
             double coldest_temp = get_temp(get_coldest());
             double warmest_temp = get_temp(get_warmest());
             double range = warmest_temp - coldest_temp;
             return (get_temp(hct) - coldest_temp) / range;
         }
 
-        public double get_temp(He.Color.HCTColor hct) {
+        public double get_temp(HCTColor hct) {
             if (!temps_by_hct_cache.has_key(hct)) {
                 temps_by_hct_cache.set(hct, calculate_temp(hct));
             }
             return temps_by_hct_cache.get(hct);
         }
 
-        private List<He.Color.HCTColor?> get_hcts_by_hue() {
-            List<He.Color.HCTColor?> hcts = new List<He.Color.HCTColor?> ();
+        private List<HCTColor?> get_hcts_by_hue() {
+            List<HCTColor?> hcts = new List<HCTColor?> ();
             for (int hue = 0; hue < 360; hue++) {
-                hcts.append(Color.from_params(hue, input.c, input.t));
+                hcts.append(from_params(hue, input.c, input.t));
             }
             return hcts;
         }
 
-        private double calculate_temp(He.Color.HCTColor hct) {
-            He.Color.LABColor lab = Color.lab_from_argb(hct.a);
+        private double calculate_temp(HCTColor hct) {
+            LABColor lab = lab_from_argb(hct.a);
             double hue = Math.atan2(lab.a, lab.l) * 180.0 / Math.PI;
             double chroma = Math.sqrt((lab.l * lab.l) + (lab.a * lab.a));
             return -0.5 + 0.02 * Math.pow(chroma, 1.07) * Math.cos((hue - 50.0) * Math.PI / 180.0);

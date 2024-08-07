@@ -45,7 +45,7 @@ public class Demo.SettingsWindow : He.SettingsWindow {
     clr_btn.set_rgba (
                       this._window.app.default_accent_color == null ?
                       default_color :
-                      He.Color.to_gdk_rgba (this._window.app.default_accent_color)
+                      to_gdk_rgba (this._window.app.default_accent_color)
     );
     clr_btn.color_set.connect (() => {
       // do thing with color
@@ -53,7 +53,7 @@ public class Demo.SettingsWindow : He.SettingsWindow {
 
       clr_btn.set_rgba (color);
 
-      He.Color.RGBColor rgb_color = He.Color.from_gdk_rgba (color);
+      RGBColor rgb_color = from_gdk_rgba (color);
 
       this._window.app.default_accent_color = rgb_color;
     });

@@ -69,7 +69,7 @@ public class He.ViewingConditions : Object {
                                           double surround = 2.0,
                                           bool discount_illuminant = false) {
         bg_lstar = MathUtils.max (0.1, bg_lstar);
-        double[,] matrix = Color.XYZ_TO_CAM16RGB;
+        double[,] matrix = XYZ_TO_CAM16RGB;
         double[] xyz = white_point;
         double r_white = (xyz[0] * matrix[0, 0]) + (xyz[1] * matrix[0, 1]) + (xyz[2] * matrix[0, 2]);
         double g_white = (xyz[0] * matrix[1, 0]) + (xyz[1] * matrix[1, 1]) + (xyz[2] * matrix[1, 2]);

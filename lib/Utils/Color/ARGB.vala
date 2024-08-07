@@ -1,4 +1,4 @@
-namespace He.Color {
+namespace He {
     private const double[,] SRGB_TO_XYZ = {
         { 0.41233895, 0.35762064, 0.18051042 },
         { 0.2126, 0.7152, 0.0722 },

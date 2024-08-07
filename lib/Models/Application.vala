@@ -27,8 +27,8 @@ public class He.Application : Gtk.Application {
   /**
    * A default accent color if the user has not set one.
    */
-  private He.Color.RGBColor? _default_accent_color = null;
-  public He.Color.RGBColor? default_accent_color {
+  private RGBColor? _default_accent_color = null;
+  public RGBColor? default_accent_color {
     get { return _default_accent_color; }
     set { _default_accent_color = value; update_style_manager (); }
   }
@@ -67,7 +67,7 @@ public class He.Application : Gtk.Application {
   private double _default_contrast = 2.0;
   public double default_contrast {
     get { return _default_contrast; }
-    set { _default_contrast = value.clamp(1.0, 4.0); update_style_manager (); }
+    set { _default_contrast = value.clamp (1.0, 4.0); update_style_manager (); }
   }
 
   /**

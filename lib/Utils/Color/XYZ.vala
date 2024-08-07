@@ -1,4 +1,4 @@
-namespace He.Color {
+namespace He {
     public struct XYZColor {
         public double x;
         public double y;
@@ -69,11 +69,11 @@ namespace He.Color {
         double b_a = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
 
         double r_c_base = MathUtils.max (0, (27.13 * MathUtils.abs (r_a)) / (400.0 - MathUtils.abs (r_a)));
-        double r_c = He.MathUtils.signum (r_a) * (100.0 / vc.fl) * Math.pow (r_c_base, 1.0 / 0.42);
+        double r_c = MathUtils.signum (r_a) * (100.0 / vc.fl) * Math.pow (r_c_base, 1.0 / 0.42);
         double g_c_base = MathUtils.max (0, (27.13 * MathUtils.abs (g_a)) / (400.0 - MathUtils.abs (g_a)));
-        double g_c = He.MathUtils.signum (g_a) * (100.0 / vc.fl) * Math.pow (g_c_base, 1.0 / 0.42);
+        double g_c = MathUtils.signum (g_a) * (100.0 / vc.fl) * Math.pow (g_c_base, 1.0 / 0.42);
         double b_c_base = MathUtils.max (0, (27.13 * MathUtils.abs (b_a)) / (400.0 - MathUtils.abs (b_a)));
-        double b_c = He.MathUtils.signum (b_a) * (100.0 / vc.fl) * Math.pow (b_c_base, 1.0 / 0.42);
+        double b_c = MathUtils.signum (b_a) * (100.0 / vc.fl) * Math.pow (b_c_base, 1.0 / 0.42);
         double r_f = r_c / vc.rgb_d[0];
         double g_f = g_c / vc.rgb_d[1];
         double b_f = b_c / vc.rgb_d[2];
@@ -97,9 +97,9 @@ namespace He.Color {
 
         // D65 white point
         XYZColor result = {
-            He.MathUtils.convert (x) * 0.95047,
-            He.MathUtils.convert (y) * 1.00000,
-            He.MathUtils.convert (z) * 1.08883
+            MathUtils.convert (x) * 0.95047,
+            MathUtils.convert (y) * 1.00000,
+            MathUtils.convert (z) * 1.08883
         };
 
         return result;

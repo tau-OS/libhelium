@@ -25,7 +25,7 @@ public class He.StyleManager : Object {
   /**
    * The preferred accent color. If null, a default accent color will be chosen based on the color scheme.
    */
-  public Color.RGBColor? accent_color = null;
+  public RGBColor? accent_color = null;
 
   /**
    * The preferred font weight.
@@ -86,80 +86,80 @@ public class He.StyleManager : Object {
     var rgb_color = accent_color != null ? accent_color : is_dark ? He.DEFAULT_DARK_ACCENT : He.DEFAULT_LIGHT_ACCENT;
     var base_weight = 400 * font_weight;
     var base_roundness = roundness != 0 ? 4 * roundness : 0;
-    var cam16_color = He.Color.xyz_to_cam16 (He.Color.rgb_to_xyz (rgb_color));
+    var cam16_color = xyz_to_cam16 (rgb_to_xyz (rgb_color));
     var chosen_scheme = scheme_factory.generate (cam16_color, is_dark, contrast);
 
     // Error, always constant
     var error_hct = is_dark ?
-      Color.from_params (20.0, 25.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level) :
-      Color.from_params (25.0, 75.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level);
-    var error_hex = Color.hct_to_hex (error_hct.h, error_hct.c, error_hct.t);
+      from_params (20.0, 25.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level) :
+      from_params (25.0, 75.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level);
+    var error_hex = hct_to_hex (error_hct.h, error_hct.c, error_hct.t);
 
     var on_error_hct = is_dark ?
-      Color.from_params (25.0, 50.0, new ContrastCurve (contrast, 17, 20, 23, 27).contrast_level) :
-      Color.from_params (0.0, 0.0, new ContrastCurve (contrast, 95, 100, 100, 100).contrast_level);
-    var on_error_hex = Color.hct_to_hex (on_error_hct.h, on_error_hct.c, on_error_hct.t);
+      from_params (25.0, 50.0, new ContrastCurve (contrast, 17, 20, 23, 27).contrast_level) :
+      from_params (0.0, 0.0, new ContrastCurve (contrast, 95, 100, 100, 100).contrast_level);
+    var on_error_hex = hct_to_hex (on_error_hct.h, on_error_hct.c, on_error_hct.t);
 
     var error_container_hct = is_dark ?
-      Color.from_params (25.0, 35.0, new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level) :
-      Color.from_params (20.0, 10.0, new ContrastCurve (contrast, 95, 90, 85, 70).contrast_level);
-    var error_container_hex = Color.hct_to_hex (error_container_hct.h, error_container_hct.c, error_container_hct.t);
+      from_params (25.0, 35.0, new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level) :
+      from_params (20.0, 10.0, new ContrastCurve (contrast, 95, 90, 85, 70).contrast_level);
+    var error_container_hex = hct_to_hex (error_container_hct.h, error_container_hct.c, error_container_hct.t);
 
     var on_error_container_hct = is_dark ?
-      Color.from_params (20.0, 10.0, new ContrastCurve (contrast, 85, 90, 100, 100).contrast_level) :
-      Color.from_params (25.0, 65.0, new ContrastCurve (contrast, 20, 10, 0, 0).contrast_level);
-    var on_error_container_hex = Color.hct_to_hex (on_error_container_hct.h, on_error_container_hct.c, on_error_container_hct.t);
+      from_params (20.0, 10.0, new ContrastCurve (contrast, 85, 90, 100, 100).contrast_level) :
+      from_params (25.0, 65.0, new ContrastCurve (contrast, 20, 10, 0, 0).contrast_level);
+    var on_error_container_hex = hct_to_hex (on_error_container_hct.h, on_error_container_hct.c, on_error_container_hct.t);
 
     // HCT Color blendin'
     var meson_red_hct = is_dark ?
-      Color.hct_blend (Color.from_params (8.0, 85.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      Color.hct_blend (Color.from_params (2.0, 49.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var meson_red_hex = Color.hct_to_hex (meson_red_hct.h, meson_red_hct.c, meson_red_hct.t);
+      hct_blend (from_params (8.0, 85.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
+      hct_blend (from_params (2.0, 49.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+    var meson_red_hex = hct_to_hex (meson_red_hct.h, meson_red_hct.c, meson_red_hct.t);
 
     var lepton_orange_hct = is_dark ?
-      Color.hct_blend (Color.from_params (55.0, 29.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      Color.hct_blend (Color.from_params (50.0, 61.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var lepton_orange_hex = Color.hct_to_hex (lepton_orange_hct.h, lepton_orange_hct.c, lepton_orange_hct.t);
+      hct_blend (from_params (55.0, 29.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
+      hct_blend (from_params (50.0, 61.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+    var lepton_orange_hex = hct_to_hex (lepton_orange_hct.h, lepton_orange_hct.c, lepton_orange_hct.t);
 
     var electron_yellow_hct = is_dark ?
-      Color.hct_blend (Color.from_params (89.0, 37.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      Color.hct_blend (Color.from_params (81.0, 55.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var electron_yellow_hex = Color.hct_to_hex (electron_yellow_hct.h, electron_yellow_hct.c, electron_yellow_hct.t);
+      hct_blend (from_params (89.0, 37.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
+      hct_blend (from_params (81.0, 55.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+    var electron_yellow_hex = hct_to_hex (electron_yellow_hct.h, electron_yellow_hct.c, electron_yellow_hct.t);
 
     var muon_green_hct = is_dark ?
-      Color.hct_blend (Color.from_params (152.0, 43.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      Color.hct_blend (Color.from_params (147.0, 71.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var muon_green_hex = Color.hct_to_hex (muon_green_hct.h, muon_green_hct.c, muon_green_hct.t);
+      hct_blend (from_params (152.0, 43.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
+      hct_blend (from_params (147.0, 71.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+    var muon_green_hex = hct_to_hex (muon_green_hct.h, muon_green_hct.c, muon_green_hct.t);
 
     var baryon_mint_hct = is_dark ?
-      Color.hct_blend (Color.from_params (182.0, 25.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      Color.hct_blend (Color.from_params (177.0, 42.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var baryon_mint_hex = Color.hct_to_hex (baryon_mint_hct.h, baryon_mint_hct.c, baryon_mint_hct.t);
+      hct_blend (from_params (182.0, 25.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
+      hct_blend (from_params (177.0, 42.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+    var baryon_mint_hex = hct_to_hex (baryon_mint_hct.h, baryon_mint_hct.c, baryon_mint_hct.t);
 
     var proton_blue_hct = is_dark ?
-      Color.hct_blend (Color.from_params (233.0, 34.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      Color.hct_blend (Color.from_params (240.0, 53.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var proton_blue_hex = Color.hct_to_hex (proton_blue_hct.h, proton_blue_hct.c, proton_blue_hct.t);
+      hct_blend (from_params (233.0, 34.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
+      hct_blend (from_params (240.0, 53.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+    var proton_blue_hex = hct_to_hex (proton_blue_hct.h, proton_blue_hct.c, proton_blue_hct.t);
 
     var photon_indigo_hct = is_dark ?
-      Color.hct_blend (Color.from_params (291.0, 67.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      Color.hct_blend (Color.from_params (288.0, 84.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var photon_indigo_hex = Color.hct_to_hex (photon_indigo_hct.h, photon_indigo_hct.c, photon_indigo_hct.t);
+      hct_blend (from_params (291.0, 67.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
+      hct_blend (from_params (288.0, 84.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+    var photon_indigo_hex = hct_to_hex (photon_indigo_hct.h, photon_indigo_hct.c, photon_indigo_hct.t);
 
     var tau_purple_hct = is_dark ?
-      Color.hct_blend (Color.from_params (309.0, 34.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      Color.hct_blend (Color.from_params (311.0, 57.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var tau_purple_hex = Color.hct_to_hex (tau_purple_hct.h, tau_purple_hct.c, tau_purple_hct.t);
+      hct_blend (from_params (309.0, 34.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
+      hct_blend (from_params (311.0, 57.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+    var tau_purple_hex = hct_to_hex (tau_purple_hct.h, tau_purple_hct.c, tau_purple_hct.t);
 
     var fermion_pink_hct = is_dark ?
-      Color.hct_blend (Color.from_params (337.0, 34.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      Color.hct_blend (Color.from_params (340.0, 60.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var fermion_pink_hex = Color.hct_to_hex (fermion_pink_hct.h, fermion_pink_hct.c, fermion_pink_hct.t);
+      hct_blend (from_params (337.0, 34.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
+      hct_blend (from_params (340.0, 60.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+    var fermion_pink_hex = hct_to_hex (fermion_pink_hct.h, fermion_pink_hct.c, fermion_pink_hct.t);
 
     var gluon_brown_hct = is_dark ?
-      Color.hct_blend (Color.from_params (66.0, 12.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      Color.hct_blend (Color.from_params (61.0, 30.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), Color.from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var gluon_brown_hex = Color.hct_to_hex (gluon_brown_hct.h, gluon_brown_hct.c, gluon_brown_hct.t);
+      hct_blend (from_params (66.0, 12.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
+      hct_blend (from_params (61.0, 30.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+    var gluon_brown_hex = hct_to_hex (gluon_brown_hct.h, gluon_brown_hct.c, gluon_brown_hct.t);
 
     string css = "";
     css = @"

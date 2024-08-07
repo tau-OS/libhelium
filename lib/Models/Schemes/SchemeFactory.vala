@@ -25,5 +25,5 @@
  * of future runs.
  */
 public interface He.SchemeFactory : Object {
-  public abstract Scheme generate (Color.CAM16Color accent, bool is_dark, double contrast);
+  public abstract Scheme generate (CAM16Color accent, bool is_dark, double contrast);
 }

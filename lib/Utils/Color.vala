@@ -19,25 +19,25 @@
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He {
     // Colors used for cards or elements atop the bg when Medium Dark Mode.
-    private const Color.RGBColor CARD_BLACK = {
+    private const RGBColor CARD_BLACK = {
         12,
         12,
         12
     };
 
-    private const Color.RGBColor CARD_WHITE = {
+    private const RGBColor CARD_WHITE = {
         255,
         255,
         255
     };
 
-    private const Color.RGBColor DEFAULT_DARK_ACCENT = {
+    private const RGBColor DEFAULT_DARK_ACCENT = {
         0.7450 * 255,
         0.6270 * 255,
         0.8590 * 255
     };
 
-    private const Color.RGBColor DEFAULT_LIGHT_ACCENT = {
+    private const RGBColor DEFAULT_LIGHT_ACCENT = {
         0.5490 * 255,
         0.3370 * 255,
         0.7490 * 255

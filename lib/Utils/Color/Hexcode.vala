@@ -1,4 +1,4 @@
-namespace He.Color {
+namespace He {
     public string hexcode (double r, double g, double b) {
         return "#%02X%02X%02X".printf ((uint) r, (uint) g, (uint) b);
     }

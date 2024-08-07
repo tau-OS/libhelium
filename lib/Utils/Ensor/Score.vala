@@ -49,9 +49,9 @@ namespace He {
       for (int i = 0; i < input_size; i++) {
         double proportion = populations[i] / population_sum;
 
-        He.Color.CAM16Color cam = He.Color.cam16_from_int (argbs[i]);
+        CAM16Color cam = cam16_from_int (argbs[i]);
 
-        int hue = (int)He.MathUtils.sanitize_degrees (Math.round (cam.h));
+        int hue = (int) MathUtils.sanitize_degrees (Math.round (cam.h));
         hue_proportions[hue] += proportion;
 
         colors.add (new AnnotatedColor () {
@@ -64,15 +64,15 @@ namespace He {
       }
 
       for (int i = 0; i < input_size; i++) {
-        int hue = (int)Math.round (colors.get (i).cam_hue);
+        int hue = (int) Math.round (colors.get (i).cam_hue);
         for (int j = (hue - 14); j < (hue + 16); j++) {
-          int sanitized_hue = (int)He.MathUtils.sanitize_degrees (j);
+          int sanitized_hue = (int) MathUtils.sanitize_degrees (j);
           colors.get (i).excited_proportion += hue_proportions[sanitized_hue];
         }
       }
 
       for (int i = 0; i < input_size; i++) {
-        double proportion_score = colors.get (i).excited_proportion * 100.0 * WEIGHT_PROPORTION;
+        double proportion_score = colors.get (i).excited_proportion* 100.0 * WEIGHT_PROPORTION;
         double chroma = colors.get (i).cam_chroma;
         double chroma_weight = (chroma > TARGET_CHROMA ? WEIGHT_CHROMA_ABOVE : WEIGHT_CHROMA_BELOW);
         double chroma_score = (chroma - TARGET_CHROMA) * chroma_weight;
