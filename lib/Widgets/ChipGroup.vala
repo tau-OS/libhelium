@@ -75,8 +75,6 @@ public class He.ChipGroup : He.Bin {
     }
 
     construct {
-        this.valign = Gtk.Align.START;
-
         flowbox = new Gtk.FlowBox ();
 
         sw = new Gtk.ScrolledWindow ();

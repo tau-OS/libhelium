@@ -86,6 +86,7 @@ public class He.SettingsWindow : He.Window, Gtk.Buildable {
         close_button.hexpand = true;
         close_button.margin_top = 24;
         close_button.margin_end = 24;
+        close_button.is_disclosure = true;
         close_button.set_tooltip_text (_("Close"));
         close_button.clicked.connect (close);
 
