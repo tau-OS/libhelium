@@ -41,27 +41,32 @@ namespace He {
                                           PaletteFunc palette,
                                           ToneFunc tonev) {
             new DynamicColor (
-                name,
-                palette,
-                tonev,
-                false,
-                null,
-                null,
-                null,
-                null
+                              name,
+                              palette,
+                              tonev,
+                              false,
+                              null,
+                              null,
+                              null,
+                              null
             );
         }
 
         public HCTColor get_hct (DynamicScheme scheme) {
+            HCTColor? cached_answer = hct_cache.get (scheme);
+            if (cached_answer != null) {
+                return cached_answer;
+            }
+
             double tone = get_tone (scheme);
-            HCTColor tanswer = palette (scheme).get_hct (tone);
+            HCTColor answer = palette (scheme).get_hct (tone);
 
             if (hct_cache.size > 4) {
                 hct_cache.clear ();
             }
 
-            hct_cache.set (scheme, tanswer);
-            return tanswer;
+            hct_cache.set (scheme, answer);
+            return answer;
         }
 
         public double get_tone (DynamicScheme scheme) {

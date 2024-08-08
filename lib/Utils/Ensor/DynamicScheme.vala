@@ -43,155 +43,189 @@ namespace He {
             this.neutral_variant = neutral_variant;
             this.error = error != null ? error : TonalPalette.from_hue_and_chroma(25.0, 84.0);
 
-            warning ("CREATED SCHEME\n");
+            warning("CREATED SCHEME\n");
+        }
+
+        public DynamicScheme.generate(HCTColor hct, bool is_dark, double contrast) {
+            new DynamicScheme(hct,
+                              variant,
+                              is_dark,
+                              contrast_level,
+                              TonalPalette.from_hue_and_chroma(hct.h, hct.c),
+                              TonalPalette.from_hue_and_chroma(hct.h, 36.0),
+                              TonalPalette.from_hue_and_chroma(hct.h, 16.0),
+                              TonalPalette.from_hue_and_chroma(MathUtils.sanitize_degrees(hct.h + 60.0), 24.0),
+                              TonalPalette.from_hue_and_chroma(hct.h, 8.0),
+                              TonalPalette.from_hue_and_chroma(25.0, 84.0)
+            );
         }
 
         public HCTColor get_hct(DynamicColor dynamic_color) {
             return dynamic_color.get_hct(this);
         }
 
+        public string get_primary_key() {
+            return hex_from_hct(new Scheme().primary_key().get_hct(this));
+        }
+
+        public string get_secondary_key() {
+            return hex_from_hct(new Scheme().secondary_key().get_hct(this));
+        }
+
+        public string get_tertiary_key() {
+            return hex_from_hct(new Scheme().tertiary_key().get_hct(this));
+        }
+
+        public string get_neutral_key() {
+            return hex_from_hct(new Scheme().neutral_key().get_hct(this));
+        }
+
+        public string get_neutral_variant_key() {
+            return hex_from_hct(new Scheme().neutral_variant_key().get_hct(this));
+        }
+
         public string get_background() {
-            return hex_from_hct(new Scheme().background(this).get_hct(this));
+            return hex_from_hct(new Scheme().background().get_hct(this));
         }
 
         public string get_on_background() {
-            return hex_from_hct(new Scheme().on_background(this).get_hct(this));
+            return hex_from_hct(new Scheme().on_background().get_hct(this));
         }
 
         public string get_surface() {
-            return hex_from_hct(new Scheme().surface(this).get_hct(this));
+            return hex_from_hct(new Scheme().surface().get_hct(this));
         }
 
         public string get_surface_dim() {
-            return hex_from_hct(new Scheme().surface_dim(this).get_hct(this));
+            return hex_from_hct(new Scheme().surface_dim().get_hct(this));
         }
 
         public string get_surface_bright() {
-            return hex_from_hct(new Scheme().surface_bright(this).get_hct(this));
+            return hex_from_hct(new Scheme().surface_bright().get_hct(this));
         }
 
         public string get_surface_container_lowest() {
-            return hex_from_hct(new Scheme().surface_container_lowest(this).get_hct(this));
+            return hex_from_hct(new Scheme().surface_container_lowest().get_hct(this));
         }
 
         public string get_surface_container_low() {
-            return hex_from_hct(new Scheme().surface_container_low(this).get_hct(this));
+            return hex_from_hct(new Scheme().surface_container_low().get_hct(this));
         }
 
         public string get_surface_container() {
-            return hex_from_hct(new Scheme().surface_container(this).get_hct(this));
+            return hex_from_hct(new Scheme().surface_container().get_hct(this));
         }
 
         public string get_surface_container_high() {
-            return hex_from_hct(new Scheme().surface_container_high(this).get_hct(this));
+            return hex_from_hct(new Scheme().surface_container_high().get_hct(this));
         }
 
         public string get_surface_container_highest() {
-            return hex_from_hct(new Scheme().surface_container_highest(this).get_hct(this));
+            return hex_from_hct(new Scheme().surface_container_highest().get_hct(this));
         }
 
         public string get_on_surface() {
-            return hex_from_hct(new Scheme().on_surface(this).get_hct(this));
+            return hex_from_hct(new Scheme().on_surface().get_hct(this));
         }
 
         public string get_surface_variant() {
-            return hex_from_hct(new Scheme().surface_variant(this).get_hct(this));
+            return hex_from_hct(new Scheme().surface_variant().get_hct(this));
         }
 
         public string get_on_surface_variant() {
-            return hex_from_hct(new Scheme().on_surface_variant(this).get_hct(this));
+            return hex_from_hct(new Scheme().on_surface_variant().get_hct(this));
         }
 
         public string get_inverse_surface() {
-            return hex_from_hct(new Scheme().inverse_surface(this).get_hct(this));
+            return hex_from_hct(new Scheme().inverse_surface().get_hct(this));
         }
 
         public string get_inverse_on_surface() {
-            return hex_from_hct(new Scheme().inverse_on_surface(this).get_hct(this));
+            return hex_from_hct(new Scheme().inverse_on_surface().get_hct(this));
         }
 
         public string get_outline() {
-            return hex_from_hct(new Scheme().outline(this).get_hct(this));
+            return hex_from_hct(new Scheme().outline().get_hct(this));
         }
 
         public string get_outline_variant() {
-            return hex_from_hct(new Scheme().outline_variant(this).get_hct(this));
+            return hex_from_hct(new Scheme().outline_variant().get_hct(this));
         }
 
         public string get_shadow() {
-            return hex_from_hct(new Scheme().shadow(this).get_hct(this));
+            return hex_from_hct(new Scheme().shadow().get_hct(this));
         }
 
         public string get_scrim() {
-            return hex_from_hct(new Scheme().scrim(this).get_hct(this));
+            return hex_from_hct(new Scheme().scrim().get_hct(this));
         }
 
         public string get_primary() {
-            return hex_from_hct(new Scheme().primary(this).get_hct(this));
+            return hex_from_hct(new Scheme().primary().get_hct(this));
         }
 
         public string get_on_primary() {
-            return hex_from_hct(new Scheme().on_primary(this).get_hct(this));
+            return hex_from_hct(new Scheme().on_primary().get_hct(this));
         }
 
         public string get_primary_container() {
-            return hex_from_hct(new Scheme().primary_container(this).get_hct(this));
+            return hex_from_hct(new Scheme().primary_container().get_hct(this));
         }
 
         public string get_on_primary_container() {
-            return hex_from_hct(new Scheme().on_primary_container(this).get_hct(this));
+            return hex_from_hct(new Scheme().on_primary_container().get_hct(this));
         }
 
         public string get_inverse_primary() {
-            return hex_from_hct(new Scheme().inverse_primary(this).get_hct(this));
+            return hex_from_hct(new Scheme().inverse_primary().get_hct(this));
         }
 
         public string get_secondary() {
-            return hex_from_hct(new Scheme().secondary(this).get_hct(this));
+            return hex_from_hct(new Scheme().secondary().get_hct(this));
         }
 
         public string get_on_secondary() {
-            return hex_from_hct(new Scheme().on_secondary(this).get_hct(this));
+            return hex_from_hct(new Scheme().on_secondary().get_hct(this));
         }
 
         public string get_secondary_container() {
-            return hex_from_hct(new Scheme().secondary_container(this).get_hct(this));
+            return hex_from_hct(new Scheme().secondary_container().get_hct(this));
         }
 
         public string get_on_secondary_container() {
-            return hex_from_hct(new Scheme().on_secondary_container(this).get_hct(this));
+            return hex_from_hct(new Scheme().on_secondary_container().get_hct(this));
         }
 
         public string get_tertiary() {
-            return hex_from_hct(new Scheme().tertiary(this).get_hct(this));
+            return hex_from_hct(new Scheme().tertiary().get_hct(this));
         }
 
         public string get_on_tertiary() {
-            return hex_from_hct(new Scheme().on_tertiary(this).get_hct(this));
+            return hex_from_hct(new Scheme().on_tertiary().get_hct(this));
         }
 
         public string get_tertiary_container() {
-            return hex_from_hct(new Scheme().tertiary_container(this).get_hct(this));
+            return hex_from_hct(new Scheme().tertiary_container().get_hct(this));
         }
 
         public string get_on_tertiary_container() {
-            return hex_from_hct(new Scheme().on_tertiary_container(this).get_hct(this));
+            return hex_from_hct(new Scheme().on_tertiary_container().get_hct(this));
         }
 
         public string get_error() {
-            return hex_from_hct(new Scheme().error(this).get_hct(this));
+            return hex_from_hct(new Scheme().error().get_hct(this));
         }
 
         public string get_on_error() {
-            return hex_from_hct(new Scheme().on_error(this).get_hct(this));
+            return hex_from_hct(new Scheme().on_error().get_hct(this));
         }
 
         public string get_error_container() {
-            return hex_from_hct(new Scheme().error_container(this).get_hct(this));
+            return hex_from_hct(new Scheme().error_container().get_hct(this));
         }
 
         public string get_on_error_container() {
-            return hex_from_hct(new Scheme().on_error_container(this).get_hct(this));
+            return hex_from_hct(new Scheme().on_error_container().get_hct(this));
         }
     }
 }

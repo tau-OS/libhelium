@@ -25,10 +25,45 @@ public class He.Scheme {
     }
 
     public DynamicColor highest_surface (DynamicScheme s) {
-        return s.is_dark ? surface_bright (s) : surface_dim (s);
+        return s.is_dark ? surface_bright () : surface_dim ();
     }
 
-    public DynamicColor background (DynamicScheme s) {
+    public DynamicColor primary_key () {
+        return new DynamicColor.from_palette (
+                                              /* name= */ "primary_palette_key_color",
+                                              /* palette= */ (s) => s.primary,
+                                              /* tone= */ (s) => s.primary.key_color.t);
+    }
+
+    public DynamicColor secondary_key () {
+        return new DynamicColor.from_palette (
+                                              /* name= */ "secondary_palette_key_color",
+                                              /* palette= */ (s) => s.secondary,
+                                              /* tone= */ (s) => s.secondary.key_color.t);
+    }
+
+    public DynamicColor tertiary_key () {
+        return new DynamicColor.from_palette (
+                                              /* name= */ "tertiary_palette_key_color",
+                                              /* palette= */ (s) => s.tertiary,
+                                              /* tone= */ (s) => s.tertiary.key_color.t);
+    }
+
+    public DynamicColor neutral_key () {
+        return new DynamicColor.from_palette (
+                                              /* name= */ "neutral_palette_key_color",
+                                              /* palette= */ (s) => s.neutral,
+                                              /* tone= */ (s) => s.neutral.key_color.t);
+    }
+
+    public DynamicColor neutral_variant_key () {
+        return new DynamicColor.from_palette (
+                                              /* name= */ "neutral_variant_palette_key_color",
+                                              /* palette= */ (s) => s.neutral_variant,
+                                              /* tone= */ (s) => s.neutral_variant.key_color.t);
+    }
+
+    public DynamicColor background () {
         return new DynamicColor (
                                  "background",
                                  (s) => s.neutral,
@@ -40,7 +75,7 @@ public class He.Scheme {
                                  null);
     }
 
-    public DynamicColor on_background (DynamicScheme s) {
+    public DynamicColor on_background () {
         return new DynamicColor (
                                  /* name= */ "on_background",
                                  /* palette= */ (s) => s.neutral,
@@ -52,7 +87,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor surface (DynamicScheme s) {
+    public DynamicColor surface () {
         return new DynamicColor (
                                  "surface",
                                  (s) => s.neutral,
@@ -64,7 +99,7 @@ public class He.Scheme {
                                  null);
     }
 
-    public DynamicColor surface_variant (DynamicScheme s) {
+    public DynamicColor surface_variant () {
         return new DynamicColor (
                                  /* name= */ "surface_variant",
                                  /* palette= */ (s) => s.neutral_variant,
@@ -76,7 +111,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor on_surface (DynamicScheme s) {
+    public DynamicColor on_surface () {
         return new DynamicColor (
                                  /* name= */ "on_surface",
                                  /* palette= */ (s) => s.neutral,
@@ -88,7 +123,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor on_surface_variant (DynamicScheme s) {
+    public DynamicColor on_surface_variant () {
         return new DynamicColor (
                                  /* name= */ "on_surface_variant",
                                  /* palette= */ (s) => s.neutral_variant,
@@ -100,7 +135,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor outline (DynamicScheme s) {
+    public DynamicColor outline () {
         return new DynamicColor (
                                  /* name= */ "outline",
                                  /* palette= */ (s) => s.neutral_variant,
@@ -112,7 +147,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor outline_variant (DynamicScheme s) {
+    public DynamicColor outline_variant () {
         return new DynamicColor (
                                  /* name= */ "outline_variant",
                                  /* palette= */ (s) => s.neutral_variant,
@@ -124,7 +159,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor inverse_surface (DynamicScheme s) {
+    public DynamicColor inverse_surface () {
         return new DynamicColor (
                                  /* name= */ "inverse_surface",
                                  /* palette= */ (s) => s.neutral,
@@ -136,31 +171,31 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor inverse_on_surface (DynamicScheme s) {
+    public DynamicColor inverse_on_surface () {
         return new DynamicColor (
                                  /* name= */ "inverse_on_surface",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => s.is_dark ? 20.0 : 95.0,
                                  /* isBackground= */ false,
-                                 /* background= */ (s) => inverse_surface (s),
+                                 /* background= */ (s) => inverse_surface (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 11.0, 21.0),
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor inverse_primary (DynamicScheme s) {
+    public DynamicColor inverse_primary () {
         return new DynamicColor (
                                  /* name= */ "inverse_primary",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => s.is_dark ? 40.0 : 80.0,
                                  /* isBackground= */ false,
-                                 /* background= */ (s) => inverse_surface (s),
+                                 /* background= */ (s) => inverse_surface (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 7.0),
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor surface_bright (DynamicScheme s) {
+    public DynamicColor surface_bright () {
         return new DynamicColor (
                                  /* name= */ "surface_bright",
                                  /* palette= */ (s) => s.neutral,
@@ -173,7 +208,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor surface_dim (DynamicScheme s) {
+    public DynamicColor surface_dim () {
         return new DynamicColor (
                                  /* name= */ "surface_dim",
                                  /* palette= */ (s) => s.neutral,
@@ -186,7 +221,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor surface_container_lowest (DynamicScheme s) {
+    public DynamicColor surface_container_lowest () {
         return new DynamicColor (
                                  /* name= */ "surface_container_lowest",
                                  /* palette= */ (s) => s.neutral,
@@ -199,7 +234,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor surface_container_low (DynamicScheme s) {
+    public DynamicColor surface_container_low () {
         return new DynamicColor (
                                  /* name= */ "surface_container_low",
                                  /* palette= */ (s) => s.neutral,
@@ -213,7 +248,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor surface_container (DynamicScheme s) {
+    public DynamicColor surface_container () {
         return new DynamicColor (
                                  /* name= */ "surface_container",
                                  /* palette= */ (s) => s.neutral,
@@ -227,7 +262,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor surface_container_high (DynamicScheme s) {
+    public DynamicColor surface_container_high () {
         return new DynamicColor (
                                  /* name= */ "surface_container_high",
                                  /* palette= */ (s) => s.neutral,
@@ -241,7 +276,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor surface_container_highest (DynamicScheme s) {
+    public DynamicColor surface_container_highest () {
         return new DynamicColor (
                                  /* name= */ "surface_container_high",
                                  /* palette= */ (s) => s.neutral,
@@ -255,7 +290,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor primary (DynamicScheme s) {
+    public DynamicColor primary () {
         return new DynamicColor (
                                  /* name= */ "primary",
                                  /* palette= */ (s) => s.primary,
@@ -270,10 +305,10 @@ public class He.Scheme {
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 7.0),
                                  /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (primary_container (s), primary (s), 10.0, TonePolarity.NEARER, false));
+                                 new ToneDeltaPair (primary_container (), primary (), 10.0, TonePolarity.NEARER, false));
     }
 
-    public DynamicColor on_primary (DynamicScheme s) {
+    public DynamicColor on_primary () {
         return new DynamicColor (
                                  /* name= */ "on_primary",
                                  /* palette= */ (s) => s.primary,
@@ -284,13 +319,13 @@ public class He.Scheme {
             return s.is_dark ? 20.0 : 100.0;
         },
                                  /* isBackground= */ false,
-                                 /* background= */ (s) => primary (s),
+                                 /* background= */ (s) => primary (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 11.0, 21.0),
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor primary_container (DynamicScheme s) {
+    public DynamicColor primary_container () {
         return new DynamicColor (
                                  /* name= */ "primary_container",
                                  /* palette= */ (s) => s.primary,
@@ -308,16 +343,16 @@ public class He.Scheme {
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (1.0, 1.0, 3.0, 4.5),
                                  /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (primary_container (s), primary (s), 10.0, TonePolarity.NEARER, false));
+                                 new ToneDeltaPair (primary_container (), primary (), 10.0, TonePolarity.NEARER, false));
     }
 
-    public DynamicColor on_primary_container (DynamicScheme s) {
+    public DynamicColor on_primary_container () {
         return new DynamicColor (
                                  /* name= */ "on_primary_container",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => {
             if (is_fidelity (s)) {
-                return primary_container (s).foreground_tone (primary_container (s).get_tone (s), 4.5);
+                return primary_container ().foreground_tone (primary_container ().get_tone (s), 4.5);
             }
             if (is_monochrome (s)) {
                 return s.is_dark ? 0.0 : 100.0;
@@ -325,13 +360,13 @@ public class He.Scheme {
             return s.is_dark ? 90.0 : 30.0;
         },
                                  /* isBackground= */ false,
-                                 /* background= */ (s) => primary_container (s),
+                                 /* background= */ (s) => primary_container (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 11.0),
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor secondary (DynamicScheme s) {
+    public DynamicColor secondary () {
         return new DynamicColor (
                                  "secondary",
                                  (s) => s.secondary,
@@ -340,10 +375,10 @@ public class He.Scheme {
                                  (s) => highest_surface (s),
                                  null,
                                  new ContrastCurve (1.0, 1.0, 3.0, 4.5),
-                                 (s) => new ToneDeltaPair (secondary_container (s), secondary (s), 10.0, TonePolarity.NEARER, false));
+                                 (s) => new ToneDeltaPair (secondary_container (), secondary (), 10.0, TonePolarity.NEARER, false));
     }
 
-    public DynamicColor on_secondary (DynamicScheme s) {
+    public DynamicColor on_secondary () {
         return new DynamicColor (
                                  /* name= */ "on_secondary",
                                  /* palette= */ (s) => s.secondary,
@@ -355,13 +390,13 @@ public class He.Scheme {
             }
         },
                                  /* isBackground= */ false,
-                                 /* background= */ (s) => secondary (s),
+                                 /* background= */ (s) => secondary (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 11.0, 21.0),
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor secondary_container (DynamicScheme s) {
+    public DynamicColor secondary_container () {
         return new DynamicColor (
                                  "secondary_container",
                                  (s) => s.secondary,
@@ -370,10 +405,10 @@ public class He.Scheme {
                                  (s) => highest_surface (s),
                                  null,
                                  new ContrastCurve (1.0, 1.0, 3.0, 4.5),
-                                 (s) => new ToneDeltaPair (secondary_container (s), secondary (s), 10.0, TonePolarity.NEARER, false));
+                                 (s) => new ToneDeltaPair (secondary_container (), secondary (), 10.0, TonePolarity.NEARER, false));
     }
 
-    public DynamicColor on_secondary_container (DynamicScheme s) {
+    public DynamicColor on_secondary_container () {
         return new DynamicColor (
                                  /* name= */ "on_secondary_container",
                                  /* palette= */ (s) => s.secondary,
@@ -384,16 +419,16 @@ public class He.Scheme {
             if (!is_fidelity (s)) {
                 return s.is_dark ? 90.0 : 30.0;
             }
-            return secondary_container (s).foreground_tone (secondary_container (s).get_tone (s), 4.5);
+            return secondary_container ().foreground_tone (secondary_container ().get_tone (s), 4.5);
         },
                                  /* isBackground= */ false,
-                                 /* background= */ (s) => secondary_container (s),
+                                 /* background= */ (s) => secondary_container (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 11.0),
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor tertiary (DynamicScheme s) {
+    public DynamicColor tertiary () {
         return new DynamicColor (
                                  /* name= */ "tertiary",
                                  /* palette= */ (s) => s.tertiary,
@@ -408,10 +443,10 @@ public class He.Scheme {
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 7.0),
                                  /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (tertiary_container (s), tertiary (s), 10.0, TonePolarity.NEARER, false));
+                                 new ToneDeltaPair (tertiary_container (), tertiary (), 10.0, TonePolarity.NEARER, false));
     }
 
-    public DynamicColor on_tertiary (DynamicScheme s) {
+    public DynamicColor on_tertiary () {
         return new DynamicColor (
                                  /* name= */ "on_tertiary",
                                  /* palette= */ (s) => s.tertiary,
@@ -422,13 +457,13 @@ public class He.Scheme {
             return s.is_dark ? 20.0 : 100.0;
         },
                                  /* isBackground= */ false,
-                                 /* background= */ (s) => tertiary (s),
+                                 /* background= */ (s) => tertiary (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 11.0, 21.0),
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor tertiary_container (DynamicScheme s) {
+    public DynamicColor tertiary_container () {
         return new DynamicColor (
                                  /* name= */ "tertiary_container",
                                  /* palette= */ (s) => s.tertiary,
@@ -449,7 +484,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor on_tertiary_container (DynamicScheme s) {
+    public DynamicColor on_tertiary_container () {
         return new DynamicColor (
                                  /* name= */ "on_tertiary_container",
                                  /* palette= */ (s) => s.tertiary,
@@ -460,16 +495,16 @@ public class He.Scheme {
             if (!is_fidelity (s)) {
                 return s.is_dark ? 90.0 : 30.0;
             }
-            return tertiary_container (s).foreground_tone (tertiary_container (s).get_tone (s), 4.5);
+            return tertiary_container ().foreground_tone (tertiary_container ().get_tone (s), 4.5);
         },
                                  /* isBackground= */ false,
-                                 /* background= */ (s) => tertiary_container (s),
+                                 /* background= */ (s) => tertiary_container (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 11.0),
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor shadow (DynamicScheme s) {
+    public DynamicColor shadow () {
         return new DynamicColor (
                                  /* name= */ "shadow",
                                  /* palette= */ (s) => s.neutral,
@@ -481,7 +516,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor scrim (DynamicScheme s) {
+    public DynamicColor scrim () {
         return new DynamicColor (
                                  /* name= */ "scrim",
                                  /* palette= */ (s) => s.neutral,
@@ -493,7 +528,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor error (DynamicScheme s) {
+    public DynamicColor error () {
         return new DynamicColor (
                                  /* name= */ "error",
                                  /* palette= */ (s) => s.neutral,
@@ -505,7 +540,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor on_error (DynamicScheme s) {
+    public DynamicColor on_error () {
         return new DynamicColor (
                                  /* name= */ "on_error",
                                  /* palette= */ (s) => s.neutral,
@@ -517,7 +552,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor error_container (DynamicScheme s) {
+    public DynamicColor error_container () {
         return new DynamicColor (
                                  /* name= */ "error_container",
                                  /* palette= */ (s) => s.neutral,
@@ -529,7 +564,7 @@ public class He.Scheme {
                                  /* toneDeltaPair= */ null);
     }
 
-    public DynamicColor on_error_container (DynamicScheme s) {
+    public DynamicColor on_error_container () {
         return new DynamicColor (
                                  /* name= */ "on_error_container",
                                  /* palette= */ (s) => s.neutral,
