@@ -26,11 +26,11 @@ public class He.DefaultScheme : DynamicScheme {
               SchemeVariant.DEFAULT,
               is_dark,
               contrast,
-              TonalPalette.from_hue_and_chroma (hct.h, hct.c),
               TonalPalette.from_hue_and_chroma (hct.h, 36.0),
+              TonalPalette.from_hue_and_chroma (hct.h, 16.0),
               TonalPalette.from_hue_and_chroma (MathUtils.sanitize_degrees (hct.h + 60.0), 24.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 8.0),
               TonalPalette.from_hue_and_chroma (hct.h, 6.0),
+              TonalPalette.from_hue_and_chroma (hct.h, 8.0),
               null
         );
     }

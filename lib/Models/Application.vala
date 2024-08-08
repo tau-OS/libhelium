@@ -103,7 +103,7 @@ public class He.Application : Gtk.Application {
             style_manager.is_dark = desktop.prefers_color_scheme == Desktop.ColorScheme.DARK;
         }
 
-        if (override_contrast && default_contrast != 0.0) {
+        if (override_contrast) {
             style_manager.contrast = default_contrast;
         } else {
             style_manager.contrast = desktop.contrast;
