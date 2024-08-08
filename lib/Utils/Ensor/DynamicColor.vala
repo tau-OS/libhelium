@@ -59,7 +59,7 @@ namespace He {
             }
 
             double tone = get_tone (scheme);
-            HCTColor answer = palette (scheme).get_hct (tone);
+            HCTColor answer = palette (scheme).get_hct ((int) tone);
 
             if (hct_cache.size > 4) {
                 hct_cache.clear ();

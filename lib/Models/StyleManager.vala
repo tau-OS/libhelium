@@ -44,9 +44,9 @@ public class He.StyleManager : Object {
 
   /**
    * Whether to apply styles for contrast modes.
-   * 1.0 = low, 2.0 = default, 3.0 = medium, 4.0 = high
+   * -1.0 = low, 0.0 = default, 0.5 = medium, 1.0 = high
    */
-  public double contrast = 2.0;
+  public double contrast = 0.0;
 
   /**
    * A function that returns a color scheme from a given accent color and whether dark mode is enabled.
@@ -90,7 +90,22 @@ public class He.StyleManager : Object {
     var lab_color = xyz_to_lab (rgb_to_xyz (rgb_color));
     HCTColor hct = { cam16_color.h, cam16_color.c, lab_color.l };
 
-    DynamicScheme scheme_factory = new DefaultScheme (hct, is_dark, contrast);
+    DynamicScheme scheme_factory;
+    if (scheme_variant == SchemeVariant.DEFAULT) {
+      scheme_factory = new DefaultScheme (hct, is_dark, contrast);
+    } else if (scheme_variant == SchemeVariant.MONOCHROME) {
+      scheme_factory = new MonochromaticScheme (hct, is_dark, contrast);
+    } else if (scheme_variant == SchemeVariant.MUTED) {
+      scheme_factory = new MutedScheme (hct, is_dark, contrast);
+    } else if (scheme_variant == SchemeVariant.SALAD) {
+      scheme_factory = new SaladScheme (hct, is_dark, contrast);
+    } else if (scheme_variant == SchemeVariant.VIBRANT) {
+      scheme_factory = new VibrantScheme (hct, is_dark, contrast);
+    } else if (scheme_variant == SchemeVariant.CONTENT) {
+      scheme_factory = new ContentScheme (hct, is_dark, contrast);
+    } else {
+      scheme_factory = new DefaultScheme (hct, is_dark, contrast);
+    }
 
     // HCT Color blendin'
     var meson_red_hct = is_dark ?

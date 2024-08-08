@@ -474,7 +474,7 @@ public class He.Scheme {
             if (is_fidelity (s)) {
                 return s.is_dark ? 90.0 : 30.0;
             }
-            HCTColor proposedHct = s.tertiary.get_hct (s.hct.t);
+            HCTColor proposedHct = s.tertiary.get_hct ((int) s.hct.t);
             return fix_disliked (proposedHct).t;
         },
                                  /* isBackground= */ false,
@@ -531,48 +531,55 @@ public class He.Scheme {
     public DynamicColor error () {
         return new DynamicColor (
                                  /* name= */ "error",
-                                 /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) => 0.0,
-                                 /* isBackground= */ false,
-                                 /* background= */ null,
+                                 /* palette= */ (s) => s.error,
+                                 /* tone= */ (s) => s.is_dark ? 80.0 : 40.0,
+                                 /* isBackground= */ true,
+                                 /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ null,
-                                 /* toneDeltaPair= */ null);
+                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 7.0),
+                                 /* toneDeltaPair= */ (s) =>
+                                 new ToneDeltaPair (error_container (), error (), 10.0, TonePolarity.NEARER, false));
     }
 
     public DynamicColor on_error () {
         return new DynamicColor (
                                  /* name= */ "on_error",
-                                 /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) => 0.0,
+                                 /* palette= */ (s) => s.error,
+                                 /* tone= */ (s) => s.is_dark ? 20.0 : 100.0,
                                  /* isBackground= */ false,
-                                 /* background= */ null,
+                                 /* background= */ (s) => error (),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ null,
+                                 /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 11.0, 21.0),
                                  /* toneDeltaPair= */ null);
     }
 
     public DynamicColor error_container () {
         return new DynamicColor (
                                  /* name= */ "error_container",
-                                 /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) => 0.0,
-                                 /* isBackground= */ false,
-                                 /* background= */ null,
+                                 /* palette= */ (s) => s.error,
+                                 /* tone= */ (s) => s.is_dark ? 30.0 : 90.0,
+                                 /* isBackground= */ true,
+                                 /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ null,
-                                 /* toneDeltaPair= */ null);
+                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.0, 3.0, 4.5),
+                                 /* toneDeltaPair= */ (s) =>
+                                 new ToneDeltaPair (error_container (), error (), 10.0, TonePolarity.NEARER, false));
     }
 
     public DynamicColor on_error_container () {
         return new DynamicColor (
                                  /* name= */ "on_error_container",
-                                 /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) => 0.0,
+                                 /* palette= */ (s) => s.error,
+                                 /* tone= */ (s) => {
+            if (is_monochrome (s)) {
+                return s.is_dark ? 90.0 : 10.0;
+            }
+            return s.is_dark ? 90.0 : 30.0;
+        },
                                  /* isBackground= */ false,
-                                 /* background= */ null,
+                                 /* background= */ (s) => error_container (),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ null,
+                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 11.0),
                                  /* toneDeltaPair= */ null);
     }
 

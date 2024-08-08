@@ -93,6 +93,10 @@ namespace He {
         typeof (He.ViewTitle).ensure ();
         typeof (He.WelcomeScreen).ensure ();
         typeof (He.Window).ensure ();
+        typeof (He.KeyColor).ensure ();
+        typeof (He.TonalPalette).ensure ();
+        typeof (He.ToneDeltaPair).ensure ();
+        typeof (He.TonePolarity).ensure ();
         typeof (He.DynamicColor).ensure ();
         typeof (He.DynamicScheme).ensure ();
         typeof (He.Scheme).ensure ();

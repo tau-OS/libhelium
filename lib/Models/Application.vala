@@ -61,13 +61,13 @@ public class He.Application : Gtk.Application {
     }
     /**
      * The chosen contrast mode for the app. Useful if the app requires more/less/fixed contrast than the user choice.
-     * Values are: 1.0 = low, 2.0 = default, 3.0 = medium, 4.0 = high.
+     * Values are: -1.0 = low, 0.0 = default, 0.5 = medium, 1.0 = high.
      * Only works if override_contrast is TRUE.
      */
-    private double _default_contrast = 2.0;
+    private double _default_contrast = 0.0;
     public double default_contrast {
         get { return _default_contrast; }
-        set { _default_contrast = value.clamp (1.0, 4.0); update_style_manager (); }
+        set { _default_contrast = value.clamp (-1.0, 1.0); update_style_manager (); }
     }
 
     /**
@@ -89,13 +89,13 @@ public class He.Application : Gtk.Application {
             style_manager.accent_color = default_accent_color;
         }
 
-        //if (scheme_factory != null) {
-        //    style_manager.scheme_variant = scheme_factory;
-        //} else if (scheme_factory != null && override_accent_color) {
-        //    style_manager.scheme_variant = SchemeVariant.CONTENT;
-        //} else {
+        if (scheme_factory != null) {
+            style_manager.scheme_variant = scheme_factory;
+        } else if (scheme_factory != null && override_accent_color) {
+            style_manager.scheme_variant = SchemeVariant.CONTENT;
+        } else {
             style_manager.scheme_variant = desktop.scheme_variant;
-        //}
+        }
 
         if (override_dark_style) {
             style_manager.is_dark = true;

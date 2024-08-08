@@ -42,22 +42,6 @@ namespace He {
             this.neutral = neutral;
             this.neutral_variant = neutral_variant;
             this.error = error != null ? error : TonalPalette.from_hue_and_chroma(25.0, 84.0);
-
-            warning("CREATED SCHEME\n");
-        }
-
-        public DynamicScheme.generate(HCTColor hct, bool is_dark, double contrast) {
-            new DynamicScheme(hct,
-                              variant,
-                              is_dark,
-                              contrast_level,
-                              TonalPalette.from_hue_and_chroma(hct.h, hct.c),
-                              TonalPalette.from_hue_and_chroma(hct.h, 36.0),
-                              TonalPalette.from_hue_and_chroma(hct.h, 16.0),
-                              TonalPalette.from_hue_and_chroma(MathUtils.sanitize_degrees(hct.h + 60.0), 24.0),
-                              TonalPalette.from_hue_and_chroma(hct.h, 8.0),
-                              TonalPalette.from_hue_and_chroma(25.0, 84.0)
-            );
         }
 
         public HCTColor get_hct(DynamicColor dynamic_color) {
