@@ -44,14 +44,14 @@ public class He.StyleManager : Object {
 
   /**
    * Whether to apply styles for contrast modes.
-   * 1.0 = low, 2.0 = default, 3.0 = medium, 4.0 = high
+   * -1.0 = low, 0.0 = default, 0.5 = medium, 1.0 = high
    */
-  public double contrast = 2.0;
+  public double contrast = 0.0;
 
   /**
    * A function that returns a color scheme from a given accent color and whether dark mode is enabled.
    */
-  public SchemeFactory scheme_factory = new DefaultScheme ();
+  public SchemeVariant scheme_variant;
 
   /**
    * Whether the style manager has been registered. Unregistered style managers will not apply their styles.
@@ -87,146 +87,143 @@ public class He.StyleManager : Object {
     var base_weight = 400 * font_weight;
     var base_roundness = roundness != 0 ? 4 * roundness : 0;
     var cam16_color = xyz_to_cam16 (rgb_to_xyz (rgb_color));
-    var chosen_scheme = scheme_factory.generate (cam16_color, is_dark, contrast);
+    var lab_color = xyz_to_lab (rgb_to_xyz (rgb_color));
+    HCTColor hct = { cam16_color.h, cam16_color.c, lab_color.l };
 
-    // Error, always constant
-    var error_hct = is_dark ?
-      from_params (20.0, 25.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level) :
-      from_params (25.0, 75.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level);
-    var error_hex = hct_to_hex (error_hct.h, error_hct.c, error_hct.t);
-
-    var on_error_hct = is_dark ?
-      from_params (25.0, 50.0, new ContrastCurve (contrast, 17, 20, 23, 27).contrast_level) :
-      from_params (0.0, 0.0, new ContrastCurve (contrast, 95, 100, 100, 100).contrast_level);
-    var on_error_hex = hct_to_hex (on_error_hct.h, on_error_hct.c, on_error_hct.t);
-
-    var error_container_hct = is_dark ?
-      from_params (25.0, 35.0, new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level) :
-      from_params (20.0, 10.0, new ContrastCurve (contrast, 95, 90, 85, 70).contrast_level);
-    var error_container_hex = hct_to_hex (error_container_hct.h, error_container_hct.c, error_container_hct.t);
-
-    var on_error_container_hct = is_dark ?
-      from_params (20.0, 10.0, new ContrastCurve (contrast, 85, 90, 100, 100).contrast_level) :
-      from_params (25.0, 65.0, new ContrastCurve (contrast, 20, 10, 0, 0).contrast_level);
-    var on_error_container_hex = hct_to_hex (on_error_container_hct.h, on_error_container_hct.c, on_error_container_hct.t);
+    DynamicScheme scheme_factory;
+    if (scheme_variant == SchemeVariant.DEFAULT) {
+      scheme_factory = new DefaultScheme (hct, is_dark, contrast);
+    } else if (scheme_variant == SchemeVariant.MONOCHROME) {
+      scheme_factory = new MonochromaticScheme (hct, is_dark, contrast);
+    } else if (scheme_variant == SchemeVariant.MUTED) {
+      scheme_factory = new MutedScheme (hct, is_dark, contrast);
+    } else if (scheme_variant == SchemeVariant.SALAD) {
+      scheme_factory = new SaladScheme (hct, is_dark, contrast);
+    } else if (scheme_variant == SchemeVariant.VIBRANT) {
+      scheme_factory = new VibrantScheme (hct, is_dark, contrast);
+    } else if (scheme_variant == SchemeVariant.CONTENT) {
+      scheme_factory = new ContentScheme (hct, is_dark, contrast);
+    } else {
+      scheme_factory = new DefaultScheme (hct, is_dark, contrast);
+    }
 
     // HCT Color blendin'
     var meson_red_hct = is_dark ?
-      hct_blend (from_params (8.0, 85.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (2.0, 49.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+      hct_blend (from_params (8.0, 85.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+      hct_blend (from_params (2.0, 49.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
     var meson_red_hex = hct_to_hex (meson_red_hct.h, meson_red_hct.c, meson_red_hct.t);
 
     var lepton_orange_hct = is_dark ?
-      hct_blend (from_params (55.0, 29.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (50.0, 61.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+      hct_blend (from_params (55.0, 29.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+      hct_blend (from_params (50.0, 61.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
     var lepton_orange_hex = hct_to_hex (lepton_orange_hct.h, lepton_orange_hct.c, lepton_orange_hct.t);
 
     var electron_yellow_hct = is_dark ?
-      hct_blend (from_params (89.0, 37.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (81.0, 55.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+      hct_blend (from_params (89.0, 37.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+      hct_blend (from_params (81.0, 55.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
     var electron_yellow_hex = hct_to_hex (electron_yellow_hct.h, electron_yellow_hct.c, electron_yellow_hct.t);
 
     var muon_green_hct = is_dark ?
-      hct_blend (from_params (152.0, 43.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (147.0, 71.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+      hct_blend (from_params (152.0, 43.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+      hct_blend (from_params (147.0, 71.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
     var muon_green_hex = hct_to_hex (muon_green_hct.h, muon_green_hct.c, muon_green_hct.t);
 
     var baryon_mint_hct = is_dark ?
-      hct_blend (from_params (182.0, 25.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (177.0, 42.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+      hct_blend (from_params (182.0, 25.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+      hct_blend (from_params (177.0, 42.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
     var baryon_mint_hex = hct_to_hex (baryon_mint_hct.h, baryon_mint_hct.c, baryon_mint_hct.t);
 
     var proton_blue_hct = is_dark ?
-      hct_blend (from_params (233.0, 34.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (240.0, 53.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+      hct_blend (from_params (233.0, 34.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+      hct_blend (from_params (240.0, 53.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
     var proton_blue_hex = hct_to_hex (proton_blue_hct.h, proton_blue_hct.c, proton_blue_hct.t);
 
     var photon_indigo_hct = is_dark ?
-      hct_blend (from_params (291.0, 67.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (288.0, 84.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+      hct_blend (from_params (291.0, 67.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+      hct_blend (from_params (288.0, 84.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
     var photon_indigo_hex = hct_to_hex (photon_indigo_hct.h, photon_indigo_hct.c, photon_indigo_hct.t);
 
     var tau_purple_hct = is_dark ?
-      hct_blend (from_params (309.0, 34.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (311.0, 57.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+      hct_blend (from_params (309.0, 34.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+      hct_blend (from_params (311.0, 57.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
     var tau_purple_hex = hct_to_hex (tau_purple_hct.h, tau_purple_hct.c, tau_purple_hct.t);
 
     var fermion_pink_hct = is_dark ?
-      hct_blend (from_params (337.0, 34.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (340.0, 60.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+      hct_blend (from_params (337.0, 34.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+      hct_blend (from_params (340.0, 60.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
     var fermion_pink_hex = hct_to_hex (fermion_pink_hct.h, fermion_pink_hct.c, fermion_pink_hct.t);
 
     var gluon_brown_hct = is_dark ?
-      hct_blend (from_params (66.0, 12.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (61.0, 30.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
+      hct_blend (from_params (66.0, 12.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+      hct_blend (from_params (61.0, 30.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
     var gluon_brown_hex = hct_to_hex (gluon_brown_hct.h, gluon_brown_hct.c, gluon_brown_hct.t);
 
     string css = "";
     css = @"
-    @define-color accent_color $(chosen_scheme.primary_hex);
-    @define-color accent_bg_color $(chosen_scheme.primary_hex);
-    @define-color accent_fg_color $(chosen_scheme.on_primary_hex);
-    @define-color accent_container_color $(chosen_scheme.primary_container_hex);
-    @define-color accent_container_bg_color $(chosen_scheme.primary_container_hex);
-    @define-color accent_container_fg_color $(chosen_scheme.on_primary_container_hex);
+    @define-color accent_color $(scheme_factory.get_primary());
+    @define-color accent_bg_color $(scheme_factory.get_primary());
+    @define-color accent_fg_color $(scheme_factory.get_on_primary());
+    @define-color accent_container_color $(scheme_factory.get_primary_container());
+    @define-color accent_container_bg_color $(scheme_factory.get_primary_container());
+    @define-color accent_container_fg_color $(scheme_factory.get_on_primary_container());
 
-    @define-color window_bg_color $(chosen_scheme.surface_bg_hex);
-    @define-color view_bg_color $(chosen_scheme.surface_bg_hex);
-    @define-color headerbar_bg_color $(chosen_scheme.surface_bg_variant_hex);
-    @define-color popover_bg_color $(chosen_scheme.surface_container_high_bg_hex);
-    @define-color card_bg_color $(chosen_scheme.surface_container_bg_hex);
-    @define-color window_fg_color $(chosen_scheme.surface_fg_hex);
-    @define-color view_fg_color $(chosen_scheme.surface_fg_variant_hex);
-    @define-color headerbar_fg_color $(chosen_scheme.surface_fg_variant_hex);
-    @define-color popover_fg_color $(chosen_scheme.surface_fg_hex);
-    @define-color card_fg_color $(chosen_scheme.surface_fg_hex);
+    @define-color window_bg_color $(scheme_factory.get_surface());
+    @define-color view_bg_color $(scheme_factory.get_surface());
+    @define-color headerbar_bg_color $(scheme_factory.get_surface_variant());
+    @define-color popover_bg_color $(scheme_factory.get_surface_container_high());
+    @define-color card_bg_color $(scheme_factory.get_surface_container());
+    @define-color window_fg_color $(scheme_factory.get_on_surface());
+    @define-color view_fg_color $(scheme_factory.get_on_surface_variant());
+    @define-color headerbar_fg_color $(scheme_factory.get_on_surface_variant());
+    @define-color popover_fg_color $(scheme_factory.get_on_surface());
+    @define-color card_fg_color $(scheme_factory.get_on_surface());
 
-    @define-color surface_bright_bg_color $(chosen_scheme.surface_bright_bg_hex);
-    @define-color surface_bg_color $(chosen_scheme.surface_bg_hex);
-    @define-color surface_dim_bg_color $(chosen_scheme.surface_dim_bg_hex);
-    @define-color surface_container_lowest_bg_color $(chosen_scheme.surface_container_lowest_bg_hex);
-    @define-color surface_container_low_bg_color $(chosen_scheme.surface_container_low_bg_hex);
-    @define-color surface_container_bg_color $(chosen_scheme.surface_container_bg_hex);
-    @define-color surface_container_high_bg_color $(chosen_scheme.surface_container_high_bg_hex);
-    @define-color surface_container_highest_bg_color $(chosen_scheme.surface_container_highest_bg_hex);
+    @define-color surface_bright_bg_color $(scheme_factory.get_surface_bright());
+    @define-color surface_bg_color $(scheme_factory.get_surface());
+    @define-color surface_dim_bg_color $(scheme_factory.get_surface_dim());
+    @define-color surface_container_lowest_bg_color $(scheme_factory.get_surface_container_lowest());
+    @define-color surface_container_low_bg_color $(scheme_factory.get_surface_container_low());
+    @define-color surface_container_bg_color $(scheme_factory.get_surface_container());
+    @define-color surface_container_high_bg_color $(scheme_factory.get_surface_container_high());
+    @define-color surface_container_highest_bg_color $(scheme_factory.get_surface_container_highest());
     ";
 
     css += @"
-    @define-color destructive_bg_color $error_hex;
-    @define-color destructive_fg_color $on_error_hex;
-    @define-color destructive_color $error_hex;
-    @define-color destructive_container_color $on_error_container_hex;
-    @define-color destructive_container_bg_color $error_container_hex;
-    @define-color destructive_container_fg_color $on_error_container_hex;
+    @define-color destructive_bg_color $(scheme_factory.get_error());
+    @define-color destructive_fg_color $(scheme_factory.get_on_error());
+    @define-color destructive_color $(scheme_factory.get_error());
+    @define-color destructive_container_color $(scheme_factory.get_on_error_container());
+    @define-color destructive_container_bg_color $(scheme_factory.get_error_container());
+    @define-color destructive_container_fg_color $(scheme_factory.get_on_error_container());
 
-    @define-color suggested_bg_color $(chosen_scheme.secondary_hex);
-    @define-color suggested_fg_color $(chosen_scheme.on_secondary_hex);
-    @define-color suggested_color $(chosen_scheme.secondary_hex);
-    @define-color suggested_container_color $(chosen_scheme.secondary_container_hex);
-    @define-color suggested_container_bg_color $(chosen_scheme.secondary_container_hex);
-    @define-color suggested_container_fg_color $(chosen_scheme.on_secondary_container_hex);
+    @define-color suggested_bg_color $(scheme_factory.get_secondary());
+    @define-color suggested_fg_color $(scheme_factory.get_on_secondary());
+    @define-color suggested_color $(scheme_factory.get_secondary());
+    @define-color suggested_container_color $(scheme_factory.get_secondary_container());
+    @define-color suggested_container_bg_color $(scheme_factory.get_secondary_container());
+    @define-color suggested_container_fg_color $(scheme_factory.get_on_secondary_container());
 
-    @define-color error_bg_color $error_hex;
-    @define-color error_fg_color $on_error_hex;
-    @define-color error_color $error_hex;
-    @define-color error_container_color $error_container_hex;
-    @define-color error_container_bg_color $error_container_hex;
-    @define-color error_container_fg_color $on_error_container_hex;
+    @define-color error_bg_color $(scheme_factory.get_error());
+    @define-color error_fg_color $(scheme_factory.get_on_error());
+    @define-color error_color $(scheme_factory.get_error());
+    @define-color error_container_color $(scheme_factory.get_on_error_container());
+    @define-color error_container_bg_color $(scheme_factory.get_error_container());
+    @define-color error_container_fg_color $(scheme_factory.get_on_error_container());
 
-    @define-color success_bg_color $(chosen_scheme.tertiary_hex);
-    @define-color success_fg_color $(chosen_scheme.on_tertiary_hex);
-    @define-color success_color $(chosen_scheme.tertiary_hex);
-    @define-color success_container_color $(chosen_scheme.tertiary_container_hex);
-    @define-color success_container_bg_color $(chosen_scheme.tertiary_container_hex);
-    @define-color success_container_fg_color $(chosen_scheme.on_tertiary_container_hex);
+    @define-color success_bg_color $(scheme_factory.get_tertiary());
+    @define-color success_fg_color $(scheme_factory.get_on_tertiary());
+    @define-color success_color $(scheme_factory.get_tertiary());
+    @define-color success_container_color $(scheme_factory.get_tertiary_container());
+    @define-color success_container_bg_color $(scheme_factory.get_tertiary_container());
+    @define-color success_container_fg_color $(scheme_factory.get_on_tertiary_container());
 
-    @define-color outline $(chosen_scheme.outline_hex);
-    @define-color borders $(chosen_scheme.outline_variant_hex);
-    @define-color shadow $(chosen_scheme.shadow_hex);
-    @define-color scrim $(chosen_scheme.scrim_hex);
-    @define-color osd_bg_color $(chosen_scheme.inverse_surface_bg_hex);
-    @define-color osd_fg_color $(chosen_scheme.inverse_surface_fg_hex);
-    @define-color osd_accent_color $(chosen_scheme.inverse_primary_hex);
+    @define-color outline $(scheme_factory.get_outline());
+    @define-color borders $(scheme_factory.get_outline_variant());
+    @define-color shadow $(scheme_factory.get_shadow());
+    @define-color scrim $(scheme_factory.get_scrim());
+    @define-color osd_bg_color $(scheme_factory.get_inverse_surface());
+    @define-color osd_fg_color $(scheme_factory.get_inverse_on_surface());
+    @define-color osd_accent_color $(scheme_factory.get_inverse_primary());
     ";
 
     css += @"
