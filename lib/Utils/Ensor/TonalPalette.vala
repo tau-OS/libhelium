@@ -11,8 +11,8 @@ public class He.TonalPalette : GLib.Object {
         this.cache = new GLib.HashTable<int, int> (null, null);
     }
 
-    public static TonalPalette tonal_palette_from_int(int argb) {
-        HCTColor hct = from_int(argb);
+    public static TonalPalette from_int(int argb) {
+        HCTColor hct = hct_from_int(argb);
         return TonalPalette.from_hct(hct);
     }
 
@@ -25,7 +25,7 @@ public class He.TonalPalette : GLib.Object {
         return new TonalPalette(hue, chroma, key_color.create());
     }
 
-    public int tone(double tone) {
+    public int get_tone(double tone) {
         int? argb = this.cache.lookup((int) tone);
         if (argb == null) {
             argb = hct_to_argb(this.hue, this.chroma, tone);
@@ -35,6 +35,6 @@ public class He.TonalPalette : GLib.Object {
     }
 
     public HCTColor get_hct(double tone) {
-        return from_int(this.tone(tone));
+        return hct_from_int(get_tone(tone));
     }
 }

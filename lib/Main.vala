@@ -93,6 +93,9 @@ namespace He {
         typeof (He.ViewTitle).ensure ();
         typeof (He.WelcomeScreen).ensure ();
         typeof (He.Window).ensure ();
+        typeof (He.DynamicColor).ensure ();
+        typeof (He.DynamicScheme).ensure ();
+        typeof (He.Scheme).ensure ();
 
         // Setup gettext
         Intl.bindtextdomain (Config.GETTEXT_PACKAGE, Config.LOCALEDIR);

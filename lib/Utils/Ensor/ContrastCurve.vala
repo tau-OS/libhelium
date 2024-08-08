@@ -19,37 +19,29 @@
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He {
     public class ContrastCurve {
-        private double target { get; set; }
         private double low { get; set; }
         private double normal { get; set; }
         private double medium { get; set; }
         private double high { get; set; }
 
-        public ContrastCurve (double target, double low, double normal, double medium, double high) {
-            this.target = target;
+        public ContrastCurve (double low, double normal, double medium, double high) {
             this.low = low;
             this.normal = normal;
             this.medium = medium;
             this.high = high;
         }
 
-        private double _contrast_level;
-        public double contrast_level {
-            get {
-                if (target == 1.0) {
-                    return this.low;
-                } else if (target == 2.0) {
-                    return this.normal;
-                } else if (target == 3.0) {
-                    return this.medium;
-                } else if (target == 4.0) {
-                    return this.high;
-                } else {
-                    return this.normal;
-                }
-            }
-            set {
-                _contrast_level = value;
+        public double get (double contrast) {
+            if (contrast <= -1.0) {
+                return this.low;
+            } else if (contrast < 0.0) {
+                return MathUtils.lerp (this.low, this.normal, (contrast - -1) / 1);
+            } else if (contrast < 0.5) {
+                return MathUtils.lerp (this.normal, this.medium, (contrast - 0) / 0.5);
+            } else if (contrast < 1.0) {
+                return MathUtils.lerp (this.medium, this.high, (contrast - 0.5) / 0.5);
+            } else {
+                return this.high;
             }
         }
     }

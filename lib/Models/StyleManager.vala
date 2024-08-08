@@ -22,214 +22,207 @@
  * This is a low-level class that should not be used directly. Instead, let the `He.Application` class manage this for you.
  */
 public class He.StyleManager : Object {
-  /**
-   * The preferred accent color. If null, a default accent color will be chosen based on the color scheme.
-   */
-  public RGBColor? accent_color = null;
+    /**
+     * The preferred accent color. If null, a default accent color will be chosen based on the color scheme.
+     */
+    public RGBColor? accent_color = null;
 
-  /**
-   * The preferred font weight.
-   */
-  public double font_weight = 1.0;
+    /**
+     * The preferred font weight.
+     */
+    public double font_weight = 1.0;
 
-  /**
-   * The preferred UI roundness.
-   */
-  public double roundness = 1.0;
+    /**
+     * The preferred UI roundness.
+     */
+    public double roundness = 1.0;
 
-  /**
-   * Whether to apply styles for dark mode.
-   */
-  public bool is_dark = false;
+    /**
+     * Whether to apply styles for dark mode.
+     */
+    public bool is_dark = false;
 
-  /**
-   * Whether to apply styles for contrast modes.
-   * 1.0 = low, 2.0 = default, 3.0 = medium, 4.0 = high
-   */
-  public double contrast = 2.0;
+    /**
+     * Whether to apply styles for contrast modes.
+     * 1.0 = low, 2.0 = default, 3.0 = medium, 4.0 = high
+     */
+    public double contrast = 2.0;
 
-  /**
-   * A function that returns a color scheme from a given accent color and whether dark mode is enabled.
-   */
-  public SchemeFactory scheme_factory = new DefaultScheme ();
+    /**
+     * A function that returns a color scheme from a given accent color and whether dark mode is enabled.
+     */
+    public SchemeVariant scheme_variant;
 
-  /**
-   * Whether the style manager has been registered. Unregistered style managers will not apply their styles.
-   */
-  public bool is_registered { get; private set; default = false; }
+    /**
+     * Whether the style manager has been registered. Unregistered style managers will not apply their styles.
+     */
+    public bool is_registered { get; private set; default = false; }
 
-  private const int STYLE_PROVIDER_PRIORITY_PLATFORM = Gtk.STYLE_PROVIDER_PRIORITY_THEME;
-  private const int STYLE_PROVIDER_PRIORITY_ACCENT = Gtk.STYLE_PROVIDER_PRIORITY_SETTINGS;
-  private const int STYLE_PROVIDER_PRIORITY_USER_BASE = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION;
-  private const int STYLE_PROVIDER_PRIORITY_USER_DARK = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1;
+    private const int STYLE_PROVIDER_PRIORITY_PLATFORM = Gtk.STYLE_PROVIDER_PRIORITY_THEME;
+    private const int STYLE_PROVIDER_PRIORITY_ACCENT = Gtk.STYLE_PROVIDER_PRIORITY_SETTINGS;
+    private const int STYLE_PROVIDER_PRIORITY_USER_BASE = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION;
+    private const int STYLE_PROVIDER_PRIORITY_USER_DARK = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1;
 
-  private Gtk.CssProvider light = new Gtk.CssProvider ();
-  private Gtk.CssProvider dark = new Gtk.CssProvider ();
-  private Gtk.CssProvider accent = new Gtk.CssProvider ();
+    private Gtk.CssProvider light = new Gtk.CssProvider ();
+    private Gtk.CssProvider dark = new Gtk.CssProvider ();
+    private Gtk.CssProvider accent = new Gtk.CssProvider ();
 
-  /**
-   * The base style provider for application provided styles. In this case user refers to the application, not the user of the application.
-   */
-  public Gtk.CssProvider user_base { get; default = new Gtk.CssProvider (); }
-  /**
-   * The dark style provider for application provided styles. This will be applied in addition to the base style provider when dark mode is enabled.
-   */
-  public Gtk.CssProvider user_dark { get; default = new Gtk.CssProvider (); }
+    /**
+     * The base style provider for application provided styles. In this case user refers to the application, not the user of the application.
+     */
+    public Gtk.CssProvider user_base { get; default = new Gtk.CssProvider (); }
+    /**
+     * The dark style provider for application provided styles. This will be applied in addition to the base style provider when dark mode is enabled.
+     */
+    public Gtk.CssProvider user_dark { get; default = new Gtk.CssProvider (); }
 
-  /**
-   * Runs all the necessary updates to apply the current style. If is_registered is false, this will do nothing.
-   */
-  public void update () {
-    if (!is_registered)
-      return;
+    /**
+     * Runs all the necessary updates to apply the current style. If is_registered is false, this will do nothing.
+     */
+    public void update () {
+        if (!is_registered)
+            return;
 
-    var rgb_color = accent_color != null ? accent_color : is_dark ? He.DEFAULT_DARK_ACCENT : He.DEFAULT_LIGHT_ACCENT;
-    var base_weight = 400 * font_weight;
-    var base_roundness = roundness != 0 ? 4 * roundness : 0;
-    var cam16_color = xyz_to_cam16 (rgb_to_xyz (rgb_color));
-    var chosen_scheme = scheme_factory.generate (cam16_color, is_dark, contrast);
+        var rgb_color = accent_color != null ? accent_color : is_dark ? He.DEFAULT_DARK_ACCENT : He.DEFAULT_LIGHT_ACCENT;
+        var base_weight = 400 * font_weight;
+        var base_roundness = roundness != 0 ? 4 * roundness : 0;
+        var cam16_color = xyz_to_cam16 (rgb_to_xyz (rgb_color));
+        var lab_color = xyz_to_lab (rgb_to_xyz (rgb_color));
+        HCTColor hct = {cam16_color.h, cam16_color.c, lab_color.l};
+        var scheme_factory = new DynamicScheme (
+              hct,
+              scheme_variant,
+              is_dark,
+              contrast,
+              TonalPalette.from_hue_and_chroma (hct.h, hct.c),
+              TonalPalette.from_hue_and_chroma (hct.h, 36.0),
+              TonalPalette.from_hue_and_chroma (hct.h, 16.0),
+              TonalPalette.from_hue_and_chroma (MathUtils.sanitize_degrees (hct.h + 60.0), 24.0),
+              TonalPalette.from_hue_and_chroma (hct.h, 6.0),
+              null
+        );
+        //scheme_factory.variant = scheme_variant;
 
-    // Error, always constant
-    var error_hct = is_dark ?
-      from_params (20.0, 25.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level) :
-      from_params (25.0, 75.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level);
-    var error_hex = hct_to_hex (error_hct.h, error_hct.c, error_hct.t);
+        // HCT Color blendin'
+        var meson_red_hct = is_dark ?
+            hct_blend (from_params (8.0, 85.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+            hct_blend (from_params (2.0, 49.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
+        var meson_red_hex = hct_to_hex (meson_red_hct.h, meson_red_hct.c, meson_red_hct.t);
 
-    var on_error_hct = is_dark ?
-      from_params (25.0, 50.0, new ContrastCurve (contrast, 17, 20, 23, 27).contrast_level) :
-      from_params (0.0, 0.0, new ContrastCurve (contrast, 95, 100, 100, 100).contrast_level);
-    var on_error_hex = hct_to_hex (on_error_hct.h, on_error_hct.c, on_error_hct.t);
+        var lepton_orange_hct = is_dark ?
+            hct_blend (from_params (55.0, 29.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+            hct_blend (from_params (50.0, 61.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
+        var lepton_orange_hex = hct_to_hex (lepton_orange_hct.h, lepton_orange_hct.c, lepton_orange_hct.t);
 
-    var error_container_hct = is_dark ?
-      from_params (25.0, 35.0, new ContrastCurve (contrast, 25, 30, 35, 40).contrast_level) :
-      from_params (20.0, 10.0, new ContrastCurve (contrast, 95, 90, 85, 70).contrast_level);
-    var error_container_hex = hct_to_hex (error_container_hct.h, error_container_hct.c, error_container_hct.t);
+        var electron_yellow_hct = is_dark ?
+            hct_blend (from_params (89.0, 37.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+            hct_blend (from_params (81.0, 55.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
+        var electron_yellow_hex = hct_to_hex (electron_yellow_hct.h, electron_yellow_hct.c, electron_yellow_hct.t);
 
-    var on_error_container_hct = is_dark ?
-      from_params (20.0, 10.0, new ContrastCurve (contrast, 85, 90, 100, 100).contrast_level) :
-      from_params (25.0, 65.0, new ContrastCurve (contrast, 20, 10, 0, 0).contrast_level);
-    var on_error_container_hex = hct_to_hex (on_error_container_hct.h, on_error_container_hct.c, on_error_container_hct.t);
+        var muon_green_hct = is_dark ?
+            hct_blend (from_params (152.0, 43.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+            hct_blend (from_params (147.0, 71.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
+        var muon_green_hex = hct_to_hex (muon_green_hct.h, muon_green_hct.c, muon_green_hct.t);
 
-    // HCT Color blendin'
-    var meson_red_hct = is_dark ?
-      hct_blend (from_params (8.0, 85.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (2.0, 49.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var meson_red_hex = hct_to_hex (meson_red_hct.h, meson_red_hct.c, meson_red_hct.t);
+        var baryon_mint_hct = is_dark ?
+            hct_blend (from_params (182.0, 25.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+            hct_blend (from_params (177.0, 42.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
+        var baryon_mint_hex = hct_to_hex (baryon_mint_hct.h, baryon_mint_hct.c, baryon_mint_hct.t);
 
-    var lepton_orange_hct = is_dark ?
-      hct_blend (from_params (55.0, 29.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (50.0, 61.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var lepton_orange_hex = hct_to_hex (lepton_orange_hct.h, lepton_orange_hct.c, lepton_orange_hct.t);
+        var proton_blue_hct = is_dark ?
+            hct_blend (from_params (233.0, 34.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+            hct_blend (from_params (240.0, 53.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
+        var proton_blue_hex = hct_to_hex (proton_blue_hct.h, proton_blue_hct.c, proton_blue_hct.t);
 
-    var electron_yellow_hct = is_dark ?
-      hct_blend (from_params (89.0, 37.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (81.0, 55.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var electron_yellow_hex = hct_to_hex (electron_yellow_hct.h, electron_yellow_hct.c, electron_yellow_hct.t);
+        var photon_indigo_hct = is_dark ?
+            hct_blend (from_params (291.0, 67.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+            hct_blend (from_params (288.0, 84.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
+        var photon_indigo_hex = hct_to_hex (photon_indigo_hct.h, photon_indigo_hct.c, photon_indigo_hct.t);
 
-    var muon_green_hct = is_dark ?
-      hct_blend (from_params (152.0, 43.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (147.0, 71.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var muon_green_hex = hct_to_hex (muon_green_hct.h, muon_green_hct.c, muon_green_hct.t);
+        var tau_purple_hct = is_dark ?
+            hct_blend (from_params (309.0, 34.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+            hct_blend (from_params (311.0, 57.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
+        var tau_purple_hex = hct_to_hex (tau_purple_hct.h, tau_purple_hct.c, tau_purple_hct.t);
 
-    var baryon_mint_hct = is_dark ?
-      hct_blend (from_params (182.0, 25.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (177.0, 42.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var baryon_mint_hex = hct_to_hex (baryon_mint_hct.h, baryon_mint_hct.c, baryon_mint_hct.t);
+        var fermion_pink_hct = is_dark ?
+            hct_blend (from_params (337.0, 34.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+            hct_blend (from_params (340.0, 60.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
+        var fermion_pink_hex = hct_to_hex (fermion_pink_hct.h, fermion_pink_hct.c, fermion_pink_hct.t);
 
-    var proton_blue_hct = is_dark ?
-      hct_blend (from_params (233.0, 34.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (240.0, 53.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var proton_blue_hex = hct_to_hex (proton_blue_hct.h, proton_blue_hct.c, proton_blue_hct.t);
+        var gluon_brown_hct = is_dark ?
+            hct_blend (from_params (66.0, 12.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
+            hct_blend (from_params (61.0, 30.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
+        var gluon_brown_hex = hct_to_hex (gluon_brown_hct.h, gluon_brown_hct.c, gluon_brown_hct.t);
 
-    var photon_indigo_hct = is_dark ?
-      hct_blend (from_params (291.0, 67.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (288.0, 84.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var photon_indigo_hex = hct_to_hex (photon_indigo_hct.h, photon_indigo_hct.c, photon_indigo_hct.t);
+        string css = "";
+        css = @"
+    @define-color accent_color $(scheme_factory.get_primary());
+    @define-color accent_bg_color $(scheme_factory.get_primary());
+    @define-color accent_fg_color $(scheme_factory.get_on_primary());
+    @define-color accent_container_color $(scheme_factory.get_primary_container());
+    @define-color accent_container_bg_color $(scheme_factory.get_primary_container());
+    @define-color accent_container_fg_color $(scheme_factory.get_on_primary_container());
 
-    var tau_purple_hct = is_dark ?
-      hct_blend (from_params (309.0, 34.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (311.0, 57.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var tau_purple_hex = hct_to_hex (tau_purple_hct.h, tau_purple_hct.c, tau_purple_hct.t);
+    @define-color window_bg_color $(scheme_factory.get_surface());
+    @define-color view_bg_color $(scheme_factory.get_surface());
+    @define-color headerbar_bg_color $(scheme_factory.get_surface_variant());
+    @define-color popover_bg_color $(scheme_factory.get_surface_container_high());
+    @define-color card_bg_color $(scheme_factory.get_surface_container());
+    @define-color window_fg_color $(scheme_factory.get_on_surface());
+    @define-color view_fg_color $(scheme_factory.get_on_surface_variant());
+    @define-color headerbar_fg_color $(scheme_factory.get_on_surface_variant());
+    @define-color popover_fg_color $(scheme_factory.get_on_surface());
+    @define-color card_fg_color $(scheme_factory.get_on_surface());
 
-    var fermion_pink_hct = is_dark ?
-      hct_blend (from_params (337.0, 34.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (340.0, 60.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var fermion_pink_hex = hct_to_hex (fermion_pink_hct.h, fermion_pink_hct.c, fermion_pink_hct.t);
-
-    var gluon_brown_hct = is_dark ?
-      hct_blend (from_params (66.0, 12.0, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 75, 80, 85, 90).contrast_level)) :
-      hct_blend (from_params (61.0, 30.0, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (contrast, 45, 40, 35, 20).contrast_level));
-    var gluon_brown_hex = hct_to_hex (gluon_brown_hct.h, gluon_brown_hct.c, gluon_brown_hct.t);
-
-    string css = "";
-    css = @"
-    @define-color accent_color $(chosen_scheme.primary_hex);
-    @define-color accent_bg_color $(chosen_scheme.primary_hex);
-    @define-color accent_fg_color $(chosen_scheme.on_primary_hex);
-    @define-color accent_container_color $(chosen_scheme.primary_container_hex);
-    @define-color accent_container_bg_color $(chosen_scheme.primary_container_hex);
-    @define-color accent_container_fg_color $(chosen_scheme.on_primary_container_hex);
-
-    @define-color window_bg_color $(chosen_scheme.surface_bg_hex);
-    @define-color view_bg_color $(chosen_scheme.surface_bg_hex);
-    @define-color headerbar_bg_color $(chosen_scheme.surface_bg_variant_hex);
-    @define-color popover_bg_color $(chosen_scheme.surface_container_high_bg_hex);
-    @define-color card_bg_color $(chosen_scheme.surface_container_bg_hex);
-    @define-color window_fg_color $(chosen_scheme.surface_fg_hex);
-    @define-color view_fg_color $(chosen_scheme.surface_fg_variant_hex);
-    @define-color headerbar_fg_color $(chosen_scheme.surface_fg_variant_hex);
-    @define-color popover_fg_color $(chosen_scheme.surface_fg_hex);
-    @define-color card_fg_color $(chosen_scheme.surface_fg_hex);
-
-    @define-color surface_bright_bg_color $(chosen_scheme.surface_bright_bg_hex);
-    @define-color surface_bg_color $(chosen_scheme.surface_bg_hex);
-    @define-color surface_dim_bg_color $(chosen_scheme.surface_dim_bg_hex);
-    @define-color surface_container_lowest_bg_color $(chosen_scheme.surface_container_lowest_bg_hex);
-    @define-color surface_container_low_bg_color $(chosen_scheme.surface_container_low_bg_hex);
-    @define-color surface_container_bg_color $(chosen_scheme.surface_container_bg_hex);
-    @define-color surface_container_high_bg_color $(chosen_scheme.surface_container_high_bg_hex);
-    @define-color surface_container_highest_bg_color $(chosen_scheme.surface_container_highest_bg_hex);
+    @define-color surface_bright_bg_color $(scheme_factory.get_surface_bright());
+    @define-color surface_bg_color $(scheme_factory.get_surface());
+    @define-color surface_dim_bg_color $(scheme_factory.get_surface_dim());
+    @define-color surface_container_lowest_bg_color $(scheme_factory.get_surface_container_lowest());
+    @define-color surface_container_low_bg_color $(scheme_factory.get_surface_container_low());
+    @define-color surface_container_bg_color $(scheme_factory.get_surface_container());
+    @define-color surface_container_high_bg_color $(scheme_factory.get_surface_container_high());
+    @define-color surface_container_highest_bg_color $(scheme_factory.get_surface_container_highest());
     ";
 
-    css += @"
-    @define-color destructive_bg_color $error_hex;
-    @define-color destructive_fg_color $on_error_hex;
-    @define-color destructive_color $error_hex;
-    @define-color destructive_container_color $on_error_container_hex;
-    @define-color destructive_container_bg_color $error_container_hex;
-    @define-color destructive_container_fg_color $on_error_container_hex;
+        css += @"
+    @define-color destructive_bg_color $(scheme_factory.get_error());
+    @define-color destructive_fg_color $(scheme_factory.get_on_error());
+    @define-color destructive_color $(scheme_factory.get_error());
+    @define-color destructive_container_color $(scheme_factory.get_on_error_container());
+    @define-color destructive_container_bg_color $(scheme_factory.get_error_container());
+    @define-color destructive_container_fg_color $(scheme_factory.get_on_error_container());
 
-    @define-color suggested_bg_color $(chosen_scheme.secondary_hex);
-    @define-color suggested_fg_color $(chosen_scheme.on_secondary_hex);
-    @define-color suggested_color $(chosen_scheme.secondary_hex);
-    @define-color suggested_container_color $(chosen_scheme.secondary_container_hex);
-    @define-color suggested_container_bg_color $(chosen_scheme.secondary_container_hex);
-    @define-color suggested_container_fg_color $(chosen_scheme.on_secondary_container_hex);
+    @define-color suggested_bg_color $(scheme_factory.get_secondary());
+    @define-color suggested_fg_color $(scheme_factory.get_on_secondary());
+    @define-color suggested_color $(scheme_factory.get_secondary());
+    @define-color suggested_container_color $(scheme_factory.get_secondary_container());
+    @define-color suggested_container_bg_color $(scheme_factory.get_secondary_container());
+    @define-color suggested_container_fg_color $(scheme_factory.get_on_secondary_container());
 
-    @define-color error_bg_color $error_hex;
-    @define-color error_fg_color $on_error_hex;
-    @define-color error_color $error_hex;
-    @define-color error_container_color $error_container_hex;
-    @define-color error_container_bg_color $error_container_hex;
-    @define-color error_container_fg_color $on_error_container_hex;
+    @define-color error_bg_color $(scheme_factory.get_error());
+    @define-color error_fg_color $(scheme_factory.get_on_error());
+    @define-color error_color $(scheme_factory.get_error());
+    @define-color error_container_color $(scheme_factory.get_on_error_container());
+    @define-color error_container_bg_color $(scheme_factory.get_error_container());
+    @define-color error_container_fg_color $(scheme_factory.get_on_error_container());
 
-    @define-color success_bg_color $(chosen_scheme.tertiary_hex);
-    @define-color success_fg_color $(chosen_scheme.on_tertiary_hex);
-    @define-color success_color $(chosen_scheme.tertiary_hex);
-    @define-color success_container_color $(chosen_scheme.tertiary_container_hex);
-    @define-color success_container_bg_color $(chosen_scheme.tertiary_container_hex);
-    @define-color success_container_fg_color $(chosen_scheme.on_tertiary_container_hex);
+    @define-color success_bg_color $(scheme_factory.get_tertiary());
+    @define-color success_fg_color $(scheme_factory.get_on_tertiary());
+    @define-color success_color $(scheme_factory.get_tertiary());
+    @define-color success_container_color $(scheme_factory.get_tertiary_container());
+    @define-color success_container_bg_color $(scheme_factory.get_tertiary_container());
+    @define-color success_container_fg_color $(scheme_factory.get_on_tertiary_container());
 
-    @define-color outline $(chosen_scheme.outline_hex);
-    @define-color borders $(chosen_scheme.outline_variant_hex);
-    @define-color shadow $(chosen_scheme.shadow_hex);
-    @define-color scrim $(chosen_scheme.scrim_hex);
-    @define-color osd_bg_color $(chosen_scheme.inverse_surface_bg_hex);
-    @define-color osd_fg_color $(chosen_scheme.inverse_surface_fg_hex);
-    @define-color osd_accent_color $(chosen_scheme.inverse_primary_hex);
+    @define-color outline $(scheme_factory.get_outline());
+    @define-color borders $(scheme_factory.get_outline_variant());
+    @define-color shadow $(scheme_factory.get_shadow());
+    @define-color scrim $(scheme_factory.get_scrim());
+    @define-color osd_bg_color $(scheme_factory.get_inverse_surface());
+    @define-color osd_fg_color $(scheme_factory.get_inverse_on_surface());
+    @define-color osd_accent_color $(scheme_factory.get_inverse_primary());
     ";
 
-    css += @"
+        css += @"
     @define-color meson_red $meson_red_hex;
     @define-color lepton_orange $lepton_orange_hex;
     @define-color electron_yellow $electron_yellow_hex;
@@ -242,10 +235,10 @@ public class He.StyleManager : Object {
     @define-color gluon_brown $gluon_brown_hex;
     ";
 
-    var light_weight = (200 * font_weight);
-    var heavy_weight = (600 * font_weight);
+        var light_weight = (200 * font_weight);
+        var heavy_weight = (600 * font_weight);
 
-    css += @"
+        css += @"
     label,
     .big-display,
     .view-subtitle,
@@ -293,14 +286,14 @@ public class He.StyleManager : Object {
     }
     ";
 
-    var small_roundness = (0.5 * base_roundness).to_string () + "px";
-    var medium_roundness = (1 * base_roundness).to_string () + "px";
-    var large_roundness = (2 * base_roundness).to_string () + "px";
-    var x_large_roundness = (3 * base_roundness).to_string () + "px";
-    var xx_large_roundness = (6 * base_roundness).to_string () + "px";
-    var circle_roundness = (12.5 * base_roundness).to_string () + "px";
+        var small_roundness = (0.5 * base_roundness).to_string () + "px";
+        var medium_roundness = (1 * base_roundness).to_string () + "px";
+        var large_roundness = (2 * base_roundness).to_string () + "px";
+        var x_large_roundness = (3 * base_roundness).to_string () + "px";
+        var xx_large_roundness = (6 * base_roundness).to_string () + "px";
+        var circle_roundness = (12.5 * base_roundness).to_string () + "px";
 
-    css += @"
+        css += @"
     .small-radius {
       border-radius: $small_roundness;
     }
@@ -458,56 +451,56 @@ public class He.StyleManager : Object {
     }
     ";
 
-    Misc.init_css_provider_from_string (accent, css);
-    Misc.toggle_style_provider (light, !is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
-    Misc.toggle_style_provider (dark, is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
-    Misc.toggle_style_provider (user_dark, is_dark, STYLE_PROVIDER_PRIORITY_USER_DARK);
+        Misc.init_css_provider_from_string (accent, css);
+        Misc.toggle_style_provider (light, !is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
+        Misc.toggle_style_provider (dark, is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
+        Misc.toggle_style_provider (user_dark, is_dark, STYLE_PROVIDER_PRIORITY_USER_DARK);
 
-    var settings = Gtk.Settings.get_default ();
-    settings.gtk_application_prefer_dark_theme = is_dark;
-  }
+        var settings = Gtk.Settings.get_default ();
+        settings.gtk_application_prefer_dark_theme = is_dark;
+    }
 
-  /**
-   * Register the style manager with GTK. This will also call update.
-   */
-  public void register () {
+    /**
+     * Register the style manager with GTK. This will also call update.
+     */
+    public void register () {
     #if BUNDLED_STYLESHEET
-    debug ("Loading bundled Helium stylesheet");
-    light.load_from_resource ("/com/fyralabs/Helium/gtk.css");
-    dark.load_from_resource ("/com/fyralabs/Helium/gtk-dark.css");
+        debug ("Loading bundled Helium stylesheet");
+        light.load_from_resource ("/com/fyralabs/Helium/gtk.css");
+        dark.load_from_resource ("/com/fyralabs/Helium/gtk-dark.css");
     #else
-    debug ("Loading system Helium stylesheet (this may fail if Helium is not installed)");
-    light.load_named ("Helium", null);
-    dark.load_named ("Helium", "dark");
+        debug ("Loading system Helium stylesheet (this may fail if Helium is not installed)");
+        light.load_named ("Helium", null);
+        dark.load_named ("Helium", "dark");
     #endif
 
-    Misc.toggle_style_provider (accent, true, STYLE_PROVIDER_PRIORITY_ACCENT);
-    Misc.toggle_style_provider (user_base, true, STYLE_PROVIDER_PRIORITY_USER_BASE);
+        Misc.toggle_style_provider (accent, true, STYLE_PROVIDER_PRIORITY_ACCENT);
+        Misc.toggle_style_provider (user_base, true, STYLE_PROVIDER_PRIORITY_USER_BASE);
 
-    // Setup the platform gtk theme and default icon theme.
-    var settings = Gtk.Settings.get_default ();
-    settings.gtk_theme_name = "Helium-empty";
-    settings.gtk_icon_theme_name = "Hydrogen";
+        // Setup the platform gtk theme and default icon theme.
+        var settings = Gtk.Settings.get_default ();
+        settings.gtk_theme_name = "Helium-empty";
+        settings.gtk_icon_theme_name = "Hydrogen";
 
-    is_registered = true;
+        is_registered = true;
 
-    update ();
-  }
+        update ();
+    }
 
-  /**
-   * Unregister the style manager with GTK.
-   */
-  public void unregister () {
-    Misc.toggle_style_provider (accent, false, STYLE_PROVIDER_PRIORITY_ACCENT);
-    Misc.toggle_style_provider (light, false, STYLE_PROVIDER_PRIORITY_PLATFORM);
-    Misc.toggle_style_provider (dark, false, STYLE_PROVIDER_PRIORITY_PLATFORM);
-    Misc.toggle_style_provider (user_base, false, STYLE_PROVIDER_PRIORITY_USER_BASE);
-    Misc.toggle_style_provider (user_dark, false, STYLE_PROVIDER_PRIORITY_USER_DARK);
+    /**
+     * Unregister the style manager with GTK.
+     */
+    public void unregister () {
+        Misc.toggle_style_provider (accent, false, STYLE_PROVIDER_PRIORITY_ACCENT);
+        Misc.toggle_style_provider (light, false, STYLE_PROVIDER_PRIORITY_PLATFORM);
+        Misc.toggle_style_provider (dark, false, STYLE_PROVIDER_PRIORITY_PLATFORM);
+        Misc.toggle_style_provider (user_base, false, STYLE_PROVIDER_PRIORITY_USER_BASE);
+        Misc.toggle_style_provider (user_dark, false, STYLE_PROVIDER_PRIORITY_USER_DARK);
 
-    is_registered = false;
-  }
+        is_registered = false;
+    }
 
-  ~StyleManager () {
-    unregister ();
-  }
+    ~StyleManager () {
+        unregister ();
+    }
 }

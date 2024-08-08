@@ -347,4 +347,18 @@ namespace He.MathUtils {
         double y = argb_to_xyz (argb).y;
         return 116.0 * lab_fovea (y / 100.0) - 16.0;
     }
+
+    public static double lstar_from_y (double y) {
+        return 116.0 * lab_fovea (y / 100.0) - 16.0;
+    }
+
+    public static double clamp (double start, double end, double value) {
+        if (value < start) {
+            return start;
+        } else if (value > end) {
+            return end;
+        } else {
+            return value;
+        }
+    }
 }
