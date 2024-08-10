@@ -153,17 +153,17 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
         height = get_height ();
 
         if (width > height) {
-            scaled_height = height_request;
+            scaled_height = height;
             scaled_width = (float) width * scaled_height / (float) height;
         } else if (width < height) {
-            scaled_width = width_request;
+            scaled_width = width;
             scaled_height = (float) height * scaled_width / (float) width;
         } else {
-            scaled_width = scaled_height = width_request;
+            scaled_width = scaled_height = width;
         }
 
         var p = Graphene.Point.zero ();
-        snapshot.translate (p.init ((float) (width_request - scaled_width) / 2, (float) (height_request - scaled_height) / 2));
+        snapshot.translate (p.init ((float) (width - scaled_width) / 2, (float) (height - scaled_height) / 2));
 
         Gsk.ScalingFilter filter;
         if (scaled_width > width || scaled_height > height) {
