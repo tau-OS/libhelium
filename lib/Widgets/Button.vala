@@ -218,25 +218,8 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
         }
     }
 
-    /**
-     * The label of the Button.
-     * @since 1.0
-     */
-    private string? _label;
-    public new string label {
-        set {
-            _label = value;
-            if (_label != "")
-                set_label (_label);
-        }
-
-        get {
-            return _label;
-        }
-    }
-
     public Button (string? icon, string? label) {
-        this.icon = icon;
+        this.icon_name = icon;
         this.label = label;
     }
 
