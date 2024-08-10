@@ -219,7 +219,7 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
     }
 
     public Button (string? icon, string? label) {
-        this.icon_name = icon;
+        this.icon = icon;
         this.label = label;
     }
 
