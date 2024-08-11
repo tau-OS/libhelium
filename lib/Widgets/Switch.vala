@@ -79,11 +79,13 @@ public class He.Switch : He.Bin, Gtk.Buildable {
         left_icon_img.halign = Gtk.Align.END;
         left_icon_img.valign = Gtk.Align.CENTER;
         left_icon_img.margin_end = 4;
+        left_icon_img.can_target = false;
         left_icon_img.add_css_class ("negative");
 
         right_icon_img.halign = Gtk.Align.START;
         right_icon_img.valign = Gtk.Align.CENTER;
         right_icon_img.margin_start = 4;
+        right_icon_img.can_target = false;
         right_icon_img.add_css_class ("positive");
 
         iswitch.halign = Gtk.Align.CENTER;
