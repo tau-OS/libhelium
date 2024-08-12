@@ -37,7 +37,7 @@ public class He.EmptyPage : He.Bin {
      * Can connect to the clicked signal to get notified when the button is clicked.
      * e.g. action_button.clicked.connect(() => { ... });
      */
-    public He.Button action_button = new He.Button (null, null);
+    public He.Button action_button = new He.Button ("", "");
 
     /**
      * Sets the title of the empty page.
@@ -124,6 +124,8 @@ public class He.EmptyPage : He.Bin {
         title_label.add_css_class ("view-title");
         description_label.add_css_class ("body");
         icon_image.pixel_size = 128;
+
+        action_button.is_pill = true;
 
         set_layout_manager (new Gtk.BoxLayout (Gtk.Orientation.VERTICAL));
 
