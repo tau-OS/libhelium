@@ -422,7 +422,6 @@ public class He.AppBar : He.Bin {
         win_control_box.prepend (win2_box);
 
         back_button.set_tooltip_text ("Go Back");
-        back_button.add_css_class ("flat");
         back_button.is_disclosure = true;
         back_button.set_size_request (26, 26);
         ((Gtk.Image) back_button.get_first_child ()).pixel_size = 24;
