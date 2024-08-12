@@ -294,13 +294,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "primary",
                                  /* palette= */ (s) => s.primary,
-                                 /* tone= */ (s) => {
-            if (is_monochrome (s)) {
-                return s.is_dark ? 100.0 : 0.0;
-            } else {
-                return s.is_dark ? 80.0 : 40.0;
-            }
-        },
+                                 /* tone= */ (s) => s.is_dark ? 80.0 : 40.0,
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
@@ -316,9 +310,8 @@ public class He.Scheme {
                                  /* tone= */ (s) => {
             if (is_monochrome (s)) {
                 return s.is_dark ? 10.0 : 90.0;
-            } else {
-                return s.is_dark ? 20.0 : 100.0;
             }
+            return s.is_dark ? 20.0 : 100.0;
         },
                                  /* isBackground= */ false,
                                  /* background= */ (s) => primary (),
@@ -332,13 +325,17 @@ public class He.Scheme {
                                  /* name= */ "primary_container",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => {
-            if (is_fidelity (s)) {
-                return s.hct.t;
-            } else if (is_monochrome (s)) {
-                return s.is_dark ? 85.0 : 25.0;
-            }
-            return s.is_dark ? 30.0 : 90.0;
-        },
+                                    if (is_monochrome (s)) {
+                                        return s.is_dark ? 60.0 : 49.0;
+                                    }
+                                    if (!is_fidelity (s)) {
+                                        return s.is_dark ? 30.0 : 90.0;
+                                    }
+                                    HCTColor proposed = s.primary.get_hct ((int) (s.hct.t * -1) + 55);
+                                    var disliked = fix_disliked (proposed);
+                        
+                                    return disliked.t;
+                                    },
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
@@ -352,13 +349,13 @@ public class He.Scheme {
                                  /* name= */ "on_primary_container",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => {
-            if (is_fidelity (s)) {
-                return primary_container ().foreground_tone (primary_container ().get_tone (s), 4.5);
-            } else if (is_monochrome (s)) {
-                return s.is_dark ? 0.0 : 100.0;
-            } else {
+            if (is_monochrome (s)) {
+                return s.is_dark ? 90.0 : 10.0;
+            }
+            if (!is_fidelity (s)) {
                 return s.is_dark ? 90.0 : 30.0;
             }
+            return primary_container ().foreground_tone (primary_container ().get_tone (s), 4.5);
         },
                                  /* isBackground= */ false,
                                  /* background= */ (s) => primary_container (),
@@ -371,13 +368,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "secondary",
                                  /* palette= */ (s) => s.secondary,
-                                 /* tone= */ (s) => {
-            if (is_monochrome (s)) {
-                return s.is_dark ? 100.0 : 0.0;
-            } else {
-                return s.is_dark ? 80.0 : 40.0;
-            }
-        },
+                                 /* tone= */ (s) => s.is_dark ? 80.0 : 40.0,
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
@@ -392,10 +383,9 @@ public class He.Scheme {
                                  /* palette= */ (s) => s.secondary,
                                  /* tone= */ (s) => {
             if (is_monochrome (s)) {
-                return s.is_dark ? 10.0 : 90.0;
-            } else {
-                return s.is_dark ? 20.0 : 100.0;
+                return s.is_dark ? 10.0 : 100.0;
             }
+            return s.is_dark ? 20.0 : 100.0;
         },
                                  /* isBackground= */ false,
                                  /* background= */ (s) => secondary (),
@@ -409,12 +399,13 @@ public class He.Scheme {
                                  /* name= */ "secondary_container",
                                  /* palette= */ (s) => s.secondary,
                                  /* tone= */ (s) => {
+            double initial = s.is_dark ? 30.0 : 90.0;
             if (is_fidelity (s)) {
-                return s.hct.t;
+                return initial;
             } else if (is_monochrome (s)) {
-                return s.is_dark ? 85.0 : 25.0;
+                return s.is_dark ? 30.0 : 85.0;
             }
-            return s.is_dark ? 30.0 : 90.0;
+            return find_desired_chroma_by_tone (s.secondary.hue, s.secondary.chroma, initial, !s.is_dark);
         },
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
@@ -429,13 +420,13 @@ public class He.Scheme {
                                  /* name= */ "on_secondary_container",
                                  /* palette= */ (s) => s.secondary,
                                  /* tone= */ (s) => {
-            if (is_fidelity (s)) {
-                return secondary_container ().foreground_tone (secondary_container ().get_tone (s), 4.5);
-            } else if (is_monochrome (s)) {
-                return s.is_dark ? 0.0 : 100.0;
-            } else {
+            if (is_monochrome (s)) {
+                return s.is_dark ? 90.0 : 10.0;
+            }
+            if (!is_fidelity (s)) {
                 return s.is_dark ? 90.0 : 30.0;
             }
+            return secondary_container ().foreground_tone (secondary_container ().get_tone (s), 4.5);
         },
                                  /* isBackground= */ false,
                                  /* background= */ (s) => secondary_container (),
@@ -450,10 +441,9 @@ public class He.Scheme {
                                  /* palette= */ (s) => s.tertiary,
                                  /* tone= */ (s) => {
             if (is_monochrome (s)) {
-                return s.is_dark ? 100.0 : 0.0;
-            } else {
-                return s.is_dark ? 80.0 : 40.0;
+                return s.is_dark ? 90.0 : 25.0;
             }
+            return s.is_dark ? 80.0 : 40.0;
         },
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
@@ -470,9 +460,8 @@ public class He.Scheme {
                                  /* tone= */ (s) => {
             if (is_monochrome (s)) {
                 return s.is_dark ? 10.0 : 90.0;
-            } else {
-                return s.is_dark ? 20.0 : 100.0;
             }
+            return s.is_dark ? 20.0 : 100.0;
         },
                                  /* isBackground= */ false,
                                  /* background= */ (s) => tertiary (),
@@ -486,13 +475,17 @@ public class He.Scheme {
                                  /* name= */ "tertiary_container",
                                  /* palette= */ (s) => s.tertiary,
                                  /* tone= */ (s) => {
-            if (is_fidelity (s)) {
-                return s.hct.t;
-            } else if (is_monochrome (s)) {
-                return s.is_dark ? 85.0 : 25.0;
-            }
-            return s.is_dark ? 30.0 : 90.0;
-        },
+                                    if (is_monochrome (s)) {
+                                        return s.is_dark ? 60.0 : 49.0;
+                                    }
+                                    if (!is_fidelity (s)) {
+                                        return s.is_dark ? 30.0 : 90.0;
+                                    }
+                                    HCTColor proposed = s.tertiary.get_hct ((int) (s.hct.t * -1) + 55);
+                                    var disliked = fix_disliked (proposed);
+                        
+                                    return disliked.t; // denegativitize and force tone
+                                },
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
@@ -506,13 +499,14 @@ public class He.Scheme {
                                  /* name= */ "on_tertiary_container",
                                  /* palette= */ (s) => s.tertiary,
                                  /* tone= */ (s) => {
-            if (is_fidelity (s)) {
-                return tertiary_container ().foreground_tone (tertiary_container ().get_tone (s), 4.5);
-            } else if (is_monochrome (s)) {
+            if (is_monochrome (s)) {
                 return s.is_dark ? 0.0 : 100.0;
-            } else {
+            }
+            if (!is_fidelity (s)) {
                 return s.is_dark ? 90.0 : 30.0;
             }
+
+            return on_tertiary_container ().foreground_tone (tertiary_container ().get_tone (s), 4.5);
         },
                                  /* isBackground= */ false,
                                  /* background= */ (s) => tertiary_container (),
