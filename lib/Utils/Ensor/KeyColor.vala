@@ -2,8 +2,8 @@ public class He.KeyColor : GLib.Object {
     private GLib.HashTable<int, double?> chroma_cache;
     private const double max_chroma_value = 200.0;
 
-    public double hue { get; private set; }
-    public double requested_chroma { get; private set; }
+    public double hue { get; set; }
+    public double requested_chroma { get; set; }
 
     public KeyColor(double hue, double requested_chroma) {
         this.hue = hue;

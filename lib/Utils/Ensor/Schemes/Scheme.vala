@@ -325,17 +325,14 @@ public class He.Scheme {
                                  /* name= */ "primary_container",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => {
-                                    if (is_monochrome (s)) {
-                                        return s.is_dark ? 60.0 : 49.0;
-                                    }
-                                    if (!is_fidelity (s)) {
-                                        return s.is_dark ? 30.0 : 90.0;
-                                    }
-                                    HCTColor proposed = s.primary.get_hct ((int) (s.hct.t * -1) + 55);
-                                    var disliked = fix_disliked (proposed);
-                        
-                                    return disliked.t;
-                                    },
+            if (is_monochrome (s)) {
+                return s.is_dark ? 60.0 : 49.0;
+            }
+            if (!is_fidelity (s)) {
+                return s.is_dark ? 30.0 : 90.0;
+            }
+            return s.hct.t;
+        },
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
@@ -475,17 +472,17 @@ public class He.Scheme {
                                  /* name= */ "tertiary_container",
                                  /* palette= */ (s) => s.tertiary,
                                  /* tone= */ (s) => {
-                                    if (is_monochrome (s)) {
-                                        return s.is_dark ? 60.0 : 49.0;
-                                    }
-                                    if (!is_fidelity (s)) {
-                                        return s.is_dark ? 30.0 : 90.0;
-                                    }
-                                    HCTColor proposed = s.tertiary.get_hct ((int) (s.hct.t * -1) + 55);
-                                    var disliked = fix_disliked (proposed);
-                        
-                                    return disliked.t; // denegativitize and force tone
-                                },
+            if (is_monochrome (s)) {
+                return s.is_dark ? 60.0 : 49.0;
+            }
+            if (!is_fidelity (s)) {
+                return s.is_dark ? 30.0 : 90.0;
+            }
+            HCTColor proposed = s.tertiary.get_hct (s.hct.t);
+            var disliked = fix_disliked (proposed);
+
+            return disliked.t;
+        },
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,

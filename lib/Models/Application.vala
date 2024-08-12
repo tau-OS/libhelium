@@ -71,13 +71,13 @@ public class He.Application : Gtk.Application {
     }
 
     /**
-     * A scheme factory to use for the application. If not set, the user's preferred scheme will be used.
-     * This is especially useful for applications with their own color needs, such as media applications using the Content factory.
+     * A scheme variant to use for the application. If not set, the user's preferred scheme will be used.
+     * This is especially useful for applications with their own color needs, such as media applications using the Content variant.
      */
-    private SchemeVariant? _scheme_factory = null;
-    public SchemeVariant? scheme_factory {
-        get { return _scheme_factory; }
-        set { _scheme_factory = value; update_style_manager (); }
+    private SchemeVariant? _default_scheme_variant = SchemeVariant.DEFAULT;
+    public SchemeVariant? default_scheme_variant {
+        get { return _default_scheme_variant; }
+        set { _default_scheme_variant = value; update_style_manager (); }
     }
 
     private void update_style_manager () {
@@ -89,11 +89,9 @@ public class He.Application : Gtk.Application {
             style_manager.accent_color = default_accent_color;
         }
 
-        if (scheme_factory != null) {
-            style_manager.scheme_variant = scheme_factory;
-        } else if (scheme_factory != null && override_accent_color) {
-            style_manager.scheme_variant = SchemeVariant.CONTENT;
-        } else {
+        if (default_scheme_variant != null) {
+            style_manager.scheme_variant = default_scheme_variant;
+        } else if (desktop.scheme_variant != SchemeVariant.CONTENT) {
             style_manager.scheme_variant = desktop.scheme_variant;
         }
 

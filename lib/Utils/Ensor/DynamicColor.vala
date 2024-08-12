@@ -1,23 +1,23 @@
 namespace He {
+    public delegate TonalPalette PaletteFunc (DynamicScheme s);
+
+    public delegate ToneDeltaPair ToneDeltaPairFunc (DynamicScheme s);
+
+    public delegate DynamicColor BackgroundFunc (DynamicScheme s);
+
+    public delegate double ToneFunc (DynamicScheme s);
+
     public class DynamicColor : Object {
         public string name { get; set; }
-        public PaletteFunc palette { get; set; }
-        public ToneFunc tonev { get; set; }
+        public PaletteFunc palette;
+        public ToneFunc tonev;
         public bool is_background { get; set; }
-        public BackgroundFunc background { get; set; }
-        public BackgroundFunc second_background { get; set; }
-        public ContrastCurve contrast_curve { get; set; }
-        public ToneDeltaPairFunc tone_delta_pair { get; set; }
+        public BackgroundFunc background;
+        public BackgroundFunc second_background;
+        public ContrastCurve contrast_curve;
+        public ToneDeltaPairFunc tone_delta_pair;
 
         private Gee.HashMap<DynamicScheme, HCTColor?> hct_cache = new Gee.HashMap<DynamicScheme, HCTColor?> ();
-
-        public delegate TonalPalette PaletteFunc (DynamicScheme s);
-
-        public delegate ToneDeltaPair ToneDeltaPairFunc (DynamicScheme s);
-
-        public delegate DynamicColor BackgroundFunc (DynamicScheme s);
-
-        public delegate double ToneFunc (DynamicScheme s);
 
         public DynamicColor (string name,
             PaletteFunc palette,
@@ -59,7 +59,7 @@ namespace He {
             }
 
             double tone = get_tone (scheme);
-            HCTColor answer = palette (scheme).get_hct ((int) tone);
+            HCTColor answer = palette (scheme).get_hct (tone);
 
             if (hct_cache.size > 4) {
                 hct_cache.clear ();
