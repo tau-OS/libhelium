@@ -41,9 +41,9 @@ namespace He {
 
     public RGBColor from_gdk_rgba (Gdk.RGBA color) {
         RGBColor result = {
-            color.red * 255.0,
-            color.green * 255.0,
-            color.blue * 255.0,
+            color.red,
+            color.green,
+            color.blue,
         };
 
         return result;
