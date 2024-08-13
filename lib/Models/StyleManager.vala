@@ -84,68 +84,118 @@ public class He.StyleManager : Object {
       return;
 
     var rgb_color = accent_color != null ? accent_color : is_dark ? He.DEFAULT_DARK_ACCENT : He.DEFAULT_LIGHT_ACCENT;
-    var base_weight = 400 * font_weight;
-    var base_roundness = roundness != 0 ? 4 * roundness : 0;
     HCTColor hct = hct_from_int (rgb_to_argb_int (rgb_color));
 
     string css = "";
-
-    if (scheme_variant == SchemeVariant.DEFAULT || scheme_variant == SchemeVariant.NULL) {
+    if (scheme_variant == SchemeVariant.DEFAULT) {
       var scheme_factory = new DefaultScheme ();
       css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-    }
-    if (scheme_variant == SchemeVariant.MONOCHROME) {
+    } else if (scheme_variant == SchemeVariant.MONOCHROME) {
       var scheme_factory = new MonochromaticScheme ();
       css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-    }
-    if (scheme_variant == SchemeVariant.MUTED) {
+    } else if (scheme_variant == SchemeVariant.MUTED) {
       var scheme_factory = new MutedScheme ();
       css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-    }
-    if (scheme_variant == SchemeVariant.SALAD) {
+    } else if (scheme_variant == SchemeVariant.SALAD) {
       var scheme_factory = new SaladScheme ();
       css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-    }
-    if (scheme_variant == SchemeVariant.VIBRANT) {
+    } else if (scheme_variant == SchemeVariant.VIBRANT) {
       var scheme_factory = new VibrantScheme ();
       css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-    }
-    if (scheme_variant == SchemeVariant.CONTENT) {
+    } else if (scheme_variant == SchemeVariant.CONTENT) {
       var scheme_factory = new ContentScheme ();
       css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
     }
 
-    notify["scheme-variant"].connect (() => {
-      if (scheme_variant == SchemeVariant.DEFAULT || scheme_variant == SchemeVariant.NULL) {
-        var scheme_factory = new DefaultScheme ();
-        css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-      }
-      if (scheme_variant == SchemeVariant.MONOCHROME) {
-        var scheme_factory = new MonochromaticScheme ();
-        css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-      }
-      if (scheme_variant == SchemeVariant.MUTED) {
-        var scheme_factory = new MutedScheme ();
-        css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-      }
-      if (scheme_variant == SchemeVariant.SALAD) {
-        var scheme_factory = new SaladScheme ();
-        css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-      }
-      if (scheme_variant == SchemeVariant.VIBRANT) {
-        var scheme_factory = new VibrantScheme ();
-        css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-      }
-      if (scheme_variant == SchemeVariant.CONTENT) {
-        var scheme_factory = new ContentScheme ();
-        css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-      }
-    });
+    css += weight_refresh (font_weight);
+    css += roundness_refresh (roundness);
 
-    var light_weight = (200 * font_weight);
-    var heavy_weight = (600 * font_weight);
+    Misc.init_css_provider_from_string (accent, css);
+    Misc.toggle_style_provider (light, !is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
+    Misc.toggle_style_provider (dark, is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
+    Misc.toggle_style_provider (user_dark, is_dark, STYLE_PROVIDER_PRIORITY_USER_DARK);
 
-    css += @"
+    var settings = Gtk.Settings.get_default ();
+    settings.gtk_application_prefer_dark_theme = is_dark;
+  }
+
+  public string style_refresh (DynamicScheme scheme_factory) {
+    string css = "";
+    css = @"
+    @define-color accent_color $(scheme_factory.get_primary());
+    @define-color accent_bg_color $(scheme_factory.get_primary());
+    @define-color accent_fg_color $(scheme_factory.get_on_primary());
+    @define-color accent_container_color $(scheme_factory.get_primary_container());
+    @define-color accent_container_bg_color $(scheme_factory.get_primary_container());
+    @define-color accent_container_fg_color $(scheme_factory.get_on_primary_container());
+
+    @define-color window_bg_color $(scheme_factory.get_surface());
+    @define-color view_bg_color $(scheme_factory.get_surface());
+    @define-color headerbar_bg_color $(scheme_factory.get_surface_variant());
+    @define-color popover_bg_color $(scheme_factory.get_surface_container_high());
+    @define-color card_bg_color $(scheme_factory.get_surface_container());
+    @define-color window_fg_color $(scheme_factory.get_on_surface());
+    @define-color view_fg_color $(scheme_factory.get_on_surface_variant());
+    @define-color headerbar_fg_color $(scheme_factory.get_on_surface_variant());
+    @define-color popover_fg_color $(scheme_factory.get_on_surface());
+    @define-color card_fg_color $(scheme_factory.get_on_surface());
+
+    @define-color surface_bright_bg_color $(scheme_factory.get_surface_bright());
+    @define-color surface_bg_color $(scheme_factory.get_surface());
+    @define-color surface_dim_bg_color $(scheme_factory.get_surface_dim());
+    @define-color surface_container_lowest_bg_color $(scheme_factory.get_surface_container_lowest());
+    @define-color surface_container_low_bg_color $(scheme_factory.get_surface_container_low());
+    @define-color surface_container_bg_color $(scheme_factory.get_surface_container());
+    @define-color surface_container_high_bg_color $(scheme_factory.get_surface_container_high());
+    @define-color surface_container_highest_bg_color $(scheme_factory.get_surface_container_highest());
+
+    @define-color destructive_bg_color $(scheme_factory.get_error());
+    @define-color destructive_fg_color $(scheme_factory.get_on_error());
+    @define-color destructive_color $(scheme_factory.get_error());
+    @define-color destructive_container_color $(scheme_factory.get_on_error_container());
+    @define-color destructive_container_bg_color $(scheme_factory.get_error_container());
+    @define-color destructive_container_fg_color $(scheme_factory.get_on_error_container());
+
+    @define-color suggested_bg_color $(scheme_factory.get_secondary());
+    @define-color suggested_fg_color $(scheme_factory.get_on_secondary());
+    @define-color suggested_color $(scheme_factory.get_secondary());
+    @define-color suggested_container_color $(scheme_factory.get_secondary_container());
+    @define-color suggested_container_bg_color $(scheme_factory.get_secondary_container());
+    @define-color suggested_container_fg_color $(scheme_factory.get_on_secondary_container());
+
+    @define-color error_bg_color $(scheme_factory.get_error());
+    @define-color error_fg_color $(scheme_factory.get_on_error());
+    @define-color error_color $(scheme_factory.get_error());
+    @define-color error_container_color $(scheme_factory.get_on_error_container());
+    @define-color error_container_bg_color $(scheme_factory.get_error_container());
+    @define-color error_container_fg_color $(scheme_factory.get_on_error_container());
+
+    @define-color success_bg_color $(scheme_factory.get_tertiary());
+    @define-color success_fg_color $(scheme_factory.get_on_tertiary());
+    @define-color success_color $(scheme_factory.get_tertiary());
+    @define-color success_container_color $(scheme_factory.get_tertiary_container());
+    @define-color success_container_bg_color $(scheme_factory.get_tertiary_container());
+    @define-color success_container_fg_color $(scheme_factory.get_on_tertiary_container());
+
+    @define-color outline $(scheme_factory.get_outline());
+    @define-color borders $(scheme_factory.get_outline_variant());
+    @define-color shadow $(scheme_factory.get_shadow());
+    @define-color scrim $(scheme_factory.get_scrim());
+    @define-color osd_bg_color $(scheme_factory.get_inverse_surface());
+    @define-color osd_fg_color $(scheme_factory.get_inverse_on_surface());
+    @define-color osd_accent_color $(scheme_factory.get_inverse_primary());
+    ";
+
+    return css;
+  }
+
+  public string weight_refresh (double font_weight) {
+    var light_weight = 200 * font_weight;
+    var base_weight = 400 * font_weight;
+    var heavy_weight = 600 * font_weight;
+
+    string css = "";
+    css = @"
     label,
     .big-display,
     .view-subtitle,
@@ -193,6 +243,11 @@ public class He.StyleManager : Object {
     }
     ";
 
+    return css;
+  }
+
+  private string roundness_refresh (double roundness) {
+    var base_roundness = roundness != 0 ? 4 * roundness : 0;
     var small_roundness = (0.5 * base_roundness).to_string () + "px";
     var medium_roundness = (1 * base_roundness).to_string () + "px";
     var large_roundness = (2 * base_roundness).to_string () + "px";
@@ -200,6 +255,7 @@ public class He.StyleManager : Object {
     var xx_large_roundness = (6 * base_roundness).to_string () + "px";
     var circle_roundness = (12.5 * base_roundness).to_string () + "px";
 
+    string css = "";
     css += @"
     .small-radius {
       border-radius: $small_roundness;
@@ -358,84 +414,6 @@ public class He.StyleManager : Object {
     }
     ";
 
-    Misc.init_css_provider_from_string (accent, css);
-    Misc.toggle_style_provider (light, !is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
-    Misc.toggle_style_provider (dark, is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
-    Misc.toggle_style_provider (user_dark, is_dark, STYLE_PROVIDER_PRIORITY_USER_DARK);
-
-    var settings = Gtk.Settings.get_default ();
-    settings.gtk_application_prefer_dark_theme = is_dark;
-  }
-
-  public string style_refresh (DynamicScheme scheme_factory) {
-    string css = "";
-    css = @"
-    @define-color accent_color $(scheme_factory.get_primary());
-    @define-color accent_bg_color $(scheme_factory.get_primary());
-    @define-color accent_fg_color $(scheme_factory.get_on_primary());
-    @define-color accent_container_color $(scheme_factory.get_primary_container());
-    @define-color accent_container_bg_color $(scheme_factory.get_primary_container());
-    @define-color accent_container_fg_color $(scheme_factory.get_on_primary_container());
-
-    @define-color window_bg_color $(scheme_factory.get_surface());
-    @define-color view_bg_color $(scheme_factory.get_surface());
-    @define-color headerbar_bg_color $(scheme_factory.get_surface_variant());
-    @define-color popover_bg_color $(scheme_factory.get_surface_container_high());
-    @define-color card_bg_color $(scheme_factory.get_surface_container());
-    @define-color window_fg_color $(scheme_factory.get_on_surface());
-    @define-color view_fg_color $(scheme_factory.get_on_surface_variant());
-    @define-color headerbar_fg_color $(scheme_factory.get_on_surface_variant());
-    @define-color popover_fg_color $(scheme_factory.get_on_surface());
-    @define-color card_fg_color $(scheme_factory.get_on_surface());
-
-    @define-color surface_bright_bg_color $(scheme_factory.get_surface_bright());
-    @define-color surface_bg_color $(scheme_factory.get_surface());
-    @define-color surface_dim_bg_color $(scheme_factory.get_surface_dim());
-    @define-color surface_container_lowest_bg_color $(scheme_factory.get_surface_container_lowest());
-    @define-color surface_container_low_bg_color $(scheme_factory.get_surface_container_low());
-    @define-color surface_container_bg_color $(scheme_factory.get_surface_container());
-    @define-color surface_container_high_bg_color $(scheme_factory.get_surface_container_high());
-    @define-color surface_container_highest_bg_color $(scheme_factory.get_surface_container_highest());
-    ";
-
-    css += @"
-    @define-color destructive_bg_color $(scheme_factory.get_error());
-    @define-color destructive_fg_color $(scheme_factory.get_on_error());
-    @define-color destructive_color $(scheme_factory.get_error());
-    @define-color destructive_container_color $(scheme_factory.get_on_error_container());
-    @define-color destructive_container_bg_color $(scheme_factory.get_error_container());
-    @define-color destructive_container_fg_color $(scheme_factory.get_on_error_container());
-
-    @define-color suggested_bg_color $(scheme_factory.get_secondary());
-    @define-color suggested_fg_color $(scheme_factory.get_on_secondary());
-    @define-color suggested_color $(scheme_factory.get_secondary());
-    @define-color suggested_container_color $(scheme_factory.get_secondary_container());
-    @define-color suggested_container_bg_color $(scheme_factory.get_secondary_container());
-    @define-color suggested_container_fg_color $(scheme_factory.get_on_secondary_container());
-
-    @define-color error_bg_color $(scheme_factory.get_error());
-    @define-color error_fg_color $(scheme_factory.get_on_error());
-    @define-color error_color $(scheme_factory.get_error());
-    @define-color error_container_color $(scheme_factory.get_on_error_container());
-    @define-color error_container_bg_color $(scheme_factory.get_error_container());
-    @define-color error_container_fg_color $(scheme_factory.get_on_error_container());
-
-    @define-color success_bg_color $(scheme_factory.get_tertiary());
-    @define-color success_fg_color $(scheme_factory.get_on_tertiary());
-    @define-color success_color $(scheme_factory.get_tertiary());
-    @define-color success_container_color $(scheme_factory.get_tertiary_container());
-    @define-color success_container_bg_color $(scheme_factory.get_tertiary_container());
-    @define-color success_container_fg_color $(scheme_factory.get_on_tertiary_container());
-
-    @define-color outline $(scheme_factory.get_outline());
-    @define-color borders $(scheme_factory.get_outline_variant());
-    @define-color shadow $(scheme_factory.get_shadow());
-    @define-color scrim $(scheme_factory.get_scrim());
-    @define-color osd_bg_color $(scheme_factory.get_inverse_surface());
-    @define-color osd_fg_color $(scheme_factory.get_inverse_on_surface());
-    @define-color osd_accent_color $(scheme_factory.get_inverse_primary());
-    ";
-
     return css;
   }
 
@@ -443,15 +421,15 @@ public class He.StyleManager : Object {
    * Register the style manager with GTK. This will also call update.
    */
   public void register () {
-    #if BUNDLED_STYLESHEET
+#if BUNDLED_STYLESHEET
     debug ("Loading bundled Helium stylesheet");
     light.load_from_resource ("/com/fyralabs/Helium/gtk.css");
     dark.load_from_resource ("/com/fyralabs/Helium/gtk-dark.css");
-    #else
+#else
     debug ("Loading system Helium stylesheet (this may fail if Helium is not installed)");
     light.load_named ("Helium", null);
     dark.load_named ("Helium", "dark");
-    #endif
+#endif
 
     Misc.toggle_style_provider (accent, true, STYLE_PROVIDER_PRIORITY_ACCENT);
     Misc.toggle_style_provider (user_base, true, STYLE_PROVIDER_PRIORITY_USER_BASE);

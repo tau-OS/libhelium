@@ -62,23 +62,51 @@ public class He.Desktop : Object {
     }
 
     /**
-     * The Ensor color scheme preference.
+     * The Ensor scheme preference enum, which is used to determine the Ensor scheme of the desktop.
      */
-    private SchemeVariant? _scheme_variant = null;
-    public SchemeVariant scheme_variant {
-        get {
-            return _scheme_variant;
-        }
-        private set {
-            _scheme_variant = value;
+    public enum EnsorScheme {
+        DEFAULT,
+        VIBRANT,
+        MUTED,
+        MONOCHROMATIC,
+        SALAD;
+
+        public SchemeVariant to_variant () {
+            switch (this) {
+            case DEFAULT :
+                return SchemeVariant.DEFAULT;
+            case VIBRANT :
+                return SchemeVariant.VIBRANT;
+            case MUTED:
+                return SchemeVariant.MUTED;
+            case MONOCHROMATIC:
+                return SchemeVariant.MONOCHROME;
+            case SALAD:
+                return SchemeVariant.SALAD;
+            default:
+                return SchemeVariant.DEFAULT;
+            }
         }
     }
 
-    private void setup_scheme_variant () {
+    /**
+     * The Ensor color scheme preference.
+     */
+    private EnsorScheme? _ensor_scheme = null;
+    public EnsorScheme ensor_scheme {
+        get {
+            return _ensor_scheme;
+        }
+        private set {
+            _ensor_scheme = value;
+        }
+    }
+
+    private void setup_ensor_scheme () {
         try {
-            scheme_variant = (SchemeVariant) portal.read (
-                                                          "org.freedesktop.appearance",
-                                                          "ensor-scheme"
+            ensor_scheme = (EnsorScheme) portal.read (
+                                                      "org.freedesktop.appearance",
+                                                      "ensor-scheme"
             ).get_variant ().get_uint32 ();
 
             return;
@@ -86,7 +114,7 @@ public class He.Desktop : Object {
             debug ("%s", e.message);
         }
 
-        scheme_variant = SchemeVariant.DEFAULT;
+        ensor_scheme = EnsorScheme.DEFAULT;
     }
 
     /**
@@ -206,7 +234,7 @@ public class He.Desktop : Object {
     /**
      * The system contrast preference.
      */
-    private double? _contrast = 0.0;
+    private double? _contrast = 2.0;
     public double contrast {
         get {
             return _contrast;
@@ -227,7 +255,7 @@ public class He.Desktop : Object {
             debug ("%s", e.message);
         }
 
-        contrast = 0.0;
+        contrast = 2.0;
     }
 
     private void init_handle_settings_change () {
@@ -245,7 +273,7 @@ public class He.Desktop : Object {
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "ensor-scheme") {
-                scheme_variant = (SchemeVariant) val.get_uint32 ();
+                ensor_scheme = (EnsorScheme) val.get_uint32 ();
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "contrast") {
@@ -265,7 +293,7 @@ public class He.Desktop : Object {
             setup_contrast ();
             setup_roundness ();
             setup_accent_color ();
-            setup_scheme_variant ();
+            setup_ensor_scheme ();
             setup_font_weight ();
             init_handle_settings_change ();
         } catch (Error e) {
