@@ -51,7 +51,7 @@ public class He.StyleManager : Object {
   /**
    * A function that returns a color scheme from a given accent color and whether dark mode is enabled.
    */
-  public SchemeVariant scheme_variant;
+  public SchemeVariant? scheme_variant = null;
 
   /**
    * Whether the style manager has been registered. Unregistered style managers will not apply their styles.
@@ -83,26 +83,42 @@ public class He.StyleManager : Object {
     if (!is_registered)
       return;
 
-    var rgb_color = accent_color != null ? accent_color : is_dark ? He.DEFAULT_DARK_ACCENT : He.DEFAULT_LIGHT_ACCENT;
-    HCTColor hct = hct_from_int (rgb_to_argb_int (rgb_color));
+    RGBColor rgb_color = accent_color != null ? accent_color : is_dark ? He.DEFAULT_DARK_ACCENT : He.DEFAULT_LIGHT_ACCENT;
 
     string css = "";
     if (scheme_variant == SchemeVariant.DEFAULT) {
+      RGBColor accent_color = { rgb_color.r* 255, rgb_color.g* 255, rgb_color.b* 255 };
+      var hct = hct_from_int (rgb_to_argb_int (accent_color));
+
       var scheme_factory = new DefaultScheme ();
       css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
     } else if (scheme_variant == SchemeVariant.MONOCHROME) {
+      RGBColor accent_color = { accent_color.r* 255, accent_color.g* 255, accent_color.b* 255 };
+      var hct = hct_from_int (rgb_to_argb_int (accent_color));
+
       var scheme_factory = new MonochromaticScheme ();
       css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
     } else if (scheme_variant == SchemeVariant.MUTED) {
+      RGBColor accent_color = { accent_color.r* 255, accent_color.g* 255, accent_color.b* 255 };
+      var hct = hct_from_int (rgb_to_argb_int (accent_color));
+
       var scheme_factory = new MutedScheme ();
       css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
     } else if (scheme_variant == SchemeVariant.SALAD) {
+      RGBColor accent_color = { accent_color.r* 255, accent_color.g* 255, accent_color.b* 255 };
+      var hct = hct_from_int (rgb_to_argb_int (accent_color));
+
       var scheme_factory = new SaladScheme ();
       css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
     } else if (scheme_variant == SchemeVariant.VIBRANT) {
+      RGBColor accent_color = { accent_color.r* 255, accent_color.g* 255, accent_color.b* 255 };
+      var hct = hct_from_int (rgb_to_argb_int (accent_color));
+
       var scheme_factory = new VibrantScheme ();
       css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
     } else if (scheme_variant == SchemeVariant.CONTENT) {
+      var hct = hct_from_int (rgb_to_argb_int (rgb_color));
+
       var scheme_factory = new ContentScheme ();
       css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
     }
@@ -121,7 +137,7 @@ public class He.StyleManager : Object {
 
   public string style_refresh (DynamicScheme scheme_factory) {
     string css = "";
-    css = @"
+    css += @"
     @define-color accent_color $(scheme_factory.get_primary());
     @define-color accent_bg_color $(scheme_factory.get_primary());
     @define-color accent_fg_color $(scheme_factory.get_on_primary());
@@ -148,7 +164,9 @@ public class He.StyleManager : Object {
     @define-color surface_container_bg_color $(scheme_factory.get_surface_container());
     @define-color surface_container_high_bg_color $(scheme_factory.get_surface_container_high());
     @define-color surface_container_highest_bg_color $(scheme_factory.get_surface_container_highest());
+    ";
 
+    css += @"
     @define-color destructive_bg_color $(scheme_factory.get_error());
     @define-color destructive_fg_color $(scheme_factory.get_on_error());
     @define-color destructive_color $(scheme_factory.get_error());
@@ -195,7 +213,7 @@ public class He.StyleManager : Object {
     var heavy_weight = 600 * font_weight;
 
     string css = "";
-    css = @"
+    css += @"
     label,
     .big-display,
     .view-subtitle,

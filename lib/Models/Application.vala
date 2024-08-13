@@ -74,7 +74,7 @@ public class He.Application : Gtk.Application {
      * A scheme variant to use for the application. If not set, the user's preferred scheme will be used.
      * This is especially useful for applications with their own color needs, such as media applications using the Content variant.
      */
-    private SchemeVariant? _default_scheme_variant;
+    private SchemeVariant? _default_scheme_variant = null;
     public SchemeVariant? default_scheme_variant {
         get { return _default_scheme_variant; }
         set { _default_scheme_variant = value; update_style_manager (); }
