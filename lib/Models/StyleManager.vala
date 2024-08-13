@@ -51,7 +51,7 @@ public class He.StyleManager : Object {
   /**
    * A function that returns a color scheme from a given accent color and whether dark mode is enabled.
    */
-  public SchemeVariant scheme_variant = SchemeVariant.DEFAULT;
+  public SchemeVariant scheme_variant = SchemeVariant.NULL;
 
   /**
    * Whether the style manager has been registered. Unregistered style managers will not apply their styles.
@@ -92,51 +92,55 @@ public class He.StyleManager : Object {
 
     string css = "";
 
-    if (scheme_variant == SchemeVariant.DEFAULT) {
-      var scheme_factory = new DefaultScheme (hct, is_dark, contrast);
-      css += style_refresh (scheme_factory, cam16_color);
-    } else if (scheme_variant == SchemeVariant.MONOCHROME) {
-      var scheme_factory = new MonochromaticScheme (hct, is_dark, contrast);
-      css += style_refresh (scheme_factory, cam16_color);
-    } else if (scheme_variant == SchemeVariant.MUTED) {
-      var scheme_factory = new MutedScheme (hct, is_dark, contrast);
-      css += style_refresh (scheme_factory, cam16_color);
-    } else if (scheme_variant == SchemeVariant.SALAD) {
-      var scheme_factory = new SaladScheme (hct, is_dark, contrast);
-      css += style_refresh (scheme_factory, cam16_color);
-    } else if (scheme_variant == SchemeVariant.VIBRANT) {
-      var scheme_factory = new VibrantScheme (hct, is_dark, contrast);
-      css += style_refresh (scheme_factory, cam16_color);
-    } else if (scheme_variant == SchemeVariant.CONTENT) {
-      var scheme_factory = new ContentScheme (hct, is_dark, contrast);
-      css += style_refresh (scheme_factory, cam16_color);
-    } else {
-      var scheme_factory = new DefaultScheme (hct, is_dark, contrast);
-      css += style_refresh (scheme_factory, cam16_color);
+    if (scheme_variant == SchemeVariant.DEFAULT || scheme_variant == SchemeVariant.NULL) {
+      var scheme_factory = new DefaultScheme ();
+      css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+    }
+    if (scheme_variant == SchemeVariant.MONOCHROME) {
+      var scheme_factory = new MonochromaticScheme ();
+      css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+    }
+    if (scheme_variant == SchemeVariant.MUTED) {
+      var scheme_factory = new MutedScheme ();
+      css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+    }
+    if (scheme_variant == SchemeVariant.SALAD) {
+      var scheme_factory = new SaladScheme ();
+      css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+    }
+    if (scheme_variant == SchemeVariant.VIBRANT) {
+      var scheme_factory = new VibrantScheme ();
+      css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+    }
+    if (scheme_variant == SchemeVariant.CONTENT) {
+      var scheme_factory = new ContentScheme ();
+      css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
     }
 
     notify["scheme-variant"].connect (() => {
-      if (scheme_variant == SchemeVariant.DEFAULT) {
-        var scheme_factory = new DefaultScheme (hct, is_dark, contrast);
-        css += style_refresh (scheme_factory, cam16_color);
-      } else if (scheme_variant == SchemeVariant.MONOCHROME) {
-        var scheme_factory = new MonochromaticScheme (hct, is_dark, contrast);
-        css += style_refresh (scheme_factory, cam16_color);
-      } else if (scheme_variant == SchemeVariant.MUTED) {
-        var scheme_factory = new MutedScheme (hct, is_dark, contrast);
-        css += style_refresh (scheme_factory, cam16_color);
-      } else if (scheme_variant == SchemeVariant.SALAD) {
-        var scheme_factory = new SaladScheme (hct, is_dark, contrast);
-        css += style_refresh (scheme_factory, cam16_color);
-      } else if (scheme_variant == SchemeVariant.VIBRANT) {
-        var scheme_factory = new VibrantScheme (hct, is_dark, contrast);
-        css += style_refresh (scheme_factory, cam16_color);
-      } else if (scheme_variant == SchemeVariant.CONTENT) {
-        var scheme_factory = new ContentScheme (hct, is_dark, contrast);
-        css += style_refresh (scheme_factory, cam16_color);
-      } else {
-        var scheme_factory = new DefaultScheme (hct, is_dark, contrast);
-        css += style_refresh (scheme_factory, cam16_color);
+      if (scheme_variant == SchemeVariant.DEFAULT || scheme_variant == SchemeVariant.NULL) {
+        var scheme_factory = new DefaultScheme ();
+        css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+      }
+      if (scheme_variant == SchemeVariant.MONOCHROME) {
+        var scheme_factory = new MonochromaticScheme ();
+        css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+      }
+      if (scheme_variant == SchemeVariant.MUTED) {
+        var scheme_factory = new MutedScheme ();
+        css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+      }
+      if (scheme_variant == SchemeVariant.SALAD) {
+        var scheme_factory = new SaladScheme ();
+        css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+      }
+      if (scheme_variant == SchemeVariant.VIBRANT) {
+        var scheme_factory = new VibrantScheme ();
+        css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+      }
+      if (scheme_variant == SchemeVariant.CONTENT) {
+        var scheme_factory = new ContentScheme ();
+        css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
       }
     });
 
@@ -365,58 +369,7 @@ public class He.StyleManager : Object {
     settings.gtk_application_prefer_dark_theme = is_dark;
   }
 
-  public string style_refresh (DynamicScheme scheme_factory, CAM16Color cam16_color) {
-    // HCT Color blendin'
-    var meson_red_hct = is_dark ?
-      hct_blend (from_params (8.0, 85.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
-      hct_blend (from_params (2.0, 49.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
-    var meson_red_hex = hct_to_hex (meson_red_hct.h, meson_red_hct.c, meson_red_hct.t);
-
-    var lepton_orange_hct = is_dark ?
-      hct_blend (from_params (55.0, 29.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
-      hct_blend (from_params (50.0, 61.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
-    var lepton_orange_hex = hct_to_hex (lepton_orange_hct.h, lepton_orange_hct.c, lepton_orange_hct.t);
-
-    var electron_yellow_hct = is_dark ?
-      hct_blend (from_params (89.0, 37.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
-      hct_blend (from_params (81.0, 55.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
-    var electron_yellow_hex = hct_to_hex (electron_yellow_hct.h, electron_yellow_hct.c, electron_yellow_hct.t);
-
-    var muon_green_hct = is_dark ?
-      hct_blend (from_params (152.0, 43.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
-      hct_blend (from_params (147.0, 71.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
-    var muon_green_hex = hct_to_hex (muon_green_hct.h, muon_green_hct.c, muon_green_hct.t);
-
-    var baryon_mint_hct = is_dark ?
-      hct_blend (from_params (182.0, 25.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
-      hct_blend (from_params (177.0, 42.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
-    var baryon_mint_hex = hct_to_hex (baryon_mint_hct.h, baryon_mint_hct.c, baryon_mint_hct.t);
-
-    var proton_blue_hct = is_dark ?
-      hct_blend (from_params (233.0, 34.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
-      hct_blend (from_params (240.0, 53.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
-    var proton_blue_hex = hct_to_hex (proton_blue_hct.h, proton_blue_hct.c, proton_blue_hct.t);
-
-    var photon_indigo_hct = is_dark ?
-      hct_blend (from_params (291.0, 67.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
-      hct_blend (from_params (288.0, 84.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
-    var photon_indigo_hex = hct_to_hex (photon_indigo_hct.h, photon_indigo_hct.c, photon_indigo_hct.t);
-
-    var tau_purple_hct = is_dark ?
-      hct_blend (from_params (309.0, 34.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
-      hct_blend (from_params (311.0, 57.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
-    var tau_purple_hex = hct_to_hex (tau_purple_hct.h, tau_purple_hct.c, tau_purple_hct.t);
-
-    var fermion_pink_hct = is_dark ?
-      hct_blend (from_params (337.0, 34.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
-      hct_blend (from_params (340.0, 60.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
-    var fermion_pink_hex = hct_to_hex (fermion_pink_hct.h, fermion_pink_hct.c, fermion_pink_hct.t);
-
-    var gluon_brown_hct = is_dark ?
-      hct_blend (from_params (66.0, 12.0, new ContrastCurve (75, 80, 85, 90).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (75, 80, 85, 90).get (contrast))) :
-      hct_blend (from_params (61.0, 30.0, new ContrastCurve (45, 40, 35, 20).get (contrast)), from_params (cam16_color.h, cam16_color.c, new ContrastCurve (45, 40, 35, 20).get (contrast)));
-    var gluon_brown_hex = hct_to_hex (gluon_brown_hct.h, gluon_brown_hct.c, gluon_brown_hct.t);
-
+  public string style_refresh (DynamicScheme scheme_factory) {
     string css = "";
     css = @"
     @define-color accent_color $(scheme_factory.get_primary());
@@ -483,19 +436,6 @@ public class He.StyleManager : Object {
     @define-color osd_bg_color $(scheme_factory.get_inverse_surface());
     @define-color osd_fg_color $(scheme_factory.get_inverse_on_surface());
     @define-color osd_accent_color $(scheme_factory.get_inverse_primary());
-    ";
-
-    css += @"
-    @define-color meson_red $meson_red_hex;
-    @define-color lepton_orange $lepton_orange_hex;
-    @define-color electron_yellow $electron_yellow_hex;
-    @define-color muon_green $muon_green_hex;
-    @define-color baryon_mint $baryon_mint_hex;
-    @define-color proton_blue $proton_blue_hex;
-    @define-color photon_indigo $photon_indigo_hex;
-    @define-color tau_purple $tau_purple_hex;
-    @define-color fermion_pink $fermion_pink_hex;
-    @define-color gluon_brown $gluon_brown_hex;
     ";
 
     return css;

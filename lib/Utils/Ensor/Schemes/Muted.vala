@@ -16,22 +16,22 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
-public class He.MutedScheme : DynamicScheme {
+public class He.MutedScheme : Object {
     /**
      * A theme with just a tiny amount of color
      */
-    public MutedScheme (HCTColor hct, bool is_dark, double contrast) {
-        base (
-              hct,
-              SchemeVariant.MUTED,
-              is_dark,
-              contrast,
-              TonalPalette.from_hue_and_chroma (hct.h, 12.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 8.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 16.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 2.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 2.0),
-              null
+    public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
+        return new DynamicScheme (
+                                  hct,
+                                  SchemeVariant.MUTED,
+                                  is_dark,
+                                  contrast,
+                                  TonalPalette.from_hue_and_chroma (hct.h, 12.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 8.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 16.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 2.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 2.0),
+                                  null
         );
     }
 }

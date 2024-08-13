@@ -16,22 +16,22 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
-public class He.MonochromaticScheme : DynamicScheme {
+public class He.MonochromaticScheme : Object {
     /**
      * A theme with no colors
      */
-    public MonochromaticScheme (HCTColor hct, bool is_dark, double contrast) {
-        base (
-              hct,
-              SchemeVariant.MONOCHROME,
-              is_dark,
-              contrast,
-              TonalPalette.from_hue_and_chroma (hct.h, 0.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 0.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 0.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 0.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 0.0),
-              null
+    public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
+        return new DynamicScheme (
+                                  hct,
+                                  SchemeVariant.MONOCHROME,
+                                  is_dark,
+                                  contrast,
+                                  TonalPalette.from_hue_and_chroma (hct.h, 0.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 0.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 0.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 0.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 0.0),
+                                  null
         );
     }
 }

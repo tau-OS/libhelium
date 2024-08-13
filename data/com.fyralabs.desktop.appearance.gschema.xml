@@ -6,6 +6,7 @@
     <value nick="muted" value="2"/>
     <value nick="mono" value="3"/>
     <value nick="salad" value="4"/>
+    <value nick="content" value="5"/>
   </enum>
   <schema path="/com/fyralabs/desktop/appearance/" id="com.fyralabs.desktop.appearance">
     <key name='ensor-scheme' enum='com.fyralabs.desktop.appearance.ensor-scheme'>

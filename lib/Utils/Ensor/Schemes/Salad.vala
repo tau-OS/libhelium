@@ -16,22 +16,22 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
-public class He.SaladScheme : DynamicScheme {
+public class He.SaladScheme : Object {
     /**
      * A theme with a party of color
      */
-    public SaladScheme (HCTColor hct, bool is_dark, double contrast) {
-        base (
-              hct,
-              SchemeVariant.SALAD,
-              is_dark,
-              contrast,
-              TonalPalette.from_hue_and_chroma (MathUtils.sanitize_degrees (hct.h - 50.0), 48.0),
-              TonalPalette.from_hue_and_chroma (MathUtils.sanitize_degrees (hct.h - 50.0), 36.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 36.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 10.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 16.0),
-              null
+    public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
+        return new DynamicScheme (
+                                  hct,
+                                  SchemeVariant.SALAD,
+                                  is_dark,
+                                  contrast,
+                                  TonalPalette.from_hue_and_chroma (MathUtils.sanitize_degrees (hct.h - 50.0), 48.0),
+                                  TonalPalette.from_hue_and_chroma (MathUtils.sanitize_degrees (hct.h - 50.0), 36.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 36.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 10.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 16.0),
+                                  null
         );
     }
 }

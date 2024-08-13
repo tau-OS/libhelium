@@ -16,22 +16,22 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
-public class He.DefaultScheme : DynamicScheme {
+public class He.DefaultScheme : Object {
     /**
      * The default theme
      */
-    public DefaultScheme (HCTColor hct, bool is_dark, double contrast) {
-        base (
-              hct,
-              SchemeVariant.DEFAULT,
-              is_dark,
-              contrast,
-              TonalPalette.from_hue_and_chroma (hct.h, 36.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 16.0),
-              TonalPalette.from_hue_and_chroma (MathUtils.sanitize_degrees (hct.h + 60.0), 24.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 6.0),
-              TonalPalette.from_hue_and_chroma (hct.h, 8.0),
-              null
+    public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
+        return new DynamicScheme (
+                                  hct,
+                                  SchemeVariant.DEFAULT,
+                                  is_dark,
+                                  contrast,
+                                  TonalPalette.from_hue_and_chroma (hct.h, 36.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 16.0),
+                                  TonalPalette.from_hue_and_chroma (MathUtils.sanitize_degrees (hct.h + 60.0), 24.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 6.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 8.0),
+                                  null
         );
     }
 }

@@ -9,13 +9,14 @@ namespace He {
 
     public class DynamicColor : Object {
         public string name { get; set; }
-        public PaletteFunc palette;
-        public ToneFunc tonev;
         public bool is_background { get; set; }
-        public BackgroundFunc background;
-        public BackgroundFunc second_background;
-        public ContrastCurve contrast_curve;
-        public ToneDeltaPairFunc tone_delta_pair;
+        public ContrastCurve contrast_curve { get; set; }
+
+        public unowned PaletteFunc palette;
+        public unowned ToneFunc tonev;
+        public unowned BackgroundFunc background;
+        public unowned BackgroundFunc second_background;
+        public unowned ToneDeltaPairFunc tone_delta_pair;
 
         private Gee.HashMap<DynamicScheme, HCTColor?> hct_cache = new Gee.HashMap<DynamicScheme, HCTColor?> ();
 

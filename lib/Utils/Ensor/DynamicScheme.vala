@@ -5,15 +5,15 @@ namespace He {
         MUTED,
         MONOCHROME,
         SALAD,
-        CONTENT
+        CONTENT,
+        NULL
     }
 
     public class DynamicScheme : Object {
-        public HCTColor hct { get; construct set; }
-        public SchemeVariant variant { get; construct set; }
-        public bool is_dark { get; construct set; }
-        public double contrast_level { get; construct set; }
-
+        public HCTColor hct;
+        public SchemeVariant variant;
+        public bool is_dark;
+        public double contrast_level;
         public TonalPalette primary;
         public TonalPalette secondary;
         public TonalPalette tertiary;
@@ -31,13 +31,11 @@ namespace He {
             TonalPalette neutral,
             TonalPalette neutral_variant,
             TonalPalette? error) {
-            Object(
-                   hct : hct,
-                   variant: variant,
-                   is_dark: is_dark,
-                   contrast_level: contrast_level
-            );
 
+            this.hct = hct;
+            this.variant = variant;
+            this.is_dark = is_dark;
+            this.contrast_level = contrast_level;
             this.primary = primary;
             this.secondary = secondary;
             this.tertiary = tertiary;
@@ -46,7 +44,7 @@ namespace He {
             this.error = error != null ? error : TonalPalette.from_hue_and_chroma(25.0, 84.0);
         }
 
-        public HCTColor get_hct_from_dynamic_color(DynamicColor dynamic_color) {
+        public HCTColor get_hct (DynamicColor dynamic_color) {
             return dynamic_color.get_hct(this);
         }
 

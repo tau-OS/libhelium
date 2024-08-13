@@ -294,7 +294,12 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "primary",
                                  /* palette= */ (s) => s.primary,
-                                 /* tone= */ (s) => s.is_dark ? 80.0 : 40.0,
+                                 /* tone= */ (s) => {
+            if (is_monochrome (s)) {
+                return s.is_dark ? 100.0 : 0.0;
+            }
+            return s.is_dark ? 80.0 : 40.0;
+        },
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
@@ -325,13 +330,13 @@ public class He.Scheme {
                                  /* name= */ "primary_container",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => {
+            if (is_fidelity (s)) {
+                return s.hct.t;
+            }
             if (is_monochrome (s)) {
-                return s.is_dark ? 60.0 : 49.0;
+                return s.is_dark ? 85.0 : 25.0;
             }
-            if (!is_fidelity (s)) {
-                return s.is_dark ? 30.0 : 90.0;
-            }
-            return s.hct.t;
+            return s.is_dark ? 30.0 : 90.0;
         },
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
@@ -346,13 +351,13 @@ public class He.Scheme {
                                  /* name= */ "on_primary_container",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => {
+            if (is_fidelity (s)) {
+                return on_primary_container ().foreground_tone (primary_container ().get_tone (s), 4.5);
+            }
             if (is_monochrome (s)) {
-                return s.is_dark ? 90.0 : 10.0;
+                return s.is_dark ? 0.0 : 100.0;
             }
-            if (!is_fidelity (s)) {
-                return s.is_dark ? 90.0 : 30.0;
-            }
-            return primary_container ().foreground_tone (primary_container ().get_tone (s), 4.5);
+            return s.is_dark ? 90.0 : 30.0;
         },
                                  /* isBackground= */ false,
                                  /* background= */ (s) => primary_container (),
@@ -423,7 +428,7 @@ public class He.Scheme {
             if (!is_fidelity (s)) {
                 return s.is_dark ? 90.0 : 30.0;
             }
-            return secondary_container ().foreground_tone (secondary_container ().get_tone (s), 4.5);
+            return on_secondary_container ().foreground_tone (secondary_container ().get_tone (s), 4.5);
         },
                                  /* isBackground= */ false,
                                  /* background= */ (s) => secondary_container (),

@@ -16,23 +16,23 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
-public class He.ContentScheme : DynamicScheme {
+public class He.ContentScheme : Object {
     /**
      * A theme in which the primary color does not shift.
      * Useful for content such as Album Art, Images, etc. suppling color for UI.
      */
-    public ContentScheme (HCTColor hct, bool is_dark, double contrast) {
-        base (
-              hct,
-              SchemeVariant.CONTENT,
-              is_dark,
-              contrast,
-              TonalPalette.from_hue_and_chroma (hct.h, hct.c),
-              TonalPalette.from_hue_and_chroma (hct.h, Math.fmax (hct.c - 32.0, hct.c * 0.5)),
-              TonalPalette.from_hct (fix_disliked (new TemperatureCache (hct).analogous (3, 6).nth_data (2))),
-              TonalPalette.from_hue_and_chroma (hct.h, hct.c / 8.0),
-              TonalPalette.from_hue_and_chroma (hct.h, (hct.c / 8.0) + 4.0),
-              null
+    public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
+        return new DynamicScheme (
+                                  hct,
+                                  SchemeVariant.CONTENT,
+                                  is_dark,
+                                  contrast,
+                                  TonalPalette.from_hue_and_chroma (hct.h, hct.c),
+                                  TonalPalette.from_hue_and_chroma (hct.h, MathUtils.max (hct.c - 32.0, hct.c * 0.5)),
+                                  TonalPalette.from_hct (fix_disliked (new TemperatureCache (hct).analogous (3, 6).nth_data (1))),
+                                  TonalPalette.from_hue_and_chroma (hct.h, hct.c / 8.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, (hct.c / 8.0) + 4.0),
+                                  null
         );
     }
 }

@@ -1,5 +1,5 @@
 public class He.TonalPalette : GLib.Object {
-    private GLib.HashTable<double?, double?> cache;
+    private Gee.HashMap<double?, double?> cache = new Gee.HashMap<double?, double?> (null, null);
     public double hue { get; set; }
     public double chroma { get; set; }
     public HCTColor key_color { get; set; }
@@ -8,7 +8,6 @@ public class He.TonalPalette : GLib.Object {
         this.hue = hue;
         this.chroma = chroma;
         this.key_color = key_color;
-        this.cache = new GLib.HashTable<double?, double?> (null, null);
     }
 
     public static TonalPalette from_int(int argb) {
@@ -29,7 +28,7 @@ public class He.TonalPalette : GLib.Object {
         double? color = cache.get(tone);
         if (color == null) {
             color = hct_to_argb(this.hue, this.chroma, tone);
-            cache.insert(tone, color);
+            cache.set (tone, color);
         }
         return color;
     }
