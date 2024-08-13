@@ -86,9 +86,7 @@ public class He.StyleManager : Object {
     var rgb_color = accent_color != null ? accent_color : is_dark ? He.DEFAULT_DARK_ACCENT : He.DEFAULT_LIGHT_ACCENT;
     var base_weight = 400 * font_weight;
     var base_roundness = roundness != 0 ? 4 * roundness : 0;
-    var cam16_color = xyz_to_cam16 (rgb_to_xyz (rgb_color));
-    var lab_color = xyz_to_lab (rgb_to_xyz (rgb_color));
-    HCTColor hct = { cam16_color.h, cam16_color.c, lab_color.l };
+    HCTColor hct = hct_from_int (rgb_to_argb_int (rgb_color));
 
     string css = "";
 

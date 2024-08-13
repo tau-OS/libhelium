@@ -53,26 +53,30 @@ namespace He {
         }
 
         public List<HCTColor?> analogous(int count = 5, int divisions = 12) {
-            List<HCTColor?> all_colors = get_hcts_by_hue();
-            double step = 360.0 / divisions;
             List<HCTColor?> analogous_colors = new List<HCTColor?> ();
+            double step = 360.0 / divisions;
 
             for (int i = 0; i < count; i++) {
                 double hue = (input.h + i * step) % 360.0;
-                // Find the closest hue from all_colors
-                HCTColor? closest_hct = null;
-                double min_diff = 360.0;
-                foreach (HCTColor hct in all_colors) {
-                    double diff = Math.fabs(hct.h - hue);
-                    if (diff < min_diff) {
-                        min_diff = diff;
-                        closest_hct = hct;
-                    }
-                }
+                HCTColor? closest_hct = get_closest_hct(hue);
                 analogous_colors.append(closest_hct);
             }
 
             return analogous_colors;
+        }
+        private HCTColor? get_closest_hct(double hue) {
+            HCTColor? closest_hct = null;
+            double min_diff = 360.0;
+
+            foreach (HCTColor hct in get_hcts_by_hue()) {
+                double diff = Math.fabs(hct.h - hue);
+                if (diff < min_diff) {
+                    min_diff = diff;
+                    closest_hct = hct;
+                }
+            }
+
+            return closest_hct;
         }
 
         public double get_input_relative_temperature() {
