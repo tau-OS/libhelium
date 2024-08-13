@@ -5,8 +5,7 @@ namespace He {
         MUTED,
         MONOCHROME,
         SALAD,
-        CONTENT,
-        NULL
+        CONTENT
     }
 
     public class DynamicScheme : Object {
