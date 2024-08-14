@@ -154,8 +154,12 @@ public class He.AppBar : He.Bin {
                 viewtitle.label = value;
 
                 view_title_box.set_visible (true);
+                sub_box.set_visible (true);
             } else {
                 viewtitle.label = null;
+                view_title_box.set_visible (false);
+                labels_box.set_visible (false);
+                sub_box.set_visible (false);
             }
         }
     }
@@ -174,8 +178,12 @@ public class He.AppBar : He.Bin {
 
                 view_title_box.set_visible (true);
                 labels_box.set_visible (true);
+                sub_box.set_visible (true);
             } else {
                 view_title_box.remove (value);
+                view_title_box.set_visible (false);
+                labels_box.set_visible (false);
+                sub_box.set_visible (false);
             }
         }
     }
@@ -291,6 +299,7 @@ public class He.AppBar : He.Bin {
             _show_back = value;
             back_button.set_visible (value);
             control_box.set_visible (value);
+            sub_box.set_visible (true);
 
             if (value) {
                 labels_box.margin_start = 12;
@@ -464,6 +473,7 @@ public class He.AppBar : He.Bin {
         btn_box.margin_end = 12;
         btn_box.set_visible (false);
 
+        sub_box.set_visible (false);
         sub_box.append (labels_box);
         sub_box.append (btn_box);
 
@@ -486,20 +496,20 @@ public class He.AppBar : He.Bin {
         is_compact = false;
         main_box.add_css_class ("flat-appbar");
 
-        top_box.margin_top = 42;
         sub_box.margin_bottom = 6;
+        top_box.margin_top = 41;
 
         // Make title align with other titles if no buttons are added.
         if (btn_box.visible) {
             labels_box.margin_top = 0;
         } else {
-            labels_box.margin_top = 11;
+            labels_box.margin_top = 12;
         }
         btn_box.notify["visible"].connect (() => {
             if (btn_box.visible) {
                 labels_box.margin_top = 0;
             } else {
-                labels_box.margin_top = 11;
+                labels_box.margin_top = 12;
             }
         });
     }
