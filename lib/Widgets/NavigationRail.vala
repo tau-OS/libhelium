@@ -80,6 +80,22 @@ public class He.NavigationRail : He.Bin {
         }
     }
 
+    private bool _hide_labels;
+    /**
+     * Whether to hide the item labels or not. Useful if the icon for the item is descriptive enough.
+     *
+     * @since 1.0
+     */
+    public bool hide_labels {
+        get { return this._hide_labels; }
+        set {
+            if (this._hide_labels == value)
+                return;
+
+            this._hide_labels = value;
+        }
+    }
+
     /**
      * Creates a new NavigationRail.
      */
@@ -126,6 +142,8 @@ public class He.NavigationRail : He.Bin {
                 this.hexpand = true;
             }
         });
+
+        hide_labels = false;
     }
 
     private void on_stack_pages_changed (uint position, uint removed, uint added) {
@@ -155,6 +173,19 @@ public class He.NavigationRail : He.Bin {
                                                                  "icon_name",
                                                                  SYNC_CREATE
             );
+            if (hide_labels) {
+                button_child_image.vexpand = true;
+            } else {
+                button_child_image.vexpand = false;
+            }
+
+            notify["hide-labels"].connect (() => {
+                if (hide_labels) {
+                    button_child_image.vexpand = true;
+                } else {
+                    button_child_image.vexpand = false;
+                }
+            });
 
             var button_child_label = new Gtk.Label ("");
             this._stack_pages.get_item (position).bind_property ("title", button_child_label, "label", SYNC_CREATE);
@@ -172,6 +203,20 @@ public class He.NavigationRail : He.Bin {
             } else {
                 page.icon_name = (page).icon_name.replace ("-filled", "");
             }
+
+            if (hide_labels) {
+                button_child_label.visible = false;
+            } else {
+                button_child_label.visible = true;
+            }
+
+            notify["hide-labels"].connect (() => {
+                if (hide_labels) {
+                    button_child_label.visible = false;
+                } else {
+                    button_child_label.visible = true;
+                }
+            });
 
             var button_child = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             button_child.append (button_child_image);
