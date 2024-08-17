@@ -46,18 +46,21 @@ public class He.Chip : Gtk.ToggleButton, Gtk.Actionable {
     this.add_css_class ("chip");
 
     chip_box = new He.ButtonContent ();
-    chip_box.get_first_child ().get_first_child ().visible = false;
-    chip_box.icon = "";
 
-    notify["active"].connect (() => {
-      if (this.active) {
-        chip_box.get_first_child ().get_first_child ().visible = true;
-        chip_box.icon = "emblem-default-symbolic";
-      } else {
-        chip_box.get_first_child ().get_first_child ().visible = false;
-        chip_box.icon = "";
-      }
-    });
+    if (chip_box.get_first_child ().get_first_child () != null) {
+      chip_box.get_first_child ().get_first_child ().visible = false;
+      chip_box.icon = "";
+
+      notify["active"].connect (() => {
+        if (this.active) {
+          chip_box.get_first_child ().get_first_child ().visible = true;
+          chip_box.icon = "emblem-default-symbolic";
+        } else {
+          chip_box.get_first_child ().get_first_child ().visible = false;
+          chip_box.icon = "";
+        }
+      });
+    }
 
     chip_box.set_parent (this);
   }

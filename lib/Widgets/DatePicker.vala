@@ -117,8 +117,10 @@ private class He.CalendarWidget : He.Bin {
             margin_start = 18,
             tooltip_text = _("Select Month")
         };
-        ((Gtk.Label) header_label.get_first_child()).set_width_chars(14);
-        ((Gtk.Label) header_label.get_first_child()).add_css_class("cb-title");
+        if (((Gtk.Label) header_label.get_first_child()) != null) {
+            ((Gtk.Label) header_label.get_first_child()).set_width_chars(14);
+            ((Gtk.Label) header_label.get_first_child()).add_css_class("cb-title");
+        }
         header_label.add_css_class("flat");
         header_label.clicked.connect(() => toggle_view());
 

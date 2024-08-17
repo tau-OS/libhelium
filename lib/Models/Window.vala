@@ -28,7 +28,7 @@ public class He.Window : Gtk.Window {
     /**
      * The parent window of this window. If this is null, then this is a top-level window.
      */
-    private new Gtk.Window ? _parent;
+    private new Gtk.Window ? _parent = null;
     public new Gtk.Window ? parent {
         get {
             return this.get_transient_for ();
