@@ -265,16 +265,18 @@ public class He.AppBar : He.Bin {
         bool has_visible = false;
         Gtk.Widget? child;
 
-        for (child = box.get_first_child ();
-             child != null;
-             child = child.get_next_sibling ()) {
-            if (child.get_visible ()) {
-                has_visible = true;
-                break;
+        if (box != null) {
+            for (child = box.get_first_child ();
+                child != null;
+                child = child.get_next_sibling ()) {
+                if (child.get_visible ()) {
+                    has_visible = true;
+                    break;
+                }
             }
-        }
 
-        box.set_visible (has_visible);
+            box.set_visible (has_visible);
+        }
     }
 
     private string _decoration_layout;
