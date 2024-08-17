@@ -322,8 +322,10 @@ public class He.AppBar : He.Bin {
         btn_box.prepend ((Gtk.Widget) child);
 
         if (type == "titlebar-menu") {
-            ((Gtk.Widget) child).get_first_child ().add_css_class ("disclosure-button");
-            ((Gtk.Widget) child).get_first_child ().remove_css_class ("image-button");
+            if (((Gtk.Widget) child).get_first_child () != null) {
+                ((Gtk.Widget) child).get_first_child ().add_css_class ("disclosure-button");
+                ((Gtk.Widget) child).get_first_child ().remove_css_class ("image-button");
+            }
 
             ((Gtk.Widget) child).remove_css_class ("image-button");
         } else if (type == "titlebar-toggle") {
@@ -375,9 +377,10 @@ public class He.AppBar : He.Bin {
     public void append_menu (Gtk.Widget child) {
         btn_box.append (child);
 
-        ((Gtk.Widget) child).get_first_child ().add_css_class ("disclosure-button");
-        ((Gtk.Widget) child).get_first_child ().remove_css_class ("image-button");
-
+        if (((Gtk.Widget) child).get_first_child () != null) {
+            ((Gtk.Widget) child).get_first_child ().add_css_class ("disclosure-button");
+            ((Gtk.Widget) child).get_first_child ().remove_css_class ("image-button");
+        }
         ((Gtk.Widget) child).remove_css_class ("image-button");
 
         btn_box.visible = true;
@@ -439,7 +442,9 @@ public class He.AppBar : He.Bin {
         back_button.set_tooltip_text ("Go Back");
         back_button.is_disclosure = true;
         back_button.set_size_request (26, 26);
-        ((Gtk.Image) back_button.get_first_child ()).pixel_size = 24;
+        if (((Gtk.Image) back_button.get_first_child ()) != null) {
+          ((Gtk.Image) back_button.get_first_child ()).pixel_size = 24;  
+        }
         back_button.clicked.connect (() => {
             var selected_page = stack.pages.get_selection ();
             stack.pages.select_item (int.max (((int) selected_page.get_nth (0) - 1), 0), true);
