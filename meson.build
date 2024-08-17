@@ -31,6 +31,7 @@ add_project_arguments(
     '--target-glib=' + glib_min_version,
     language: ['vala'],
 )
+add_project_arguments('-w', language: 'c')
 
 libhelium_deps = [
     dependency('gio-2.0', version: '>=' + glib_min_version),
