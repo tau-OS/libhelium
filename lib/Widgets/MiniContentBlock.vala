@@ -29,6 +29,22 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
     private Gtk.Box btn_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 9);
 
     /**
+     * Sets the widget of the content block.
+     */
+    private Gtk.Widget? _widget;
+    public Gtk.Widget? widget {
+        get {
+            return _widget;
+        }
+        set {
+            if (value == _widget) { return; }
+            _widget = value;
+
+            value.set_parent (btn_box);
+        }
+    }
+
+    /**
      * Sets the title of the content block.
      */
     public string title {
