@@ -26,7 +26,7 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
     private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
     private Gtk.Image image = new Gtk.Image ();
     private He.Button _primary_button;
-    private Gtk.Box btn_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 9);
+    private Gtk.Box btn_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
 
     /**
      * Sets the widget of the content block.
@@ -147,15 +147,17 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
 
     /**
      * Constructs a new MiniContentBlock.
-     * @param title The title of the content block.
-     * @param subtitle The subtitle of the content block.
-     * @param primary_button The primary button of the content block.
+     * @param t The title of the content block.
+     * @param s The subtitle of the content block.
+     * @param pb The primary button of the content block.
+     * @param w The widget of the content block.
      */
-    public MiniContentBlock.with_details (string? title, string? subtitle, He.Button ? primary_button) {
+    public MiniContentBlock.with_details (string? t, string? s, He.Button ? pb, Gtk.Widget ? w) {
         base ();
-        this.title = title;
-        this.subtitle = subtitle;
-        this.primary_button = primary_button;
+        title = t;
+        subtitle = s;
+        primary_button = pb;
+        widget = w;
     }
 
     /**
@@ -179,38 +181,37 @@ public class He.MiniContentBlock : He.Bin, Gtk.Buildable {
     }
 
     construct {
-        this.image.pixel_size = ((Gtk.IconSize) 24);
-        this.image.set_valign (Gtk.Align.CENTER);
-        this.image.set_halign (Gtk.Align.START);
-        this.image.set_visible (false);
+        image.pixel_size = ((Gtk.IconSize) 24);
+        image.set_valign (Gtk.Align.CENTER);
+        image.set_halign (Gtk.Align.START);
+        image.set_visible (false);
 
-        this.title_label.xalign = 0;
-        this.title_label.add_css_class ("cb-title");
-        this.title_label.set_visible (false);
+        title_label.xalign = 0;
+        title_label.add_css_class ("cb-title");
+        title_label.set_visible (false);
 
-        this.subtitle_label.xalign = 0;
-        this.subtitle_label.add_css_class ("cb-subtitle");
-        this.subtitle_label.wrap = true;
-        this.subtitle_label.hexpand = true;
-        this.subtitle_label.ellipsize = Pango.EllipsizeMode.END;
-        this.subtitle_label.set_visible (false);
+        subtitle_label.xalign = 0;
+        subtitle_label.add_css_class ("cb-subtitle");
+        subtitle_label.wrap = true;
+        subtitle_label.ellipsize = Pango.EllipsizeMode.END;
+        subtitle_label.set_visible (false);
 
-        this.info_box.append (this.title_label);
-        this.info_box.append (this.subtitle_label);
-        this.info_box.valign = Gtk.Align.CENTER;
+        info_box.hexpand = true;
+        info_box.valign = Gtk.Align.CENTER;
+        info_box.append (title_label);
+        info_box.append (subtitle_label);
 
-        this.btn_box.halign = Gtk.Align.END;
-        this.btn_box.hexpand = true;
-        this.btn_box.valign = Gtk.Align.CENTER;
+        btn_box.hexpand = true;
+        btn_box.valign = Gtk.Align.CENTER;
 
-        var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
+        var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
         box.hexpand = true;
-        box.append (this.image);
-        box.append (this.info_box);
-        box.append (this.btn_box);
+        box.append (image);
+        box.append (info_box);
+        box.append (btn_box);
 
         box.set_parent (this);
 
-        this.add_css_class ("mini-content-block");
+        add_css_class ("mini-content-block");
     }
 }
