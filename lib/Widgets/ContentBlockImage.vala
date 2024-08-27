@@ -174,7 +174,7 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
 
         var r = Graphene.Rect.zero ();
         r.init (0, 0, (float) scaled_width, (float) scaled_height);
-        var rounded = Gsk.RoundedRect ().init_from_rect (r, 12);
+        var rounded = Gsk.RoundedRect ().init_from_rect (r, 24);
         snapshot.push_rounded_clip (rounded);
         snapshot.append_scaled_texture (paintable, filter, r);
 
