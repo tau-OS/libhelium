@@ -67,7 +67,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  "background",
                                  (s) => s.neutral,
-                                 (s) => s.is_dark ? 6.0 : 98.0,
+                                 (s) => s.is_dark ? 4.0 : 99.0,
                                  true,
                                  null,
                                  null,
@@ -91,7 +91,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  "surface",
                                  (s) => s.neutral,
-                                 (s) => s.is_dark ? 6.0 : 98.0,
+                                 (s) => s.is_dark ? 4.0 : 99.0,
                                  true,
                                  null,
                                  null,
@@ -103,7 +103,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_variant",
                                  /* palette= */ (s) => s.neutral_variant,
-                                 /* tone= */ (s) => s.is_dark ? 30.0 : 90.0,
+                                 /* tone= */ (s) => s.is_dark ? 20.0 : 97.0,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -127,7 +127,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_surface_variant",
                                  /* palette= */ (s) => s.neutral_variant,
-                                 /* tone= */ (s) => s.is_dark ? 80.0 : 30.0,
+                                 /* tone= */ (s) => s.is_dark ? 80.0 : 20.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
@@ -199,8 +199,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_bright",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) =>
-                                 s.is_dark ? new ContrastCurve (24.0, 24.0, 29.0, 34.0).get (s.contrast_level) : 98.0,
+                                 /* tone= */ (s) => s.is_dark ? new ContrastCurve (24.0, 24.0, 29.0, 34.0).get (s.contrast_level) : 98.0,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -212,8 +211,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_dim",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) =>
-                                 s.is_dark ? 6.0 : new ContrastCurve (87.0, 87.0, 80.0, 75.0).get (s.contrast_level),
+                                 /* tone= */ (s) => s.is_dark ? 6.0 : new ContrastCurve (87.0, 87.0, 80.0, 75.0).get (s.contrast_level),
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -225,8 +223,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_container_lowest",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) =>
-                                 s.is_dark ? new ContrastCurve (4.0, 4.0, 2.0, 0.0).get (s.contrast_level) : 100.0,
+                                 /* tone= */ (s) => s.is_dark ? new ContrastCurve (2.0, 2.0, 1.0, 0.0).get (s.contrast_level) : 100.0,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -238,9 +235,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_container_low",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) =>
-                                 s.is_dark ? new ContrastCurve (10.0, 10.0, 11.0, 12.0).get (s.contrast_level)
-                                           : new ContrastCurve (96.0, 96.0, 96.0, 95.0).get (s.contrast_level),
+                                 /* tone= */ (s) => s.is_dark ? new ContrastCurve (6.0, 6.0, 6.0, 11.0).get (s.contrast_level) : new ContrastCurve (96.0, 96.0, 96.0, 95.0).get (s.contrast_level),
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -252,9 +247,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_container",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) =>
-                                 s.is_dark ? new ContrastCurve (12.0, 12.0, 16.0, 20.0).get (s.contrast_level)
-                                           : new ContrastCurve (94.0, 94.0, 92.0, 90.0).get (s.contrast_level),
+                                 /* tone= */ (s) => s.is_dark ? new ContrastCurve (11.0, 11.0, 14.0, 17.0).get (s.contrast_level) : new ContrastCurve (96.0, 96.0, 94.0, 92.0).get (s.contrast_level),
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -266,9 +259,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_container_high",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) =>
-                                 s.is_dark ? new ContrastCurve (17.0, 17.0, 21.0, 25.0).get (s.contrast_level)
-                                           : new ContrastCurve (92.0, 92.0, 88.0, 85.0).get (s.contrast_level),
+                                 /* tone= */ (s) => s.is_dark ? new ContrastCurve (15.0, 15.0, 17.0, 20.0).get (s.contrast_level) : new ContrastCurve (94.0, 94.0, 92.0, 90.0).get (s.contrast_level),
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -280,9 +271,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_container_high",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) =>
-                                 s.is_dark ? new ContrastCurve (22.0, 22.0, 26.0, 30.0).get (s.contrast_level)
-                                             : new ContrastCurve (90.0, 90.0, 84.0, 80.0).get (s.contrast_level),
+                                 /* tone= */ (s) => s.is_dark ? new ContrastCurve (20.0, 20.0, 23.0, 26.0).get (s.contrast_level) : new ContrastCurve (88.0, 88.0, 84.0, 80.0).get (s.contrast_level),
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
