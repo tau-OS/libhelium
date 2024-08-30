@@ -206,6 +206,7 @@ public class He.AppBar : He.Bin {
                 viewsubtitle.visible = true;
                 subtitle_box.set_visible (true);
                 main_box.spacing = 6;
+                labels_box.margin_start = 12;
             } else {
                 viewsubtitle.label = null;
                 viewsubtitle.visible = false;
@@ -267,8 +268,8 @@ public class He.AppBar : He.Bin {
 
         if (box != null) {
             for (child = box.get_first_child ();
-                child != null;
-                child = child.get_next_sibling ()) {
+                 child != null;
+                 child = child.get_next_sibling ()) {
                 if (child.get_visible ()) {
                     has_visible = true;
                     break;
@@ -443,7 +444,7 @@ public class He.AppBar : He.Bin {
         back_button.is_disclosure = true;
         back_button.set_size_request (26, 26);
         if (((Gtk.Image) back_button.get_first_child ()) != null) {
-          ((Gtk.Image) back_button.get_first_child ()).pixel_size = 24;  
+            ((Gtk.Image) back_button.get_first_child ()).pixel_size = 24;
         }
         back_button.clicked.connect (() => {
             var selected_page = stack.pages.get_selection ();
