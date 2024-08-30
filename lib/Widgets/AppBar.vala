@@ -477,6 +477,7 @@ public class He.AppBar : He.Bin {
 
         subtitle_box.append (viewsubtitle);
         subtitle_box.set_visible (false);
+        subtitle_box.margin_top = 6;
 
         labels_box.homogeneous = true;
         labels_box.hexpand = true;
