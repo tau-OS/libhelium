@@ -176,7 +176,7 @@ public class He.ViewMono : He.Bin, Gtk.Buildable {
     }
 
     /**
-     * Add a child to the sidebar, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
+     * Add a child to the view, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
      *
      * @since 1.0
      */
@@ -190,6 +190,42 @@ public class He.ViewMono : He.Bin, Gtk.Buildable {
         } else {
             box.append ((Gtk.Widget) child);
         }
+    }
+
+    /**
+     * Add a titlebar button to the view's appbar.
+     *
+     * @since 1.0
+     */
+    public new void add_titlebar_button (Gtk.Button child) {
+        titlebar.append (child);
+    }
+
+    /**
+     * Add a titlebar menu to the view's appbar.
+     *
+     * @since 1.0
+     */
+    public new void add_titlebar_menu (Gtk.MenuButton child) {
+        titlebar.append_menu (child);
+    }
+
+    /**
+     * Add a titlebar toggle to the view's appbar.
+     *
+     * @since 1.0
+     */
+    public new void add_titlebar_toggle (Gtk.ToggleButton child) {
+        titlebar.append_toggle (child);
+    }
+
+    /**
+     * Add a child to the view.
+     *
+     * @since 1.0
+     */
+    public new void append (Gtk.Widget child) {
+        box.append (child);
     }
 
     static construct {

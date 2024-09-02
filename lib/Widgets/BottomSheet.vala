@@ -35,7 +35,7 @@ public class He.BottomSheet : Gtk.Widget {
     private Gtk.Widget dimming;
     private Gtk.Widget handle;
     private Gtk.Box sheet_bin;
-    private He.ViewSubTitle title_label;
+    private Gtk.Label title_label;
     private He.SpringAnimation show_animation;
     private Gtk.WindowHandle handle_wh;
     private GLib.TimeoutSource? resize_timeout;
@@ -45,6 +45,11 @@ public class He.BottomSheet : Gtk.Widget {
     private int initial_height = 0;
     private int target_height = 0;
     private int update_interval = 16; // Default for 60Hz
+
+    /**
+     * The back button in case of a stack-type content.
+     */
+    public He.Button back_button;
 
     /**
      * The sheet to display (the content).
@@ -60,6 +65,28 @@ public class He.BottomSheet : Gtk.Widget {
 
             sheet.unparent (); // Avoiding stacked children
             sheet_bin.append (sheet);
+        }
+    }
+
+    /**
+     * The sheet (as a stack) to display (the content).
+     */
+    private Gtk.Stack? _sheet_stack;
+    public Gtk.Stack? sheet_stack {
+        get { return _sheet_stack; }
+        set {
+            if (sheet_stack == value)
+                return;
+
+            _sheet_stack = value;
+
+            sheet_stack.unparent (); // Avoiding stacked children
+            sheet_bin.append (sheet_stack);
+            if (value != null) {
+                back_button.set_visible (true);
+            } else {
+                back_button.set_visible (false);
+            }
         }
     }
 
@@ -148,6 +175,12 @@ public class He.BottomSheet : Gtk.Widget {
 
             _show_handle = value;
             handle.visible = value;
+
+            if (value) {
+                handle_wh.margin_top = 0;
+            } else {
+                handle_wh.margin_top = 24;
+            }
         }
     }
 
@@ -193,10 +226,11 @@ public class He.BottomSheet : Gtk.Widget {
         gesture_drag.drag_update.connect (on_drag_update);
         gesture_drag.drag_end.connect (on_drag_end);
 
-        title_label = new He.ViewSubTitle ();
-        title_label.valign = Gtk.Align.END;
-        title_label.halign = Gtk.Align.START;
+        title_label = new Gtk.Label ("");
+        title_label.valign = Gtk.Align.START;
+        title_label.halign = Gtk.Align.CENTER;
         title_label.hexpand = true;
+        title_label.add_css_class ("view-subtitle");
 
         var close_button = new He.Button ("window-close-symbolic", "");
         close_button.is_disclosure = true;
@@ -206,7 +240,21 @@ public class He.BottomSheet : Gtk.Widget {
             show_sheet = false;
         });
 
+        back_button = new He.Button ("pan-start-symbolic", "");
+        back_button.is_disclosure = true;
+        back_button.set_visible (false);
+        back_button.valign = Gtk.Align.START;
+        back_button.halign = Gtk.Align.START;
+        back_button.clicked.connect (() => {
+            var selected_page = sheet_stack.pages.get_selection ();
+            sheet_stack.pages.select_item (int.max (((int) selected_page.get_nth (0) - 1), 0), true);
+        });
+        if (sheet_stack.pages.is_selected (0)) {
+            back_button.set_visible (false);
+        }
+
         var title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+        title_box.append (back_button);
         title_box.append (title_label);
         title_box.append (close_button);
 

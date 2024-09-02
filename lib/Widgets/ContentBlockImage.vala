@@ -94,7 +94,7 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
         Object (file: file);
     }
 
-    public override void measure (Gtk.Orientation orientation, int for_size, out int min, out int nat, out int min_b, out int nat_b) {
+    public override void measure (Gtk.Orientation orientation, int for_size, out int min, out int nat, out int min_b = null, out int nat_b = null) {
         double min_width, min_height, nat_width, nat_height;
         double default_size;
 
@@ -102,6 +102,7 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
         if (paintable == null || for_size == 0) {
             min = 0;
             nat = 0;
+            min_b = nat_b = -1;
             return;
         }
 
@@ -126,6 +127,7 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
             );
             min = (int) Math.ceil (min_width);
             nat = (int) Math.ceil (nat_width);
+            min_b = nat_b = -1;
         } else {
             paintable.compute_concrete_size (
                                              0,
@@ -137,9 +139,8 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
             );
             min = (int) Math.ceil (min_height);
             nat = (int) Math.ceil (nat_height);
+            min_b = nat_b = -1;
         }
-
-        min_b = nat_b = -1;
     }
 
     public override void snapshot (Gtk.Snapshot snapshot) {

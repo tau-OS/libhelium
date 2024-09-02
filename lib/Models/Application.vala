@@ -74,11 +74,7 @@ public class He.Application : Gtk.Application {
      * A scheme variant to use for the application. If not set, the user's preferred scheme will be used.
      * This is especially useful for applications with their own color needs, such as media applications using the Content variant.
      */
-    private SchemeVariant? _default_scheme_variant = null;
-    public SchemeVariant? default_scheme_variant {
-        get { return _default_scheme_variant; }
-        set { _default_scheme_variant = value; update_style_manager (); }
-    }
+    public SchemeVariant? default_scheme_variant = null;
 
     private void update_style_manager () {
         if (default_accent_color != null && override_accent_color) {
@@ -91,8 +87,10 @@ public class He.Application : Gtk.Application {
 
         if (default_scheme_variant != null) {
             style_manager.scheme_variant = default_scheme_variant;
+            update_style_manager ();
         } else {
             style_manager.scheme_variant = desktop.ensor_scheme.to_variant ();
+            update_style_manager ();
         }
 
         if (override_dark_style) {
