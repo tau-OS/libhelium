@@ -245,13 +245,6 @@ public class He.BottomSheet : Gtk.Widget {
         back_button.set_visible (false);
         back_button.valign = Gtk.Align.START;
         back_button.halign = Gtk.Align.START;
-        back_button.clicked.connect (() => {
-            var selected_page = sheet_stack.pages.get_selection ();
-            sheet_stack.pages.select_item (int.max (((int) selected_page.get_nth (0) - 1), 0), true);
-        });
-        if (sheet_stack.pages.is_selected (0)) {
-            back_button.set_visible (false);
-        }
 
         var title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
         title_box.append (back_button);
