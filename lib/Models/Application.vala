@@ -87,10 +87,8 @@ public class He.Application : Gtk.Application {
 
         if (default_scheme_variant != null) {
             style_manager.scheme_variant = default_scheme_variant;
-            update_style_manager ();
         } else {
             style_manager.scheme_variant = desktop.ensor_scheme.to_variant ();
-            update_style_manager ();
         }
 
         if (override_dark_style) {
