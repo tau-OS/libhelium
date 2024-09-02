@@ -71,10 +71,24 @@ public class He.Application : Gtk.Application {
     }
 
     /**
-     * A scheme variant to use for the application. If not set, the user's preferred scheme will be used.
-     * This is especially useful for applications with their own color needs, such as media applications using the Content variant.
+     * Sets the scheme variant to use for the application as Content.
+     * This is especially useful for applications with their own color needs, such as media apps.
      */
-    public SchemeVariant? default_scheme_variant = null;
+    private bool _is_content = false;
+    public bool is_content {
+        get { return _is_content; }
+        set { _is_content = value; update_style_manager (); }
+    }
+
+    /**
+     * Sets the scheme variant to use for the application as Monochrome.
+     * This is especially useful for applications with their own color needs, such as image apps.
+     */
+    private bool _is_mono = false;
+    public bool is_mono {
+        get { return _is_mono; }
+        set { _is_mono = value; update_style_manager (); }
+    }
 
     private void update_style_manager () {
         if (default_accent_color != null && override_accent_color) {
@@ -85,8 +99,10 @@ public class He.Application : Gtk.Application {
             style_manager.accent_color = default_accent_color;
         }
 
-        if (default_scheme_variant != null) {
-            style_manager.scheme_variant = default_scheme_variant;
+        if (is_content) {
+            style_manager.scheme_variant = SchemeVariant.CONTENT;
+        } else if (is_mono) {
+            style_manager.scheme_variant = SchemeVariant.MONOCHROME;
         } else {
             style_manager.scheme_variant = desktop.ensor_scheme.to_variant ();
         }
