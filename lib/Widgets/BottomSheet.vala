@@ -23,7 +23,7 @@
  * It has a title label and contents.
  */
 public class He.BottomSheet : Gtk.Widget {
-    private const int TOP_MARGIN = 54;
+    private const int TOP_MARGIN = 42;
     private const int MINIMUM_HEIGHT = 300;
     private const int DEFAULT_HEIGHT = 440; // Dialog HIG
 
