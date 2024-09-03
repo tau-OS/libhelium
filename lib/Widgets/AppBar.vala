@@ -143,6 +143,7 @@ public class He.AppBar : He.Bin {
                 view_title_box.append (value);
 
                 view_title_box.set_visible (true);
+                view_title_box.margin_start = 12;
                 labels_box.set_visible (true);
                 sub_box.set_visible (true);
             } else {
@@ -473,15 +474,15 @@ public class He.AppBar : He.Bin {
 
         // Make title align with other titles if no buttons are added.
         if (btn_box.visible) {
-            labels_box.margin_top = 0;
+            view_title_box.margin_top = 0;
         } else {
-            labels_box.margin_top = 12;
+            view_title_box.margin_top = 12;
         }
         btn_box.notify["visible"].connect (() => {
             if (btn_box.visible) {
-                labels_box.margin_top = 0;
+                view_title_box.margin_top = 0;
             } else {
-                labels_box.margin_top = 12;
+                view_title_box.margin_top = 12;
             }
         });
     }
