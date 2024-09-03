@@ -21,7 +21,6 @@
  * An AppBar is the header bar of an Window. It usually provides controls to manage the window, as well as optional children for more granular control.
  */
 public class He.AppBar : He.Bin {
-    private Gtk.Label viewtitle;
     private Gtk.Label viewsubtitle;
     private Gtk.Box top_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -107,13 +106,6 @@ public class He.AppBar : He.Bin {
                 if (viewtitle_widget != null) {
                     viewtitle_widget.remove_css_class ("view-title");
                     viewtitle_widget.add_css_class ("view-subtitle");
-                    viewtitle.set_visible (false);
-                } else {
-                    viewtitle.set_visible (true);
-                }
-                if (viewtitle != null) {
-                    viewtitle.remove_css_class ("view-title");
-                    viewtitle.add_css_class ("view-subtitle");
                 }
                 viewsubtitle.set_visible (false);
                 sub_box.set_visible (false);
@@ -126,13 +118,6 @@ public class He.AppBar : He.Bin {
                 if (viewtitle_widget != null) {
                     viewtitle_widget.remove_css_class ("view-subtitle");
                     viewtitle_widget.add_css_class ("view-title");
-                    viewtitle.set_visible (false);
-                } else {
-                    viewtitle.set_visible (true);
-                }
-                if (viewtitle != null) {
-                    viewtitle.remove_css_class ("view-subtitle");
-                    viewtitle.add_css_class ("view-title");
                 }
                 viewsubtitle.set_visible (true);
                 sub_box.set_visible (true);
@@ -141,29 +126,6 @@ public class He.AppBar : He.Bin {
                 sub_box.append (labels_box);
                 sub_box.append (btn_box);
                 remove_css_class ("compact");
-            }
-        }
-    }
-
-    private string _viewtitle_label;
-    /**
-     * The title to the left on the AppBar.
-     */
-    public string viewtitle_label {
-        get { return this._viewtitle_label; }
-        set {
-            this._viewtitle_label = value;
-
-            if (value != "" && _viewtitle_widget == null) {
-                viewtitle.label = value;
-
-                view_title_box.set_visible (true);
-                sub_box.set_visible (true);
-            } else {
-                viewtitle.label = null;
-                view_title_box.set_visible (false);
-                labels_box.set_visible (false);
-                sub_box.set_visible (false);
             }
         }
     }
@@ -457,11 +419,6 @@ public class He.AppBar : He.Bin {
         control_box.halign = Gtk.Align.START;
         control_box.set_visible (false);
 
-        viewtitle = new Gtk.Label (null);
-        viewtitle.halign = Gtk.Align.START;
-        viewtitle.add_css_class ("view-title");
-        viewtitle.set_visible (false);
-
         viewsubtitle = new Gtk.Label (null);
         viewsubtitle.halign = Gtk.Align.START;
         viewsubtitle.valign = Gtk.Align.END;
@@ -473,7 +430,6 @@ public class He.AppBar : He.Bin {
         top_box.append (title_box);
 
         view_title_box.append (control_box);
-        view_title_box.append (viewtitle);
 
         subtitle_box.append (viewsubtitle);
         subtitle_box.set_visible (false);

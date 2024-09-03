@@ -27,15 +27,15 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
     /**
      * The title of the sidebar.
      */
-    public string title {
+    public Gtk.Widget? title {
         get {
-            return titlebar.viewtitle_label;
+            return titlebar.viewtitle_widget;
         }
         set {
-            if (value != "" && titlewidget == null) {
-                titlebar.viewtitle_label = value;
+            if (value != null) {
+                titlebar.viewtitle_widget = value;
             } else {
-                titlebar.viewtitle_label = null;
+                titlebar.viewtitle_widget = null;
             }
         }
     }
@@ -169,7 +169,7 @@ public class He.SideBar : He.Bin, Gtk.Buildable {
      * @param title The title of the SideBar.
      * @param subtitle The subtitle of the SideBar.
      */
-    public SideBar (string title, string subtitle) {
+    public SideBar (Gtk.Widget? title, string? subtitle) {
         base ();
         this.title = title;
         this.subtitle = subtitle;

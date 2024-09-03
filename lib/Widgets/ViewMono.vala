@@ -25,23 +25,23 @@ public class He.ViewMono : He.Bin, Gtk.Buildable {
     private Gtk.Box box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
     /**
-     * The title of the sidebar.
+     * The title of the view.
      */
-    public string title {
+    public Gtk.Widget? title {
         get {
-            return titlebar.viewtitle_label;
+            return titlebar.viewtitle_widget;
         }
         set {
-            if (value != "" && titlewidget == null) {
-                titlebar.viewtitle_label = value;
+            if (value != null) {
+                titlebar.viewtitle_widget = value;
             } else {
-                titlebar.viewtitle_label = null;
+                titlebar.viewtitle_widget = null;
             }
         }
     }
 
     /**
-     * The title widget of the sidebar.
+     * The title widget of the view.
      */
     public Gtk.Widget? titlewidget {
         get {
@@ -57,7 +57,7 @@ public class He.ViewMono : He.Bin, Gtk.Buildable {
     }
 
     /**
-     * The title of the sidebar.
+     * The subtitle of the view.
      */
     public string subtitle {
         get {
@@ -169,7 +169,7 @@ public class He.ViewMono : He.Bin, Gtk.Buildable {
      * @param title The title of the ViewMono.
      * @param subtitle The subtitle of the ViewMono.
      */
-    public ViewMono (string title, string subtitle) {
+    public ViewMono (Gtk.Widget? title, string? subtitle) {
         base ();
         this.title = title;
         this.subtitle = subtitle;
