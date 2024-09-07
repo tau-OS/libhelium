@@ -372,16 +372,16 @@ public class He.AboutWindow : He.Window {
     public AboutWindow (Gtk.Window parent,
         string app_name,
         string app_id,
-        string version,
-        string icon,
+        string? version,
+        string? icon,
         string? translate_url,
         string? issue_url,
         string? more_info_url,
-        string[] translators,
-        string[] developers,
-        int copyright_year,
-        Licenses license,
-        He.Colors color) {
+        string[]? translators,
+        string[]? developers,
+        int? copyright_year,
+        Licenses? license,
+        He.Colors? color) {
         this.parent = parent;
         this.app_name = app_name;
         this.app_id = app_id;
