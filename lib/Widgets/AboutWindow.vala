@@ -379,7 +379,7 @@ public class He.AboutWindow : He.Window {
         string? more_info_url,
         string[]? translators,
         string[]? developers,
-        int? copyright_year,
+        int copyright_year,
         Licenses? license,
         He.Colors? color) {
         this.parent = parent;
@@ -392,7 +392,7 @@ public class He.AboutWindow : He.Window {
         this.more_info_url = more_info_url;
         this.translator_names = translators;
         this.developer_names = developers;
-        this.copyright_year = copyright_year;
+        this.copyright_year = copyright_year != 0 ? copyright_year : 69; // Haha.
         this.license = license;
         this.color = color;
     }
