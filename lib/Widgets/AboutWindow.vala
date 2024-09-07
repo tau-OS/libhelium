@@ -380,8 +380,8 @@ public class He.AboutWindow : He.Window {
         string[]? translators,
         string[]? developers,
         int copyright_year,
-        Licenses? license,
-        He.Colors? color) {
+        Licenses license,
+        He.Colors color) {
         this.parent = parent;
         this.app_name = app_name;
         this.app_id = app_id;
