@@ -236,7 +236,7 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
     }
 
     public Button (string? icon, string? text) {
-        this.icon = icon;
+        this.icon = (icon != "" || icon != null) ? icon : "list-add-symbolic";
         this.text = text;
     }
 

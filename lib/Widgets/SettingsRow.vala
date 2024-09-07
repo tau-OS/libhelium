@@ -225,6 +225,7 @@ public class He.SettingsRow : Gtk.ListBoxRow, Gtk.Buildable {
         box.append (this.btn_box);
         box.set_parent (this);
         box.add_css_class ("mini-content-block");
+        box.add_css_class ("surface-container-high-bg-color");
 
         this.activatable = false;
         this.activated.connect (on_activate);
