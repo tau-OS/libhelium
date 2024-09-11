@@ -274,6 +274,7 @@ public class He.AppBar : He.Bin {
             if (value) {
                 labels_box.margin_start = 12;
                 labels_box.margin_top = 0;
+                view_title_box.margin_start = 0;
             } else {
                 labels_box.margin_start = 0;
                 labels_box.margin_top = 0;
