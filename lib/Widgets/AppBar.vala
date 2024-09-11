@@ -278,6 +278,9 @@ public class He.AppBar : He.Bin {
             } else {
                 labels_box.margin_start = 0;
                 labels_box.margin_top = 0;
+                if (viewtitle_widget != null) {
+                    view_title_box.margin_start = 12;
+                }
             }
         }
     }
