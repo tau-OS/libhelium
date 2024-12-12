@@ -8,132 +8,135 @@ msgstr ""
 "Project-Id-Version: libhelium\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-04 10:20-0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-12-13 20:45+0000\n"
+"Last-Translator: Lumineko <bennokaynak@gmail.com>\n"
+"Language-Team: Finnish <https://weblate.fyralabs.com/projects/tauOS/"
+"libhelium/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.8.1\n"
 
 #: lib/Utils/Misc.vala:185
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: lib/Utils/Misc.vala:189
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: lib/Utils/Misc.vala:193
 msgid "Alt"
-msgstr ""
+msgstr "Alt"
 
 #. /TRANSLATORS: The Alt key on the left side of the keyboard
 #: lib/Utils/Misc.vala:211
 msgid "Left Alt"
-msgstr ""
+msgstr "Vasen Alt"
 
 #. /TRANSLATORS: The Alt key on the right side of the keyboard
 #: lib/Utils/Misc.vala:215
 msgid "Right Alt"
-msgstr ""
+msgstr "Oikea Alt"
 
 #. /TRANSLATORS: The Ctrl key on the right side of the keyboard
 #: lib/Utils/Misc.vala:222
 msgid "Right Ctrl"
-msgstr ""
+msgstr "Oikea Ctrl"
 
 #. /TRANSLATORS: The Ctrl key on the left side of the keyboard
 #: lib/Utils/Misc.vala:226
 msgid "Left Ctrl"
-msgstr ""
+msgstr "Vasen Ctrl"
 
 #. /TRANSLATORS: This is a non-symbol representation of the "-" key
 #: lib/Utils/Misc.vala:231
 msgid "Minus"
-msgstr ""
+msgstr "Miinus"
 
 #. /TRANSLATORS: This is a non-symbol representation of the "+" key
 #: lib/Utils/Misc.vala:236
 msgid "Plus"
-msgstr ""
+msgstr "Plus"
 
 #. /TRANSLATORS: This is a non-symbol representation of the "=" key
 #: lib/Utils/Misc.vala:241
 msgid "Equals"
-msgstr ""
+msgstr "Yhtä suuri kuin"
 
 #: lib/Utils/Misc.vala:244
 msgid "Enter"
-msgstr ""
+msgstr "Enter"
 
 #. /TRANSLATORS: The Shift key on the left side of the keyboard
 #: lib/Utils/Misc.vala:248
 msgid "Left Shift"
-msgstr ""
+msgstr "Vasen Shift"
 
 #. /TRANSLATORS: The Shift key on the right side of the keyboard
 #: lib/Utils/Misc.vala:252
 msgid "Right Shift"
-msgstr ""
+msgstr "Oikea Shift"
 
 #. /TRANSLATORS: This is a delimiter that separates two keyboard shortcut labels like "⌘ + →, Control + A"
 #: lib/Utils/Misc.vala:315
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: lib/Widgets/AboutWindow.vala:42
 msgid "Translate App"
-msgstr ""
+msgstr "Käännä Sovellus"
 
 #: lib/Widgets/AboutWindow.vala:43
 msgid "Report a Problem"
-msgstr ""
+msgstr "Ilmoita Ongelmasta"
 
 #: lib/Widgets/AboutWindow.vala:44
 msgid "More Info…"
-msgstr ""
+msgstr "Lisää Tietoa…"
 
 #: lib/Widgets/AboutWindow.vala:136
 #, c-format
 msgid "This program is licensed under %s"
-msgstr ""
+msgstr "Tämä ohjelma on lisensoitu %s"
 
 #: lib/Widgets/AboutWindow.vala:173
 #, c-format
 msgid "Translated By: %s"
-msgstr ""
+msgstr "Kääntäjä: %s"
 
 #: lib/Widgets/AboutWindow.vala:186
 #, c-format
 msgid "Copyright © %i %s"
-msgstr ""
+msgstr "Tekijänoikeus © %i %s"
 
 #: lib/Widgets/AboutWindow.vala:189
 #, c-format
 msgid "Copyright © %s"
-msgstr ""
+msgstr "Tekijänoikeus © %s"
 
 #: lib/Widgets/Dialog.vala:189
 msgid "Cancel"
-msgstr ""
+msgstr "Peruuta"
 
 #: lib/Widgets/TabSwitcher.vala:240
 msgid "New Tab"
-msgstr ""
+msgstr "Uusi Sivu"
 
 #: lib/Widgets/TimePicker.vala:81
 msgid "%-l:%M %p"
-msgstr ""
+msgstr "%-l:%M %p"
 
 #: lib/Widgets/TimePicker.vala:85
 msgid "%H:%M"
-msgstr ""
+msgstr "%H:%M"
 
 #: lib/Widgets/TimePicker.vala:93
 msgid "AM"
-msgstr ""
+msgstr "AM"
 
 #: lib/Widgets/TimePicker.vala:96
 msgid "PM"
-msgstr ""
+msgstr "PM"
