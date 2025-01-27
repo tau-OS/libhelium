@@ -29,13 +29,16 @@ public class He.AboutWindow : He.Window {
     private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
     private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
     private Gtk.Box text_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+    private Gtk.Box developers_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+    private Gtk.Box translators_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
 
     private Gtk.Label title_label = new Gtk.Label (null);
-    private Gtk.Label copyright_label = new Gtk.Label (null);
-    private Gtk.Label translators_label = new Gtk.Label (null);
     private Gtk.Label license_label = new Gtk.Label (null);
 
     private Gtk.Image icon_image = new Gtk.Image ();
+
+    private Gtk.ScrolledWindow developers_box_scroller = new Gtk.ScrolledWindow ();
+    private Gtk.ScrolledWindow translators_box_scroller = new Gtk.ScrolledWindow ();
 
     private He.Button translate_app_button = new He.Button (null, _("Translate App"));
     private He.Button report_button = new He.Button (null, _("Report a Problem"));
@@ -167,28 +170,58 @@ public class He.AboutWindow : He.Window {
         get { return translators; }
         set {
             translators = value;
-            if (translators.length > 0) {
-                translators_label.set_text (_("Translated By: %s").printf (string.joinv (", ", translators)));
-                translators_label.visible = true;
+
+            var first_child = translators_box.get_first_child ();
+            while (first_child != null) {
+                translators_box.remove (first_child);
+                first_child = translators_box.get_first_child ();
+            }
+
+            for (int i = 0; i < translators.length; i++) {
+                var translator_label = new Gtk.Label ("");
+                translator_label.xalign = 0;
+                translator_label.set_text (i < translators.length - 1 ? "%s".printf (translators[i]) : translators[i]);
+                translator_label.visible = true;
+                translators_box.append (translator_label);
+                translators_box.visible = true;
+            }
+
+            if (translators_box.visible == false) {
+                translators_box_scroller.visible = false;
             } else {
-                translators_label.set_text ("");
-                translators_label.visible = false;
+                translators_box_scroller.visible = true;
             }
         }
     }
 
     private void update_copyright (int year, string[] developers) {
-        var developers_text = developers.length > 0 ? string.joinv (", ", developers) : "";
+        // Clear existing children in developers_box
+        var first_child = developers_box.get_first_child ();
+        while (first_child != null) {
+            developers_box.remove (first_child);
+            first_child = developers_box.get_first_child ();
+        }
 
-        if (year > 0) {
-            copyright_label.set_text (_("Copyright © %i %s").printf (year, developers_text));
-            copyright_label.visible = true;
-        } else if (developers_text != "") {
-            copyright_label.set_text (_("Copyright © %s").printf (developers_text));
-            copyright_label.visible = true;
+        // Add labels for each developer
+        for (int i = 0; i < developers.length; i++) {
+            var developer_label = new Gtk.Label ("");
+            developer_label.xalign = 0;
+            if (i == 0) {
+                developer_label.set_text (year > 0
+                    ? _("Copyright © %i %s").printf (year, developers[i])
+                    : _("Copyright © %s").printf (developers[i]));
+            } else {
+                developer_label.set_text (developers[i]);
+            }
+            developer_label.visible = true;
+            developers_box.append (developer_label);
+            developers_box.visible = true;
+        }
+
+        if (developers_box.visible == false) {
+            developers_box_scroller.visible = false;
         } else {
-            copyright_label.set_text ("");
-            copyright_label.visible = false;
+            developers_box_scroller.visible = true;
         }
     }
 
@@ -303,13 +336,19 @@ public class He.AboutWindow : He.Window {
         title_box.append (title_label);
         title_box.append (version_badge);
 
-        copyright_label.xalign = 0;
-        copyright_label.visible = false;
-        text_box.append (copyright_label);
+        developers_box.visible = false;
+        developers_box.valign = Gtk.Align.START;
+        developers_box.vexpand_set = true;
+        developers_box_scroller.set_child (developers_box);
+        developers_box_scroller.hscrollbar_policy = Gtk.PolicyType.NEVER;
+        text_box.append (developers_box_scroller);
 
-        translators_label.xalign = 0;
-        translators_label.visible = false;
-        text_box.append (translators_label);
+        translators_box.visible = false;
+        translators_box.valign = Gtk.Align.START;
+        translators_box.vexpand_set = true;
+        translators_box_scroller.set_child (translators_box);
+        translators_box_scroller.hscrollbar_policy = Gtk.PolicyType.NEVER;
+        text_box.append (translators_box_scroller);
 
         license_label.xalign = 0;
         license_label.visible = true;
