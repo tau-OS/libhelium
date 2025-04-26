@@ -259,6 +259,7 @@ public class He.TextField : Gtk.ListBoxRow {
 
         empty_title = new Gtk.Label (placeholder_text);
         empty_title.visible = false;
+        empty_title.focusable = false;
         empty_title.halign = Gtk.Align.START;
         empty_title.margin_start = 16;
         empty_title.margin_top = 6;
@@ -270,29 +271,35 @@ public class He.TextField : Gtk.ListBoxRow {
         entry.valign = Gtk.Align.CENTER;
 
         prefix_img.set_visible (false);
+        prefix_img.focusable = false;
 
         suffix_img.margin_end = 12;
         suffix_img.set_visible (false);
+        suffix_img.focusable = false;
 
         support_label = new Gtk.Label (support_text);
         support_label.halign = Gtk.Align.START;
         support_label.visible = false;
+        support_label.focusable = false;
         support_label.margin_start = 16;
         support_label.add_css_class ("caption");
         support_label.add_css_class ("dim-label");
 
         var entry_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
         entry_box.hexpand = true;
+        entry_box.focusable = false;
         entry_box.append (empty_title);
         entry_box.append (entry);
 
         row_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+        row_box.focusable = false;
         row_box.append (prefix_img);
         row_box.append (entry_box);
         row_box.append (suffix_img);
         row_box.add_css_class ("text-field");
 
         var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
+        main_box.focusable = false;
         main_box.append (row_box);
         main_box.append (support_label);
 
