@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: libhelium\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-04 10:20-0300\n"
-"PO-Revision-Date: 2025-05-16 09:08+0000\n"
+"PO-Revision-Date: 2025-05-17 09:46+0000\n"
 "Last-Translator: Lucy <esoteridesu@protonmail.com>\n"
 "Language-Team: Dutch <https://weblate.fyralabs.com/projects/tauOS/libhelium/"
 "nl/>\n"
@@ -39,7 +39,7 @@ msgstr "Linker Alt"
 #. /TRANSLATORS: The Alt key on the right side of the keyboard
 #: lib/Utils/Misc.vala:215
 msgid "Right Alt"
-msgstr ""
+msgstr "Rechter Alt"
 
 #. /TRANSLATORS: The Ctrl key on the right side of the keyboard
 #: lib/Utils/Misc.vala:222
