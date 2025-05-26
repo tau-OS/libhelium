@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Fyra Labs
+ * Copyright (c) 2022-2025 Fyra Labs
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -67,46 +67,45 @@ public class He.ViewSwitcher : He.Bin {
     }
 
     private void on_stack_pages_changed (uint position, uint removed, uint added) {
-        while (removed-- > 0 && this._buttons.nth (position) != null) {
+        // Remove buttons for removed pages
+        for (uint i = 0; i < removed; i++) {
             unowned var button_link = this._buttons.nth (position);
-
-            button_link.data.unparent ();
-
-            unowned var link = button_link;
-            button_link = button_link.next;
-
-            this._buttons.delete_link (link);
+            if (button_link != null) {
+                button_link.data.unparent ();
+                this._buttons.delete_link (button_link);
+            }
         }
 
-        while (added-- > 0) {
-            unowned var button_link = this._buttons.nth (position);
+        // Add buttons for new pages
+        for (uint i = 0; i < added; i++) {
+            uint current_pos = position + i;
+            unowned var button_link = this._buttons.nth (current_pos);
 
             var button = new Gtk.ToggleButton () {
-                active = this._stack_pages.is_selected (position),
+                active = this._stack_pages.is_selected (current_pos),
                 margin_end = 18,
             };
 
-            this._stack_pages.get_item (position).bind_property ("title", button, "label", SYNC_CREATE);
+            this._stack_pages.get_item (current_pos).bind_property ("title", button, "label", SYNC_CREATE);
 
             button.toggled.connect (() => on_button_toggled (button));
             button.set_parent (this);
 
             if (!this._buttons.is_empty ()) {
-                button.set_group ((Gtk.ToggleButton) this._buttons.nth_data (0));
+                button.set_group (this._buttons.nth_data (0));
             }
 
             this._buttons.insert_before (button_link, button);
-
-            position++;
         }
     }
 
     private void on_selected_stack_page_changed (uint position, uint n_items) {
-        unowned var button_link = this._buttons.nth (position);
-
-        while (n_items-- > 0 && button_link != null) {
-            button_link.data.active = this._stack_pages.is_selected (position++);
-            button_link = button_link.next;
+        // Update button states for changed positions
+        for (uint i = position; i < position + n_items && i < this._buttons.length (); i++) {
+            var button = this._buttons.nth_data (i);
+            if (button != null) {
+                button.active = this._stack_pages.is_selected (i);
+            }
         }
     }
 
@@ -116,12 +115,14 @@ public class He.ViewSwitcher : He.Bin {
             return;
         }
 
-        unowned int position = this._buttons.index (button);
+        int button_pos = this._buttons.index (button);
+        if (button_pos < 0)return;
+
+        uint position = (uint) button_pos;
         if (button.active) {
             this._stack_pages.select_item (position, true);
-            return;
+        } else {
+            this._stack_pages.unselect_item (position);
         }
-
-        this._stack_pages.unselect_item (position);
     }
 }
