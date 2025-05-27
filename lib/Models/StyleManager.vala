@@ -314,7 +314,6 @@ public class He.StyleManager : Object {
     button,
     .toast-box,
     .text-view,
-    .bottom-bar.floating,
     popover > contents,
     check {
       border-radius: $medium_roundness;
@@ -329,6 +328,7 @@ public class He.StyleManager : Object {
     .mini-content-block,
     .dialog-content,
     .switchbar,
+    .bottom-bar.floating,
     .navigation-section-list row .mini-content-block,
     window.csd {
       border-radius: $x_large_roundness;

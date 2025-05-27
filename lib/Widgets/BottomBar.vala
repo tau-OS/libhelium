@@ -298,6 +298,8 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
                         ((Gtk.Box) parent).append (overlay_parent);
                     } else if (parent is Gtk.Window) {
                         ((Gtk.Window) parent).set_child (overlay_parent);
+                    } else if (parent is Gtk.Revealer) {
+                        ((Gtk.Revealer) parent).set_child (overlay_parent);
                     }
                 }
             } else {
