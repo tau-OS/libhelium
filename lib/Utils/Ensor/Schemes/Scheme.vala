@@ -335,8 +335,8 @@ public class He.Scheme {
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
-                                 /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (primary_container (), primary (), 10.0, TonePolarity.DARKER, ToneResolve.FARTHER, true));
+                                 /* toneDeltaPair= */ null
+        );
     }
 
     public DynamicColor on_primary_container () {
@@ -406,8 +406,8 @@ public class He.Scheme {
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
-                                 /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (secondary_container (), secondary (), 10.0, TonePolarity.DARKER, ToneResolve.FARTHER, true));
+                                 /* toneDeltaPair= */ null
+        );
     }
 
     public DynamicColor on_secondary_container () {
@@ -485,8 +485,7 @@ public class He.Scheme {
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
-                                 /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (tertiary_container (), tertiary (), 10.0, TonePolarity.DARKER, ToneResolve.FARTHER, true));
+                                 /* toneDeltaPair= */ null);
     }
 
     public DynamicColor on_tertiary_container () {
@@ -568,8 +567,8 @@ public class He.Scheme {
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
-                                 /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (error_container (), error (), 10.0, TonePolarity.DARKER, ToneResolve.FARTHER, true));
+                                 /* toneDeltaPair= */ null
+        );
     }
 
     public DynamicColor on_error_container () {
