@@ -28,6 +28,10 @@ public class He.Scheme {
         return s.is_dark ? surface_bright () : surface_dim ();
     }
 
+    public bool is_yellow (DynamicScheme s) {
+        return s.is_yellow ();
+    }
+
     public DynamicColor primary_key () {
         return new DynamicColor.from_palette (
                                               /* name= */ "primary_palette_key_color",
@@ -67,7 +71,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  "background",
                                  (s) => s.neutral,
-                                 (s) => s.is_dark ? 4.0 : 99.0,
+                                 (s) => s.is_dark ? 4.0 : s.is_yellow () ? 99.0 : 98.0,
                                  true,
                                  null,
                                  null,
@@ -91,7 +95,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  "surface",
                                  (s) => s.neutral,
-                                 (s) => s.is_dark ? 4.0 : 99.0,
+                                 (s) => s.is_dark ? 4.0 : s.is_yellow () ? 99.0 : 98.0,
                                  true,
                                  null,
                                  null,
@@ -103,11 +107,11 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_variant",
                                  /* palette= */ (s) => s.neutral_variant,
-                                 /* tone= */ (s) => s.is_dark ? 20.0 : 97.0,
+                                 /* tone= */ (s) => s.is_dark ? 20.0 : 96.0,
                                  /* isBackground= */ true,
-                                 /* background= */ null,
+                                 /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ null,
+                                 /* contrastCurve= */ new ContrastCurve (7.0, 7.0, 7.0, 7.0),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -115,11 +119,11 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_surface",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) => s.is_dark ? 90.0 : 10.0,
+                                 /* tone= */ (s) => s.is_dark ? 100.0 : 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 11.0, 21.0),
+                                 /* contrastCurve= */ new ContrastCurve (7.0, 9.0, 9.0, 9.0),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -127,11 +131,11 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_surface_variant",
                                  /* palette= */ (s) => s.neutral_variant,
-                                 /* tone= */ (s) => s.is_dark ? 80.0 : 20.0,
+                                 /* tone= */ (s) => s.is_dark ? 85.0 : 15.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 11.0),
+                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 4.5, 4.5),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -143,7 +147,7 @@ public class He.Scheme {
                                  /* isBackground= */ false,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (1.5, 3.0, 4.5, 7.0),
+                                 /* contrastCurve= */ new ContrastCurve (1.5, 3.0, 3.0, 3.0),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -155,7 +159,7 @@ public class He.Scheme {
                                  /* isBackground= */ false,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.0, 3.0, 4.5),
+                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -163,7 +167,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "inverse_surface",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) => s.is_dark ? 90.0 : 20.0,
+                                 /* tone= */ (s) => s.is_dark ? 98.0 : 4.0,
                                  /* isBackground= */ false,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -175,11 +179,11 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "inverse_on_surface",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) => s.is_dark ? 20.0 : 95.0,
+                                 /* tone= */ (s) => s.is_dark ? 10.0 : 90.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => inverse_surface (),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 11.0, 21.0),
+                                 /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 7.0, 7.0),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -191,7 +195,7 @@ public class He.Scheme {
                                  /* isBackground= */ false,
                                  /* background= */ (s) => inverse_surface (),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 7.0),
+                                 /* contrastCurve= */ new ContrastCurve (3.0, 6.0, 6.0, 6.0),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -199,7 +203,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_bright",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) => s.is_dark ? new ContrastCurve (24.0, 24.0, 29.0, 34.0).get (s.contrast_level) : 98.0,
+                                 /* tone= */ (s) => s.is_dark ? 18.0 : s.is_yellow () ? 99.0 : 98.0,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -211,7 +215,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_dim",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) => s.is_dark ? 6.0 : new ContrastCurve (87.0, 87.0, 80.0, 75.0).get (s.contrast_level),
+                                 /* tone= */ (s) => s.is_dark ? 4.0 : s.is_yellow () ? 90.0 : 87.0,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -235,7 +239,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_container_low",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) => s.is_dark ? new ContrastCurve (6.0, 6.0, 6.0, 11.0).get (s.contrast_level) : new ContrastCurve (96.0, 96.0, 96.0, 95.0).get (s.contrast_level),
+                                 /* tone= */ (s) => s.is_dark ? 6.0 : s.is_yellow () ? 98.0 : 96.0,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -247,7 +251,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_container",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) => s.is_dark ? new ContrastCurve (11.0, 11.0, 14.0, 17.0).get (s.contrast_level) : new ContrastCurve (96.0, 96.0, 94.0, 92.0).get (s.contrast_level),
+                                 /* tone= */ (s) => s.is_dark ? 9.0 : s.is_yellow () ? 96.0 : 94.0,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -259,7 +263,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "surface_container_high",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) => s.is_dark ? new ContrastCurve (15.0, 15.0, 17.0, 20.0).get (s.contrast_level) : new ContrastCurve (94.0, 94.0, 92.0, 90.0).get (s.contrast_level),
+                                 /* tone= */ (s) => s.is_dark ? 12.0 : s.is_yellow () ? 94.0 : 92.0,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -269,9 +273,9 @@ public class He.Scheme {
 
     public DynamicColor surface_container_highest () {
         return new DynamicColor (
-                                 /* name= */ "surface_container_high",
+                                 /* name= */ "surface_container_highest",
                                  /* palette= */ (s) => s.neutral,
-                                 /* tone= */ (s) => s.is_dark ? new ContrastCurve (20.0, 20.0, 23.0, 26.0).get (s.contrast_level) : new ContrastCurve (88.0, 88.0, 84.0, 80.0).get (s.contrast_level),
+                                 /* tone= */ (s) => s.is_dark ? 15.0 : s.is_yellow () ? 92.0 : 90.0,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -292,9 +296,9 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 7.0),
+                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 4.5, 4.5),
                                  /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (primary_container (), primary (), 10.0, TonePolarity.NEARER, false));
+                                 new ToneDeltaPair (primary_container (), primary (), 5.0, TonePolarity.FARTHER, true));
     }
 
     public DynamicColor on_primary () {
@@ -310,7 +314,7 @@ public class He.Scheme {
                                  /* isBackground= */ false,
                                  /* background= */ (s) => primary (),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 11.0, 21.0),
+                                 /* contrastCurve= */ new ContrastCurve (4.5, 6.0, 6.0, 6.0),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -330,9 +334,9 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.0, 3.0, 4.5),
+                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
                                  /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (primary_container (), primary (), 10.0, TonePolarity.NEARER, false));
+                                 new ToneDeltaPair (primary_container (), primary (), 10.0, TonePolarity.DARKER, true));
     }
 
     public DynamicColor on_primary_container () {
@@ -351,7 +355,7 @@ public class He.Scheme {
                                  /* isBackground= */ false,
                                  /* background= */ (s) => primary_container (),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 11.0),
+                                 /* contrastCurve= */ new ContrastCurve (4.5, 6.0, 6.0, 6.0),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -363,9 +367,9 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 7.0),
+                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 4.5, 4.5),
                                  /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (secondary_container (), secondary (), 10.0, TonePolarity.NEARER, false));
+                                 new ToneDeltaPair (secondary_container (), secondary (), 5.0, TonePolarity.FARTHER, true));
     }
 
     public DynamicColor on_secondary () {
@@ -381,7 +385,7 @@ public class He.Scheme {
                                  /* isBackground= */ false,
                                  /* background= */ (s) => secondary (),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 11.0, 21.0),
+                                 /* contrastCurve= */ new ContrastCurve (4.5, 6.0, 6.0, 6.0),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -401,9 +405,9 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.0, 3.0, 4.5),
+                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
                                  /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (secondary_container (), secondary (), 10.0, TonePolarity.NEARER, false));
+                                 new ToneDeltaPair (secondary_container (), secondary (), 10.0, TonePolarity.DARKER, true));
     }
 
     public DynamicColor on_secondary_container () {
@@ -422,7 +426,7 @@ public class He.Scheme {
                                  /* isBackground= */ false,
                                  /* background= */ (s) => secondary_container (),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 11.0),
+                                 /* contrastCurve= */ new ContrastCurve (4.5, 6.0, 6.0, 6.0),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -439,9 +443,9 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 7.0),
+                                 /* contrastCurve= */ new ContrastCurve (3.0, 6.0, 6.0, 6.0),
                                  /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (tertiary_container (), tertiary (), 10.0, TonePolarity.NEARER, false));
+                                 new ToneDeltaPair (tertiary_container (), tertiary (), 5.0, TonePolarity.FARTHER, true));
     }
 
     public DynamicColor on_tertiary () {
@@ -457,7 +461,7 @@ public class He.Scheme {
                                  /* isBackground= */ false,
                                  /* background= */ (s) => tertiary (),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 11.0, 21.0),
+                                 /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 7.0, 7.0),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -480,9 +484,9 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.0, 3.0, 4.5),
+                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
                                  /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (tertiary_container (), tertiary (), 10.0, TonePolarity.NEARER, false));
+                                 new ToneDeltaPair (tertiary_container (), tertiary (), 10.0, TonePolarity.DARKER, true));
     }
 
     public DynamicColor on_tertiary_container () {
@@ -502,7 +506,7 @@ public class He.Scheme {
                                  /* isBackground= */ false,
                                  /* background= */ (s) => tertiary_container (),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 11.0),
+                                 /* contrastCurve= */ new ContrastCurve (4.5, 6.0, 6.0, 6.0),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -538,9 +542,9 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 7.0),
+                                 /* contrastCurve= */ new ContrastCurve (4.5, 6.0, 6.0, 6.0),
                                  /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (error_container (), error (), 10.0, TonePolarity.NEARER, false));
+                                 new ToneDeltaPair (error_container (), error (), 5.0, TonePolarity.FARTHER, true));
     }
 
     public DynamicColor on_error () {
@@ -551,7 +555,7 @@ public class He.Scheme {
                                  /* isBackground= */ false,
                                  /* background= */ (s) => error (),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 11.0, 21.0),
+                                 /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 7.0, 7.0),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -563,9 +567,9 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.0, 3.0, 4.5),
+                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
                                  /* toneDeltaPair= */ (s) =>
-                                 new ToneDeltaPair (error_container (), error (), 10.0, TonePolarity.NEARER, false));
+                                 new ToneDeltaPair (error_container (), error (), 10.0, TonePolarity.DARKER, true));
     }
 
     public DynamicColor on_error_container () {
@@ -581,7 +585,7 @@ public class He.Scheme {
                                  /* isBackground= */ false,
                                  /* background= */ (s) => error_container (),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 7.0, 11.0),
+                                 /* contrastCurve= */ new ContrastCurve (4.5, 6.0, 6.0, 6.0),
                                  /* toneDeltaPair= */ null);
     }
 

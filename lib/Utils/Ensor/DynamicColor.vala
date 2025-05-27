@@ -22,7 +22,7 @@ namespace He {
 
         public DynamicColor (string name,
             PaletteFunc palette,
-            ToneFunc tonev,
+            ToneFunc? tonev,
             bool? is_background,
             BackgroundFunc? background,
             BackgroundFunc? second_background,
@@ -67,6 +67,11 @@ namespace He {
             }
 
             hct_cache.set (scheme, answer);
+            return answer;
+        }
+
+        public double get_hue (DynamicScheme scheme) {
+            double answer = palette (scheme).hue;
             return answer;
         }
 

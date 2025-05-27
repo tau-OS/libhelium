@@ -29,6 +29,11 @@ namespace He {
         return hct;
     }
 
+    // Find if the hue is yellow. Useful to adjust to avoid disliked colors.
+    public bool hct_hue_is_yellow (double hue) {
+        return Math.floor (hue) >= 90.0 && Math.floor (hue) <= 111.0;
+    }
+
     public HCTColor hct_from_int (int argb) {
         var color = cam16_from_int (argb);
         return { color.h, color.c, MathUtils.lstar_from_argb (argb), argb };

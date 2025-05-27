@@ -43,8 +43,16 @@ namespace He {
             this.error = error != null ? error : TonalPalette.from_hue_and_chroma(25.0, 84.0);
         }
 
-        public HCTColor get_hct (DynamicColor dynamic_color) {
+        public HCTColor get_hct(DynamicColor dynamic_color) {
             return dynamic_color.get_hct(this);
+        }
+
+        public double get_hue(DynamicColor dynamic_color) {
+            return dynamic_color.get_hue(this);
+        }
+
+        public bool is_yellow() {
+            return hct_hue_is_yellow(hct.h);
         }
 
         public string get_primary_key() {
