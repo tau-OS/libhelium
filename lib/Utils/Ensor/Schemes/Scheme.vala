@@ -296,7 +296,7 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 4.5, 4.5),
+                                 /* contrastCurve= */ new ContrastCurve (6.0, 6.0, 6.0, 6.0),
                                  /* toneDeltaPair= */ (s) =>
                                  new ToneDeltaPair (primary_container (), primary (), 5.0, TonePolarity.RELATIVE_LIGHTER, ToneResolve.FARTHER, true));
     }
@@ -334,7 +334,7 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
+                                 /* contrastCurve= */ new ContrastCurve (1.5, 1.5, 1.5, 1.5),
                                  /* toneDeltaPair= */ null
         );
     }
@@ -355,7 +355,7 @@ public class He.Scheme {
                                  /* isBackground= */ false,
                                  /* background= */ (s) => primary_container (),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (4.5, 6.0, 6.0, 6.0),
+                                 /* contrastCurve= */ new ContrastCurve (6.0, 6.0, 6.0, 6.0),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -367,7 +367,7 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 4.5, 4.5),
+                                 /* contrastCurve= */ new ContrastCurve (4.5, 4.5, 4.5, 4.5),
                                  /* toneDeltaPair= */ (s) =>
                                  new ToneDeltaPair (secondary_container (), secondary (), 5.0, TonePolarity.RELATIVE_LIGHTER, ToneResolve.FARTHER, true));
     }
@@ -405,7 +405,7 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
+                                 /* contrastCurve= */ new ContrastCurve (1.5, 1.5, 1.5, 1.5),
                                  /* toneDeltaPair= */ null
         );
     }
@@ -443,7 +443,7 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (3.0, 6.0, 6.0, 6.0),
+                                 /* contrastCurve= */ new ContrastCurve (6.0, 6.0, 6.0, 6.0),
                                  /* toneDeltaPair= */ (s) =>
                                  new ToneDeltaPair (tertiary_container (), tertiary (), 5.0, TonePolarity.RELATIVE_LIGHTER, ToneResolve.FARTHER, true));
     }
@@ -484,7 +484,7 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
+                                 /* contrastCurve= */ new ContrastCurve (1.5, 1.5, 1.5, 1.5),
                                  /* toneDeltaPair= */ null);
     }
 
@@ -566,7 +566,7 @@ public class He.Scheme {
                                  /* isBackground= */ true,
                                  /* background= */ (s) => highest_surface (s),
                                  /* secondBackground= */ null,
-                                 /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
+                                 /* contrastCurve= */ new ContrastCurve (1.5, 1.5, 1.5, 1.5),
                                  /* toneDeltaPair= */ null
         );
     }
