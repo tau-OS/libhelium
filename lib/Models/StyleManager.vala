@@ -22,122 +22,122 @@
  * This is a low-level class that should not be used directly. Instead, let the `He.Application` class manage this for you.
  */
 public class He.StyleManager : Object {
-  /**
-   * The preferred accent color. If null, a default accent color will be chosen based on the color scheme.
-   */
-  public RGBColor? accent_color = null;
+    /**
+     * The preferred accent color. If null, a default accent color will be chosen based on the color scheme.
+     */
+    public RGBColor? accent_color = null;
 
-  /**
-   * The preferred font weight.
-   */
-  public double font_weight = 1.0;
+    /**
+     * The preferred font weight.
+     */
+    public double font_weight = 1.0;
 
-  /**
-   * The preferred UI roundness.
-   */
-  public double roundness = 1.0;
+    /**
+     * The preferred UI roundness.
+     */
+    public double roundness = 1.0;
 
-  /**
-   * Whether to apply styles for dark mode.
-   */
-  public bool is_dark = false;
+    /**
+     * Whether to apply styles for dark mode.
+     */
+    public bool is_dark = false;
 
-  /**
-   * Whether to apply styles for contrast modes.
-   * -1.0 = low, 0.0 = default, 0.5 = medium, 1.0 = high
-   */
-  public double contrast = 0.0;
+    /**
+     * Whether to apply styles for contrast modes.
+     * -1.0 = low, 0.0 = default, 0.5 = medium, 1.0 = high
+     */
+    public double contrast = 0.0;
 
-  /**
-   * A function that returns a color scheme from a given accent color and whether dark mode is enabled.
-   */
-  public SchemeVariant? scheme_variant = null;
+    /**
+     * A function that returns a color scheme from a given accent color and whether dark mode is enabled.
+     */
+    public SchemeVariant? scheme_variant = null;
 
-  /**
-   * Whether the style manager has been registered. Unregistered style managers will not apply their styles.
-   */
-  public bool is_registered { get; private set; default = false; }
+    /**
+     * Whether the style manager has been registered. Unregistered style managers will not apply their styles.
+     */
+    public bool is_registered { get; private set; default = false; }
 
-  private const int STYLE_PROVIDER_PRIORITY_PLATFORM = Gtk.STYLE_PROVIDER_PRIORITY_THEME;
-  private const int STYLE_PROVIDER_PRIORITY_ACCENT = Gtk.STYLE_PROVIDER_PRIORITY_SETTINGS;
-  private const int STYLE_PROVIDER_PRIORITY_USER_BASE = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION;
-  private const int STYLE_PROVIDER_PRIORITY_USER_DARK = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1;
+    private const int STYLE_PROVIDER_PRIORITY_PLATFORM = Gtk.STYLE_PROVIDER_PRIORITY_THEME;
+    private const int STYLE_PROVIDER_PRIORITY_ACCENT = Gtk.STYLE_PROVIDER_PRIORITY_SETTINGS;
+    private const int STYLE_PROVIDER_PRIORITY_USER_BASE = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION;
+    private const int STYLE_PROVIDER_PRIORITY_USER_DARK = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1;
 
-  private Gtk.CssProvider light = new Gtk.CssProvider ();
-  private Gtk.CssProvider dark = new Gtk.CssProvider ();
-  private Gtk.CssProvider accent = new Gtk.CssProvider ();
+    private Gtk.CssProvider light = new Gtk.CssProvider ();
+    private Gtk.CssProvider dark = new Gtk.CssProvider ();
+    private Gtk.CssProvider accent = new Gtk.CssProvider ();
 
-  /**
-   * The base style provider for application provided styles. In this case user refers to the application, not the user of the application.
-   */
-  public Gtk.CssProvider user_base { get; default = new Gtk.CssProvider (); }
-  /**
-   * The dark style provider for application provided styles. This will be applied in addition to the base style provider when dark mode is enabled.
-   */
-  public Gtk.CssProvider user_dark { get; default = new Gtk.CssProvider (); }
+    /**
+     * The base style provider for application provided styles. In this case user refers to the application, not the user of the application.
+     */
+    public Gtk.CssProvider user_base { get; default = new Gtk.CssProvider (); }
+    /**
+     * The dark style provider for application provided styles. This will be applied in addition to the base style provider when dark mode is enabled.
+     */
+    public Gtk.CssProvider user_dark { get; default = new Gtk.CssProvider (); }
 
-  /**
-   * Runs all the necessary updates to apply the current style. If is_registered is false, this will do nothing.
-   */
-  public void update () {
-    if (!is_registered)
-      return;
+    /**
+     * Runs all the necessary updates to apply the current style. If is_registered is false, this will do nothing.
+     */
+    public void update () {
+        if (!is_registered)
+            return;
 
-    RGBColor rgb_color = accent_color != null ? accent_color : is_dark ? He.DEFAULT_DARK_ACCENT : He.DEFAULT_LIGHT_ACCENT;
+        RGBColor rgb_color = accent_color != null ? accent_color : is_dark ? He.DEFAULT_DARK_ACCENT : He.DEFAULT_LIGHT_ACCENT;
 
-    string css = "";
-    if (scheme_variant == SchemeVariant.DEFAULT) {
-      RGBColor accent_color = { rgb_color.r* 255, rgb_color.g* 255, rgb_color.b* 255 };
-      var hct = hct_from_int (rgb_to_argb_int (accent_color));
+        string css = "";
+        if (scheme_variant == SchemeVariant.DEFAULT) {
+            RGBColor accent_color = { rgb_color.r* 255, rgb_color.g* 255, rgb_color.b* 255 };
+            var hct = hct_from_int (rgb_to_argb_int (accent_color));
 
-      var scheme_factory = new DefaultScheme ();
-      css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-    } else if (scheme_variant == SchemeVariant.MONOCHROME) {
-      RGBColor accent_color = { accent_color.r* 255, accent_color.g* 255, accent_color.b* 255 };
-      var hct = hct_from_int (rgb_to_argb_int (accent_color));
+            var scheme_factory = new DefaultScheme ();
+            css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+        } else if (scheme_variant == SchemeVariant.MONOCHROME) {
+            RGBColor accent_color = { accent_color.r* 255, accent_color.g* 255, accent_color.b* 255 };
+            var hct = hct_from_int (rgb_to_argb_int (accent_color));
 
-      var scheme_factory = new MonochromaticScheme ();
-      css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-    } else if (scheme_variant == SchemeVariant.MUTED) {
-      RGBColor accent_color = { accent_color.r* 255, accent_color.g* 255, accent_color.b* 255 };
-      var hct = hct_from_int (rgb_to_argb_int (accent_color));
+            var scheme_factory = new MonochromaticScheme ();
+            css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+        } else if (scheme_variant == SchemeVariant.MUTED) {
+            RGBColor accent_color = { accent_color.r* 255, accent_color.g* 255, accent_color.b* 255 };
+            var hct = hct_from_int (rgb_to_argb_int (accent_color));
 
-      var scheme_factory = new MutedScheme ();
-      css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-    } else if (scheme_variant == SchemeVariant.SALAD) {
-      RGBColor accent_color = { accent_color.r* 255, accent_color.g* 255, accent_color.b* 255 };
-      var hct = hct_from_int (rgb_to_argb_int (accent_color));
+            var scheme_factory = new MutedScheme ();
+            css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+        } else if (scheme_variant == SchemeVariant.SALAD) {
+            RGBColor accent_color = { accent_color.r* 255, accent_color.g* 255, accent_color.b* 255 };
+            var hct = hct_from_int (rgb_to_argb_int (accent_color));
 
-      var scheme_factory = new SaladScheme ();
-      css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-    } else if (scheme_variant == SchemeVariant.VIBRANT) {
-      RGBColor accent_color = { accent_color.r* 255, accent_color.g* 255, accent_color.b* 255 };
-      var hct = hct_from_int (rgb_to_argb_int (accent_color));
+            var scheme_factory = new SaladScheme ();
+            css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+        } else if (scheme_variant == SchemeVariant.VIBRANT) {
+            RGBColor accent_color = { accent_color.r* 255, accent_color.g* 255, accent_color.b* 255 };
+            var hct = hct_from_int (rgb_to_argb_int (accent_color));
 
-      var scheme_factory = new VibrantScheme ();
-      css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
-    } else if (scheme_variant == SchemeVariant.CONTENT) {
-      var hct = hct_from_int (rgb_to_argb_int (rgb_color));
+            var scheme_factory = new VibrantScheme ();
+            css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+        } else if (scheme_variant == SchemeVariant.CONTENT) {
+            var hct = hct_from_int (rgb_to_argb_int (rgb_color));
 
-      var scheme_factory = new ContentScheme ();
-      css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+            var scheme_factory = new ContentScheme ();
+            css += style_refresh (scheme_factory.generate (hct, is_dark, contrast));
+        }
+
+        css += weight_refresh (font_weight);
+        css += roundness_refresh (roundness);
+
+        Misc.init_css_provider_from_string (accent, css);
+        Misc.toggle_style_provider (light, !is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
+        Misc.toggle_style_provider (dark, is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
+        Misc.toggle_style_provider (user_dark, is_dark, STYLE_PROVIDER_PRIORITY_USER_DARK);
+
+        var settings = Gtk.Settings.get_default ();
+        settings.gtk_application_prefer_dark_theme = is_dark;
     }
 
-    css += weight_refresh (font_weight);
-    css += roundness_refresh (roundness);
-
-    Misc.init_css_provider_from_string (accent, css);
-    Misc.toggle_style_provider (light, !is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
-    Misc.toggle_style_provider (dark, is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
-    Misc.toggle_style_provider (user_dark, is_dark, STYLE_PROVIDER_PRIORITY_USER_DARK);
-
-    var settings = Gtk.Settings.get_default ();
-    settings.gtk_application_prefer_dark_theme = is_dark;
-  }
-
-  public string style_refresh (DynamicScheme scheme_factory) {
-    string css = "";
-    css += @"
+    public string style_refresh (DynamicScheme scheme_factory) {
+        string css = "";
+        css += @"
     @define-color accent_color $(scheme_factory.get_primary());
     @define-color accent_bg_color $(scheme_factory.get_primary());
     @define-color accent_fg_color $(scheme_factory.get_on_primary());
@@ -166,7 +166,7 @@ public class He.StyleManager : Object {
     @define-color surface_container_highest_bg_color $(scheme_factory.get_surface_container_highest());
     ";
 
-    css += @"
+        css += @"
     @define-color destructive_bg_color $(scheme_factory.get_error());
     @define-color destructive_fg_color $(scheme_factory.get_on_error());
     @define-color destructive_color $(scheme_factory.get_error());
@@ -204,16 +204,16 @@ public class He.StyleManager : Object {
     @define-color osd_accent_color $(scheme_factory.get_inverse_primary());
     ";
 
-    return css;
-  }
+        return css;
+    }
 
-  public string weight_refresh (double font_weight) {
-    var light_weight = 200 * font_weight;
-    var base_weight = 400 * font_weight;
-    var heavy_weight = 600 * font_weight;
+    public string weight_refresh (double font_weight) {
+        var light_weight = 200 * font_weight;
+        var base_weight = 400 * font_weight;
+        var heavy_weight = 600 * font_weight;
 
-    string css = "";
-    css += @"
+        string css = "";
+        css += @"
     label,
     .big-display,
     .view-subtitle,
@@ -261,20 +261,20 @@ public class He.StyleManager : Object {
     }
     ";
 
-    return css;
-  }
+        return css;
+    }
 
-  private string roundness_refresh (double roundness) {
-    var base_roundness = roundness != 0 ? 4 * roundness : 0;
-    var small_roundness = (0.5 * base_roundness).to_string () + "px";
-    var medium_roundness = (1 * base_roundness).to_string () + "px";
-    var large_roundness = (2 * base_roundness).to_string () + "px";
-    var x_large_roundness = (3 * base_roundness).to_string () + "px";
-    var xx_large_roundness = (6 * base_roundness).to_string () + "px";
-    var circle_roundness = (12.5 * base_roundness).to_string () + "px";
+    private string roundness_refresh (double roundness) {
+        var base_roundness = roundness != 0 ? 4 * roundness : 0;
+        var small_roundness = (0.5 * base_roundness).to_string () + "px";
+        var medium_roundness = (1 * base_roundness).to_string () + "px";
+        var large_roundness = (2 * base_roundness).to_string () + "px";
+        var x_large_roundness = (3 * base_roundness).to_string () + "px";
+        var xx_large_roundness = (6 * base_roundness).to_string () + "px";
+        var circle_roundness = (12.5 * base_roundness).to_string () + "px";
 
-    string css = "";
-    css += @"
+        string css = "";
+        css += @"
     .small-radius {
       border-radius: $small_roundness;
     }
@@ -292,7 +292,7 @@ public class He.StyleManager : Object {
     }
 
     .view-switcher button.toggle,
-    .bottom-bar {
+    .bottom-bar.docked {
       border-radius: 0px;
     }
     .badge,
@@ -303,6 +303,7 @@ public class He.StyleManager : Object {
     button,
     .toast-box,
     .text-view,
+    .bottom-bar.floating,
     popover > contents,
     check {
       border-radius: $medium_roundness;
@@ -432,50 +433,50 @@ public class He.StyleManager : Object {
     }
     ";
 
-    return css;
-  }
+        return css;
+    }
 
-  /**
-   * Register the style manager with GTK. This will also call update.
-   */
-  public void register () {
+    /**
+     * Register the style manager with GTK. This will also call update.
+     */
+    public void register () {
 #if BUNDLED_STYLESHEET
-    debug ("Loading bundled Helium stylesheet");
-    light.load_from_resource ("/com/fyralabs/Helium/gtk.css");
-    dark.load_from_resource ("/com/fyralabs/Helium/gtk-dark.css");
+        debug ("Loading bundled Helium stylesheet");
+        light.load_from_resource ("/com/fyralabs/Helium/gtk.css");
+        dark.load_from_resource ("/com/fyralabs/Helium/gtk-dark.css");
 #else
-    debug ("Loading system Helium stylesheet (this may fail if Helium is not installed)");
-    light.load_named ("Helium", null);
-    dark.load_named ("Helium", "dark");
+        debug ("Loading system Helium stylesheet (this may fail if Helium is not installed)");
+        light.load_named ("Helium", null);
+        dark.load_named ("Helium", "dark");
 #endif
 
-    Misc.toggle_style_provider (accent, true, STYLE_PROVIDER_PRIORITY_ACCENT);
-    Misc.toggle_style_provider (user_base, true, STYLE_PROVIDER_PRIORITY_USER_BASE);
+        Misc.toggle_style_provider (accent, true, STYLE_PROVIDER_PRIORITY_ACCENT);
+        Misc.toggle_style_provider (user_base, true, STYLE_PROVIDER_PRIORITY_USER_BASE);
 
-    // Setup the platform gtk theme and default icon theme.
-    var settings = Gtk.Settings.get_default ();
-    settings.gtk_theme_name = "Helium-empty";
-    settings.gtk_icon_theme_name = "Hydrogen";
+        // Setup the platform gtk theme and default icon theme.
+        var settings = Gtk.Settings.get_default ();
+        settings.gtk_theme_name = "Helium-empty";
+        settings.gtk_icon_theme_name = "Hydrogen";
 
-    is_registered = true;
+        is_registered = true;
 
-    update ();
-  }
+        update ();
+    }
 
-  /**
-   * Unregister the style manager with GTK.
-   */
-  public void unregister () {
-    Misc.toggle_style_provider (accent, false, STYLE_PROVIDER_PRIORITY_ACCENT);
-    Misc.toggle_style_provider (light, false, STYLE_PROVIDER_PRIORITY_PLATFORM);
-    Misc.toggle_style_provider (dark, false, STYLE_PROVIDER_PRIORITY_PLATFORM);
-    Misc.toggle_style_provider (user_base, false, STYLE_PROVIDER_PRIORITY_USER_BASE);
-    Misc.toggle_style_provider (user_dark, false, STYLE_PROVIDER_PRIORITY_USER_DARK);
+    /**
+     * Unregister the style manager with GTK.
+     */
+    public void unregister () {
+        Misc.toggle_style_provider (accent, false, STYLE_PROVIDER_PRIORITY_ACCENT);
+        Misc.toggle_style_provider (light, false, STYLE_PROVIDER_PRIORITY_PLATFORM);
+        Misc.toggle_style_provider (dark, false, STYLE_PROVIDER_PRIORITY_PLATFORM);
+        Misc.toggle_style_provider (user_base, false, STYLE_PROVIDER_PRIORITY_USER_BASE);
+        Misc.toggle_style_provider (user_dark, false, STYLE_PROVIDER_PRIORITY_USER_DARK);
 
-    is_registered = false;
-  }
+        is_registered = false;
+    }
 
-  ~StyleManager () {
-    unregister ();
-  }
+    ~StyleManager () {
+        unregister ();
+    }
 }
