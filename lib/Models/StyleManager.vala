@@ -208,9 +208,12 @@ public class He.StyleManager : Object {
     }
 
     public string weight_refresh (double font_weight) {
-        var light_weight = 200 * font_weight;
+        var thin_weight = 200 * font_weight;
+        var light_weight = 300 * font_weight;
         var base_weight = 400 * font_weight;
+        var medium_weight = 500 * font_weight;
         var heavy_weight = 600 * font_weight;
+        var black_weight = 700 * font_weight;
 
         string css = "";
         css += @"
@@ -219,8 +222,6 @@ public class He.StyleManager : Object {
     .view-subtitle,
     .cb-subtitle,
     .body,
-    .view-switcher button.toggle:checked label,
-    .view-switcher button.toggle:active label,
     .navigation-rail-button label,
     .navigation-section-button label,
     .navigation-section-list row .mini-content-block label,
@@ -228,13 +229,20 @@ public class He.StyleManager : Object {
     .calendar button label {
       font-weight: $base_weight;
     }
+    .thin-body {
+        font-weight: $thin_weight;
+    }
     .large-title,
     .display,
-    .view-title,
-    .view-switcher button.toggle label,
     .appbar .text-field text,
-    .flat-appbar .text-field text {
+    .flat-appbar .text-field text,
+    .view-switcher button.toggle label {
       font-weight: $light_weight;
+    }
+    .view-title,
+    .view-switcher button.toggle:checked label,
+    .view-switcher button.toggle:active label {
+        font-weight: $medium_weight;
     }
     .title-1,
     .title-2,
@@ -258,6 +266,9 @@ public class He.StyleManager : Object {
     .calendar button.textual-button label,
     .calendar button.day label {
       font-weight: $heavy_weight;
+    }
+    .black-text {
+      color: $black_weight;
     }
     ";
 
