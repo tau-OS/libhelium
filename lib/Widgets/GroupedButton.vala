@@ -148,7 +148,7 @@ public class He.GroupedButton : Gtk.Widget {
         this.margin_top = 6;
         this.margin_bottom = 6;
 
-        add_css_class("he-grouped-button");
+        add_css_class("grouped-button");
         update_styling();
     }
 
