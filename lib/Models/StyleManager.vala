@@ -387,41 +387,71 @@ public class He.StyleManager : Object {
     }
     .segmented-button > button:not(:first-child),
     .segmented-button > button:not(:last-child) {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+        border-top-left-radius: $x_large_roundness;
+        border-bottom-left-radius: $x_large_roundness;
+        border-top-right-radius: $x_large_roundness;
+        border-bottom-right-radius: $x_large_roundness;
+    }
+    .segmented-button > button:not(:first-child):checked,
+    .segmented-button > button:not(:last-child):checked,
+    .segmented-button > button:first-child:checked,
+    .segmented-button > button:last-child:checked {
+        border-top-left-radius: $circle_roundness;
+        border-bottom-left-radius: $circle_roundness;
+        border-top-right-radius: $circle_roundness;
+        border-bottom-right-radius: $circle_roundness;
     }
     .segmented-button button:first-child {
-        border-top-left-radius: $x_large_roundness;
-        border-bottom-left-radius: $x_large_roundness;
+        border-top-left-radius: $circle_roundness;
+        border-bottom-left-radius: $circle_roundness;
+        border-top-right-radius: $x_large_roundness;
+        border-bottom-right-radius: $x_large_roundness;
     }
     .segmented-button button:first-child:dir(rtl) {
-        border-top-right-radius: $x_large_roundness;
-        border-bottom-right-radius: $x_large_roundness;
-    }
-    .segmented-button button:last-child {
-        border-top-right-radius: $x_large_roundness;
-        border-bottom-right-radius: $x_large_roundness;
-    }
-    .segmented-button button:last-child:dir(rtl) {
+        border-top-right-radius: $circle_roundness;
+        border-bottom-right-radius: $circle_roundness;
         border-top-left-radius: $x_large_roundness;
         border-bottom-left-radius: $x_large_roundness;
+    }
+    .segmented-button button:last-child {
+        border-top-right-radius: $circle_roundness;
+        border-bottom-right-radius: $circle_roundness;
+        border-top-left-radius: $x_large_roundness;
+        border-bottom-left-radius: $x_large_roundness;
+    }
+    .segmented-button button:last-child:dir(rtl) {
+        border-top-left-radius: $circle_roundness;
+        border-bottom-left-radius: $circle_roundness;
+        border-top-right-radius: $x_large_roundness;
+        border-bottom-right-radius: $x_large_roundness;
     }
     .vertical.segmented-button > button:not(:first-child),
     .vertical.segmented-button > button:not(:last-child) {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+        border-top-left-radius: $x_large_roundness;
+        border-bottom-left-radius: $x_large_roundness;
+        border-top-right-radius: $x_large_roundness;
+        border-bottom-right-radius: $x_large_roundness;
+    }
+    .vertical.segmented-button > button:not(:first-child):checked,
+    .vertical.segmented-button > button:not(:last-child):checked,
+    .vertical.segmented-button > button:first-child:checked,
+    .vertical.segmented-button > button:last-child:checked {
+        border-top-left-radius: $circle_roundness;
+        border-bottom-left-radius: $circle_roundness;
+        border-top-right-radius: $circle_roundness;
+        border-bottom-right-radius: $circle_roundness;
     }
     .vertical.segmented-button button:first-child {
-      border-top-left-radius: $x_large_roundness;
-      border-top-right-radius: $x_large_roundness;
-    }
-    .vertical.segmented-button button:last-child {
+      border-top-left-radius: $circle_roundness;
+      border-top-right-radius: $circle_roundness;
       border-bottom-left-radius: $x_large_roundness;
       border-bottom-right-radius: $x_large_roundness;
+    }
+    .vertical.segmented-button button:last-child {
+      border-bottom-left-radius: $circle_roundness;
+      border-bottom-right-radius: $circle_roundness;
+      border-top-left-radius: $x_large_roundness;
+      border-top-right-radius: $x_large_roundness;
     }
     progressbar > trough > progress {
       border-radius: $large_roundness;
