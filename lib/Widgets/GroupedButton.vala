@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Fyra Labs
+ * Copyright (c) 2025 Fyra Labs
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,14 +17,14 @@
  * Boston, MA 02110-1301 USA
  */
 
-public enum He.GroupButtonSize {
+public enum He.GroupedButtonSize {
     SMALL,
     MEDIUM,
     LARGE,
     XLARGE
 }
 
-public enum He.GroupButtonColor {
+public enum He.GroupedButtonColor {
     PRIMARY,
     SECONDARY,
     TERTIARY,
@@ -33,33 +33,34 @@ public enum He.GroupButtonColor {
 
 public class He.GroupedButton : Gtk.Widget {
     private Gtk.Box button_box;
-    private GroupButtonSize _size;
-    private GroupButtonColor _color;
+    private GroupedButtonSize _size;
+    private GroupedButtonColor _color;
     private Gee.ArrayList<Gtk.Widget> buttons;
+
+    // Animation state
+    private int pressed_button_index = -1;
+    private double squeeze_progress = 0.0; // 0.0 to 1.0
+    private uint animation_timeout_id = 0;
 
     // Signals
     public signal void active_changed(int index, Gtk.Widget widget);
 
-    public GroupButtonSize size {
+    public GroupedButtonSize size {
         get { return _size; }
         set {
             if (_size != value) {
                 _size = value;
                 update_styling();
-                notify_property("size");
-                notify_property("size-name");
             }
         }
     }
 
-    public GroupButtonColor color {
+    public GroupedButtonColor color {
         get { return _color; }
         set {
             if (_color != value) {
                 _color = value;
                 update_styling();
-                notify_property("color");
-                notify_property("color-name");
             }
         }
     }
@@ -67,32 +68,32 @@ public class He.GroupedButton : Gtk.Widget {
     public string size_name {
         get {
             switch (_size) {
-            case GroupButtonSize.SMALL: return "small";
-            case GroupButtonSize.MEDIUM: return "medium";
-            case GroupButtonSize.LARGE: return "large";
-            case GroupButtonSize.XLARGE: return "xlarge";
+            case GroupedButtonSize.SMALL: return "small";
+            case GroupedButtonSize.MEDIUM: return "medium";
+            case GroupedButtonSize.LARGE: return "large";
+            case GroupedButtonSize.XLARGE: return "xlarge";
             default: return "medium";
             }
         }
         set {
             switch (value.down()) {
             case "small":
-                size = GroupButtonSize.SMALL;
+                size = GroupedButtonSize.SMALL;
                 break;
             case "medium":
             case "default":
-                size = GroupButtonSize.MEDIUM;
+                size = GroupedButtonSize.MEDIUM;
                 break;
             case "large":
-                size = GroupButtonSize.LARGE;
+                size = GroupedButtonSize.LARGE;
                 break;
             case "xlarge":
             case "extra-large":
-                size = GroupButtonSize.XLARGE;
+                size = GroupedButtonSize.XLARGE;
                 break;
             default:
                 warning("Unknown size: %s, using medium", value);
-                size = GroupButtonSize.MEDIUM;
+                size = GroupedButtonSize.MEDIUM;
                 break;
             }
         }
@@ -101,30 +102,30 @@ public class He.GroupedButton : Gtk.Widget {
     public string color_name {
         get {
             switch (_color) {
-            case GroupButtonColor.PRIMARY: return "primary";
-            case GroupButtonColor.SECONDARY: return "secondary";
-            case GroupButtonColor.TERTIARY: return "tertiary";
-            case GroupButtonColor.SURFACE: return "surface";
+            case GroupedButtonColor.PRIMARY: return "primary";
+            case GroupedButtonColor.SECONDARY: return "secondary";
+            case GroupedButtonColor.TERTIARY: return "tertiary";
+            case GroupedButtonColor.SURFACE: return "surface";
             default: return "primary";
             }
         }
         set {
             switch (value.down()) {
             case "primary":
-                color = GroupButtonColor.PRIMARY;
+                color = GroupedButtonColor.PRIMARY;
                 break;
             case "secondary":
-                color = GroupButtonColor.SECONDARY;
+                color = GroupedButtonColor.SECONDARY;
                 break;
             case "tertiary":
-                color = GroupButtonColor.TERTIARY;
+                color = GroupedButtonColor.TERTIARY;
                 break;
             case "surface":
-                color = GroupButtonColor.SURFACE;
+                color = GroupedButtonColor.SURFACE;
                 break;
             default:
-                warning("Unknown color: %s, using primary", value);
-                color = GroupButtonColor.PRIMARY;
+                warning("Unknown color: %s, using surface", value);
+                color = GroupedButtonColor.SURFACE;
                 break;
             }
         }
@@ -134,9 +135,16 @@ public class He.GroupedButton : Gtk.Widget {
         get { return buttons.size; }
     }
 
+    public bool homogeneous {
+        get { return button_box.homogeneous; }
+        set {
+            button_box.homogeneous = value;
+        }
+    }
+
     construct {
-        _size = GroupButtonSize.MEDIUM;
-        _color = GroupButtonColor.PRIMARY;
+        _size = GroupedButtonSize.MEDIUM;
+        _color = GroupedButtonColor.PRIMARY;
         buttons = new Gee.ArrayList<Gtk.Widget> ();
 
         button_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
@@ -155,15 +163,21 @@ public class He.GroupedButton : Gtk.Widget {
     public GroupedButton() {
     }
 
-    public GroupedButton.with_size_and_color(GroupButtonSize size, GroupButtonColor color) {
+    public GroupedButton.with_size_and_color(GroupedButtonSize size, GroupedButtonColor color) {
         this.size = size;
         this.color = color;
+    }
+
+    public GroupedButton.with_names(string size_name, string color_name) {
+        this.size_name = size_name;
+        this.color_name = color_name;
     }
 
     public void add_widget(Gtk.Widget widget) {
         buttons.add(widget);
         button_box.append(widget);
         update_widget_styling(widget);
+        setup_widget_gestures(widget, buttons.size - 1);
         update_layout();
     }
 
@@ -213,6 +227,57 @@ public class He.GroupedButton : Gtk.Widget {
         return -1;
     }
 
+    private void setup_widget_gestures(Gtk.Widget widget, int index) {
+        var gesture = new Gtk.GestureClick();
+
+        gesture.pressed.connect(() => {
+            start_squeeze_animation(index);
+        });
+
+        gesture.released.connect(() => {
+            end_squeeze_animation();
+        });
+
+        widget.add_controller(gesture);
+    }
+
+    private void start_squeeze_animation(int index) {
+        pressed_button_index = index;
+        animate_squeeze(true);
+    }
+
+    private void end_squeeze_animation() {
+        animate_squeeze(false);
+    }
+
+    private void animate_squeeze(bool expanding) {
+        if (animation_timeout_id != 0) {
+            Source.remove(animation_timeout_id);
+        }
+
+        animation_timeout_id = Timeout.add(16, () => { // ~60fps
+            if (expanding) {
+                squeeze_progress = Math.fmin(squeeze_progress + 0.15, 1.0);
+            } else {
+                squeeze_progress = Math.fmax(squeeze_progress - 0.15, 0.0);
+            }
+
+            queue_allocate(); // Request re-layout
+
+            bool continue_animation = expanding ?
+                squeeze_progress<1.0 : squeeze_progress>0.0;
+
+            if (!continue_animation) {
+                animation_timeout_id = 0;
+                if (!expanding) {
+                    pressed_button_index = -1;
+                }
+            }
+
+            return continue_animation;
+        });
+    }
+
     private void update_styling() {
         // Remove old size classes
         remove_css_class("small");
@@ -228,32 +293,32 @@ public class He.GroupedButton : Gtk.Widget {
 
         // Add new size class
         switch (_size) {
-        case GroupButtonSize.SMALL :
+        case GroupedButtonSize.SMALL :
             add_css_class("small");
             break;
-        case GroupButtonSize.MEDIUM:
+        case GroupedButtonSize.MEDIUM:
             add_css_class("medium");
             break;
-        case GroupButtonSize.LARGE:
+        case GroupedButtonSize.LARGE:
             add_css_class("large");
             break;
-        case GroupButtonSize.XLARGE:
+        case GroupedButtonSize.XLARGE:
             add_css_class("xlarge");
             break;
         }
 
         // Add new color class
         switch (_color) {
-        case GroupButtonColor.PRIMARY:
+        case GroupedButtonColor.PRIMARY:
             add_css_class("primary");
             break;
-        case GroupButtonColor.SECONDARY:
+        case GroupedButtonColor.SECONDARY:
             add_css_class("secondary");
             break;
-        case GroupButtonColor.TERTIARY:
+        case GroupedButtonColor.TERTIARY:
             add_css_class("tertiary");
             break;
-        case GroupButtonColor.SURFACE:
+        case GroupedButtonColor.SURFACE:
             add_css_class("surface");
             break;
         }
@@ -295,19 +360,124 @@ public class He.GroupedButton : Gtk.Widget {
     private void update_layout() {
         int spacing = 0;
         switch (_size) {
-        case GroupButtonSize.SMALL:
+        case GroupedButtonSize.SMALL:
             spacing = 18;
             break;
-        case GroupButtonSize.MEDIUM:
+        case GroupedButtonSize.MEDIUM:
             spacing = 8;
             break;
-        case GroupButtonSize.LARGE:
+        case GroupedButtonSize.LARGE:
             spacing = 6;
             break;
-        case GroupButtonSize.XLARGE:
+        case GroupedButtonSize.XLARGE:
             spacing = 4;
             break;
         }
         button_box.spacing = spacing;
+    }
+
+    public override void dispose() {
+        // Clean up animation
+        if (animation_timeout_id != 0) {
+            Source.remove(animation_timeout_id);
+            animation_timeout_id = 0;
+        }
+
+        if (button_box != null) {
+            button_box.unparent();
+            button_box = null;
+        }
+        base.dispose();
+    }
+
+    public override void size_allocate(int width, int height, int baseline) {
+        if (pressed_button_index == -1 || squeeze_progress == 0.0) {
+            // Normal allocation
+            button_box.allocate(width, height, baseline, null);
+            return;
+        }
+
+        // Custom allocation with squeeze effect
+        if (buttons.size == 0) {
+            button_box.allocate(width, height, baseline, null);
+            return;
+        }
+
+        // Calculate base dimensions
+        int spacing = get_current_spacing();
+        int total_spacing = spacing * (buttons.size - 1);
+        int available_width = width - total_spacing;
+        int base_button_width = available_width / buttons.size;
+
+        // Calculate animation amounts
+        int expand_amount = (int) (base_button_width * 0.08 * squeeze_progress); // 8% expansion
+        int shrink_amount = expand_amount / (int) (Math.fmax(1, count_adjacent_buttons())); // Distribute shrinkage
+
+        // Create allocation rectangle for button_box
+        var allocation = Gtk.Allocation();
+        allocation.x = 0;
+        allocation.y = 0;
+        allocation.width = width;
+        allocation.height = height;
+
+        // Apply custom widths to buttons
+        int x = 0;
+        for (int i = 0; i < buttons.size; i++) {
+            var child = buttons[i];
+            int child_width = base_button_width;
+
+            if (i == pressed_button_index) {
+                // Expand pressed button
+                child_width += expand_amount;
+            } else if (Math.fabs(i - pressed_button_index) == 1) {
+                // Shrink adjacent buttons
+                child_width -= shrink_amount;
+            }
+
+            // Ensure minimum width
+            child_width = (int) Math.fmax(child_width, 20);
+
+            // Allocate this child
+            var child_allocation = Gtk.Allocation();
+            child_allocation.x = x;
+            child_allocation.y = 0;
+            child_allocation.width = child_width;
+            child_allocation.height = height;
+
+            child.size_allocate(child_allocation.width, child_allocation.height, baseline);
+            x += child_width + spacing;
+        }
+    }
+
+    private int get_current_spacing() {
+        switch (_size) {
+        case GroupedButtonSize.SMALL:
+            return 18;
+        case GroupedButtonSize.MEDIUM:
+            return 8;
+        case GroupedButtonSize.LARGE:
+            return 6;
+        case GroupedButtonSize.XLARGE:
+            return 4;
+        default:
+            return 8;
+        }
+    }
+
+    private int count_adjacent_buttons() {
+        if (pressed_button_index == -1)return 0;
+
+        int count = 0;
+        if (pressed_button_index > 0)count++; // Left adjacent
+        if (pressed_button_index < buttons.size - 1)count++; // Right adjacent
+        return count;
+    }
+
+    public override void measure(Gtk.Orientation orientation, int for_size, out int minimum, out int natural, out int minimum_baseline, out int natural_baseline) {
+        button_box.measure(orientation, for_size, out minimum, out natural, out minimum_baseline, out natural_baseline);
+    }
+
+    public override Gtk.SizeRequestMode get_request_mode() {
+        return button_box.get_request_mode();
     }
 }
