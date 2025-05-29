@@ -1,8 +1,5 @@
 // Copyright (C) 2023 Fyra Labs
 
-using Gtk;
-using Math;
-
 namespace He {
     public class SpringParams : Object {
         public double damping { get; set; }
@@ -12,7 +9,7 @@ namespace He {
 
         public SpringParams(double damping_ratio, double mass, double stiffness) {
             double critical_damping, damping;
-            critical_damping = 2 * sqrt(mass * stiffness);
+            critical_damping = 2 * Math.sqrt(mass * stiffness);
             damping = damping_ratio * critical_damping;
 
             this.damping = damping;
@@ -40,16 +37,16 @@ namespace He {
         private const double EPSILON = 0.001;
         private const double MS_TO_S = 0.001; // Milliseconds to seconds
 
-        public SpringAnimation(Widget widget, double from, double to, owned SpringParams sparams, owned AnimationTarget target) {
+        public SpringAnimation(Gtk.Widget widget, double from, double to, SpringParams sparams, AnimationTarget target) {
             this.epsilon = EPSILON;
+            this.value_from = from;
+            this.value_to = to;
+            this.spring_params = sparams;
 
             base.widget = widget;
             base.target = target;
 
-            if (sparams != null) {
-                this.spring_params = sparams;
-                estimates_duration();
-            }
+            estimates_duration();
         }
 
         public override uint estimate_duration() {
@@ -65,14 +62,20 @@ namespace He {
         }
 
         public override double calculate_value(uint t) {
-            double value;
-
             if (t >= estimated_duration) {
                 velocity = 0;
                 return value_to;
             }
 
-            value = oscillate(t, velocity);
+            double value = oscillate(t, velocity);
+
+            // Clamp the value between from and to to prevent overshooting
+            if (value_from < value_to) {
+                value = Math.fmax(value_from, Math.fmin(value_to, value));
+            } else {
+                value = Math.fmin(value_from, Math.fmax(value_to, value));
+            }
+
             return value;
         }
 
@@ -95,7 +98,7 @@ namespace He {
                 return get_first_zero();
             }
 
-            omega0 = sqrt(stiffness / mass);
+            omega0 = Math.sqrt(stiffness / mass);
 
             /*
              * As the first ansatz for the overdamped solution,
@@ -119,7 +122,7 @@ namespace He {
             x1 = (value_to - y0 + m * x0) / m;
             y1 = oscillate(x1 * 1000, null);
 
-            while (fabs(value_to - y1) > epsilon) {
+            while (Math.fabs(value_to - y1) > epsilon) {
                 if (i > 1000)
                     return 0;
                 x0 = x1;
@@ -144,11 +147,11 @@ namespace He {
             double t = time * MS_TO_S; // Convert milliseconds to seconds
 
             double beta = b / (2 * m);
-            double omega0 = sqrt(k / m);
+            double omega0 = Math.sqrt(k / m);
 
             double x0 = value_from - value_to;
 
-            double envelope = exp(-beta * t);
+            double envelope = Math.exp(-beta * t);
 
             /*
              * Solutions of the form C1*e^(lambda1*x) + C2*e^(lambda2*x)
@@ -157,22 +160,22 @@ namespace He {
 
             /* Underdamped */
             if (beta < omega0) {
-                double omega1 = sqrt((omega0 * omega0) - (beta * beta));
+                double omega1 = Math.sqrt((omega0 * omega0) - (beta * beta));
 
                 if (velocity != null)
-                    velocity = envelope * (v0 * cos(omega1 * t) - (x0 * omega1 + (beta * beta * x0 + beta * v0)
-                                                                   / (omega1)) * sin(omega1 * t));
-                return value_to + envelope * (x0 * cos(omega1 * t) + ((beta * x0 + v0) / omega1) * sin(omega1 * t));
+                    velocity = envelope * (v0 * Math.cos(omega1 * t) - (x0 * omega1 + (beta * beta * x0 + beta * v0)
+                                                                        / (omega1)) * Math.sin(omega1 * t));
+                return value_to + envelope * (x0 * Math.cos(omega1 * t) + ((beta * x0 + v0) / omega1) * Math.sin(omega1 * t));
             }
 
             /* Overdamped */
             if (beta > omega0) {
-                double omega2 = sqrt((beta * beta) - (omega0 * omega0));
+                double omega2 = Math.sqrt((beta * beta) - (omega0 * omega0));
 
                 if (velocity != null)
-                    velocity = envelope * (v0 * cosh(omega2 * t) + (omega2 * x0 - (beta * beta * x0 + beta * v0)
-                                                                    / omega2) * sinh(omega2 * t));
-                return value_to + envelope * (x0 * cosh(omega2 * t) + ((beta * x0 + v0) / omega2) * sinh(omega2 * t));
+                    velocity = envelope * (v0 * Math.cosh(omega2 * t) + (omega2 * x0 - (beta * beta * x0 + beta * v0)
+                                                                         / omega2) * Math.sinh(omega2 * t));
+                return value_to + envelope * (x0 * Math.cosh(omega2 * t) + ((beta * x0 + v0) / omega2) * Math.sinh(omega2 * t));
             }
 
             /* Critically damped */

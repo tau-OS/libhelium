@@ -19,11 +19,6 @@ namespace He {
         private GroupedButtonColor _color;
         private Gee.ArrayList<Gtk.Widget> buttons;
 
-        // Animation state
-        private int pressed_button_index = -1;
-        private double squeeze_progress = 0.0; // 0.0 to 1.0
-        private He.SpringAnimation? current_animation = null;
-
         // Signals
         public signal void active_changed(int index, Gtk.Widget widget);
         public signal void widget_added(Gtk.Widget widget);
@@ -56,7 +51,7 @@ namespace He {
         public string size_name {
             get {
                 switch (_size) {
-                case GroupedButtonSize.SMALL : return "small";
+                case GroupedButtonSize.SMALL: return "small";
                 case GroupedButtonSize.MEDIUM: return "medium";
                 case GroupedButtonSize.LARGE: return "large";
                 case GroupedButtonSize.XLARGE: return "xlarge";
@@ -147,16 +142,38 @@ namespace He {
 
             add_css_class("grouped-button");
             update_styling();
+            update_layout();
         }
 
         public GroupedButton.with_size_and_color(GroupedButtonSize size, GroupedButtonColor color) {
+            this();
             this.size = size;
             this.color = color;
         }
 
         public GroupedButton.with_names(string size_name, string color_name) {
+            this();
             this.size_name = size_name;
             this.color_name = color_name;
+        }
+
+        private void update_layout() {
+            int spacing = 0;
+            switch (_size) {
+            case GroupedButtonSize.SMALL:
+                spacing = 12;
+                break;
+            case GroupedButtonSize.MEDIUM:
+                spacing = 8;
+                break;
+            case GroupedButtonSize.LARGE:
+                spacing = 8;
+                break;
+            case GroupedButtonSize.XLARGE:
+                spacing = 8;
+                break;
+            }
+            button_box.spacing = spacing;
         }
 
         public void add_widget(Gtk.Widget widget) {
@@ -164,14 +181,15 @@ namespace He {
             button_box.append(widget);
             update_widget_styling(widget);
             setup_widget_gestures(widget, buttons.size - 1);
-            update_layout();
             widget_added(widget);
+
+            // Ensure proper initial styling
+            widget.add_css_class("inactive");
         }
 
         public void remove_widget(Gtk.Widget widget) {
             if (buttons.remove(widget)) {
                 button_box.remove(widget);
-                update_layout();
                 widget_removed(widget);
             }
         }
@@ -212,16 +230,19 @@ namespace He {
         }
 
         public void set_active_widget(Gtk.Widget widget) {
-            foreach (var w in buttons) {
-                w.remove_css_class("active");
-                w.add_css_class("inactive");
-            }
-
-            if (widget in buttons) {
-                widget.remove_css_class("inactive");
-                widget.add_css_class("active");
-
-                int index = buttons.index_of(widget);
+            // Check if widget is in our buttons list
+            int index = buttons.index_of(widget);
+            if (index >= 0) {
+                // Toggle the active state
+                if (widget.has_css_class("active")) {
+                    // Currently active, make it inactive
+                    widget.remove_css_class("active");
+                    widget.add_css_class("inactive");
+                } else {
+                    // Currently inactive, make it active
+                    widget.remove_css_class("inactive");
+                    widget.add_css_class("active");
+                }
                 active_changed(index, widget);
             }
         }
@@ -234,12 +255,78 @@ namespace He {
         }
 
         public int get_active_index() {
+            // Returns the first active button index, or -1 if none active
             for (int i = 0; i < buttons.size; i++) {
                 if (buttons[i].has_css_class("active")) {
                     return i;
                 }
             }
             return -1;
+        }
+
+        // New method to get all active indices
+        public Gee.ArrayList<int> get_active_indices() {
+            var active_indices = new Gee.ArrayList<int> ();
+            for (int i = 0; i < buttons.size; i++) {
+                if (buttons[i].has_css_class("active")) {
+                    active_indices.add(i);
+                }
+            }
+            return active_indices;
+        }
+
+        // New method to get all active widgets
+        public Gee.ArrayList<Gtk.Widget> get_active_widgets() {
+            var active_widgets = new Gee.ArrayList<Gtk.Widget> ();
+            foreach (var widget in buttons) {
+                if (widget.has_css_class("active")) {
+                    active_widgets.add(widget);
+                }
+            }
+            return active_widgets;
+        }
+
+        // Method to set multiple buttons active at once
+        public void set_active_indices(Gee.ArrayList<int> indices) {
+            // First, make all buttons inactive
+            foreach (var widget in buttons) {
+                widget.remove_css_class("active");
+                widget.add_css_class("inactive");
+            }
+
+            // Then activate the specified indices
+            foreach (int index in indices) {
+                var widget = get_widget_at_index(index);
+                if (widget != null) {
+                    widget.remove_css_class("inactive");
+                    widget.add_css_class("active");
+                }
+            }
+        }
+
+        // Method to clear all active states
+        public void clear_active() {
+            foreach (var widget in buttons) {
+                widget.remove_css_class("active");
+                widget.add_css_class("inactive");
+            }
+        }
+
+        // Check if a specific button is active
+        public bool is_active(int index) {
+            var widget = get_widget_at_index(index);
+            return widget != null && widget.has_css_class("active");
+        }
+
+        // Get count of active buttons
+        public int get_active_count() {
+            int count = 0;
+            foreach (var widget in buttons) {
+                if (widget.has_css_class("active")) {
+                    count++;
+                }
+            }
+            return count;
         }
 
         // Template child setup helper for .ui files
@@ -252,57 +339,50 @@ namespace He {
             var gesture = new Gtk.GestureClick();
 
             gesture.pressed.connect(() => {
-                start_squeeze_animation(index);
+                start_press_animation(widget, index);
             });
 
             gesture.released.connect(() => {
-                end_squeeze_animation();
+                end_press_animation(widget);
+                set_active_widget(widget);
             });
 
             widget.add_controller(gesture);
-        }
 
-        private void start_squeeze_animation(int index) {
-            pressed_button_index = index;
-            animate_squeeze_to(1.0);
-        }
-
-        private void end_squeeze_animation() {
-            animate_squeeze_to(0.0);
-        }
-
-        private void animate_squeeze_to(double target_value) {
-            // Stop any existing animation
-            if (current_animation != null) {
-                current_animation.pause();
-                current_animation = null;
+            // Also handle regular button clicks for Gtk.Button widgets
+            if (widget is Gtk.Button) {
+                var button = widget as Gtk.Button;
+                button.clicked.connect(() => {
+                    set_active_widget(widget);
+                });
             }
+        }
 
-            // Create and start the spring animation
-            current_animation = new He.SpringAnimation(
-                                                       this, // widget
-                                                       0, // from
-                                                       target_value, // to
-                                                       new He.SpringParams(0.8, 1.0, 300.0), // spring parameters
-                                                       new He.CallbackAnimationTarget((value) => {
-                squeeze_progress = value;
-                queue_allocate(); // Trigger re-layout
-                queue_draw(); // Trigger redraw
-            }));
+        private void start_press_animation(Gtk.Widget widget, int index) {
+            // Add pressed class to the clicked button
+            widget.add_css_class("pressed");
 
-            // Handle animation completion
-            current_animation.done.connect(() => {
-                if (current_animation.avalue == 0.0) {
-                    pressed_button_index = -1;
-                }
-                current_animation = null;
-                queue_allocate();
-                queue_draw();
-            });
-            current_animation.epsilon = 0.001;
+            // Add animating class to container for CSS sibling selectors
+            add_css_class("animating");
 
-            // Start the animation
-            current_animation.play();
+            // Add helper classes for adjacent buttons
+            if (index > 0) {
+                var prev_button = buttons[index - 1];
+                prev_button.add_css_class("before-pressed");
+            }
+        }
+
+        private void end_press_animation(Gtk.Widget widget) {
+            // Remove pressed class from the clicked button
+            widget.remove_css_class("pressed");
+
+            // Remove animating class from container
+            remove_css_class("animating");
+
+            // Remove helper classes from all buttons
+            foreach (var button in buttons) {
+                button.remove_css_class("before-pressed");
+            }
         }
 
         private void update_styling() {
@@ -350,7 +430,6 @@ namespace He {
                 break;
             }
 
-            update_layout();
             foreach (var widget in buttons) {
                 update_widget_styling(widget);
             }
@@ -378,129 +457,19 @@ namespace He {
                 if (menu_button.popover != null) {
                     menu_button.popover.notify["visible"].connect(() => {
                         if (menu_button.popover.visible) {
-                            widget.add_css_class("active");
-                        } else {
-                            widget.remove_css_class("active");
+                            set_active_widget(widget);
                         }
                     });
                 }
             }
         }
 
-        private void update_layout() {
-            int spacing = 0;
-            switch (_size) {
-            case GroupedButtonSize.SMALL:
-                spacing = 18;
-                break;
-            case GroupedButtonSize.MEDIUM:
-                spacing = 8;
-                break;
-            case GroupedButtonSize.LARGE:
-                spacing = 6;
-                break;
-            case GroupedButtonSize.XLARGE:
-                spacing = 4;
-                break;
-            }
-            button_box.spacing = spacing;
-        }
-
         public override void dispose() {
-            // Clean up animation
-            if (current_animation != null) {
-                current_animation.pause();
-                current_animation = null;
-            }
-
             if (button_box != null) {
                 button_box.unparent();
                 button_box = null;
             }
             base.dispose();
-        }
-
-        public override void size_allocate(int width, int height, int baseline) {
-            if (pressed_button_index == -1 || squeeze_progress == 0.0) {
-                // Normal allocation
-                button_box.allocate(width, height, baseline, null);
-                return;
-            }
-
-            // Custom allocation with squeeze effect
-            if (buttons.size == 0) {
-                button_box.allocate(width, height, baseline, null);
-                return;
-            }
-
-            // Calculate base dimensions
-            int spacing = get_current_spacing();
-            int total_spacing = spacing * (buttons.size - 1);
-            int available_width = width - total_spacing;
-            int base_button_width = available_width / buttons.size;
-
-            // Calculate animation amounts
-            int expand_amount = (int) (base_button_width * 0.08 * squeeze_progress); // 8% expansion
-            int shrink_amount = expand_amount / (count_adjacent_buttons() == 0 ? 1 : count_adjacent_buttons());
-
-            // Create allocation rectangle for button_box
-            var allocation = Gtk.Allocation();
-            allocation.x = 0;
-            allocation.y = 0;
-            allocation.width = width;
-            allocation.height = height;
-
-            // Apply custom widths to buttons
-            int x = 0;
-            for (int i = 0; i < buttons.size; i++) {
-                var child = buttons[i];
-                int child_width = base_button_width;
-
-                if (i == pressed_button_index) {
-                    // Expand pressed button
-                    child_width += expand_amount;
-                } else if (Math.fabs(i - pressed_button_index) == 1) {
-                    // Shrink adjacent buttons
-                    child_width -= shrink_amount;
-                }
-
-                // Ensure minimum width
-                child_width = (int) Math.fmax(child_width, 20);
-
-                // Allocate this child
-                var child_allocation = Gtk.Allocation();
-                child_allocation.x = x;
-                child_allocation.y = 0;
-                child_allocation.width = child_width;
-                child_allocation.height = height;
-
-                child.size_allocate(child_allocation.width, child_allocation.height, baseline);
-                x += child_width + spacing;
-            }
-        }
-
-        private int get_current_spacing() {
-            switch (_size) {
-            case GroupedButtonSize.SMALL:
-                return 18;
-            case GroupedButtonSize.MEDIUM:
-                return 8;
-            case GroupedButtonSize.LARGE:
-                return 6;
-            case GroupedButtonSize.XLARGE:
-                return 4;
-            default:
-                return 8;
-            }
-        }
-
-        private int count_adjacent_buttons() {
-            if (pressed_button_index == -1)return 0;
-
-            int count = 0;
-            if (pressed_button_index > 0)count++; // Left adjacent
-            if (pressed_button_index < buttons.size - 1)count++; // Right adjacent
-            return count;
         }
 
         public override void measure(Gtk.Orientation orientation, int for_size, out int minimum, out int natural, out int minimum_baseline, out int natural_baseline) {
@@ -509,6 +478,10 @@ namespace He {
 
         public override Gtk.SizeRequestMode get_request_mode() {
             return button_box.get_request_mode();
+        }
+
+        public override void size_allocate(int width, int height, int baseline) {
+            button_box.allocate(width, height, baseline, null);
         }
     }
 }

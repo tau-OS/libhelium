@@ -1,7 +1,5 @@
 // Copyright (C) 2023 Fyra Labs
 
-using Gtk;
-
 namespace He {
     public enum AnimationState {
         IDLE,
@@ -53,7 +51,7 @@ namespace He {
     public abstract class Animation : Object {
         public AnimationState state { get; set; }
         public AnimationTarget target { get; set; }
-        public Widget widget { get; set; }
+        public Gtk.Widget widget { get; set; }
 
         private double _avalue;
         public double avalue {
@@ -62,7 +60,9 @@ namespace He {
             }
             set {
                 _avalue = calculate_value ((uint) value);
-                target.set_value (_avalue);
+                if (target != null) {
+                    target.set_value (_avalue);
+                }
             }
         }
 
@@ -73,7 +73,7 @@ namespace He {
 
         protected Animation () {
             state = AnimationState.IDLE;
-            avalue = 0;
+            _avalue = 0;
         }
 
         public void pause () {
@@ -145,7 +145,10 @@ namespace He {
             bool was_playing = state == AnimationState.PLAYING;
             state = AnimationState.IDLE;
             stop_animation ();
-            avalue = 0;
+            _avalue = 0;
+            if (target != null) {
+                target.set_value (_avalue);
+            }
             start_time = 0;
             paused_time = 0;
 
@@ -171,7 +174,13 @@ namespace He {
             bool was_playing = state == AnimationState.PLAYING;
             state = AnimationState.FINISHED;
             stop_animation ();
-            avalue = estimate_duration ();
+
+            // Set the final value directly to avoid calculation issues
+            _avalue = calculate_value (estimate_duration ());
+            if (target != null) {
+                target.set_value (_avalue);
+            }
+
             start_time = 0;
             paused_time = 0;
             done ();
