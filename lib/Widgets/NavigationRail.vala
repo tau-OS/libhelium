@@ -158,11 +158,11 @@ public class He.NavigationRail : He.Bin {
         if (this._is_expanded) {
             main_box.add_css_class ("expanded");
             main_box.remove_css_class ("collapsed");
-            expand_button.icon_name = "view-expanded-symbolic";
+            expand_button.icon_name = "nav-expanded-symbolic";
         } else {
             main_box.add_css_class ("collapsed");
             main_box.remove_css_class ("expanded");
-            expand_button.icon_name = "view-list-symbolic";
+            expand_button.icon_name = "nav-list-symbolic";
         }
         update_expanded_button ();
     }
