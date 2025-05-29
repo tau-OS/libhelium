@@ -30,8 +30,16 @@ namespace He {
     }
 
     // Find if the hue is yellow. Useful to adjust to avoid disliked colors.
-    public bool hct_hue_is_yellow (double hue) {
-        return Math.floor (hue) >= 90.0 && Math.floor (hue) <= 111.0;
+    public bool hue_is_yellow (double hue) {
+        return Math.floor (hue) >= 105.0 && Math.floor (hue) < 125.0;
+    }
+
+    public bool hue_is_blue (double hue) {
+        return Math.floor (hue) >= 250.0 && Math.floor (hue) < 270.0;
+    }
+
+    public bool hue_is_cyan (double hue) {
+        return Math.floor (hue) >= 170.0 && Math.floor (hue) < 207.0;
     }
 
     public HCTColor hct_from_int (int argb) {

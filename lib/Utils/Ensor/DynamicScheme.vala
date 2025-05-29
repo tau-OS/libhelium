@@ -52,7 +52,15 @@ namespace He {
         }
 
         public bool is_yellow() {
-            return hct_hue_is_yellow(hct.h);
+            return hue_is_yellow(hct.h);
+        }
+
+        public bool is_blue() {
+            return hue_is_blue(hct.h);
+        }
+
+        public bool is_cyan() {
+            return hue_is_cyan(hct.h);
         }
 
         public string get_primary_key() {

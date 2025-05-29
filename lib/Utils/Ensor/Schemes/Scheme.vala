@@ -291,6 +291,9 @@ public class He.Scheme {
             if (is_monochrome (s)) {
                 return s.is_dark ? 100.0 : 0.0;
             }
+            if (s.is_cyan ()) {
+                return s.is_dark ? 80.0 : 45.0;
+            }
             return s.is_dark ? 80.0 : 40.0;
         },
                                  /* isBackground= */ true,
@@ -325,6 +328,9 @@ public class He.Scheme {
                                  /* tone= */ (s) => {
             if (is_fidelity (s)) {
                 return s.hct.t;
+            }
+            if (s.is_cyan ()) {
+                return s.is_dark ? 30.0 : 85.0;
             }
             if (is_monochrome (s)) {
                 return s.is_dark ? 85.0 : 25.0;
