@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Fyra Labs
+ * Copyright (c) 2022-2025 Fyra Labs
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,6 +24,7 @@ public class He.NavigationRail : He.Bin {
     private Gtk.SelectionModel _stack_pages;
     private List<Gtk.ToggleButton> _buttons;
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+    private He.Button expand_button;
 
     private Gtk.Stack _stack;
     /**
@@ -42,16 +43,16 @@ public class He.NavigationRail : He.Bin {
             }
 
             this._stack = value;
-            this._stack_pages = value.pages;
-
-            this._stack_pages.selection_changed.connect (on_selected_stack_page_changed);
-            this._stack_pages.items_changed.connect (on_stack_pages_changed);
-
-            on_stack_pages_changed (0, 0, this._stack_pages.get_n_items ());
+            if (value != null) {
+                this._stack_pages = value.pages;
+                this._stack_pages.selection_changed.connect (on_selected_stack_page_changed);
+                this._stack_pages.items_changed.connect (on_stack_pages_changed);
+                on_stack_pages_changed (0, 0, this._stack_pages.get_n_items ());
+            }
         }
     }
 
-    private Gtk.Orientation _orientation;
+    private Gtk.Orientation _orientation = Gtk.Orientation.VERTICAL;
     /**
      * The orientation of this switcher.
      *
@@ -63,24 +64,11 @@ public class He.NavigationRail : He.Bin {
             if (this._orientation == value)return;
 
             this._orientation = value;
-            main_box.orientation = value;
-            ((Gtk.BoxLayout) this.get_layout_manager ()).orientation = value;
-
-            if (value == Gtk.Orientation.VERTICAL) {
-                main_box.valign = Gtk.Align.CENTER;
-                main_box.halign = Gtk.Align.FILL;
-                main_box.vexpand = true;
-                main_box.hexpand = false;
-            } else {
-                main_box.valign = Gtk.Align.FILL;
-                main_box.halign = Gtk.Align.CENTER;
-                main_box.vexpand = false;
-                main_box.hexpand = true;
-            }
+            update_orientation_layout ();
         }
     }
 
-    private bool _hide_labels;
+    private bool _hide_labels = false;
     /**
      * Whether to hide the item labels or not. Useful if the icon for the item is descriptive enough.
      *
@@ -89,10 +77,26 @@ public class He.NavigationRail : He.Bin {
     public bool hide_labels {
         get { return this._hide_labels; }
         set {
-            if (this._hide_labels == value)
-                return;
+            if (this._hide_labels == value)return;
 
             this._hide_labels = value;
+            update_label_visibility ();
+        }
+    }
+
+    private bool _is_expanded = true;
+    /**
+     * Whether the navigation rail is expanded or collapsed.
+     *
+     * @since 1.0
+     */
+    public bool is_expanded {
+        get { return this._is_expanded; }
+        set {
+            if (this._is_expanded == value)return;
+
+            this._is_expanded = value;
+            update_expansion_state ();
         }
     }
 
@@ -109,114 +113,136 @@ public class He.NavigationRail : He.Bin {
 
     construct {
         main_box.add_css_class ("navigation-rail");
-        main_box.valign = Gtk.Align.CENTER;
-        main_box.halign = Gtk.Align.FILL;
         main_box.set_parent (this);
+        main_box.hexpand = true;
+        this._is_expanded = false;
 
-        this.vexpand = true;
-        this.hexpand = false;
-        this.orientation = Gtk.Orientation.VERTICAL;
+        expand_button = new He.Button ("", "");
+        expand_button.is_iconic = true;
+        expand_button.halign = Gtk.Align.START;
+        expand_button.valign = Gtk.Align.CENTER;
+        expand_button.margin_start = 18;
+        expand_button.add_css_class ("navigation-rail-expand-button");
+        expand_button.clicked.connect (() => {
+            is_expanded = !is_expanded;
+        });
+        main_box.prepend (expand_button);
+
         this.add_css_class ("sidebar-view");
+        update_orientation_layout ();
+        update_expansion_state ();
+    }
 
-        if (this.orientation == Gtk.Orientation.VERTICAL) {
+    private void update_orientation_layout () {
+        main_box.orientation = this._orientation;
+        ((Gtk.BoxLayout) this.get_layout_manager ()).orientation = this._orientation;
+
+        if (this._orientation == Gtk.Orientation.VERTICAL) {
             main_box.valign = Gtk.Align.CENTER;
             main_box.halign = Gtk.Align.FILL;
+            expand_button.margin_top = 42;
+            expand_button.visible = true;
             this.vexpand = true;
             this.hexpand = false;
         } else {
             main_box.valign = Gtk.Align.FILL;
             main_box.halign = Gtk.Align.CENTER;
+            expand_button.margin_top = 0;
+            expand_button.visible = false;
             this.vexpand = false;
             this.hexpand = true;
         }
-        notify["orientation"].connect (() => {
-            if (orientation == Gtk.Orientation.VERTICAL) {
-                main_box.valign = Gtk.Align.CENTER;
-                main_box.halign = Gtk.Align.FILL;
-                this.vexpand = true;
-                this.hexpand = false;
-            } else {
-                main_box.valign = Gtk.Align.FILL;
-                main_box.halign = Gtk.Align.CENTER;
-                this.vexpand = false;
-                this.hexpand = true;
-            }
-        });
+    }
 
-        hide_labels = false;
+    private void update_expansion_state () {
+        if (this._is_expanded) {
+            main_box.add_css_class ("expanded");
+            main_box.remove_css_class ("collapsed");
+            expand_button.icon_name = "view-expanded-symbolic";
+        } else {
+            main_box.add_css_class ("collapsed");
+            main_box.remove_css_class ("expanded");
+            expand_button.icon_name = "view-list-symbolic";
+        }
+        update_expanded_button ();
+    }
+
+    private void update_label_visibility () {
+        unowned var button_link = this._buttons.first ();
+        while (button_link != null) {
+            var button = button_link.data;
+            var button_child = button.get_child () as Gtk.Box;
+            if (button_child != null) {
+                var label = button_child.get_last_child () as Gtk.Label;
+                var image = button_child.get_first_child () as Gtk.Image;
+                if (label != null && image != null) {
+                    label.visible = !this._hide_labels;
+                    image.vexpand = this._hide_labels;
+                }
+            }
+            button_link = button_link.next;
+        }
+    }
+
+    private void update_expanded_button () {
+        unowned var button_link = this._buttons.first ();
+        while (button_link != null) {
+            var button = button_link.data;
+            var button_child = button.get_child () as Gtk.Box;
+            if (button_child != null) {
+                if (_is_expanded) {
+                    button_child.orientation = Gtk.Orientation.HORIZONTAL;
+                } else {
+                    button_child.orientation = Gtk.Orientation.VERTICAL;
+                }
+            }
+            button_link = button_link.next;
+        }
+    }
+
+    private void update_page_icon (Gtk.StackPage page, bool is_active) {
+        if (is_active) {
+            if (page.icon_name.contains ("-symbolic")) {
+                page.icon_name = page.icon_name.replace ("-filled", "").replace ("-symbolic", "-filled-symbolic");
+            } else {
+                page.icon_name = page.icon_name.replace ("-filled", "") + "-filled-symbolic";
+            }
+        } else {
+            page.icon_name = page.icon_name.replace ("-filled", "");
+        }
     }
 
     private void on_stack_pages_changed (uint position, uint removed, uint added) {
+        // Remove buttons for removed pages
         while (removed-- > 0 && this._buttons.nth (position) != null) {
             unowned var button_link = this._buttons.nth (position);
-
             button_link.data.unparent ();
-
             unowned var link = button_link;
             button_link = button_link.next;
-
             this._buttons.delete_link (link);
         }
 
+        // Add buttons for new pages
         while (added-- > 0) {
             unowned var button_link = this._buttons.nth (position);
+            var page = (Gtk.StackPage) this._stack_pages.get_item (position);
 
             var button = new Gtk.ToggleButton () {
-                active = this._stack_pages.is_selected (position)
+                active = this._stack_pages.is_selected (position),
+                valign = Gtk.Align.CENTER
             };
             button.add_css_class ("navigation-rail-button");
 
             var button_child_image = new Gtk.Image ();
-            this._stack_pages.get_item (position).bind_property (
-                                                                 "icon_name",
-                                                                 button_child_image,
-                                                                 "icon_name",
-                                                                 SYNC_CREATE
-            );
-            if (hide_labels) {
-                button_child_image.vexpand = true;
-            } else {
-                button_child_image.vexpand = false;
-            }
-
-            notify["hide-labels"].connect (() => {
-                if (hide_labels) {
-                    button_child_image.vexpand = true;
-                } else {
-                    button_child_image.vexpand = false;
-                }
-            });
+            button_child_image.valign = Gtk.Align.CENTER;
+            page.bind_property ("icon_name", button_child_image, "icon_name", SYNC_CREATE);
 
             var button_child_label = new Gtk.Label ("");
-            this._stack_pages.get_item (position).bind_property ("title", button_child_label, "label", SYNC_CREATE);
-            var page = (Gtk.StackPage) this._stack_pages.get_item (position);
-            if (button.active) {
-                this._stack_pages.select_item (position, true);
+            button_child_label.valign = Gtk.Align.CENTER;
+            page.bind_property ("title", button_child_label, "label", SYNC_CREATE);
 
-                if (page.icon_name.contains ("-symbolic")) {
-                    page.icon_name = page.icon_name.replace ("-filled", "");
-                    page.icon_name = page.icon_name.replace ("-symbolic", "-filled-symbolic");
-                } else {
-                    page.icon_name = page.icon_name.replace ("-filled", "");
-                    page.icon_name = page.icon_name + "-filled-symbolic";
-                }
-            } else {
-                page.icon_name = (page).icon_name.replace ("-filled", "");
-            }
-
-            if (hide_labels) {
-                button_child_label.visible = false;
-            } else {
-                button_child_label.visible = true;
-            }
-
-            notify["hide-labels"].connect (() => {
-                if (hide_labels) {
-                    button_child_label.visible = false;
-                } else {
-                    button_child_label.visible = true;
-                }
-            });
+            button_child_label.visible = !this._hide_labels;
+            button_child_image.vexpand = this._hide_labels;
 
             var button_child = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             button_child.append (button_child_image);
@@ -232,42 +258,44 @@ public class He.NavigationRail : He.Bin {
 
             this._buttons.insert_before (button_link, button);
 
+            // Update icon for active state
+            update_page_icon (page, button.active);
+
             position++;
         }
     }
 
     private void on_selected_stack_page_changed (uint position, uint n_items) {
         unowned var button_link = this._buttons.nth (position);
+        uint current_position = position;
 
         while (n_items-- > 0 && button_link != null) {
-            button_link.data.active = this._stack_pages.is_selected (position++);
+            bool is_selected = this._stack_pages.is_selected (current_position);
+            button_link.data.active = is_selected;
+
+            var page = (Gtk.StackPage) this._stack_pages.get_item (current_position);
+            update_page_icon (page, is_selected);
+
             button_link = button_link.next;
+            current_position++;
         }
     }
 
     private void on_button_toggled (Gtk.ToggleButton button) {
-        // Don't do anything if this stack has 1 or less items
         if (this._stack_pages.get_n_items () <= 1) {
             return;
         }
 
-        unowned int position = this._buttons.index (button);
+        int position = this._buttons.index (button);
+        if (position < 0)return;
+
         var page = (Gtk.StackPage) this._stack_pages.get_item (position);
 
         if (button.active) {
             this._stack_pages.select_item (position, true);
-
-            if (page.icon_name.contains ("-symbolic")) {
-                page.icon_name = page.icon_name.replace ("-filled", "");
-                page.icon_name = page.icon_name.replace ("-symbolic", "-filled-symbolic");
-            } else {
-                page.icon_name = page.icon_name.replace ("-filled", "");
-                page.icon_name = page.icon_name + "-filled-symbolic";
-            }
+            update_page_icon (page, true);
         } else {
-            page.icon_name = page.icon_name.replace ("-filled", "");
+            update_page_icon (page, false);
         }
-
-        this._stack_pages.unselect_item (position);
     }
 }
