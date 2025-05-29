@@ -122,6 +122,7 @@ public class He.NavigationRail : He.Bin {
         expand_button.halign = Gtk.Align.START;
         expand_button.valign = Gtk.Align.CENTER;
         expand_button.margin_start = 18;
+        expand_button.margin_bottom = 18;
         expand_button.add_css_class ("navigation-rail-expand-button");
         expand_button.clicked.connect (() => {
             is_expanded = !is_expanded;
