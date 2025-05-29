@@ -362,6 +362,7 @@ public class He.StyleManager : Object {
     .circular,
     .pill-button,
     .navigation-rail-button image,
+    .navigation-rail.expanded .navigation-rail-button,
     switch,
     switch > slider,
     radio,
