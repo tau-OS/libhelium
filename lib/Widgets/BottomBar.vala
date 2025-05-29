@@ -40,10 +40,10 @@
  * @since 1.0
  */
 public class He.BottomBar : He.Bin, Gtk.Buildable {
-    private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-    private Gtk.Box left_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+    private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+    private Gtk.Box left_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 4);
     private Gtk.Box center_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-    private Gtk.Box right_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+    private Gtk.Box right_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 4);
 
     private Gtk.Label title_label = new Gtk.Label ("");
     private Gtk.Label description_label = new Gtk.Label ("");
