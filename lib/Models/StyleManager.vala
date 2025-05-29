@@ -335,7 +335,6 @@ public class He.StyleManager : Object {
     .mini-content-block,
     .dialog-content,
     .switchbar,
-    .bottom-bar.floating,
     .navigation-section-list row .mini-content-block,
     window.csd {
       border-radius: $x_large_roundness;
@@ -361,6 +360,7 @@ public class He.StyleManager : Object {
     .modifier-badge,
     .circular,
     .pill-button,
+    .bottom-bar.floating,
     .navigation-rail-button image,
     .navigation-rail.expanded .navigation-rail-button,
     switch,
