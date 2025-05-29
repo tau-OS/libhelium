@@ -161,7 +161,7 @@ public class He.NavigationRail : He.Bin {
             main_box.remove_css_class ("collapsed");
             expand_button.icon_name = "nav-expanded-symbolic";
             expand_button.margin_start = 42;
-            expand_button.halign = Gtk.Align.FILL;
+            expand_button.halign = Gtk.Align.START;
         } else {
             main_box.add_css_class ("collapsed");
             main_box.remove_css_class ("expanded");
