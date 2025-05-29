@@ -230,7 +230,7 @@ public class He.StyleManager : Object {
       font-weight: $base_weight;
     }
     .thin-body {
-        font-weight: $thin_weight;
+      font-weight: $thin_weight;
     }
     .large-title,
     .display,
@@ -242,7 +242,7 @@ public class He.StyleManager : Object {
     .view-title,
     .view-switcher button.toggle:checked label,
     .view-switcher button.toggle:active label {
-        font-weight: $medium_weight;
+      font-weight: $medium_weight;
     }
     .title-1,
     .title-2,
@@ -268,7 +268,7 @@ public class He.StyleManager : Object {
       font-weight: $heavy_weight;
     }
     .black-text {
-      color: $black_weight;
+      font-weight: $black_weight;
     }
     ";
 
@@ -281,7 +281,8 @@ public class He.StyleManager : Object {
         var medium_roundness = (1 * base_roundness).to_string () + "px";
         var large_roundness = (2 * base_roundness).to_string () + "px";
         var x_large_roundness = (3 * base_roundness).to_string () + "px";
-        var xx_large_roundness = (6 * base_roundness).to_string () + "px";
+        var xx_large_roundness = (4 * base_roundness).to_string () + "px";
+        var extra_large_roundness = (6.5 * base_roundness).to_string () + "px";
         var circle_roundness = (12.5 * base_roundness).to_string () + "px";
 
         string css = "";
@@ -297,6 +298,12 @@ public class He.StyleManager : Object {
     }
     .x-large-radius {
       border-radius: $x_large_roundness;
+    }
+    .xx-large-radius {
+      border-radius: $xx_large_roundness;
+    }
+    .extra-large-radius {
+      border-radius: $extra_large_roundness;
     }
     .circle-radius {
       border-radius: $circle_roundness;
@@ -369,19 +376,19 @@ public class He.StyleManager : Object {
     }
     .content-list row:first-child .mini-content-block {
       border-top-left-radius: $xx_large_roundness;
-	    border-top-right-radius: $xx_large_roundness;
+      border-top-right-radius: $xx_large_roundness;
       border-bottom-left-radius: $large_roundness;
       border-bottom-right-radius: $large_roundness;
     }
     .content-list row:first-child:last-child .mini-content-block {
       border-top-left-radius: $large_roundness;
-	    border-top-right-radius: $large_roundness;
+      border-top-right-radius: $large_roundness;
       border-bottom-left-radius: $large_roundness;
       border-bottom-right-radius: $large_roundness;
     }
     .content-list row:last-child .mini-content-block {
       border-top-left-radius: $large_roundness;
-	    border-top-right-radius: $large_roundness;
+      border-top-right-radius: $large_roundness;
       border-bottom-left-radius: $xx_large_roundness;
       border-bottom-right-radius: $xx_large_roundness;
     }
@@ -419,6 +426,9 @@ public class He.StyleManager : Object {
         border-top-left-radius: $x_large_roundness;
         border-bottom-left-radius: $x_large_roundness;
     }
+    ";
+
+        css += @"
     .segmented-button button:last-child:dir(rtl) {
         border-top-left-radius: $circle_roundness;
         border-bottom-left-radius: $circle_roundness;
@@ -471,6 +481,30 @@ public class He.StyleManager : Object {
     progressbar > trough > progress.bottom {
       border-bottom-right-radius: $large_roundness;
       border-bottom-left-radius: $large_roundness;
+    }
+    .grouped-button.small box button.inactive {
+        border-radius: $x_large_roundness;
+    }
+    .grouped-button.medium box button.inactive {
+        border-radius: $xx_large_roundness;
+    }
+    .grouped-button.large box button.inactive {
+        border-radius: $extra_large_roundness;
+    }
+    .grouped-button.xlarge box button.inactive {
+        border-radius: $extra_large_roundness;
+    }
+    .grouped-button.small box button.active {
+        border-radius: $circle_roundness;
+    }
+    .grouped-button.medium box button.active {
+        border-radius: $circle_roundness;
+    }
+    .grouped-button.large box button.active {
+        border-radius: $circle_roundness;
+    }
+    .grouped-button.xlarge box button.active {
+        border-radius: $circle_roundness;
     }
     ";
 
