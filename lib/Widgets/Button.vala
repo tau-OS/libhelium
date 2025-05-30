@@ -17,12 +17,26 @@
  * Boston, MA 02110-1301 USA
  */
 
+namespace He {
+    public enum ButtonSize {
+        SMALL,
+        MEDIUM,
+        LARGE,
+        XLARGE
+    }
+}
+
 /**
  * A class to derive UI Buttons from.
  *
  * @since 1.0
  */
 public class He.Button : Gtk.Button, Gtk.Buildable {
+
+    /**
+     * Signal emitted when toggle state changes
+     */
+    public signal void toggled(bool active);
 
     /**
      * The color of the button.
@@ -41,6 +55,83 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
 
         get {
             return _color;
+        }
+    }
+
+    /**
+     * The size of the button.
+     */
+    private He.ButtonSize _size;
+    public He.ButtonSize size {
+        set {
+            // Remove old size classes
+            this.remove_css_class ("small");
+            this.remove_css_class ("medium");
+            this.remove_css_class ("large");
+            this.remove_css_class ("xlarge");
+
+            _size = value;
+
+            // Add new size class
+            switch (_size) {
+            case He.ButtonSize.SMALL:
+                this.add_css_class ("small");
+                break;
+            case He.ButtonSize.MEDIUM:
+                this.add_css_class ("medium");
+                break;
+            case He.ButtonSize.LARGE:
+                this.add_css_class ("large");
+                break;
+            case He.ButtonSize.XLARGE:
+                this.add_css_class ("xlarge");
+                break;
+            }
+        }
+
+        get {
+            return _size;
+        }
+    }
+
+    /**
+     * Whether the button is in toggle mode
+     */
+    private bool _toggle_mode;
+    public bool toggle_mode {
+        get {
+            return _toggle_mode;
+        }
+        set {
+            _toggle_mode = value;
+            if (value) {
+                this.add_css_class ("toggle-button");
+            } else {
+                this.remove_css_class ("toggle-button");
+                this.remove_css_class ("active");
+                _active = false;
+            }
+        }
+    }
+
+    /**
+     * Whether the button is active (only relevant in toggle mode)
+     */
+    private bool _active;
+    public bool active {
+        get {
+            return _active;
+        }
+        set {
+            if (_toggle_mode && _active != value) {
+                _active = value;
+                if (_active) {
+                    this.add_css_class ("active");
+                } else {
+                    this.remove_css_class ("active");
+                }
+                toggled (_active);
+            }
         }
     }
 
@@ -248,7 +339,17 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
         is_textual = false;
         is_disclosure = false;
         is_iconic = false;
+        toggle_mode = false;
+        _active = false;
+        size = He.ButtonSize.MEDIUM;
 
         this.valign = Gtk.Align.CENTER;
+
+        // Handle toggle functionality
+        this.clicked.connect (() => {
+            if (_toggle_mode) {
+                active = !_active;
+            }
+        });
     }
 }
