@@ -87,6 +87,10 @@ namespace He {
             return hex_from_hct(new Scheme().background().get_hct(this));
         }
 
+        public HCTColor get_background_hct() {
+            return new Scheme().background().get_hct(this);
+        }
+
         public string get_on_background() {
             return hex_from_hct(new Scheme().on_background().get_hct(this));
         }

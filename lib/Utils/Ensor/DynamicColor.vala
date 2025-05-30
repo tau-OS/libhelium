@@ -28,7 +28,7 @@ namespace He {
             ToneDeltaPairFunc? tone_delta_pair) {
             this.name = name;
             this.palette = palette;
-            this.tonev = tonev;
+            this.tonev = tonev != null ? tonev : get_init_tone ();
             this.is_background = is_background;
             this.background = background;
             this.second_background = second_background;
@@ -49,6 +49,13 @@ namespace He {
                               null,
                               null
             );
+        }
+
+        private ToneFunc get_init_tone () {
+            if (name == null) {
+                return (s) => 50;
+            }
+            return (s) => background (s) != null ? background (s).get_tone (s) : 50;
         }
 
         public HCTColor get_hct (DynamicScheme scheme) {

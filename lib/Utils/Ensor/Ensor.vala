@@ -18,51 +18,51 @@
  */
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Ensor {
-  GLib.Array<int> accent_from_pixels (uint8[] pixels, bool alpha) {
-    var celebi = new He.QuantizerCelebi ();
-    var result = celebi.quantize (pixels_to_argb_array (pixels, alpha), 128);
-    var score = new He.Score ();
-    return score.score (result, 4); // We only need 4.
-  }
-
-  private int[] pixels_to_argb_array (uint8[] pixels, bool alpha) {
-    int[] list = {};
-
-    int factor = 0;
-
-    if (alpha) {
-      factor = 4;
-    } else {
-      factor = 3;
+    GLib.Array<int> accent_from_pixels (uint8[] pixels, bool alpha) {
+        var celebi = new He.QuantizerCelebi ();
+        var result = celebi.quantize (pixels_to_argb_array (pixels, alpha), 128);
+        var score = new He.Score ();
+        return score.score (result, 4); // We only need 4.
     }
 
-    int i = 0;
-    while (i < (pixels.length / factor)) {
-      int offset = i * factor;
-      uint8 red = pixels[offset];
-      uint8 green = pixels[offset + 1];
-      uint8 blue = pixels[offset + 2];
+    private int[] pixels_to_argb_array (uint8[] pixels, bool alpha) {
+        int[] list = {};
 
-      int rgb = argb_from_rgb_int (red, green, blue);
-      list += (rgb);
+        int factor = 0;
 
-      i += 10;     // quality (1 = min, 5 = default, 10 = max; quality = (max + min) - def)
+        if (alpha) {
+            factor = 4;
+        } else {
+            factor = 3;
+        }
+
+        int i = 0;
+        while (i < (pixels.length / factor)) {
+            int offset = i * factor;
+            uint8 red = pixels[offset];
+            uint8 green = pixels[offset + 1];
+            uint8 blue = pixels[offset + 2];
+
+            int rgb = argb_from_rgb_int (red, green, blue);
+            list += (rgb);
+
+            i += 5; // quality (1 = min, 5 = default, 10 = max; quality = (max + min) - def)
+        }
+        return list;
     }
-    return list;
-  }
 
-  public async GLib.Array<int> accent_from_pixels_async (uint8[] pixels, bool alpha) {
-    SourceFunc callback = accent_from_pixels_async.callback;
-    GLib.Array<int> result = null;
+    public async GLib.Array<int> accent_from_pixels_async (uint8[] pixels, bool alpha) {
+        SourceFunc callback = accent_from_pixels_async.callback;
+        GLib.Array<int> result = null;
 
-    ThreadFunc<bool> run = () => {
-      result = accent_from_pixels (pixels, alpha);
-      Idle.add ((owned) callback);
-      return true;
-    };
-    new Thread<bool> ("ensor-process", (owned) run);
+        ThreadFunc<bool> run = () => {
+            result = accent_from_pixels (pixels, alpha);
+            Idle.add ((owned) callback);
+            return true;
+        };
+        new Thread<bool> ("ensor-process", (owned) run);
 
-    yield;
-    return result;
-  }
+        yield;
+        return result;
+    }
 }
