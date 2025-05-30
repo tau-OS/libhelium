@@ -25,6 +25,8 @@ public class He.NavigationRail : He.Bin {
     private List<Gtk.ToggleButton> _buttons;
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
     private He.Button expand_button;
+    private Gtk.Button? _custom_button;
+    private Gtk.Widget? _custom_widget;
 
     private Gtk.Stack _stack;
     /**
@@ -101,6 +103,52 @@ public class He.NavigationRail : He.Bin {
     }
 
     /**
+     * Custom button to show between expand button and navigation buttons.
+     *
+     * @since 1.0
+     */
+    public Gtk.Button? custom_button {
+        get { return this._custom_button; }
+        set {
+            if (this._custom_button == value)return;
+
+            if (this._custom_button != null) {
+                this._custom_button.unparent ();
+            }
+
+            this._custom_button = value;
+
+            if (this._custom_button != null) {
+                // Insert after expand_button, before navigation buttons
+                main_box.insert_child_after (this._custom_button, expand_button);
+            }
+        }
+    }
+
+    /**
+     * Custom widget to show after navigation buttons (vertical + expanded only).
+     *
+     * @since 1.0
+     */
+    public Gtk.Widget? custom_widget {
+        get { return this._custom_widget; }
+        set {
+            if (this._custom_widget == value)return;
+
+            if (this._custom_widget != null) {
+                this._custom_widget.unparent ();
+            }
+
+            this._custom_widget = value;
+
+            if (this._custom_widget != null) {
+                main_box.append (this._custom_widget);
+                update_custom_widget_visibility ();
+            }
+        }
+    }
+
+    /**
      * Creates a new NavigationRail.
      */
     public NavigationRail () {
@@ -153,6 +201,7 @@ public class He.NavigationRail : He.Bin {
             this.vexpand = false;
             this.hexpand = true;
         }
+        update_custom_widget_visibility ();
     }
 
     private void update_expansion_state () {
@@ -170,6 +219,14 @@ public class He.NavigationRail : He.Bin {
             expand_button.halign = Gtk.Align.CENTER;
         }
         update_expanded_button ();
+        update_custom_widget_visibility ();
+    }
+
+    private void update_custom_widget_visibility () {
+        if (this._custom_widget != null) {
+            // Only show in vertical + expanded mode
+            this._custom_widget.visible = (this._orientation == Gtk.Orientation.VERTICAL && this._is_expanded);
+        }
     }
 
     private void update_label_visibility () {
