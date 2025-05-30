@@ -60,12 +60,12 @@ namespace He {
             if (background == null) {
                 return (s) => 50;
             }
-            return (s) => background (s) != null ? background (s).get_tone (s) : 50;
+            return (s) => background (s) != null ? background (s).get_tone (s, background (s)) : 50;
         }
 
-        public HCTColor get_hct (DynamicScheme scheme) {
+        public HCTColor get_hct (DynamicScheme scheme, DynamicColor color) {
             var palette = palette (scheme);
-            var tone = get_tone (scheme);
+            var tone = get_tone (scheme, color);
             var hue = palette.hue;
             var chroma = palette.chroma * chromamult;
 
@@ -77,7 +77,7 @@ namespace He {
             return answer;
         }
 
-        public double get_tone (DynamicScheme scheme) {
+        public double get_tone (DynamicScheme scheme, DynamicColor? color) {
             if (tone_delta_pair != null) {
                 ToneDeltaPair tone_delta_pair = tone_delta_pair (scheme);
                 DynamicColor role_a = tone_delta_pair.role_a;
@@ -90,7 +90,7 @@ namespace He {
                     tone_delta_pair.delta * -1 :
                     tone_delta_pair.delta;
 
-                var am_role_a = name == role_a.name;
+                var am_role_a = color.name == role_a.name;
                 var self_role = am_role_a ? role_a : role_b;
                 var ref_role = am_role_a ? role_b : role_a;
                 var self_tone = self_role.tonev (scheme);
@@ -117,15 +117,19 @@ namespace He {
                     }
                 }
 
-                if (background != null && contrast_curve != null) {
-                    // Adjust the tones for contrast, if background and contrast curve
-                    // are defined.
-                    var bg_tone = background (scheme).get_tone (scheme);
-                    var self_contrast = scheme.contrast_level;
-                    self_tone = Contrast.ratio_of_tones (bg_tone, self_tone) >= self_contrast &&
-                        scheme.contrast_level >= 0.0 ?
-                        self_tone :
-                        foreground_tone (bg_tone, self_contrast);
+                if (color.background (scheme) != null && color.contrast_curve != null) {
+                    DynamicColor background = color.background (scheme);
+                    ContrastCurve contrast_curve = color.contrast_curve;
+                    if (background != null && contrast_curve != null) {
+                        // Adjust the tones for contrast, if background and contrast curve
+                        // are defined.
+                        var bg_tone = background.get_tone (scheme, background);
+                        var self_contrast = scheme.contrast_level;
+                        self_tone = Contrast.ratio_of_tones (bg_tone, self_tone) >= self_contrast &&
+                            scheme.contrast_level >= 0.0 ?
+                            self_tone :
+                            foreground_tone (bg_tone, self_contrast);
+                    }
                 }
 
                 // This can avoid the awkward tones for background colors including the
@@ -149,7 +153,7 @@ namespace He {
                     return answer; // No adjustment for colors with no background.
                 }
 
-                var bg_tone = background (scheme).get_tone (scheme);
+                var bg_tone = color.background (scheme).get_tone (scheme, color.background (scheme));
                 var desired_ratio = contrast_curve.get (scheme.contrast_level);
 
                 // Recalculate the tone from desired contrast ratio if the current
@@ -178,8 +182,8 @@ namespace He {
                 // Case 2: Adjust for dual backgrounds.
                 var bg1 = background (scheme);
                 var bg2 = second_background (scheme);
-                var bg_tone1 = bg1.get_tone (scheme);
-                var bg_tone2 = bg2.get_tone (scheme);
+                var bg_tone1 = bg1.get_tone (scheme, bg1);
+                var bg_tone2 = bg2.get_tone (scheme, bg2);
                 var upper = Math.fmax (bg_tone1, bg_tone2);
                 var lower = Math.fmin (bg_tone1, bg_tone2);
 
