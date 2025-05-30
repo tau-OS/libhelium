@@ -29,7 +29,7 @@ public class He.ContentScheme : Object {
                                   contrast,
                                   TonalPalette.from_hue_and_chroma (hct.h, hct.c),
                                   TonalPalette.from_hue_and_chroma (hct.h, MathUtils.max (hct.c - 32.0, hct.c * 0.5)),
-                                  TonalPalette.from_hct (fix_disliked (new TemperatureCache (hct).analogous (3, 6).nth_data (1))),
+                                  TonalPalette.from_hct (fix_disliked (new TemperatureCache (hct).analogous (3, 6).nth_data (2))),
                                   TonalPalette.from_hue_and_chroma (hct.h, hct.c / 8.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, (hct.c / 8.0) + 4.0),
                                   null

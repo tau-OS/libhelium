@@ -38,11 +38,11 @@ namespace He {
 
         public DynamicColor.from_palette (string name,
                                           PaletteFunc palette,
-                                          ToneFunc tonev) {
+                                          ToneFunc ? tonev) {
             new DynamicColor (
                               name,
                               palette,
-                              tonev,
+                              tonev != null ? tonev : get_init_tone (),
                               false,
                               null,
                               null,

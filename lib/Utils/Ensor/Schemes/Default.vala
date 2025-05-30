@@ -21,16 +21,18 @@ public class He.DefaultScheme : Object {
      * The default theme
      */
     public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
+        double[] TERTIARY_HUES = { 0, 20, 71, 161, 333, 360 };
+        double[] TERTIARY_ROTATIONS = { -40, 48, -32, 40, -32 };
         return new DynamicScheme (
                                   hct,
                                   SchemeVariant.DEFAULT,
                                   is_dark,
                                   contrast,
-                                  TonalPalette.from_hue_and_chroma (hct.h, 36.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, is_dark ? 26.0 : 32.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, 16.0),
-                                  TonalPalette.from_hue_and_chroma (MathUtils.sanitize_degrees (hct.h + 60.0), 24.0),
-                                  TonalPalette.from_hue_and_chroma (hct.h, 6.0),
-                                  TonalPalette.from_hue_and_chroma (hct.h, 8.0),
+                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct.h, TERTIARY_HUES, TERTIARY_ROTATIONS), 28.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 5.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, (5.0 * 1.7)),
                                   null
         );
     }
