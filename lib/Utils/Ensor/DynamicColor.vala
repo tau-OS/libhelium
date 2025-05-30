@@ -10,6 +10,7 @@ namespace He {
     public class DynamicColor : Object {
         public string name { get; set; }
         public bool is_background { get; set; }
+        public double chromamult { get; set; }
         public ContrastCurve contrast_curve { get; set; }
 
         public unowned PaletteFunc palette;
@@ -21,6 +22,7 @@ namespace He {
         public DynamicColor (string name,
             PaletteFunc palette,
             ToneFunc? tonev,
+            double chromamult,
             bool? is_background,
             BackgroundFunc? background,
             BackgroundFunc? second_background,
@@ -29,8 +31,10 @@ namespace He {
             this.name = name;
             this.palette = palette;
             this.tonev = tonev != null ? tonev : get_init_tone ();
+            this.chromamult = chromamult;
             this.is_background = is_background;
             this.background = background;
+            this.chromamult = chromamult;
             this.second_background = second_background;
             this.contrast_curve = contrast_curve;
             this.tone_delta_pair = tone_delta_pair;
@@ -43,6 +47,7 @@ namespace He {
                               name,
                               palette,
                               tonev != null ? tonev : get_init_tone (),
+                              1.0,
                               false,
                               null,
                               null,
@@ -52,7 +57,7 @@ namespace He {
         }
 
         private ToneFunc get_init_tone () {
-            if (name == null) {
+            if (background == null) {
                 return (s) => 50;
             }
             return (s) => background (s) != null ? background (s).get_tone (s) : 50;
@@ -62,7 +67,7 @@ namespace He {
             var palette = palette (scheme);
             var tone = get_tone (scheme);
             var hue = palette.hue;
-            var chroma = palette.chroma;
+            var chroma = palette.chroma * chromamult;
 
             return from_params (hue, chroma, tone);
         }

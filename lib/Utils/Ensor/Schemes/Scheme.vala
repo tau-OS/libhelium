@@ -24,10 +24,6 @@ public class He.Scheme {
     public Scheme () {
     }
 
-    public DynamicColor highest_surface (DynamicScheme s) {
-        return s.is_dark ? surface_bright () : surface_dim ();
-    }
-
     public double t_max_c (TonalPalette palette, double lower_bound = 0.0, double upper_bound = 100.0, double chroma_multiplier = 1.0) {
         double answer = find_best_tone_for_chroma (palette.hue, palette.chroma * chroma_multiplier, 100.0, true);
         return MathUtils.clamp_double (lower_bound, upper_bound, answer);
@@ -120,6 +116,7 @@ public class He.Scheme {
                                  "background",
                                  (s) => s.neutral,
                                  (s) => s.is_dark ? 4.0 : s.is_yellow () ? 99.0 : 98.0,
+                                 1.0,
                                  true,
                                  null,
                                  null,
@@ -132,8 +129,9 @@ public class He.Scheme {
                                  /* name= */ "on_background",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => s.is_dark ? 90.0 : 10.0,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (4.5, 7.0, 11.0, 21.0),
                                  /* toneDeltaPair= */ null);
@@ -144,6 +142,7 @@ public class He.Scheme {
                                  "surface",
                                  (s) => s.neutral,
                                  (s) => s.is_dark ? 4.0 : s.is_yellow () ? 99.0 : 98.0,
+                                 /* chroma_multiplier */ 1.0,
                                  true,
                                  null,
                                  null,
@@ -156,8 +155,9 @@ public class He.Scheme {
                                  /* name= */ "surface_variant",
                                  /* palette= */ (s) => s.neutral_variant,
                                  /* tone= */ (s) => s.is_dark ? 20.0 : 96.0,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (7.0, 7.0, 7.0, 7.0),
                                  /* toneDeltaPair= */ null);
@@ -168,8 +168,9 @@ public class He.Scheme {
                                  /* name= */ "on_surface",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => s.is_dark ? 100.0 : 1.0,
+                                 /* chroma_multiplier */ 1.7,
                                  /* isBackground= */ false,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (7.0, 9.0, 9.0, 9.0),
                                  /* toneDeltaPair= */ null);
@@ -180,8 +181,9 @@ public class He.Scheme {
                                  /* name= */ "on_surface_variant",
                                  /* palette= */ (s) => s.neutral_variant,
                                  /* tone= */ (s) => s.is_dark ? 85.0 : 15.0,
+                                 /* chroma_multiplier */ 1.7,
                                  /* isBackground= */ false,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (3.0, 4.5, 4.5, 4.5),
                                  /* toneDeltaPair= */ null);
@@ -192,8 +194,9 @@ public class He.Scheme {
                                  /* name= */ "outline",
                                  /* palette= */ (s) => s.neutral_variant,
                                  /* tone= */ (s) => s.is_dark ? 60.0 : 50.0,
+                                 /* chroma_multiplier */ 1.7,
                                  /* isBackground= */ false,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (1.5, 3.0, 3.0, 3.0),
                                  /* toneDeltaPair= */ null);
@@ -204,8 +207,9 @@ public class He.Scheme {
                                  /* name= */ "outline_variant",
                                  /* palette= */ (s) => s.neutral_variant,
                                  /* tone= */ (s) => s.is_dark ? 30.0 : 80.0,
+                                 /* chroma_multiplier */ 1.7,
                                  /* isBackground= */ false,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ new ContrastCurve (1.0, 1.5, 1.5, 1.5),
                                  /* toneDeltaPair= */ null);
@@ -216,6 +220,7 @@ public class He.Scheme {
                                  /* name= */ "inverse_surface",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => s.is_dark ? 98.0 : 4.0,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -228,6 +233,7 @@ public class He.Scheme {
                                  /* name= */ "inverse_on_surface",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => s.is_dark ? 10.0 : 90.0,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => inverse_surface (),
                                  /* secondBackground= */ null,
@@ -240,6 +246,7 @@ public class He.Scheme {
                                  /* name= */ "inverse_primary",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => s.is_dark ? 40.0 : 80.0,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => inverse_surface (),
                                  /* secondBackground= */ null,
@@ -252,6 +259,7 @@ public class He.Scheme {
                                  /* name= */ "surface_bright",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => s.is_dark ? 18.0 : s.is_yellow () ? 99.0 : 98.0,
+                                 /* chroma_multiplier */ 1.7,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -264,6 +272,7 @@ public class He.Scheme {
                                  /* name= */ "surface_dim",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => s.is_dark ? 4.0 : s.is_yellow () ? 90.0 : 87.0,
+                                 /* chroma_multiplier */ 1.7,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -276,6 +285,7 @@ public class He.Scheme {
                                  /* name= */ "surface_container_lowest",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => s.is_dark ? 0.0 : 100.0,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -288,6 +298,7 @@ public class He.Scheme {
                                  /* name= */ "surface_container_low",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => s.is_dark ? 6.0 : s.is_yellow () ? 98.0 : 96.0,
+                                 /* chroma_multiplier */ 1.25,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -300,6 +311,7 @@ public class He.Scheme {
                                  /* name= */ "surface_container",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => s.is_dark ? 9.0 : s.is_yellow () ? 96.0 : 94.0,
+                                 /* chroma_multiplier */ 1.4,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -312,6 +324,7 @@ public class He.Scheme {
                                  /* name= */ "surface_container_high",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => s.is_dark ? 12.0 : s.is_yellow () ? 94.0 : 92.0,
+                                 /* chroma_multiplier */ 1.5,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -324,6 +337,7 @@ public class He.Scheme {
                                  /* name= */ "surface_container_highest",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => s.is_dark ? 15.0 : s.is_yellow () ? 92.0 : 90.0,
+                                 /* chroma_multiplier */ 1.7,
                                  /* isBackground= */ true,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -336,10 +350,11 @@ public class He.Scheme {
                                  /* name= */ "primary",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => {
-            return s.is_dark ? 80.0 : 40.0;
+            return s.is_dark ? 80.0 : t_max_c (s.primary, 40.0, 50.0);
         },
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ get_curve (4.5),
                                  /* toneDeltaPair= */ (s) =>
@@ -351,6 +366,7 @@ public class He.Scheme {
                                  /* name= */ "on_primary",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ null,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => primary (),
                                  /* secondBackground= */ null,
@@ -363,10 +379,13 @@ public class He.Scheme {
                                  /* name= */ "primary_container",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => {
-            return s.is_dark ? 30.0 : 90.0;
+            return s.is_dark
+                                                         ? t_min_c (s.primary, 35, 93)
+                                                         : t_max_c (s.primary, 0, 90);
         },
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ get_curve (1.5),
                                  /* toneDeltaPair= */ null
@@ -378,6 +397,7 @@ public class He.Scheme {
                                  /* name= */ "on_primary_container",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ null,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => primary_container (),
                                  /* secondBackground= */ null,
@@ -389,9 +409,10 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "secondary",
                                  /* palette= */ (s) => s.secondary,
-                                 /* tone= */ (s) => s.is_dark ? 80.0 : 40.0,
+                                 /* tone= */ (s) => s.is_dark ? 80.0 : t_max_c (s.secondary, 40.0, 50.0),
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ get_curve (4.5),
                                  /* toneDeltaPair= */ (s) =>
@@ -403,6 +424,7 @@ public class He.Scheme {
                                  /* name= */ "on_secondary",
                                  /* palette= */ (s) => s.secondary,
                                  /* tone= */ null,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => secondary (),
                                  /* secondBackground= */ null,
@@ -417,8 +439,9 @@ public class He.Scheme {
                                  /* tone= */ (s) => {
             return s.is_dark ? 25 : 90;
         },
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ get_curve (1.5),
                                  /* toneDeltaPair= */ null
@@ -430,6 +453,7 @@ public class He.Scheme {
                                  /* name= */ "on_secondary_container",
                                  /* palette= */ (s) => s.secondary,
                                  /* tone= */ null,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => secondary_container (),
                                  /* secondBackground= */ null,
@@ -441,9 +465,10 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "tertiary",
                                  /* palette= */ (s) => s.tertiary,
-                                 /* tone= */ (s) => s.is_dark ? 80.0 : 40.0,
+                                 /* tone= */ (s) => s.is_dark ? t_max_c (s.tertiary, 70, 80) : t_max_c (s.tertiary, 40.0, 50.0),
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ get_curve (4.5),
                                  /* toneDeltaPair= */ (s) =>
@@ -455,6 +480,7 @@ public class He.Scheme {
                                  /* name= */ "on_tertiary",
                                  /* palette= */ (s) => s.tertiary,
                                  /* tone= */ null,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => tertiary (),
                                  /* secondBackground= */ null,
@@ -467,10 +493,11 @@ public class He.Scheme {
                                  /* name= */ "tertiary_container",
                                  /* palette= */ (s) => s.tertiary,
                                  /* tone= */ (s) => {
-            return s.is_dark ? t_max_c (s.tertiary, 0, 93) : t_max_c (s.tertiary, 0, 96);
+            return t_max_c (s.tertiary, s.is_dark ? 15 : 80, s.is_dark ? 25 : 90);
         },
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ get_curve (1.5),
                                  /* toneDeltaPair= */ null);
@@ -481,6 +508,7 @@ public class He.Scheme {
                                  /* name= */ "on_tertiary_container",
                                  /* palette= */ (s) => s.tertiary,
                                  /* tone= */ null,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => tertiary_container (),
                                  /* secondBackground= */ null,
@@ -493,6 +521,7 @@ public class He.Scheme {
                                  /* name= */ "shadow",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => 0.0,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -505,6 +534,7 @@ public class He.Scheme {
                                  /* name= */ "scrim",
                                  /* palette= */ (s) => s.neutral,
                                  /* tone= */ (s) => 0.0,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ null,
                                  /* secondBackground= */ null,
@@ -516,9 +546,10 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "error",
                                  /* palette= */ (s) => s.error,
-                                 /* tone= */ (s) => s.is_dark ? 80.0 : 40.0,
+                                 /* tone= */ (s) => s.is_dark ? t_min_c (s.error, 70, 80) : t_max_c (s.error, 40.0, 50.0),
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ get_curve (4.5),
                                  /* toneDeltaPair= */ (s) =>
@@ -530,6 +561,7 @@ public class He.Scheme {
                                  /* name= */ "on_error",
                                  /* palette= */ (s) => s.error,
                                  /* tone= */ null,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => error (),
                                  /* secondBackground= */ null,
@@ -543,8 +575,9 @@ public class He.Scheme {
                                  /* palette= */ (s) => s.error,
                                  /* tone= */ (s) => s.is_dark ? t_min_c (s.error, 30, 93) :
                                  t_max_c (s.error, 0, 90),
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
-                                 /* background= */ (s) => highest_surface (s),
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ get_curve (1.5),
                                  /* toneDeltaPair= */ null
@@ -556,6 +589,7 @@ public class He.Scheme {
                                  /* name= */ "on_error_container",
                                  /* palette= */ (s) => s.error,
                                  /* tone= */ null,
+                                 /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => error_container (),
                                  /* secondBackground= */ null,
