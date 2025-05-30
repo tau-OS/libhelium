@@ -36,7 +36,7 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
     /**
      * Signal emitted when toggle state changes
      */
-    public signal void toggled(bool active);
+    public signal void toggled (bool active);
 
     /**
      * The color of the button.
@@ -341,9 +341,7 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
         is_iconic = false;
         toggle_mode = false;
         _active = false;
-        size = He.ButtonSize.MEDIUM;
-
-        this.valign = Gtk.Align.CENTER;
+        size = He.ButtonSize.SMALL;
 
         // Handle toggle functionality
         this.clicked.connect (() => {

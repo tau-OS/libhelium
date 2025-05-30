@@ -97,7 +97,7 @@ namespace He {
             this.size = size;
         }
 
-        public GroupedButton.with_size_name(string size_name) {
+        public GroupedButton.with_names(string size_name) {
             this();
             this.size_name = size_name;
         }
@@ -142,27 +142,6 @@ namespace He {
             buttons.clear();
         }
 
-        // Convenience methods for specific button types
-        public void add_button(Gtk.Button button) {
-            add_widget(button);
-        }
-
-        public void add_menu_button(Gtk.MenuButton menu_button) {
-            add_widget(menu_button);
-        }
-
-        // Helper methods for .ui files
-        public void add_button_with_label(string label) {
-            var button = new Gtk.Button.with_label(label);
-            add_widget(button);
-        }
-
-        public void add_menu_button_with_label(string label) {
-            var button = new Gtk.MenuButton();
-            button.label = label;
-            add_widget(button);
-        }
-
         public Gtk.Widget? get_widget_at_index(int index) {
             if (index >= 0 && index < buttons.size) {
                 return buttons[index];
@@ -171,28 +150,6 @@ namespace He {
         }
 
         private void update_styling() {
-            // Remove old size classes
-            remove_css_class("small");
-            remove_css_class("medium");
-            remove_css_class("large");
-            remove_css_class("xlarge");
-
-            // Add new size class
-            switch (_size) {
-            case GroupedButtonSize.SMALL :
-                add_css_class("small");
-                break;
-            case GroupedButtonSize.MEDIUM:
-                add_css_class("medium");
-                break;
-            case GroupedButtonSize.LARGE:
-                add_css_class("large");
-                break;
-            case GroupedButtonSize.XLARGE:
-                add_css_class("xlarge");
-                break;
-            }
-
             foreach (var widget in buttons) {
                 update_widget_styling(widget);
             }
@@ -203,7 +160,7 @@ namespace He {
             if (widget is He.Button) {
                 var he_button = widget as He.Button;
                 switch (_size) {
-                case GroupedButtonSize.SMALL:
+                case GroupedButtonSize.SMALL :
                     he_button.size = He.ButtonSize.SMALL;
                     break;
                 case GroupedButtonSize.MEDIUM:
