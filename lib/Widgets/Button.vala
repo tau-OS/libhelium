@@ -24,6 +24,11 @@ namespace He {
         LARGE,
         XLARGE
     }
+    public enum ButtonWidth {
+        DEFAULT,
+        NARROW,
+        WIDE
+    }
 }
 
 /**
@@ -74,23 +79,55 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
 
             // Add new size class
             switch (_size) {
-            case He.ButtonSize.SMALL:
-                this.add_css_class ("small");
-                break;
-            case He.ButtonSize.MEDIUM:
-                this.add_css_class ("medium");
-                break;
-            case He.ButtonSize.LARGE:
-                this.add_css_class ("large");
-                break;
-            case He.ButtonSize.XLARGE:
-                this.add_css_class ("xlarge");
-                break;
+                case He.ButtonSize.SMALL:
+                    this.add_css_class ("small");
+                    break;
+                case He.ButtonSize.MEDIUM:
+                    this.add_css_class ("medium");
+                    break;
+                case He.ButtonSize.LARGE:
+                    this.add_css_class ("large");
+                    break;
+                case He.ButtonSize.XLARGE:
+                    this.add_css_class ("xlarge");
+                    break;
             }
         }
 
         get {
             return _size;
+        }
+    }
+
+    /**
+     * The width of the button.
+     */
+    private He.ButtonWidth _width;
+    public He.ButtonWidth width {
+        set {
+            // Remove old width classes
+            this.remove_css_class ("narrow");
+            this.remove_css_class ("wide");
+
+            _width = value;
+
+            // Add new width class
+            switch (_width) {
+                case He.ButtonWidth.DEFAULT:
+                    this.remove_css_class ("narrow");
+                    this.remove_css_class ("wide");
+                    break;
+                case He.ButtonWidth.WIDE:
+                    this.add_css_class ("wide");
+                    break;
+                case He.ButtonWidth.NARROW:
+                    this.add_css_class ("narrow");
+                    break;
+            }
+        }
+
+        get {
+            return _width;
         }
     }
 
@@ -342,6 +379,7 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
         toggle_mode = false;
         _active = false;
         size = He.ButtonSize.SMALL;
+        width = He.ButtonWidth.DEFAULT;
 
         // Handle toggle functionality
         this.clicked.connect (() => {
