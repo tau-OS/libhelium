@@ -318,7 +318,6 @@ public class He.StyleManager : Object {
     .tint-badge {
       border-radius: $small_roundness;
     }
-    button,
     .toast-box,
     .text-view,
     popover > contents,
@@ -359,7 +358,6 @@ public class He.StyleManager : Object {
     .switch > slider,
     .modifier-badge,
     .circular,
-    .pill-button,
     .bottom-bar.floating,
     .navigation-rail-button image,
     .navigation-rail.expanded .navigation-rail-button,
@@ -367,11 +365,6 @@ public class He.StyleManager : Object {
     switch > slider,
     radio,
     window.csd.dialog-content windowcontrols > button > image,
-    window.csd.dialog-content .fill-button,
-    window.csd.dialog-content .pill-button,
-    window.csd.dialog-content .tint-button,
-    window.csd.dialog-content .textual-button,
-    window.csd.dialog-content .outline-button,
     windowcontrols > button > image {
       border-radius: $circle_roundness;
     }
