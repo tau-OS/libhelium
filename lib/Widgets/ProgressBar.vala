@@ -306,7 +306,6 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
 
         cr.set_line_width (_wave_thickness);
         cr.set_line_cap (Cairo.LineCap.ROUND);
-        cr.set_antialias (Cairo.Antialias.NONE);
 
         // Calculate progress width
         double progress_width = width * _progress;

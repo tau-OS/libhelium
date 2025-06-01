@@ -459,7 +459,6 @@ public class He.Slider : He.Bin, Gtk.Buildable {
 
         cr.set_line_width (_wave_thickness);
         cr.set_line_cap (Cairo.LineCap.ROUND);
-        cr.set_antialias (Cairo.Antialias.NONE);
 
         // Calculate slider position accounting for margins
         double range = _max_value - _min_value;
