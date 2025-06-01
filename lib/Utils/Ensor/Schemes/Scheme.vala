@@ -532,7 +532,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "error",
                                  /* palette= */ (s) => s.error,
-                                 /* tone= */ (s) => s.is_dark ? t_min_c (s.error, 0, 98) : 40.0,
+                                 /* tone= */ (s) => s.is_dark ? 80.0 : 40.0,
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
                                  /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
