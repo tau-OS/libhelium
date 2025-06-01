@@ -65,6 +65,18 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
     }
 
     /**
+     * Wave thickness in pixels for the wavy progressbar.
+     */
+    private double _wave_thickness = 4.0;
+    public double wave_thickness {
+        get { return _wave_thickness; }
+        set {
+            _wave_thickness = Math.fmax (1.0, value);
+            wavy_drawing_area.queue_draw ();
+        }
+    }
+
+    /**
      * Progress value from 0.0 to 1.0.
      */
     private double _progress = 0.0;
@@ -292,47 +304,38 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         // Get theme colors
         Gdk.RGBA bg_color = { is_dark ? 1.0f : 0.0f, is_dark ? 1.0f : 0.0f, is_dark ? 1.0f : 0.0f, 0.12f };
 
-        cr.set_line_width (1.0);
-
-        // Draw background
-        cr.set_source_rgba (bg_color.red, bg_color.green, bg_color.blue, bg_color.alpha);
-        cr.rectangle (0, 0, width, height);
-        cr.fill ();
+        cr.set_line_width (_wave_thickness);
+        cr.set_line_cap (Cairo.LineCap.ROUND);
+        cr.set_antialias (Cairo.Antialias.NONE);
 
         // Calculate progress width
         double progress_width = width * _progress;
-        if (progress_width <= 0) {
-            return;
+        double center_y = height * 0.5;
+
+        // Draw background as a simple straight line from progress end to full width
+        if (progress_width < width) {
+            cr.set_source_rgba (bg_color.red, bg_color.green, bg_color.blue, bg_color.alpha);
+            cr.move_to (progress_width, center_y);
+            cr.line_to (width, center_y);
+            cr.stroke ();
         }
 
         // Draw wavy progress using accent color
-        cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
+        if (progress_width > 0) {
+            cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
 
-        // Create wavy path using properties
-        double wave_height = _wave_amplitude;
-        double wave_frequency = 2.0 * Math.PI / _wave_wavelength;
-        double center_y = height * 0.5;
+            // Create wavy path using properties
+            double wave_height = _wave_amplitude;
+            double wave_frequency = 2.0 * Math.PI / _wave_wavelength;
 
-        cr.move_to (0, center_y);
+            cr.move_to (0, center_y);
 
-        for (double x = 0; x <= progress_width; x += 1.0) {
-            double y = center_y + Math.sin (x * wave_frequency) * wave_height;
-            cr.line_to (x, y);
+            for (double x = 0; x <= progress_width; x += 1.0) {
+                double y = center_y + Math.sin (x * wave_frequency) * wave_height;
+                cr.line_to (x, y);
+            }
+
+            cr.stroke ();
         }
-
-        // Complete the filled area
-        cr.line_to (progress_width, height);
-        cr.line_to (0, height);
-        cr.close_path ();
-        cr.fill ();
-
-        // Draw wavy top edge with 1px line
-        cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
-        cr.move_to (0, center_y);
-        for (double x = 0; x <= progress_width; x += 1.0) {
-            double y = center_y + Math.sin (x * wave_frequency) * wave_height;
-            cr.line_to (x, y);
-        }
-        cr.stroke ();
     }
 }

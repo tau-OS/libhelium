@@ -77,6 +77,18 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     }
 
     /**
+     * Wave thickness in pixels for the wavy slider.
+     */
+    private double _wave_thickness = 4.0;
+    public double wave_thickness {
+        get { return _wave_thickness; }
+        set {
+            _wave_thickness = Math.fmax (1.0, value);
+            wavy_drawing_area.queue_draw ();
+        }
+    }
+
+    /**
      * Fixed wave margin in pixels for the wavy slider.
      */
     private const int WAVE_MARGIN = 4;
@@ -445,8 +457,9 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         // Get theme colors
         Gdk.RGBA bg_color = { is_dark ? 1.0f : 0.0f, is_dark ? 1.0f : 0.0f, is_dark ? 1.0f : 0.0f, 0.12f };
 
-        cr.set_line_width (4.0); // 4px thick wavy line
-        cr.set_line_cap (Cairo.LineCap.ROUND); // Rounded line ends
+        cr.set_line_width (_wave_thickness);
+        cr.set_line_cap (Cairo.LineCap.ROUND);
+        cr.set_antialias (Cairo.Antialias.NONE);
 
         // Calculate slider position accounting for margins
         double range = _max_value - _min_value;
@@ -469,31 +482,11 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         double border_width = handle_width + (border_margin * 2.0);
         double border_height = handle_height + (border_margin * 2.0);
 
-        // Draw background track (wavy) with margins, avoiding handle border area
-        cr.set_source_rgba (bg_color.red, bg_color.green, bg_color.blue, bg_color.alpha);
-        bool path_started = false;
-        for (double x = WAVE_MARGIN; x <= width - WAVE_MARGIN; x += 1.0) {
-            double y = track_y + Math.sin (x * wave_frequency) * wave_amplitude;
-
-            // Check if we're in the handle border area
-            if (x >= border_x && x <= border_x + border_width &&
-                y >= border_y && y <= border_y + border_height) {
-                // Skip this point, end current path if we have one
-                if (path_started) {
-                    cr.stroke ();
-                    path_started = false;
-                }
-            } else {
-                // Draw this point
-                if (!path_started) {
-                    cr.move_to (x, y);
-                    path_started = true;
-                } else {
-                    cr.line_to (x, y);
-                }
-            }
-        }
-        if (path_started) {
+        // Draw background track as a simple straight line from slider position to end
+        if (slider_x < width - WAVE_MARGIN) {
+            cr.set_source_rgba (bg_color.red, bg_color.green, bg_color.blue, bg_color.alpha);
+            cr.move_to (slider_x, track_y);
+            cr.line_to (width - WAVE_MARGIN, track_y);
             cr.stroke ();
         }
 
@@ -501,7 +494,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         double filled_end = Math.fmin (slider_x, width - WAVE_MARGIN);
         if (filled_end > WAVE_MARGIN) {
             cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
-            path_started = false;
+            bool path_started = false;
             for (double x = WAVE_MARGIN; x <= filled_end; x += 1.0) {
                 double y = track_y + Math.sin (x * wave_frequency) * wave_amplitude;
 
