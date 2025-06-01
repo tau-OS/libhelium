@@ -536,13 +536,13 @@ public class He.TimePicker : Gtk.Entry {
                 accent_color = { r, g, b, 1.0f };
 
                 // Debug output to help identify the issue
-                debug ("TimePicker accent color updated: r=%f, g=%f, b=%f (from %s, original: %f,%f,%f)",
+                print ("TimePicker accent color updated: r=%f, g=%f, b=%f (from %s, original: %f,%f,%f)\n",
                        r, g, b, is_from_application ? "application" : "desktop",
                        effective_color.r, effective_color.g, effective_color.b);
             } else {
                 // Fallback to a visible color if no accent color is available
                 accent_color = { 0.2f, 0.6f, 1.0f, 1.0f }; // Blue fallback
-                debug ("TimePicker using fallback accent color");
+                print ("TimePicker using fallback accent color\n");
             }
         }
 
