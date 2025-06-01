@@ -79,11 +79,11 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     /**
      * Wave thickness in pixels for the wavy slider.
      */
-    private double _wave_thickness = 4.0;
-    public double wave_thickness {
+    private int _wave_thickness = 8;
+    public int wave_thickness {
         get { return _wave_thickness; }
         set {
-            _wave_thickness = Math.fmax (1.0, value);
+            _wave_thickness = (int) Math.fmax (1, value);
             wavy_drawing_area.queue_draw ();
         }
     }
@@ -91,7 +91,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     /**
      * Fixed wave margin in pixels for the wavy slider.
      */
-    private const int WAVE_MARGIN = 4;
+    private const int WAVE_MARGIN = 12;
 
     /**
      * Minimum and maximum values for the slider.
@@ -232,6 +232,10 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         right_icon_img.set_visible (false);
 
         stop_indicator.margin_end = 16;
+        if (_is_wavy && _stop_indicator_visibility) {
+            // Adjust margin to account for wave margin so stop indicator aligns with wavy area end
+            stop_indicator.margin_end = 10;
+        }
         stop_indicator.margin_bottom = 12;
         stop_indicator.margin_top = 12;
         stop_indicator.valign = Gtk.Align.CENTER;
@@ -319,7 +323,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     private void update_stop_indicator_position () {
         if (_is_wavy && _stop_indicator_visibility) {
             // Adjust margin to account for wave margin so stop indicator aligns with wavy area end
-            stop_indicator.margin_end = 16 + WAVE_MARGIN;
+            stop_indicator.margin_end = 10;
         }
     }
 
@@ -471,10 +475,10 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         double wave_amplitude = _wave_amplitude;
         double wave_frequency = 2.0 * Math.PI / _wave_wavelength;
 
-        // Handle position (moves straight horizontally)
-        double handle_center_y = track_y; // Straight line, not following wave
+        // Handle position
+        double handle_center_y = track_y;
         double handle_width = 4.0;
-        double handle_height = 32.0;
+        double handle_height = 34.0;
         double border_margin = 6.0;
         double border_x = slider_x - (handle_width * 0.5) - border_margin;
         double border_y = handle_center_y - (handle_height * 0.5) - border_margin;
@@ -482,9 +486,10 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         double border_height = handle_height + (border_margin * 2.0);
 
         // Draw background track as a simple straight line from slider position to end
-        if (slider_x < width - WAVE_MARGIN) {
+        double inactive_start = border_x + border_width;
+        if (inactive_start < width - WAVE_MARGIN) {
             cr.set_source_rgba (bg_color.red, bg_color.green, bg_color.blue, bg_color.alpha);
-            cr.move_to (slider_x, track_y);
+            cr.move_to (inactive_start, track_y);
             cr.line_to (width - WAVE_MARGIN, track_y);
             cr.stroke ();
         }
@@ -492,7 +497,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         // Draw filled portion (wavy) with margins, avoiding handle border area
         double filled_end = Math.fmin (slider_x, width - WAVE_MARGIN);
         if (filled_end > WAVE_MARGIN) {
-            cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
+            cr.set_source_rgba (((is_dark ? 0.40 : 0.80) * accent_color.red), ((is_dark ? 0.40 : 0.80) * accent_color.green), ((is_dark ? 0.40 : 0.80) * accent_color.blue), 1);
             bool path_started = false;
             for (double x = WAVE_MARGIN; x <= filled_end; x += 1.0) {
                 double y = track_y + Math.sin (x * wave_frequency) * wave_amplitude;
@@ -529,7 +534,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         double corner_radius = 4.0;
 
         // Fill handle
-        cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
+        cr.set_source_rgba (((is_dark ? 0.40 : 0.80) * accent_color.red), ((is_dark ? 0.40 : 0.80) * accent_color.green), ((is_dark ? 0.40 : 0.80) * accent_color.blue), 1);
         draw_rounded_rectangle (cr, handle_x, handle_y, handle_width, handle_height, corner_radius);
         cr.fill ();
 

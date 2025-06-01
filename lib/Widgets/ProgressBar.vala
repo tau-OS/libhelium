@@ -67,11 +67,11 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
     /**
      * Wave thickness in pixels for the wavy progressbar.
      */
-    private double _wave_thickness = 4.0;
-    public double wave_thickness {
+    private int _wave_thickness = 4;
+    public int wave_thickness {
         get { return _wave_thickness; }
         set {
-            _wave_thickness = Math.fmax (1.0, value);
+            _wave_thickness = (int) Math.fmax (1, value);
             wavy_drawing_area.queue_draw ();
         }
     }
@@ -186,6 +186,10 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
 
     construct {
         stop_indicator.margin_end = 14;
+        if (_is_wavy && _stop_indicator_visibility) {
+            // Adjust margin to account for wave margin so stop indicator aligns with wavy area end
+            stop_indicator.margin_end = 10;
+        }
         stop_indicator.valign = Gtk.Align.CENTER;
         stop_indicator.halign = Gtk.Align.END;
         stop_indicator.set_visible (true);
@@ -249,7 +253,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
     private void update_stop_indicator_position () {
         if (_is_wavy && _stop_indicator_visibility) {
             // No margin needed since the wavy progress fills the full width
-            stop_indicator.margin_end = 14;
+            stop_indicator.margin_end = 10;
         }
     }
 
@@ -314,7 +318,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         // Draw background as a simple straight line from progress end to full width
         if (progress_width < width) {
             cr.set_source_rgba (bg_color.red, bg_color.green, bg_color.blue, bg_color.alpha);
-            cr.move_to (progress_width, center_y);
+            cr.move_to (progress_width + 6.0, center_y);
             cr.line_to (width, center_y);
             cr.stroke ();
         }
