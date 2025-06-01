@@ -144,6 +144,10 @@ namespace He.MathUtils {
         return (n > 0 ? n : -n);
     }
 
+    public int iabs (int n) {
+        return (n > 0 ? n : -n);
+    }
+
     public double max (double n, double m) {
         return (n > m ? n : m);
     }

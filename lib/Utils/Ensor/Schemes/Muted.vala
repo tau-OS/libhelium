@@ -21,16 +21,18 @@ public class He.MutedScheme : Object {
      * A theme with just a tiny amount of color
      */
     public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
+        double[] TERTIARY_HUES = { 0, 38, 105, 161, 204, 278, 333, 360 };
+        double[] TERTIARY_ROTATIONS = { -32, 26, 10, -39, 24, -15, -32 };
         return new DynamicScheme (
                                   hct,
                                   SchemeVariant.MUTED,
                                   is_dark,
                                   contrast,
-                                  TonalPalette.from_hue_and_chroma (hct.h, 12.0),
-                                  TonalPalette.from_hue_and_chroma (hct.h, 8.0),
-                                  TonalPalette.from_hue_and_chroma (hct.h, 16.0),
-                                  TonalPalette.from_hue_and_chroma (hct.h, 2.0),
-                                  TonalPalette.from_hue_and_chroma (hct.h, 2.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, hue_is_blue (hct.h) ? 12.0 : 8.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, hue_is_blue (hct.h) ? 6.0 : 4.0),
+                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct.h, TERTIARY_HUES, TERTIARY_ROTATIONS), 20.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 1.4),
+                                  TonalPalette.from_hue_and_chroma (hct.h, (1.4 * 2.2)),
                                   null
         );
     }

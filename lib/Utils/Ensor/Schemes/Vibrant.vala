@@ -21,19 +21,22 @@ public class He.VibrantScheme : Object {
      * A theme with ALL the color
      */
     public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
-        double[] HUES = { 0, 41, 61, 101, 131, 181, 251, 301, 360 };
-        double[] SECONDARY_ROTATIONS = { 18, 15, 10, 12, 15, 18, 15, 12, 12 };
-        double[] TERTIARY_ROTATIONS = { 35, 30, 20, 25, 30, 35, 30, 25, 25 };
+        double[] SECONDARY_HUES = { 0, 105, 140, 204, 253, 278, 300, 333, 360 };
+        double[] TERTIARY_HUES = { 0, 105, 140, 204, 253, 278, 300, 333, 360 };
+        double[] NEUTRAL_HUES = { 0, 71, 124, 253, 278, 300, 360 };
+        double[] SECONDARY_ROTATIONS = { -160, 155, -100, 96, -96, -156, -165, -160 };
+        double[] TERTIARY_ROTATIONS = { -165, 160, -105, 101, -101, -160, -170, -165 };
+        double[] NEUTRAL_ROTATIONS = { 10, 0, 10, 0, 10, 0 };
         return new DynamicScheme (
                                   hct,
                                   SchemeVariant.VIBRANT,
                                   is_dark,
                                   contrast,
-                                  TonalPalette.from_hue_and_chroma (hct.h, 200.0),
-                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct.h, HUES, SECONDARY_ROTATIONS), 24.0),
-                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct.h, HUES, TERTIARY_ROTATIONS), 32.0),
-                                  TonalPalette.from_hue_and_chroma (hct.h, 10.0),
-                                  TonalPalette.from_hue_and_chroma (hct.h, 12.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, is_dark ? 36.0 : 48.0),
+                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct.h, SECONDARY_HUES, SECONDARY_ROTATIONS), is_dark ? 16.0 : 24.0),
+                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct.h, TERTIARY_HUES, TERTIARY_ROTATIONS), 48.0),
+                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct.h, NEUTRAL_HUES, NEUTRAL_ROTATIONS), is_dark ? (hue_is_yellow (hct.h) ? 6.0. : 14.0) : 18.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, hct.h >= 105 && hct.h < 125 ? 1.6 * 10.0 : 2.3 * 10.0),
                                   null
         );
     }

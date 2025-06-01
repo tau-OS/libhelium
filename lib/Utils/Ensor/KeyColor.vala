@@ -25,7 +25,7 @@ public class He.KeyColor : GLib.Object {
             bool sufficient_chroma = this.max_chroma(mid_tone) >= this.requested_chroma - epsilon;
 
             if (sufficient_chroma) {
-                if (Math.fabs(lower_tone - pivot_tone) < Math.fabs(upper_tone - pivot_tone)) {
+                if (MathUtils.abs(lower_tone - pivot_tone) < MathUtils.abs(upper_tone - pivot_tone)) {
                     upper_tone = mid_tone;
                 } else {
                     if (lower_tone == mid_tone) {
