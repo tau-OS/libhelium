@@ -33,14 +33,9 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     private Gtk.Image left_icon_img = new Gtk.Image ();
     private Gtk.Image right_icon_img = new Gtk.Image ();
     private Gtk.Overlay slider_overlay = new Gtk.Overlay ();
-
     private He.Desktop desktop = new He.Desktop ();
     private bool is_dark;
-    private Gdk.RGBA _accent_color = { 1, 1, 1, 1 };
-    public Gdk.RGBA accent_color {
-        get { return _accent_color; }
-        set { _accent_color = value; wavy_drawing_area.queue_draw (); }
-    }
+    private Gdk.RGBA accent_color = { 1, 1, 1, 1 };
 
     /**
      * The scale inside the Slider.
@@ -56,6 +51,35 @@ public class He.Slider : He.Bin, Gtk.Buildable {
      * Mouse gesture for wavy slider interaction.
      */
     private Gtk.GestureDrag drag_gesture;
+
+    /**
+     * Wave amplitude in pixels for the wavy slider.
+     */
+    private int _wave_amplitude = 4;
+    public int wave_amplitude {
+        get { return _wave_amplitude; }
+        set {
+            _wave_amplitude = (int) Math.fmax (1, value);
+            wavy_drawing_area.queue_draw ();
+        }
+    }
+
+    /**
+     * Wave wavelength in pixels for the wavy slider.
+     */
+    private int _wave_wavelength = 40;
+    public int wave_wavelength {
+        get { return _wave_wavelength; }
+        set {
+            _wave_wavelength = (int) Math.fmax (10, value);
+            wavy_drawing_area.queue_draw ();
+        }
+    }
+
+    /**
+     * Fixed wave margin in pixels for the wavy slider.
+     */
+    private const int WAVE_MARGIN = 4;
 
     /**
      * Minimum and maximum values for the slider.
@@ -75,6 +99,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
             _value = Math.fmax (_min_value, Math.fmin (_max_value, value));
             if (_is_wavy) {
                 wavy_drawing_area.queue_draw ();
+                update_stop_indicator_position ();
                 scale.set_value (_value);
             } else {
                 scale.set_value (_value);
@@ -157,10 +182,13 @@ public class He.Slider : He.Bin, Gtk.Buildable {
                     _max_value = scale.get_adjustment ().get_upper ();
                 }
                 wavy_drawing_area.queue_draw ();
+                update_stop_indicator_position ();
             } else {
                 slider_overlay.set_child (scale);
                 // Sync value from wavy slider to scale
                 scale.set_value (_value);
+                // Reset stop indicator margin for standard scale
+                stop_indicator.margin_end = 16;
             }
         }
     }
@@ -273,6 +301,16 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         return null;
     }
 
+    /**
+     * Updates the stop indicator position to align with the wavy slider end.
+     */
+    private void update_stop_indicator_position () {
+        if (_is_wavy && _stop_indicator_visibility) {
+            // Adjust margin to account for wave margin so stop indicator aligns with wavy area end
+            stop_indicator.margin_end = 16 + WAVE_MARGIN;
+        }
+    }
+
     private void update_accent_color () {
         RGBColor? effective_color = null;
         bool is_from_application = false;
@@ -374,7 +412,11 @@ public class He.Slider : He.Bin, Gtk.Buildable {
             return;
         }
 
-        double position = Math.fmax (0.0, Math.fmin (1.0, x / width));
+        // Account for wave margins - the effective area is smaller
+        double effective_width = width - 2 * WAVE_MARGIN;
+        double adjusted_x = x - WAVE_MARGIN;
+
+        double position = Math.fmax (0.0, Math.fmin (1.0, adjusted_x / effective_width));
         double new_value = _min_value + position * (_max_value - _min_value);
 
         if (new_value != _value) {
@@ -406,16 +448,16 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         cr.set_line_width (4.0); // 4px thick wavy line
         cr.set_line_cap (Cairo.LineCap.ROUND); // Rounded line ends
 
-        // Calculate slider position (handle goes full width)
+        // Calculate slider position accounting for margins
         double range = _max_value - _min_value;
         double position = range > 0 ? (_value - _min_value) / range : 0.0;
-        double slider_x = width * position;
+        double effective_width = width - 2 * WAVE_MARGIN;
+        double slider_x = WAVE_MARGIN + effective_width * position;
 
-        // Wave parameters: 25px wavelength, 4px amplitude
+        // Wave parameters using properties
         double track_y = height * 0.5;
-        double wave_amplitude = 4.0;
-        double wave_frequency = 2.0 * Math.PI / 25.0; // 25px wavelength
-        double wave_margin = 12.0; // 12px margins for wavy line
+        double wave_amplitude = _wave_amplitude;
+        double wave_frequency = 2.0 * Math.PI / _wave_wavelength;
 
         // Handle position (moves straight horizontally)
         double handle_center_y = track_y; // Straight line, not following wave
@@ -430,7 +472,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         // Draw background track (wavy) with margins, avoiding handle border area
         cr.set_source_rgba (bg_color.red, bg_color.green, bg_color.blue, bg_color.alpha);
         bool path_started = false;
-        for (double x = wave_margin; x <= width - wave_margin; x += 1.0) {
+        for (double x = WAVE_MARGIN; x <= width - WAVE_MARGIN; x += 1.0) {
             double y = track_y + Math.sin (x * wave_frequency) * wave_amplitude;
 
             // Check if we're in the handle border area
@@ -456,11 +498,11 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         }
 
         // Draw filled portion (wavy) with margins, avoiding handle border area
-        double filled_end = Math.fmin (slider_x, width - wave_margin);
-        if (filled_end > wave_margin) {
+        double filled_end = Math.fmin (slider_x, width - WAVE_MARGIN);
+        if (filled_end > WAVE_MARGIN) {
             cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
             path_started = false;
-            for (double x = wave_margin; x <= filled_end; x += 1.0) {
+            for (double x = WAVE_MARGIN; x <= filled_end; x += 1.0) {
                 double y = track_y + Math.sin (x * wave_frequency) * wave_amplitude;
 
                 // Check if we're in the handle border area

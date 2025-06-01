@@ -26,14 +26,9 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
     private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
     private Gtk.Box stop_indicator = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Overlay pb_overlay = new Gtk.Overlay ();
-
     private He.Desktop desktop = new He.Desktop ();
     private bool is_dark;
-    private Gdk.RGBA _accent_color = { 1, 1, 1, 1 };
-    public Gdk.RGBA accent_color {
-        get { return _accent_color; }
-        set { _accent_color = value; wavy_drawing_area.queue_draw (); }
-    }
+    private Gdk.RGBA accent_color = { 1, 1, 1, 1 };
 
     /**
      * The progressbar inside the Progressbar.
@@ -44,6 +39,30 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
      * The wavy drawing area for custom wavy progressbar.
      */
     private Gtk.DrawingArea wavy_drawing_area = new Gtk.DrawingArea ();
+
+    /**
+     * Wave amplitude in pixels for the wavy progressbar.
+     */
+    private int _wave_amplitude = 4;
+    public int wave_amplitude {
+        get { return _wave_amplitude; }
+        set {
+            _wave_amplitude = (int) Math.fmax (1, value);
+            wavy_drawing_area.queue_draw ();
+        }
+    }
+
+    /**
+     * Wave wavelength in pixels for the wavy progressbar.
+     */
+    private int _wave_wavelength = 40;
+    public int wave_wavelength {
+        get { return _wave_wavelength; }
+        set {
+            _wave_wavelength = (int) Math.fmax (5, value);
+            wavy_drawing_area.queue_draw ();
+        }
+    }
 
     /**
      * Progress value from 0.0 to 1.0.
@@ -57,6 +76,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
             _progress = Math.fmax (0.0, Math.fmin (1.0, value));
             if (_is_wavy) {
                 wavy_drawing_area.queue_draw ();
+                update_stop_indicator_position ();
             } else {
                 progressbar.set_fraction (_progress);
             }
@@ -121,6 +141,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
                 pb_overlay.set_child (wavy_drawing_area);
                 // Sync progress to wavy drawing
                 wavy_drawing_area.queue_draw ();
+                update_stop_indicator_position ();
                 // Apply OSD styling if needed
                 if (_is_osd) {
                     wavy_drawing_area.add_css_class ("osd");
@@ -129,6 +150,8 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
                 pb_overlay.set_child (progressbar);
                 // Sync progress to standard progressbar
                 progressbar.set_fraction (_progress);
+                // Reset stop indicator margin for standard progressbar
+                stop_indicator.margin_end = 14;
                 // Apply OSD styling if needed
                 if (_is_osd) {
                     progressbar.add_css_class ("osd");
@@ -208,6 +231,16 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         return null;
     }
 
+    /**
+     * Updates the stop indicator position to align with the wavy progress end.
+     */
+    private void update_stop_indicator_position () {
+        if (_is_wavy && _stop_indicator_visibility) {
+            // No margin needed since the wavy progress fills the full width
+            stop_indicator.margin_end = 14;
+        }
+    }
+
     private void update_accent_color () {
         RGBColor? effective_color = null;
         bool is_from_application = false;
@@ -275,9 +308,9 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         // Draw wavy progress using accent color
         cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
 
-        // Create wavy path
-        double wave_height = height * 0.3;
-        double wave_frequency = 0.1;
+        // Create wavy path using properties
+        double wave_height = _wave_amplitude;
+        double wave_frequency = 2.0 * Math.PI / _wave_wavelength;
         double center_y = height * 0.5;
 
         cr.move_to (0, center_y);
