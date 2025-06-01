@@ -30,7 +30,8 @@ namespace He {
             ToneDeltaPairFunc? tone_delta_pair) {
             this.name = name;
             this.palette = palette;
-            this.tonev = tonev;
+            this.tonev = tonev == null ? get_initial_tone_from_background (background) : tonev;
+
             this.chromamult = chromamult;
             this.is_background = is_background;
             this.background = background;
@@ -46,7 +47,7 @@ namespace He {
             new DynamicColor (
                               name,
                               palette,
-                              tonev,
+                              tonev == null ? get_initial_tone_from_background (background) : tonev,
                               1.0,
                               false,
                               null,
@@ -70,6 +71,13 @@ namespace He {
             return answer;
         }
 
+        public static ToneFunc get_initial_tone_from_background (BackgroundFunc? background) {
+            if (background == null) {
+                return (s) => 50.0;
+            }
+            return (s) => (background (s) != null) ? background (s).get_tone (s, background (s)) : 50.0;
+        }
+
         public double get_tone (DynamicScheme scheme, DynamicColor? color) {
             if (tone_delta_pair != null) {
                 ToneDeltaPair tone_delta_pair = tone_delta_pair (scheme);
@@ -87,7 +95,7 @@ namespace He {
                 var self_role = am_role_a ? role_a : role_b;
                 var ref_role = am_role_a ? role_b : role_a;
                 var self_tone = self_role.tonev (scheme);
-                var ref_tone = ref_role.tonev (scheme);
+                var ref_tone = ref_role.get_tone (scheme, role_b);
                 var relative_delta = absolute_delta * (am_role_a ? 1 : -1);
 
                 if (resolve == ToneResolve.EXACT) {
@@ -114,14 +122,12 @@ namespace He {
                     DynamicColor background = color.background (scheme);
                     ContrastCurve contrast_curve = color.contrast_curve;
                     if (background != null && contrast_curve != null) {
-                        // Adjust the tones for contrast, if background and contrast curve
-                        // are defined.
                         var bg_tone = background.get_tone (scheme, background);
                         var self_contrast = scheme.contrast_level;
                         self_tone = Contrast.ratio_of_tones (bg_tone, self_tone) >= self_contrast &&
                             scheme.contrast_level >= 0.0 ?
                             self_tone :
-                            foreground_tone (bg_tone, self_contrast);
+                            color.foreground_tone (bg_tone, self_contrast);
                     }
                 }
 

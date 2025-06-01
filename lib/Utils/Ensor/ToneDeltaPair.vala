@@ -3,9 +3,7 @@ namespace He {
         DARKER,
         RELATIVE_DARKER,
         LIGHTER,
-        RELATIVE_LIGHTER,
-        NEARER,
-        FARTHER;
+        RELATIVE_LIGHTER;
     }
 
     public enum ToneResolve {
@@ -20,7 +18,7 @@ namespace He {
         public double delta;
         public TonePolarity polarity;
         public ToneResolve resolve = ToneResolve.EXACT;
-        public bool stay_together = true;
+        public bool stay_together = false;
 
         public ToneDeltaPair (DynamicColor role_a,
             DynamicColor role_b,
