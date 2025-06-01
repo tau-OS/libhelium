@@ -350,7 +350,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_primary",
                                  /* palette= */ (s) => s.primary,
-                                 /* tone= */ (s) => 100.0,
+                                 /* tone= */ (s) => primary ().tonev (s),
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => primary (),
@@ -378,7 +378,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_primary_container",
                                  /* palette= */ (s) => s.primary,
-                                 /* tone= */ (s) => 100.0,
+                                 /* tone= */ (s) => primary_container ().tonev (s),
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => primary_container (),
@@ -406,7 +406,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_secondary",
                                  /* palette= */ (s) => s.secondary,
-                                 /* tone= */ (s) => 100.0,
+                                 /* tone= */ (s) => secondary ().tonev (s),
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => secondary (),
@@ -434,7 +434,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_secondary_container",
                                  /* palette= */ (s) => s.secondary,
-                                 /* tone= */ (s) => 100.0,
+                                 /* tone= */ (s) => secondary_container ().tonev (s),
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => secondary_container (),
@@ -462,7 +462,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_tertiary",
                                  /* palette= */ (s) => s.tertiary,
-                                 /* tone= */ (s) => 100.0,
+                                 /* tone= */ (s) => tertiary ().tonev (s),
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => tertiary (),
@@ -490,7 +490,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_tertiary_container",
                                  /* palette= */ (s) => s.tertiary,
-                                 /* tone= */ (s) => 100.0,
+                                 /* tone= */ (s) => tertiary_container ().tonev (s),
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => tertiary_container (),
@@ -546,7 +546,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_error",
                                  /* palette= */ (s) => s.error,
-                                 /* tone= */ (s) => 100.0,
+                                 /* tone= */ (s) => error ().tonev (s),
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => error (),
@@ -574,7 +574,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_error_container",
                                  /* palette= */ (s) => s.error,
-                                 /* tone= */ (s) => 100.0,
+                                 /* tone= */ (s) => error_container ().tonev (s),
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => error_container (),
