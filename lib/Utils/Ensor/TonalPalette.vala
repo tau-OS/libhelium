@@ -27,10 +27,30 @@ public class He.TonalPalette : GLib.Object {
     public int get_tone(int tone) {
         int? color = cache.get(tone);
         if (color == null) {
-            color = hct_to_argb(this.hue, this.chroma, tone);
+            if (tone == 99 && hue_is_yellow(hue)) {
+                average_argb(get_tone(99), get_tone(100));
+            } else {
+                color = hct_to_argb(this.hue, this.chroma, tone);
+            }
             cache.set(tone, color);
         }
         return color;
+    }
+
+    private int average_argb(int argb1, int argb2) {
+        int r1 = (argb1 >> 16) & 0xFF;
+        int g1 = (argb1 >> 8) & 0xFF;
+        int b1 = argb1 & 0xFF;
+
+        int r2 = (argb2 >> 16) & 0xFF;
+        int g2 = (argb2 >> 8) & 0xFF;
+        int b2 = argb2 & 0xFF;
+
+        int r = (int) Math.round((r1 + r2) / 2f);
+        int g = (int) Math.round((g1 + g2) / 2f);
+        int b = (int) Math.round((b1 + b2) / 2f);
+
+        return (255 << 24 | (r & 255) << 16 | (g & 255) << 8 | b & 255);
     }
 
     public HCTColor get_hct(double tone) {
