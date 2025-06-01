@@ -600,15 +600,15 @@ public class He.TimePicker : Gtk.Entry {
             double hand_radius = get_hand_radius (RADIUS);
             double hand_x = CENTER + hand_radius * Math.cos (hand_angle);
             double hand_y = CENTER + hand_radius * Math.sin (hand_angle);
-            cr.set_source_rgba (((is_dark ? 0.50 : 0.50) * accent_color.red), ((is_dark ? 0.50 : 0.50) * accent_color.green), ((is_dark ? 0.50 : 0.50) * accent_color.blue), 1);
+            cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
             cr.arc (CENTER, CENTER, HAND_CENTER_WIDTH, 0, 2 * Math.PI);
             cr.fill_preserve ();
-            cr.set_source_rgba (((is_dark ? 0.50 : 0.50) * accent_color.red), ((is_dark ? 0.50 : 0.50) * accent_color.green), ((is_dark ? 0.50 : 0.50) * accent_color.blue), 1);
+            cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
             cr.set_line_width (HAND_LINE_WIDTH);
             cr.move_to (CENTER, CENTER);
             cr.line_to (hand_x, hand_y);
             cr.stroke ();
-            cr.set_source_rgba (((is_dark ? 0.50 : 0.50) * accent_color.red), ((is_dark ? 0.50 : 0.50) * accent_color.green), ((is_dark ? 0.50 : 0.50) * accent_color.blue), 1);
+            cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
             cr.arc (hand_x, hand_y, SELECTION_CIRCLE_RADIUS, 0, 2 * Math.PI);
             cr.fill ();
 

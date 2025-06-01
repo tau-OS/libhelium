@@ -30,7 +30,7 @@ public class He.Application : Gtk.Application {
     private RGBColor? _default_accent_color = null;
     public RGBColor? default_accent_color {
         get { return _default_accent_color; }
-        set { _default_accent_color = value; update_style_manager (); }
+        set { _default_accent_color = value; update_style_manager (); accent_color_changed (); }
     }
 
     /**
@@ -39,7 +39,7 @@ public class He.Application : Gtk.Application {
     private bool _override_accent_color = false;
     public bool override_accent_color {
         get { return _override_accent_color; }
-        set { _override_accent_color = value; update_style_manager (); }
+        set { _override_accent_color = value; update_style_manager (); accent_color_changed (); }
     }
 
     /**
@@ -102,15 +102,7 @@ public class He.Application : Gtk.Application {
      */
     public RGBColor ? get_effective_accent_color () {
         if (is_content && default_accent_color != null) {
-            // Ensure color values are valid (0.0-255.0 range for RGBColor)
-            var color = default_accent_color;
-            if (color.r >= 0.0 && color.r <= 255.0 &&
-                color.g >= 0.0 && color.g <= 255.0 &&
-                color.b >= 0.0 && color.b <= 255.0) {
-                return color;
-            } else {
-                return desktop.accent_color;
-            }
+            return default_accent_color;
         }
         return desktop.accent_color;
     }

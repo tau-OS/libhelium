@@ -273,7 +273,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         }
 
         // Draw wavy progress using accent color
-        cr.set_source_rgba (((is_dark ? 0.50 : 0.50) * accent_color.red), ((is_dark ? 0.50 : 0.50) * accent_color.green), ((is_dark ? 0.50 : 0.50) * accent_color.blue), 1);
+        cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
 
         // Create wavy path
         double wave_height = height * 0.3;
@@ -294,7 +294,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         cr.fill ();
 
         // Draw wavy top edge with 1px line
-        cr.set_source_rgba (((is_dark ? 0.50 : 0.50) * accent_color.red), ((is_dark ? 0.50 : 0.50) * accent_color.green), ((is_dark ? 0.50 : 0.50) * accent_color.blue), 1);
+        cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
         cr.move_to (0, center_y);
         for (double x = 0; x <= progress_width; x += 1.0) {
             double y = center_y + Math.sin (x * wave_frequency) * wave_height;

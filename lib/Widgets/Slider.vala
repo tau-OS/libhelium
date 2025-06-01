@@ -458,7 +458,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         // Draw filled portion (wavy) with margins, avoiding handle border area
         double filled_end = Math.fmin (slider_x, width - wave_margin);
         if (filled_end > wave_margin) {
-            cr.set_source_rgba (((is_dark ? 0.50 : 0.50) * accent_color.red), ((is_dark ? 0.50 : 0.50) * accent_color.green), ((is_dark ? 0.50 : 0.50) * accent_color.blue), 1);
+            cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
             path_started = false;
             for (double x = wave_margin; x <= filled_end; x += 1.0) {
                 double y = track_y + Math.sin (x * wave_frequency) * wave_amplitude;
@@ -495,7 +495,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         double corner_radius = 4.0;
 
         // Fill handle
-        cr.set_source_rgba (((is_dark ? 0.50 : 0.50) * accent_color.red), ((is_dark ? 0.50 : 0.50) * accent_color.green), ((is_dark ? 0.50 : 0.50) * accent_color.blue), 1);
+        cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
         draw_rounded_rectangle (cr, handle_x, handle_y, handle_width, handle_height, corner_radius);
         cr.fill ();
 
