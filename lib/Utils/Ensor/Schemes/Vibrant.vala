@@ -33,9 +33,9 @@ public class He.VibrantScheme : Object {
                                   is_dark,
                                   contrast,
                                   TonalPalette.from_hue_and_chroma (hct.h, is_dark ? 36.0 : 48.0),
-                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct.h, SECONDARY_HUES, SECONDARY_ROTATIONS), is_dark ? 16.0 : 24.0),
-                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct.h, TERTIARY_HUES, TERTIARY_ROTATIONS), 48.0),
-                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct.h, NEUTRAL_HUES, NEUTRAL_ROTATIONS), is_dark ? (hue_is_yellow (hct.h) ? 6.0. : 14.0) : 18.0),
+                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct, SECONDARY_HUES, SECONDARY_ROTATIONS), is_dark ? 16.0 : 24.0),
+                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct, TERTIARY_HUES, TERTIARY_ROTATIONS), 48.0),
+                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct, NEUTRAL_HUES, NEUTRAL_ROTATIONS), is_dark ? (hue_is_yellow (hct.h) ? 6.0 : 14.0) : 18.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, hct.h >= 105 && hct.h < 125 ? 1.6 * 10.0 : 2.3 * 10.0),
                                   null
         );

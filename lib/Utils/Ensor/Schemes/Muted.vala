@@ -30,7 +30,7 @@ public class He.MutedScheme : Object {
                                   contrast,
                                   TonalPalette.from_hue_and_chroma (hct.h, hue_is_blue (hct.h) ? 12.0 : 8.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, hue_is_blue (hct.h) ? 6.0 : 4.0),
-                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct.h, TERTIARY_HUES, TERTIARY_ROTATIONS), 20.0),
+                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct, TERTIARY_HUES, TERTIARY_ROTATIONS), 20.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, 1.4),
                                   TonalPalette.from_hue_and_chroma (hct.h, (1.4 * 2.2)),
                                   null

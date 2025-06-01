@@ -4,11 +4,32 @@ namespace He {
         public double c;
         public double t;
         public int a; // Keep hexcode rep as string on the struct for easy lookup
+
+        public int to_int () {
+            return this.a;
+        }
+    }
+
+    public int get_argb () {
+        return (int) HCTColor.to_int;
     }
 
     public HCTColor from_params (double hue, double chroma, double tone) {
-        HCTColor result = { hue, chroma, tone };
-        return result;
+        return hct_from_int (from_solved (hue, chroma, tone));
+    }
+
+    public HCTColor in_vc (ViewingConditions vc) {
+        // 1. Use CAM16 to find XYZ coordinates of color in specified VC.
+        CAM16Color cam16 = cam16_from_int (get_argb ());
+        XYZColor viewed = cam16_to_xyz (cam16);
+
+        // 2. Create CAM16 of those XYZ coordinates in default VC.
+        CAM16Color recast = xyz_to_cam16 ({ viewed.x, viewed.y, viewed.z });
+
+        // 3. Create HCT from:
+        // - CAM16 using default VC with XYZ coordinates in specified VC.
+        // - L* converted from Y in XYZ coordinates in specified VC.
+        return from_params (recast.h, recast.c, MathUtils.lstar_from_y (viewed.y));
     }
 
     // Disliked means a yellow-green that's not neutral
@@ -141,19 +162,19 @@ namespace He {
         return fix_disliked ({ output, a.c, a.t });
     }
 
-    public static double get_rotated_hue (double hue, double[] hues, double[] rotations) {
-        double source_hue = hue;
-        if (rotations.length == 1) {
-            return MathUtils.sanitize_degrees (source_hue + rotations[0]);
-        }
-        int size = hues.length;
-        for (int i = 0; i <= (size - 2); i++) {
-            double hue_a = hues[i];
-            double hue_b = hues[i + 1];
-            if (hue_a < source_hue && source_hue < hue_b) {
-                return MathUtils.sanitize_degrees (source_hue + rotations[i]);
+    public static double get_rotated_hue (HCTColor hct, double[] hues, double[] rotations) {
+        return MathUtils.sanitize_degrees (piecewise_val (hct, hues, rotations) + hct.h);
+    }
+
+    public static double piecewise_val (HCTColor hct, double[] huebps, double[] hues) {
+        int size = (int) MathUtils.min (huebps.length - 1, hues.length);
+        double src_h = hct.h;
+
+        for (int i = 0; i < size; i++) {
+            if (src_h >= huebps[i] && src_h < huebps[i + 1]) {
+                return MathUtils.sanitize_degrees (hues[i]);
             }
         }
-        return source_hue;
+        return src_h;
     }
 }

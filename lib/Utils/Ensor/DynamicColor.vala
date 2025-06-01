@@ -30,7 +30,7 @@ namespace He {
             ToneDeltaPairFunc? tone_delta_pair) {
             this.name = name;
             this.palette = palette;
-            this.tonev = tonev != null ? tonev : get_init_tone ();
+            this.tonev = tonev;
             this.chromamult = chromamult;
             this.is_background = is_background;
             this.background = background;
@@ -46,7 +46,7 @@ namespace He {
             new DynamicColor (
                               name,
                               palette,
-                              tonev != null ? tonev : get_init_tone (),
+                              tonev,
                               1.0,
                               false,
                               null,
@@ -56,18 +56,11 @@ namespace He {
             );
         }
 
-        private ToneFunc get_init_tone () {
-            if (background == null) {
-                return (s) => 50;
-            }
-            return (s) => background (s) != null ? background (s).get_tone (s, background (s)) : 50;
-        }
-
         public HCTColor get_hct (DynamicScheme scheme, DynamicColor color) {
-            var palette = palette (scheme);
-            var tone = get_tone (scheme, color);
+            var palette = color.palette (scheme);
+            var tone = color.get_tone (scheme, color);
             var hue = palette.hue;
-            var chroma = palette.chroma * chromamult;
+            var chroma = palette.chroma * color.chromamult;
 
             return from_params (hue, chroma, tone);
         }
@@ -134,7 +127,7 @@ namespace He {
 
                 // This can avoid the awkward tones for background colors including the
                 // access fixed colors. Accent fixed dim colors should not be adjusted.
-                if (is_background) {
+                if (color.is_background) {
                     if (self_tone >= 57.0) {
                         self_tone = MathUtils.clamp_double (65.0, 100.0, self_tone);
                     } else {
@@ -147,14 +140,14 @@ namespace He {
                 // Case 1: No tone delta pair; just solve for itself.
                 var answer = tonev (scheme);
 
-                if (background == null ||
-                    background (scheme) == null ||
-                    contrast_curve == null) {
+                if (color.background == null ||
+                    color.background (scheme) == null ||
+                    color.contrast_curve == null) {
                     return answer; // No adjustment for colors with no background.
                 }
 
                 var bg_tone = color.background (scheme).get_tone (scheme, color.background (scheme));
-                var desired_ratio = contrast_curve.get (scheme.contrast_level);
+                var desired_ratio = color.contrast_curve.get (scheme.contrast_level);
 
                 // Recalculate the tone from desired contrast ratio if the current
                 // contrast ratio is not enough or desired contrast level is decreasing
@@ -166,7 +159,7 @@ namespace He {
 
                 // This can avoid the awkward tones for background colors including the
                 // access fixed colors. Accent fixed dim colors should not be adjusted.
-                if (is_background) {
+                if (color.is_background) {
                     if (answer >= 57.0) {
                         answer = MathUtils.clamp_double (65.0, 100.0, answer);
                     } else {
@@ -174,14 +167,14 @@ namespace He {
                     }
                 }
 
-                if (second_background == null ||
-                    second_background (scheme) == null) {
+                if (color.second_background == null ||
+                    color.second_background (scheme) == null) {
                     return answer;
                 }
 
                 // Case 2: Adjust for dual backgrounds.
-                var bg1 = background (scheme);
-                var bg2 = second_background (scheme);
+                var bg1 = color.background (scheme);
+                var bg2 = color.second_background (scheme);
                 var bg_tone1 = bg1.get_tone (scheme, bg1);
                 var bg_tone2 = bg2.get_tone (scheme, bg2);
                 var upper = Math.fmax (bg_tone1, bg_tone2);

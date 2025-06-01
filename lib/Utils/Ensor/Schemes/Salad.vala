@@ -27,7 +27,7 @@ public class He.SaladScheme : Object {
                                   is_dark,
                                   contrast,
                                   TonalPalette.from_hue_and_chroma (MathUtils.sanitize_degrees (hct.h - 50.0), 48.0),
-                                  TonalPalette.from_hue_and_chroma (MathUtils.sanitize_degrees (hct.h - 50.0), 36.0),
+                                  TonalPalette.from_hue_and_chroma (MathUtils.sanitize_degrees (hct.h - 50.0), 24.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, 36.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, 10.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, 16.0),

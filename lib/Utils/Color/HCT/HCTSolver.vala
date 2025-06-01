@@ -11,6 +11,26 @@ namespace He {
     return argb_from_rgb_int (r, g, b);
   }
 
+  public int from_solved (double h, double c, double t) {
+    // If color is mono…
+    if (c < 1.0001 || t < 0.0001 || t > 99.9999) {
+      return MathUtils.argb_from_lstar (t);
+      // Else…
+    } else {
+      h = MathUtils.sanitize_degrees (h);
+      double hr = h / 180 * Math.PI;
+      double y = MathUtils.y_from_lstar (t);
+      int exact_answer = find_result_by_j (hr, c, y);
+
+      if (exact_answer != 0) {
+        return exact_answer;
+      }
+
+      double[] linrgb = MathUtils.bisect_to_limit (y, hr);
+      return argb_from_linrgb (linrgb);
+    }
+  }
+
   public int find_result_by_j (double hr, double c, double y) {
     // Initial estimate of j.
     double j = Math.sqrt (y) * 11.0;

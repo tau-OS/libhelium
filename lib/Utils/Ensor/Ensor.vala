@@ -46,7 +46,7 @@ namespace He.Ensor {
             int rgb = argb_from_rgb_int (red, green, blue);
             list += (rgb);
 
-            i += 5; // quality (1 = min, 5 = default, 10 = max; quality = (max + min) - def)
+            i += 1; // quality (1 = min, 5 = default, 10 = max; quality = (max + min) - def)
         }
         return list;
     }

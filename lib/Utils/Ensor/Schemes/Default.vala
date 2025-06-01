@@ -28,9 +28,9 @@ public class He.DefaultScheme : Object {
                                   SchemeVariant.DEFAULT,
                                   is_dark,
                                   contrast,
-                                  TonalPalette.from_hue_and_chroma (hct.h, is_dark ? 26.0 : 32.0),
-                                  TonalPalette.from_hue_and_chroma (hct.h, 16.0),
-                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct.h, TERTIARY_HUES, TERTIARY_ROTATIONS), 32.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, is_dark ? 26.0 : 37.0),
+                                  TonalPalette.from_hue_and_chroma (hct.h, 15.0),
+                                  TonalPalette.from_hue_and_chroma (get_rotated_hue (hct, TERTIARY_HUES, TERTIARY_ROTATIONS), 32.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, 5.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, (5.0 * 1.7)),
                                   null
