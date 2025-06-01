@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Fyra Labs
+ * Copyright (c) 2022-2025 Fyra Labs
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -77,7 +77,7 @@ public class He.Application : Gtk.Application {
     private bool _is_content = false;
     public bool is_content {
         get { return _is_content; }
-        set { _is_content = value; update_style_manager (); }
+        set { _is_content = value; update_style_manager (); accent_color_changed (); }
     }
 
     /**
@@ -90,9 +90,37 @@ public class He.Application : Gtk.Application {
         set { _is_mono = value; update_style_manager (); }
     }
 
+    /**
+     * Signal emitted when the effective accent color changes.
+     */
+    public signal void accent_color_changed ();
+
+    /**
+     * Gets the effective accent color that should be used for content drawing.
+     * When is_content is true and default_accent_color is set, returns the default_accent_color.
+     * Otherwise returns the desktop accent color.
+     */
+    public RGBColor ? get_effective_accent_color () {
+        if (is_content && default_accent_color != null) {
+            // Ensure color values are valid (0.0-255.0 range for RGBColor)
+            var color = default_accent_color;
+            if (color.r >= 0.0 && color.r <= 255.0 &&
+                color.g >= 0.0 && color.g <= 255.0 &&
+                color.b >= 0.0 && color.b <= 255.0) {
+                return color;
+            } else {
+                return desktop.accent_color;
+            }
+        }
+        return desktop.accent_color;
+    }
+
     private void update_style_manager () {
         if (default_accent_color != null && override_accent_color) {
             style_manager.accent_color = default_accent_color;
+        } else if (default_accent_color != null && override_accent_color && is_content) {
+            style_manager.accent_color = default_accent_color;
+            desktop.accent_color = default_accent_color;
         } else if (desktop.accent_color != null) {
             style_manager.accent_color = desktop.accent_color;
         } else {
@@ -143,7 +171,10 @@ public class He.Application : Gtk.Application {
         init_app_styles ();
         update_style_manager ();
 
-        desktop.notify["accent-color"].connect (update_style_manager);
+        desktop.notify["accent-color"].connect (() => {
+            update_style_manager ();
+            accent_color_changed ();
+        });
         desktop.notify["ensor-scheme"].connect (update_style_manager);
         desktop.notify["font-weight"].connect (update_style_manager);
         desktop.notify["prefers-color-scheme"].connect (update_style_manager);

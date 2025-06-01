@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024 Fyra Labs
+ * Copyright (c) 2022-2025 Fyra Labs
  * Copyright (c) 2014–2021 elementary, Inc. (https://elementary.io)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -108,6 +108,8 @@ public class He.TimePicker : Gtk.Entry {
         am_pm_box.append (am_togglebutton);
         am_pm_box.append (pm_togglebutton);
 
+        clock = new ClockWidget ();
+
         if (is_clock_format_12h ()) {
             hours_spinbutton = new Gtk.SpinButton.with_range (1, 12, 1);
             clock.is_military_mode = false;
@@ -152,7 +154,6 @@ public class He.TimePicker : Gtk.Entry {
         pop_grid_top.append (minutes_spinbutton);
         pop_grid_top.append (am_pm_box);
 
-        clock = new ClockWidget ();
         clock.time_selected.connect ((hour, minute) => {
             hours_spinbutton.set_text (hour.to_string ());
             if (minute < 10) {
@@ -472,8 +473,77 @@ public class He.TimePicker : Gtk.Entry {
         public ClockWidget () {
             is_dark = desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK ? true : false;
 
-            update_style_manager ();
-            desktop.notify["accent-color"].connect (update_style_manager);
+            // Setup accent color monitoring
+            desktop.notify["accent-color"].connect (update_accent_color);
+
+            // Monitor for when widget gets added to application
+            notify["root"].connect (() => {
+                var app = get_he_application ();
+                if (app != null) {
+                    app.accent_color_changed.connect (update_accent_color);
+                    update_accent_color ();
+                }
+            });
+
+            update_accent_color ();
+        }
+
+        /**
+         * Gets the He.Application instance from the widget hierarchy.
+         */
+        private He.Application? get_he_application () {
+            var root = get_root ();
+            if (root is Gtk.Window) {
+                var app = ((Gtk.Window) root).get_application ();
+                if (app is He.Application) {
+                    return (He.Application) app;
+                }
+            }
+            return null;
+        }
+
+        private void update_accent_color () {
+            RGBColor? effective_color = null;
+            bool is_from_application = false;
+
+            // Try to get accent color from application first
+            var app = get_he_application ();
+            if (app != null) {
+                effective_color = app.get_effective_accent_color ();
+                is_from_application = (app.is_content && app.default_accent_color != null);
+            }
+
+            // Fall back to desktop accent color
+            if (effective_color == null) {
+                effective_color = desktop.accent_color;
+            }
+
+            if (effective_color != null) {
+                float r, g, b;
+
+                if (is_from_application) {
+                    // Application colors are in 0.0-255.0 range, convert to 0.0-1.0
+                    r = (float) Math.fmax (0.0, Math.fmin (255.0, effective_color.r)) / 255.0f;
+                    g = (float) Math.fmax (0.0, Math.fmin (255.0, effective_color.g)) / 255.0f;
+                    b = (float) Math.fmax (0.0, Math.fmin (255.0, effective_color.b)) / 255.0f;
+                } else {
+                    // Desktop colors are already in 0.0-1.0 range
+                    r = (float) Math.fmax (0.0, Math.fmin (1.0, effective_color.r));
+                    g = (float) Math.fmax (0.0, Math.fmin (1.0, effective_color.g));
+                    b = (float) Math.fmax (0.0, Math.fmin (1.0, effective_color.b));
+                }
+
+                accent_color = { r, g, b, 1.0f };
+
+                // Debug output to help identify the issue
+                debug ("TimePicker accent color updated: r=%f, g=%f, b=%f (from %s, original: %f,%f,%f)",
+                       r, g, b, is_from_application ? "application" : "desktop",
+                       effective_color.r, effective_color.g, effective_color.b);
+            } else {
+                // Fallback to a visible color if no accent color is available
+                accent_color = { 0.2f, 0.6f, 1.0f, 1.0f }; // Blue fallback
+                debug ("TimePicker using fallback accent color");
+            }
         }
 
         construct {
@@ -515,6 +585,7 @@ public class He.TimePicker : Gtk.Entry {
             var rect = Graphene.Rect ();
             rect.init (0, 0, (float) SIZE, (float) SIZE);
             var cr = snapshot.append_cairo (rect);
+            cr.set_line_width (1.0);
 
             // Font used
             cr.select_font_face (FONT_FAMILY, Cairo.FontSlant.NORMAL, Cairo.FontWeight.NORMAL);
@@ -650,17 +721,6 @@ public class He.TimePicker : Gtk.Entry {
                         cr.show_text ((i > HALF_DAY ? (i == 24 ? 0 : i) : i).to_string ());
                     }
                 }
-            }
-        }
-
-        private void update_style_manager () {
-            if (desktop.accent_color != null) {
-                accent_color = {
-                    (float) desktop.accent_color.r,
-                    (float) desktop.accent_color.g,
-                    (float) desktop.accent_color.b,
-                    1
-                };
             }
         }
 
