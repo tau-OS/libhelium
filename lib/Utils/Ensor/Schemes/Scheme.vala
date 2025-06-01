@@ -336,7 +336,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "primary",
                                  /* palette= */ (s) => s.primary,
-                                 /* tone= */ (s) => s.is_dark ? 80.0 : 40.0,
+                                 /* tone= */ (s) => s.is_dark ? 80.0 : t_max_c (s.primary),
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
                                  /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
@@ -392,7 +392,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "secondary",
                                  /* palette= */ (s) => s.secondary,
-                                 /* tone= */ (s) => s.is_dark ? 80.0 : 40.0,
+                                 /* tone= */ (s) => s.is_dark ? 80.0 : t_max_c (s.secondary),
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
                                  /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
@@ -420,7 +420,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "secondary_container",
                                  /* palette= */ (s) => s.secondary,
-                                 /* tone= */ (s) => s.is_dark ? 25 : 90,
+                                 /* tone= */ (s) => s.is_dark ? 25.0 : 90.0,
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
                                  /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
@@ -448,7 +448,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "tertiary",
                                  /* palette= */ (s) => s.tertiary,
-                                 /* tone= */ (s) => s.is_dark ? t_max_c (s.tertiary, 70, 80) : 40.0,
+                                 /* tone= */ (s) => s.is_dark ? t_max_c (s.tertiary, 70, 80) : t_max_c (s.tertiary),
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
                                  /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
@@ -532,7 +532,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "error",
                                  /* palette= */ (s) => s.error,
-                                 /* tone= */ (s) => s.is_dark ? 80.0 : 40.0,
+                                 /* tone= */ (s) => s.is_dark ? 80.0 : t_max_c (s.error),
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
                                  /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),

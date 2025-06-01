@@ -194,20 +194,21 @@ namespace He {
                 var dark_option = Contrast.darker (lower, desired_ratio);
 
                 // Determine available options
-                var has_light_option = light_option != -1.0;
-                var has_dark_option = dark_option != -1.0;
+                double[] availables = {};
+                if (light_option != -1) {
+                    availables += (light_option);
+                }
+                if (dark_option != -1) {
+                    availables += (dark_option);
+                }
 
                 var prefers_light = tone_prefers_light_foreground (bg_tone1) ||
                     tone_prefers_light_foreground (bg_tone2);
                 if (prefers_light) {
                     return (light_option < 0.0) ? 100.0 : light_option;
                 }
-
-                // If exactly one option is available
-                if (has_light_option && !has_dark_option) {
-                    return light_option;
-                } else if (!has_light_option && has_dark_option) {
-                    return dark_option;
+                if (availables.length == 1) {
+                    return availables[0];
                 }
 
                 return (dark_option < 0.0) ? 0.0 : dark_option;
