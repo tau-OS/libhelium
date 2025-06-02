@@ -28,7 +28,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
     private Gtk.Overlay pb_overlay = new Gtk.Overlay ();
     private He.Desktop desktop = new He.Desktop ();
     private bool is_dark;
-    private Gdk.RGBA accent_color = { 1, 1, 1, 1 };
+    private Gdk.RGBA accent_color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
     /**
      * The progressbar inside the Progressbar.
@@ -73,6 +73,37 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         set {
             _wave_thickness = (int) Math.fmax (1, value);
             wavy_drawing_area.queue_draw ();
+        }
+    }
+
+    /**
+     * Wave phase for animation.
+     */
+    private double _wave_phase = 0.0;
+
+    /**
+     * Animation state tracking.
+     */
+    private uint _animation_tick_id = 0;
+    private bool _continuous_animation = false;
+
+    /**
+     * Controls whether the wavy progressbar should animate.
+     * Set to true when progress is actively changing, false when static.
+     */
+    private bool _animate = true;
+    public bool animate {
+        get { return _animate; }
+        set {
+            _animate = value;
+            if (_is_wavy) {
+                if (_animate && _continuous_animation && _animation_tick_id == 0) {
+                    _animation_tick_id = wavy_drawing_area.add_tick_callback (on_animation_tick);
+                } else if (!_animate && _animation_tick_id != 0) {
+                    wavy_drawing_area.remove_tick_callback (_animation_tick_id);
+                    _animation_tick_id = 0;
+                }
+            }
         }
     }
 
@@ -158,6 +189,8 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
                 if (_is_osd) {
                     wavy_drawing_area.add_css_class ("osd");
                 }
+                // Start continuous animation automatically
+                start_continuous_animation ();
             } else {
                 pb_overlay.set_child (progressbar);
                 // Sync progress to standard progressbar
@@ -168,6 +201,8 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
                 if (_is_osd) {
                     progressbar.add_css_class ("osd");
                 }
+                // Stop animation when leaving wavy mode
+                stop_continuous_animation ();
             }
         }
     }
@@ -302,6 +337,47 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
     }
 
     /**
+     * Animation tick callback.
+     */
+    private bool on_animation_tick (Gtk.Widget widget, Gdk.FrameClock frame_clock) {
+        // Stop animation if not enabled
+        if (!_continuous_animation || !_animate) {
+            _animation_tick_id = 0;
+            return false; // Stop the tick callback
+        }
+
+        // Update wave phase for animation - create flowing effect
+        _wave_phase += _wave_wavelength * 0.01; // Move the wave pattern forward
+        if (_wave_phase > 2.0 * Math.PI) {
+            _wave_phase -= 2.0 * Math.PI;
+        }
+
+        wavy_drawing_area.queue_draw ();
+        return true; // Continue animation
+    }
+
+    /**
+     * Starts continuous wave animation (internal).
+     */
+    private void start_continuous_animation () {
+        _continuous_animation = true;
+        if (_animate && _animation_tick_id == 0) {
+            _animation_tick_id = wavy_drawing_area.add_tick_callback (on_animation_tick);
+        }
+    }
+
+    /**
+     * Stops continuous wave animation (internal).
+     */
+    private void stop_continuous_animation () {
+        _continuous_animation = false;
+        if (_animation_tick_id != 0) {
+            wavy_drawing_area.remove_tick_callback (_animation_tick_id);
+            _animation_tick_id = 0;
+        }
+    }
+
+    /**
      * Draws the wavy progress indicator using Cairo.
      */
     private void draw_wavy_progress (Gtk.DrawingArea area, Cairo.Context cr, int width, int height) {
@@ -325,7 +401,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
 
         // Draw wavy progress using accent color
         if (progress_width > 0) {
-            cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
+            cr.set_source_rgba (((is_dark ? 0.50f : 0.60f) * accent_color.red), ((is_dark ? 0.50f : 0.60f) * accent_color.green), ((is_dark ? 0.50f : 0.60f) * accent_color.blue), 1.0f);
 
             // Create wavy path using properties
             double wave_height = _wave_amplitude;
@@ -334,7 +410,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
             cr.move_to (0, center_y);
 
             for (double x = 0; x <= progress_width; x += 1.0) {
-                double y = center_y + Math.sin (x * wave_frequency) * wave_height;
+                double y = center_y + Math.sin (x * wave_frequency + _wave_phase) * wave_height;
                 cr.line_to (x, y);
             }
 

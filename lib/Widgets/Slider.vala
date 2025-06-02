@@ -35,7 +35,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     private Gtk.Overlay slider_overlay = new Gtk.Overlay ();
     private He.Desktop desktop = new He.Desktop ();
     private bool is_dark;
-    private Gdk.RGBA accent_color = { 1, 1, 1, 1 };
+    private Gdk.RGBA accent_color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
     /**
      * The scale inside the Slider.
@@ -89,6 +89,38 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     }
 
     /**
+     * Wave phase for animation.
+     */
+    private double _wave_phase = 0.0;
+
+    /**
+     * Animation state tracking.
+     */
+    private uint _animation_tick_id = 0;
+    private bool _continuous_animation = false;
+    private bool _updating_from_scale = false;
+
+    /**
+     * Controls whether the wavy slider should animate.
+     * Set to true when music is playing, false when paused.
+     */
+    private bool _animate = true;
+    public bool animate {
+        get { return _animate; }
+        set {
+            _animate = value;
+            if (_is_wavy) {
+                if (_animate && _continuous_animation && _animation_tick_id == 0) {
+                    _animation_tick_id = wavy_drawing_area.add_tick_callback (on_animation_tick);
+                } else if (!_animate && _animation_tick_id != 0) {
+                    wavy_drawing_area.remove_tick_callback (_animation_tick_id);
+                    _animation_tick_id = 0;
+                }
+            }
+        }
+    }
+
+    /**
      * Fixed wave margin in pixels for the wavy slider.
      */
     private const int WAVE_MARGIN = 12;
@@ -112,10 +144,13 @@ public class He.Slider : He.Bin, Gtk.Buildable {
             if (_is_wavy) {
                 wavy_drawing_area.queue_draw ();
                 update_stop_indicator_position ();
-                scale.set_value (_value);
-            } else {
-                scale.set_value (_value);
             }
+            // Always sync the scale, but prevent signal recursion
+            _updating_from_scale = true;
+            scale.set_value (_value);
+            _updating_from_scale = false;
+            // Always emit the signal for external listeners
+            value_changed ();
         }
     }
 
@@ -195,12 +230,16 @@ public class He.Slider : He.Bin, Gtk.Buildable {
                 }
                 wavy_drawing_area.queue_draw ();
                 update_stop_indicator_position ();
+                // Start continuous animation automatically
+                start_continuous_animation ();
             } else {
                 slider_overlay.set_child (scale);
                 // Sync value from wavy slider to scale
                 scale.set_value (_value);
                 // Reset stop indicator margin for standard scale
                 stop_indicator.margin_end = 16;
+                // Stop animation when leaving wavy mode
+                stop_continuous_animation ();
             }
         }
     }
@@ -258,11 +297,16 @@ public class He.Slider : He.Bin, Gtk.Buildable {
 
         // Setup scale value change signal
         scale.value_changed.connect (() => {
-            if (!_is_wavy) {
-                _value = scale.get_value ();
-                value_changed ();
+            // Ignore signals that come from our own updates
+            if (_updating_from_scale) {
+                return;
+            }
+
+            _value = scale.get_value ();
+            if (_is_wavy) {
                 wavy_drawing_area.queue_draw ();
             }
+            value_changed ();
         });
 
         slider_overlay.hexpand = true;
@@ -443,6 +487,47 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     }
 
     /**
+     * Animation tick callback.
+     */
+    private bool on_animation_tick (Gtk.Widget widget, Gdk.FrameClock frame_clock) {
+        // Stop animation if not enabled
+        if (!_continuous_animation || !_animate) {
+            _animation_tick_id = 0;
+            return false; // Stop the tick callback
+        }
+
+        // Update wave phase for animation - create flowing effect
+        _wave_phase += _wave_wavelength * 0.01; // Move the wave pattern forward
+        if (_wave_phase > 2.0 * Math.PI) {
+            _wave_phase -= 2.0 * Math.PI;
+        }
+
+        wavy_drawing_area.queue_draw ();
+        return true; // Continue animation
+    }
+
+    /**
+     * Starts continuous wave animation (internal).
+     */
+    private void start_continuous_animation () {
+        _continuous_animation = true;
+        if (_animate && _animation_tick_id == 0) {
+            _animation_tick_id = wavy_drawing_area.add_tick_callback (on_animation_tick);
+        }
+    }
+
+    /**
+     * Stops continuous wave animation (internal).
+     */
+    private void stop_continuous_animation () {
+        _continuous_animation = false;
+        if (_animation_tick_id != 0) {
+            wavy_drawing_area.remove_tick_callback (_animation_tick_id);
+            _animation_tick_id = 0;
+        }
+    }
+
+    /**
      * Helper function to draw a rounded rectangle.
      */
     private void draw_rounded_rectangle (Cairo.Context cr, double x, double y, double width, double height, double radius) {
@@ -497,10 +582,10 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         // Draw filled portion (wavy) with margins, avoiding handle border area
         double filled_end = Math.fmin (slider_x, width - WAVE_MARGIN);
         if (filled_end > WAVE_MARGIN) {
-            cr.set_source_rgba (((is_dark ? 0.40 : 0.80) * accent_color.red), ((is_dark ? 0.40 : 0.80) * accent_color.green), ((is_dark ? 0.40 : 0.80) * accent_color.blue), 1);
+            cr.set_source_rgba (((is_dark ? 0.40f : 0.80f) * accent_color.red), ((is_dark ? 0.40f : 0.80f) * accent_color.green), ((is_dark ? 0.40f : 0.80f) * accent_color.blue), 1.0f);
             bool path_started = false;
             for (double x = WAVE_MARGIN; x <= filled_end; x += 1.0) {
-                double y = track_y + Math.sin (x * wave_frequency) * wave_amplitude;
+                double y = track_y + Math.sin (x * wave_frequency + _wave_phase) * wave_amplitude;
 
                 // Check if we're in the handle border area
                 if (x >= border_x && x <= border_x + border_width &&
@@ -534,12 +619,12 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         double corner_radius = 4.0;
 
         // Fill handle
-        cr.set_source_rgba (((is_dark ? 0.40 : 0.80) * accent_color.red), ((is_dark ? 0.40 : 0.80) * accent_color.green), ((is_dark ? 0.40 : 0.80) * accent_color.blue), 1);
+        cr.set_source_rgba (((is_dark ? 0.40f : 0.80f) * accent_color.red), ((is_dark ? 0.40f : 0.80f) * accent_color.green), ((is_dark ? 0.40f : 0.80f) * accent_color.blue), 1.0f);
         draw_rounded_rectangle (cr, handle_x, handle_y, handle_width, handle_height, corner_radius);
         cr.fill ();
 
         // Draw handle border
-        cr.set_source_rgba (is_dark ? 0.0f : 1.0f, is_dark ? 0.0f : 1.0f, is_dark ? 0.0f : 1.0f, 1.0);
+        cr.set_source_rgba (is_dark ? 0.0f : 1.0f, is_dark ? 0.0f : 1.0f, is_dark ? 0.0f : 1.0f, 1.0f);
         draw_rounded_rectangle (cr, handle_x, handle_y, handle_width, handle_height, corner_radius);
         cr.stroke ();
     }
