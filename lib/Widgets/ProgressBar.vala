@@ -456,9 +456,11 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
                 }
             }
 
-            cr.move_to (PROGRESS_MARGIN, center_y);
+            // Start path at the correct wave position for the first point
+            double start_y = center_y + Math.sin (_wave_phase) * wave_height;
+            cr.move_to (PROGRESS_MARGIN, start_y);
 
-            for (double x = PROGRESS_MARGIN; x <= progress_width; x += 1.0) {
+            for (double x = PROGRESS_MARGIN + 1.0; x <= progress_width; x += 1.0) {
                 double y = center_y + Math.sin ((x - PROGRESS_MARGIN) * wave_frequency + _wave_phase) * wave_height;
                 cr.line_to (x, y);
             }
