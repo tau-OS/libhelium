@@ -405,6 +405,11 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
     }
 
     /**
+     * Fixed margin in pixels for the wavy progressbar.
+     */
+    private const int PROGRESS_MARGIN = 4;
+
+    /**
      * Draws the wavy progress indicator using Cairo.
      */
     private void draw_wavy_progress (Gtk.DrawingArea area, Cairo.Context cr, int width, int height) {
@@ -414,20 +419,21 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         cr.set_line_width (_wave_thickness);
         cr.set_line_cap (Cairo.LineCap.ROUND);
 
-        // Calculate progress width
-        double progress_width = width * _progress;
+        // Calculate effective drawing area with margins
+        double effective_width = width - 2 * PROGRESS_MARGIN;
+        double progress_width = PROGRESS_MARGIN + (effective_width * _progress);
         double center_y = height * 0.5;
 
-        // Draw background as a simple straight line from progress end to full width
-        if (progress_width < width) {
+        // Draw background as a simple straight line from progress end to right margin
+        if (progress_width < width - PROGRESS_MARGIN) {
             cr.set_source_rgba (bg_color.red, bg_color.green, bg_color.blue, bg_color.alpha);
             cr.move_to (progress_width + 6.0, center_y);
-            cr.line_to (width - 6.0, center_y);
+            cr.line_to (width - PROGRESS_MARGIN, center_y);
             cr.stroke ();
         }
 
         // Draw wavy progress using accent color
-        if (progress_width > 0) {
+        if (progress_width > PROGRESS_MARGIN) {
             cr.set_source_rgba (((is_dark ? 0.50f : 0.60f) * accent_color.red), ((is_dark ? 0.50f : 0.60f) * accent_color.green), ((is_dark ? 0.50f : 0.60f) * accent_color.blue), 1.0f);
 
             // Create wavy path using properties
@@ -450,10 +456,10 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
                 }
             }
 
-            cr.move_to (0, center_y);
+            cr.move_to (PROGRESS_MARGIN, center_y);
 
-            for (double x = 0; x <= progress_width; x += 1.0) {
-                double y = center_y + Math.sin (x * wave_frequency + _wave_phase) * wave_height;
+            for (double x = PROGRESS_MARGIN; x <= progress_width; x += 1.0) {
+                double y = center_y + Math.sin ((x - PROGRESS_MARGIN) * wave_frequency + _wave_phase) * wave_height;
                 cr.line_to (x, y);
             }
 
