@@ -249,7 +249,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         stop_indicator.margin_end = 14;
         if (_is_wavy && _stop_indicator_visibility) {
             // Adjust margin to account for wave margin so stop indicator aligns with wavy area end
-            stop_indicator.margin_end = 10;
+            stop_indicator.margin_end = 0;
         }
         stop_indicator.valign = Gtk.Align.CENTER;
         stop_indicator.halign = Gtk.Align.END;
@@ -314,7 +314,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
     private void update_stop_indicator_position () {
         if (_is_wavy && _stop_indicator_visibility) {
             // No margin needed since the wavy progress fills the full width
-            stop_indicator.margin_end = 10;
+            stop_indicator.margin_end = 0;
         }
     }
 
