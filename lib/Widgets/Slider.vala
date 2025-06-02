@@ -497,7 +497,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         }
 
         // Update wave phase for animation - create flowing effect
-        _wave_phase += _wave_wavelength * 0.01; // Move the wave pattern forward
+        _wave_phase += _wave_wavelength * 0.0025; // Move the wave pattern forward
         if (_wave_phase > 2.0 * Math.PI) {
             _wave_phase -= 2.0 * Math.PI;
         }
