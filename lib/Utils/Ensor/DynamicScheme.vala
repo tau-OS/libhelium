@@ -40,7 +40,10 @@ namespace He {
             this.tertiary = tertiary;
             this.neutral = neutral;
             this.neutral_variant = neutral_variant;
-            this.error = error != null ? error : TonalPalette.from_hue_and_chroma(25.0, 48.0);
+            this.error = error != null ? error : TonalPalette.from_hue_and_chroma(piecewise_val(
+                                                                                                hct,
+                                                                                                new double[] { 0, 3, 13, 23, 33, 43, 153, 273, 360 },
+                                                                                                new double[] { 12, 22, 32, 12, 22, 32, 22, 12 }), 60.0);
         }
 
         public HCTColor get_hct(DynamicColor dynamic_color) {

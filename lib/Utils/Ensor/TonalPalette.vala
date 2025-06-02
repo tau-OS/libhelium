@@ -28,7 +28,9 @@ public class He.TonalPalette : GLib.Object {
         int? color = cache.get(tone);
         if (color == null) {
             if (tone == 99 && hue_is_yellow(hue)) {
-                average_argb(get_tone(99), get_tone(100));
+                int tone98 = hct_to_argb(this.hue, this.chroma, 98);
+                int tone100 = hct_to_argb(this.hue, this.chroma, 100);
+                color = average_argb(tone98, tone100);
             } else {
                 color = hct_to_argb(this.hue, this.chroma, tone);
             }

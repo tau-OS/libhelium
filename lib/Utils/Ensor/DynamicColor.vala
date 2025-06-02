@@ -13,15 +13,15 @@ namespace He {
         public double chromamult { get; set; }
         public ContrastCurve contrast_curve { get; set; }
 
-        public unowned PaletteFunc palette;
-        public unowned ToneFunc tonev;
-        public unowned BackgroundFunc background;
-        public unowned BackgroundFunc second_background;
-        public unowned ToneDeltaPairFunc tone_delta_pair;
+        public PaletteFunc palette;
+        public ToneFunc tone;
+        public BackgroundFunc background;
+        public BackgroundFunc second_background;
+        public ToneDeltaPairFunc tone_delta_pair;
 
         public DynamicColor (string name,
             PaletteFunc palette,
-            ToneFunc? tonev,
+            ToneFunc? tone,
             double chromamult,
             bool? is_background,
             BackgroundFunc? background,
@@ -30,7 +30,7 @@ namespace He {
             ToneDeltaPairFunc? tone_delta_pair) {
             this.name = name;
             this.palette = palette;
-            this.tonev = tonev;
+            this.tone = tone;
 
             this.chromamult = chromamult;
             this.is_background = is_background;
@@ -43,11 +43,11 @@ namespace He {
 
         public DynamicColor.from_palette (string name,
                                           PaletteFunc palette,
-                                          ToneFunc ? tonev) {
+                                          ToneFunc ? tone) {
             new DynamicColor (
                               name,
                               palette,
-                              tonev,
+                              tone,
                               1.0,
                               false,
                               null,
@@ -57,18 +57,51 @@ namespace He {
             );
         }
 
+        public DynamicColor build () {
+            if (this.tone == null) {
+                this.tone = get_initial_tone_from_background (this.background);
+            }
+
+            return new DynamicColor (
+                                     this.name,
+                                     this.palette,
+                                     this.tone,
+                                     this.chromamult,
+                                     this.is_background,
+                                     this.background,
+                                     this.second_background,
+                                     this.contrast_curve,
+                                     this.tone_delta_pair
+            );
+        }
+
         public HCTColor get_hct (DynamicScheme scheme, DynamicColor color) {
             var palette = color.palette (scheme);
             var tone = color.get_tone (scheme, color);
             var hue = palette.hue;
-            var chroma = palette.chroma * color.chromamult;
+            double chroma = color.chromamult == -1 ? 1 : color.chromamult;
+            var fchroma = palette.chroma * chroma;
 
-            return from_params (hue, chroma, tone);
+            return from_params (hue, fchroma, tone);
         }
 
         public double get_hue (DynamicScheme scheme) {
             double answer = palette (scheme).hue;
             return answer;
+        }
+
+        public ToneFunc get_initial_tone_from_background (BackgroundFunc? background) {
+            if (background == null) {
+                return (s) => 50.0;
+            } else {
+                return (s) => {
+                           return background (s) != null ? background (s).get_tone_from_scheme (s) : 50.0;
+                };
+            }
+        }
+
+        public double get_tone_from_scheme (DynamicScheme scheme) {
+            return get_tone (scheme, this);
         }
 
         public double get_tone (DynamicScheme scheme, DynamicColor? color) {
@@ -87,7 +120,7 @@ namespace He {
                 var am_role_a = color.name == role_a.name;
                 var self_role = am_role_a ? role_a : role_b;
                 var ref_role = am_role_a ? role_b : role_a;
-                var self_tone = self_role.tonev (scheme);
+                var self_tone = self_role.tone (scheme);
                 var ref_tone = ref_role.get_tone (scheme, this);
                 var relative_delta = absolute_delta * (am_role_a ? 1 : -1);
 
@@ -137,7 +170,7 @@ namespace He {
                 return self_tone;
             } else {
                 // Case 1: No tone delta pair; just solve for itself.
-                var answer = tonev (scheme);
+                var answer = tone (scheme);
 
                 if (color.background == null ||
                     color.background (scheme) == null ||

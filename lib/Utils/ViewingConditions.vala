@@ -123,7 +123,7 @@ public class He.ViewingConditions : Object {
                                        { 95.047055865428320, 100.000000000000000, 108.882873639588400 }, // All these 0 are to avoid float shenanigans
                                        (adapting_luminance > 0.0) ? adapting_luminance : (200.0 / Math.PI * MathUtils.y_from_lstar (lstar) / 100f),
                                        lstar,
-                                       0.69,
+                                       2.0,
                                        false
         );
     }

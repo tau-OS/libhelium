@@ -18,7 +18,7 @@ namespace He {
         public double delta;
         public TonePolarity polarity;
         public ToneResolve resolve = ToneResolve.EXACT;
-        public bool stay_together = false;
+        public bool stay_together = true;
 
         public ToneDeltaPair (DynamicColor role_a,
             DynamicColor role_b,
