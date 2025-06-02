@@ -88,6 +88,13 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
     private bool _continuous_animation = false;
 
     /**
+     * Wave flattening state tracking.
+     */
+    private bool _is_flattening = false;
+    private int64 _flatten_start_time = 0;
+    private const int64 FLATTEN_DURATION = 200000; // 200ms in microseconds
+
+    /**
      * Controls whether the wavy progressbar should animate.
      * Set to true when progress is actively changing, false when static.
      */
@@ -116,7 +123,19 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
             return _progress;
         }
         set {
+            double old_progress = _progress;
             _progress = Math.fmax (0.0, Math.fmin (1.0, value));
+
+            // Start flattening animation when crossing 90% threshold
+            if (old_progress < 0.9 && _progress >= 0.9 && !_is_flattening) {
+                _is_flattening = true;
+                _flatten_start_time = GLib.get_monotonic_time ();
+            }
+            // Reset flattening if progress goes back below 90%
+            else if (_progress < 0.9 && _is_flattening) {
+                _is_flattening = false;
+            }
+
             if (_is_wavy) {
                 wavy_drawing_area.queue_draw ();
                 update_stop_indicator_position ();
@@ -189,6 +208,11 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
                 if (_is_osd) {
                     wavy_drawing_area.add_css_class ("osd");
                 }
+                // Check if flattening should be active based on current progress
+                if (_progress >= 0.9 && !_is_flattening) {
+                    _is_flattening = true;
+                    _flatten_start_time = GLib.get_monotonic_time ();
+                }
                 // Start continuous animation automatically
                 start_continuous_animation ();
             } else {
@@ -201,6 +225,8 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
                 if (_is_osd) {
                     progressbar.add_css_class ("osd");
                 }
+                // Reset flattening state when leaving wavy mode
+                _is_flattening = false;
                 // Stop animation when leaving wavy mode
                 stop_continuous_animation ();
             }
@@ -352,6 +378,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
             _wave_phase -= 2.0 * Math.PI;
         }
 
+        // Always redraw to show flattening animation progress
         wavy_drawing_area.queue_draw ();
         return true; // Continue animation
     }
@@ -406,6 +433,22 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
             // Create wavy path using properties
             double wave_height = _wave_amplitude;
             double wave_frequency = 2.0 * Math.PI / _wave_wavelength;
+
+            // Apply time-based flattening if progress >= 90%
+            if (_is_flattening) {
+                int64 current_time = GLib.get_monotonic_time ();
+                int64 elapsed = current_time - _flatten_start_time;
+
+                if (elapsed < FLATTEN_DURATION) {
+                    // Gradually reduce wave amplitude over 200ms
+                    double flatten_factor = (double) elapsed / (double) FLATTEN_DURATION;
+                    flatten_factor = Math.fmin (1.0, flatten_factor); // Clamp to max 1.0
+                    wave_height *= (1.0 - flatten_factor); // Reduce amplitude
+                } else {
+                    // Flattening complete, wave is flat
+                    wave_height = 0.0;
+                }
+            }
 
             cr.move_to (0, center_y);
 
