@@ -415,14 +415,14 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         cr.set_line_cap (Cairo.LineCap.ROUND);
 
         // Calculate progress width
-        double progress_width = width * _progress - 6.0;
+        double progress_width = width * _progress;
         double center_y = height * 0.5;
 
         // Draw background as a simple straight line from progress end to full width
         if (progress_width < width) {
             cr.set_source_rgba (bg_color.red, bg_color.green, bg_color.blue, bg_color.alpha);
             cr.move_to (progress_width + 6.0, center_y);
-            cr.line_to (width, center_y);
+            cr.line_to (width - 6.0, center_y);
             cr.stroke ();
         }
 
