@@ -148,6 +148,10 @@ namespace He.MathUtils {
         return (n > 0 ? n : -n);
     }
 
+    public int round (double n) {
+        return (int) (n >= 0 ? n + 0.5 : n - 0.5);
+    }
+
     public double max (double n, double m) {
         return (n > m ? n : m);
     }

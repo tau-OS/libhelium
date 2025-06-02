@@ -106,16 +106,15 @@ namespace He {
 
         public double get_tone (DynamicScheme scheme, DynamicColor? color) {
             if (tone_delta_pair != null) {
-                ToneDeltaPair tone_delta_pair = tone_delta_pair (scheme);
-                DynamicColor role_a = tone_delta_pair.role_a;
-                DynamicColor role_b = tone_delta_pair.role_b;
-                TonePolarity polarity = tone_delta_pair.polarity;
-                ToneResolve resolve = tone_delta_pair.resolve;
+                DynamicColor role_a = tone_delta_pair (scheme).role_a;
+                DynamicColor role_b = tone_delta_pair (scheme).role_b;
+                TonePolarity polarity = tone_delta_pair (scheme).polarity;
+                ToneResolve resolve = tone_delta_pair (scheme).resolve;
                 var absolute_delta = (polarity == TonePolarity.DARKER ||
                                       (polarity == TonePolarity.RELATIVE_LIGHTER && scheme.is_dark) ||
                                       (polarity == TonePolarity.RELATIVE_DARKER && !scheme.is_dark)) ?
-                    tone_delta_pair.delta * -1 :
-                    tone_delta_pair.delta;
+                    tone_delta_pair (scheme).delta* -1 :
+                    tone_delta_pair (scheme).delta;
 
                 var am_role_a = color.name == role_a.name;
                 var self_role = am_role_a ? role_a : role_b;
@@ -209,8 +208,8 @@ namespace He {
                 var bg2 = color.second_background (scheme);
                 var bg_tone1 = bg1.get_tone (scheme, bg1);
                 var bg_tone2 = bg2.get_tone (scheme, bg2);
-                var upper = Math.fmax (bg_tone1, bg_tone2);
-                var lower = Math.fmin (bg_tone1, bg_tone2);
+                var upper = MathUtils.max (bg_tone1, bg_tone2);
+                var lower = MathUtils.min (bg_tone1, bg_tone2);
 
                 if (Contrast.ratio_of_tones (upper, answer) >= desired_ratio &&
                     Contrast.ratio_of_tones (lower, answer) >= desired_ratio) {
@@ -257,7 +256,7 @@ namespace He {
             if (prefer_lighter) {
                 // Handle edge cases where the initial contrast ratio is high and neither lighter nor darker tones pass
                 bool negligible_difference =
-                    Math.fabs (lighter_ratio - darker_ratio) < 0.1 && lighter_ratio < ratio && darker_ratio < ratio;
+                    MathUtils.abs (lighter_ratio - darker_ratio) < 0.1 && lighter_ratio < ratio && darker_ratio < ratio;
 
                 if (lighter_ratio >= ratio || lighter_ratio >= darker_ratio || negligible_difference) {
                     return lighter_tone;
@@ -271,18 +270,18 @@ namespace He {
 
         public static double enable_light_foreground (double tone) {
             if (tone_prefers_light_foreground (tone) && !tone_allows_light_foreground (tone)) {
-                return 49.0;
+                return 49;
             }
             return tone;
         }
 
         public static bool tone_prefers_light_foreground (double tone) {
-            return Math.round (tone) < 60;
+            return MathUtils.round (tone) < 60;
         }
 
         /** Tones less than ~50 always permit white at 4.5 contrast. */
         public static bool tone_allows_light_foreground (double tone) {
-            return Math.round (tone) <= 49;
+            return MathUtils.round (tone) <= 49;
         }
     }
 }
