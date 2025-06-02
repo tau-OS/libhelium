@@ -258,7 +258,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
 
         // Setup wavy drawing area
         wavy_drawing_area.hexpand = true;
-        wavy_drawing_area.set_size_request (-1, 6);
+        wavy_drawing_area.set_size_request (-1, 40);
         wavy_drawing_area.set_draw_func (draw_wavy_progress);
 
         pb_overlay.hexpand = true;
@@ -415,7 +415,7 @@ public class He.ProgressBar : He.Bin, Gtk.Buildable {
         cr.set_line_cap (Cairo.LineCap.ROUND);
 
         // Calculate progress width
-        double progress_width = width * _progress;
+        double progress_width = width * _progress - 6.0;
         double center_y = height * 0.5;
 
         // Draw background as a simple straight line from progress end to full width
