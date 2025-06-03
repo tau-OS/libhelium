@@ -14,8 +14,18 @@ namespace He {
         return (int) HCTColor.to_int;
     }
 
+    public HCTColor set_internal_state (int argb) {
+        var a = argb;
+        CAM16Color cam = cam16_from_int (argb);
+        var h = cam.h;
+        var c = cam.c;
+        var t = MathUtils.lstar_from_argb (argb);
+
+        return { h, c, t, a };
+    }
+
     public HCTColor from_params (double hue, double chroma, double tone) {
-        return hct_from_int (from_solved (hue, chroma, tone));
+        return set_internal_state (from_solved (hue, chroma, tone));
     }
 
     public HCTColor in_vc (ViewingConditions vc) {
@@ -72,7 +82,7 @@ namespace He {
         HCTColor hct = { hue, chroma, lstar };
 
         // If color is mono…
-        if (hct.c < 1.0001 || hct.t < 0.0001 || hct.t > 99.9999) {
+        if (chroma < 0.0001 || lstar < 0.0001 || lstar > 99.9999) {
             return hexcode_argb (MathUtils.argb_from_lstar (hct.t));
             // Else…
         } else {
@@ -92,7 +102,7 @@ namespace He {
 
     public string hex_from_hct_with_contrast (HCTColor hct, double contrast) {
         // If color is mono…
-        if (hct.c < 1.0001 || contrast < 0.0001 || contrast > 99.9999) {
+        if (hct.c < 0.0001 || contrast < 0.0001 || contrast > 99.9999) {
             return hexcode_argb (MathUtils.argb_from_lstar (contrast));
             // Else…
         } else {
@@ -112,7 +122,7 @@ namespace He {
 
     public string hex_from_hct (HCTColor hct) {
         // If color is mono…
-        if (hct.c < 1.0001 || hct.t < 0.0001 || hct.t > 99.9999) {
+        if (hct.c < 0.0001 || hct.t < 0.0001 || hct.t > 99.9999) {
             return hexcode_argb (MathUtils.argb_from_lstar (hct.t));
             // Else…
         } else {
@@ -132,7 +142,7 @@ namespace He {
 
     public int hct_to_argb (double hue, double chroma, double lstar) {
         // If color is mono…
-        if (chroma < 1.0001 || lstar < 0.0001 || lstar > 99.9999) {
+        if (chroma < 0.0001 || lstar < 0.0001 || lstar > 99.9999) {
             return MathUtils.argb_from_lstar (lstar);
             // Else…
         } else {

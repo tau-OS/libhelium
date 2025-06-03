@@ -26,7 +26,7 @@ namespace He {
             double contrast_level,
             TonalPalette primary,
             TonalPalette secondary,
-            TonalPalette tertiary,
+            TonalPalette? tertiary,
             TonalPalette neutral,
             TonalPalette neutral_variant,
             TonalPalette? error) {
@@ -43,7 +43,7 @@ namespace He {
             this.error = error != null ? error : TonalPalette.from_hue_and_chroma(piecewise_val(
                                                                                                 hct,
                                                                                                 new double[] { 0, 3, 13, 23, 33, 43, 153, 273, 360 },
-                                                                                                new double[] { 12, 22, 32, 12, 22, 32, 22, 12 }), 60.0);
+                                                                                                new double[] { 12, 22, 32, 12, 22, 32, 22, 12 }), 84.0);
         }
 
         public HCTColor get_hct(DynamicColor dynamic_color) {
@@ -52,6 +52,14 @@ namespace He {
 
         public double get_hue(DynamicColor dynamic_color) {
             return dynamic_color.get_hue(this);
+        }
+
+        public double get_rotated_hue(double[] hb, double[] r) {
+            double rotation = piecewise_val(hct, hb, r);
+            if (MathUtils.min(hb.length - 1, r.length) <= 0) {
+                rotation = 0;
+            }
+            return MathUtils.sanitize_degrees(hct.h + rotation);
         }
 
         public bool is_yellow() {

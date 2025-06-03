@@ -11,15 +11,15 @@ namespace He {
     return argb_from_rgb_int (r, g, b);
   }
 
-  public int from_solved (double h, double c, double t) {
+  public int from_solved (double h, double c, double lstar) {
     // If color is mono…
-    if (c < 1.0001 || t < 0.0001 || t > 99.9999) {
-      return MathUtils.argb_from_lstar (t);
+    if (c < 0.0001 || lstar < 0.0001 || lstar > 99.9999) {
+      return MathUtils.argb_from_lstar (lstar);
       // Else…
     } else {
       h = MathUtils.sanitize_degrees (h);
       double hr = h / 180 * Math.PI;
-      double y = MathUtils.y_from_lstar (t);
+      double y = MathUtils.y_from_lstar (lstar);
       int exact_answer = find_result_by_j (hr, c, y);
 
       if (exact_answer != 0) {
