@@ -177,7 +177,7 @@ public class He.NavigationRail : He.Bin {
         });
         main_box.prepend (expand_button);
 
-        this.add_css_class ("sidebar-view");
+        this.add_css_class ("navigation-rail-container");
         update_orientation_layout ();
         update_expansion_state ();
     }
