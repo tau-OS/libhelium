@@ -616,7 +616,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         // Draw rounded rectangular slider handle (4px wide, 32px high)
         double handle_x = slider_x - handle_width * 0.5;
         double handle_y = handle_center_y - handle_height * 0.5;
-        double corner_radius = 4.0;
+        double corner_radius = 2.0;
 
         // Fill handle
         cr.set_source_rgba (((is_dark ? 0.40f : 0.80f) * accent_color.red), ((is_dark ? 0.40f : 0.80f) * accent_color.green), ((is_dark ? 0.40f : 0.80f) * accent_color.blue), 1.0f);
