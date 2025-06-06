@@ -296,11 +296,13 @@ public class He.AppBar : He.Bin {
             if (((Gtk.Widget) child).get_first_child () != null) {
                 ((Gtk.Widget) child).get_first_child ().add_css_class ("disclosure-button");
                 ((Gtk.Widget) child).get_first_child ().remove_css_class ("image-button");
+                ((Gtk.Widget) child).get_first_child ().remove_css_class ("toggle");
             }
 
             ((Gtk.Widget) child).remove_css_class ("image-button");
         } else if (type == "titlebar-toggle") {
             ((Gtk.Widget) child).remove_css_class ("image-button");
+            ((Gtk.Widget) child).remove_css_class ("toggle");
             ((Gtk.Widget) child).add_css_class ("disclosure-button");
         } else if (type == "titlebar-button") {
             ((Gtk.Widget) child).add_css_class ("disclosure-button");
@@ -336,6 +338,7 @@ public class He.AppBar : He.Bin {
 
         ((Gtk.Widget) child).add_css_class ("disclosure-button");
         ((Gtk.Widget) child).remove_css_class ("image-button");
+        ((Gtk.Widget) child).remove_css_class ("toggle");
 
         btn_box.visible = true;
     }
@@ -351,6 +354,7 @@ public class He.AppBar : He.Bin {
         if (((Gtk.Widget) child).get_first_child () != null) {
             ((Gtk.Widget) child).get_first_child ().add_css_class ("disclosure-button");
             ((Gtk.Widget) child).get_first_child ().remove_css_class ("image-button");
+            ((Gtk.Widget) child).get_first_child ().remove_css_class ("toggle");
         }
         ((Gtk.Widget) child).remove_css_class ("image-button");
 
