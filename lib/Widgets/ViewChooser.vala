@@ -83,7 +83,6 @@ public class He.ViewChooser : He.Bin {
         menu_popover.has_arrow = false;
 
         var menu = new Gtk.MenuButton ();
-        menu.add_css_class ("flat");
         menu.popover = menu_popover;
         menu.child = menu_child_box;
 
