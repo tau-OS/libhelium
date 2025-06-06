@@ -385,7 +385,7 @@ public class He.Scheme {
                                  /* name= */ "primary_container",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => { if (s.variant == SchemeVariant.MUTED || s.variant == SchemeVariant.DEFAULT) {
-                                                          return s.is_dark ? 25.0 : 90.0;
+                                                          return s.is_dark ? 30.0 : 90.0;
                                                       } else if (s.variant == SchemeVariant.CONTENT) {
                                                           return s.hct.t;
                                                       } else { // VIBRANT or other variants
@@ -537,7 +537,7 @@ public class He.Scheme {
                           : t_max_c (s.tertiary, 0, 96);
                                                       } else if (s.variant == SchemeVariant.DEFAULT) {
                                                           // For baseline compatibility, use tone 90
-                                                          return s.is_dark ? 25.0 : 90.0;
+                                                          return s.is_dark ? 30.0 : 90.0;
                                                       } else if (s.variant == SchemeVariant.SALAD) {
                                                           return t_max_c (
                                                                           s.tertiary,
