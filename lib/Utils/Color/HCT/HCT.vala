@@ -44,9 +44,9 @@ namespace He {
 
     // Disliked means a yellow-green that's not neutral
     public static bool disliked (HCTColor hct) {
-        bool hue_passes = Math.round (hct.h) >= 90.0 && Math.round (hct.h) <= 111.0;
-        bool chroma_passes = Math.round (hct.c) > 16.0;
-        bool tone_passes = Math.round (hct.t) < 65.0;
+        bool hue_passes = MathUtils.round_double (hct.h) >= 90.0 && MathUtils.round_double (hct.h) <= 111.0;
+        bool chroma_passes = MathUtils.round_double (hct.c) > 16.0;
+        bool tone_passes = MathUtils.round_double (hct.t) < 65.0;
 
         return hue_passes && chroma_passes && tone_passes;
     }
@@ -79,65 +79,15 @@ namespace He {
     }
 
     public string hct_to_hex (double hue, double chroma, double lstar) {
-        HCTColor hct = { hue, chroma, lstar };
-
-        // If color is mono…
-        if (chroma < 0.0001 || lstar < 0.0001 || lstar > 99.9999) {
-            return hexcode_argb (MathUtils.argb_from_lstar (hct.t));
-            // Else…
-        } else {
-            hue = MathUtils.sanitize_degrees (hct.h);
-            double hr = hue / 180 * Math.PI;
-            double y = MathUtils.y_from_lstar (hct.t);
-            int exact_answer = find_result_by_j (hr, hct.c, y);
-
-            if (exact_answer != 0) {
-                return hexcode_argb (exact_answer);
-            }
-
-            double[] linrgb = MathUtils.bisect_to_limit (y, hr);
-            return hexcode_argb (argb_from_linrgb (linrgb));
-        }
+        return hexcode_argb (hct_to_argb (hue, chroma, lstar));
     }
 
     public string hex_from_hct_with_contrast (HCTColor hct, double contrast) {
-        // If color is mono…
-        if (hct.c < 0.0001 || contrast < 0.0001 || contrast > 99.9999) {
-            return hexcode_argb (MathUtils.argb_from_lstar (contrast));
-            // Else…
-        } else {
-            hct.h = MathUtils.sanitize_degrees (hct.h);
-            double hr = hct.h / 180 * Math.PI;
-            double y = MathUtils.y_from_lstar (contrast);
-            int exact_answer = find_result_by_j (hr, hct.c, y);
-
-            if (exact_answer != 0) {
-                return hexcode_argb (exact_answer);
-            }
-
-            double[] linrgb = MathUtils.bisect_to_limit (y, hr);
-            return hexcode_argb (argb_from_linrgb (linrgb));
-        }
+        return hexcode_argb (hct_to_argb (hct.h, hct.c, contrast));
     }
 
     public string hex_from_hct (HCTColor hct) {
-        // If color is mono…
-        if (hct.c < 0.0001 || hct.t < 0.0001 || hct.t > 99.9999) {
-            return hexcode_argb (MathUtils.argb_from_lstar (hct.t));
-            // Else…
-        } else {
-            hct.h = MathUtils.sanitize_degrees (hct.h);
-            double hr = hct.h / 180 * Math.PI;
-            double y = MathUtils.y_from_lstar (hct.t);
-            int exact_answer = find_result_by_j (hr, hct.c, y);
-
-            if (exact_answer != 0) {
-                return hexcode_argb (exact_answer);
-            }
-
-            double[] linrgb = MathUtils.bisect_to_limit (y, hr);
-            return hexcode_argb (argb_from_linrgb (linrgb));
-        }
+        return hexcode_argb (hct_to_argb (hct.h, hct.c, hct.t));
     }
 
     public int hct_to_argb (double hue, double chroma, double lstar) {

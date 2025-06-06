@@ -36,7 +36,7 @@ namespace He {
         }
 
         public int diff_temps(HCTColor a, HCTColor b) {
-            return (int) get_temp(a) - (int) get_temp(b);
+            return (int) Math.floor(get_temp(a) - get_temp(b));
         }
 
         public HCTColor get_warmest() {
@@ -64,7 +64,8 @@ namespace He {
 
             return analogous_colors;
         }
-        private HCTColor? get_closest_hct(double hue) {
+
+        private HCTColor ? get_closest_hct(double hue) {
             HCTColor? closest_hct = null;
             double min_diff = 360.0;
 

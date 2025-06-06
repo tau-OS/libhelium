@@ -63,12 +63,12 @@ public class He.ViewingConditions : Object {
         return (1.0 - amount) * start + amount * stop;
     }
 
-    public static ViewingConditions make (double[] white_point = { 95.047055865428320, 100.000000000000000, 108.882873639588400 },
+    public static ViewingConditions make (double[] white_point = { 95.04701, 100.00001, 108.88301 },
                                           double adapting_luminance = (200.0 / Math.PI * He.MathUtils.y_from_lstar (50.0) / 100.0),
                                           double bg_lstar = 50.0,
-                                          double surround = 2.0,
+                                          double surround = 1.0,
                                           bool discount_illuminant = false) {
-        bg_lstar = MathUtils.max (0.1, bg_lstar);
+        bg_lstar = Math.fmax (0.1, bg_lstar);
         double[,] matrix = XYZ_TO_CAM16RGB;
         double[] xyz = white_point;
         double r_white = (xyz[0] * matrix[0, 0]) + (xyz[1] * matrix[0, 1]) + (xyz[2] * matrix[0, 2]);
@@ -118,12 +118,12 @@ public class He.ViewingConditions : Object {
 
     public static ViewingConditions with_lstar (double lstar) {
         double adapting_luminance = -1;
-        lstar = MathUtils.max (0.1, lstar);
+        lstar = Math.fmax (0.1, lstar);
         return ViewingConditions.make (
-                                       { 95.047055865428320, 100.000000000000000, 108.882873639588400 }, // All these 0 are to avoid float shenanigans
-                                       (adapting_luminance > 0.0) ? adapting_luminance : (200.0 / Math.PI * MathUtils.y_from_lstar (lstar) / 100f),
+                                       { 95.04701, 100.00001, 108.88301 },
+                                       (adapting_luminance > 0.0) ? adapting_luminance : (200.0 / Math.PI * MathUtils.y_from_lstar (lstar) / 100.0),
                                        lstar,
-                                       2.0,
+                                       1.0,
                                        false
         );
     }

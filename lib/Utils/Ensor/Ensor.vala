@@ -18,7 +18,7 @@
  */
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Ensor {
-    GLib.Array<int> accent_from_pixels (uint8[] pixels, bool alpha) {
+    GLib.Array<int64> accent_from_pixels (uint8[] pixels, bool alpha) {
         var celebi = new He.QuantizerCelebi ();
         var result = celebi.quantize (pixels_to_argb_array (pixels, alpha), 128);
         var score = new He.Score ();
@@ -28,32 +28,33 @@ namespace He.Ensor {
     private int[] pixels_to_argb_array (uint8[] pixels, bool alpha) {
         int[] list = {};
 
-        int factor = 0;
+        int channels = alpha ? 4 : 3;
+        int quality = 4; // Quality setting: 1 = min, 4 = default, 10 = max
 
-        if (alpha) {
-            factor = 4;
-        } else {
-            factor = 3;
-        }
+        int pixel_count = pixels.length / channels;
 
-        int i = 0;
-        while (i < (pixels.length / factor)) {
-            int offset = i * factor;
+        for (int i = 0; i < pixel_count; i += quality) {
+            int offset = i * channels;
+
+            // Ensure we don't go out of bounds
+            if (offset + 2 >= pixels.length) {
+                break;
+            }
+
             uint8 red = pixels[offset];
             uint8 green = pixels[offset + 1];
             uint8 blue = pixels[offset + 2];
 
             int rgb = argb_from_rgb_int (red, green, blue);
-            list += (rgb);
-
-            i += 4; // quality (1 = min, 5 = default, 10 = max; quality = (max + min) - def)
+            list += rgb;
         }
+
         return list;
     }
 
-    public async GLib.Array<int> accent_from_pixels_async (uint8[] pixels, bool alpha) {
+    public async GLib.Array<int64> accent_from_pixels_async (uint8[] pixels, bool alpha) {
         SourceFunc callback = accent_from_pixels_async.callback;
-        GLib.Array<int> result = null;
+        GLib.Array<int64> result = null;
 
         ThreadFunc<bool> run = () => {
             result = accent_from_pixels (pixels, alpha);

@@ -80,9 +80,10 @@ namespace He.Misc {
 
   // Adapted from https://github.com/gka/chroma.js
   private double[] interpolate (double red, double green, double blue, double red2, double green2, double blue2) {
-    var r = Math.round (red + 0.5 * (red2 - red));
-    var g = Math.round (green + 0.5 * (green2 - green));
-    var b = Math.round (blue + 0.5 * (blue2 - blue));
+    // Fixed: Use MathUtils.round instead of Math.round
+    var r = MathUtils.round_double (red + 0.5 * (red2 - red));
+    var g = MathUtils.round_double (green + 0.5 * (green2 - green));
+    var b = MathUtils.round_double (blue + 0.5 * (blue2 - blue));
     double[] interp_color = { r, g, b };
 
     return interp_color;

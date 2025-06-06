@@ -34,11 +34,11 @@ namespace He {
         public double get (double contrast) {
             if (contrast <= -1.0) {
                 return this.low;
+            } else if (contrast < 0.0) {
+                return MathUtils.lerp (this.low, this.normal, (contrast - (-1.0)) / 1.0);
             } else if (contrast < 0.5) {
-                return MathUtils.lerp (this.low, this.normal, (contrast - -1) / 1);
+                return MathUtils.lerp (this.normal, this.medium, contrast / 0.5);
             } else if (contrast < 1.0) {
-                return MathUtils.lerp (this.normal, this.medium, (contrast - 0) / 0.5);
-            } else if (contrast < 1.5) {
                 return MathUtils.lerp (this.medium, this.high, (contrast - 0.5) / 0.5);
             } else {
                 return this.high;

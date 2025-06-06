@@ -27,9 +27,9 @@ namespace He {
         double g_d = vc.rgb_d[1] * g_t;
         double b_d = vc.rgb_d[2] * b_t;
 
-        double r_af = Math.pow (vc.fl * MathUtils.abs (r_d) / 100.0, 0.42);
-        double g_af = Math.pow (vc.fl * MathUtils.abs (g_d) / 100.0, 0.42);
-        double b_af = Math.pow (vc.fl * MathUtils.abs (b_d) / 100.0, 0.42);
+        double r_af = MathUtils.pow (vc.fl * MathUtils.abs (r_d) / 100.0, 0.42);
+        double g_af = MathUtils.pow (vc.fl * MathUtils.abs (g_d) / 100.0, 0.42);
+        double b_af = MathUtils.pow (vc.fl * MathUtils.abs (b_d) / 100.0, 0.42);
         double r_a = MathUtils.signum (r_d) * 400.0 * r_af / (r_af + 27.13);
         double g_a = MathUtils.signum (g_d) * 400.0 * g_af / (g_af + 27.13);
         double b_a = MathUtils.signum (b_d) * 400.0 * b_af / (b_af + 27.13);
@@ -43,11 +43,11 @@ namespace He {
         double p2 = (40.0 * r_a + 20.0 * g_a + b_a) / 20.0;
 
         double hr = Math.atan2 (b, a);
-        double atan_degrees = hr * 180 / Math.PI;
+        double atan_degrees = hr * 180.0 / Math.PI;
         double h =
-            atan_degrees < 0
+            atan_degrees < 0.0
             ? atan_degrees + 360.0
-            : atan_degrees >= 360
+            : atan_degrees >= 360.0
             ? atan_degrees - 360.0
             : atan_degrees;
 
@@ -55,8 +55,8 @@ namespace He {
 
         var j = 100.0 * Math.pow (ac / vc.aw, vc.c * vc.z);
 
-        double hue_prime = (h < 20.14) ? h + 360 : h;
-        double e_hue = 0.25 * (Math.cos ((hue_prime * (Math.PI / 180)) + 2.0) + 3.8);
+        double hue_prime = (h < 20.14) ? h + 360.0 : h;
+        double e_hue = 0.25 * (Math.cos ((hue_prime * (Math.PI / 180.0)) + 2.0) + 3.8);
         double p1 = 50000.0 / 13.0 * e_hue * vc.nc * vc.ncb;
         double t = p1 * Math.hypot (a, b) / (u + 0.305);
         double alpha = Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73) * Math.pow (t, 0.9);

@@ -10,10 +10,10 @@ namespace He {
     const double WEIGHT_CHROMA_BELOW = 0.1;
     const double CUTOFF_CHROMA = 5.0;
     const double CUTOFF_EXCITED_PROPORTION = 0.01;
-    const string TAU_PURPLE = "#FF8C56BF";
+    const int64 TAU_PURPLE = 0xFF8C56BF;
 
     public class AnnotatedColor {
-      public int argb;
+      public int64 argb;
       public double cam_hue;
       public double cam_chroma;
       public double excited_proportion;
@@ -25,7 +25,7 @@ namespace He {
       };
     }
 
-    public GLib.Array<int> score (HashTable<int?, int?> colors_to_population, int? desired) {
+    public GLib.Array<int64> score (HashTable<int?, int?> colors_to_population, int? desired) {
       double population_sum = 0.0;
       uint input_size = colors_to_population.size ();
 
@@ -51,22 +51,22 @@ namespace He {
 
         CAM16Color cam = cam16_from_int (argbs[i]);
 
-        int hue = (int) MathUtils.sanitize_degrees (Math.round (cam.h));
+        int hue = (int) Math.floor (MathUtils.sanitize_degrees (cam.h));
         hue_proportions[hue] += proportion;
 
         colors.add (new AnnotatedColor () {
           argb = argbs[i],
           cam_hue = cam.h,
           cam_chroma = cam.c,
-          excited_proportion = 0,
-          score = -1
+          excited_proportion = 0.0,
+          score = -1.0
         });
       }
 
       for (int i = 0; i < input_size; i++) {
-        int hue = (int) Math.round (colors.get (i).cam_hue);
+        int hue = (int) Math.floor (colors.get (i).cam_hue);
         for (int j = (hue - 14); j < (hue + 16); j++) {
-          int sanitized_hue = (int) MathUtils.sanitize_degrees (j);
+          int sanitized_hue = (int) Math.floor (MathUtils.sanitize_degrees (j));
           colors.get (i).excited_proportion += hue_proportions[sanitized_hue];
         }
       }
@@ -109,19 +109,19 @@ namespace He {
 
       if (selected_colors.length == 0) {
         selected_colors.add (new AnnotatedColor () {
-          argb = int.parse (TAU_PURPLE),
+          argb = TAU_PURPLE,
           cam_hue = 311.12,
           cam_chroma = 57.36,
-          excited_proportion = 0,
-          score = 0
+          excited_proportion = 0.0,
+          score = 0.0
         });
       }
 
-      GLib.Array<int?> return_value = new GLib.Array<int?> ();
+      GLib.Array<int64?> return_value = new GLib.Array<int64?> ();
 
       for (int j = 0; j < selected_colors.length; j++) {
         return_value.append_val (selected_colors.get (j).argb);
-        print ("#%d ENSOR ARGB RESULT: %d\n", j, return_value.index (j));
+        print ("#%d ENSOR ARGB RESULT: %d\n", j, (int) return_value.index ((int) j));
       }
       return return_value;
     }

@@ -26,7 +26,7 @@ namespace He {
     }
 
     public double rgb_value_to_xyz (double v) {
-        if ((v /= 255) <= 0.04045)return v / 12.92;
+        if ((v /= 255.0) <= 0.04045)return v / 12.92;
         return Math.pow ((v + 0.055) / 1.055, 2.4);
     }
 
@@ -51,7 +51,7 @@ namespace He {
         double alpha = (color.c == 0.0 || color.j == 0.0) ? 0.0 : color.c / Math.sqrt (color.j / 100.0);
 
         double t = Math.pow (alpha / Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73), 1.0 / 0.9);
-        double h_in_radians = color.h * Math.PI / 180;
+        double h_in_radians = color.h * Math.PI / 180.0;
 
         double e_hue = 0.25 * (Math.cos (h_in_radians + 2.0) + 3.8);
         double ac = vc.aw * Math.pow (color.j / 100.0, 1.0 / vc.c / vc.z);
@@ -68,11 +68,11 @@ namespace He {
         double g_a = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
         double b_a = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
 
-        double r_c_base = MathUtils.max (0, (27.13 * MathUtils.abs (r_a)) / (400.0 - MathUtils.abs (r_a)));
+        double r_c_base = Math.fmax (0.0, (27.13 * Math.fabs (r_a)) / (400.0 - Math.fabs (r_a)));
         double r_c = MathUtils.signum (r_a) * (100.0 / vc.fl) * Math.pow (r_c_base, 1.0 / 0.42);
-        double g_c_base = MathUtils.max (0, (27.13 * MathUtils.abs (g_a)) / (400.0 - MathUtils.abs (g_a)));
+        double g_c_base = Math.fmax (0.0, (27.13 * Math.fabs (g_a)) / (400.0 - Math.fabs (g_a)));
         double g_c = MathUtils.signum (g_a) * (100.0 / vc.fl) * Math.pow (g_c_base, 1.0 / 0.42);
-        double b_c_base = MathUtils.max (0, (27.13 * MathUtils.abs (b_a)) / (400.0 - MathUtils.abs (b_a)));
+        double b_c_base = Math.fmax (0.0, (27.13 * Math.fabs (b_a)) / (400.0 - Math.fabs (b_a)));
         double b_c = MathUtils.signum (b_a) * (100.0 / vc.fl) * Math.pow (b_c_base, 1.0 / 0.42);
         double r_f = r_c / vc.rgb_d[0];
         double g_f = g_c / vc.rgb_d[1];
@@ -91,9 +91,9 @@ namespace He {
     // Adapted from https://cs.github.com/Ogeon/palette/blob/d4cae1e2510205f7626e880389e5e18b45913bd4/palette/src/xyz.rs#L259
     public XYZColor lab_to_xyz (LABColor color) {
         // Recip call shows performance benefits in benchmarks for this function
-        var y = (color.l + 16.0) * (1 / 116.0);
-        var x = y + (color.a * 1 / 500.0);
-        var z = y - (color.b * 1 / 200.0);
+        var y = (color.l + 16.0) * (1.0 / 116.0);
+        var x = y + (color.a * 1.0 / 500.0);
+        var z = y - (color.b * 1.0 / 200.0);
 
         // D65 white point
         XYZColor result = {

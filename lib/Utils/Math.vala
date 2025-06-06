@@ -32,8 +32,8 @@ namespace He.MathUtils {
         return input;
     }
 
-    public int signum (double x) {
-        return (int) (x > 0) - (int) (x < 0);
+    public double signum (double x) {
+        return (x > 0.0) ? 1.0 : (x < 0.0) ? -1.0 : 0.0;
     }
 
     // Convert radians to degrees
@@ -47,13 +47,13 @@ namespace He.MathUtils {
     }
 
     public double chromatic_adaptation (double component) {
-        double af = Math.pow (MathUtils.abs (component), 0.42);
+        double af = Math.pow (Math.fabs (component), 0.42);
         return signum (component) * 400.0 * af / (af + 27.13);
     }
 
     public double inverse_chromatic_adaptation (double adapted) {
-        double adapted_abs = MathUtils.abs (adapted);
-        double b = MathUtils.max (0, 27.13 * adapted_abs / (400.0 - adapted_abs));
+        double adapted_abs = Math.fabs (adapted);
+        double b = Math.fmax (0.0, 27.13 * adapted_abs / (400.0 - adapted_abs));
         return signum (adapted) * Math.pow (b, 1.0 / 0.42);
     }
 
@@ -70,7 +70,7 @@ namespace He.MathUtils {
     }
 
     public double sanitize_radians (double angle) {
-        return (angle + Math.PI * 8) % (Math.PI * 2);
+        return (angle + Math.PI * 8.0) % (Math.PI * 2.0);
     }
 
     public bool is_bounded_rgb (double x) {
@@ -117,7 +117,7 @@ namespace He.MathUtils {
 
     public double sanitize_degrees (double degrees) {
         degrees = degrees % 360.0;
-        if (degrees < 0) {
+        if (degrees < 0.0) {
             degrees = degrees + 360.0;
         }
         return degrees;
@@ -137,36 +137,46 @@ namespace He.MathUtils {
     }
 
     public double difference_degrees (double a, double b) {
-        return 180.0 - abs (abs (a - b) - 180.0);
+        return 180.0 - Math.fabs (Math.fabs (a - b) - 180.0);
     }
 
     public double abs (double n) {
-        return (n > 0 ? n : -n);
+        return Math.fabs (n);
     }
 
     public int iabs (int n) {
         return (n > 0 ? n : -n);
     }
 
+    public double pow (double b, double e) {
+        return Math.pow (b, e);
+    }
+
     public int round (double n) {
-        return (int) (n >= 0 ? n + 0.5 : n - 0.5);
+        return (int) Math.round (n);
+    }
+
+    public double round_double (double n) {
+        return Math.round (n);
     }
 
     public double max (double n, double m) {
-        return (n > m ? n : m);
+        return Math.fmax (n, m);
     }
 
     public double min (double n, double m) {
-        return (n < m ? n : m);
+        return Math.fmin (n, m);
     }
 
     public double linearized (int rgb_component) {
         double normalized = rgb_component / 255.0;
+        double linearized = 0.0;
         if (normalized <= 0.040449936) {
-            return normalized / 12.92 * 100.0;
+            linearized = normalized / 12.92 * 100.0;
         } else {
-            return Math.pow ((normalized + 0.055) / 1.055, 2.4) * 100.0;
+            linearized = Math.pow ((normalized + 0.055) / 1.055, 2.4) * 100.0;
         }
+        return linearized;
     }
 
     public int delinearized (double rgb_component) {
@@ -177,7 +187,8 @@ namespace He.MathUtils {
         } else {
             delinearized = 1.055 * Math.pow (normalized, 1.0 / 2.4) - 0.055;
         }
-        return (int) Math.round (delinearized * 255.0).clamp (0, 255);
+        double clamped = clamp_double (0.0, 255.0, round_double (delinearized * 255.0));
+        return (int) Math.floor (clamped);
     }
 
     public double double_delinearized (double rgb_component) {
@@ -193,7 +204,7 @@ namespace He.MathUtils {
 
     public double[] midpoint (double[] a, double[] b) {
         return new double[] {
-                   (a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2,
+                   (a[0] + b[0]) / 2.0, (a[1] + b[1]) / 2.0, (a[2] + b[2]) / 2.0,
         };
     }
 
@@ -264,7 +275,7 @@ namespace He.MathUtils {
         var epsilon = 6.0 / 29.0;
         var kappa = 108.0 / 841.0;
         var delta = 4.0 / 29.0;
-        return value > epsilon? Math.pow (value, 3) : (value - delta) * kappa;
+        return value > epsilon? Math.pow (value, 3.0) : (value - delta) * kappa;
     }
 
     public double[] bisect_to_segment (double y, double target_hue) {
@@ -276,7 +287,7 @@ namespace He.MathUtils {
         bool uncut = true;
         for (int n = 0; n < 12; n++) {
             double[] mid = nth_vertex (y, n);
-            if (mid[0] < 0) {
+            if (mid[0] < 0.0) {
                 continue;
             }
             double mid_hue = hue_of (mid);
@@ -319,7 +330,7 @@ namespace He.MathUtils {
                     r_plane = critical_plane_below (double_delinearized (right[axis]));
                 }
                 for (int i = 0; i < 8; i++) {
-                    if (MathUtils.abs (r_plane - l_plane) <= 1) {
+                    if (Math.fabs (r_plane - l_plane) <= 1.0) {
                         break;
                     } else {
                         int m_plane = (int) Math.floor ((l_plane + r_plane) / 2.0);

@@ -28,11 +28,11 @@ public class He.TonalPalette : GLib.Object {
         int? color = cache.get(tone);
         if (color == null) {
             if (tone == 99 && hue_is_yellow(hue)) {
-                int tone98 = hct_to_argb(this.hue, this.chroma, 98);
-                int tone100 = hct_to_argb(this.hue, this.chroma, 100);
+                int tone98 = hct_to_argb(this.hue, this.chroma, 98.0);
+                int tone100 = hct_to_argb(this.hue, this.chroma, 100.0);
                 color = average_argb(tone98, tone100);
             } else {
-                color = hct_to_argb(this.hue, this.chroma, tone);
+                color = hct_to_argb(this.hue, this.chroma, (double) tone);
             }
             cache.set(tone, color);
         }
@@ -48,9 +48,9 @@ public class He.TonalPalette : GLib.Object {
         int g2 = (argb2 >> 8) & 0xFF;
         int b2 = argb2 & 0xFF;
 
-        int r = (int) Math.round((r1 + r2) / 2f);
-        int g = (int) Math.round((g1 + g2) / 2f);
-        int b = (int) Math.round((b1 + b2) / 2f);
+        int r = MathUtils.round((r1 + r2) / 2.0);
+        int g = MathUtils.round((g1 + g2) / 2.0);
+        int b = MathUtils.round((b1 + b2) / 2.0);
 
         return (255 << 24 | (r & 255) << 16 | (g & 255) << 8 | b & 255);
     }
