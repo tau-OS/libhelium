@@ -84,9 +84,10 @@ public class He.ViewChooser : He.Bin {
 
         var menu = new Gtk.MenuButton ();
         menu.add_css_class ("flat");
-        menu.add_css_class ("view-chooser");
         menu.popover = menu_popover;
         menu.child = menu_child_box;
+
+        add_css_class ("view-chooser");
 
         menu_box.width_request = menu_child_box.get_width ();
         menu_child_box.notify["width"].connect (() => {
