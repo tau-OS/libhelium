@@ -163,6 +163,7 @@ public class He.NavigationRail : He.Bin {
         main_box.add_css_class ("navigation-rail");
         main_box.set_parent (this);
         main_box.hexpand = true;
+        main_box.homogeneous = true;
         this._is_expanded = false;
 
         expand_button = new He.Button ("", "");
@@ -189,12 +190,14 @@ public class He.NavigationRail : He.Bin {
         if (this._orientation == Gtk.Orientation.VERTICAL) {
             main_box.valign = Gtk.Align.CENTER;
             main_box.halign = Gtk.Align.FILL;
+            main_box.spacing = 0;
             expand_button.visible = true;
             this.vexpand = true;
             this.hexpand = false;
         } else {
             main_box.valign = Gtk.Align.FILL;
             main_box.halign = Gtk.Align.CENTER;
+            main_box.spacing = 12;
             expand_button.visible = false;
             this.vexpand = false;
             this.hexpand = true;
@@ -307,6 +310,18 @@ public class He.NavigationRail : He.Bin {
             var button_child = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             button_child.append (button_child_image);
             button_child.append (button_child_label);
+            if (!is_expanded) {
+                button_child.halign = Gtk.Align.CENTER;
+            } else {
+                button_child.halign = Gtk.Align.FILL;
+            }
+            notify["is-expanded"].connect (() => {
+                if (!is_expanded) {
+                    button_child.halign = Gtk.Align.CENTER;
+                } else {
+                    button_child.halign = Gtk.Align.FILL;
+                }
+            });
 
             button.toggled.connect (() => on_button_toggled (button));
             button.set_child (button_child);
