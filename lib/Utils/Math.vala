@@ -22,6 +22,16 @@ namespace He.MathUtils {
         },
     };
 
+    public static int clamp_int (int min, int max, int input) {
+        if (input < min) {
+            return min;
+        } else if (input > max) {
+            return max;
+        }
+
+        return input;
+    }
+
     public static double clamp_double (double min, double max, double input) {
         if (input < min) {
             return min;
@@ -32,8 +42,14 @@ namespace He.MathUtils {
         return input;
     }
 
-    public double signum (double x) {
-        return (x > 0.0) ? 1.0 : (x < 0.0) ? -1.0 : 0.0;
+    public static int signum (double num) {
+        if (num < 0) {
+            return -1;
+        } else if (num == 0) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     // Convert radians to degrees
@@ -170,13 +186,11 @@ namespace He.MathUtils {
 
     public double linearized (int rgb_component) {
         double normalized = rgb_component / 255.0;
-        double linearized = 0.0;
         if (normalized <= 0.040449936) {
-            linearized = normalized / 12.92 * 100.0;
+            return normalized / 12.92 * 100.0;
         } else {
-            linearized = Math.pow ((normalized + 0.055) / 1.055, 2.4) * 100.0;
+            return Math.pow ((normalized + 0.055) / 1.055, 2.4) * 100.0;
         }
-        return linearized;
     }
 
     public int delinearized (double rgb_component) {
@@ -187,8 +201,7 @@ namespace He.MathUtils {
         } else {
             delinearized = 1.055 * Math.pow (normalized, 1.0 / 2.4) - 0.055;
         }
-        double clamped = clamp_double (0.0, 255.0, round_double (delinearized * 255.0));
-        return (int) Math.floor (clamped);
+        return clamp_int (0, 255, round (delinearized * 255));
     }
 
     public double double_delinearized (double rgb_component) {

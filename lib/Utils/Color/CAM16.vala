@@ -59,7 +59,7 @@ namespace He {
         double e_hue = 0.25 * (Math.cos ((hue_prime * (Math.PI / 180.0)) + 2.0) + 3.8);
         double p1 = 50000.0 / 13.0 * e_hue * vc.nc * vc.ncb;
         double t = p1 * Math.hypot (a, b) / (u + 0.305);
-        double alpha = Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73) * Math.pow (t, 0.9);
+        double alpha = MathUtils.pow (1.64 - MathUtils.pow (0.29, vc.n), 0.73) * MathUtils.pow (t, 0.9);
         // CAM16 chroma, colorfulness, saturation
         double c = alpha * Math.sqrt (j / 100.0);
         double m = c * vc.fl_root;

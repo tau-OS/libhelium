@@ -189,14 +189,12 @@ public class He.NavigationRail : He.Bin {
         if (this._orientation == Gtk.Orientation.VERTICAL) {
             main_box.valign = Gtk.Align.CENTER;
             main_box.halign = Gtk.Align.FILL;
-            expand_button.margin_top = 42;
             expand_button.visible = true;
             this.vexpand = true;
             this.hexpand = false;
         } else {
             main_box.valign = Gtk.Align.FILL;
             main_box.halign = Gtk.Align.CENTER;
-            expand_button.margin_top = 0;
             expand_button.visible = false;
             this.vexpand = false;
             this.hexpand = true;

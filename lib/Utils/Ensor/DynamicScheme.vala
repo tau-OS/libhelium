@@ -43,7 +43,7 @@ namespace He {
             this.error = error != null ? error : TonalPalette.from_hue_and_chroma(piecewise_val(
                                                                                                 hct,
                                                                                                 new double[] { 0, 3, 13, 23, 33, 43, 153, 273, 360 },
-                                                                                                new double[] { 12, 22, 32, 12, 22, 32, 22, 12 }), 84.0);
+                                                                                                new double[] { 12, 22, 32, 12, 22, 32, 22, 12 }), 39.97);
         }
 
         public HCTColor get_hct(DynamicColor dynamic_color) {
@@ -60,18 +60,6 @@ namespace He {
                 rotation = 0;
             }
             return MathUtils.sanitize_degrees(hct.h + rotation);
-        }
-
-        public bool is_yellow() {
-            return hue_is_yellow(hct.h);
-        }
-
-        public bool is_blue() {
-            return hue_is_blue(hct.h);
-        }
-
-        public bool is_cyan() {
-            return hue_is_cyan(hct.h);
         }
 
         public string get_primary_key() {

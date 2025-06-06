@@ -8,10 +8,24 @@ namespace He {
         public int to_int () {
             return this.a;
         }
-    }
 
-    public int get_argb () {
-        return (int) HCTColor.to_int;
+        // Move get_argb as instance method
+        public int get_argb () {
+            return this.to_int ();
+        }
+
+        // Static utility methods for hue checking
+        public static bool hue_is_yellow (double hue) {
+            return Math.floor (hue) >= 105.0 && Math.floor (hue) < 125.0;
+        }
+
+        public static bool hue_is_blue (double hue) {
+            return Math.floor (hue) >= 250.0 && Math.floor (hue) < 270.0;
+        }
+
+        public static bool hue_is_cyan (double hue) {
+            return Math.floor (hue) >= 170.0 && Math.floor (hue) < 207.0;
+        }
     }
 
     public HCTColor set_internal_state (int argb) {
@@ -28,9 +42,9 @@ namespace He {
         return set_internal_state (from_solved (hue, chroma, tone));
     }
 
-    public HCTColor in_vc (ViewingConditions vc) {
+    public HCTColor in_vc (HCTColor hct, ViewingConditions vc) {
         // 1. Use CAM16 to find XYZ coordinates of color in specified VC.
-        CAM16Color cam16 = cam16_from_int (get_argb ());
+        CAM16Color cam16 = cam16_from_int (hct.get_argb ());
         XYZColor viewed = cam16_to_xyz (cam16);
 
         // 2. Create CAM16 of those XYZ coordinates in default VC.
@@ -58,19 +72,6 @@ namespace He {
         }
 
         return hct;
-    }
-
-    // Find if the hue is yellow. Useful to adjust to avoid disliked colors.
-    public bool hue_is_yellow (double hue) {
-        return Math.floor (hue) >= 105.0 && Math.floor (hue) < 125.0;
-    }
-
-    public bool hue_is_blue (double hue) {
-        return Math.floor (hue) >= 250.0 && Math.floor (hue) < 270.0;
-    }
-
-    public bool hue_is_cyan (double hue) {
-        return Math.floor (hue) >= 170.0 && Math.floor (hue) < 207.0;
     }
 
     public HCTColor hct_from_int (int argb) {
@@ -119,7 +120,7 @@ namespace He {
                                         a.h
                                         + rot_deg * MathUtils.rotate_direction (a.h, b.h));
 
-        return fix_disliked ({ output, a.c, a.t });
+        return fix_disliked ({ output, a.c, a.t, a.a });
     }
 
     public static double get_rotated_hue (HCTColor hct, double[] hues, double[] rotations) {

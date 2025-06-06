@@ -34,7 +34,7 @@ namespace He {
   public int find_result_by_j (double hr, double c, double y) {
     // Initial estimate of j.
     double j = Math.sqrt (y) * 11.0;
-    ViewingConditions vc = ViewingConditions.default_conditions;
+    ViewingConditions vc = ViewingConditions.with_lstar (50.0);
     double tr = 1.0 / Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73);
     double e_hue = 0.25 * (Math.cos (hr + 2.0) + 3.8);
     double p1 = e_hue * (50000.0 / 13.0) * vc.nc * vc.ncb;

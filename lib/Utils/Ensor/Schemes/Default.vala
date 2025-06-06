@@ -18,25 +18,34 @@
  */
 public class He.DefaultScheme : Object {
     /**
-     * The default theme
+     * The default theme - Ensor 2025
      */
     public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
-        double[] TERTIARY_HUES = { 0, 20, 71, 161, 329, 360 };
-        double[] TERTIARY_ROTATIONS = { -40, 48, -32, 40, -32, 0 };
+        // Use exact baseline relationships regardless of input hue
+        double primary_hue = hct.h;
+        double secondary_hue = MathUtils.sanitize_degrees (primary_hue - 15.73);
+        double tertiary_hue = MathUtils.sanitize_degrees (primary_hue + 28.76);
+
         var scheme = new DynamicScheme (
                                         hct,
                                         SchemeVariant.DEFAULT,
                                         is_dark,
                                         contrast,
-                                        TonalPalette.from_hue_and_chroma (hct.h, is_dark ? 26.0 : 38.0),
-                                        TonalPalette.from_hue_and_chroma (hct.h, 15.0),
+                                        // Primary: Use input chroma, or boost to baseline level
+                                        TonalPalette.from_hue_and_chroma (primary_hue, Math.fmax (hct.c, 39.97)),
+                                        // Secondary: Fixed chroma for consistency
+                                        TonalPalette.from_hue_and_chroma (secondary_hue, 15.96),
                                         null,
-                                        TonalPalette.from_hue_and_chroma (hct.h, 5.0),
-                                        TonalPalette.from_hue_and_chroma (hct.h, (5.0 * 1.7)),
+                                        // Neutral: Very low chroma
+                                        TonalPalette.from_hue_and_chroma (primary_hue, 5.0),
+                                        // Neutral Variant: Low chroma
+                                        TonalPalette.from_hue_and_chroma (primary_hue, 8.5),
                                         null
         );
 
-        scheme.tertiary = TonalPalette.from_hue_and_chroma (scheme.get_rotated_hue (TERTIARY_HUES, TERTIARY_ROTATIONS), 48.0);
+        // Tertiary: Relationship-based chroma
+        double tertiary_chroma = Math.fmax (hct.c * 1.2, 47.97);
+        scheme.tertiary = TonalPalette.from_hue_and_chroma (tertiary_hue, tertiary_chroma);
 
         return scheme;
     }
