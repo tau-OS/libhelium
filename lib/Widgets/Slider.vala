@@ -622,10 +622,5 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         cr.set_source_rgba (((is_dark ? 0.40f : 0.80f) * accent_color.red), ((is_dark ? 0.40f : 0.80f) * accent_color.green), ((is_dark ? 0.40f : 0.80f) * accent_color.blue), 1.0f);
         draw_rounded_rectangle (cr, handle_x, handle_y, handle_width, handle_height, corner_radius);
         cr.fill ();
-
-        // Draw handle border
-        cr.set_source_rgba (is_dark ? 0.0f : 1.0f, is_dark ? 0.0f : 1.0f, is_dark ? 0.0f : 1.0f, 1.0f);
-        draw_rounded_rectangle (cr, handle_x, handle_y, handle_width, handle_height, corner_radius);
-        cr.stroke ();
     }
 }
