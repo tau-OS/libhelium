@@ -345,7 +345,7 @@ public class He.Scheme {
                                  /* name= */ "primary",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => { if (s.variant == SchemeVariant.MUTED || s.variant == SchemeVariant.DEFAULT) {
-                                                          ActionGroup
+                                                          return s.is_dark ? 80.0 : 40.0;
                                                       } else if (s.variant == SchemeVariant.SALAD) {
                                                           return t_max_c (
                                                                           s.primary,
