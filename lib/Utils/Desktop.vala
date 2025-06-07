@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Fyra Labs
+ * Copyright (c) 2022-2025 Fyra Labs
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -243,12 +243,16 @@ public class He.Desktop : Object {
             _contrast = value;
         }
     }
+
     private void setup_contrast () {
         try {
-            contrast = portal.read (
-                                    "org.freedesktop.appearance",
-                                    "contrast"
+            var raw_contrast = portal.read (
+                                            "org.freedesktop.appearance",
+                                            "contrast"
             ).get_variant ().get_double ();
+
+            // Round to 2 decimal places to avoid floating point precision issues
+            contrast = Math.round (raw_contrast * 100) / 100;
 
             return;
         } catch (Error e) {
@@ -277,7 +281,9 @@ public class He.Desktop : Object {
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "contrast") {
-                contrast = (double) val.get_double ();
+                var raw_contrast = val.get_double ();
+                // Round to 2 decimal places to avoid floating point precision issues
+                contrast = Math.round (raw_contrast * 100) / 100;
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "color-scheme") {
