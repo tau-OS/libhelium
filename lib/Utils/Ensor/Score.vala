@@ -10,10 +10,10 @@ namespace He {
     const double WEIGHT_CHROMA_BELOW = 0.1;
     const double CUTOFF_CHROMA = 5.0;
     const double CUTOFF_EXCITED_PROPORTION = 0.01;
-    const int64 TAU_PURPLE = 0xFF8C56BF;
+    const int TAU_PURPLE = 0x8C56BF;
 
     public class AnnotatedColor {
-      public int64 argb;
+      public int argb;
       public double cam_hue;
       public double cam_chroma;
       public double excited_proportion;
@@ -25,7 +25,7 @@ namespace He {
       };
     }
 
-    public GLib.Array<int64> score (HashTable<int?, int?> colors_to_population, int? desired) {
+    public GLib.Array<int> score (HashTable<int?, int?> colors_to_population, int? desired) {
       double population_sum = 0.0;
       uint input_size = colors_to_population.size ();
 
@@ -117,7 +117,7 @@ namespace He {
         });
       }
 
-      GLib.Array<int64?> return_value = new GLib.Array<int64?> ();
+      GLib.Array<int> return_value = new GLib.Array<int> ();
 
       for (int j = 0; j < selected_colors.length; j++) {
         return_value.append_val (selected_colors.get (j).argb);
