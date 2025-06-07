@@ -134,9 +134,13 @@ public class He.Application : Gtk.Application {
         }
 
         if (override_contrast) {
-            style_manager.contrast = default_contrast;
+            // Use a rounded value to avoid floating point precision issues
+            double rounded_contrast = Math.round (default_contrast * 100) / 100;
+            style_manager.contrast = rounded_contrast;
         } else {
-            style_manager.contrast = desktop.contrast;
+            // Use a rounded value to avoid floating point precision issues
+            double rounded_contrast = Math.round (desktop.contrast * 100) / 100;
+            style_manager.contrast = rounded_contrast;
         }
 
         style_manager.font_weight = desktop.font_weight;
