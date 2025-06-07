@@ -3,8 +3,8 @@ namespace He {
         DEFAULT,
         VIBRANT,
         MUTED,
-        MONOCHROME,
         SALAD,
+        MONOCHROME,
         CONTENT
     }
 
