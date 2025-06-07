@@ -111,6 +111,13 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
 
             _mode = value;
             update_mode_styling ();
+
+            // Trigger overlay setup when switching to floating mode
+            if (_mode == Mode.FLOATING && overlay_widget != null) {
+                setup_overlay (overlay_widget);
+            } else if (_mode == Mode.DOCKED) {
+                remove_from_overlay ();
+            }
         }
     }
 
@@ -278,40 +285,108 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
     private void setup_overlay (Gtk.Widget? target_widget) {
         if (target_widget == null)return;
 
-        // Remove from current parent if floating
+        // Only proceed if in floating mode
+        if (mode != Mode.FLOATING)return;
+
+        // Remove from current overlay if already floating
+        remove_from_overlay ();
+
+        // Unparent this bottom bar from its current parent
+        if (get_parent () != null) {
+            unparent ();
+        }
+
+        // Create overlay if needed
+        if (!(target_widget is Gtk.Overlay)) {
+            var parent = target_widget.get_parent ();
+            if (parent != null) {
+                overlay_parent = new Gtk.Overlay ();
+                target_widget.unparent ();
+                overlay_parent.set_child (target_widget);
+
+                // Reparent the overlay to the original parent
+                reparent_overlay_to_container (overlay_parent, parent);
+            }
+        } else {
+            // Target widget is already an overlay, use it directly
+            overlay_parent = (Gtk.Overlay) target_widget;
+        }
+
         if (overlay_parent != null) {
-            overlay_parent.set_child (null);
-            overlay_parent = null;
+            overlay_parent.add_overlay (this);
+            halign = Gtk.Align.FILL;
+            valign = Gtk.Align.END;
+
+            // Set margins for floating appearance
+            margin_start = 12;
+            margin_end = 12;
+            margin_bottom = 12;
         }
+    }
 
-        if (mode == Mode.FLOATING) {
-            // Create overlay if needed
-            if (!(target_widget is Gtk.Overlay)) {
-                var parent = target_widget.get_parent ();
-                if (parent != null) {
-                    overlay_parent = new Gtk.Overlay ();
-
-                    target_widget.unparent ();
-                    overlay_parent.set_child (target_widget);
-
-                    if (parent is Gtk.Box) {
-                        ((Gtk.Box) parent).append (overlay_parent);
-                    } else if (parent is Gtk.Window) {
-                        ((Gtk.Window) parent).set_child (overlay_parent);
-                    } else if (parent is Gtk.Revealer) {
-                        ((Gtk.Revealer) parent).set_child (overlay_parent);
-                    }
-                }
+    /**
+     * Simple method to reparent the overlay to various container types.
+     *
+     * @param overlay The overlay widget to reparent
+     * @param container The parent container
+     */
+    private void reparent_overlay_to_container (Gtk.Overlay overlay, Gtk.Widget container) {
+        // Handle common container types where floating makes sense
+        if (container is Gtk.Box) {
+            ((Gtk.Box) container).append (overlay);
+        } else if (container is Gtk.Grid) {
+            ((Gtk.Grid) container).attach (overlay, 0, 0, 1, 1);
+        } else if (container is Gtk.Stack) {
+            ((Gtk.Stack) container).add_child (overlay);
+        } else if (container is Gtk.Paned) {
+            var paned = (Gtk.Paned) container;
+            // Just add to the first available position
+            if (paned.get_start_child () == null) {
+                paned.set_start_child (overlay);
             } else {
-                overlay_parent = (Gtk.Overlay) target_widget;
+                paned.set_end_child (overlay);
             }
-
-            if (overlay_parent != null) {
-                overlay_parent.add_overlay (this);
-                halign = Gtk.Align.FILL;
-                valign = Gtk.Align.END;
+        } else if (container is Gtk.ListBox) {
+            ((Gtk.ListBox) container).append (overlay);
+        } else if (container is Gtk.Window) {
+            ((Gtk.Window) container).set_child (overlay);
+        } else if (container is Gtk.ScrolledWindow) {
+            ((Gtk.ScrolledWindow) container).set_child (overlay);
+        } else if (container is Gtk.Frame) {
+            ((Gtk.Frame) container).set_child (overlay);
+        } else if (container is Gtk.Viewport) {
+            ((Gtk.Viewport) container).set_child (overlay);
+        } else {
+            // Generic fallback using GObject properties
+            var child_prop = container.get_class ().find_property ("child");
+            if (child_prop != null) {
+                container.set_property ("child", overlay);
+            } else {
+                warning ("Container type %s does not support floating BottomBar",
+                         container.get_type ().name ());
             }
         }
+    }
+
+    /**
+     * Remove the bottom bar from any overlay parent.
+     */
+    private void remove_from_overlay () {
+        if (overlay_parent != null && get_parent () == overlay_parent) {
+            overlay_parent.remove_overlay (this);
+        }
+
+        // Reset margins when not floating
+        margin_start = 0;
+        margin_end = 0;
+        margin_bottom = 0;
+    }
+
+    /**
+     * Clean up overlay relationships when the widget is destroyed.
+     */
+    ~BottomBar () {
+        remove_from_overlay ();
     }
 
     /**
