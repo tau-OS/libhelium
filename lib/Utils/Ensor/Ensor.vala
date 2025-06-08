@@ -28,27 +28,26 @@ namespace He.Ensor {
     private int[] pixels_to_argb_array (uint8[] pixels, bool alpha) {
         int[] list = {};
 
-        int channels = alpha ? 4 : 3;
-        int quality = 4; // Quality setting: 1 = min, 4 = default, 10 = max
+        int factor = 0;
 
-        int pixel_count = pixels.length / channels;
+        if (alpha) {
+            factor = 4;
+        } else {
+            factor = 3;
+        }
 
-        for (int i = 0; i < pixel_count; i += quality) {
-            int offset = i * channels;
-
-            // Ensure we don't go out of bounds
-            if (offset + 2 >= pixels.length) {
-                break;
-            }
-
+        int i = 0;
+        while (i < (pixels.length / factor)) {
+            int offset = i * factor;
             uint8 red = pixels[offset];
             uint8 green = pixels[offset + 1];
             uint8 blue = pixels[offset + 2];
 
             int rgb = argb_from_rgb_int (red, green, blue);
-            list += rgb;
-        }
+            list += (rgb);
 
+            i += 4; // quality (1 = min, 5 = default, 10 = max; quality = (max + min) - def)
+        }
         return list;
     }
 
