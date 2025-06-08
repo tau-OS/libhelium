@@ -1,10 +1,10 @@
 namespace He {
     public enum SchemeVariant {
         DEFAULT,
-        MUTED,
         VIBRANT,
-        SALAD,
+        MUTED,
         MONOCHROME,
+        SALAD,
         CONTENT
     }
 
