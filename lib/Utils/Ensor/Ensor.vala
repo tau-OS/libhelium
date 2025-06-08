@@ -46,7 +46,7 @@ namespace He.Ensor {
             int rgb = argb_from_rgb_int (red, green, blue);
             list += (rgb);
 
-            i += 4;
+            i += 10;
         }
         return list;
     }
