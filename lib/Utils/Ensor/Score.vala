@@ -122,6 +122,7 @@ namespace He {
       for (int j = 0; j < selected_colors.length; j++) {
         return_value.append_val (selected_colors.get (j).argb);
         print ("#%d ENSOR ARGB RESULT: %d\n", j, return_value.index (j));
+        print ("#%d ENSOR HEX RESULT: %06X\n", j, return_value.index (j));
       }
       return return_value;
     }
