@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Fyra Labs
+ * Copyright (c) 2023-2025 Fyra Labs
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,12 +18,13 @@
  */
 
 /**
- * A Divider is a thin line that groups content in a view, can be full-width (default) or inset
+ * A Divider is a thin line that groups content in a view, can be full-width (default), inset, or side-inset
  */
 public class He.Divider : He.Bin {
 
     /**
      * Whether the divider is inset (has 18px of margin at the start and end) or not.
+     * Mutually exclusive with is_side_inset.
      */
     private bool _is_inset;
     public bool is_inset {
@@ -33,8 +34,36 @@ public class He.Divider : He.Bin {
 
             if (_is_inset) {
                 this.add_css_class ("inset");
+                // Mutually exclusive with side_inset
+                if (_is_side_inset) {
+                    _is_side_inset = false;
+                    this.remove_css_class ("side-inset");
+                }
             } else {
                 this.remove_css_class ("inset");
+            }
+        }
+    }
+
+    /**
+     * Whether the divider is side-inset (has margin on one side only) or not.
+     * Mutually exclusive with is_inset.
+     */
+    private bool _is_side_inset;
+    public bool is_side_inset {
+        get { return _is_side_inset; }
+        set {
+            _is_side_inset = value;
+
+            if (_is_side_inset) {
+                this.add_css_class ("side-inset");
+                // Mutually exclusive with inset
+                if (_is_inset) {
+                    _is_inset = false;
+                    this.remove_css_class ("inset");
+                }
+            } else {
+                this.remove_css_class ("side-inset");
             }
         }
     }
