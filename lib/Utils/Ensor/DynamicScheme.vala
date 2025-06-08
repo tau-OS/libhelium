@@ -1,8 +1,8 @@
 namespace He {
     public enum SchemeVariant {
         DEFAULT,
-        VIBRANT,
         MUTED,
+        VIBRANT,
         SALAD,
         MONOCHROME,
         CONTENT
