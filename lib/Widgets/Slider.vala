@@ -36,6 +36,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     private He.Desktop desktop = new He.Desktop ();
     private bool is_dark;
     private Gdk.RGBA accent_color = { 1.0f, 1.0f, 1.0f, 1.0f };
+    private int64 _last_frame_time = 0;
 
     /**
      * The scale inside the Slider.
@@ -496,8 +497,24 @@ public class He.Slider : He.Bin, Gtk.Buildable {
             return false; // Stop the tick callback
         }
 
-        // Update wave phase for animation - create flowing effect
-        _wave_phase += _wave_wavelength * 0.0025; // Move the wave pattern forward
+        // Get current time
+        int64 current_time = frame_clock.get_frame_time ();
+
+        // Initialize on first frame
+        if (_last_frame_time == 0) {
+            _last_frame_time = current_time;
+            return true;
+        }
+
+        // Calculate time delta in seconds
+        double delta_time = (double) (current_time - _last_frame_time) / 1000000.0;
+        _last_frame_time = current_time;
+
+        // Update wave phase based on time, not frames
+        // This makes the animation speed consistent across different frame rates
+        double wave_speed = 1.0; // waves per second
+        _wave_phase += 2.0 * Math.PI * wave_speed * delta_time;
+
         if (_wave_phase > 2.0 * Math.PI) {
             _wave_phase -= 2.0 * Math.PI;
         }
@@ -511,6 +528,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
      */
     private void start_continuous_animation () {
         _continuous_animation = true;
+        _last_frame_time = 0; // Reset timing
         if (_animate && _animation_tick_id == 0) {
             _animation_tick_id = wavy_drawing_area.add_tick_callback (on_animation_tick);
         }
