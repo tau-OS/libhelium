@@ -118,9 +118,9 @@ public class He.AboutWindow : He.Window {
         }
         set {
             _color = value;
-            translate_app_button.color = value;
-            report_button.color = value;
-            more_info_button.color = value;
+            translate_app_button.custom_color = value;
+            report_button.custom_color = value;
+            more_info_button.custom_color = value;
             version_badge.color = value;
         }
     }
