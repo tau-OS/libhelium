@@ -18,7 +18,14 @@
  */
 
 namespace He {
+    public enum ButtonColor {
+        SURFACE,
+        PRIMARY,
+        SECONDARY,
+        TERTIARY
+    }
     public enum ButtonSize {
+        XSMALL,
         SMALL,
         MEDIUM,
         LARGE,
@@ -44,18 +51,55 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
     public signal void toggled (bool active);
 
     /**
-     * The color of the button.
+     * The custom color of the button.
+     * For when Surface/Primary/Secondary/Tertiary doesn't give it semantic value.
      * @since 1.0
      */
-    private He.Colors _color;
-    public He.Colors color {
+    private He.Colors _custom_color;
+    public He.Colors custom_color {
         set {
-            if (_color != He.Colors.NONE)
-                this.remove_css_class (_color.to_css_class ());
+            if (_custom_color != He.Colors.NONE)
+                this.remove_css_class (_custom_color.to_css_class ());
             if (value != He.Colors.NONE)
                 this.add_css_class (value.to_css_class ());
 
+            _custom_color = value;
+        }
+
+        get {
+            return _custom_color;
+        }
+    }
+
+    /**
+     * The color of the button.
+     */
+    private He.ButtonColor _color;
+    public He.ButtonColor color {
+        set {
+            // Remove old color classes
+            this.remove_css_class ("surface");
+            this.remove_css_class ("primary");
+            this.remove_css_class ("secondary");
+            this.remove_css_class ("tertiary");
+
             _color = value;
+
+            // Add new color class
+            switch (_color) {
+            case He.ButtonColor.SURFACE:
+                this.add_css_class ("surface");
+                break;
+            case He.ButtonColor.PRIMARY:
+                this.add_css_class ("primary");
+                break;
+            case He.ButtonColor.SECONDARY:
+                this.add_css_class ("secondary");
+                break;
+            case He.ButtonColor.TERTIARY:
+                this.add_css_class ("tertiary");
+                break;
+            }
         }
 
         get {
@@ -79,18 +123,21 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
 
             // Add new size class
             switch (_size) {
-                case He.ButtonSize.SMALL:
-                    this.add_css_class ("small");
-                    break;
-                case He.ButtonSize.MEDIUM:
-                    this.add_css_class ("medium");
-                    break;
-                case He.ButtonSize.LARGE:
-                    this.add_css_class ("large");
-                    break;
-                case He.ButtonSize.XLARGE:
-                    this.add_css_class ("xlarge");
-                    break;
+            case He.ButtonSize.XSMALL:
+                this.add_css_class ("xsmall");
+                break;
+            case He.ButtonSize.SMALL:
+                this.add_css_class ("small");
+                break;
+            case He.ButtonSize.MEDIUM:
+                this.add_css_class ("medium");
+                break;
+            case He.ButtonSize.LARGE:
+                this.add_css_class ("large");
+                break;
+            case He.ButtonSize.XLARGE:
+                this.add_css_class ("xlarge");
+                break;
             }
         }
 
@@ -113,16 +160,16 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
 
             // Add new width class
             switch (_width) {
-                case He.ButtonWidth.DEFAULT:
-                    this.remove_css_class ("narrow");
-                    this.remove_css_class ("wide");
-                    break;
-                case He.ButtonWidth.WIDE:
-                    this.add_css_class ("wide");
-                    break;
-                case He.ButtonWidth.NARROW:
-                    this.add_css_class ("narrow");
-                    break;
+            case He.ButtonWidth.DEFAULT:
+                this.remove_css_class ("narrow");
+                this.remove_css_class ("wide");
+                break;
+            case He.ButtonWidth.WIDE:
+                this.add_css_class ("wide");
+                break;
+            case He.ButtonWidth.NARROW:
+                this.add_css_class ("narrow");
+                break;
             }
         }
 
@@ -182,7 +229,7 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
         }
         set {
             _is_disclosure = value;
-            color = He.Colors.NONE;
+            custom_color = He.Colors.NONE;
             if (value) {
                 this.add_css_class ("disclosure-button");
                 this.remove_css_class ("image-button");
@@ -205,7 +252,7 @@ public class He.Button : Gtk.Button, Gtk.Buildable {
         }
         set {
             _is_iconic = value;
-            color = He.Colors.NONE;
+            custom_color = He.Colors.NONE;
             if (value) {
                 this.add_css_class ("iconic-button");
                 this.add_css_class ("flat");
