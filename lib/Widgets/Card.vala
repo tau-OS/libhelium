@@ -79,6 +79,7 @@ public class He.Card : He.Bin, Gtk.Buildable {
                 remove_css_class ("elevated");
                 break;
             case CardType.DEFAULT:
+            default:
                 remove_css_class ("outline");
                 remove_css_class ("elevated");
                 break;
@@ -98,6 +99,7 @@ public class He.Card : He.Bin, Gtk.Buildable {
                 add_css_class ("elevated");
                 break;
             case CardType.DEFAULT:
+            default:
                 add_css_class ("filled");
                 break;
             }
