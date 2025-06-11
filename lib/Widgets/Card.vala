@@ -40,8 +40,8 @@ public enum He.CardLayout {
  * Combines functionality of ContentBlock and MiniContentBlock.
  */
 public class He.Card : He.Bin, Gtk.Buildable {
-    private Gtk.Label title_label = new Gtk.Label (null);
-    private Gtk.Label subtitle_label = new Gtk.Label (null);
+    private Gtk.Label title_label;
+    private Gtk.Label subtitle_label;
     private Gtk.Image image = new Gtk.Image ();
     private Gtk.Box info_box;
     private Gtk.Box button_box;
@@ -49,6 +49,10 @@ public class He.Card : He.Bin, Gtk.Buildable {
     private He.Button _secondary_button;
     private He.Button _primary_button;
     private Gtk.Widget? _widget;
+
+    // Store text separately to preserve across layout changes
+    private string? _title_text;
+    private string? _subtitle_text;
 
     private CardType _card_type = CardType.DEFAULT;
     private CardLayout _layout = CardLayout.VERTICAL;
@@ -120,16 +124,19 @@ public class He.Card : He.Bin, Gtk.Buildable {
     /**
      * Sets the title of the card.
      */
-    public string title {
+    public virtual string title {
         get {
-            return title_label.get_text ();
+            return _title_text ?? "";
         }
         set {
-            if (value != null) {
-                title_label.set_visible (true);
-                title_label.set_text (value);
-            } else {
-                title_label.set_visible (false);
+            _title_text = value;
+            if (title_label != null) {
+                if (value != null && value != "") {
+                    title_label.set_text (value);
+                    title_label.set_visible (true);
+                } else {
+                    title_label.set_visible (false);
+                }
             }
         }
     }
@@ -137,16 +144,19 @@ public class He.Card : He.Bin, Gtk.Buildable {
     /**
      * Sets the subtitle of the card.
      */
-    public string subtitle {
+    public virtual string subtitle {
         get {
-            return subtitle_label.get_text ();
+            return _subtitle_text ?? "";
         }
         set {
-            if (value != null) {
-                subtitle_label.set_visible (true);
-                subtitle_label.set_text (value);
-            } else {
-                subtitle_label.set_visible (false);
+            _subtitle_text = value;
+            if (subtitle_label != null) {
+                if (value != null && value != "") {
+                    subtitle_label.set_text (value);
+                    subtitle_label.set_visible (true);
+                } else {
+                    subtitle_label.set_visible (false);
+                }
             }
         }
     }
@@ -154,7 +164,7 @@ public class He.Card : He.Bin, Gtk.Buildable {
     /**
      * Sets the icon of the card.
      */
-    public string icon {
+    public virtual string icon {
         get {
             return image.get_icon_name ();
         }
@@ -171,7 +181,7 @@ public class He.Card : He.Bin, Gtk.Buildable {
     /**
      * Sets the icon of the card, as a GLib.Icon.
      */
-    public GLib.Icon gicon {
+    public virtual GLib.Icon gicon {
         set {
             if (value == null) {
                 image.set_visible (false);
@@ -185,7 +195,7 @@ public class He.Card : He.Bin, Gtk.Buildable {
     /**
      * Sets the icon of the card as a Gdk.Paintable.
      */
-    public Gdk.Paintable paintable {
+    public virtual Gdk.Paintable paintable {
         set {
             if (value == null) {
                 image.set_visible (false);
@@ -199,20 +209,20 @@ public class He.Card : He.Bin, Gtk.Buildable {
     /**
      * Sets the widget of the card (for horizontal layout).
      */
-    public Gtk.Widget? widget {
+    public virtual Gtk.Widget? widget {
         get {
             return _widget;
         }
         set {
             if (value == _widget)return;
 
-            if (_widget != null) {
+            if (_widget != null && button_box != null) {
                 button_box.remove (_widget);
             }
 
             _widget = value;
 
-            if (value != null) {
+            if (value != null && button_box != null) {
                 button_box.append (value);
             }
         }
@@ -221,16 +231,18 @@ public class He.Card : He.Bin, Gtk.Buildable {
     /**
      * Sets the secondary button of the card.
      */
-    public He.Button secondary_button {
+    public virtual He.Button secondary_button {
         set {
-            if (_secondary_button != null) {
+            if (_secondary_button != null && button_box != null) {
                 button_box.remove (_secondary_button);
             }
 
             if (value != null) {
                 value.is_tint = true;
                 _secondary_button = value;
-                button_box.prepend (_secondary_button);
+                if (button_box != null) {
+                    button_box.prepend (_secondary_button);
+                }
             }
         }
         get {
@@ -241,12 +253,12 @@ public class He.Card : He.Bin, Gtk.Buildable {
     /**
      * Sets the primary button of the card.
      */
-    public He.Button primary_button {
+    public virtual He.Button primary_button {
         get {
             return _primary_button;
         }
         set {
-            if (_primary_button != null) {
+            if (_primary_button != null && button_box != null) {
                 button_box.remove (_primary_button);
             }
 
@@ -259,7 +271,9 @@ public class He.Card : He.Bin, Gtk.Buildable {
                     value.halign = Gtk.Align.END;
                 }
 
-                button_box.append (_primary_button);
+                if (button_box != null) {
+                    button_box.append (_primary_button);
+                }
             }
         }
     }
@@ -306,21 +320,12 @@ public class He.Card : He.Bin, Gtk.Buildable {
      * Add a child to the Card, should only be used in the context of a UI or Blueprint file.
      */
     public override void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-        button_box.append ((Gtk.Widget) child);
+        if (button_box != null) {
+            button_box.append ((Gtk.Widget) child);
+        }
     }
 
     private void setup_components () {
-        // Setup labels
-        title_label.xalign = 0;
-        title_label.add_css_class ("cb-title");
-        title_label.set_visible (false);
-
-        subtitle_label.xalign = 0;
-        subtitle_label.add_css_class ("cb-subtitle");
-        subtitle_label.wrap = true;
-        subtitle_label.ellipsize = Pango.EllipsizeMode.END;
-        subtitle_label.set_visible (false);
-
         // Setup image
         image.set_valign (Gtk.Align.CENTER);
         image.set_halign (Gtk.Align.START);
@@ -329,11 +334,50 @@ public class He.Card : He.Bin, Gtk.Buildable {
         rebuild_layout ();
     }
 
+    private void create_labels () {
+        // Create fresh labels for clean state
+        title_label = new Gtk.Label (null);
+        title_label.xalign = 0;
+        title_label.add_css_class ("cb-title");
+        title_label.set_visible (false);
+
+        subtitle_label = new Gtk.Label (null);
+        subtitle_label.xalign = 0;
+        subtitle_label.add_css_class ("cb-subtitle");
+        subtitle_label.wrap = true;
+        subtitle_label.ellipsize = Pango.EllipsizeMode.END;
+        subtitle_label.set_visible (false);
+
+        // Restore text if we had it
+        if (_title_text != null && _title_text != "") {
+            title_label.set_text (_title_text);
+            title_label.set_visible (true);
+        }
+
+        if (_subtitle_text != null && _subtitle_text != "") {
+            subtitle_label.set_text (_subtitle_text);
+            subtitle_label.set_visible (true);
+        }
+    }
+
     private void rebuild_layout () {
+        // Store existing components that need to be re-added
+        var temp_primary = _primary_button;
+        var temp_secondary = _secondary_button;
+        var temp_widget = _widget;
+
+        // Clear references to prevent issues during rebuild
+        _primary_button = null;
+        _secondary_button = null;
+        _widget = null;
+
         // Remove existing layout if any
         if (main_box != null) {
             main_box.unparent ();
         }
+
+        // Create fresh labels for clean state
+        create_labels ();
 
         if (_layout == CardLayout.VERTICAL) {
             // ContentBlock style layout
@@ -384,22 +428,16 @@ public class He.Card : He.Bin, Gtk.Buildable {
 
         main_box.set_parent (this);
 
-        // Re-add existing buttons if they exist
-        if (_primary_button != null) {
-            var temp_primary = _primary_button;
-            _primary_button = null;
+        // Re-add existing buttons and widgets if they exist
+        if (temp_primary != null) {
             primary_button = temp_primary;
         }
 
-        if (_secondary_button != null) {
-            var temp_secondary = _secondary_button;
-            _secondary_button = null;
+        if (temp_secondary != null) {
             secondary_button = temp_secondary;
         }
 
-        if (_widget != null) {
-            var temp_widget = _widget;
-            _widget = null;
+        if (temp_widget != null) {
             widget = temp_widget;
         }
     }
@@ -409,38 +447,39 @@ public class He.Card : He.Bin, Gtk.Buildable {
     }
 
     construct {
+        _title_text = null;
+        _subtitle_text = null;
         setup_components ();
     }
 }
 
 // Compatibility aliases with proper GObject property exposure
 public class He.ContentBlock : He.Card {
-    // Re-expose all ContentBlock properties for compatibility
-    public new string title {
+    public override string title {
         get { return base.title; }
         set { base.title = value; }
     }
 
-    public new string subtitle {
+    public override string subtitle {
         get { return base.subtitle; }
         set { base.subtitle = value; }
     }
 
-    public new string icon {
+    public override string icon {
         get { return base.icon; }
         set { base.icon = value; }
     }
 
-    public new GLib.Icon gicon {
+    public override GLib.Icon gicon {
         set { base.gicon = value; }
     }
 
-    public new He.Button secondary_button {
+    public override He.Button secondary_button {
         get { return base.secondary_button; }
         set { base.secondary_button = value; }
     }
 
-    public new He.Button primary_button {
+    public override He.Button primary_button {
         get { return base.primary_button; }
         set { base.primary_button = value; }
     }
@@ -455,36 +494,35 @@ public class He.ContentBlock : He.Card {
 }
 
 public class He.MiniContentBlock : He.Card {
-    // Re-expose all MiniContentBlock properties for compatibility
-    public new Gtk.Widget ? widget {
+    public override Gtk.Widget? widget {
         get { return base.widget; }
         set { base.widget = value; }
     }
 
-    public new string title {
+    public override string title {
         get { return base.title; }
         set { base.title = value; }
     }
 
-    public new string subtitle {
+    public override string subtitle {
         get { return base.subtitle; }
         set { base.subtitle = value; }
     }
 
-    public new string icon {
+    public override string icon {
         get { return base.icon; }
         set { base.icon = value; }
     }
 
-    public new GLib.Icon gicon {
+    public override GLib.Icon gicon {
         set { base.gicon = value; }
     }
 
-    public new Gdk.Paintable paintable {
+    public override Gdk.Paintable paintable {
         set { base.paintable = value; }
     }
 
-    public new He.Button primary_button {
+    public override He.Button primary_button {
         get { return base.primary_button; }
         set { base.primary_button = value; }
     }
