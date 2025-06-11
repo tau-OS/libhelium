@@ -35,6 +35,7 @@ namespace He {
         typeof (He.BottomSheet).ensure ();
         typeof (He.Button).ensure ();
         typeof (He.ButtonContent).ensure ();
+        typeof (He.Card).ensure ();
         typeof (He.Chip).ensure ();
         typeof (He.ChipGroup).ensure ();
         typeof (He.Colors).ensure ();
