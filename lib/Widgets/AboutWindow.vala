@@ -450,6 +450,7 @@ public class He.AboutWindow : Gtk.Widget {
         developers_box.valign = Gtk.Align.START;
         developers_box.vexpand_set = true;
         developers_box_scroller.set_child (developers_box);
+        developers_box_scroller.vscrollbar_policy = Gtk.PolicyType.NEVER;
         developers_box_scroller.hscrollbar_policy = Gtk.PolicyType.NEVER;
         text_box.append (developers_box_scroller);
 
@@ -457,6 +458,7 @@ public class He.AboutWindow : Gtk.Widget {
         translators_box.valign = Gtk.Align.START;
         translators_box.vexpand_set = true;
         translators_box_scroller.set_child (translators_box);
+        translators_box_scroller.vscrollbar_policy = Gtk.PolicyType.NEVER;
         translators_box_scroller.hscrollbar_policy = Gtk.PolicyType.NEVER;
         text_box.append (translators_box_scroller);
 
