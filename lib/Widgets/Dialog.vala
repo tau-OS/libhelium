@@ -21,7 +21,9 @@
  * A Dialog is a modal widget that asks the user for input or shows a message.
  */
 public class He.Dialog : Gtk.Widget {
-    private const int TOP_MARGIN = 42;
+    private const int TOP_MARGIN = 56;
+    private const int DESKTOP_EDGE_MARGIN = 114;
+    private const int MIN_EDGE_MARGIN = 56;
 
     /**
      * The hidden signal fires when the dialog is hidden.
@@ -35,7 +37,7 @@ public class He.Dialog : Gtk.Widget {
     private Gtk.Image image = new Gtk.Image ();
     private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 24);
     private Gtk.Box child_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-    private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+    private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
     private Gtk.WindowHandle dialog_handle = new Gtk.WindowHandle ();
     private He.Button _secondary_button;
     private He.Button _primary_button;
@@ -280,10 +282,11 @@ public class He.Dialog : Gtk.Widget {
         dialog_bin = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
         dialog_bin.halign = Gtk.Align.CENTER;
         dialog_bin.set_child_visible (false);
+        dialog_bin.set_size_request (440, -1);
         dialog_bin.set_parent (this);
 
         image.valign = Gtk.Align.CENTER;
-        image.halign = Gtk.Align.CENTER;
+        image.halign = Gtk.Align.START;
         title_label.add_css_class ("view-title");
         title_label.wrap = true;
         title_label.xalign = 0;
@@ -310,13 +313,14 @@ public class He.Dialog : Gtk.Widget {
         });
 
         button_box.homogeneous = true;
+        button_box.valign = Gtk.Align.CENTER;
+        button_box.homogeneous = true;
         button_box.prepend (cancel_button);
 
         child_box.visible = false;
 
-        var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 24);
+        var main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
         main_box.vexpand = true;
-        main_box.margin_end = main_box.margin_start = main_box.margin_top = main_box.margin_bottom = 24;
         main_box.append (info_box);
         main_box.append (child_box);
         main_box.append (button_box);
@@ -328,8 +332,6 @@ public class He.Dialog : Gtk.Widget {
         var click_gesture = new Gtk.GestureClick ();
         click_gesture.end.connect (() => { hide_dialog (); });
         dimming.add_controller (click_gesture);
-
-        this.add_css_class ("dialog-content");
     }
 
     protected override void dispose () {
@@ -381,9 +383,9 @@ public class He.Dialog : Gtk.Widget {
 
         dimming.allocate (width, height, baseline, null);
 
-        int dialog_height;
+        int dialog_width, dialog_height;
+        dialog_bin.measure (HORIZONTAL, -1, out dialog_width, null, null, null);
         dialog_bin.measure (VERTICAL, -1, null, out dialog_height, null, null);
-        dialog_height = int.min (dialog_height, height - TOP_MARGIN);
 
         var t = new Gsk.Transform ();
 
@@ -393,21 +395,38 @@ public class He.Dialog : Gtk.Widget {
             dialog_bin.add_css_class ("bottom-sheet");
             dialog_bin.remove_css_class ("dialog-sheet");
         } else { // Desktop: positioned dialog behavior (25% from right/left)
-            // Get dialog width for positioning
-            int dialog_width;
-            dialog_bin.measure (HORIZONTAL, -1, out dialog_width, null, null, null);
+            // Calculate effective margins for all edges - use DESKTOP_EDGE_MARGIN (114px) but ensure minimum MIN_EDGE_MARGIN (56px)
+            int effective_margin_h = int.max (MIN_EDGE_MARGIN, DESKTOP_EDGE_MARGIN);
+            int effective_margin_v = int.max (MIN_EDGE_MARGIN, DESKTOP_EDGE_MARGIN);
 
-            // Position 25% from right (or left if RTL)
-            int x_pos;
-            if (get_direction () == Gtk.TextDirection.RTL) {
-                // RTL: 25% from left
-                x_pos = (int) (width * 0.25);
-            } else {
-                // LTR: 25% from right
-                x_pos = (int) (width * 0.75 - dialog_width);
+            // Ensure we don't exceed available space horizontally
+            int available_width = width - (2 * effective_margin_h);
+            if (dialog_width > available_width) {
+                effective_margin_h = int.max (MIN_EDGE_MARGIN, (width - dialog_width) / 2);
             }
 
-            t = t.translate ({ x_pos, (height - dialog_height) / 2 });
+            // Ensure we don't exceed available space vertically
+            int available_height = height - (2 * effective_margin_v);
+            if (dialog_height > available_height) {
+                effective_margin_v = int.max (MIN_EDGE_MARGIN, (height - dialog_height) / 2);
+                dialog_height = height - (2 * effective_margin_v);
+            }
+
+            // Position off-center horizontally within the available space
+            int available_space_h = width - (2 * effective_margin_h) - dialog_width;
+            int x_pos;
+            if (get_direction () == Gtk.TextDirection.RTL) {
+                // RTL: closer to left edge - 25% from left within available space
+                x_pos = effective_margin_h + (available_space_h / 4);
+            } else {
+                // LTR: closer to right edge - 75% from left within available space
+                x_pos = effective_margin_h + ((available_space_h * 3) / 4);
+            }
+
+            // Center vertically within the margins
+            int y_pos = (height - dialog_height) / 2;
+
+            t = t.translate ({ x_pos, y_pos });
             dialog_bin.allocate (dialog_width, dialog_height, baseline, t);
             dialog_bin.add_css_class ("dialog-sheet");
             dialog_bin.remove_css_class ("bottom-sheet");
