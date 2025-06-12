@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Fyra Labs
+ * Copyright (c) 2022-2025 Fyra Labs
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,9 +18,18 @@
  */
 
 /**
- * A Dialog is a modal window that asks the user for input or shows a message.
+ * A Dialog is a modal widget that asks the user for input or shows a message.
  */
-public class He.Dialog : He.Window {
+public class He.Dialog : Gtk.Widget {
+    private const int TOP_MARGIN = 42;
+
+    /**
+     * The hidden signal fires when the dialog is hidden.
+     */
+    public signal void hidden ();
+
+    private Gtk.Widget dimming;
+    private Gtk.Box dialog_bin;
     private Gtk.Label title_label = new Gtk.Label (null);
     private Gtk.Label info_label = new Gtk.Label (null);
     private Gtk.Image image = new Gtk.Image ();
@@ -30,6 +39,7 @@ public class He.Dialog : He.Window {
     private Gtk.WindowHandle dialog_handle = new Gtk.WindowHandle ();
     private He.Button _secondary_button;
     private He.Button _primary_button;
+    private Gtk.Window? parent_window;
 
     /**
      * The cancel button in the dialog.
@@ -37,9 +47,33 @@ public class He.Dialog : He.Window {
     public He.Button cancel_button;
 
     /**
+     * Shows or hides the dialog
+     */
+    private bool _visible = false;
+    public bool visible {
+        get { return _visible; }
+        set {
+            if (visible == value)
+                return;
+
+            _visible = value;
+
+            if (value) {
+                dimming.set_child_visible (true);
+                dialog_bin.set_child_visible (true);
+            } else {
+                dimming.set_child_visible (false);
+                dialog_bin.set_child_visible (false);
+                hidden ();
+            }
+            queue_allocate ();
+        }
+    }
+
+    /**
      * Sets the title of the dialog.
      */
-    public new string title {
+    public string title {
         get {
             return title_label.get_text ();
         }
@@ -138,11 +172,82 @@ public class He.Dialog : He.Window {
     }
 
     /**
+     * Shows the dialog by overlaying it on the parent window.
+     */
+    public void present () {
+        if (parent_window != null) {
+            // Find the window's main content area and overlay this dialog
+            find_and_overlay_on_parent ();
+        }
+        this.visible = true;
+    }
+
+    /**
+     * Hides the dialog.
+     */
+    public void hide_dialog () {
+        this.visible = false;
+        // Clean up - remove from parent
+        if (this.get_parent () != null) {
+            if (this.get_parent () is Gtk.Overlay) {
+                ((Gtk.Overlay) this.get_parent ()).remove_overlay (this);
+            } else {
+                this.unparent ();
+            }
+        }
+    }
+
+    private void find_and_overlay_on_parent () {
+        var content = parent_window.get_child ();
+        if (content == null) {
+            warning ("Dialog: Parent window has no content widget");
+            return;
+        }
+
+        // Walk the widget tree to find a suitable overlay container
+        Gtk.Widget? overlay_target = find_overlay_target (content);
+
+        if (overlay_target != null && overlay_target is Gtk.Overlay) {
+            ((Gtk.Overlay) overlay_target).add_overlay (this);
+        } else {
+            warning ("Dialog: No Gtk.Overlay found in parent window. Modal dialogs require a Gtk.Overlay container.");
+            // Don't show the dialog - we can't overlay it properly
+            this.visible = false;
+        }
+    }
+
+    private Gtk.Widget? find_overlay_target (Gtk.Widget widget) {
+        // If this widget is an overlay, use it
+        if (widget is Gtk.Overlay) {
+            return widget;
+        }
+
+        // If it's a container, check its children
+        if (widget is Gtk.Box) {
+            var child = ((Gtk.Box) widget).get_first_child ();
+            while (child != null) {
+                var result = find_overlay_target (child);
+                if (result != null)return result;
+                child = child.get_next_sibling ();
+            }
+        } else if (widget is Gtk.Grid) {
+            var child = ((Gtk.Grid) widget).get_first_child ();
+            while (child != null) {
+                var result = find_overlay_target (child);
+                if (result != null)return result;
+                child = child.get_next_sibling ();
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Creates a new dialog.
-     * @param modal Whether the dialog is modal.
-     * @param parent The parent window of the dialog.
+     * @param parent The parent window of the dialog. The window must contain
+     *               a Gtk.Overlay somewhere in its widget hierarchy for modal
+     *               overlay behavior to work correctly.
      * @param title The title of the dialog.
-     * @param subtitle The subtitle of the dialog.
      * @param info The info text of the dialog.
      * @param icon The icon of the dialog.
      * @param primary_button The primary button of the dialog.
@@ -150,16 +255,13 @@ public class He.Dialog : He.Window {
      *
      * @since 1.0
      */
-    public Dialog (bool modal,
-        Gtk.Window? parent,
-        string title,
-        string subtitle,
-        string info,
-        string icon,
-        He.Button? primary_button,
-        He.Button? secondary_button) {
-        this.modal = modal;
-        this.parent = parent;
+    public Dialog (Gtk.Window parent,
+        string? title = null,
+        string? info = null,
+        string? icon = null,
+        He.Button? primary_button = null,
+        He.Button? secondary_button = null) {
+        this.parent_window = parent;
         this.title = title;
         this.info = info;
         this.icon = icon;
@@ -168,6 +270,18 @@ public class He.Dialog : He.Window {
     }
 
     construct {
+        // Create dimming background
+        dimming = new He.Bin ();
+        dimming.add_css_class ("dimming");
+        dimming.set_child_visible (false);
+        dimming.set_parent (this);
+
+        // Create main dialog container
+        dialog_bin = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        dialog_bin.halign = Gtk.Align.CENTER;
+        dialog_bin.set_child_visible (false);
+        dialog_bin.set_parent (this);
+
         image.valign = Gtk.Align.CENTER;
         title_label.add_css_class ("view-title");
         title_label.wrap = true;
@@ -191,7 +305,7 @@ public class He.Dialog : He.Window {
         cancel_button = new He.Button (null, _("Cancel"));
         cancel_button.is_textual = true;
         cancel_button.clicked.connect (() => {
-            this.close ();
+            hide_dialog ();
         });
 
         button_box.homogeneous = true;
@@ -205,13 +319,97 @@ public class He.Dialog : He.Window {
         main_box.append (info_box);
         main_box.append (child_box);
         main_box.append (button_box);
-        dialog_handle.set_child (main_box);
 
-        this.set_child (dialog_handle);
-        this.resizable = false;
-        this.set_size_request (360, 360);
-        this.set_default_size (360, 360);
-        this.has_title = false;
+        dialog_handle.set_child (main_box);
+        dialog_bin.append (dialog_handle);
+
+        // Click gesture for dimming background
+        var click_gesture = new Gtk.GestureClick ();
+        click_gesture.end.connect (() => { hide_dialog (); });
+        dimming.add_controller (click_gesture);
+
         this.add_css_class ("dialog-content");
+    }
+
+    protected override void dispose () {
+        if (dimming != null) {
+            dimming.unparent ();
+            dimming = null;
+        }
+
+        if (dialog_bin != null) {
+            dialog_bin.unparent ();
+            dialog_bin = null;
+        }
+
+        base.dispose ();
+    }
+
+    protected override bool contains (double x, double y) {
+        return false;
+    }
+
+    protected override void measure (Gtk.Orientation orientation,
+                                     int for_size,
+                                     out int min,
+                                     out int nat,
+                                     out int min_baseline,
+                                     out int nat_baseline) {
+        int dialog_min, dialog_nat;
+        int dimming_min, dimming_nat;
+        min = nat = 0;
+
+        if (dialog_bin.get_child_visible ()) {
+            dialog_bin.measure (orientation, for_size, out dialog_min, out dialog_nat, null, null);
+            dimming.measure (orientation, for_size, out dimming_min, out dimming_nat, null, null);
+
+            if (orientation == HORIZONTAL) {
+                min = int.max (dimming_min, dialog_min);
+                nat = int.max (dimming_nat, dialog_nat);
+            } else {
+                min = int.max (dimming_min, dialog_min + TOP_MARGIN);
+                nat = int.max (dimming_nat, dialog_nat + TOP_MARGIN);
+            }
+        }
+        min_baseline = nat_baseline = -1;
+    }
+
+    protected override void size_allocate (int width, int height, int baseline) {
+        if (!dialog_bin.get_child_visible ())
+            return;
+
+        dimming.allocate (width, height, baseline, null);
+
+        int dialog_height;
+        dialog_bin.measure (VERTICAL, -1, null, out dialog_height, null, null);
+        dialog_height = int.min (dialog_height, height - TOP_MARGIN);
+
+        var t = new Gsk.Transform ();
+
+        if (width <= 600) { // Mobile: bottom sheet behavior
+            t = t.translate ({ 0, height - dialog_height });
+            dialog_bin.allocate (width, dialog_height, baseline, t);
+            dialog_bin.add_css_class ("bottom-sheet");
+            dialog_bin.remove_css_class ("dialog-sheet");
+        } else { // Desktop: positioned dialog behavior (25% from right/left)
+            // Get dialog width for positioning
+            int dialog_width;
+            dialog_bin.measure (HORIZONTAL, -1, out dialog_width, null, null, null);
+
+            // Position 25% from right (or left if RTL)
+            int x_pos;
+            if (get_direction () == Gtk.TextDirection.RTL) {
+                // RTL: 25% from left
+                x_pos = (int) (width * 0.25);
+            } else {
+                // LTR: 25% from right
+                x_pos = (int) (width * 0.75 - dialog_width);
+            }
+
+            t = t.translate ({ x_pos, (height - dialog_height) / 2 });
+            dialog_bin.allocate (dialog_width, dialog_height, baseline, t);
+            dialog_bin.add_css_class ("dialog-sheet");
+            dialog_bin.remove_css_class ("bottom-sheet");
+        }
     }
 }

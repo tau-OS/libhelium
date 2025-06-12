@@ -18,10 +18,19 @@
  */
 
 /**
- * An AboutWindow is a window that displays information about the application.
+ * An AboutWindow is a modal widget that displays information about the application.
  */
-public class He.AboutWindow : He.Window {
-    private Gtk.Overlay window_overlay = new Gtk.Overlay ();
+public class He.AboutWindow : Gtk.Widget {
+    private const int TOP_MARGIN = 42;
+
+    /**
+     * The hidden signal fires when the about window is hidden.
+     */
+    public signal void hidden ();
+
+    private Gtk.Widget dimming;
+    private Gtk.Box about_bin;
+    private Gtk.Window? parent_window;
 
     private Gtk.Box about_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 30);
     private Gtk.Box content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
@@ -43,8 +52,33 @@ public class He.AboutWindow : He.Window {
     private He.Button translate_app_button = new He.Button (null, _("Translate App"));
     private He.Button report_button = new He.Button (null, _("Report a Problem"));
     private He.Button more_info_button = new He.Button (null, _("More Info…"));
+    private He.Button close_button;
 
     private He.ModifierBadge version_badge = new He.ModifierBadge ("");
+
+    /**
+     * Shows or hides the about window
+     */
+    private bool _visible = false;
+    public bool visible {
+        get { return _visible; }
+        set {
+            if (visible == value)
+                return;
+
+            _visible = value;
+
+            if (value) {
+                dimming.set_child_visible (true);
+                about_bin.set_child_visible (true);
+            } else {
+                dimming.set_child_visible (false);
+                about_bin.set_child_visible (false);
+                hidden ();
+            }
+            queue_allocate ();
+        }
+    }
 
     /**
      * An enum of commonly used licenses to be used in AboutWindow.
@@ -63,7 +97,7 @@ public class He.AboutWindow : He.Window {
          */
         public string get_url () {
             switch (this) {
-            case Licenses.GPLV3:
+            case Licenses.GPLV3 :
                 return "https://choosealicense.com/licenses/gpl-3.0";
             case Licenses.MIT:
                 return "https://choosealicense.com/licenses/mit";
@@ -195,14 +229,12 @@ public class He.AboutWindow : He.Window {
     }
 
     private void update_copyright (int year, string[] developers) {
-        // Clear existing children in developers_box
         var first_child = developers_box.get_first_child ();
         while (first_child != null) {
             developers_box.remove (first_child);
             first_child = developers_box.get_first_child ();
         }
 
-        // Add labels for each developer
         for (int i = 0; i < developers.length; i++) {
             var developer_label = new Gtk.Label ("");
             developer_label.xalign = 0;
@@ -300,22 +332,100 @@ public class He.AboutWindow : He.Window {
         }
     }
 
-    construct {
-        this.modal = true;
-        this.resizable = false;
+    /**
+     * Shows the about window by overlaying it on the parent window.
+     */
+    public void present () {
+        if (parent_window != null) {
+            // Find the window's main content area and overlay this about window
+            find_and_overlay_on_parent ();
+        }
+        this.visible = true;
+    }
 
-        var close_button = new He.Button ("window-close-symbolic", "");
+    /**
+     * Hides the about window.
+     */
+    public void hide_about () {
+        this.visible = false;
+        // Clean up - remove from parent
+        if (this.get_parent () != null) {
+            if (this.get_parent () is Gtk.Overlay) {
+                ((Gtk.Overlay) this.get_parent ()).remove_overlay (this);
+            } else {
+                this.unparent ();
+            }
+        }
+    }
+
+    private void find_and_overlay_on_parent () {
+        var content = parent_window.get_child ();
+        if (content == null) {
+            warning ("AboutWindow: Parent window has no content widget");
+            return;
+        }
+
+        // Walk the widget tree to find a suitable overlay container
+        Gtk.Widget? overlay_target = find_overlay_target (content);
+
+        if (overlay_target != null && overlay_target is Gtk.Overlay) {
+            ((Gtk.Overlay) overlay_target).add_overlay (this);
+        } else {
+            warning ("AboutWindow: No Gtk.Overlay found in parent window. Modal dialogs require a Gtk.Overlay container.");
+            // Don't show the dialog - we can't overlay it properly
+            this.visible = false;
+        }
+    }
+
+    private Gtk.Widget? find_overlay_target (Gtk.Widget widget) {
+        // If this widget is an overlay, use it
+        if (widget is Gtk.Overlay) {
+            return widget;
+        }
+
+        // If it's a container, check its children
+        if (widget is Gtk.Box) {
+            var child = ((Gtk.Box) widget).get_first_child ();
+            while (child != null) {
+                var result = find_overlay_target (child);
+                if (result != null)return result;
+                child = child.get_next_sibling ();
+            }
+        } else if (widget is Gtk.Grid) {
+            var child = ((Gtk.Grid) widget).get_first_child ();
+            while (child != null) {
+                var result = find_overlay_target (child);
+                if (result != null)return result;
+                child = child.get_next_sibling ();
+            }
+        }
+
+        return null;
+    }
+
+    construct {
+        // Create dimming background
+        dimming = new He.Bin ();
+        dimming.add_css_class ("dimming");
+        dimming.set_child_visible (false);
+        dimming.set_parent (this);
+
+        // Create main about container
+        about_bin = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        about_bin.halign = Gtk.Align.CENTER;
+        about_bin.set_child_visible (false);
+        about_bin.set_parent (this);
+
+        close_button = new He.Button ("window-close-symbolic", "");
         close_button.is_disclosure = true;
         close_button.halign = Gtk.Align.END;
         close_button.valign = Gtk.Align.START;
-        close_button.margin_top = 24;
-        close_button.margin_end = 24;
         close_button.set_tooltip_text (_("Close"));
 
+        var window_overlay = new Gtk.Overlay ();
         window_overlay.add_overlay (close_button);
         window_overlay.set_child (about_box);
 
-        about_box.add_css_class ("dialog-content");
         about_box.append (content_box);
         about_box.append (button_box);
 
@@ -368,31 +478,121 @@ public class He.AboutWindow : He.Window {
 
         translate_app_button.clicked.connect (() => {
             uri_launcher.set_uri (translate_url);
-            uri_launcher.launch.begin (this.parent, null);
+            uri_launcher.launch.begin (null, null);
         });
 
         report_button.clicked.connect (() => {
             uri_launcher.set_uri (issue_url);
-            uri_launcher.launch.begin (this.parent, null);
+            uri_launcher.launch.begin (null, null);
         });
 
         more_info_button.clicked.connect (() => {
             uri_launcher.set_uri (more_info_url);
-            uri_launcher.launch.begin (this.parent, null);
+            uri_launcher.launch.begin (null, null);
         });
 
-        close_button.clicked.connect (close);
+        close_button.clicked.connect (() => { hide_about (); });
 
         var window_handle = new Gtk.WindowHandle ();
         window_handle.set_child (window_overlay);
 
-        this.set_child (window_handle);
-        this.add_css_class ("dialog-content");
+        about_bin.append (window_handle);
+
+        // Click gesture for dimming background
+        var click_gesture = new Gtk.GestureClick ();
+        click_gesture.end.connect (() => { hide_about (); });
+        dimming.add_controller (click_gesture);
+    }
+
+    protected override void dispose () {
+        if (dimming != null) {
+            dimming.unparent ();
+            dimming = null;
+        }
+
+        if (about_bin != null) {
+            about_bin.unparent ();
+            about_bin = null;
+        }
+
+        base.dispose ();
+    }
+
+    protected override bool contains (double x, double y) {
+        return false;
+    }
+
+    protected override void measure (Gtk.Orientation orientation,
+                                     int for_size,
+                                     out int min,
+                                     out int nat,
+                                     out int min_baseline,
+                                     out int nat_baseline) {
+        int about_min, about_nat;
+        int dimming_min, dimming_nat;
+        min = nat = 0;
+
+        if (about_bin.get_child_visible ()) {
+            about_bin.measure (orientation, for_size, out about_min, out about_nat, null, null);
+            dimming.measure (orientation, for_size, out dimming_min, out dimming_nat, null, null);
+
+            if (orientation == HORIZONTAL) {
+                min = int.max (dimming_min, about_min);
+                nat = int.max (dimming_nat, about_nat);
+            } else {
+                min = int.max (dimming_min, about_min + TOP_MARGIN);
+                nat = int.max (dimming_nat, about_nat + TOP_MARGIN);
+            }
+        }
+        min_baseline = nat_baseline = -1;
+    }
+
+    protected override void size_allocate (int width, int height, int baseline) {
+        if (!about_bin.get_child_visible ())
+            return;
+
+        dimming.allocate (width, height, baseline, null);
+
+        int about_height;
+        about_bin.measure (VERTICAL, -1, null, out about_height, null, null);
+        about_height = int.min (about_height, height - TOP_MARGIN);
+
+        var t = new Gsk.Transform ();
+
+        if (width <= 600) { // Mobile: bottom sheet behavior
+            t = t.translate ({ 0, height - about_height });
+            about_bin.allocate (width, about_height, baseline, t);
+            about_bin.add_css_class ("bottom-sheet");
+            about_bin.remove_css_class ("dialog-sheet");
+            close_button.margin_top = 24;
+        } else { // Desktop: positioned dialog behavior (25% from right/left)
+            // Get about window width for positioning
+            int about_width;
+            about_bin.measure (HORIZONTAL, -1, null, out about_width, null, null);
+
+            // Position 25% from right (or left if RTL)
+            int x_pos;
+            if (get_direction () == Gtk.TextDirection.RTL) {
+                // RTL: 25% from left
+                x_pos = (int) (width * 0.25);
+            } else {
+                // LTR: 25% from right
+                x_pos = (int) (width * 0.75 - about_width);
+            }
+
+            t = t.translate ({ x_pos, (height - about_height) / 2 });
+            about_bin.allocate (about_width, about_height, baseline, t);
+            about_bin.add_css_class ("dialog-sheet");
+            about_bin.remove_css_class ("bottom-sheet");
+            close_button.margin_top = 0;
+        }
     }
 
     /**
      * Creates a new AboutWindow.
-     * @param parent The parent window.
+     * @param parent The parent window. The window must contain
+     *               a Gtk.Overlay somewhere in its widget hierarchy for modal
+     *               overlay behavior to work correctly.
      * @param app_name Your application's name.
      * @param app_id Your application's reverse-domain name.
      * @param version Your application's version.
@@ -411,17 +611,17 @@ public class He.AboutWindow : He.Window {
     public AboutWindow (Gtk.Window parent,
         string app_name,
         string app_id,
-        string? version,
-        string? icon,
-        string? translate_url,
-        string? issue_url,
-        string? more_info_url,
-        string[]? translators,
-        string[]? developers,
-        int copyright_year,
-        Licenses license,
-        He.Colors color) {
-        this.parent = parent;
+        string? version = null,
+        string? icon = null,
+        string? translate_url = null,
+        string? issue_url = null,
+        string? more_info_url = null,
+        string[]? translators = null,
+        string[]? developers = null,
+        int copyright_year = 0,
+        Licenses license = Licenses.GPLV3,
+        He.Colors color = He.Colors.PURPLE) {
+        this.parent_window = parent;
         this.app_name = app_name;
         this.app_id = app_id;
         this.version = version;
