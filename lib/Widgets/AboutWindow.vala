@@ -21,7 +21,9 @@
  * An AboutWindow is a modal widget that displays information about the application.
  */
 public class He.AboutWindow : Gtk.Widget {
-    private const int TOP_MARGIN = 42;
+    private const int TOP_MARGIN = 56;
+    private const int DESKTOP_EDGE_MARGIN = 114;
+    private const int MIN_EDGE_MARGIN = 56;
 
     /**
      * The hidden signal fires when the about window is hidden.
@@ -32,9 +34,9 @@ public class He.AboutWindow : Gtk.Widget {
     private Gtk.Box about_bin;
     private Gtk.Window? parent_window;
 
-    private Gtk.Box about_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 30);
-    private Gtk.Box content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
-    private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
+    private Gtk.Box about_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+    private Gtk.Box content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 30);
+    private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
     private Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
     private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 18);
     private Gtk.Box text_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
@@ -431,7 +433,6 @@ public class He.AboutWindow : Gtk.Widget {
 
         icon_image.valign = Gtk.Align.START;
         icon_image.pixel_size = 128;
-        icon_image.margin_top = 24;
         icon_image.add_css_class ("icon-dropshadow");
 
         content_box.append (icon_image);
@@ -555,9 +556,9 @@ public class He.AboutWindow : Gtk.Widget {
 
         dimming.allocate (width, height, baseline, null);
 
-        int about_height;
+        int about_width, about_height;
+        about_bin.measure (HORIZONTAL, -1, out about_width, null, null, null);
         about_bin.measure (VERTICAL, -1, null, out about_height, null, null);
-        about_height = int.min (about_height, height - TOP_MARGIN);
 
         var t = new Gsk.Transform ();
 
@@ -567,26 +568,49 @@ public class He.AboutWindow : Gtk.Widget {
             about_bin.add_css_class ("bottom-sheet");
             about_bin.remove_css_class ("dialog-sheet");
             close_button.margin_top = 24;
-        } else { // Desktop: positioned dialog behavior (25% from right/left)
-            // Get about window width for positioning
-            int about_width;
-            about_bin.measure (HORIZONTAL, -1, null, out about_width, null, null);
+            icon_image.margin_top = 24;
+            button_box.orientation = Gtk.Orientation.VERTICAL;
+            content_box.orientation = Gtk.Orientation.VERTICAL;
+        } else { // Desktop: positioned dialog behavior (114px from all edges, min 56px)
+            // Calculate effective margins for all edges - use DESKTOP_EDGE_MARGIN (114px) but ensure minimum MIN_EDGE_MARGIN (56px)
+            int effective_margin_h = int.max (MIN_EDGE_MARGIN, DESKTOP_EDGE_MARGIN);
+            int effective_margin_v = int.max (MIN_EDGE_MARGIN, DESKTOP_EDGE_MARGIN);
 
-            // Position 25% from right (or left if RTL)
-            int x_pos;
-            if (get_direction () == Gtk.TextDirection.RTL) {
-                // RTL: 25% from left
-                x_pos = (int) (width * 0.25);
-            } else {
-                // LTR: 25% from right
-                x_pos = (int) (width * 0.75 - about_width);
+            // Ensure we don't exceed available space horizontally
+            int available_width = width - (2 * effective_margin_h);
+            if (about_width > available_width) {
+                effective_margin_h = int.max (MIN_EDGE_MARGIN, (width - about_width) / 2);
             }
 
-            t = t.translate ({ x_pos, (height - about_height) / 2 });
+            // Ensure we don't exceed available space vertically
+            int available_height = height - (2 * effective_margin_v);
+            if (about_height > available_height) {
+                effective_margin_v = int.max (MIN_EDGE_MARGIN, (height - about_height) / 2);
+                about_height = height - (2 * effective_margin_v);
+            }
+
+            // Position off-center horizontally within the available space
+            int available_space_h = width - (2 * effective_margin_h) - about_width;
+            int x_pos;
+            if (get_direction () == Gtk.TextDirection.RTL) {
+                // RTL: closer to left edge - 25% from left within available space
+                x_pos = effective_margin_h + (available_space_h / 4);
+            } else {
+                // LTR: closer to right edge - 75% from left within available space
+                x_pos = effective_margin_h + ((available_space_h * 3) / 4);
+            }
+
+            // Center vertically within the margins
+            int y_pos = (height - about_height) / 2;
+
+            t = t.translate ({ x_pos, y_pos });
             about_bin.allocate (about_width, about_height, baseline, t);
             about_bin.add_css_class ("dialog-sheet");
             about_bin.remove_css_class ("bottom-sheet");
             close_button.margin_top = 0;
+            icon_image.margin_top = 0;
+            button_box.orientation = Gtk.Orientation.HORIZONTAL;
+            content_box.orientation = Gtk.Orientation.HORIZONTAL;
         }
     }
 

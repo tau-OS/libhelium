@@ -283,8 +283,10 @@ public class He.Dialog : Gtk.Widget {
         dialog_bin.set_parent (this);
 
         image.valign = Gtk.Align.CENTER;
+        image.halign = Gtk.Align.CENTER;
         title_label.add_css_class ("view-title");
         title_label.wrap = true;
+        title_label.xalign = 0;
         title_label.wrap_mode = Pango.WrapMode.WORD;
         title_label.visible = false;
         title_label.width_chars = 25;
@@ -293,7 +295,6 @@ public class He.Dialog : Gtk.Widget {
         info_label.vexpand = true;
         info_label.hexpand = true;
         info_label.valign = Gtk.Align.START;
-        info_label.halign = Gtk.Align.CENTER;
         info_label.wrap = true;
         info_label.wrap_mode = Pango.WrapMode.WORD;
         info_label.visible = false;
