@@ -34,6 +34,26 @@ public class He.Application : Gtk.Application {
     }
 
     /**
+     * A default secondary color if the user wants to override it.
+     * Only used when override_accent_color is true.
+     */
+    private RGBColor? _default_secondary_color = null;
+    public RGBColor? default_secondary_color {
+        get { return _default_secondary_color; }
+        set { _default_secondary_color = value; update_style_manager (); accent_color_changed (); }
+    }
+
+    /**
+     * A default tertiary color if the user wants to override it.
+     * Only used when override_accent_color is true.
+     */
+    private RGBColor? _default_tertiary_color = null;
+    public RGBColor? default_tertiary_color {
+        get { return _default_tertiary_color; }
+        set { _default_tertiary_color = value; update_style_manager (); accent_color_changed (); }
+    }
+
+    /**
      * Whether to override the user's accent color choice. This requires default_accent_color to be set.
      */
     private bool _override_accent_color = false;
@@ -107,6 +127,37 @@ public class He.Application : Gtk.Application {
         return desktop.accent_color;
     }
 
+    /**
+     * Sets the default accent color from a hex string (e.g., "FF5722" or "#FF5722").
+     */
+    public void set_accent_color (string hex_color) {
+        default_accent_color = from_hex (hex_color.replace ("#", ""));
+    }
+
+    /**
+     * Sets the default secondary color from a hex string (e.g., "FF5722" or "#FF5722").
+     */
+    public void set_secondary_color (string hex_color) {
+        default_secondary_color = from_hex (hex_color.replace ("#", ""));
+    }
+
+    /**
+     * Sets the default tertiary color from a hex string (e.g., "FF5722" or "#FF5722").
+     */
+    public void set_tertiary_color (string hex_color) {
+        default_tertiary_color = from_hex (hex_color.replace ("#", ""));
+    }
+
+    /**
+     * Clears all custom color overrides.
+     */
+    public void clear_color_overrides () {
+        default_accent_color = null;
+        default_secondary_color = null;
+        default_tertiary_color = null;
+        override_accent_color = false;
+    }
+
     private void update_style_manager () {
         if (default_accent_color != null && override_accent_color) {
             style_manager.accent_color = default_accent_color;
@@ -117,6 +168,16 @@ public class He.Application : Gtk.Application {
             style_manager.accent_color = desktop.accent_color;
         } else {
             style_manager.accent_color = default_accent_color;
+        }
+
+        // Set secondary and tertiary colors when overriding accent colors
+        if (override_accent_color) {
+            if (default_secondary_color != null) {
+                style_manager.secondary_color = default_secondary_color;
+            }
+            if (default_tertiary_color != null) {
+                style_manager.tertiary_color = default_tertiary_color;
+            }
         }
 
         if (is_content) {
