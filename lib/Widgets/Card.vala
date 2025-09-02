@@ -413,6 +413,7 @@ public class He.Card : He.Bin, Gtk.Buildable {
 
             button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
             button_box.hexpand = true;
+            button_box.halign = Gtk.Align.END;
             button_box.valign = Gtk.Align.CENTER;
 
             main_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
