@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Fyra Labs
+ * Copyright (c) 2025 Fyra Labs
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,6 +16,16 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301 USA
  */
+
+/**
+ * Color variants for He.Switch
+ */
+public enum He.SwitchColor {
+    PRIMARY,
+    SECONDARY,
+    TERTIARY,
+    SURFACE
+}
 
 /**
  * A Switch is a widget that is used to toggle a setting on or off,
@@ -60,6 +70,21 @@ public class He.Switch : He.Bin, Gtk.Buildable {
             if (_right_icon != null) {
                 right_icon_img.set_from_icon_name (_right_icon);
             }
+        }
+    }
+
+    /**
+     * Sets the color variant of the Switch.
+     */
+    private He.SwitchColor _color = He.SwitchColor.PRIMARY;
+    public He.SwitchColor color {
+        get {
+            return _color;
+        }
+        set {
+            main_box.remove_css_class (get_color_class (_color));
+            _color = value;
+            main_box.add_css_class (get_color_class (_color));
         }
     }
 
@@ -136,6 +161,22 @@ public class He.Switch : He.Bin, Gtk.Buildable {
         main_box.valign = Gtk.Align.CENTER;
         main_box.hexpand = true;
         main_box.add_css_class ("switch");
+        main_box.add_css_class (get_color_class (_color));
         main_box.set_parent (this);
+    }
+
+    private string get_color_class (He.SwitchColor color) {
+        switch (color) {
+            case He.SwitchColor.PRIMARY:
+                return "primary";
+            case He.SwitchColor.SECONDARY:
+                return "secondary";
+            case He.SwitchColor.TERTIARY:
+                return "tertiary";
+            case He.SwitchColor.SURFACE:
+                return "surface";
+            default:
+                return "primary";
+        }
     }
 }
