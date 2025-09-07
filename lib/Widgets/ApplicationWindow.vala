@@ -31,7 +31,7 @@ public class He.ApplicationWindow : Gtk.ApplicationWindow {
         Object (application: app);
     }
 
-    private new He.AppBar title = new He.AppBar ();
+    private He.AppBar appbar = new He.AppBar ();
 
     /**
      * Whether this window should display a title.
@@ -48,8 +48,8 @@ public class He.ApplicationWindow : Gtk.ApplicationWindow {
                 box.visible = false;
                 this.set_titlebar (box);
             } else {
-                title.add_css_class ("flat");
-                this.set_titlebar (title);
+                appbar.add_css_class ("flat");
+                this.set_titlebar (appbar);
             }
         }
     }
@@ -57,14 +57,14 @@ public class He.ApplicationWindow : Gtk.ApplicationWindow {
     /**
      * Whether this window should display a back button.
      */
-    private new bool _has_back_button;
-    public new bool has_back_button {
+    private bool _has_back_button;
+    public bool has_back_button {
         get {
             return has_back_button;
         }
         set {
             _has_back_button = value;
-            title.show_back = value;
+            appbar.show_back = value;
         }
     }
 
