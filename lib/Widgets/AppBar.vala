@@ -120,7 +120,7 @@ public class He.AppBar : He.Bin {
                     viewtitle_widget.add_css_class ("view-title");
                 }
                 viewsubtitle.set_visible (true);
-                sub_box.set_visible (true);
+                update_content_visibility ();
                 btn_box.unparent ();
                 labels_box.unparent ();
                 sub_box.append (labels_box);
@@ -137,43 +137,45 @@ public class He.AppBar : He.Bin {
     public Gtk.Widget? viewtitle_widget {
         get { return this._viewtitle_widget; }
         set {
+            if (_viewtitle_widget == value)
+                return;
+
+            if (_viewtitle_widget != null) {
+                view_title_box.remove (_viewtitle_widget);
+            }
+
             this._viewtitle_widget = value;
 
             if (value != null) {
                 view_title_box.append (value);
-
-                view_title_box.set_visible (true);
                 view_title_box.margin_start = 12;
-                labels_box.set_visible (true);
-                sub_box.set_visible (true);
-            } else {
-                view_title_box.remove (value);
-                view_title_box.set_visible (false);
-                labels_box.set_visible (false);
-                sub_box.set_visible (false);
             }
+
+            update_content_visibility ();
         }
     }
 
-    private string _viewsubtitle_label;
+    private string _viewsubtitle_label = "";
     /**
      * The subtitle to the left on the AppBar.
      */
     public string viewsubtitle_label {
         get { return this._viewsubtitle_label; }
         set {
-            this._viewsubtitle_label = value;
+            this._viewsubtitle_label = value ?? "";
 
-            if (value != "") {
-                viewsubtitle.label = value;
+            if (_viewsubtitle_label != "") {
+                viewsubtitle.label = _viewsubtitle_label;
                 viewsubtitle.visible = true;
-                subtitle_box.set_visible (true);
-                main_box.spacing = 6;
                 subtitle_box.margin_start = 12;
+                main_box.spacing = 6;
             } else {
                 viewsubtitle.label = null;
                 viewsubtitle.visible = false;
+                main_box.spacing = 0;
             }
+
+            update_content_visibility ();
         }
     }
 
@@ -225,6 +227,7 @@ public class He.AppBar : He.Bin {
             update_box_visibility (win_box);
         }
     }
+
     private void update_box_visibility (Gtk.Widget? box) {
         bool has_visible = false;
         Gtk.Widget? child;
@@ -240,6 +243,35 @@ public class He.AppBar : He.Bin {
             }
 
             box.set_visible (has_visible);
+        }
+    }
+
+    /**
+     * Updates the visibility of content boxes based on whether there's actual content to show
+     */
+    private void update_content_visibility () {
+        bool has_title_content = _viewtitle_widget != null;
+        bool has_subtitle_content = _viewsubtitle_label != "";
+        bool has_back_button = _show_back;
+
+        bool has_any_content = has_title_content || has_subtitle_content || has_back_button;
+
+        view_title_box.set_visible (has_title_content || has_back_button);
+        subtitle_box.set_visible (has_subtitle_content);
+        labels_box.set_visible (has_any_content);
+        sub_box.set_visible (has_any_content);
+
+        // Update margins based on content
+        if (has_back_button) {
+            labels_box.margin_start = 12;
+            labels_box.margin_top = 0;
+            view_title_box.margin_start = 0;
+        } else {
+            labels_box.margin_start = 0;
+            labels_box.margin_top = 0;
+            if (has_title_content) {
+                view_title_box.margin_start = 12;
+            }
         }
     }
 
@@ -269,19 +301,7 @@ public class He.AppBar : He.Bin {
             _show_back = value;
             back_button.set_visible (value);
             control_box.set_visible (value);
-            sub_box.set_visible (true);
-
-            if (value) {
-                labels_box.margin_start = 12;
-                labels_box.margin_top = 0;
-                view_title_box.margin_start = 0;
-            } else {
-                labels_box.margin_start = 0;
-                labels_box.margin_top = 0;
-                if (viewtitle_widget != null) {
-                    view_title_box.margin_start = 12;
-                }
-            }
+            update_content_visibility ();
         }
     }
 
@@ -493,6 +513,9 @@ public class He.AppBar : He.Bin {
                 view_title_box.margin_top = 12;
             }
         });
+
+        // Initialize content visibility
+        update_content_visibility ();
     }
 
     static construct {
