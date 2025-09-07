@@ -23,7 +23,7 @@
  * Has an optional back button. The back button is only visible if has_back_button is true.
  */
 public class He.Window : Gtk.Window {
-    private new He.AppBar title = new He.AppBar ();
+    private He.AppBar appbar = new He.AppBar ();
 
     /**
      * The parent window of this window. If this is null, then this is a top-level window.
@@ -41,7 +41,7 @@ public class He.Window : Gtk.Window {
     }
 
     /**
-     * If the window has a title bar.
+     * If the window has an appbar.
      */
     private bool _has_title;
     public bool has_title {
@@ -55,8 +55,8 @@ public class He.Window : Gtk.Window {
                 box.visible = false;
                 this.set_titlebar (box);
             } else {
-                title.add_css_class ("flat");
-                this.set_titlebar (title);
+                appbar.add_css_class ("flat");
+                this.set_titlebar (appbar);
             }
         }
     }
@@ -66,14 +66,14 @@ public class He.Window : Gtk.Window {
      *
      * @since 1.0
      */
-    private new bool _has_back_button;
-    public new bool has_back_button {
+    private bool _has_back_button;
+    public bool has_back_button {
         get {
             return has_back_button;
         }
         set {
             _has_back_button = value;
-            title.show_back = value;
+            appbar.show_back = value;
         }
     }
 
