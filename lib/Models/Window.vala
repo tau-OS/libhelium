@@ -69,7 +69,7 @@ public class He.Window : Gtk.Window {
     private bool _has_back_button;
     public bool has_back_button {
         get {
-            return has_back_button;
+            return _has_back_button;
         }
         set {
             _has_back_button = value;
