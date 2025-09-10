@@ -21,7 +21,7 @@
  * An AppBar is the header bar of an Window. It usually provides controls to manage the window, as well as optional children for more granular control.
  */
 public class He.AppBar : He.Bin {
-    private Gtk.Label viewsubtitle;
+    private Gtk.Label viewsubtitle = new Gtk.Label (null);
     private Gtk.Box top_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
     private Gtk.Box view_title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
@@ -130,11 +130,11 @@ public class He.AppBar : He.Bin {
         }
     }
 
-    private Gtk.Widget? _viewtitle_widget;
+    private Gtk.Widget _viewtitle_widget = null;
     /**
      * The title widget to the left on the AppBar. If this is set, the other title (not subtitle) props won't work, and the mini title on collapsed state won't show.
      */
-    public Gtk.Widget? viewtitle_widget {
+    public Gtk.Widget viewtitle_widget {
         get { return this._viewtitle_widget; }
         set {
             if (_viewtitle_widget == value)
@@ -254,9 +254,9 @@ public class He.AppBar : He.Bin {
         bool has_subtitle_content = _viewsubtitle_label != "";
         bool has_back_button = _show_back;
 
-        bool has_any_content = has_title_content || has_subtitle_content || has_back_button;
+        bool has_any_content = has_title_content;
 
-        view_title_box.set_visible (has_title_content || has_back_button);
+        view_title_box.set_visible (has_any_content);
         subtitle_box.set_visible (has_subtitle_content);
         labels_box.set_visible (has_any_content);
         sub_box.set_visible (has_any_content);
@@ -265,13 +265,9 @@ public class He.AppBar : He.Bin {
         if (has_back_button) {
             labels_box.margin_start = 12;
             labels_box.margin_top = 0;
-            view_title_box.margin_start = 0;
         } else {
             labels_box.margin_start = 0;
             labels_box.margin_top = 0;
-            if (has_title_content) {
-                view_title_box.margin_start = 12;
-            }
         }
     }
 
@@ -516,6 +512,7 @@ public class He.AppBar : He.Bin {
 
         // Initialize content visibility
         update_content_visibility ();
+        is_compact = true;
     }
 
     static construct {
