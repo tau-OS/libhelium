@@ -21,9 +21,10 @@
  * An AboutWindow is a modal widget that displays information about the application.
  */
 public class He.AboutWindow : Gtk.Widget {
-    private const int TOP_MARGIN = 56;
+    private int TOP_MARGIN = 56;
     private const int DESKTOP_EDGE_MARGIN = 114;
     private const int MIN_EDGE_MARGIN = 56;
+    private const int COMPACT_HEIGHT_THRESHOLD = 440;
 
     /**
      * The hidden signal fires when the about window is hidden.
@@ -57,6 +58,61 @@ public class He.AboutWindow : Gtk.Widget {
     private He.Button close_button;
 
     private He.ModifierBadge version_badge = new He.ModifierBadge ("");
+
+    /**
+     * If set to true, the AboutWindow will always use the compact layout,
+     * regardless of the window size. When false (the default), the compact
+     * layout is automatically applied only when the allocated height is less
+     * than 440 pixels. The compact layout reduces spacing, icon size, and
+     * adjusts text wrapping to better fit smaller window sizes.
+     */
+    private bool _is_compact = false;
+    public bool is_compact {
+        get { return _is_compact; }
+        set {
+            if (_is_compact == value)return;
+            _is_compact = value;
+            queue_allocate ();
+        }
+    }
+    private bool _applied_compact = false;
+    private void apply_compact_layout (bool compact) {
+        if (_applied_compact == compact)
+            return;
+
+        _applied_compact = compact;
+
+        TOP_MARGIN = 56 / 2;
+
+        // Icon size
+        icon_image.pixel_size = compact ? 64 : 128;
+        icon_image.halign = Gtk.Align.START;
+
+        // Spacing adjustments
+        about_box.set_spacing (compact ? 6 : 12);
+        content_box.set_spacing (compact ? 6 : 30);
+        text_box.set_spacing (compact ? 6 : 6);
+        title_box.set_spacing (compact ? 6 : 18);
+        button_box.visible = false;
+
+        // Title styling
+        if (compact) {
+            title_label.remove_css_class ("display");
+            title_label.add_css_class ("cb-title");
+        } else {
+            title_label.add_css_class ("display");
+            title_label.remove_css_class ("cb-title");
+        }
+
+        // Text wrapping for license (saves vertical space on small heights)
+        license_label.set_wrap (compact);
+
+        // Limit scroller heights and expansion in compact mode
+        developers_box_scroller.set_min_content_height (compact ? 64 : 0);
+        translators_box_scroller.set_min_content_height (compact ? 64 : 0);
+        developers_box_scroller.vexpand = !compact;
+        translators_box_scroller.vexpand = !compact;
+    }
 
     /**
      * Shows or hides the about window
@@ -505,6 +561,9 @@ public class He.AboutWindow : Gtk.Widget {
         var click_gesture = new Gtk.GestureClick ();
         click_gesture.end.connect (() => { hide_about (); });
         dimming.add_controller (click_gesture);
+
+        // Ensure initial (non-compact) layout is applied
+        apply_compact_layout (false);
     }
 
     protected override void dispose () {
@@ -553,6 +612,10 @@ public class He.AboutWindow : Gtk.Widget {
     protected override void size_allocate (int width, int height, int baseline) {
         if (!about_bin.get_child_visible ())
             return;
+
+        // Apply compact layout if forced or if height is below threshold
+        bool compact = _is_compact || (height < COMPACT_HEIGHT_THRESHOLD);
+        apply_compact_layout (compact);
 
         dimming.allocate (width, height, baseline, null);
 
