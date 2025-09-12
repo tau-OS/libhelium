@@ -24,7 +24,10 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
     private string _file;
     private int _requested_height;
     private int _requested_width;
-    private Gdk.Texture paintable;
+    private Gdk.Texture? paintable;
+    private GLib.Cancellable? _load_cancel = null;
+    private int _last_loaded_w = 0;
+    private int _last_loaded_h = 0;
 
     /**
      * The file path of the image.
@@ -37,10 +40,27 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
             _file = value;
 
             try {
-                if (_file.contains ("file://")) {
-                    paintable = Gdk.Texture.from_filename (_file.replace ("file://", ""));
-                } else if (_file.contains ("resource://")) {
+                // Cancel any previous ongoing load
+                if (_load_cancel != null) {
+                    _load_cancel.cancel ();
+                }
+                _load_cancel = new GLib.Cancellable ();
+
+                if (_file == null || _file.length == 0) {
+                    paintable = null;
+                    queue_draw ();
+                    return;
+                }
+
+                if (_file.contains ("resource://")) {
+                    // Resources are usually small, safe to load synchronously
                     paintable = Gdk.Texture.from_resource (_file.replace ("resource://", ""));
+                    queue_draw ();
+                } else {
+                    // Support both file:// URIs and plain paths
+                    string path = _file.contains ("file://") ? _file.replace ("file://", "") : _file;
+                    // Load asynchronously at the current (or requested) size
+                    load_scaled_texture_async.begin (path, _load_cancel);
                 }
             } catch (Error e) {
                 warning ("ERR: %s", e.message);
@@ -91,7 +111,55 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
      * @param file The file path of the image.
      */
     public ContentBlockImage (string file) {
-        Object (file: file);
+        Object (file : file);
+    }
+
+    // Load the image asynchronously at approximately the current widget size
+    private async void load_scaled_texture_async (string path, GLib.Cancellable? cancellable) {
+        // Determine target size (fallback to requested size or a reasonable default)
+        int target_w = get_width ();
+        int target_h = get_height ();
+        if (target_w <= 0 || target_h <= 0) {
+            target_w = _requested_width > 0 ? _requested_width : 256;
+            target_h = _requested_height > 0 ? _requested_height : 256;
+        }
+
+        try {
+            var file = GLib.File.new_for_path (path);
+            var stream = yield file.read_async (GLib.Priority.DEFAULT, cancellable);
+
+            var pixbuf = yield new Gdk.Pixbuf.from_stream_at_scale_async (stream, target_w, target_h, true, cancellable);
+
+            var tex = Gdk.Texture.for_pixbuf (pixbuf);
+
+            // If a newer load was requested, this cancellable would be cancelled
+            if (cancellable != null && cancellable.is_cancelled ()) {
+                return;
+            }
+
+            paintable = tex;
+            _last_loaded_w = target_w;
+            _last_loaded_h = target_h;
+            queue_draw ();
+        } catch (Error e) {
+            warning ("ERR: %s", e.message);
+        }
+    }
+
+    public override void size_allocate (int width, int height, int baseline) {
+        base.size_allocate (width, height, baseline);
+
+        // If the allocation changed, reload the image at the new size
+        if (_file != null && !_file.contains ("resource://")) {
+            if (width > 0 && height > 0 && (width != _last_loaded_w || height != _last_loaded_h)) {
+                if (_load_cancel != null) {
+                    _load_cancel.cancel ();
+                }
+                _load_cancel = new GLib.Cancellable ();
+                string path = _file.contains ("file://") ? _file.replace ("file://", "") : _file;
+                load_scaled_texture_async.begin (path, _load_cancel);
+            }
+        }
     }
 
     public override void measure (Gtk.Orientation orientation, int for_size, out int min, out int nat, out int min_b = null, out int nat_b = null) {
@@ -144,47 +212,42 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
     }
 
     public override void snapshot (Gtk.Snapshot snapshot) {
-        double scaled_width, scaled_height;
-        double width, height;
-
         if (paintable == null)
             return;
 
-        width = get_width ();
-        height = get_height ();
+        double width = get_width ();
+        double height = get_height ();
+        if (width <= 0 || height <= 0)
+            return;
 
-        if (width > height) {
-            scaled_height = height;
-            scaled_width = (float) width * scaled_height / (float) height;
-        } else if (width < height) {
-            scaled_width = width;
-            scaled_height = (float) height * scaled_width / (float) width;
-        } else {
-            scaled_width = scaled_height = width;
-        }
+        double tex_w = paintable.get_width ();
+        double tex_h = paintable.get_height ();
+        if (tex_w <= 0 || tex_h <= 0)
+            return;
+
+        double scale = Math.fmin (width / tex_w, height / tex_h);
+        double scaled_width = tex_w * scale;
+        double scaled_height = tex_h * scale;
 
         var p = Graphene.Point.zero ();
-        snapshot.translate (p.init ((float) (width - scaled_width) / 2, (float) (height - scaled_height) / 2));
+        snapshot.translate (p.init ((float) ((width - scaled_width) / 2.0), (float) ((height - scaled_height) / 2.0)));
 
-        Gsk.ScalingFilter filter;
-        if (scaled_width > width || scaled_height > height) {
-            filter = Gsk.ScalingFilter.NEAREST;
-        } else {
-            filter = Gsk.ScalingFilter.TRILINEAR;
-        }
+        Gsk.ScalingFilter filter = (scale > 1.0) ? Gsk.ScalingFilter.NEAREST : Gsk.ScalingFilter.TRILINEAR;
 
         var r = Graphene.Rect.zero ();
         r.init (0, 0, (float) scaled_width, (float) scaled_height);
         var rounded = Gsk.RoundedRect ().init_from_rect (r, 24);
         snapshot.push_rounded_clip (rounded);
         snapshot.append_scaled_texture (paintable, filter, r);
-
-        paintable.snapshot (snapshot, scaled_width, scaled_height);
         snapshot.pop ();
     }
 
     ~ContentBlockImage () {
-        file = null;
+        if (_load_cancel != null) {
+            _load_cancel.cancel ();
+            _load_cancel = null;
+        }
+        paintable = null;
         this.unparent ();
     }
 }
