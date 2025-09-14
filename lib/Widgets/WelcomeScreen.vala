@@ -17,103 +17,147 @@
  * Boston, MA 02110-1301 USA
  */
 
+/*
+ * A WelcomeRow is a single row in a WelcomeScreen, consisting of an icon, title, subtitle, and accent color.
+ */
+public class WelcomeRow : Gtk.Box {
+    private Gtk.Image icon;
+    private Gtk.Label title_lbl;
+    private Gtk.Label subtitle_lbl;
+
+    /*
+     * Sets the icon by name. Use symbolic icons.
+     */
+    private string _icon_name;
+    public string icon_name {
+        get { return _icon_name; }
+        set { _icon_name = value; icon.set_from_icon_name (_icon_name); }
+    }
+
+    /*
+     * Sets the icon color.
+     */
+    private He.Colors _color = He.Colors.PURPLE;
+    private string applied_class = "";
+    public He.Colors color {
+        get { return _color; }
+        set {
+            if (applied_class != "")icon.remove_css_class (applied_class);
+            _color = value;
+            applied_class = map_color_class (_color);
+            if (applied_class != "")icon.add_css_class (applied_class);
+        }
+    }
+
+    /*
+     * Sets the title text (bold).
+     */
+    private string _title;
+    public string title {
+        get { return _title; }
+        set { _title = value; title_lbl.set_markup ("<b>%s</b>".printf (_title)); }
+    }
+
+    /*
+     * Sets the subtitle text (dim).
+     */
+    private string _subtitle;
+    public string subtitle {
+        get { return _subtitle; }
+        set { _subtitle = value; subtitle_lbl.label = _subtitle; }
+    }
+
+    public WelcomeRow (string icon_name, string title_text, string subtitle_text, He.Colors accent) {
+        Object (orientation: Gtk.Orientation.HORIZONTAL, spacing: 12);
+
+        icon = new Gtk.Image.from_icon_name (icon_name); // use *-symbolic for tinting
+        icon.set_pixel_size (32);
+
+        var labels = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
+        title_lbl = new Gtk.Label (null);
+        title_lbl.set_use_markup (true);
+        title_lbl.set_xalign (0.0f);
+        subtitle_lbl = new Gtk.Label ("");
+        subtitle_lbl.set_xalign (0.0f);
+        subtitle_lbl.add_css_class ("dim-label");
+        labels.append (title_lbl);
+        labels.append (subtitle_lbl);
+
+        append (icon);
+        append (labels);
+
+        this.icon_name = icon_name;
+        this.title = title_text;
+        this.subtitle = subtitle_text;
+        this.color = accent; // adds the CSS class mapped below
+    }
+
+    private static string map_color_class (He.Colors c) {
+        switch (c) {
+        case He.Colors.RED:     return "accent-red";
+        case He.Colors.ORANGE:  return "accent-orange";
+        case He.Colors.YELLOW:  return "accent-yellow";
+        case He.Colors.GREEN:   return "accent-green";
+        case He.Colors.INDIGO:  return "accent-indigo";
+        case He.Colors.BLUE:    return "accent-blue";
+        case He.Colors.PURPLE:  return "accent-purple";
+        case He.Colors.PINK:    return "accent-pink";
+        case He.Colors.MINT:    return "accent-mint";
+        case He.Colors.BROWN:   return "accent-brown";
+        default:                         return "";
+        }
+    }
+}
+
 /**
  * A WelcomeScreen is a screen that presents options and actions before displaying the main application.
  */
-public class He.WelcomeScreen : He.Bin {
-    private Gtk.Box action_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
-    private Gtk.Box button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-    private Gtk.Label description_label = new Gtk.Label ("");
-    private Gtk.Label appname_label = new Gtk.Label ("");
-    private Gtk.Box main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+public class WelcomeScreen : He.Window {
+    private Gtk.Box main_box;
+    private Gtk.Box rows_box;
+    private Gtk.Button start_btn;
+    private Gtk.Label heading;
 
-    private string _appname;
-    /**
-     * The name of the application.
+    /*
+     * Sets the app's name in the heading.
      */
-    public string appname {
-        get { return _appname; }
+    private string _app_name = "Welcome To App Name!";
+    public string app_name {
+        get { return _app_name; }
         set {
-            _appname = value;
-            if (appname_label != null)
-                appname_label.label = "Welcome to " + value;
+            _app_name = value;
+            heading.set_label ("Welcome To %s".printf (_app_name));
         }
     }
 
-    private string _description;
-    /**
-     * The application description.
-     */
-    public string description {
-        get { return _description; }
-        set {
-            _description = value;
-            if (description_label != null)
-                description_label.label = value;
-        }
+    public WelcomeScreen (Gtk.Window parent) {
+        this.parent = parent;
+        add_css_class ("welcome-card");
+
+        main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 24);
+        main_box.margin_top = 24;
+        main_box.margin_bottom = 24;
+        main_box.margin_start = 24;
+        main_box.margin_end = 24;
+
+        heading = new Gtk.Label (null);
+        heading.add_css_class ("view-title");
+
+        rows_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+
+        start_btn = new Gtk.Button.with_label ("Start");
+        start_btn.add_css_class ("suggested-action");
+        start_btn.add_css_class ("pill");
+        start_btn.set_halign (Gtk.Align.CENTER);
+        start_btn.clicked.connect (() => close ());
+
+        main_box.append (heading);
+        main_box.append (rows_box);
+        main_box.append (start_btn);
+        child = main_box;
+
+        app_name = _app_name;
     }
 
-    /**
-     * Add a child to the welcome screen, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
-     */
-    public new void add_child (Gtk.Builder builder, GLib.Object child, string? type) {
-        if (type == "action") {
-            ((Gtk.Button) child).set_label (((Gtk.Button) child).get_label () + " →");
-            action_box.append ((Gtk.Widget) child);
-        } else if (type == "action-button") {
-            ((Gtk.Button) child).valign = Gtk.Align.CENTER;
-            button_box.append ((Gtk.Widget) child);
-        }
-    }
-
-    /**
-     * Construct a new WelcomeScreen.
-     * @param appname The name of the application.
-     * @param description The application description.
-     *
-     * @since 1.0
-     */
-    public WelcomeScreen (string appname, string description) {
-        base ();
-        this.appname = appname;
-        this.description = description;
-    }
-
-    ~WelcomeScreen () {
-        this.main_box.unparent ();
-    }
-
-    static construct {
-        set_layout_manager_type (typeof (Gtk.BoxLayout));
-    }
-
-    construct {
-        main_box.add_css_class ("content-block");
-        main_box.hexpand = true;
-
-        action_box.valign = Gtk.Align.START;
-        action_box.halign = Gtk.Align.START;
-
-        button_box.valign = Gtk.Align.END;
-        button_box.halign = Gtk.Align.END;
-        button_box.margin_bottom = button_box.margin_end = 18;
-
-        appname_label.xalign = 0;
-        appname_label.valign = Gtk.Align.START;
-        appname_label.margin_bottom = appname_label.margin_top = 12;
-        appname_label.add_css_class ("view-title");
-
-        description_label.xalign = 0;
-        description_label.valign = Gtk.Align.START;
-        description_label.vexpand = true;
-        description_label.margin_bottom = description_label.margin_top = 12;
-
-        main_box.append (appname_label);
-        main_box.append (action_box);
-        main_box.append (description_label);
-        main_box.append (button_box);
-
-        main_box.set_parent (this);
-        this.set_size_request (360, 400);
-    }
+    public void add_row (WelcomeRow row) { rows_box.append (row); }
 }
