@@ -70,7 +70,7 @@ public class WelcomeRow : Gtk.Box {
     public WelcomeRow (string icon_name, string title_text, string subtitle_text, He.Colors accent) {
         Object (orientation: Gtk.Orientation.HORIZONTAL, spacing: 12);
 
-        icon = new Gtk.Image.from_icon_name (icon_name); // use *-symbolic for tinting
+        icon = new Gtk.Image.from_icon_name (icon_name);
         icon.set_pixel_size (32);
 
         var labels = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
