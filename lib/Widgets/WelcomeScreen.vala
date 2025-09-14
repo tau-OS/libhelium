@@ -139,7 +139,10 @@ public class He.WelcomeScreen : He.Window {
     }
 
     public WelcomeScreen (Gtk.Window parent) {
-        base.parent = parent;
+        this.parent = parent;
+    }
+
+    construct {
         add_css_class ("welcome-card");
 
         main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 24);
@@ -152,6 +155,8 @@ public class He.WelcomeScreen : He.Window {
         heading.add_css_class ("view-title");
 
         rows_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+        rows_box.set_hexpand (true);
+        rows_box.set_vexpand (true);
 
         start_btn = new He.Button ("", "Start");
         start_btn.is_pill = true;
@@ -161,9 +166,16 @@ public class He.WelcomeScreen : He.Window {
         main_box.append (heading);
         main_box.append (rows_box);
         main_box.append (start_btn);
-        child = main_box;
 
         app_name = _app_name;
+
+        this.set_child (main_box);
+
+        this.set_size_request (360, 400);
+        this.set_default_size (360, 400);
+        this.has_title = false;
+        this.set_focusable (true);
+
         this.set_modal (true);
         this.resizable = false;
     }
