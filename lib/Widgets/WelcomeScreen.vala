@@ -20,7 +20,7 @@
 /*
  * A WelcomeRow is a single row in a WelcomeScreen, consisting of an icon, title, subtitle, and accent color.
  */
-public class WelcomeRow : Gtk.Box {
+public class He.WelcomeRow : Gtk.Box {
     private Gtk.Image icon;
     private Gtk.Label title_lbl;
     private Gtk.Label subtitle_lbl;
@@ -110,7 +110,7 @@ public class WelcomeRow : Gtk.Box {
 /**
  * A WelcomeScreen is a screen that presents options and actions before displaying the main application.
  */
-public class WelcomeScreen : He.Window {
+public class He.WelcomeScreen : He.Window {
     private Gtk.Box main_box;
     private Gtk.Box rows_box;
     private He.Button start_btn;
