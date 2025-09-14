@@ -55,7 +55,7 @@ public class WelcomeRow : Gtk.Box {
     private string _title;
     public string title {
         get { return _title; }
-        set { _title = value; title_lbl.set_markup ("<b>%s</b>".printf (_title)); }
+        set { _title = value; title_lbl.set_label ("%s".printf (_title)); }
     }
 
     /*
@@ -75,11 +75,9 @@ public class WelcomeRow : Gtk.Box {
 
         var labels = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
         title_lbl = new Gtk.Label (null);
-        title_lbl.set_use_markup (true);
         title_lbl.set_xalign (0.0f);
-        subtitle_lbl = new Gtk.Label ("");
+        subtitle_lbl = new Gtk.Label (null);
         subtitle_lbl.set_xalign (0.0f);
-        subtitle_lbl.add_css_class ("dim-label");
         labels.append (title_lbl);
         labels.append (subtitle_lbl);
 
