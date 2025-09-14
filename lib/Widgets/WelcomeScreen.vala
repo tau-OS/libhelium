@@ -139,7 +139,7 @@ public class He.WelcomeScreen : He.Window {
     }
 
     public WelcomeScreen (Gtk.Window parent) {
-        this.parent = parent;
+        base.parent = parent;
         add_css_class ("welcome-card");
 
         main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 24);
@@ -164,6 +164,8 @@ public class He.WelcomeScreen : He.Window {
         child = main_box;
 
         app_name = _app_name;
+        this.set_modal (true);
+        this.resizable = false;
     }
 
     /*
