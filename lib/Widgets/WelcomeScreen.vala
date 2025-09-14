@@ -115,7 +115,7 @@ public class WelcomeRow : Gtk.Box {
 public class WelcomeScreen : He.Window {
     private Gtk.Box main_box;
     private Gtk.Box rows_box;
-    private Gtk.Button start_btn;
+    private He.Button start_btn;
     private Gtk.Label heading;
 
     /*
@@ -145,9 +145,8 @@ public class WelcomeScreen : He.Window {
 
         rows_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 
-        start_btn = new Gtk.Button.with_label ("Start");
-        start_btn.add_css_class ("suggested-action");
-        start_btn.add_css_class ("pill");
+        start_btn = new He.Button ("", "Start");
+        start_btn.is_pill = true;
         start_btn.set_halign (Gtk.Align.CENTER);
         start_btn.clicked.connect (() => close ());
 
