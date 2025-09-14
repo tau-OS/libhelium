@@ -158,5 +158,8 @@ public class WelcomeScreen : He.Window {
         app_name = _app_name;
     }
 
+    /*
+     * Adds a row to the welcome screen.
+     */
     public void add_row (WelcomeRow row) { rows_box.append (row); }
 }
