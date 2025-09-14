@@ -92,17 +92,17 @@ public class He.WelcomeRow : Gtk.Box {
 
     private static string map_color_class (He.Colors c) {
         switch (c) {
-        case He.Colors.RED:     return "accent-red";
-        case He.Colors.ORANGE:  return "accent-orange";
-        case He.Colors.YELLOW:  return "accent-yellow";
-        case He.Colors.GREEN:   return "accent-green";
-        case He.Colors.INDIGO:  return "accent-indigo";
-        case He.Colors.BLUE:    return "accent-blue";
-        case He.Colors.PURPLE:  return "accent-purple";
-        case He.Colors.PINK:    return "accent-pink";
-        case He.Colors.MINT:    return "accent-mint";
-        case He.Colors.BROWN:   return "accent-brown";
-        default:                         return "";
+        case He.Colors.RED:     return "row-icon-red";
+        case He.Colors.ORANGE:  return "row-icon-orange";
+        case He.Colors.YELLOW:  return "row-icon-yellow";
+        case He.Colors.GREEN:   return "row-icon-green";
+        case He.Colors.INDIGO:  return "row-icon-indigo";
+        case He.Colors.BLUE:    return "row-icon-blue";
+        case He.Colors.PURPLE:  return "row-icon-purple";
+        case He.Colors.PINK:    return "row-icon-pink";
+        case He.Colors.MINT:    return "row-icon-mint";
+        case He.Colors.BROWN:   return "row-icon-brown";
+        default:                return "";
         }
     }
 }
