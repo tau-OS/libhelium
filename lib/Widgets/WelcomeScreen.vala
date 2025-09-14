@@ -42,10 +42,12 @@ public class He.WelcomeRow : Gtk.Box {
     public He.Colors color {
         get { return _color; }
         set {
-            if (applied_class != "")icon.remove_css_class (applied_class);
+            icon.remove_css_class (applied_class);
+
             _color = value;
             applied_class = map_color_class (_color);
-            if (applied_class != "")icon.add_css_class (applied_class);
+
+            icon.add_css_class (applied_class);
         }
     }
 
@@ -120,13 +122,20 @@ public class He.WelcomeScreen : He.Window {
     /*
      * Sets the app's name in the heading.
      */
-    private string _app_name = "Welcome To App Name!";
+    private string _app_name = "App Name";
     public string app_name {
         get { return _app_name; }
         set {
             _app_name = value;
             heading.set_label ("Welcome To %s".printf (_app_name));
         }
+    }
+
+    /*
+     * The button that closes the welcome screen.
+     */
+    public He.Button get_start_button () {
+        return start_btn;
     }
 
     public WelcomeScreen (Gtk.Window parent) {
