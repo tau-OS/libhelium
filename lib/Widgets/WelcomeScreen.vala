@@ -88,6 +88,7 @@ public class He.WelcomeRow : Gtk.Box {
         this.title = title_text;
         this.subtitle = subtitle_text;
         this.color = accent; // adds the CSS class mapped below
+        add_css_class ("welcome-row");
     }
 
     private static string map_color_class (He.Colors c) {
