@@ -52,7 +52,7 @@ public class He.Dialog : Gtk.Widget {
      * Shows or hides the dialog
      */
     private bool _visible = false;
-    public bool visible {
+    public new bool visible {
         get { return _visible; }
         set {
             if (visible == value)

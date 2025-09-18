@@ -118,7 +118,7 @@ public class He.AboutWindow : Gtk.Widget {
      * Shows or hides the about window
      */
     private bool _visible = false;
-    public bool visible {
+    public new bool visible {
         get { return _visible; }
         set {
             if (visible == value)
