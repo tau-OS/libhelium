@@ -80,6 +80,9 @@ public class He.WelcomeRow : Gtk.Box {
         title_lbl.set_xalign (0.0f);
         subtitle_lbl = new Gtk.Label (null);
         subtitle_lbl.set_xalign (0.0f);
+        subtitle_lbl.add_css_class ("dim-label");
+        subtitle_lbl.wrap = true;
+        subtitle_lbl.set_max_width_chars (30);
         labels.append (title_lbl);
         labels.append (subtitle_lbl);
 

@@ -52,6 +52,7 @@ libhelium_sources += files(
   'Utils/Portal.vala',
   'Utils/ViewingConditions.vala',
   'Widgets/AboutWindow.vala',
+  'Widgets/ActiveIndicator.vala',
   'Widgets/AppBar.vala',
   'Widgets/ApplicationWindow.vala',
   'Widgets/Avatar.vala',
