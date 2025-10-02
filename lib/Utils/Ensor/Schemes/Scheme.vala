@@ -21,36 +21,101 @@
  * A class that contains the color scheme of the app.
  */
 public class He.Scheme {
+    private const double MAX_CHROMA_VALUE = 200.0;
+    private GLib.HashTable<string, double?> chroma_cache;
+
     public Scheme () {
+        this.chroma_cache = new GLib.HashTable<string, double?> (str_hash, str_equal);
     }
 
+    /**
+     * Finds the tone that maximizes chroma for a given palette within bounds.
+     */
     public double t_max_c (TonalPalette palette, double lower_bound = 0.0, double upper_bound = 100.0, double chroma_multiplier = 1.0) {
-        double answer = find_best_tone_for_chroma (palette.hue, palette.chroma * chroma_multiplier, 100.0, true);
-        return MathUtils.clamp_double (lower_bound, upper_bound, answer);
-    }
+        double target_chroma = palette.chroma * chroma_multiplier;
+        double best_tone = lower_bound;
+        double best_chroma = 0.0;
 
-    public double t_min_c (TonalPalette palette, double lower_bound = 0.0, double upper_bound = 100.0) {
-        double answer = find_best_tone_for_chroma (palette.hue, palette.chroma, 0.0, false);
-        return MathUtils.clamp_double (lower_bound, upper_bound, answer);
-    }
-
-    public double find_best_tone_for_chroma (double hue, double chroma, double tone, bool by_decreasing_tone) {
-        double answer = tone;
-        HCTColor best_candidate = from_params (hue, chroma, answer);
-
-        while (best_candidate.c < chroma) {
-            if (tone < 0.0 || tone > 100.0) {
-                break;
-            }
-            tone += by_decreasing_tone ? -1.0 : 1.0;
-            HCTColor new_candidate = from_params (hue, chroma, tone);
-            if (best_candidate.c < new_candidate.c) {
-                best_candidate = new_candidate;
-                answer = tone;
+        // Coarse search to find the general area of maximum chroma
+        for (double tone = lower_bound; tone <= upper_bound; tone += 5.0) {
+            double achievable_chroma = get_max_chroma_at_tone (palette.hue, (int) Math.floor (tone));
+            if (achievable_chroma >= target_chroma) {
+                // If we can achieve the target chroma, find the closest tone
+                if (achievable_chroma > best_chroma) {
+                    best_chroma = achievable_chroma;
+                    best_tone = tone;
+                }
+            } else if (achievable_chroma > best_chroma) {
+                // Track the highest achievable chroma even if below target
+                best_chroma = achievable_chroma;
+                best_tone = tone;
             }
         }
 
-        return answer;
+        // Fine-tune with a narrower search around the best tone found
+        double search_start = MathUtils.max (lower_bound, best_tone - 5.0);
+        double search_end = MathUtils.min (upper_bound, best_tone + 5.0);
+
+        for (double tone = search_start; tone <= search_end; tone += 1.0) {
+            double achievable_chroma = get_max_chroma_at_tone (palette.hue, (int) Math.floor (tone));
+            if (achievable_chroma > best_chroma) {
+                best_chroma = achievable_chroma;
+                best_tone = tone;
+            }
+        }
+
+        return MathUtils.clamp_double (lower_bound, upper_bound, best_tone);
+    }
+
+    /**
+     * Finds the tone that minimizes chroma for a given palette within bounds.
+     */
+    public double t_min_c (TonalPalette palette, double lower_bound = 0.0, double upper_bound = 100.0) {
+        double best_tone = lower_bound;
+        double min_chroma = double.MAX;
+
+        // Search through the tone range to find minimum chroma
+        for (double tone = lower_bound; tone <= upper_bound; tone += 5.0) {
+            double achievable_chroma = get_max_chroma_at_tone (palette.hue, (int) Math.floor (tone));
+            if (achievable_chroma < min_chroma) {
+                min_chroma = achievable_chroma;
+                best_tone = tone;
+            }
+        }
+
+        // Fine-tune search
+        double search_start = MathUtils.max (lower_bound, best_tone - 5.0);
+        double search_end = MathUtils.min (upper_bound, best_tone + 5.0);
+
+        for (double tone = search_start; tone <= search_end; tone += 1.0) {
+            double achievable_chroma = get_max_chroma_at_tone (palette.hue, (int) Math.floor (tone));
+            if (achievable_chroma < min_chroma) {
+                min_chroma = achievable_chroma;
+                best_tone = tone;
+            }
+        }
+
+        return MathUtils.clamp_double (lower_bound, upper_bound, best_tone);
+    }
+
+    /**
+     * Gets the maximum achievable chroma at a specific tone for a given hue.
+     * Results are cached for performance.
+     */
+    private double get_max_chroma_at_tone (double hue, int tone) {
+        string cache_key = "%f_%d".printf (hue, tone);
+        double? cached_chroma = chroma_cache.lookup (cache_key);
+
+        if (cached_chroma != null) {
+            return cached_chroma;
+        }
+
+        // Request an impossibly high chroma and see what we actually get
+        HCTColor test_color = from_params (hue, MAX_CHROMA_VALUE, (double) tone);
+        double actual_chroma = test_color.c;
+
+        chroma_cache.insert (cache_key, actual_chroma);
+        return actual_chroma;
     }
 
     public ContrastCurve get_curve (double def_c) {
@@ -344,19 +409,29 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "primary",
                                  /* palette= */ (s) => s.primary,
-                                 /* tone= */ (s) => { if (s.variant == SchemeVariant.MUTED || s.variant == SchemeVariant.DEFAULT) {
-                                                          return s.is_dark ? 80.0 : 40.0;
-                                                      } else if (s.variant == SchemeVariant.SALAD) {
-                                                          return t_max_c (
-                                                                          s.primary,
-                                                                          0,
-                                                                          HCTColor.hue_is_yellow (s.primary.hue)
-                                                                                    ? 25
-                                                                                    : HCTColor.hue_is_cyan (s.primary.hue) ? 88 : 98);
-                                                      } else { // Other variants
-                                                          return t_max_c (
-                                                                          s.primary, 0, HCTColor.hue_is_cyan (s.primary.hue) ? 88 : 98);
-                                                      } },
+                                 /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.DEFAULT) {
+                // DEFAULT uses bounded dynamic selection for consistency with vibrancy
+                return s.is_dark
+                                             ? t_max_c (s.primary, 75, 85)
+                                             : t_max_c (s.primary, 35, 45);
+            } else if (s.variant == SchemeVariant.MUTED) {
+                // MUTED aims for mid-chroma tones
+                return s.is_dark
+                                             ? t_min_c (s.primary, 75, 85)
+                                             : t_min_c (s.primary, 35, 45);
+            } else if (s.variant == SchemeVariant.SALAD) {
+                return t_max_c (
+                                s.primary,
+                                0,
+                                HCTColor.hue_is_yellow (s.primary.hue)
+                                                               ? 25
+                                                               : HCTColor.hue_is_cyan (s.primary.hue) ? 88 : 98);
+            } else { // VIBRANT and other variants
+                return t_max_c (
+                                s.primary, 0, HCTColor.hue_is_cyan (s.primary.hue) ? 88 : 98);
+            }
+        },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
                                  /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
@@ -384,14 +459,25 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "primary_container",
                                  /* palette= */ (s) => s.primary,
-                                 /* tone= */ (s) => { if (s.variant == SchemeVariant.MUTED || s.variant == SchemeVariant.DEFAULT) {
-                                                          return s.is_dark ? 30.0 : 90.0;
-                                                      } else if (s.variant == SchemeVariant.CONTENT) {
-                                                          return s.hct.t;
-                                                      } else { // VIBRANT or other variants
-                                                          return s.is_dark ? t_min_c (s.primary, 66, 93) : t_max_c (
-                                                                                                                    s.primary, 66, HCTColor.hue_is_cyan (s.primary.hue) ? 88 : 93);
-                                                      } },
+                                 /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.CONTENT) {
+                return s.hct.t;
+            } else if (s.variant == SchemeVariant.DEFAULT) {
+                // DEFAULT uses bounded dynamic selection
+                return s.is_dark
+                                             ? t_min_c (s.primary, 25, 35)
+                                             : t_max_c (s.primary, 85, 95);
+            } else if (s.variant == SchemeVariant.MUTED) {
+                // MUTED prefers higher chroma in containers for subtle contrast
+                return s.is_dark
+                                             ? t_max_c (s.primary, 25, 35)
+                                             : t_min_c (s.primary, 85, 95);
+            } else { // VIBRANT, SALAD, or other variants
+                return s.is_dark
+                                             ? t_min_c (s.primary, 66, 93)
+                                             : t_max_c (s.primary, 66, HCTColor.hue_is_cyan (s.primary.hue) ? 88 : 93);
+            }
+        },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
                                  /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
@@ -419,14 +505,24 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "secondary",
                                  /* palette= */ (s) => s.secondary,
-                                 /* tone= */ (s) => { if (s.variant == SchemeVariant.MUTED) {
-                                                          return s.is_dark ? t_min_c (s.secondary, 0, 98) : t_max_c (s.secondary);
-                                                      } else if (s.variant == SchemeVariant.SALAD) {
-                                                          return t_max_c (s.secondary, 0, s.is_dark ? 90 : 98);
-                                                      } else {
-                                                          // For baseline compatibility, use tone 40 for DEFAULT
-                                                          return s.is_dark ? 80.0 : 40.0;
-                                                      } },
+                                 /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.DEFAULT) {
+                // DEFAULT uses bounded dynamic selection
+                return s.is_dark
+                                             ? t_max_c (s.secondary, 75, 85)
+                                             : t_max_c (s.secondary, 35, 45);
+            } else if (s.variant == SchemeVariant.MUTED) {
+                return s.is_dark
+                                             ? t_min_c (s.secondary, 0, 98)
+                                             : t_max_c (s.secondary);
+            } else if (s.variant == SchemeVariant.SALAD) {
+                return t_max_c (s.secondary, 0, s.is_dark ? 90 : 98);
+            } else { // VIBRANT and other variants
+                return s.is_dark
+                                             ? t_max_c (s.secondary, 75, 85)
+                                             : t_max_c (s.secondary, 35, 45);
+            }
+        },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
                                  /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
@@ -454,16 +550,29 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "secondary_container",
                                  /* palette= */ (s) => s.secondary,
-                                 /* tone= */ (s) => { if (s.variant == SchemeVariant.VIBRANT) {
-                                                          return s.is_dark
-                                                                    ? t_min_c (s.secondary, 30, 40)
-                                                                    : t_max_c (s.secondary, 84, 90);
-                                                      } else if (s.variant == SchemeVariant.SALAD) {
-                                                          return s.is_dark ? 15.0 : t_max_c (s.secondary, 90, 95);
-                                                      } else {
-                                                          // DEFAULT and MUTED variants
-                                                          return s.is_dark ? 25.0 : 90.0;
-                                                      } },
+                                 /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.DEFAULT) {
+                // DEFAULT uses bounded dynamic selection
+                return s.is_dark
+                                             ? t_min_c (s.secondary, 20, 30)
+                                             : t_max_c (s.secondary, 85, 95);
+            } else if (s.variant == SchemeVariant.MUTED) {
+                // MUTED uses higher chroma in containers
+                return s.is_dark
+                                             ? t_max_c (s.secondary, 20, 30)
+                                             : t_min_c (s.secondary, 85, 95);
+            } else if (s.variant == SchemeVariant.VIBRANT) {
+                return s.is_dark
+                                             ? t_min_c (s.secondary, 30, 40)
+                                             : t_max_c (s.secondary, 84, 90);
+            } else if (s.variant == SchemeVariant.SALAD) {
+                return s.is_dark ? 15.0 : t_max_c (s.secondary, 90, 95);
+            } else { // Other variants
+                return s.is_dark
+                                             ? t_min_c (s.secondary, 20, 30)
+                                             : t_max_c (s.secondary, 85, 95);
+            }
+        },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
                                  /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
@@ -492,16 +601,22 @@ public class He.Scheme {
                                  /* name= */ "tertiary",
                                  /* palette= */ (s) => s.tertiary,
                                  /* tone= */ (s) => {
-            if (s.variant == SchemeVariant.MUTED || s.variant == SchemeVariant.SALAD) {
+            if (s.variant == SchemeVariant.DEFAULT) {
+                // DEFAULT uses bounded dynamic selection
+                return s.is_dark
+                                             ? t_max_c (s.tertiary, 75, 85)
+                                             : t_max_c (s.tertiary, 35, 45);
+            } else if (s.variant == SchemeVariant.MUTED || s.variant == SchemeVariant.SALAD) {
                 return t_max_c (
                                 s.tertiary,
                                 /* lowerBound= */ 0,
                                 /* upperBound= */ HCTColor.hue_is_cyan (s.tertiary.hue)
-                            ? 88
-                            : (s.is_dark ? 98 : 100));
-            } else { // DEFAULT and MUTED variants
-                // For baseline compatibility, use tone 40 for DEFAULT
-                return s.is_dark ? 80.0 : 40.0;
+                                                             ? 88
+                                                             : (s.is_dark ? 98 : 100));
+            } else { // VIBRANT and other variants
+                return s.is_dark
+                                             ? t_max_c (s.tertiary, 75, 85)
+                                             : t_max_c (s.tertiary, 35, 45);
             }
         },
                                  /* chroma_multiplier */ 1.0,
@@ -531,25 +646,29 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "tertiary_container",
                                  /* palette= */ (s) => s.tertiary,
-                                 /* tone= */ (s) => { if (s.variant == SchemeVariant.MUTED) {
-                                                          return s.is_dark
-                          ? t_max_c (s.tertiary, 0, 93)
-                          : t_max_c (s.tertiary, 0, 96);
-                                                      } else if (s.variant == SchemeVariant.DEFAULT) {
-                                                          // For baseline compatibility, use tone 90
-                                                          return s.is_dark ? 30.0 : 90.0;
-                                                      } else if (s.variant == SchemeVariant.SALAD) {
-                                                          return t_max_c (
-                                                                          s.tertiary,
-                                                                          /* lowerBound= */ 75,
-                                                                          /* upperBound= */ HCTColor.hue_is_cyan (s.tertiary.hue)
-                              ? 88
-                              : (s.is_dark ? 93 : 100));
-                                                      } else { // SALAD
-                                                          return s.is_dark
-                          ? t_max_c (s.tertiary, 0, 93)
-                          : t_max_c (s.tertiary, 72, 100);
-                                                      } },
+                                 /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.DEFAULT) {
+                // DEFAULT uses bounded dynamic selection
+                return s.is_dark
+                                             ? t_min_c (s.tertiary, 25, 35)
+                                             : t_max_c (s.tertiary, 85, 95);
+            } else if (s.variant == SchemeVariant.MUTED) {
+                return s.is_dark
+                                             ? t_max_c (s.tertiary, 0, 93)
+                                             : t_max_c (s.tertiary, 0, 96);
+            } else if (s.variant == SchemeVariant.SALAD) {
+                return t_max_c (
+                                s.tertiary,
+                                /* lowerBound= */ 75,
+                                /* upperBound= */ HCTColor.hue_is_cyan (s.tertiary.hue)
+                                                             ? 88
+                                                             : (s.is_dark ? 93 : 100));
+            } else { // VIBRANT and other variants
+                return s.is_dark
+                                             ? t_max_c (s.tertiary, 0, 93)
+                                             : t_max_c (s.tertiary, 72, 100);
+            }
+        },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
                                  /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
