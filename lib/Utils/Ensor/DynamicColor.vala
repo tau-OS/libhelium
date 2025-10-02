@@ -31,11 +31,9 @@ namespace He {
             this.name = name;
             this.palette = palette;
             this.tone = tone;
-
             this.chromamult = chromamult;
             this.is_background = is_background;
             this.background = background;
-            this.chromamult = chromamult;
             this.second_background = second_background;
             this.contrast_curve = contrast_curve;
             this.tone_delta_pair = tone_delta_pair;
@@ -120,7 +118,7 @@ namespace He {
                 var self_role = am_role_a ? role_a : role_b;
                 var ref_role = am_role_a ? role_b : role_a;
                 var self_tone = self_role.tone (scheme);
-                var ref_tone = ref_role.get_tone (scheme, this);
+                var ref_tone = ref_role.get_tone (scheme, color);
                 var relative_delta = absolute_delta * (am_role_a ? 1 : -1);
 
                 if (resolve == ToneResolve.EXACT) {
@@ -147,12 +145,12 @@ namespace He {
                     DynamicColor background = color.background (scheme);
                     ContrastCurve contrast_curve = color.contrast_curve;
                     if (background != null && contrast_curve != null) {
-                        var bg_tone = background.get_tone (scheme, this);
-                        var self_contrast = scheme.contrast_level;
-                        self_tone = Contrast.ratio_of_tones (bg_tone, self_tone) >= self_contrast &&
+                        var bg_tone = background.get_tone (scheme, color);
+                        var desired_ratio = contrast_curve.get (scheme.contrast_level);
+                        self_tone = Contrast.ratio_of_tones (bg_tone, self_tone) >= desired_ratio &&
                             scheme.contrast_level >= 0.0 ?
                             self_tone :
-                            color.foreground_tone (bg_tone, self_contrast);
+                            color.foreground_tone (bg_tone, desired_ratio);
                     }
                 }
 
@@ -253,17 +251,32 @@ namespace He {
             double darker_ratio = Contrast.ratio_of_tones (darker_tone, bg_tone);
             bool prefer_lighter = tone_prefers_light_foreground (bg_tone);
 
+            // At very low contrast (near 1.0), prefer maintaining readability
+            if (ratio < 1.5) {
+                // For very low contrast, use the tone preference to maintain some distinction
+                if (prefer_lighter) {
+                    // If background is dark, ensure we don't go too dark
+                    return lighter_tone;
+                } else {
+                    // If background is light, ensure we don't go too light
+                    return darker_tone;
+                }
+            }
+
             if (prefer_lighter) {
                 // Handle edge cases where the initial contrast ratio is high and neither lighter nor darker tones pass
                 bool negligible_difference =
                     MathUtils.abs (lighter_ratio - darker_ratio) < 0.1 && lighter_ratio < ratio && darker_ratio < ratio;
 
+                // Prefer lighter tone if it meets the ratio, or if it's closer to meeting it
                 if (lighter_ratio >= ratio || lighter_ratio >= darker_ratio || negligible_difference) {
                     return lighter_tone;
                 } else {
                     return darker_tone;
                 }
             } else {
+                // For lighter backgrounds, prefer darker foreground
+                // Use darker tone if it meets the ratio, or if it's at least as good as lighter
                 return darker_ratio >= ratio || darker_ratio >= lighter_ratio ? darker_tone : lighter_tone;
             }
         }

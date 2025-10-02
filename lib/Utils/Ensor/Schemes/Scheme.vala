@@ -32,9 +32,18 @@ public class He.Scheme {
      * Finds the tone that maximizes chroma for a given palette within bounds.
      */
     public double t_max_c (TonalPalette palette, double lower_bound = 0.0, double upper_bound = 100.0, double chroma_multiplier = 1.0) {
+        // Ensure bounds are valid
+        lower_bound = MathUtils.clamp_double (0.0, 100.0, lower_bound);
+        upper_bound = MathUtils.clamp_double (lower_bound, 100.0, upper_bound);
+
         double target_chroma = palette.chroma * chroma_multiplier;
         double best_tone = lower_bound;
         double best_chroma = 0.0;
+
+        // Handle edge case: very narrow or zero range
+        if (upper_bound - lower_bound < 1.0) {
+            return lower_bound;
+        }
 
         // Coarse search to find the general area of maximum chroma
         for (double tone = lower_bound; tone <= upper_bound; tone += 5.0) {
@@ -53,8 +62,8 @@ public class He.Scheme {
         }
 
         // Fine-tune with a narrower search around the best tone found
-        double search_start = MathUtils.max (lower_bound, best_tone - 5.0);
-        double search_end = MathUtils.min (upper_bound, best_tone + 5.0);
+        double search_start = Math.fmax (lower_bound, best_tone - 5.0);
+        double search_end = Math.fmin (upper_bound, best_tone + 5.0);
 
         for (double tone = search_start; tone <= search_end; tone += 1.0) {
             double achievable_chroma = get_max_chroma_at_tone (palette.hue, (int) Math.floor (tone));
@@ -71,8 +80,17 @@ public class He.Scheme {
      * Finds the tone that minimizes chroma for a given palette within bounds.
      */
     public double t_min_c (TonalPalette palette, double lower_bound = 0.0, double upper_bound = 100.0) {
+        // Ensure bounds are valid
+        lower_bound = MathUtils.clamp_double (0.0, 100.0, lower_bound);
+        upper_bound = MathUtils.clamp_double (lower_bound, 100.0, upper_bound);
+
         double best_tone = lower_bound;
         double min_chroma = double.MAX;
+
+        // Handle edge case: very narrow or zero range
+        if (upper_bound - lower_bound < 1.0) {
+            return lower_bound;
+        }
 
         // Search through the tone range to find minimum chroma
         for (double tone = lower_bound; tone <= upper_bound; tone += 5.0) {
@@ -84,8 +102,8 @@ public class He.Scheme {
         }
 
         // Fine-tune search
-        double search_start = MathUtils.max (lower_bound, best_tone - 5.0);
-        double search_end = MathUtils.min (upper_bound, best_tone + 5.0);
+        double search_start = Math.fmax (lower_bound, best_tone - 5.0);
+        double search_end = Math.fmin (upper_bound, best_tone + 5.0);
 
         for (double tone = search_start; tone <= search_end; tone += 1.0) {
             double achievable_chroma = get_max_chroma_at_tone (palette.hue, (int) Math.floor (tone));
@@ -103,7 +121,12 @@ public class He.Scheme {
      * Results are cached for performance.
      */
     private double get_max_chroma_at_tone (double hue, int tone) {
-        string cache_key = "%f_%d".printf (hue, tone);
+        // Sanitize hue to 0-360 range for consistent caching
+        double sanitized_hue = MathUtils.sanitize_degrees (hue);
+        // Clamp tone to valid range
+        int clamped_tone = (int) MathUtils.clamp_double (0, 100, tone);
+
+        string cache_key = "%.2f_%d".printf (sanitized_hue, clamped_tone);
         double? cached_chroma = chroma_cache.lookup (cache_key);
 
         if (cached_chroma != null) {
@@ -111,7 +134,7 @@ public class He.Scheme {
         }
 
         // Request an impossibly high chroma and see what we actually get
-        HCTColor test_color = from_params (hue, MAX_CHROMA_VALUE, (double) tone);
+        HCTColor test_color = from_params (sanitized_hue, MAX_CHROMA_VALUE, (double) clamped_tone);
         double actual_chroma = test_color.c;
 
         chroma_cache.insert (cache_key, actual_chroma);
@@ -120,7 +143,7 @@ public class He.Scheme {
 
     public ContrastCurve get_curve (double def_c) {
         if (def_c == 1.0) { // 1.0 to keep things simple
-            return new ContrastCurve (0.8, 1.0, 4.5, 11.0);
+            return new ContrastCurve (1.0, 1.0, 4.5, 11.0);
         } else if (def_c == 1.5) {
             return new ContrastCurve (1.0, 1.5, 3.0, 4.5);
         } else if (def_c == 3.0) {
@@ -138,8 +161,9 @@ public class He.Scheme {
         } else if (def_c == 21.0) {
             return new ContrastCurve (11.0, 21.0, 21.0, 21.0);
         } else {
-            // Shouldn't happen.
-            return new ContrastCurve (def_c, def_c, 7.0, 21.0);
+            // Shouldn't happen - clamp to valid range
+            double valid_c = MathUtils.max (1.0, def_c);
+            return new ContrastCurve (valid_c, valid_c, 7.0, 21.0);
         }
     }
 
