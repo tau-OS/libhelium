@@ -21,7 +21,6 @@ public class He.DefaultScheme : Object {
      * The default theme - Ensor 2025
      */
     public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
-        // Use exact baseline relationships regardless of input hue
         double primary_hue = hct.h;
         double secondary_hue = MathUtils.sanitize_degrees (primary_hue - 15.73);
         double tertiary_hue = MathUtils.sanitize_degrees (primary_hue + 28.76);
@@ -31,19 +30,14 @@ public class He.DefaultScheme : Object {
                                         SchemeVariant.DEFAULT,
                                         is_dark,
                                         contrast,
-                                        // Primary: Use input chroma, or boost to baseline level
                                         TonalPalette.from_hue_and_chroma (primary_hue, Math.fmax (hct.c, 39.97)),
-                                        // Secondary: Fixed chroma for consistency
                                         TonalPalette.from_hue_and_chroma (secondary_hue, 15.96),
                                         null,
-                                        // Neutral: Very low chroma
-                                        TonalPalette.from_hue_and_chroma (primary_hue, 5.0),
-                                        // Neutral Variant: Low chroma
-                                        TonalPalette.from_hue_and_chroma (primary_hue, 8.5),
+                                        TonalPalette.from_hue_and_chroma (primary_hue, 2.0),
+                                        TonalPalette.from_hue_and_chroma (primary_hue, 4.5),
                                         null
         );
 
-        // Tertiary: Relationship-based chroma
         double tertiary_chroma = Math.fmax (hct.c * 1.2, 47.97);
         scheme.tertiary = TonalPalette.from_hue_and_chroma (tertiary_hue, tertiary_chroma);
 
