@@ -2,7 +2,17 @@
 // Copyright (c) 2021 Google LLC
 
 public class He.ViewingConditions : Object {
-    public static ViewingConditions default_conditions = ViewingConditions.with_lstar (LSTAR);
+    private static ViewingConditions? default_conditions_instance; // lazily init to avoid class_init recursion
+
+    public static ViewingConditions default_conditions {
+        get {
+            if (default_conditions_instance == null) {
+                default_conditions_instance = ViewingConditions.with_lstar (LSTAR);
+            }
+
+            return default_conditions_instance;
+        }
+    }
     public double[] rgb_d = {};
 
     private double _aw;

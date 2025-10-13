@@ -31,7 +31,8 @@ public class He.SaladScheme : Object {
                                   TonalPalette.from_hue_and_chroma (hct.h, 36.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, 10.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, 16.0),
-                                  null
+                                  null,
+                                  SchemePlatform.DESKTOP
         );
     }
 }

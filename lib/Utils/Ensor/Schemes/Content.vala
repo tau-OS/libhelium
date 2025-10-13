@@ -32,7 +32,8 @@ public class He.ContentScheme : Object {
                                   TonalPalette.from_hct (fix_disliked (new TemperatureCache (hct).analogous (3, 6).nth_data (2))),
                                   TonalPalette.from_hue_and_chroma (hct.h, hct.c / 8.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, (hct.c / 8.0) + 4.0),
-                                  null
+                                  null,
+                                  SchemePlatform.DESKTOP
         );
     }
 }

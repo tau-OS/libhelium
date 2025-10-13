@@ -1,23 +1,30 @@
 namespace He {
-    public delegate TonalPalette PaletteFunc (DynamicScheme s);
+    public delegate TonalPalette ? PaletteFunc (DynamicScheme s);
 
-    public delegate ToneDeltaPair ToneDeltaPairFunc (DynamicScheme s);
+    public delegate ToneDeltaPair ? ToneDeltaPairFunc (DynamicScheme s);
 
-    public delegate DynamicColor BackgroundFunc (DynamicScheme s);
+    public delegate DynamicColor ? BackgroundFunc (DynamicScheme s);
 
-    public delegate double ToneFunc (DynamicScheme s);
+    public delegate double ? ToneFunc (DynamicScheme s);
+
+    public delegate double ? DoubleFunc (DynamicScheme s);
+
+    public delegate ContrastCurve ? ContrastCurveFunc (DynamicScheme s);
 
     public class DynamicColor : Object {
         public string name { get; set; }
         public bool is_background { get; set; }
         public double chromamult { get; set; }
-        public ContrastCurve contrast_curve { get; set; }
+        public ContrastCurve? contrast_curve { get; set; }
 
         public PaletteFunc palette;
         public ToneFunc tone;
-        public BackgroundFunc background;
-        public BackgroundFunc second_background;
-        public ToneDeltaPairFunc tone_delta_pair;
+        public BackgroundFunc? background;
+        public BackgroundFunc? second_background;
+        public ToneDeltaPairFunc? tone_delta_pair;
+        public DoubleFunc? chroma_multiplier_func;
+        public ContrastCurveFunc? contrast_curve_func;
+        public DoubleFunc? opacity;
 
         public DynamicColor (string name,
             PaletteFunc palette,
@@ -27,7 +34,10 @@ namespace He {
             BackgroundFunc? background,
             BackgroundFunc? second_background,
             ContrastCurve? contrast_curve,
-            ToneDeltaPairFunc? tone_delta_pair) {
+            ToneDeltaPairFunc? tone_delta_pair = null,
+            ContrastCurveFunc? contrast_curve_func = null,
+            DoubleFunc? chroma_multiplier_func = null,
+            DoubleFunc? opacity = null) {
             this.name = name;
             this.palette = palette;
             this.tone = tone;
@@ -37,6 +47,9 @@ namespace He {
             this.second_background = second_background;
             this.contrast_curve = contrast_curve;
             this.tone_delta_pair = tone_delta_pair;
+            this.contrast_curve_func = contrast_curve_func;
+            this.chroma_multiplier_func = chroma_multiplier_func;
+            this.opacity = opacity;
         }
 
         public DynamicColor.from_palette (string name,
@@ -48,6 +61,9 @@ namespace He {
                               tone,
                               1.0,
                               false,
+                              null,
+                              null,
+                              null,
                               null,
                               null,
                               null,
@@ -69,7 +85,10 @@ namespace He {
                                      this.background,
                                      this.second_background,
                                      this.contrast_curve,
-                                     this.tone_delta_pair
+                                     this.tone_delta_pair,
+                                     this.contrast_curve_func,
+                                     this.chroma_multiplier_func,
+                                     this.opacity
             );
         }
 
@@ -77,7 +96,8 @@ namespace He {
             var palette = color.palette (scheme);
             var tone = color.get_tone (scheme, color);
             var hue = palette.hue;
-            double chroma = color.chromamult == -1 ? 1 : color.chromamult;
+            double chroma = color.chroma_multiplier_func != null? color.chroma_multiplier_func (scheme) : (color.chromamult == -1 ? 1 : color.chromamult);
+
             var fchroma = palette.chroma * chroma;
 
             return from_params (hue, fchroma, tone);
@@ -93,7 +113,8 @@ namespace He {
                 return (s) => 50.0;
             } else {
                 return (s) => {
-                           return background (s) != null ? background (s).get_tone_from_scheme (s) : 50.0;
+                           DynamicColor? bg = background (s);
+                           return bg != null? bg.get_tone_from_scheme (s) : 50.0;
                 };
             }
         }
@@ -103,145 +124,173 @@ namespace He {
         }
 
         public double get_tone (DynamicScheme scheme, DynamicColor? color) {
-            if (tone_delta_pair != null) {
-                DynamicColor role_a = tone_delta_pair (scheme).role_a;
-                DynamicColor role_b = tone_delta_pair (scheme).role_b;
-                TonePolarity polarity = tone_delta_pair (scheme).polarity;
-                ToneResolve resolve = tone_delta_pair (scheme).resolve;
-                var absolute_delta = (polarity == TonePolarity.DARKER ||
-                                      (polarity == TonePolarity.RELATIVE_LIGHTER && scheme.is_dark) ||
-                                      (polarity == TonePolarity.RELATIVE_DARKER && !scheme.is_dark)) ?
-                    tone_delta_pair (scheme).delta* -1 :
-                    tone_delta_pair (scheme).delta;
+            DynamicColor current = color ?? this;
+            ToneDeltaPairFunc? pair_func = current.tone_delta_pair;
 
-                var am_role_a = color.name == role_a.name;
-                var self_role = am_role_a ? role_a : role_b;
-                var ref_role = am_role_a ? role_b : role_a;
-                var self_tone = self_role.tone (scheme);
-                var ref_tone = ref_role.get_tone (scheme, color);
-                var relative_delta = absolute_delta * (am_role_a ? 1 : -1);
+            if (pair_func != null) {
+                ToneDeltaPair? pair = pair_func (scheme);
 
-                if (resolve == ToneResolve.EXACT) {
-                    self_tone = MathUtils.clamp_double (0, 100, ref_tone + relative_delta);
-                } else if (resolve == ToneResolve.NEARER) {
-                    if (relative_delta > 0) {
-                        self_tone = MathUtils.clamp_double (
-                                                            0, 100,
-                                                            MathUtils.clamp_double (ref_tone, ref_tone + relative_delta, self_tone));
-                    } else {
-                        self_tone = MathUtils.clamp_double (
-                                                            0, 100,
-                                                            MathUtils.clamp_double (ref_tone + relative_delta, ref_tone, self_tone));
+                if (pair == null) {
+                    // Treat null responses the same as absent tone delta pair definitions.
+                    // Continue with the default tone path below.
+                } else {
+                    DynamicColor role_a = pair.role_a;
+                    DynamicColor role_b = pair.role_b;
+                    TonePolarity polarity = pair.polarity;
+                    ToneResolve resolve = pair.resolve;
+                    double absolute_delta = (polarity == TonePolarity.DARKER ||
+                                             (polarity == TonePolarity.RELATIVE_LIGHTER && scheme.is_dark) ||
+                                             (polarity == TonePolarity.RELATIVE_DARKER && !scheme.is_dark)) ?
+                        pair.delta * -1 :
+                        pair.delta;
+
+                    bool am_role_a = current.name == role_a.name;
+                    DynamicColor self_role = am_role_a ? role_a : role_b;
+                    DynamicColor ref_role = am_role_a ? role_b : role_a;
+                    double self_tone = self_role.tone (scheme);
+                    double ref_tone = ref_role.tone (scheme);
+                    double relative_delta = absolute_delta * (am_role_a ? 1 : -1);
+
+                    if (resolve == ToneResolve.EXACT) {
+                        self_tone = MathUtils.clamp_double (0, 100, ref_tone + relative_delta);
+                    } else if (resolve == ToneResolve.NEARER) {
+                        if (relative_delta > 0) {
+                            self_tone = MathUtils.clamp_double (
+                                                                0, 100,
+                                                                MathUtils.clamp_double (ref_tone, ref_tone + relative_delta, self_tone));
+                        } else {
+                            self_tone = MathUtils.clamp_double (
+                                                                0, 100,
+                                                                MathUtils.clamp_double (ref_tone + relative_delta, ref_tone, self_tone));
+                        }
+                    } else if (resolve == ToneResolve.FARTHER) {
+                        if (relative_delta > 0) {
+                            self_tone = MathUtils.clamp_double (ref_tone + relative_delta, 100, self_tone);
+                        } else {
+                            self_tone = MathUtils.clamp_double (0, ref_tone + relative_delta, self_tone);
+                        }
                     }
-                } else if (resolve == ToneResolve.FARTHER) {
-                    if (relative_delta > 0) {
-                        self_tone = MathUtils.clamp_double (ref_tone + relative_delta, 100, self_tone);
-                    } else {
-                        self_tone = MathUtils.clamp_double (0, ref_tone + relative_delta, self_tone);
-                    }
-                }
 
-                if (color.background (scheme) != null && color.contrast_curve != null) {
-                    DynamicColor background = color.background (scheme);
-                    ContrastCurve contrast_curve = color.contrast_curve;
-                    if (background != null && contrast_curve != null) {
-                        var bg_tone = background.get_tone (scheme, color);
-                        var desired_ratio = contrast_curve.get (scheme.contrast_level);
+                    DynamicColor? primary_background = current.background != null? current.background (scheme) : null;
+
+                    unowned ContrastCurve? contrast_curve_value = current.contrast_curve;
+                    ContrastCurve? generated_curve = null;
+
+                    if (contrast_curve_value == null && current.contrast_curve_func != null) {
+                        generated_curve = current.contrast_curve_func (scheme);
+                        contrast_curve_value = generated_curve;
+                    }
+
+                    if (primary_background != null && contrast_curve_value != null) {
+                        var bg_tone = primary_background.get_tone (scheme, primary_background);
+                        var desired_ratio = contrast_curve_value.get (scheme.contrast_level);
                         self_tone = Contrast.ratio_of_tones (bg_tone, self_tone) >= desired_ratio &&
                             scheme.contrast_level >= 0.0 ?
                             self_tone :
-                            color.foreground_tone (bg_tone, desired_ratio);
+                            current.foreground_tone (bg_tone, desired_ratio);
                     }
-                }
 
-                // This can avoid the awkward tones for background colors including the
-                // access fixed colors. Accent fixed dim colors should not be adjusted.
-                if (color.is_background) {
-                    if (self_tone >= 57.0) {
-                        self_tone = MathUtils.clamp_double (65.0, 100.0, self_tone);
-                    } else {
-                        self_tone = MathUtils.clamp_double (0.0, 49.0, self_tone);
+                    // This can avoid the awkward tones for background colors including the
+                    // access fixed colors. Accent fixed dim colors should not be adjusted.
+                    if (current.is_background && !current.name.has_suffix ("_fixed_dim")) {
+                        if (self_tone >= 57.0) {
+                            self_tone = MathUtils.clamp_double (65.0, 100.0, self_tone);
+                        } else {
+                            self_tone = MathUtils.clamp_double (0.0, 49.0, self_tone);
+                        }
                     }
+
+                    return finalize_tone_for_light_on_roles (scheme, current, self_tone);
                 }
-
-                return self_tone;
-            } else {
-                // Case 1: No tone delta pair; just solve for itself.
-                var answer = tone (scheme);
-
-                if (color.background == null ||
-                    color.background (scheme) == null ||
-                    color.contrast_curve == null) {
-                    return answer; // No adjustment for colors with no background.
-                }
-
-                var bg_tone = color.background (scheme).get_tone (scheme, color.background (scheme));
-                var desired_ratio = color.contrast_curve.get (scheme.contrast_level);
-
-                // Recalculate the tone from desired contrast ratio if the current
-                // contrast ratio is not enough or desired contrast level is decreasing
-                // (<0).
-                answer = Contrast.ratio_of_tones (bg_tone, answer) >= desired_ratio &&
-                    scheme.contrast_level >= 0.0 ?
-                    answer :
-                    foreground_tone (bg_tone, desired_ratio);
-
-                // This can avoid the awkward tones for background colors including the
-                // access fixed colors. Accent fixed dim colors should not be adjusted.
-                if (color.is_background) {
-                    if (answer >= 57.0) {
-                        answer = MathUtils.clamp_double (65.0, 100.0, answer);
-                    } else {
-                        answer = MathUtils.clamp_double (0.0, 49.0, answer);
-                    }
-                }
-
-                if (color.second_background == null ||
-                    color.second_background (scheme) == null) {
-                    return answer;
-                }
-
-                // Case 2: Adjust for dual backgrounds.
-                var bg1 = color.background (scheme);
-                var bg2 = color.second_background (scheme);
-                var bg_tone1 = bg1.get_tone (scheme, bg1);
-                var bg_tone2 = bg2.get_tone (scheme, bg2);
-                var upper = MathUtils.max (bg_tone1, bg_tone2);
-                var lower = MathUtils.min (bg_tone1, bg_tone2);
-
-                if (Contrast.ratio_of_tones (upper, answer) >= desired_ratio &&
-                    Contrast.ratio_of_tones (lower, answer) >= desired_ratio) {
-                    return answer;
-                }
-
-                // The darkest light tone that satisfies the desired ratio,
-                // or -1 if such ratio cannot be reached.
-                var light_option = Contrast.lighter (upper, desired_ratio);
-
-                // The lightest dark tone that satisfies the desired ratio,
-                // or -1 if such ratio cannot be reached.
-                var dark_option = Contrast.darker (lower, desired_ratio);
-
-                // Determine available options
-                double[] availables = {};
-                if (light_option != -1) {
-                    availables += (light_option);
-                }
-                if (dark_option != -1) {
-                    availables += (dark_option);
-                }
-
-                var prefers_light = tone_prefers_light_foreground (bg_tone1) ||
-                    tone_prefers_light_foreground (bg_tone2);
-                if (prefers_light) {
-                    return (light_option < 0.0) ? 100.0 : light_option;
-                }
-                if (availables.length == 1) {
-                    return availables[0];
-                }
-
-                return (dark_option < 0.0) ? 0.0 : dark_option;
             }
+
+            // Case 1: No tone delta pair; just solve for itself.
+            double answer = current.tone (scheme);
+
+            DynamicColor? primary_background = current.background != null? current.background (scheme) : null;
+
+            unowned ContrastCurve? primary_curve = current.contrast_curve;
+            ContrastCurve? generated_primary_curve = null;
+
+            if (primary_curve == null && current.contrast_curve_func != null) {
+                generated_primary_curve = current.contrast_curve_func (scheme);
+                primary_curve = generated_primary_curve;
+            }
+
+            if (primary_background == null ||
+                primary_curve == null) {
+                return finalize_tone_for_light_on_roles (scheme, current, answer); // No adjustment for colors with no background.
+            }
+
+            double bg_tone_primary = primary_background.get_tone (scheme, primary_background);
+            double desired = primary_curve.get (scheme.contrast_level);
+
+            // Recalculate the tone from desired contrast ratio if the current
+            // contrast ratio is not enough or desired contrast level is decreasing
+            // (<0).
+            answer = Contrast.ratio_of_tones (bg_tone_primary, answer) >= desired &&
+                scheme.contrast_level >= 0.0 ?
+                answer :
+                foreground_tone (bg_tone_primary, desired);
+
+            // This can avoid the awkward tones for background colors including the
+            // access fixed colors. Accent fixed dim colors should not be adjusted.
+            if (current.is_background && !current.name.has_suffix ("_fixed_dim")) {
+                if (answer >= 57.0) {
+                    answer = MathUtils.clamp_double (65.0, 100.0, answer);
+                } else {
+                    answer = MathUtils.clamp_double (0.0, 49.0, answer);
+                }
+            }
+
+            DynamicColor? secondary_background = current.second_background != null? current.second_background (scheme) : null;
+
+            if (secondary_background == null ||
+                primary_curve == null) {
+                return finalize_tone_for_light_on_roles (scheme, current, answer);
+            }
+
+            // Case 2: Adjust for dual backgrounds.
+            double bg_tone1 = primary_background.get_tone (scheme, primary_background);
+            double bg_tone2 = secondary_background.get_tone (scheme, secondary_background);
+            double upper = MathUtils.max (bg_tone1, bg_tone2);
+            double lower = MathUtils.min (bg_tone1, bg_tone2);
+
+            if (Contrast.ratio_of_tones (upper, answer) >= desired &&
+                Contrast.ratio_of_tones (lower, answer) >= desired) {
+                return answer;
+            }
+
+            // The darkest light tone that satisfies the desired ratio,
+            // or -1 if such ratio cannot be reached.
+            double light_option = Contrast.lighter (upper, desired);
+
+            // The lightest dark tone that satisfies the desired ratio,
+            // or -1 if such ratio cannot be reached.
+            double dark_option = Contrast.darker (lower, desired);
+
+            // Determine available options
+            double[] availables = {};
+            if (light_option != -1) {
+                availables += (light_option);
+            }
+            if (dark_option != -1) {
+                availables += (dark_option);
+            }
+
+            bool prefers_light = tone_prefers_light_foreground (bg_tone1) ||
+                tone_prefers_light_foreground (bg_tone2);
+            double resolved_tone;
+
+            if (prefers_light) {
+                resolved_tone = (light_option < 0.0) ? 100.0 : light_option;
+            } else if (availables.length == 1) {
+                resolved_tone = availables[0];
+            } else {
+                resolved_tone = (dark_option < 0.0) ? 0.0 : dark_option;
+            }
+
+            return finalize_tone_for_light_on_roles (scheme, current, resolved_tone);
         }
 
         public double foreground_tone (double bg_tone, double ratio) {
@@ -295,6 +344,30 @@ namespace He {
         /** Tones less than ~50 always permit white at 4.5 contrast. */
         public static bool tone_allows_light_foreground (double tone) {
             return MathUtils.round (tone) <= 49;
+        }
+
+        private static bool should_force_light_mode_on_white (string name) {
+            if (name == "inverse_on_surface") {
+                return true;
+            }
+
+            if (!name.has_prefix ("on_")) {
+                return false;
+            }
+
+            if (name.contains ("_surface") || name.contains ("_container") || name.contains ("_background")) {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static double finalize_tone_for_light_on_roles (DynamicScheme scheme, DynamicColor color, double tone) {
+            if (!scheme.is_dark && should_force_light_mode_on_white (color.name)) {
+                return 100.0;
+            }
+
+            return tone;
         }
     }
 }

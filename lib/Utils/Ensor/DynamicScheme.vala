@@ -8,6 +8,11 @@ namespace He {
         CONTENT
     }
 
+    public enum SchemePlatform {
+        DESKTOP,
+        PHONE
+    }
+
     public class DynamicScheme : Object {
         public HCTColor hct;
         public SchemeVariant variant;
@@ -19,6 +24,7 @@ namespace He {
         public TonalPalette neutral;
         public TonalPalette neutral_variant;
         public TonalPalette error;
+        public SchemePlatform platform;
 
         public DynamicScheme(HCTColor hct,
             SchemeVariant variant,
@@ -29,7 +35,8 @@ namespace He {
             TonalPalette? tertiary,
             TonalPalette neutral,
             TonalPalette neutral_variant,
-            TonalPalette? error) {
+            TonalPalette? error,
+            SchemePlatform platform = SchemePlatform.DESKTOP) {
 
             this.hct = hct;
             this.variant = variant;
@@ -43,7 +50,24 @@ namespace He {
             this.error = error != null ? error : TonalPalette.from_hue_and_chroma(piecewise_val(
                                                                                                 hct,
                                                                                                 new double[] { 0, 3, 13, 23, 33, 43, 153, 273, 360 },
-                                                                                                new double[] { 12, 22, 32, 12, 22, 32, 22, 12 }), Math.fmax(hct.c, 80.0));
+                                                                                                new double[] { 12, 22, 32, 12, 22, 32, 22, 12 }), Math.fmax(hct.c, 89.98));
+            this.platform = platform;
+        }
+
+        public static DynamicScheme from(DynamicScheme scheme, bool is_dark, double contrast_level) {
+            return new DynamicScheme(
+                                     scheme.hct,
+                                     scheme.variant,
+                                     is_dark,
+                                     contrast_level,
+                                     scheme.primary,
+                                     scheme.secondary,
+                                     scheme.tertiary,
+                                     scheme.neutral,
+                                     scheme.neutral_variant,
+                                     scheme.error,
+                                     scheme.platform
+            );
         }
 
         public HCTColor get_hct(DynamicColor dynamic_color) {
@@ -126,6 +150,10 @@ namespace He {
             return hex_from_hct(new Scheme().surface_container_highest().get_hct(this, new Scheme().surface_container_highest()));
         }
 
+        public string get_surface_tint() {
+            return hex_from_hct(new Scheme().surface_tint().get_hct(this, new Scheme().surface_tint()));
+        }
+
         public string get_on_surface() {
             return hex_from_hct(new Scheme().on_surface().get_hct(this, new Scheme().on_surface()));
         }
@@ -166,6 +194,10 @@ namespace He {
             return hex_from_hct(new Scheme().primary().get_hct(this, new Scheme().primary()));
         }
 
+        public string get_primary_dim() {
+            return hex_from_hct(new Scheme().primary_dim().get_hct(this, new Scheme().primary_dim()));
+        }
+
         public string get_on_primary() {
             return hex_from_hct(new Scheme().on_primary().get_hct(this, new Scheme().on_primary()));
         }
@@ -178,12 +210,32 @@ namespace He {
             return hex_from_hct(new Scheme().on_primary_container().get_hct(this, new Scheme().on_primary_container()));
         }
 
+        public string get_primary_fixed() {
+            return hex_from_hct(new Scheme().primary_fixed().get_hct(this, new Scheme().primary_fixed()));
+        }
+
+        public string get_primary_fixed_dim() {
+            return hex_from_hct(new Scheme().primary_fixed_dim().get_hct(this, new Scheme().primary_fixed_dim()));
+        }
+
+        public string get_on_primary_fixed() {
+            return hex_from_hct(new Scheme().on_primary_fixed().get_hct(this, new Scheme().on_primary_fixed()));
+        }
+
+        public string get_on_primary_fixed_variant() {
+            return hex_from_hct(new Scheme().on_primary_fixed_variant().get_hct(this, new Scheme().on_primary_fixed_variant()));
+        }
+
         public string get_inverse_primary() {
             return hex_from_hct(new Scheme().inverse_primary().get_hct(this, new Scheme().inverse_primary()));
         }
 
         public string get_secondary() {
             return hex_from_hct(new Scheme().secondary().get_hct(this, new Scheme().secondary()));
+        }
+
+        public string get_secondary_dim() {
+            return hex_from_hct(new Scheme().secondary_dim().get_hct(this, new Scheme().secondary_dim()));
         }
 
         public string get_on_secondary() {
@@ -198,8 +250,28 @@ namespace He {
             return hex_from_hct(new Scheme().on_secondary_container().get_hct(this, new Scheme().on_secondary_container()));
         }
 
+        public string get_secondary_fixed() {
+            return hex_from_hct(new Scheme().secondary_fixed().get_hct(this, new Scheme().secondary_fixed()));
+        }
+
+        public string get_secondary_fixed_dim() {
+            return hex_from_hct(new Scheme().secondary_fixed_dim().get_hct(this, new Scheme().secondary_fixed_dim()));
+        }
+
+        public string get_on_secondary_fixed() {
+            return hex_from_hct(new Scheme().on_secondary_fixed().get_hct(this, new Scheme().on_secondary_fixed()));
+        }
+
+        public string get_on_secondary_fixed_variant() {
+            return hex_from_hct(new Scheme().on_secondary_fixed_variant().get_hct(this, new Scheme().on_secondary_fixed_variant()));
+        }
+
         public string get_tertiary() {
             return hex_from_hct(new Scheme().tertiary().get_hct(this, new Scheme().tertiary()));
+        }
+
+        public string get_tertiary_dim() {
+            return hex_from_hct(new Scheme().tertiary_dim().get_hct(this, new Scheme().tertiary_dim()));
         }
 
         public string get_on_tertiary() {
@@ -214,8 +286,28 @@ namespace He {
             return hex_from_hct(new Scheme().on_tertiary_container().get_hct(this, new Scheme().on_tertiary_container()));
         }
 
+        public string get_tertiary_fixed() {
+            return hex_from_hct(new Scheme().tertiary_fixed().get_hct(this, new Scheme().tertiary_fixed()));
+        }
+
+        public string get_tertiary_fixed_dim() {
+            return hex_from_hct(new Scheme().tertiary_fixed_dim().get_hct(this, new Scheme().tertiary_fixed_dim()));
+        }
+
+        public string get_on_tertiary_fixed() {
+            return hex_from_hct(new Scheme().on_tertiary_fixed().get_hct(this, new Scheme().on_tertiary_fixed()));
+        }
+
+        public string get_on_tertiary_fixed_variant() {
+            return hex_from_hct(new Scheme().on_tertiary_fixed_variant().get_hct(this, new Scheme().on_tertiary_fixed_variant()));
+        }
+
         public string get_error() {
             return hex_from_hct(new Scheme().error().get_hct(this, new Scheme().error()));
+        }
+
+        public string get_error_dim() {
+            return hex_from_hct(new Scheme().error_dim().get_hct(this, new Scheme().error_dim()));
         }
 
         public string get_on_error() {
@@ -228,6 +320,18 @@ namespace He {
 
         public string get_on_error_container() {
             return hex_from_hct(new Scheme().on_error_container().get_hct(this, new Scheme().on_error_container()));
+        }
+
+        public string get_control_activated() {
+            return hex_from_hct(new Scheme().control_activated().get_hct(this, new Scheme().control_activated()));
+        }
+
+        public string get_control_normal() {
+            return hex_from_hct(new Scheme().control_normal().get_hct(this, new Scheme().control_normal()));
+        }
+
+        public string get_text_primary_inverse() {
+            return hex_from_hct(new Scheme().text_primary_inverse().get_hct(this, new Scheme().text_primary_inverse()));
         }
     }
 }

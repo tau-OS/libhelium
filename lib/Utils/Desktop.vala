@@ -154,6 +154,24 @@ public class He.Desktop : Object {
         return rgb_color;
     }
 
+    private double ? extract_double (Variant val) {
+        if (val.is_of_type (VariantType.DOUBLE)) {
+            return val.get_double ();
+        }
+
+        if (val.is_of_type (VariantType.VARIANT)) {
+            return extract_double (val.get_variant ());
+        }
+
+        Variant.Class classifier = val.classify ();
+
+        if ((classifier == Variant.Class.MAYBE || classifier == Variant.Class.TUPLE) && val.n_children () > 0) {
+            return extract_double (val.get_child_value (0));
+        }
+
+        return null;
+    }
+
     private void setup_accent_color () {
         try {
             var accent = portal.read (
@@ -246,15 +264,20 @@ public class He.Desktop : Object {
 
     private void setup_contrast () {
         try {
-            var raw_contrast = portal.read (
-                                            "org.freedesktop.appearance",
-                                            "contrast"
-            ).get_variant ().get_double ();
+            var contrast_variant = portal.read (
+                                                "org.freedesktop.appearance",
+                                                "contrast"
+            ).get_variant ();
 
-            // Round to 2 decimal places to avoid floating point precision issues
-            contrast = Math.round (raw_contrast * 100) / 100;
+            var raw_contrast = extract_double (contrast_variant);
 
-            return;
+            if (raw_contrast != null) {
+                // XDG portal reports contrast in the range [-1, 1]; clamp just in case.
+                double clamped = He.MathUtils.clamp_double (-1.0, 1.0, (double) raw_contrast);
+                // Round to 2 decimal places to avoid floating point precision issues
+                contrast = Math.round (clamped * 100) / 100;
+                return;
+            }
         } catch (Error e) {
             debug ("%s", e.message);
         }
@@ -281,9 +304,14 @@ public class He.Desktop : Object {
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "contrast") {
-                var raw_contrast = val.get_double ();
-                // Round to 2 decimal places to avoid floating point precision issues
-                contrast = Math.round (raw_contrast * 100) / 100;
+                var raw_contrast = extract_double (val);
+                if (raw_contrast != null) {
+                    double clamped = He.MathUtils.clamp_double (-1.0, 1.0, (double) raw_contrast);
+                    // Round to 2 decimal places to avoid floating point precision issues
+                    contrast = Math.round (clamped * 100) / 100;
+                } else {
+                    contrast = 0.0;
+                }
             }
 
             if (scheme == "org.freedesktop.appearance" && key == "color-scheme") {

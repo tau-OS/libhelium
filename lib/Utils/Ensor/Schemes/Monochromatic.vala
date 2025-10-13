@@ -31,7 +31,8 @@ public class He.MonochromaticScheme : Object {
                                   TonalPalette.from_hue_and_chroma (hct.h, 0.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, 0.0),
                                   TonalPalette.from_hue_and_chroma (hct.h, 0.0),
-                                  null
+                                  null,
+                                  SchemePlatform.DESKTOP
         );
     }
 }
