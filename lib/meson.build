@@ -64,6 +64,7 @@ libhelium_sources += files(
   'Widgets/Card.vala',
   'Widgets/Chip.vala',
   'Widgets/ChipGroup.vala',
+  'Widgets/ColorPickerButton.vala',
   'Widgets/ContentBlockImage.vala',
   'Widgets/ContentBlockImageCluster.vala',
   'Widgets/ContentList.vala',

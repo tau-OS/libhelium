@@ -24,7 +24,7 @@ public class Demo.SettingsWindow : He.SettingsWindow {
   private static GLib.Settings tau_appearance_settings;
 
   [GtkChild]
-  unowned Gtk.ColorButton clr_btn;
+  unowned He.ColorPickerButton clr_btn;
   [GtkChild]
   unowned He.Slider slider;
 
@@ -42,19 +42,15 @@ public class Demo.SettingsWindow : He.SettingsWindow {
       0.7490f,
       1.0f
     };
-    clr_btn.set_rgba (
-                      this._window.app.default_accent_color == null ?
-                      default_color :
-                      He.to_gdk_rgba (this._window.app.default_accent_color)
-    );
-    clr_btn.color_set.connect (() => {
-      // do thing with color
-      var color = clr_btn.rgba;
 
-      clr_btn.set_rgba (color);
+    var accent_color = this._window.app.default_accent_color == null ?
+      default_color :
+      He.to_gdk_rgba (this._window.app.default_accent_color);
 
-      He.RGBColor rgb_color = He.from_gdk_rgba (color);
+    clr_btn.current_color = accent_color;
 
+    clr_btn.color_changed.connect ((new_color) => {
+      He.RGBColor rgb_color = He.from_gdk_rgba (new_color);
       this._window.app.default_accent_color = rgb_color;
     });
 

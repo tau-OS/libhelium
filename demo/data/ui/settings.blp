@@ -10,7 +10,8 @@ template $DemoSettingsWindow : He.SettingsWindow {
       subtitle: "Demo of the accent color function.";
       activatable-widget: clr_btn;
 
-      ColorButton clr_btn {
+      He.ColorPickerButton clr_btn {
+        has-label: true;
       }
     }
 
