@@ -355,7 +355,7 @@ namespace He {
                 return false;
             }
 
-            if (name.contains ("_surface") || name.contains ("_container") || name.contains ("_background")) {
+            if (name.contains ("_surface") || name.contains ("_container") || name.contains ("_fixed") || name.contains ("_background")) {
                 return false;
             }
 

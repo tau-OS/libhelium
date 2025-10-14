@@ -110,7 +110,7 @@ public class He.Scheme {
             double hue = scheme.primary.hue;
 
             if (hue >= 0.0 && hue <= 345.0) {
-                double rotated = MathUtils.sanitize_degrees (hue + 15.0);
+                double rotated = MathUtils.sanitize_degrees (hue);
                 return TonalPalette.from_hue_and_chroma (rotated, scheme.primary.chroma);
             }
         }
@@ -123,7 +123,7 @@ public class He.Scheme {
             double hue = scheme.tertiary.hue;
 
             if (hue >= 0.0 && hue <= 349.0) {
-                double rotated = MathUtils.sanitize_degrees (hue + 4.0);
+                double rotated = MathUtils.sanitize_degrees (hue);
                 double adjusted_chroma = scheme.tertiary.chroma * 0.98;
                 return TonalPalette.from_hue_and_chroma (rotated, adjusted_chroma);
             }
