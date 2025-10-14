@@ -91,6 +91,17 @@ namespace He {
         private Gdk.RGBA _cached_fg_color = { 0, 0, 0, 1 };
         private Gdk.RGBA _cached_bg_color = { 0, 0, 0, 0.1f };
         private bool _colors_cached = false;
+        private He.Desktop desktop = new He.Desktop();
+        private ulong desktop_accent_handler = 0;
+        private ulong desktop_scheme_handler = 0;
+        private ulong desktop_contrast_handler = 0;
+        private ulong desktop_prefers_handler = 0;
+        private const double FALLBACK_DARK_ACCENT_R = 0.7450 * 255.0;
+        private const double FALLBACK_DARK_ACCENT_G = 0.6270 * 255.0;
+        private const double FALLBACK_DARK_ACCENT_B = 0.8590 * 255.0;
+        private const double FALLBACK_LIGHT_ACCENT_R = 0.5490 * 255.0;
+        private const double FALLBACK_LIGHT_ACCENT_G = 0.3370 * 255.0;
+        private const double FALLBACK_LIGHT_ACCENT_B = 0.7490 * 255.0;
 
         /**
          * Emitted when the animation stops.
@@ -169,9 +180,40 @@ namespace He {
 
             // Connect to style changes to invalidate color cache
             map.connect(() => {
-                _colors_cached = false;
-                queue_draw();
+                invalidate_cached_colors();
             });
+
+            desktop_accent_handler = desktop.notify["accent-color"].connect(invalidate_cached_colors);
+            desktop_prefers_handler = desktop.notify["prefers-color-scheme"].connect(invalidate_cached_colors);
+            desktop_contrast_handler = desktop.notify["contrast"].connect(invalidate_cached_colors);
+            desktop_scheme_handler = desktop.notify["ensor-scheme"].connect(invalidate_cached_colors);
+        }
+
+        private void invalidate_cached_colors() {
+            _colors_cached = false;
+            queue_draw();
+        }
+
+        private void disconnect_desktop_signals() {
+            if (desktop_accent_handler != 0) {
+                GLib.SignalHandler.disconnect(desktop, desktop_accent_handler);
+                desktop_accent_handler = 0;
+            }
+
+            if (desktop_prefers_handler != 0) {
+                GLib.SignalHandler.disconnect(desktop, desktop_prefers_handler);
+                desktop_prefers_handler = 0;
+            }
+
+            if (desktop_contrast_handler != 0) {
+                GLib.SignalHandler.disconnect(desktop, desktop_contrast_handler);
+                desktop_contrast_handler = 0;
+            }
+
+            if (desktop_scheme_handler != 0) {
+                GLib.SignalHandler.disconnect(desktop, desktop_scheme_handler);
+                desktop_scheme_handler = 0;
+            }
         }
 
         private void set_active_state_full(bool value) {
@@ -241,23 +283,109 @@ namespace He {
         private void cache_colors() {
             if (_colors_cached)return;
 
-            var style_context = get_style_context();
-            _cached_fg_color = style_context.get_color();
+            var scheme = build_dynamic_scheme();
+            string fg_hex = resolve_foreground_hex(scheme);
+            string bg_hex = scheme.get_surface();
 
-            // Get background color
-            if (!style_context.lookup_color("theme_bg_color", out _cached_bg_color)) {
-                // Fallback based on foreground brightness
-                double brightness = _cached_fg_color.red + _cached_fg_color.green + _cached_fg_color.blue;
-                if (brightness > 1.5) {
-                    _cached_bg_color = { 1.0f, 1.0f, 1.0f, 0.1f }; // White for dark theme
-                } else {
-                    _cached_bg_color = { 0.0f, 0.0f, 0.0f, 0.1f }; // Black for light theme
-                }
-            } else {
-                _cached_bg_color.alpha = 0.1f;
-            }
+            _cached_fg_color = rgba_from_hex(fg_hex, 1.0f);
+            _cached_bg_color = rgba_from_hex(bg_hex, 0.1f);
 
             _colors_cached = true;
+        }
+
+        private DynamicScheme build_dynamic_scheme() {
+            bool is_dark = desktop.prefers_color_scheme == He.Desktop.ColorScheme.DARK;
+            double contrast = desktop.contrast;
+
+            RGBColor accent = select_accent_color(is_dark);
+            RGBColor normalized = ensure_argb_scale(accent);
+            HCTColor source_hct = hct_from_int(rgb_to_argb_int(normalized));
+
+            SchemeVariant variant = desktop.ensor_scheme.to_variant();
+            switch (variant) {
+            case SchemeVariant.VIBRANT:
+                return new VibrantScheme().generate(source_hct, is_dark, contrast);
+            case SchemeVariant.MUTED:
+                return new MutedScheme().generate(source_hct, is_dark, contrast);
+            case SchemeVariant.MONOCHROME:
+                return new MonochromaticScheme().generate(source_hct, is_dark, contrast);
+            case SchemeVariant.SALAD:
+                return new SaladScheme().generate(source_hct, is_dark, contrast);
+            case SchemeVariant.CONTENT:
+                return new ContentScheme().generate(source_hct, is_dark, contrast);
+            default:
+                return new DefaultScheme().generate(source_hct, is_dark, contrast);
+            }
+        }
+
+        private RGBColor select_accent_color(bool is_dark) {
+            RGBColor? accent = desktop.accent_color;
+            if (accent != null) {
+                return (RGBColor) accent;
+            }
+
+            RGBColor fallback = {
+                is_dark? FALLBACK_DARK_ACCENT_R : FALLBACK_LIGHT_ACCENT_R,
+                is_dark ? FALLBACK_DARK_ACCENT_G : FALLBACK_LIGHT_ACCENT_G,
+                is_dark ? FALLBACK_DARK_ACCENT_B : FALLBACK_LIGHT_ACCENT_B
+            };
+
+            return fallback;
+        }
+
+        private RGBColor ensure_argb_scale(RGBColor color) {
+            bool already_scaled = color.r > 1.0 || color.g > 1.0 || color.b > 1.0;
+            if (already_scaled) {
+                RGBColor clamped = {
+                    MathUtils.clamp_double(0.0, 255.0, color.r),
+                    MathUtils.clamp_double(0.0, 255.0, color.g),
+                    MathUtils.clamp_double(0.0, 255.0, color.b)
+                };
+
+                return clamped;
+            }
+
+            RGBColor scaled = {
+                MathUtils.clamp_double(0.0, 255.0, color.r * 255.0),
+                MathUtils.clamp_double(0.0, 255.0, color.g * 255.0),
+                MathUtils.clamp_double(0.0, 255.0, color.b * 255.0)
+            };
+
+            return scaled;
+        }
+
+        private string resolve_foreground_hex(DynamicScheme scheme) {
+            switch (_color_preset) {
+            case ActiveIndicatorColor.PRIMARY :
+                return scheme.get_primary();
+            case ActiveIndicatorColor.SECONDARY:
+                return scheme.get_secondary();
+            case ActiveIndicatorColor.TERTIARY:
+                return scheme.get_tertiary();
+            default:
+                return scheme.get_on_surface();
+            }
+        }
+
+        private Gdk.RGBA rgba_from_hex(string hex, float alpha) {
+            string trimmed = hex;
+            if (trimmed.has_prefix("#")) {
+                trimmed = trimmed.substring(1);
+            }
+
+            uint value = uint.parse(trimmed, 16);
+            uint red = (value >> 16) & 0xFF;
+            uint green = (value >> 8) & 0xFF;
+            uint blue = value & 0xFF;
+
+            Gdk.RGBA color = {
+                (float) red / 255.0f,
+                (float) green / 255.0f,
+                (float) blue / 255.0f,
+                alpha
+            };
+
+            return color;
         }
 
         private void start_animation() {
@@ -404,6 +532,7 @@ namespace He {
         }
 
         public override void dispose() {
+            disconnect_desktop_signals();
             stop_animation();
             base.dispose();
         }

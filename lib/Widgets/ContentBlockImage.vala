@@ -37,31 +37,27 @@ public class He.ContentBlockImage : He.Bin, Gtk.Buildable {
         set {
             _file = value;
 
-            try {
-                // Cancel any previous ongoing load
-                if (_load_cancel != null) {
-                    _load_cancel.cancel ();
-                }
-                _load_cancel = new GLib.Cancellable ();
+            // Cancel any previous ongoing load
+            if (_load_cancel != null) {
+                _load_cancel.cancel ();
+            }
+            _load_cancel = new GLib.Cancellable ();
 
-                if (_file == null || _file.length == 0) {
-                    paintable = null;
-                    queue_draw ();
-                    return;
-                }
+            if (_file == null || _file.length == 0) {
+                paintable = null;
+                queue_draw ();
+                return;
+            }
 
-                if (_file.contains ("resource://")) {
-                    // Resources are usually small, safe to load synchronously
-                    paintable = Gdk.Texture.from_resource (_file.replace ("resource://", ""));
-                    queue_draw ();
-                } else {
-                    // Support both file:// URIs and plain paths
-                    string path = _file.contains ("file://") ? _file.replace ("file://", "") : _file;
-                    // Load asynchronously at the current (or requested) size
-                    load_texture_async.begin (path, _load_cancel);
-                }
-            } catch (Error e) {
-                warning ("ERR: %s", e.message);
+            if (_file.contains ("resource://")) {
+                // Resources are usually small, safe to load synchronously
+                paintable = Gdk.Texture.from_resource (_file.replace ("resource://", ""));
+                queue_draw ();
+            } else {
+                // Support both file:// URIs and plain paths
+                string path = _file.contains ("file://") ? _file.replace ("file://", "") : _file;
+                // Load asynchronously at the current (or requested) size
+                load_texture_async.begin (path, _load_cancel);
             }
         }
     }

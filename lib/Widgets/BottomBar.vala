@@ -615,7 +615,7 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
             _overlay_button.halign = Gtk.Align.START;
             _overlay_button.valign = Gtk.Align.END;
             _overlay_button.margin_start = 12;
-            _overlay_button.margin_bottom = 12 + get_allocated_height () + 18;
+            _overlay_button.margin_bottom = 12 + get_height () + 18;
             break;
 
         case FloatingPosition.RIGHT:
@@ -623,7 +623,7 @@ public class He.BottomBar : He.Bin, Gtk.Buildable {
             _overlay_button.halign = Gtk.Align.END;
             _overlay_button.valign = Gtk.Align.END;
             _overlay_button.margin_end = 12;
-            _overlay_button.margin_bottom = 12 + get_allocated_height () + 18;
+            _overlay_button.margin_bottom = 12 + get_height () + 18;
             break;
         }
     }
