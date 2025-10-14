@@ -20,8 +20,6 @@
 [GtkTemplate (ui = "/com/fyralabs/Helium1/Demo/welcome.ui")]
 public class Demo.Welcome : He.Bin {
     [GtkChild]
-    private unowned He.AppBar app_bar;
-    [GtkChild]
     private unowned He.EmptyPage empty_page;
 
     construct {

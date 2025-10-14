@@ -1,0 +1,165 @@
+using Gtk 4.0;
+using He 1;
+
+template $DemoContentAwareBin : He.Bin {
+    hexpand: true;
+    vexpand: true;
+    content-color-override: true;
+    styles ["bin"]
+
+    child: Gtk.Box {
+        orientation: vertical;
+        spacing: 18;
+
+        He.AppBar app_bar {
+            show-left-title-buttons: false;
+            show-right-title-buttons: true;
+            show-back: false;
+
+            viewtitle-widget: He.ViewTitle {
+                label: "Content Colors";
+            };
+
+            [titlebar-button]
+            Gtk.Box spacer {}
+        }
+
+        Gtk.Box intro_box {
+            spacing: 24;
+            margin-start: 18;
+            margin-end: 18;
+            hexpand: true;
+
+            Gtk.Box copy_column {
+                orientation: vertical;
+                spacing: 8;
+                hexpand: true;
+
+                Gtk.Label {
+                    wrap: true;
+                    justify: left;
+                    max-width-chars: 48;
+                    xalign: 0;
+                    label: _("He.Bin can swap out the accent, making it content-aware. Pick a palette extracted from each wallpaper and watch the contents recolor immediately.");
+                }
+            }
+
+            Gtk.Picture hero_picture {
+                content-fit: cover;
+                width-request: 256;
+                height-request: 256;
+                hexpand: false;
+                halign: end;
+                styles ["x-large-radius"]
+            }
+        }
+
+        Gtk.Box controls_box {
+            spacing: 12;
+            halign: fill;
+            margin-start: 18;
+            margin-end: 18;
+            hexpand: true;
+
+            Gtk.Label {
+                label: _("Palette");
+                styles ["caption"]
+                valign: center;
+            }
+
+            Gtk.DropDown palette_selector {
+                hexpand: true;
+                model: Gtk.StringList {
+                    strings [
+                        _("Mountain"),
+                        _("Sand"),
+                        _("Snow"),
+                        _("Stone")
+                    ]
+                };
+                selected: 0;
+            }
+
+            Gtk.Separator {
+                orientation: vertical;
+            }
+
+            Gtk.Label {
+                label: _("Override colors");
+                mnemonic-widget: override_switch;
+                valign: center;
+            }
+
+            Gtk.Switch override_switch {
+                valign: center;
+                active: true;
+            }
+        }
+
+        Gtk.Separator {
+            margin-start: 18;
+            margin-end: 18;
+        }
+
+        Gtk.Box buttons_row {
+            spacing: 12;
+            margin-start: 18;
+            margin-end: 18;
+            homogeneous: true;
+
+            He.Button accent_button {
+                label: _("Primary action");
+                is-pill: true;
+            }
+
+            He.Button secondary_button {
+                label: _("Secondary action");
+                is-pill: true;
+            }
+
+            He.Button tertiary_button {
+                label: _("Tertiary action");
+                is-pill: true;
+            }
+        }
+
+        Gtk.Grid info_grid {
+            column-spacing: 18;
+            row-spacing: 6;
+            margin-start: 18;
+            margin-end: 18;
+            margin-bottom: 18;
+            halign: center;
+
+            Gtk.Label {
+                label: _("Primary:");
+                styles ["caption"]
+                halign: start;
+            }
+            Gtk.Label accent_value {
+                label: "#5FA271";
+                halign: start;
+            }
+
+            Gtk.Label {
+                label: _("Secondary:");
+                styles ["caption"]
+                halign: start;
+            }
+            Gtk.Label secondary_value {
+                label: "#3A6476";
+                halign: start;
+            }
+
+            Gtk.Label {
+                label: _("Tertiary:");
+                styles ["caption"]
+                halign: start;
+            }
+            Gtk.Label tertiary_value {
+                label: "#D7DAD0";
+                halign: start;
+            }
+        }
+    };
+}

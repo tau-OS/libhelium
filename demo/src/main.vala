@@ -34,8 +34,7 @@ public class Demo.Application : He.Application {
     protected override void startup () {
         Gdk.RGBA accent_color = { 0 };
         accent_color.parse ("#007aff");
-        default_accent_color = from_gdk_rgba (accent_color);
-        override_accent_color = true;
+        default_accent_color = He.from_gdk_rgba (accent_color);
 
         resource_base_path = "/com/fyralabs/Helium1/Demo";
 
@@ -44,6 +43,7 @@ public class Demo.Application : He.Application {
         Bis.init ();
 
         typeof (Demo.BottomSheet).ensure ();
+        typeof (Demo.ContentAwareBin).ensure ();
         typeof (Demo.OverlayButton).ensure ();
         typeof (Demo.Welcome).ensure ();
 

@@ -20,16 +20,20 @@ template $DemoMainWindow : He.ApplicationWindow {
     visible-child: main_box;
     Bis.AlbumPage {
       child: He.SideBar {
-        title: "Widgets";
         show-left-title-buttons: true;
         show-right-title-buttons: bind album.folded;
         show-back: false;
         has-margins: false;
         width-request: 213;
-        scroller: s;
 
-        [titlebar-button]
-        MenuButton main_menu {
+        titlewidget: Gtk.Label {
+          xalign: 0;
+          label: "Sidebar";
+          styles ["view-title"]
+        };
+
+        [titlebar-menu]
+        Gtk.MenuButton main_menu {
           icon-name: "open-menu";
           menu-model: menu;
         }
@@ -38,10 +42,6 @@ template $DemoMainWindow : He.ApplicationWindow {
           stack: stack;
           orientation: vertical;
           valign: start;
-        }
-
-        Gtk.ScrolledWindow s {
-          visible: false;
         }
       };
     }
@@ -56,6 +56,12 @@ template $DemoMainWindow : He.ApplicationWindow {
             name: "welcome";
             icon-name: "com.fyralabs.Helium1.Demo-symbolic";
             child: $DemoWelcome {};
+          }
+          Gtk.StackPage {
+            title: "Content Colors";
+            name: "contentawarebin";
+            icon-name: "color-select-symbolic";
+            child: $DemoContentAwareBin {};
           }
           Gtk.StackPage {
             title: "Overlay Button";

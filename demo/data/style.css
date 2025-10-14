@@ -1,1 +1,3 @@
-/* dummy */
+.bin {
+    background: @surface_bg_color;
+}

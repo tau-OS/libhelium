@@ -19,9 +19,6 @@
  */
 [GtkTemplate (ui = "/com/fyralabs/Helium1/Demo/overlaybutton.ui")]
 public class Demo.OverlayButton : He.Bin {
-    [GtkChild]
-    private unowned He.AppBar app_bar;
-
     construct {
     }
 }

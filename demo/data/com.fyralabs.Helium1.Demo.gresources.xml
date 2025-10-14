@@ -7,6 +7,7 @@
     <file alias="settings.ui">ui/settings.ui</file>
 
     <file alias="bottomsheet.ui">ui/sections/bottomsheet.ui</file>
+    <file alias="contentawarebin.ui">ui/sections/contentawarebin.ui</file>
     <file alias="overlaybutton.ui">ui/sections/overlaybutton.ui</file>
     <file alias="welcome.ui">ui/sections/welcome.ui</file>
 
