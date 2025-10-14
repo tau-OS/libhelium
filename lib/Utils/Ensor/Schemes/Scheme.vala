@@ -798,17 +798,10 @@ public class He.Scheme {
         },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
-                                 /* background= */ (s) => {
-            if (s.platform == SchemePlatform.DESKTOP) {
-                return s.is_dark ? surface_bright () : surface_dim ();
-            }
-
-            return null;
-        },
+                                 /* background= */ (s) => s.is_dark ? surface_bright () : surface_dim (),
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ null,
-                                 /* toneDeltaPair= */ null,
-                                 /* contrastCurveFunc= */ (s) => (s.platform == SchemePlatform.DESKTOP && s.contrast_level > 0.0) ? get_curve (1.5) : null
+                                 /* toneDeltaPair= */ null
         ).build ();
     }
 
@@ -913,7 +906,7 @@ public class He.Scheme {
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ null,
                                  /* toneDeltaPair= */ null,
-                                 /* contrastCurveFunc= */ (s) => (s.platform == SchemePlatform.DESKTOP && s.contrast_level > 0.0) ? get_curve (1.5) : null,
+                                 /* contrastCurveFunc= */ (s) => (s.platform == SchemePlatform.DESKTOP && s.contrast_level > 0.0) ? get_curve (1.0) : null,
                                  /* chromaMultiplierFunc= */ (s) => {
             if (s.variant == SchemeVariant.DEFAULT && !s.is_dark) {
                 return 1.350;
