@@ -90,12 +90,12 @@ public class He.Toast : He.Bin {
         valign = Gtk.Align.START;
         visible = false;
 
-        default_action_button = new He.Button (null, "") {
+        default_action_button = new He.Button ("", "") {
             visible = false,
             is_fill = true
         };
 
-        var close_button = new He.Button ("window-close-symbolic", null);
+        var close_button = new He.Button ("window-close-symbolic", "");
         close_button.is_iconic = true;
 
         notification_label = new Gtk.Label (label) {
