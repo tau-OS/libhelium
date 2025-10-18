@@ -412,4 +412,18 @@ public class He.OverlayButton : He.Bin, Gtk.Buildable {
         this.vexpand = true;
         this.hexpand = true;
     }
+
+    /*
+     * Returns the primary button.
+     */
+    public Gtk.Button get_primary_button () {
+        return button;
+    }
+
+    /*
+     * Returns the secondary button.
+     */
+    public Gtk.Button get_secondary_button () {
+        return secondary_button;
+    }
 }

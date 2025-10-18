@@ -76,6 +76,7 @@ namespace He {
         typeof (He.SettingsWindow).ensure ();
         typeof (He.SideBar).ensure ();
         typeof (He.Slider).ensure ();
+        typeof (He.SnapScrollBox).ensure ();
         typeof (He.Switch).ensure ();
         typeof (He.SwitchBar).ensure ();
         typeof (He.Tab).ensure ();
