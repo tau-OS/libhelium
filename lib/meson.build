@@ -86,6 +86,7 @@ libhelium_sources += files(
   'Widgets/SettingsWindow.vala',
   'Widgets/SideBar.vala',
   'Widgets/Slider.vala',
+  'Widgets/SnapScrollBox.vala',
   'Widgets/SplitButton.vala',
   'Widgets/Switch.vala',
   'Widgets/SwitchBar.vala',
