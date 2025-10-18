@@ -102,7 +102,10 @@ public class He.Toast : He.Bin {
             wrap = true,
             wrap_mode = Pango.WrapMode.WORD,
             xalign = 0,
-            hexpand = true
+            hexpand = true,
+            max_width_chars = 50,
+            valign = Gtk.Align.CENTER,
+            vexpand = true
         };
         notification_label.add_css_class ("flat");
 
@@ -117,7 +120,7 @@ public class He.Toast : He.Bin {
         revealer = new Gtk.Revealer () {
             child = box
         };
-        revealer.set_parent (this);
+        this.child = revealer;
 
         add_controller (motion_controller);
 
