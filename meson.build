@@ -3,12 +3,9 @@ project(
     'vala',
     'c',
     license: 'GPL-3-or-later',
-    meson_version: '>= 0.56.0',
-    version: '1.8.12',
+    version: '2.0.0',
     default_options: [
-        'warning_level=1',
-        'buildtype=debugoptimized',
-        'c_std=gnu11',
+        'warning_level=1'
     ],
 )
 
