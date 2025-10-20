@@ -137,7 +137,10 @@ public sealed class He.Dropdown : Gtk.Grid {
      */
     public void append (string text) {
         var item = new ListStoreItem (null, text);
-        liststore.insert (-1, item);
+        /* Use append so the item is added at the end of the list. Using
+         * liststore.insert(-1, ...) is incorrect here and may not behave
+         * as intended across bindings. */
+        liststore.append (item);
     }
 
     /**
