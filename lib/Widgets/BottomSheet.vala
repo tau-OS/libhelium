@@ -227,7 +227,7 @@ public class He.BottomSheet : Gtk.Widget {
         gesture_drag.drag_end.connect (on_drag_end);
 
         title_label = new Gtk.Label ("");
-        title_label.margin_top = 6;
+        title_label.margin_start = 12;
         title_label.valign = Gtk.Align.START;
         title_label.halign = Gtk.Align.START;
         title_label.hexpand = true;
