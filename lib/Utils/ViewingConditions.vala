@@ -7,7 +7,7 @@ public class He.ViewingConditions : Object {
     public static ViewingConditions default_conditions {
         get {
             if (default_conditions_instance == null) {
-                default_conditions_instance = ViewingConditions.with_lstar (LSTAR);
+                default_conditions_instance = ViewingConditions.with_lstar (lab_to_xyz ({ 50.0, 0.0, 0.0 }).y* 100.0);
             }
 
             return default_conditions_instance;
@@ -73,26 +73,49 @@ public class He.ViewingConditions : Object {
         return (1.0 - amount) * start + amount * stop;
     }
 
-    public static ViewingConditions make (double[] white_point = { 9504895 / 100000, 100 / 1, 10888395 / 100000 },
-                                          double adapting_luminance = (200.0 / Math.PI * He.MathUtils.y_from_lstar (50.0) / 100.0),
+    public static ViewingConditions make (double[] white_point = { 95.047, 100, 108.883 },
+                                          double adapting_luminance = 0.4* 300,
                                           double bg_lstar = 50.0,
-                                          double surround = 2.0,
+                                          double surround = 0.69,
                                           bool discount_illuminant = false) {
-        bg_lstar = Math.fmax (0.1, bg_lstar);
+        // Validate white_point array
+        double[] validated_white_point = white_point;
+        if (validated_white_point.length < 3) {
+            validated_white_point = { 95.047, 100, 108.883 };
+        }
+
+        // Ensure Y component is not zero to avoid division by zero
+        if (Math.fabs (validated_white_point[1]) < 1e-10) {
+            validated_white_point[1] = 1e-10;
+        }
+
         double[,] matrix = XYZ_TO_CAM16RGB;
-        double[] xyz = white_point;
+        double[] xyz = validated_white_point;
         double r_white = (xyz[0] * matrix[0, 0]) + (xyz[1] * matrix[0, 1]) + (xyz[2] * matrix[0, 2]);
         double g_white = (xyz[0] * matrix[1, 0]) + (xyz[1] * matrix[1, 1]) + (xyz[2] * matrix[1, 2]);
         double b_white = (xyz[0] * matrix[2, 0]) + (xyz[1] * matrix[2, 1]) + (xyz[2] * matrix[2, 2]);
+
+        // Prevent division by zero in rgb_d calculation
+        r_white = Math.fabs (r_white) < 1e-10 ? 1e-10 : r_white;
+        g_white = Math.fabs (g_white) < 1e-10 ? 1e-10 : g_white;
+        b_white = Math.fabs (b_white) < 1e-10 ? 1e-10 : b_white;
+        // Prevent division by zero in rgb_d calculation
+        r_white = Math.fabs (r_white) < 1e-10 ? 1e-10 : r_white;
+        g_white = Math.fabs (g_white) < 1e-10 ? 1e-10 : g_white;
+        b_white = Math.fabs (b_white) < 1e-10 ? 1e-10 : b_white;
+
         double f = 0.8 + (surround / 10.0);
         double c =
             (f >= 0.9)
               ? lerp (0.59, 0.69, ((f - 0.9) * 10.0))
               : lerp (0.525, 0.59, ((f - 0.8) * 10.0));
+
+        // Clamp adapting_luminance to prevent exponential overflow
+        double clamped_luminance = MathUtils.clamp_double (-1000.0, 1000.0, adapting_luminance);
         double d =
             discount_illuminant
               ? 1.0
-              : f * (1.0 - ((1.0 / 3.6) * Math.exp ((-adapting_luminance - 42.0) / 92.0)));
+              : f * (1.0 - ((1.0 / 3.6) * Math.exp ((-clamped_luminance - 42.0) / 92.0)));
         d = MathUtils.clamp_double (0.0, 1.0, d);
         double nc = f;
         double[] rgb_d = {
@@ -104,15 +127,26 @@ public class He.ViewingConditions : Object {
         double k4 = k * k * k * k;
         double k4_f = 1.0 - k4;
         double fl = (k4 * adapting_luminance) + (0.1 * k4_f * k4_f * Math.cbrt (5.0 * adapting_luminance));
-        double n = (MathUtils.y_from_lstar (bg_lstar) / white_point[1]);
+        double n = (MathUtils.y_from_lstar (bg_lstar) / validated_white_point[1]);
+
+        // Ensure n is non-negative for sqrt
+        n = Math.fmax (0.0, n);
+        // Ensure n is non-negative for sqrt
+        n = Math.fmax (0.0, n);
         double z = 1.48 + Math.sqrt (n);
         double nbb = 0.725 / Math.pow (n, 0.2);
         double ncb = nbb;
+
+        // Ensure non-negative values for power operation
+        double fl_r = Math.fmax (0.0, fl * rgb_d[0] * r_white / 100.0);
+        double fl_g = Math.fmax (0.0, fl * rgb_d[1] * g_white / 100.0);
+        double fl_b = Math.fmax (0.0, fl * rgb_d[2] * b_white / 100.0);
+
         double[] rgb_a_factors =
             new double[] {
-            Math.pow (fl * rgb_d[0] * r_white / 100.0, 0.42),
-            Math.pow (fl * rgb_d[1] * g_white / 100.0, 0.42),
-            Math.pow (fl * rgb_d[2] * b_white / 100.0, 0.42)
+            Math.pow (fl_r, 0.42),
+            Math.pow (fl_g, 0.42),
+            Math.pow (fl_b, 0.42)
         };
 
         double[] rgba =
@@ -127,13 +161,11 @@ public class He.ViewingConditions : Object {
     }
 
     public static ViewingConditions with_lstar (double lstar) {
-        double adapting_luminance = -1;
-        lstar = Math.fmax (0.1, lstar);
         return ViewingConditions.make (
-                                       { 9504895 / 100000, 100 / 1, 10888395 / 100000 },
-                                       (adapting_luminance > 0.0) ? adapting_luminance : (200.0 / Math.PI * MathUtils.y_from_lstar (lstar) / 100.0),
+                                       { 95.047, 100, 108.883 },
+                                       0.4 * 300,
                                        lstar,
-                                       2.0,
+                                       0.69,
                                        false
         );
     }

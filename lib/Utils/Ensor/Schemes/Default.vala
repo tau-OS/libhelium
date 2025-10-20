@@ -41,7 +41,7 @@ public class He.DefaultScheme : Object {
                                         null
         );
 
-        double tertiary_chroma = Math.fmax (hct.c * 1.2, is_dark ? 28.0 : 32.0);
+        double tertiary_chroma = Math.fmax (hct.c, is_dark ? 28.0 : 32.0);
         scheme.tertiary = TonalPalette.from_hue_and_chroma (tertiary_hue, tertiary_chroma);
 
         scheme.platform = SchemePlatform.DESKTOP;

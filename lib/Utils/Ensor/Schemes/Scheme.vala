@@ -105,43 +105,6 @@ public class He.Scheme {
         return copy_with_overrides (color, name, null);
     }
 
-    private TonalPalette get_primary_container_palette (DynamicScheme scheme) {
-        if (scheme.variant == SchemeVariant.DEFAULT && !scheme.is_dark) {
-            double hue = scheme.primary.hue;
-
-            if (hue >= 0.0 && hue <= 345.0) {
-                double rotated = MathUtils.sanitize_degrees (hue);
-                return TonalPalette.from_hue_and_chroma (rotated, scheme.primary.chroma);
-            }
-        }
-
-        return scheme.primary;
-    }
-
-    private TonalPalette get_tertiary_container_palette (DynamicScheme scheme) {
-        if (scheme.variant == SchemeVariant.DEFAULT && !scheme.is_dark) {
-            double hue = scheme.tertiary.hue;
-
-            if (hue >= 0.0 && hue <= 349.0) {
-                double rotated = MathUtils.sanitize_degrees (hue);
-                double adjusted_chroma = scheme.tertiary.chroma * 0.98;
-                return TonalPalette.from_hue_and_chroma (rotated, adjusted_chroma);
-            }
-        }
-
-        return scheme.tertiary;
-    }
-
-    private TonalPalette get_error_container_palette (DynamicScheme scheme) {
-        if (scheme.variant == SchemeVariant.DEFAULT && !scheme.is_dark) {
-            double rotated = 26.0;
-            double adjusted_chroma = 13.5;
-            return TonalPalette.from_hue_and_chroma (rotated, adjusted_chroma);
-        }
-
-        return scheme.error;
-    }
-
     public ContrastCurve get_curve (double def_c) {
         if (def_c == 1.0) { // 1.0 to keep things simple
             return new ContrastCurve (1.0, 1.0, 4.5, 11.0);
@@ -867,7 +830,7 @@ public class He.Scheme {
     public DynamicColor primary_container () {
         return new DynamicColor (
                                  /* name= */ "primary_container",
-                                 /* palette= */ (s) => get_primary_container_palette (s),
+                                 /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => {
             if (s.variant == SchemeVariant.MUTED) {
                 return s.is_dark ? 30.0 : 90.0;
@@ -875,13 +838,10 @@ public class He.Scheme {
 
             if (s.variant == SchemeVariant.DEFAULT) {
                 if (s.is_dark) {
-                    return t_min_c (s.primary, 35, 93);
+                    return 80.0;
+                } else {
+                    return t_max_c (s.primary);
                 }
-
-                TonalPalette palette = get_primary_container_palette (s);
-                double desired = t_max_c (palette, 78, 90);
-                // Nudge toward the Ensor 2025 reference (~T80).
-                return MathUtils.clamp_double (74.0, 84.0, desired - 5.630);
             }
 
             if (s.variant == SchemeVariant.SALAD) {
@@ -906,14 +866,9 @@ public class He.Scheme {
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ null,
                                  /* toneDeltaPair= */ null,
-                                 /* contrastCurveFunc= */ (s) => (s.platform == SchemePlatform.DESKTOP && s.contrast_level > 0.0) ? get_curve (1.0) : null,
-                                 /* chromaMultiplierFunc= */ (s) => {
-            if (s.variant == SchemeVariant.DEFAULT && !s.is_dark) {
-                return 1.350;
-            }
-
-            return 1.0;
-        }).build ();
+                                 /* contrastCurveFunc= */ (s) => (s.platform == SchemePlatform.DESKTOP && s.contrast_level > 0.0) ? get_curve (1.5) : null,
+                                 /* chromaMultiplierFunc= */ (s) => 1.0
+        ).build ();
     }
 
     public DynamicColor on_primary_container () {
@@ -1055,13 +1010,7 @@ public class He.Scheme {
                                  /* palette= */ (s) => s.secondary,
                                  /* tone= */ (s) => {
             if (s.variant == SchemeVariant.DEFAULT) {
-                if (s.is_dark) {
-                    return t_min_c (s.secondary, 20, 35);
-                }
-
-                double desired = t_max_c (s.secondary, 88, 96);
-                // Nudge toward Ensor 2025 target (~T90).
-                return MathUtils.clamp_double (88.0, 94.0, desired - 2.0);
+                return s.is_dark ? 25.0 : 90.0;
             } else if (s.variant == SchemeVariant.MUTED) {
                 return s.is_dark
                                              ? t_max_c (s.secondary, 20, 30)
@@ -1084,7 +1033,7 @@ public class He.Scheme {
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ null,
                                  /* toneDeltaPair= */ null,
-                                 /* contrastCurveFunc= */ (s) => get_curve (1.0),
+                                 /* contrastCurveFunc= */ (s) => s.contrast_level > 0 ? get_curve (1.5) : null,
                                  /* chromaMultiplierFunc= */ (s) => { return 1.0; }).build ();
     }
 
@@ -1109,9 +1058,7 @@ public class He.Scheme {
                                  /* tone= */ (s) => {
             if (s.variant == SchemeVariant.DEFAULT) {
                 // DEFAULT uses bounded dynamic selection
-                return s.is_dark
-                                             ? t_max_c (s.tertiary, 0.0, 98.0)
-                                             : t_max_c (s.tertiary);
+                return s.is_dark ? t_max_c (s.tertiary, 0, 98) : t_max_c (s.tertiary);
             } else if (s.variant == SchemeVariant.MUTED || s.variant == SchemeVariant.SALAD) {
                 return t_max_c (
                                 s.tertiary,
@@ -1224,16 +1171,10 @@ public class He.Scheme {
     public DynamicColor tertiary_container () {
         return new DynamicColor (
                                  /* name= */ "tertiary_container",
-                                 /* palette= */ (s) => get_tertiary_container_palette (s),
+                                 /* palette= */ (s) => s.tertiary,
                                  /* tone= */ (s) => {
             if (s.variant == SchemeVariant.DEFAULT) {
-                if (s.is_dark) {
-                    return t_max_c (s.tertiary, 0, 93);
-                }
-
-                TonalPalette palette = get_tertiary_container_palette (s);
-                double desired = t_max_c (palette, 82, 96);
-                return MathUtils.clamp_double (77.0, 85.0, desired - 1.10);
+                return t_max_c (s.tertiary, 0, s.is_dark ? 93 : 100);;
             } else if (s.variant == SchemeVariant.MUTED) {
                 return s.is_dark
                                              ? t_max_c (s.tertiary, 0, 93)
@@ -1258,7 +1199,7 @@ public class He.Scheme {
                                  /* contrastCurve= */ null,
                                  /* toneDeltaPair= */ null,
                                  /* contrastCurveFunc= */ (s) => {
-            return get_curve (1.0);
+            return s.contrast_level > 0 ? get_curve (1.5) : null;
         },
                                  /* chromaMultiplierFunc= */ (s) => {
             return 1.0;
@@ -1352,17 +1293,17 @@ public class He.Scheme {
     public DynamicColor error_container () {
         return new DynamicColor (
                                  /* name= */ "error_container",
-                                 /* palette= */ (s) => get_error_container_palette (s),
+                                 /* palette= */ (s) => s.error,
                                  /* tone= */ (s) => {
             if (s.is_dark) {
-                return t_min_c (get_error_container_palette (s), 30, 93);
+                return t_min_c (s.error, 30, 93);
             }
 
             if (s.variant == SchemeVariant.DEFAULT) {
                 return 90.0;
             }
 
-            return t_max_c (get_error_container_palette (s), 0, 90);
+            return t_max_c (s.error, 0, 90);
         },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,

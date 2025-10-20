@@ -30,7 +30,4 @@ namespace He {
         0.3370 * 255,
         0.7490 * 255
     };
-
-    // L* value for calculating contrast ratios.
-    private const double LSTAR = 50.0;
 }
