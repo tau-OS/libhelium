@@ -81,11 +81,11 @@ public class He.SettingsWindow : He.Window, Gtk.Buildable {
         viewtitle.label = "Settings";
         viewtitle.margin_start = 24;
 
-        close_button.halign = Gtk.Align.END;
+        close_button.halign = Gtk.Align.START;
         close_button.valign = Gtk.Align.START;
         close_button.hexpand = true;
         close_button.margin_top = 24;
-        close_button.margin_end = 24;
+        close_button.margin_start = 24;
         close_button.is_disclosure = true;
         close_button.set_tooltip_text (_("Close"));
         close_button.clicked.connect (close);
@@ -97,7 +97,10 @@ public class He.SettingsWindow : He.Window, Gtk.Buildable {
         stack.set_margin_end (24);
 
         title_box.prepend (switcher);
-        title_box.margin_top = 31; // Align to close button
+        title_box.margin_start = 52; // Align to close button
+        title_box.margin_top = 26;
+        title_box.margin_end = 24;
+        title_box.margin_bottom = 12;
 
         box.append (title_box);
         box.append (stack);

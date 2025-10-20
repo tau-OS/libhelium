@@ -470,7 +470,6 @@ public class He.AboutWindow : Gtk.Widget {
 
         // Create main about container
         about_bin = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-        about_bin.halign = Gtk.Align.CENTER;
         about_bin.set_child_visible (false);
         about_bin.set_parent (this);
 
@@ -636,6 +635,7 @@ public class He.AboutWindow : Gtk.Widget {
             close_button.margin_top = 24;
             icon_image.margin_top = 24;
             button_box.orientation = Gtk.Orientation.VERTICAL;
+            button_box.margin_bottom = 10;
             content_box.orientation = Gtk.Orientation.VERTICAL;
         } else { // Desktop: positioned dialog behavior (114px from all edges, min 56px)
             // Calculate effective margins for all edges - use DESKTOP_EDGE_MARGIN (114px) but ensure minimum MIN_EDGE_MARGIN (56px)
@@ -676,6 +676,7 @@ public class He.AboutWindow : Gtk.Widget {
             close_button.margin_top = 0;
             icon_image.margin_top = 0;
             button_box.orientation = Gtk.Orientation.HORIZONTAL;
+            button_box.margin_bottom = 0;
             content_box.orientation = Gtk.Orientation.HORIZONTAL;
         }
     }
