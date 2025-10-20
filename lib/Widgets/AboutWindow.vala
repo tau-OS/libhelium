@@ -476,13 +476,16 @@ public class He.AboutWindow : Gtk.Widget {
 
         close_button = new He.Button ("window-close-symbolic", "");
         close_button.is_disclosure = true;
-        close_button.halign = Gtk.Align.END;
+        close_button.halign = Gtk.Align.START;
         close_button.valign = Gtk.Align.START;
         close_button.set_tooltip_text (_("Close"));
 
         var window_overlay = new Gtk.Overlay ();
         window_overlay.add_overlay (close_button);
         window_overlay.set_child (about_box);
+
+        content_box.halign = Gtk.Align.CENTER;
+        content_box.valign = Gtk.Align.CENTER;
 
         about_box.append (content_box);
         about_box.append (button_box);
