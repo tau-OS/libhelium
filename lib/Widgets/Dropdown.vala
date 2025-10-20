@@ -43,7 +43,7 @@ public sealed class He.Dropdown : Gtk.Grid {
         }
     }
 
-    private class DropdownRow : Gtk.Grid {
+    private class DropdownRow : Gtk.Box {
         public Gtk.Label label { get; set; }
 
         public DropdownRow () {
@@ -51,8 +51,10 @@ public sealed class He.Dropdown : Gtk.Grid {
 
         construct {
             label = new Gtk.Label (null);
+            label.xalign = 0.0f;
+            label.valign = Gtk.Align.CENTER;
 
-            attach (label, 0, 0);
+            append (label);
         }
     }
 
@@ -134,7 +136,8 @@ public sealed class He.Dropdown : Gtk.Grid {
      * @param text      A string
      */
     public void append (string text) {
-        insert (-1, text);
+        var item = new ListStoreItem (null, text);
+        liststore.insert (-1, item);
     }
 
     /**
@@ -163,7 +166,12 @@ public sealed class He.Dropdown : Gtk.Grid {
      * @param text      A string
      */
     public void insert (int position, string text) {
-        insert (position, text);
+        var item = new ListStoreItem (null, text);
+        if (position < 0) {
+            liststore.append (item);
+        } else {
+            liststore.insert (position, item);
+        }
     }
 
     /**
@@ -174,7 +182,8 @@ public sealed class He.Dropdown : Gtk.Grid {
      * @param text      A string
      */
     public void prepend (string text) {
-        insert (0, text);
+        var item = new ListStoreItem (null, text);
+        liststore.insert (0, item);
     }
 
     /**
