@@ -28,17 +28,22 @@ namespace He.Ensor {
     private int[] pixels_to_argb_array (uint8[] pixels, bool alpha) {
         int[] list = {};
 
-        int factor = 0;
+        int factor = alpha ? 4 : 3;
 
-        if (alpha) {
-            factor = 4;
-        } else {
-            factor = 3;
+        // Validate pixel array length
+        if (pixels.length < factor) {
+            return list;
         }
 
         int i = 0;
-        while (i < (pixels.length / factor)) {
+        int max_i = (int) pixels.length / factor;
+        while (i < max_i) {
             int offset = i * factor;
+            // Bounds check before accessing
+            if (offset + 2 >= pixels.length) {
+                break;
+            }
+
             uint8 red = pixels[offset];
             uint8 green = pixels[offset + 1];
             uint8 blue = pixels[offset + 2];

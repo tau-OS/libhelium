@@ -99,10 +99,6 @@ public class He.ViewingConditions : Object {
         r_white = Math.fabs (r_white) < 1e-10 ? 1e-10 : r_white;
         g_white = Math.fabs (g_white) < 1e-10 ? 1e-10 : g_white;
         b_white = Math.fabs (b_white) < 1e-10 ? 1e-10 : b_white;
-        // Prevent division by zero in rgb_d calculation
-        r_white = Math.fabs (r_white) < 1e-10 ? 1e-10 : r_white;
-        g_white = Math.fabs (g_white) < 1e-10 ? 1e-10 : g_white;
-        b_white = Math.fabs (b_white) < 1e-10 ? 1e-10 : b_white;
 
         double f = 0.8 + (surround / 10.0);
         double c =
@@ -129,9 +125,7 @@ public class He.ViewingConditions : Object {
         double fl = (k4 * adapting_luminance) + (0.1 * k4_f * k4_f * Math.cbrt (5.0 * adapting_luminance));
         double n = (MathUtils.y_from_lstar (bg_lstar) / validated_white_point[1]);
 
-        // Ensure n is non-negative for sqrt
-        n = Math.fmax (0.0, n);
-        // Ensure n is non-negative for sqrt
+        // Ensure n is non-negative for sqrt and pow operations
         n = Math.fmax (0.0, n);
         double z = 1.48 + Math.sqrt (n);
         double nbb = 0.725 / Math.pow (n, 0.2);
@@ -157,7 +151,9 @@ public class He.ViewingConditions : Object {
         };
 
         double aw = ((2.0 * rgba[0]) + rgba[1] + (0.05 * rgba[2])) * nbb;
-        return new ViewingConditions (n, aw, nbb, ncb, c, nc, rgb_d, fl, Math.pow (fl, 0.25), z);
+        // Ensure fl is non-negative for power operation
+        double fl_root = Math.pow (Math.fmax (0.0, fl), 0.25);
+        return new ViewingConditions (n, aw, nbb, ncb, c, nc, rgb_d, fl, fl_root, z);
     }
 
     public static ViewingConditions with_lstar (double lstar) {

@@ -69,7 +69,7 @@ namespace He.MathUtils {
 
     public double inverse_chromatic_adaptation (double adapted) {
         double adapted_abs = Math.fabs (adapted);
-        double b = Math.fmax (0.0, 27.13 * adapted_abs / (400.0 - adapted_abs));
+        double b = Math.fmax (0.0, 27.13 * adapted_abs / Math.fmax (1e-10, 400.0 - adapted_abs));
         return signum (adapted) * Math.pow (b, 1.0 / 0.42);
     }
 
@@ -94,6 +94,7 @@ namespace He.MathUtils {
     }
 
     public double adapt (double color_channel) {
+        color_channel = Math.fmax (0.0, color_channel);
         if (color_channel > 0.0031308) {
             return (1.055 * Math.pow (color_channel, (1.0 / 2.4))) - 0.055;
         } else {
@@ -124,6 +125,7 @@ namespace He.MathUtils {
     public double lab_fovea (double t) {
         double e = 216.0 / 24389.0;
         double kappa = 24389.0 / 27.0;
+        t = Math.fmax (0.0, t);
         if (t > e) {
             return Math.pow (t, 1.0 / 3.0);
         } else {
@@ -185,7 +187,7 @@ namespace He.MathUtils {
     }
 
     public double linearized (int rgb_component) {
-        double normalized = rgb_component / 255.0;
+        double normalized = Math.fmax (0.0, rgb_component / 255.0);
         if (normalized <= 0.040449936) {
             return normalized / 12.92 * 100.0;
         } else {
@@ -195,6 +197,7 @@ namespace He.MathUtils {
 
     public int delinearized (double rgb_component) {
         double normalized = rgb_component / 100.0;
+        normalized = Math.fmax (0.0, normalized);
         double delinearized = 0.0;
         if (normalized <= 0.0031308) {
             delinearized = normalized * 12.92;
@@ -206,6 +209,7 @@ namespace He.MathUtils {
 
     public double double_delinearized (double rgb_component) {
         double normalized = rgb_component / 100.0;
+        normalized = Math.fmax (0.0, normalized);
         double delinearized = 0.0;
         if (normalized <= 0.0031308) {
             delinearized = normalized * 12.92;
@@ -222,7 +226,11 @@ namespace He.MathUtils {
     }
 
     public double intercept (double source, double mid, double target) {
-        return (mid - source) / (target - source);
+        double denominator = target - source;
+        if (Math.fabs (denominator) < 1e-10) {
+            return 0.0;
+        }
+        return (mid - source) / denominator;
     }
 
     public double hue_of (double[] linrgb) {
@@ -288,6 +296,7 @@ namespace He.MathUtils {
         var epsilon = 6.0 / 29.0;
         var kappa = 108.0 / 841.0;
         var delta = 4.0 / 29.0;
+        value = Math.fmax (0.0, value);
         return value > epsilon? Math.pow (value, 3.0) : (value - delta) * kappa;
     }
 

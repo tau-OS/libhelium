@@ -27,6 +27,7 @@ namespace He {
     }
 
     public double xyz_value_to_lab (double v) {
+        v = Math.fmax (0.0, v);
         if (v > T3)return Math.pow (v, 1d / 3d);
         return v / T2 + T0;
     }
@@ -75,9 +76,11 @@ namespace He {
         var linear_b = MathUtils.linearized (blue_from_rgba_int (argb));
         var xyz = MathUtils.elem_mul (new double[] { linear_r, linear_g, linear_b }, SRGB_TO_XYZ);
         double[] d65 = { XN, YN, ZN };
-        var xn = xyz[0] / d65[0];
-        var yn = xyz[1] / d65[1];
-        var zn = xyz[2] / d65[2];
+
+        // Protect against division by zero
+        var xn = xyz[0] / Math.fmax (1e-10, d65[0]);
+        var yn = xyz[1] / Math.fmax (1e-10, d65[1]);
+        var zn = xyz[2] / Math.fmax (1e-10, d65[2]);
         var fx = MathUtils.lab_fovea (xn);
         var fy = MathUtils.lab_fovea (yn);
         var fz = MathUtils.lab_fovea (zn);

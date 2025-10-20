@@ -22,8 +22,8 @@ public class He.QuantizerWu : Quantizer {
   // historical best practice is to use 5 bits  of the 8 in each channel,
   // reducing the histogram to a volume of ~32,000.
   private const int INDEX_BITS = 5;
-  private const int INDEX_COUNT = 33;  // ((1 << INDEX_BITS) + 1)
-  private const int TOTAL_SIZE = 35937;  // INDEX_COUNT * INDEX_COUNT * INDEX_COUNT
+  private const int INDEX_COUNT = 33; // ((1 << INDEX_BITS) + 1)
+  private const int TOTAL_SIZE = 35937; // INDEX_COUNT * INDEX_COUNT * INDEX_COUNT
 
   public override QuantizerResult quantize (int[] pixels, int color_count) {
     QuantizerResult map_result = new QuantizerMap ().quantize (pixels, color_count);
@@ -178,6 +178,9 @@ public class He.QuantizerWu : Quantizer {
 
     int hypotenuse = dr * dr + dg * dg + db * db;
     int volume = volume (cube, weights);
+    if (volume <= 0) {
+      return 0.0;
+    }
     return xx - hypotenuse / ((double) volume);
   }
 

@@ -54,6 +54,10 @@ namespace He {
 
         public List<HCTColor?> analogous(int count = 5, int divisions = 12) {
             List<HCTColor?> analogous_colors = new List<HCTColor?> ();
+            // Protect against division by zero
+            if (divisions <= 0) {
+                divisions = 12;
+            }
             double step = 360.0 / divisions;
 
             for (int i = 0; i < count; i++) {
@@ -91,6 +95,10 @@ namespace He {
             double coldest_temp = get_temp(get_coldest());
             double warmest_temp = get_temp(get_warmest());
             double range = warmest_temp - coldest_temp;
+            // Protect against division by zero when all temps are the same
+            if (Math.fabs(range) < 1e-10) {
+                return 0.5;
+            }
             return (get_temp(hct) - coldest_temp) / range;
         }
 
@@ -113,6 +121,8 @@ namespace He {
             LABColor lab = lab_from_argb(hct.a);
             double hue = Math.atan2(lab.a, lab.l) * 180.0 / Math.PI;
             double chroma = Math.sqrt((lab.l * lab.l) + (lab.a * lab.a));
+            // Ensure non-negative value for power operation
+            chroma = Math.fmax(0.0, chroma);
             return -0.5 + 0.02 * Math.pow(chroma, 1.07) * Math.cos((hue - 50.0) * Math.PI / 180.0);
         }
     }

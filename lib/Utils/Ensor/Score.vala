@@ -43,6 +43,11 @@ namespace He {
         population_sum += populations[i];
       }
 
+      // Protect against division by zero
+      if (population_sum < 1e-10) {
+        population_sum = 1.0;
+      }
+
       double[] hue_proportions = new double[361];
       GLib.GenericArray<AnnotatedColor> colors = new GLib.GenericArray<AnnotatedColor> ();
 
@@ -67,7 +72,10 @@ namespace He {
         int hue = (int) Math.floor (colors.get (i).cam_hue);
         for (int j = (hue - 14); j < (hue + 16); j++) {
           int sanitized_hue = (int) Math.floor (MathUtils.sanitize_degrees (j));
-          colors.get (i).excited_proportion += hue_proportions[sanitized_hue];
+          // Bounds check for array access
+          if (sanitized_hue >= 0 && sanitized_hue < 361) {
+            colors.get (i).excited_proportion += hue_proportions[sanitized_hue];
+          }
         }
       }
 

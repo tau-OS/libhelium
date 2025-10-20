@@ -33,9 +33,13 @@ namespace He {
 
   public int find_result_by_j (double hr, double c, double y) {
     // Initial estimate of j.
+    y = Math.fmax (0.0, y);
     double j = Math.sqrt (y) * 11.0;
     ViewingConditions vc = ViewingConditions.with_lstar (lab_to_xyz ({ 50.0, 0.0, 0.0 }).y* 100.0);
-    double tr = 1.0 / Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73);
+
+    // Protect against negative base in power operation
+    double base_tr = Math.fmax (0.0, 1.64 - Math.pow (0.29, vc.n));
+    double tr = 1.0 / Math.pow (base_tr, 0.73);
     double e_hue = 0.25 * (Math.cos (hr + 2.0) + 3.8);
     double p1 = e_hue * (50000.0 / 13.0) * vc.nc * vc.ncb;
     double h_sine = Math.sin (hr);
@@ -43,10 +47,11 @@ namespace He {
 
     for (int round = 0; round < 5; round++) {
       double jr = j / 100.0;
+      jr = Math.fmax (1e-10, jr);
       double alpha = (c == 0.0 || j == 0.0) ? 0.0 : c / Math.sqrt (jr);
-      double t = Math.pow (alpha * tr, 1.0 / 0.9);
-      double ac = vc.aw * Math.pow (jr, 1.0 / vc.c / vc.z);
-      double p2 = ac / vc.nbb;
+      double t = Math.pow (Math.fmax (0.0, alpha * tr), 1.0 / 0.9);
+      double ac = vc.aw * Math.pow (Math.fmax (0.0, jr), 1.0 / vc.c / vc.z);
+      double p2 = ac / Math.fmax (1e-10, vc.nbb);
       double gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11.0 * t * h_cosine + 108.0 * t * h_sine);
       double a = gamma * h_cosine;
       double b = gamma * h_sine;
@@ -83,7 +88,9 @@ namespace He {
 
       // Iterates with Newton method,
       // Using 2 * fn(j) / j as the approximation of fn'(j)
-      double step = (fnj - y) * j / (2.0 * fnj);
+      // Protect against division by zero
+      double denominator = Math.fmax (1e-10, 2.0 * fnj);
+      double step = (fnj - y) * j / denominator;
       j = j - step;
 
       // Clamp j to reasonable bounds to prevent divergence

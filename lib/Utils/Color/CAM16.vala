@@ -27,9 +27,10 @@ namespace He {
         double g_d = vc.rgb_d[1] * g_t;
         double b_d = vc.rgb_d[2] * b_t;
 
-        double r_af = MathUtils.pow (vc.fl * MathUtils.abs (r_d) / 100.0, 0.42);
-        double g_af = MathUtils.pow (vc.fl * MathUtils.abs (g_d) / 100.0, 0.42);
-        double b_af = MathUtils.pow (vc.fl * MathUtils.abs (b_d) / 100.0, 0.42);
+        // Ensure non-negative values for power operation
+        double r_af = MathUtils.pow (MathUtils.max (0.0, vc.fl * MathUtils.abs (r_d) / 100.0), 0.42);
+        double g_af = MathUtils.pow (MathUtils.max (0.0, vc.fl * MathUtils.abs (g_d) / 100.0), 0.42);
+        double b_af = MathUtils.pow (MathUtils.max (0.0, vc.fl * MathUtils.abs (b_d) / 100.0), 0.42);
         double r_a = MathUtils.signum (r_d) * 400.0 * r_af / (r_af + 27.13);
         double g_a = MathUtils.signum (g_d) * 400.0 * g_af / (g_af + 27.13);
         double b_a = MathUtils.signum (b_d) * 400.0 * b_af / (b_af + 27.13);
@@ -53,17 +54,29 @@ namespace He {
 
         double ac = p2 * vc.nbb;
 
-        var j = 100.0 * Math.pow (ac / vc.aw, vc.c * vc.z);
+        // Protect against division by zero and negative power base
+        double aw_safe = MathUtils.max (1e-10, vc.aw);
+        double ac_ratio = MathUtils.max (0.0, ac / aw_safe);
+        var j = 100.0 * Math.pow (ac_ratio, vc.c * vc.z);
 
         double hue_prime = (h < 20.14) ? h + 360.0 : h;
         double e_hue = 0.25 * (Math.cos ((hue_prime * (Math.PI / 180.0)) + 2.0) + 3.8);
         double p1 = 50000.0 / 13.0 * e_hue * vc.nc * vc.ncb;
         double t = p1 * Math.hypot (a, b) / (u + 0.305);
-        double alpha = MathUtils.pow (1.64 - MathUtils.pow (0.29, vc.n), 0.73) * MathUtils.pow (t, 0.9);
+
+        // Ensure base for power operations is non-negative
+        double base_1 = MathUtils.max (0.0, 1.64 - MathUtils.pow (0.29, vc.n));
+        double base_t = MathUtils.max (0.0, t);
+        double alpha = MathUtils.pow (base_1, 0.73) * MathUtils.pow (base_t, 0.9);
+
         // CAM16 chroma, colorfulness, saturation
-        double c = alpha * Math.sqrt (j / 100.0);
+        double j_safe = MathUtils.max (0.0, j);
+        double c = alpha * Math.sqrt (j_safe / 100.0);
         double m = c * vc.fl_root;
-        double s = 50.0 * Math.sqrt ((alpha * vc.c) / (vc.aw + 4.0));
+
+        // Protect sqrt argument
+        double s_arg = MathUtils.max (0.0, (alpha * vc.c) / (vc.aw + 4.0));
+        double s = 50.0 * Math.sqrt (s_arg);
 
         CAM16Color result = {
             j,

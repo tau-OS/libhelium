@@ -5,8 +5,8 @@ public class He.TonalPalette : GLib.Object {
     public HCTColor key_color { get; set; }
 
     public TonalPalette(double hue, double chroma, HCTColor key_color) {
-        this.hue = hue;
-        this.chroma = chroma;
+        this.hue = MathUtils.sanitize_degrees(hue);
+        this.chroma = Math.fmax(0.0, chroma);
         this.key_color = key_color;
     }
 
@@ -25,6 +25,7 @@ public class He.TonalPalette : GLib.Object {
     }
 
     public int get_tone(int tone) {
+        tone = (int) MathUtils.clamp_double((double) tone, 0.0, 100.0);
         int? color = cache.get(tone);
         if (color == null) {
             if (tone == 99 && HCTColor.hue_is_yellow(hue)) {
@@ -56,6 +57,7 @@ public class He.TonalPalette : GLib.Object {
     }
 
     public HCTColor get_hct(double tone) {
+        tone = MathUtils.clamp_double(tone, 0.0, 100.0);
         return from_params(this.hue, this.chroma, tone);
     }
 }

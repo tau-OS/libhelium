@@ -26,8 +26,9 @@ namespace He {
     }
 
     public double rgb_value_to_xyz (double v) {
+        v = Math.fmax (0.0, v);
         if ((v /= 255.0) <= 0.04045)return v / 12.92;
-        return Math.pow ((v + 0.055) / 1.055, 2.4);
+        return Math.pow (Math.fmax (0.0, (v + 0.055) / 1.055), 2.4);
     }
 
     public XYZColor rgb_to_xyz (RGBColor color) {
@@ -48,15 +49,17 @@ namespace He {
 
     public XYZColor cam16_to_xyz (CAM16Color color) {
         ViewingConditions vc = ViewingConditions.with_lstar (lab_to_xyz ({ 50.0, 0.0, 0.0 }).y* 100.0);
-        double alpha = (color.c == 0.0 || color.j == 0.0) ? 0.0 : color.c / Math.sqrt (color.j / 100.0);
+        double j_safe = Math.fmax (0.0, color.j);
+        double alpha = (color.c == 0.0 || color.j == 0.0) ? 0.0 : color.c / Math.sqrt (j_safe / 100.0);
 
-        double t = Math.pow (alpha / Math.pow (1.64 - Math.pow (0.29, vc.n), 0.73), 1.0 / 0.9);
+        double base_t = Math.fmax (0.0, 1.64 - Math.pow (0.29, vc.n));
+        double t = Math.pow (Math.fmax (0.0, alpha / Math.pow (base_t, 0.73)), 1.0 / 0.9);
         double h_in_radians = color.h * Math.PI / 180.0;
 
         double e_hue = 0.25 * (Math.cos (h_in_radians + 2.0) + 3.8);
-        double ac = vc.aw * Math.pow (color.j / 100.0, 1.0 / vc.c / vc.z);
+        double ac = vc.aw * Math.pow (Math.fmax (0.0, j_safe / 100.0), 1.0 / vc.c / vc.z);
         double p1 = e_hue * (50000.0 / 13.0) * vc.nc * vc.ncb;
-        double p2 = (ac / vc.nbb);
+        double p2 = (ac / Math.fmax (1e-10, vc.nbb));
 
         double h_sine = Math.sin (h_in_radians);
         double h_cosine = Math.cos (h_in_radians);
@@ -68,15 +71,18 @@ namespace He {
         double g_a = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
         double b_a = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
 
-        double r_c_base = Math.fmax (0.0, (27.13 * Math.fabs (r_a)) / (400.0 - Math.fabs (r_a)));
-        double r_c = MathUtils.signum (r_a) * (100.0 / vc.fl) * Math.pow (r_c_base, 1.0 / 0.42);
-        double g_c_base = Math.fmax (0.0, (27.13 * Math.fabs (g_a)) / (400.0 - Math.fabs (g_a)));
-        double g_c = MathUtils.signum (g_a) * (100.0 / vc.fl) * Math.pow (g_c_base, 1.0 / 0.42);
-        double b_c_base = Math.fmax (0.0, (27.13 * Math.fabs (b_a)) / (400.0 - Math.fabs (b_a)));
-        double b_c = MathUtils.signum (b_a) * (100.0 / vc.fl) * Math.pow (b_c_base, 1.0 / 0.42);
-        double r_f = r_c / vc.rgb_d[0];
-        double g_f = g_c / vc.rgb_d[1];
-        double b_f = b_c / vc.rgb_d[2];
+        double r_a_abs = Math.fabs (r_a);
+        double r_c_base = Math.fmax (0.0, (27.13 * r_a_abs) / Math.fmax (1e-10, 400.0 - r_a_abs));
+        double r_c = MathUtils.signum (r_a) * (100.0 / Math.fmax (1e-10, vc.fl)) * Math.pow (r_c_base, 1.0 / 0.42);
+        double g_a_abs = Math.fabs (g_a);
+        double g_c_base = Math.fmax (0.0, (27.13 * g_a_abs) / Math.fmax (1e-10, 400.0 - g_a_abs));
+        double g_c = MathUtils.signum (g_a) * (100.0 / Math.fmax (1e-10, vc.fl)) * Math.pow (g_c_base, 1.0 / 0.42);
+        double b_a_abs = Math.fabs (b_a);
+        double b_c_base = Math.fmax (0.0, (27.13 * b_a_abs) / Math.fmax (1e-10, 400.0 - b_a_abs));
+        double b_c = MathUtils.signum (b_a) * (100.0 / Math.fmax (1e-10, vc.fl)) * Math.pow (b_c_base, 1.0 / 0.42);
+        double r_f = r_c / Math.fmax (1e-10, vc.rgb_d[0]);
+        double g_f = g_c / Math.fmax (1e-10, vc.rgb_d[1]);
+        double b_f = b_c / Math.fmax (1e-10, vc.rgb_d[2]);
 
         double[,] matrix = CAM16RGB_TO_XYZ;
         double x = (r_f * matrix[0, 0]) + (g_f * matrix[0, 1]) + (b_f * matrix[0, 2]);

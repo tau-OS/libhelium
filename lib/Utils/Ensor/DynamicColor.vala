@@ -98,6 +98,8 @@ namespace He {
             var hue = palette.hue;
             double chroma = color.chroma_multiplier_func != null? color.chroma_multiplier_func (scheme) : (color.chromamult == -1 ? 1 : color.chromamult);
 
+            // Ensure non-negative chroma
+            chroma = Math.fmax (0.0, chroma);
             var fchroma = palette.chroma * chroma;
 
             return from_params (hue, fchroma, tone);
@@ -299,6 +301,10 @@ namespace He {
             double lighter_ratio = Contrast.ratio_of_tones (lighter_tone, bg_tone);
             double darker_ratio = Contrast.ratio_of_tones (darker_tone, bg_tone);
             bool prefer_lighter = tone_prefers_light_foreground (bg_tone);
+
+            // Clamp tones to valid range
+            lighter_tone = MathUtils.clamp_double (0.0, 100.0, lighter_tone);
+            darker_tone = MathUtils.clamp_double (0.0, 100.0, darker_tone);
 
             // At very low contrast (near 1.0), prefer maintaining readability
             if (ratio < 1.5) {

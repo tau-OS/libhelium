@@ -18,7 +18,8 @@ public class He.Contrast {
     public static double ratio_of_ys(double y1, double y2) {
         double lighter = Math.fmax(y1, y2);
         double darker = (lighter == y2) ? y1 : y2;
-        return (lighter + 5.0) / (darker + 5.0);
+        // Ensure denominator is never zero
+        return (lighter + 5.0) / Math.fmax(1e-10, darker + 5.0);
     }
 
     /**
@@ -76,7 +77,9 @@ public class He.Contrast {
         }
 
         double light_y = MathUtils.y_from_lstar(tone);
-        double dark_y = ((light_y + 5.0) / ratio) - 5.0;
+        // Protect against division by zero
+        double safe_ratio = Math.fmax(1e-10, ratio);
+        double dark_y = ((light_y + 5.0) / safe_ratio) - 5.0;
 
         if (dark_y < 0.0 || dark_y > 100.0) {
             return -1.0;

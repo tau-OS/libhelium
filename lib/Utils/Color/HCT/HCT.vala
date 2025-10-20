@@ -92,6 +92,10 @@ namespace He {
     }
 
     public int hct_to_argb (double hue, double chroma, double lstar) {
+        // Clamp inputs to safe ranges
+        chroma = Math.fmax (0.0, chroma);
+        lstar = MathUtils.clamp_double (0.0, 100.0, lstar);
+
         // If color is mono…
         if (chroma < 0.0001 || lstar < 0.0001 || lstar > 99.9999) {
             return MathUtils.argb_from_lstar (lstar);
@@ -128,6 +132,11 @@ namespace He {
     }
 
     public static double piecewise_val (HCTColor hct, double[] huebps, double[] hues) {
+        // Protect against empty arrays
+        if (huebps.length < 2 || hues.length < 1) {
+            return hct.h;
+        }
+
         int size = (int) MathUtils.min (huebps.length - 1, hues.length);
         double src_h = hct.h;
 

@@ -151,7 +151,7 @@ public class He.QuantizerWsmeans : Object {
         }
         if (new_cluster_index != -1) {
           double distance_change =
-            MathUtils.abs (Math.sqrt (minimum_distance) - Math.sqrt (previous_distance));
+            MathUtils.abs (Math.sqrt (Math.fmax (0.0, minimum_distance)) - Math.sqrt (Math.fmax (0.0, previous_distance)));
           if (distance_change > MIN_MOVEMENT_DISTANCE) {
             color_moved = true;
             cluster_indices.insert_val (i, new_cluster_index);

@@ -6,8 +6,8 @@ public class He.KeyColor : GLib.Object {
     public double requested_chroma { get; set; }
 
     public KeyColor(double hue, double requested_chroma) {
-        this.hue = hue;
-        this.requested_chroma = requested_chroma;
+        this.hue = MathUtils.sanitize_degrees(hue);
+        this.requested_chroma = Math.fmax(0.0, requested_chroma);
         this.chroma_cache = new GLib.HashTable<int, double?> (null, null);
     }
 
@@ -38,7 +38,10 @@ public class He.KeyColor : GLib.Object {
         }
 
         // Binary search for the tone closest to pivot that can achieve requested chroma
-        while (lower_tone < upper_tone) {
+        int max_iterations = 100;
+        int iteration = 0;
+        while (lower_tone < upper_tone && iteration < max_iterations) {
+            iteration++;
             int mid_tone = (lower_tone + upper_tone) / 2;
             double mid_chroma = this.max_chroma(mid_tone);
 
@@ -68,11 +71,12 @@ public class He.KeyColor : GLib.Object {
         }
 
         // Final validation and selection
-        int final_tone = lower_tone;
+        int final_tone = MathUtils.clamp_int(0, 100, lower_tone);
         double final_chroma = this.max_chroma(final_tone);
 
         // If we can't achieve the requested chroma, clamp it to what's achievable
         double actual_chroma = MathUtils.min(this.requested_chroma, final_chroma);
+        actual_chroma = Math.fmax(0.0, actual_chroma);
 
         return from_params(this.hue, actual_chroma, final_tone);
     }

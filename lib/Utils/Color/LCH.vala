@@ -16,7 +16,7 @@ namespace He {
         LCHColor result = {
             color.l,
             Math.hypot (color.a, color.b),
-            Math.atan2 (color.b, color.a) * 360.0 / 6.283185307179586
+            Math.atan2 (color.b, color.a) * 180.0 / Math.PI
         };
 
         return result;
