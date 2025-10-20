@@ -370,7 +370,7 @@ public class He.StyleManager : Object {
     var large_roundness = (2 * base_roundness).to_string () + "px";
     var x_large_roundness = (3 * base_roundness).to_string () + "px";
     var xx_large_roundness = (4 * base_roundness).to_string () + "px";
-    var extra_large_roundness = (6.5 * base_roundness).to_string () + "px";
+    var extra_large_roundness = (7 * base_roundness).to_string () + "px";
     var circle_roundness = (12.5 * base_roundness).to_string () + "px";
 
     string css = "";
@@ -420,16 +420,18 @@ public class He.StyleManager : Object {
     }
     .content-block,
     .mini-content-block,
-    .dialog-content,
     .switchbar,
-    .navigation-section-list row .mini-content-block,
-    window.csd {
+    .navigation-section-list row .mini-content-block {
       border-radius: $x_large_roundness;
+    }
+    window.csd {
+      border-radius: $xx_large_roundness;
     }
     window.csd.dialog.message,
     window.csd.dialog-content,
+    .dialog-content,
     .dialog-sheet {
-      border-radius: $xx_large_roundness;
+      border-radius: $extra_large_roundness;
     }
     .bottom-sheet {
         border-top-left-radius: $xx_large_roundness;
