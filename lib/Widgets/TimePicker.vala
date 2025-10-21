@@ -420,6 +420,14 @@ public class He.TimePicker : Gtk.Entry {
         }
     }
 
+    /**
+     * Refreshes the accent color from the current context (Bin override, Application, or Desktop).
+     * Call this when the color context changes.
+     */
+    public void refresh_accent_color () {
+        clock.refresh_accent_color ();
+    }
+
     private class ClockWidget : Gtk.Widget {
         private const double SIZE = 256.0;
         private const double CENTER = SIZE / 2;
@@ -476,13 +484,18 @@ public class He.TimePicker : Gtk.Entry {
             // Setup accent color monitoring
             desktop.notify["accent-color"].connect (update_accent_color);
 
-            // Monitor for when widget gets added to application
+            // Monitor for when widget gets added to application or parent changes
             notify["root"].connect (() => {
                 var app = get_he_application ();
                 if (app != null) {
                     app.accent_color_changed.connect (update_accent_color);
                     update_accent_color ();
                 }
+            });
+
+            notify["parent"].connect (() => {
+                update_accent_color ();
+                queue_draw ();
             });
 
             update_accent_color ();
@@ -506,11 +519,22 @@ public class He.TimePicker : Gtk.Entry {
             RGBColor? effective_color = null;
             bool is_from_application = false;
 
-            // Try to get accent color from application first
-            var app = get_he_application ();
-            if (app != null) {
-                effective_color = app.get_effective_accent_color ();
-                is_from_application = (app.is_content && app.default_accent_color != null);
+            // First, check if we're inside a Bin with color override
+            var override_bin = He.Bin.find_color_override_bin (this);
+            if (override_bin != null) {
+                effective_color = override_bin.get_effective_accent_color ();
+                if (effective_color != null) {
+                    is_from_application = true; // Treat as application color (0-255 range)
+                }
+            }
+
+            // Try to get accent color from application if no Bin override
+            if (effective_color == null) {
+                var app = get_he_application ();
+                if (app != null) {
+                    effective_color = app.get_effective_accent_color ();
+                    is_from_application = (app.is_content && app.default_accent_color != null);
+                }
             }
 
             // Fall back to desktop accent color
@@ -534,16 +558,21 @@ public class He.TimePicker : Gtk.Entry {
                 }
 
                 accent_color = { r, g, b, 1.0f };
-
-                // Debug output to help identify the issue
-                print ("TimePicker accent color updated: r=%f, g=%f, b=%f (from %s, original: %f,%f,%f)\n",
-                       r, g, b, is_from_application ? "application" : "desktop",
-                       effective_color.r, effective_color.g, effective_color.b);
             } else {
                 // Fallback to a visible color if no accent color is available
                 accent_color = { 0.2f, 0.6f, 1.0f, 1.0f }; // Blue fallback
-                print ("TimePicker using fallback accent color\n");
             }
+
+            // Force redraw with new color
+            queue_draw ();
+        }
+
+        /**
+         * Refreshes the accent color from the current context (Bin override, Application, or Desktop).
+         * Call this when the color context changes.
+         */
+        public void refresh_accent_color () {
+            update_accent_color ();
         }
 
         construct {

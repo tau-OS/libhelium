@@ -334,7 +334,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         // Setup accent color monitoring
         desktop.notify["accent-color"].connect (update_accent_color);
 
-        // Monitor for when widget gets added to application
+        // Monitor for when widget gets added to application or parent changes
         notify["root"].connect (() => {
             var app = get_he_application ();
             if (app != null) {
@@ -342,6 +342,11 @@ public class He.Slider : He.Bin, Gtk.Buildable {
                 update_accent_color ();
                 wavy_drawing_area.queue_draw ();
             }
+        });
+
+        notify["parent"].connect (() => {
+            update_accent_color ();
+            wavy_drawing_area.queue_draw ();
         });
 
         update_accent_color ();
@@ -376,11 +381,22 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         RGBColor? effective_color = null;
         bool is_from_application = false;
 
-        // Try to get accent color from application first
-        var app = get_he_application ();
-        if (app != null) {
-            effective_color = app.get_effective_accent_color ();
-            is_from_application = (app.is_content && app.default_accent_color != null);
+        // First, check if we're inside a Bin with color override
+        var override_bin = He.Bin.find_color_override_bin (this);
+        if (override_bin != null) {
+            effective_color = override_bin.get_effective_accent_color ();
+            if (effective_color != null) {
+                is_from_application = true; // Treat as application color (0-255 range)
+            }
+        }
+
+        // Try to get accent color from application if no Bin override
+        if (effective_color == null) {
+            var app = get_he_application ();
+            if (app != null) {
+                effective_color = app.get_effective_accent_color ();
+                is_from_application = (app.is_content && app.default_accent_color != null);
+            }
         }
 
         // Fall back to desktop accent color
@@ -404,16 +420,24 @@ public class He.Slider : He.Bin, Gtk.Buildable {
             }
 
             accent_color = { r, g, b, 1.0f };
-
-            // Debug output to help identify the issue
-            print ("Slider accent color updated: r=%f, g=%f, b=%f (from %s, original: %f,%f,%f)\n",
-                   r, g, b, is_from_application ? "application" : "desktop",
-                   effective_color.r, effective_color.g, effective_color.b);
         } else {
             // Fallback to a visible color if no accent color is available
             accent_color = { 0.2f, 0.6f, 1.0f, 1.0f }; // Blue fallback
-            print ("Slider using fallback accent color\n");
         }
+
+        // Force redraw with new color
+        if (_is_wavy) {
+            wavy_drawing_area.queue_draw ();
+        }
+        queue_draw ();
+    }
+
+    /**
+     * Refreshes the accent color from the current context (Bin override, Application, or Desktop).
+     * Call this when the color context changes.
+     */
+    public void refresh_accent_color () {
+        update_accent_color ();
     }
 
     /**

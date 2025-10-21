@@ -133,6 +133,35 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
     content_color_override = false;
   }
 
+  /**
+   * Gets the effective accent color that should be used by child widgets.
+   * Returns the override color if content_color_override is enabled,
+   * otherwise returns null to indicate children should use default sources.
+   */
+  public RGBColor ? get_effective_accent_color () {
+    if (_content_color_override && _content_source_color != null) {
+      return _content_source_color;
+    }
+    return null;
+  }
+
+  /**
+   * Finds the nearest He.Bin ancestor with color override enabled.
+   */
+  public static He.Bin? find_color_override_bin (Gtk.Widget widget) {
+    Gtk.Widget? current = widget.get_parent ();
+    while (current != null) {
+      if (current is He.Bin) {
+        var bin = (He.Bin) current;
+        if (bin.content_color_override) {
+          return bin;
+        }
+      }
+      current = current.get_parent ();
+    }
+    return null;
+  }
+
   static construct {
     set_layout_manager_type (typeof (Gtk.BoxLayout));
   }
@@ -141,6 +170,7 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
     if (!_content_color_override || _content_source_color == null) {
       remove_color_provider ();
       cached_css = null;
+      notify_children_color_changed ();
       return;
     }
 
@@ -154,6 +184,7 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
     if (css == "") {
       remove_color_provider ();
       cached_css = null;
+      notify_children_color_changed ();
       return;
     }
 
@@ -167,7 +198,44 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
     apply_color_provider_recursive (this, (!) color_provider);
 
     cached_css = css;
+    notify_children_color_changed ();
     queue_draw ();
+  }
+
+  private void notify_children_color_changed () {
+    notify_widget_tree_color_changed (this);
+  }
+
+  private void notify_widget_tree_color_changed (Gtk.Widget widget) {
+    // Notify Slider widgets
+    if (widget is He.Slider) {
+      var slider = (He.Slider) widget;
+      GLib.Idle.add (() => {
+        slider.refresh_accent_color ();
+        return false;
+      });
+    }
+    // Notify ProgressBar widgets
+    else if (widget is He.ProgressBar) {
+      var progressbar = (He.ProgressBar) widget;
+      GLib.Idle.add (() => {
+        progressbar.refresh_accent_color ();
+        return false;
+      });
+    }
+    // Notify TimePicker widgets (needs to update internal clock)
+    else if (widget is He.TimePicker) {
+      var timepicker = (He.TimePicker) widget;
+      GLib.Idle.add (() => {
+        timepicker.refresh_accent_color ();
+        return false;
+      });
+    }
+
+    // Recursively check children
+    for (var child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
+      notify_widget_tree_color_changed (child);
+    }
   }
 
   private void handle_root_changed () {
