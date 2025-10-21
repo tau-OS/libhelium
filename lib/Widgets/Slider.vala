@@ -380,13 +380,14 @@ public class He.Slider : He.Bin, Gtk.Buildable {
     private void update_accent_color () {
         RGBColor? effective_color = null;
         bool is_from_application = false;
+        bool is_from_bin = false;
 
         // First, check if we're inside a Bin with color override
         var override_bin = He.Bin.find_color_override_bin (this);
         if (override_bin != null) {
             effective_color = override_bin.get_effective_accent_color ();
             if (effective_color != null) {
-                is_from_application = true; // Treat as application color (0-255 range)
+                is_from_bin = true; // Bin colors are in 0-1 range
             }
         }
 
@@ -413,7 +414,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
                 g = (float) Math.fmax (0.0, Math.fmin (255.0, effective_color.g)) / 255.0f;
                 b = (float) Math.fmax (0.0, Math.fmin (255.0, effective_color.b)) / 255.0f;
             } else {
-                // Desktop colors are already in 0.0-1.0 range
+                // Bin and Desktop colors are already in 0.0-1.0 range
                 r = (float) Math.fmax (0.0, Math.fmin (1.0, effective_color.r));
                 g = (float) Math.fmax (0.0, Math.fmin (1.0, effective_color.g));
                 b = (float) Math.fmax (0.0, Math.fmin (1.0, effective_color.b));

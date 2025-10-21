@@ -17,18 +17,18 @@ namespace He {
         public double chromamult { get; set; }
         public ContrastCurve? contrast_curve { get; set; }
 
-        public PaletteFunc palette;
-        public ToneFunc tone;
-        public BackgroundFunc? background;
-        public BackgroundFunc? second_background;
-        public ToneDeltaPairFunc? tone_delta_pair;
-        public DoubleFunc? chroma_multiplier_func;
-        public ContrastCurveFunc? contrast_curve_func;
-        public DoubleFunc? opacity;
+        public unowned PaletteFunc palette;
+        public unowned ToneFunc? tone;
+        public unowned BackgroundFunc? background;
+        public unowned BackgroundFunc? second_background;
+        public unowned ToneDeltaPairFunc? tone_delta_pair;
+        public unowned DoubleFunc? chroma_multiplier_func;
+        public unowned ContrastCurveFunc? contrast_curve_func;
+        public unowned DoubleFunc? opacity;
 
         public DynamicColor (string name,
             PaletteFunc palette,
-            ToneFunc? tone,
+            ToneFunc? tone = null,
             double chromamult,
             bool? is_background,
             BackgroundFunc? background,
@@ -72,10 +72,6 @@ namespace He {
         }
 
         public DynamicColor build () {
-            if (this.tone == null) {
-                this.tone = get_initial_tone_from_background (this.background);
-            }
-
             return new DynamicColor (
                                      this.name,
                                      this.palette,
@@ -110,14 +106,14 @@ namespace He {
             return answer;
         }
 
-        public ToneFunc get_initial_tone_from_background (BackgroundFunc? background) {
-            if (background == null) {
-                return (s) => 50.0;
+        public double get_effective_tone (DynamicScheme scheme) {
+            if (tone != null) {
+                return tone (scheme);
+            } else if (background != null) {
+                DynamicColor? bg = background (scheme);
+                return bg != null? bg.get_tone_from_scheme (scheme) : 50.0;
             } else {
-                return (s) => {
-                           DynamicColor? bg = background (s);
-                           return bg != null? bg.get_tone_from_scheme (s) : 50.0;
-                };
+                return 50.0;
             }
         }
 
@@ -127,10 +123,9 @@ namespace He {
 
         public double get_tone (DynamicScheme scheme, DynamicColor? color) {
             DynamicColor current = color ?? this;
-            ToneDeltaPairFunc? pair_func = current.tone_delta_pair;
 
-            if (pair_func != null) {
-                ToneDeltaPair? pair = pair_func (scheme);
+            if (current.tone_delta_pair != null) {
+                ToneDeltaPair? pair = current.tone_delta_pair (scheme);
 
                 if (pair == null) {
                     // Treat null responses the same as absent tone delta pair definitions.
@@ -149,8 +144,8 @@ namespace He {
                     bool am_role_a = current.name == role_a.name;
                     DynamicColor self_role = am_role_a ? role_a : role_b;
                     DynamicColor ref_role = am_role_a ? role_b : role_a;
-                    double self_tone = self_role.tone (scheme);
-                    double ref_tone = ref_role.tone (scheme);
+                    double self_tone = self_role.get_effective_tone (scheme);
+                    double ref_tone = ref_role.get_effective_tone (scheme);
                     double relative_delta = absolute_delta * (am_role_a ? 1 : -1);
 
                     if (resolve == ToneResolve.EXACT) {
@@ -207,7 +202,7 @@ namespace He {
             }
 
             // Case 1: No tone delta pair; just solve for itself.
-            double answer = current.tone (scheme);
+            double answer = current.get_effective_tone (scheme);
 
             DynamicColor? primary_background = current.background != null? current.background (scheme) : null;
 
