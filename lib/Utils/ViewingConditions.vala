@@ -7,7 +7,7 @@ public class He.ViewingConditions : Object {
     public static ViewingConditions default_conditions {
         get {
             if (default_conditions_instance == null) {
-                default_conditions_instance = ViewingConditions.with_lstar (lab_to_xyz ({ 50.0, 0.0, 0.0 }).y* 100.0);
+                default_conditions_instance = ViewingConditions.with_lstar (64.0);
             }
 
             return default_conditions_instance;
@@ -73,10 +73,10 @@ public class He.ViewingConditions : Object {
         return (1.0 - amount) * start + amount * stop;
     }
 
-    public static ViewingConditions make (double[] white_point = { 95.047, 100, 108.883 },
-                                          double adapting_luminance = 0.4* 300,
-                                          double bg_lstar = 50.0,
-                                          double surround = 0.69,
+    public static ViewingConditions make (double[] white_point = { 95047 / 1000, 100, 108883 / 1000 },
+                                          double adapting_luminance = 31831 / 100,
+                                          double bg_lstar = 64.0,
+                                          double surround = 1.0,
                                           bool discount_illuminant = false) {
         // Validate white_point array
         double[] validated_white_point = white_point;
@@ -158,10 +158,10 @@ public class He.ViewingConditions : Object {
 
     public static ViewingConditions with_lstar (double lstar) {
         return ViewingConditions.make (
-                                       { 95.047, 100, 108.883 },
-                                       0.4 * 300,
-                                       lstar,
-                                       0.69,
+                                       { 95047 / 1000, 100, 108883 / 1000 },
+                                       31831 / 100,
+                                       64.0,
+                                       1.0,
                                        false
         );
     }

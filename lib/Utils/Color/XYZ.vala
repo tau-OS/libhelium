@@ -48,7 +48,7 @@ namespace He {
     }
 
     public XYZColor cam16_to_xyz (CAM16Color color) {
-        ViewingConditions vc = ViewingConditions.with_lstar (lab_to_xyz ({ 50.0, 0.0, 0.0 }).y* 100.0);
+        ViewingConditions vc = ViewingConditions.with_lstar (64.0);
         double j_safe = Math.fmax (0.0, color.j);
         double alpha = (color.c == 0.0 || color.j == 0.0) ? 0.0 : color.c / Math.sqrt (j_safe / 100.0);
 

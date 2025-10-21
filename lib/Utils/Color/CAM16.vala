@@ -16,7 +16,7 @@ namespace He {
     };
 
     public CAM16Color xyz_to_cam16 (XYZColor color) {
-        ViewingConditions vc = ViewingConditions.with_lstar (lab_to_xyz ({ 50.0, 0.0, 0.0 }).y* 100.0);
+        ViewingConditions vc = ViewingConditions.with_lstar (64.0);
 
         double[,] matrix = XYZ_TO_CAM16RGB;
         double r_t = (color.x * matrix[0, 0]) + (color.y * matrix[0, 1]) + (color.z * matrix[0, 2]);
