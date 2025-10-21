@@ -253,10 +253,23 @@ public class He.SnapScrollBox : He.Bin {
         }
 
         var adjustment = scrolled_window.get_hadjustment ();
-        Gtk.Allocation child_area;
-        child.get_allocation (out child_area);
+        int child_width = child.get_width ();
 
-        if (child_area.width <= 0) {
+        Graphene.Rect bounds;
+        if (!child.compute_bounds (container, out bounds)) {
+            container.queue_resize ();
+            if (snap_idle_id == 0) {
+                int retry_index = index;
+                snap_idle_id = GLib.Idle.add (() => {
+                    snap_idle_id = 0;
+                    perform_snap_to_index (retry_index);
+                    return false;
+                });
+            }
+            return;
+        }
+
+        if (child_width <= 0) {
             container.queue_resize ();
             if (snap_idle_id == 0) {
                 int retry_index = index;
@@ -281,7 +294,7 @@ public class He.SnapScrollBox : He.Bin {
             margin_total = 0.0;
         }
 
-        double target_scroll = child_area.x + child_area.width / 2.0 - (margin_left + inner_width / 2.0);
+        double target_scroll = bounds.origin.x + bounds.size.width / 2.0 - (margin_left + inner_width / 2.0);
         double upper_limit = adjustment.get_upper () - page_size;
         target_scroll = clamp (target_scroll, adjustment.get_lower (), upper_limit);
 
@@ -380,11 +393,13 @@ public class He.SnapScrollBox : He.Bin {
 
             for (int i = 0; i < count; i++) {
                 var item = children[i];
-                Gtk.Allocation item_area;
-                item.get_allocation (out item_area);
+                Graphene.Rect item_bounds;
+                if (!item.compute_bounds (container, out item_bounds)) {
+                    continue;
+                }
 
                 double center = scroll_value + margin_left + inner_width / 2.0;
-                double item_center = item_area.x + item_area.width / 2.0;
+                double item_center = item_bounds.origin.x + item_bounds.size.width / 2.0;
                 double distance = Math.fabs (center - item_center);
                 double normalized = 1.0;
 
