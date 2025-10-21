@@ -683,6 +683,10 @@ public class He.Scheme {
                                  /* name= */ "primary",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.MONOCHROME) {
+                return s.is_dark ? 100.0 : 0.0;
+            }
+
             if (s.variant == SchemeVariant.MUTED) {
                 if (s.platform == SchemePlatform.DESKTOP) {
                     return s.is_dark ? 80.0 : 40.0;
@@ -816,7 +820,13 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_primary",
                                  /* palette= */ (s) => s.primary,
-                                 /* tone= */ null,
+                                 /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.MONOCHROME) {
+                return s.is_dark ? 10.0 : 90.0;
+            }
+
+            return s.is_dark ? 10.0 : 100.0;
+        },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => s.platform == SchemePlatform.DESKTOP ? primary () : primary_dim (),
@@ -832,6 +842,14 @@ public class He.Scheme {
                                  /* name= */ "primary_container",
                                  /* palette= */ (s) => s.primary,
                                  /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.CONTENT) {
+                return s.hct.t;
+            }
+
+            if (s.variant == SchemeVariant.MONOCHROME) {
+                return s.is_dark ? 85.0 : 25.0;
+            }
+
             if (s.variant == SchemeVariant.MUTED) {
                 return s.is_dark ? 30.0 : 90.0;
             }
@@ -866,7 +884,12 @@ public class He.Scheme {
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ null,
                                  /* toneDeltaPair= */ null,
-                                 /* contrastCurveFunc= */ (s) => (s.platform == SchemePlatform.DESKTOP && s.contrast_level > 0.0) ? get_curve (1.5) : null,
+                                 /* contrastCurveFunc= */ (s) => {
+            if (s.variant == SchemeVariant.CONTENT) {
+                return get_curve (1.0);
+            }
+            return (s.platform == SchemePlatform.DESKTOP && s.contrast_level > 0.0) ? get_curve (1.5) : null;
+        },
                                  /* chromaMultiplierFunc= */ (s) => 1.0
         ).build ();
     }
@@ -875,7 +898,17 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_primary_container",
                                  /* palette= */ (s) => s.primary,
-                                 /* tone= */ null,
+                                 /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.CONTENT) {
+                return primary_container ().foreground_tone (primary_container ().get_tone_from_scheme (s), 4.5);
+            }
+
+            if (s.variant == SchemeVariant.MONOCHROME) {
+                return s.is_dark ? 0.0 : 100.0;
+            }
+
+            return s.is_dark ? 90.0 : 30.0;
+        },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => primary_container (),
@@ -891,6 +924,10 @@ public class He.Scheme {
                                  /* name= */ "secondary",
                                  /* palette= */ (s) => s.secondary,
                                  /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.MONOCHROME) {
+                return s.is_dark ? 80.0 : 40.0;
+            }
+
             if (s.variant == SchemeVariant.DEFAULT) {
                 // DEFAULT uses bounded dynamic selection
                 return s.is_dark
@@ -921,7 +958,13 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_secondary",
                                  /* palette= */ (s) => s.secondary,
-                                 /* tone= */ null,
+                                 /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.MONOCHROME) {
+                return s.is_dark ? 10.0 : 100.0;
+            }
+
+            return s.is_dark ? 10.0 : 100.0;
+        },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => secondary (),
@@ -1009,6 +1052,16 @@ public class He.Scheme {
                                  /* name= */ "secondary_container",
                                  /* palette= */ (s) => s.secondary,
                                  /* tone= */ (s) => {
+            double initial_tone = s.is_dark ? 30.0 : 90.0;
+
+            if (s.variant == SchemeVariant.MONOCHROME) {
+                return s.is_dark ? 30.0 : 85.0;
+            }
+
+            if (s.variant == SchemeVariant.CONTENT) {
+                return find_best_tone_for_chroma (s.secondary.hue, s.secondary.chroma, initial_tone, !s.is_dark);
+            }
+
             if (s.variant == SchemeVariant.DEFAULT) {
                 return s.is_dark ? 25.0 : 90.0;
             } else if (s.variant == SchemeVariant.MUTED) {
@@ -1033,7 +1086,12 @@ public class He.Scheme {
                                  /* secondBackground= */ null,
                                  /* contrastCurve= */ null,
                                  /* toneDeltaPair= */ null,
-                                 /* contrastCurveFunc= */ (s) => s.contrast_level > 0 ? get_curve (1.5) : null,
+                                 /* contrastCurveFunc= */ (s) => {
+            if (s.variant == SchemeVariant.CONTENT) {
+                return get_curve (1.0);
+            }
+            return s.contrast_level > 0 ? get_curve (1.5) : null;
+        },
                                  /* chromaMultiplierFunc= */ (s) => { return 1.0; }).build ();
     }
 
@@ -1041,7 +1099,17 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_secondary_container",
                                  /* palette= */ (s) => s.secondary,
-                                 /* tone= */ null,
+                                 /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.MONOCHROME) {
+                return s.is_dark ? 90.0 : 10.0;
+            }
+
+            if (s.variant == SchemeVariant.CONTENT) {
+                return secondary_container ().foreground_tone (secondary_container ().get_tone_from_scheme (s), 4.5);
+            }
+
+            return s.is_dark ? 90.0 : 30.0;
+        },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => secondary_container (),
@@ -1056,6 +1124,14 @@ public class He.Scheme {
                                  /* name= */ "tertiary",
                                  /* palette= */ (s) => s.tertiary,
                                  /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.MONOCHROME) {
+                return s.is_dark ? 90.0 : 25.0;
+            }
+
+            if (s.variant == SchemeVariant.CONTENT) {
+                return s.is_dark ? 80.0 : 40.0;
+            }
+
             if (s.variant == SchemeVariant.DEFAULT) {
                 // DEFAULT uses bounded dynamic selection
                 return s.is_dark ? t_max_c (s.tertiary, 0, 98) : t_max_c (s.tertiary);
@@ -1158,7 +1234,13 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_tertiary",
                                  /* palette= */ (s) => s.tertiary,
-                                 /* tone= */ null,
+                                 /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.MONOCHROME) {
+                return s.is_dark ? 10.0 : 90.0;
+            }
+
+            return s.is_dark ? 20.0 : 100.0;
+        },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => tertiary (),
@@ -1173,24 +1255,41 @@ public class He.Scheme {
                                  /* name= */ "tertiary_container",
                                  /* palette= */ (s) => s.tertiary,
                                  /* tone= */ (s) => {
-            if (s.variant == SchemeVariant.DEFAULT) {
-                return t_max_c (s.tertiary, 0, s.is_dark ? 93 : 100);;
-            } else if (s.variant == SchemeVariant.MUTED) {
-                return s.is_dark
-                                             ? t_max_c (s.tertiary, 0, 93)
-                                             : t_max_c (s.tertiary, 0, 96);
-            } else if (s.variant == SchemeVariant.SALAD) {
-                return t_max_c (
-                                s.tertiary,
-                                /* lowerBound= */ 75,
-                                /* upperBound= */ HCTColor.hue_is_cyan (s.tertiary.hue)
-                                                             ? 88
-                                                             : (s.is_dark ? 93 : 100));
-            } else { // VIBRANT and other variants
-                return s.is_dark
-                                             ? t_max_c (s.tertiary, 0, 93)
-                                             : t_max_c (s.tertiary, 72, 100);
+            if (s.variant == SchemeVariant.MONOCHROME) {
+                return s.is_dark ? 60.0 : 49.0;
             }
+
+            if (s.variant != SchemeVariant.CONTENT) {
+                if (s.variant == SchemeVariant.DEFAULT) {
+                    return t_max_c (s.tertiary, 0, s.is_dark ? 93 : 100);
+                } else if (s.variant == SchemeVariant.MUTED) {
+                    return s.is_dark
+                                                 ? t_max_c (s.tertiary, 0, 93)
+                                                 : t_max_c (s.tertiary, 0, 96);
+                } else if (s.variant == SchemeVariant.SALAD) {
+                    return t_max_c (
+                                    s.tertiary,
+                                    /* lowerBound= */ 75,
+                                    /* upperBound= */ HCTColor.hue_is_cyan (s.tertiary.hue)
+                                                                 ? 88
+                                                                 : (s.is_dark ? 93 : 100));
+                } else { // VIBRANT and other variants
+                    return s.is_dark
+                                                 ? t_max_c (s.tertiary, 0, 93)
+                                                 : t_max_c (s.tertiary, 72, 100);
+                }
+            }
+
+            // CONTENT variant logic
+            HCTColor proposed_hct = s.tertiary.get_hct (s.hct.t);
+            HCTColor fixed_hct = fix_disliked (proposed_hct);
+            // Ensure we don't return 0 tone (black) - use source tone or fixed tone, whichever is valid
+            double result_tone = fixed_hct.t;
+            if (result_tone < 1.0) {
+                // If we got an invalid tone, use the default dark/light tones
+                result_tone = s.is_dark ? 30.0 : 90.0;
+            }
+            return result_tone;
         },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ true,
@@ -1199,6 +1298,9 @@ public class He.Scheme {
                                  /* contrastCurve= */ null,
                                  /* toneDeltaPair= */ null,
                                  /* contrastCurveFunc= */ (s) => {
+            if (s.variant == SchemeVariant.CONTENT) {
+                return get_curve (1.0);
+            }
             return s.contrast_level > 0 ? get_curve (1.5) : null;
         },
                                  /* chromaMultiplierFunc= */ (s) => {
@@ -1210,7 +1312,17 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_tertiary_container",
                                  /* palette= */ (s) => s.tertiary,
-                                 /* tone= */ null,
+                                 /* tone= */ (s) => {
+            if (s.variant == SchemeVariant.MONOCHROME) {
+                return s.is_dark ? 0.0 : 100.0;
+            }
+
+            if (s.variant == SchemeVariant.CONTENT) {
+                return tertiary_container ().foreground_tone (tertiary_container ().get_tone_from_scheme (s), 4.5);
+            }
+
+            return s.is_dark ? 90.0 : 30.0;
+        },
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => tertiary_container (),
@@ -1280,7 +1392,7 @@ public class He.Scheme {
         return new DynamicColor (
                                  /* name= */ "on_error",
                                  /* palette= */ (s) => s.error,
-                                 /* tone= */ null,
+                                 /* tone= */ (s) => s.is_dark ? 10.0 : 100.0,
                                  /* chroma_multiplier */ 1.0,
                                  /* isBackground= */ false,
                                  /* background= */ (s) => error (),
