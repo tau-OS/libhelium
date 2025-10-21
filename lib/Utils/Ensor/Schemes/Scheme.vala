@@ -852,7 +852,7 @@ public class He.Scheme {
 
             if (s.variant == SchemeVariant.DEFAULT) {
                 if (s.is_dark) {
-                    return 85.0;
+                    return 25.0;
                 } else {
                     return t_max_c (s.primary);
                 }
