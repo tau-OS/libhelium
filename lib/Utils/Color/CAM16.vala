@@ -16,7 +16,7 @@ namespace He {
     };
 
     public CAM16Color xyz_to_cam16 (XYZColor color) {
-        ViewingConditions vc = ViewingConditions.with_lstar (64.0);
+        ViewingConditions vc = ViewingConditions.with_lstar (50.0);
 
         double[,] matrix = XYZ_TO_CAM16RGB;
         double r_t = (color.x * matrix[0, 0]) + (color.y * matrix[0, 1]) + (color.z * matrix[0, 2]);
@@ -91,23 +91,7 @@ namespace He {
     }
 
     public CAM16Color cam16_from_int (int argb) {
-        // Transform ARGB int to XYZ
-        int red = (argb & 0x00ff0000) >> 16;
-        int green = (argb & 0x0000ff00) >> 8;
-        int blue = (argb & 0x000000ff);
-        double red_l = MathUtils.linearized (red);
-        double green_l = MathUtils.linearized (green);
-        double blue_l = MathUtils.linearized (blue);
-        double x = 0.41233895 * red_l + 0.35762064 * green_l + 0.18051042 * blue_l;
-        double y = 0.2126 * red_l + 0.7152 * green_l + 0.0722 * blue_l;
-        double z = 0.01932141 * red_l + 0.11916382 * green_l + 0.95034478 * blue_l;
-
-        XYZColor result = {
-            x,
-            y,
-            z
-        };
-
-        return xyz_to_cam16 (result);
+        // Transform ARGB int to XYZ via shared conversion
+        return xyz_to_cam16 (argb_to_xyz (argb));
     }
 }

@@ -696,11 +696,7 @@ public class He.Scheme {
             }
 
             if (s.variant == SchemeVariant.DEFAULT) {
-                if (s.platform == SchemePlatform.DESKTOP) {
-                    return s.is_dark ? 80.0 : t_max_c (s.primary);
-                }
-
-                return t_max_c (s.primary, 0, 90);
+                return s.is_dark ? 80.0 : 40.0;
             }
 
             if (s.variant == SchemeVariant.SALAD) {
@@ -856,7 +852,7 @@ public class He.Scheme {
 
             if (s.variant == SchemeVariant.DEFAULT) {
                 if (s.is_dark) {
-                    return 80.0;
+                    return 85.0;
                 } else {
                     return t_max_c (s.primary);
                 }
@@ -1261,7 +1257,7 @@ public class He.Scheme {
 
             if (s.variant != SchemeVariant.CONTENT) {
                 if (s.variant == SchemeVariant.DEFAULT) {
-                    return t_max_c (s.tertiary, 0, s.is_dark ? 93 : 100);
+                    return s.is_dark ? 25.0 : 81.0;
                 } else if (s.variant == SchemeVariant.MUTED) {
                     return s.is_dark
                                                  ? t_max_c (s.tertiary, 0, 93)

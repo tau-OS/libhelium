@@ -7,7 +7,7 @@ public class He.ViewingConditions : Object {
     public static ViewingConditions default_conditions {
         get {
             if (default_conditions_instance == null) {
-                default_conditions_instance = ViewingConditions.with_lstar (64.0);
+                default_conditions_instance = ViewingConditions.with_lstar (50.0);
             }
 
             return default_conditions_instance;
@@ -73,15 +73,15 @@ public class He.ViewingConditions : Object {
         return (1.0 - amount) * start + amount * stop;
     }
 
-    public static ViewingConditions make (double[] white_point = { 9504700 / 1000, 100, 1088830 / 1000 },
-                                          double adapting_luminance = 31831 / 100,
-                                          double bg_lstar = 64.0,
-                                          double surround = 1.0,
+    public static ViewingConditions make (double[] white_point = { 95.047, 100.0, 108.883 },
+                                          double adapting_luminance = (200.0 / Math.PI * MathUtils.y_from_lstar (50.0) / 100.0),
+                                          double bg_lstar = 50.0,
+                                          double surround = 2.0,
                                           bool discount_illuminant = false) {
         // Validate white_point array
         double[] validated_white_point = white_point;
         if (validated_white_point.length < 3) {
-            validated_white_point = { 95.047, 100, 108.883 };
+            validated_white_point = { 95.047, 100.0, 108.883 };
         }
 
         // Ensure Y component is not zero to avoid division by zero
@@ -158,10 +158,10 @@ public class He.ViewingConditions : Object {
 
     public static ViewingConditions with_lstar (double lstar) {
         return ViewingConditions.make (
-                                       { 9504700 / 1000, 100, 1088830 / 1000 },
-                                       31831 / 100,
-                                       64.0,
-                                       1.0,
+                                       { 95.047, 100.0, 108.883 },
+                                       (200.0 / Math.PI * MathUtils.y_from_lstar (50.0) / 100.0),
+                                       lstar,
+                                       2.0,
                                        false
         );
     }

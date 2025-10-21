@@ -35,7 +35,7 @@ namespace He {
     // Initial estimate of j.
     y = Math.fmax (0.0, y);
     double j = Math.sqrt (y) * 11.0;
-    ViewingConditions vc = ViewingConditions.with_lstar (lab_to_xyz ({ 50.0, 0.0, 0.0 }).y* 100.0);
+    ViewingConditions vc = ViewingConditions.with_lstar (50.0);
 
     // Protect against negative base in power operation
     double base_tr = Math.fmax (0.0, 1.64 - Math.pow (0.29, vc.n));

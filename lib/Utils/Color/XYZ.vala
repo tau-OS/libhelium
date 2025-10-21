@@ -11,10 +11,11 @@ namespace He {
         { -0.01584150, -0.03412294, 1.0499644 }
     };
 
+    // RGB to XYZ matrix: input is 0-1 (standard linearized), output is 0-100 (XYZ D65)
     private const double[,] RGB_TO_XYZ = {
-        { 0.4124564, 0.3575761, 0.1804375 },
-        { 0.2126729, 0.7151522, 0.0721750 },
-        { 0.0193339, 0.1191920, 0.9503041 }
+        { 41.24564, 35.75761, 18.04375 },
+        { 21.26729, 71.51522, 7.21750 },
+        { 1.93339, 11.91920, 95.03041 }
     };
 
     public XYZColor argb_to_xyz (int argb) {
@@ -48,7 +49,7 @@ namespace He {
     }
 
     public XYZColor cam16_to_xyz (CAM16Color color) {
-        ViewingConditions vc = ViewingConditions.with_lstar (64.0);
+        ViewingConditions vc = ViewingConditions.with_lstar (50.0);
         double j_safe = Math.fmax (0.0, color.j);
         double alpha = (color.c == 0.0 || color.j == 0.0) ? 0.0 : color.c / Math.sqrt (j_safe / 100.0);
 

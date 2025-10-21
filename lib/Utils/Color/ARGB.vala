@@ -1,8 +1,9 @@
 namespace He {
+    // SRGB to XYZ matrix: input is 0-100 (linearized), output is 0-100 (XYZ D65)
     private const double[,] SRGB_TO_XYZ = {
-        { 0.41233895, 0.35762064, 0.18051042 },
-        { 0.2126, 0.7152, 0.0722 },
-        { 0.01932141, 0.11916382, 0.95034478 }
+        { 0.4124564, 0.3575761, 0.1804375 },
+        { 0.2126729, 0.7151522, 0.0721750 },
+        { 0.0193339, 0.1191920, 0.9503041 }
     };
 
     public int rgb_to_argb_int (RGBColor color) {

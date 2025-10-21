@@ -22,10 +22,10 @@ public class He.DefaultScheme : Object {
      */
     public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
         double primary_hue = hct.h;
-        double secondary_hue = MathUtils.sanitize_degrees (primary_hue);
+        double secondary_hue = MathUtils.sanitize_degrees (primary_hue - 14.0);
 
         double[] TERTIARY_HUES = { 0.0, 20.0, 71.0, 161.0, 333.0, 360.0 };
-        double[] TERTIARY_ROTATIONS = { -40.0, 48.0, -32.0, 40.0, -32.0 };
+        double[] TERTIARY_ROTATIONS = { -40.0, 48.0, -32.0, 29.5, -32.0 };
         double tertiary_hue = MathUtils.sanitize_degrees (get_rotated_hue (hct, TERTIARY_HUES, TERTIARY_ROTATIONS));
 
         var scheme = new DynamicScheme (
@@ -33,7 +33,7 @@ public class He.DefaultScheme : Object {
                                         SchemeVariant.DEFAULT,
                                         is_dark,
                                         contrast,
-                                        TonalPalette.from_hue_and_chroma (primary_hue, is_dark ? 26.0 : 32.0),
+                                        TonalPalette.from_hue_and_chroma (primary_hue, is_dark ? 26.0 : 40.0),
                                         TonalPalette.from_hue_and_chroma (secondary_hue, 16.0),
                                         null,
                                         TonalPalette.from_hue_and_chroma (primary_hue, 5.0),
@@ -41,7 +41,7 @@ public class He.DefaultScheme : Object {
                                         null
         );
 
-        double tertiary_chroma = Math.fmax (hct.c, is_dark ? 28.0 : 32.0);
+        double tertiary_chroma = is_dark ? 28.0 : 48.0;
         scheme.tertiary = TonalPalette.from_hue_and_chroma (tertiary_hue, tertiary_chroma);
 
         scheme.platform = SchemePlatform.DESKTOP;
