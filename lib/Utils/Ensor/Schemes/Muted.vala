@@ -21,6 +21,11 @@ public class He.MutedScheme : Object {
      * A theme with just a tiny amount of color
      */
     public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
+        // If source color is achromatic (gray/black/white), use monochrome scheme
+        if (hct.c <= 5.0) {
+            return new MonochromaticScheme().generate(hct, is_dark, contrast);
+        }
+        
         double[] TERTIARY_HUES = { 0, 38, 105, 161, 204, 278, 333, 360 };
         double[] TERTIARY_ROTATIONS = { -32, 26, 10, -39, 24, -15, -32 };
         return new DynamicScheme (

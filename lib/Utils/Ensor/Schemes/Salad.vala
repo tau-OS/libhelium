@@ -21,6 +21,11 @@ public class He.SaladScheme : Object {
      * A theme with a party of color
      */
     public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
+        // If source color is achromatic (gray/black/white), use monochrome scheme
+        if (hct.c <= 5.0) {
+            return new MonochromaticScheme().generate(hct, is_dark, contrast);
+        }
+
         return new DynamicScheme (
                                   hct,
                                   SchemeVariant.SALAD,

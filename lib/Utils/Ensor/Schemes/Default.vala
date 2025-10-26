@@ -21,6 +21,11 @@ public class He.DefaultScheme : Object {
      * The default theme - Ensor 2025
      */
     public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
+        // If source color is achromatic (gray/black/white), use monochrome scheme
+        if (hct.c <= 5.0) {
+            return new MonochromaticScheme().generate(hct, is_dark, contrast);
+        }
+        
         double primary_hue = hct.h;
         double secondary_hue = MathUtils.sanitize_degrees (primary_hue - 14.0);
 

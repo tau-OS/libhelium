@@ -21,7 +21,12 @@ public class He.VibrantScheme : Object {
      * A theme with ALL the color
      */
     public DynamicScheme generate (HCTColor hct, bool is_dark, double contrast) {
-        double[] SECONDARY_HUES = { 0, 105, 140, 204, 253, 278, 300, 333, 360 };
+        // If source color is achromatic (gray/black/white), use monochrome scheme
+        if (hct.c <= 5.0) {
+            return new MonochromaticScheme().generate(hct, is_dark, contrast);
+        }
+        
+        double[] SECONDARY_HUES = { 0, 21, 51, 121, 158, 191, 272, 306, 360 };
         double[] TERTIARY_HUES = { 0, 105, 140, 204, 253, 278, 300, 333, 360 };
         double[] NEUTRAL_HUES = { 0, 71, 124, 253, 278, 300, 360 };
         double[] SECONDARY_ROTATIONS = { -160, 155, -100, 96, -96, -156, -165, -160 };

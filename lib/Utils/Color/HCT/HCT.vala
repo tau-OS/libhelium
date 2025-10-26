@@ -96,10 +96,10 @@ namespace He {
         chroma = Math.fmax (0.0, chroma);
         lstar = MathUtils.clamp_double (0.0, 100.0, lstar);
 
-        // If color is mono…
-        if (chroma < 0.0001 || lstar < 0.0001 || lstar > 99.9999) {
+        // If color has no chroma, it's truly monochrome (gray/black/white)
+        if (chroma < 0.0001) {
             return MathUtils.argb_from_lstar (lstar);
-            // Else…
+            // Else it has chroma, so respect the hue even at extreme tones
         } else {
             double hues = MathUtils.sanitize_degrees (hue);
             double hr = hues / 180 * Math.PI;
