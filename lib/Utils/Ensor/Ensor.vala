@@ -48,6 +48,34 @@ namespace He.Ensor {
             uint8 green = pixels[offset + 1];
             uint8 blue = pixels[offset + 2];
 
+            // Filter out pixels that are too dark, too bright, or monochrome grays
+            // Keep pure black (0,0,0) and pure white (255,255,255)
+            bool is_pure_black = (red == 0 && green == 0 && blue == 0);
+            bool is_pure_white = (red == 255 && green == 255 && blue == 255);
+            bool is_too_dark = (red < 20 && green < 20 && blue < 20);
+            bool is_too_bright = (red > 235 && green > 235 && blue > 235);
+            
+            // Check if pixel is monochrome gray (R≈G≈B within threshold)
+            int max_channel = (int)Math.fmax(red, Math.fmax(green, blue));
+            int min_channel = (int)Math.fmin(red, Math.fmin(green, blue));
+            bool is_gray = (max_channel - min_channel) < 15;
+            
+            // Filter out scientifically disgusting hues (yellow-green, muddy browns)
+            bool is_disgusting_hue = false;
+            if (!is_gray && (max_channel - min_channel) > 20) {
+                int argb = argb_from_rgb_int(red, green, blue);
+                HCTColor hct = hct_from_int(argb);
+                bool hue_passes = MathUtils.round_double(hct.h) >= 90.0 && MathUtils.round_double(hct.h) <= 111.0;
+                bool chroma_passes = MathUtils.round_double(hct.c) > 16.0;
+                bool tone_passes = MathUtils.round_double(hct.t) < 65.0;
+                is_disgusting_hue = hue_passes && chroma_passes && tone_passes;
+            }
+
+            if ((is_too_dark && !is_pure_black) || (is_too_bright && !is_pure_white) || (is_gray && !is_pure_black && !is_pure_white) || is_disgusting_hue) {
+                i += 10;
+                continue;
+            }
+
             int rgb = argb_from_rgb_int (red, green, blue);
             list += (rgb);
 

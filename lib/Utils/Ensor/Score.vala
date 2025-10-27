@@ -21,7 +21,7 @@ namespace He {
 
 
       public static CompareFunc<weak AnnotatedColor> cmp = (a, b) => {
-        return (int) (b.score < a.score) - (int) (b.score > a.score);
+        return (int) (a.score < b.score) - (int) (a.score > b.score);
       };
     }
 
