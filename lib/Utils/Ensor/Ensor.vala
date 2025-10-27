@@ -35,9 +35,12 @@ namespace He.Ensor {
             return list;
         }
 
+        int total_pixels = (int) pixels.length / factor;
+        // Sample approximately 128 pixels evenly distributed across the image
+        int skip = (int)Math.fmax(1.0, total_pixels / 128.0);
+        
         int i = 0;
-        int max_i = (int) pixels.length / factor;
-        while (i < max_i) {
+        while (i < total_pixels && list.length < 128) {
             int offset = i * factor;
             // Bounds check before accessing
             if (offset + factor > pixels.length) {
@@ -72,14 +75,14 @@ namespace He.Ensor {
             }
 
             if ((is_too_dark && !is_pure_black) || (is_too_bright && !is_pure_white) || (is_gray && !is_pure_black && !is_pure_white) || is_disgusting_hue) {
-                i += 10;
+                i += skip;
                 continue;
             }
 
             int rgb = argb_from_rgb_int (red, green, blue);
             list += (rgb);
 
-            i += 10;
+            i += skip;
         }
         return list;
     }
