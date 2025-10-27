@@ -12,10 +12,10 @@ namespace He {
   }
 
   public int from_solved (double h, double c, double lstar) {
-    // If color is mono…
-    if (c < 0.0001 || lstar < 0.0001 || lstar > 99.9999) {
+    // If color has no chroma, it's truly monochrome (gray/black/white)
+    if (c < 0.0001) {
       return MathUtils.argb_from_lstar (lstar);
-      // Else…
+      // Else it has chroma, so respect the hue even at extreme tones
     } else {
       h = MathUtils.sanitize_degrees (h);
       double hr = h * Math.PI / 180.0;
@@ -79,6 +79,8 @@ namespace He {
         return 0;
       }
 
+      // Convergence check: fnj and y are both in 0-100 scale (from y_from_lstar).
+      // Threshold of 0.002 provides high precision for the Newton iteration.
       if (round == 4 || Math.fabs (fnj - y) < 0.002) {
         if (linrgb[0] > 100.01 || linrgb[1] > 100.01 || linrgb[2] > 100.01) {
           return 0;

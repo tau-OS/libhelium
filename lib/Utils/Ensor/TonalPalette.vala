@@ -41,19 +41,22 @@ public class He.TonalPalette : GLib.Object {
     }
 
     private int average_argb(int argb1, int argb2) {
+        int a1 = (argb1 >> 24) & 0xFF;
         int r1 = (argb1 >> 16) & 0xFF;
         int g1 = (argb1 >> 8) & 0xFF;
         int b1 = argb1 & 0xFF;
 
+        int a2 = (argb2 >> 24) & 0xFF;
         int r2 = (argb2 >> 16) & 0xFF;
         int g2 = (argb2 >> 8) & 0xFF;
         int b2 = argb2 & 0xFF;
 
+        int a = MathUtils.round((a1 + a2) / 2.0);
         int r = MathUtils.round((r1 + r2) / 2.0);
         int g = MathUtils.round((g1 + g2) / 2.0);
         int b = MathUtils.round((b1 + b2) / 2.0);
 
-        return (255 << 24 | (r & 255) << 16 | (g & 255) << 8 | b & 255);
+        return ((a & 255) << 24 | (r & 255) << 16 | (g & 255) << 8 | b & 255);
     }
 
     public HCTColor get_hct(double tone) {

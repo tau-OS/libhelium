@@ -119,8 +119,8 @@ namespace He {
 
         private double calculate_temp(HCTColor hct) {
             LABColor lab = lab_from_argb(hct.a);
-            double hue = Math.atan2(lab.a, lab.l) * 180.0 / Math.PI;
-            double chroma = Math.sqrt((lab.l * lab.l) + (lab.a * lab.a));
+            double hue = Math.atan2(lab.b, lab.a) * 180.0 / Math.PI;
+            double chroma = Math.sqrt((lab.a * lab.a) + (lab.b * lab.b));
             // Ensure non-negative value for power operation
             chroma = Math.fmax(0.0, chroma);
             return -0.5 + 0.02 * Math.pow(chroma, 1.07) * Math.cos((hue - 50.0) * Math.PI / 180.0);

@@ -40,7 +40,7 @@ namespace He.Ensor {
         while (i < max_i) {
             int offset = i * factor;
             // Bounds check before accessing
-            if (offset + 2 >= pixels.length) {
+            if (offset + factor > pixels.length) {
                 break;
             }
 

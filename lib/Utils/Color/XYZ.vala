@@ -97,16 +97,18 @@ namespace He {
 
     // Adapted from https://cs.github.com/Ogeon/palette/blob/d4cae1e2510205f7626e880389e5e18b45913bd4/palette/src/xyz.rs#L259
     public XYZColor lab_to_xyz (LABColor color) {
-        // Recip call shows performance benefits in benchmarks for this function
-        var y = (color.l + 16.0) * (1.0 / 116.0);
-        var x = y + (color.a * 1.0 / 500.0);
-        var z = y - (color.b * 1.0 / 200.0);
+        // Convert LAB to XYZ using the inverse transformation.
+        // LAB uses f(t) where t = X/Xn, Y/Yn, Z/Zn (normalized by white point).
+        // To recover XYZ, we apply f^-1 and multiply by the white point.
+        var fy = (color.l + 16.0) / 116.0;
+        var fx = fy + (color.a / 500.0);
+        var fz = fy - (color.b / 200.0);
 
-        // D65 white point
+        // D65 white point in 0-100 scale (matching the rest of the codebase)
         XYZColor result = {
-            MathUtils.convert (x) * 0.95047,
-            MathUtils.convert (y) * 1.00000,
-            MathUtils.convert (z) * 1.08883
+            MathUtils.convert (fx) * 95.047,
+            MathUtils.convert (fy) * 100.000,
+            MathUtils.convert (fz) * 108.883
         };
 
         return result;

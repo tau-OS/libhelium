@@ -16,9 +16,6 @@ public class He.KeyColor : GLib.Object {
         int tone_step_size = 1;
         double epsilon = 0.01;
 
-        int lower_tone = 0;
-        int upper_tone = 100;
-
         // First, find the best achievable chroma across all tones
         double best_chroma = 0.0;
         int best_tone = pivot_tone;
@@ -37,41 +34,23 @@ public class He.KeyColor : GLib.Object {
             return from_params(this.hue, best_chroma, best_tone);
         }
 
-        // Binary search for the tone closest to pivot that can achieve requested chroma
-        int max_iterations = 100;
-        int iteration = 0;
-        while (lower_tone < upper_tone && iteration < max_iterations) {
-            iteration++;
-            int mid_tone = (lower_tone + upper_tone) / 2;
-            double mid_chroma = this.max_chroma(mid_tone);
-
-            if (mid_chroma >= this.requested_chroma - epsilon) {
-                // This tone can achieve the requested chroma
-                // Check if we should prefer this tone or keep searching
-                if (Math.fabs(mid_tone - pivot_tone) <= Math.fabs(upper_tone - pivot_tone)) {
-                    upper_tone = mid_tone;
-                } else {
-                    if (lower_tone == mid_tone) {
-                        break;
-                    }
-                    lower_tone = mid_tone;
-                }
-            } else {
-                // This tone cannot achieve the requested chroma
-                // Determine search direction based on chroma gradient
-                bool is_ascending = mid_tone < 100 &&
-                    this.max_chroma(mid_tone) < this.max_chroma(mid_tone + tone_step_size);
-
-                if (is_ascending) {
-                    lower_tone = mid_tone + tone_step_size;
-                } else {
-                    upper_tone = mid_tone;
+        // Find all tones that can achieve the requested chroma, pick closest to pivot (50)
+        int closest_tone = pivot_tone;
+        int closest_distance = 100;
+        
+        for (int tone = 0; tone <= 100; tone += tone_step_size) {
+            double chroma_at_tone = this.max_chroma(tone);
+            if (chroma_at_tone >= this.requested_chroma - epsilon) {
+                int distance = (int)Math.fabs(tone - pivot_tone);
+                if (distance < closest_distance) {
+                    closest_distance = distance;
+                    closest_tone = tone;
                 }
             }
         }
 
         // Final validation and selection
-        int final_tone = MathUtils.clamp_int(0, 100, lower_tone);
+        int final_tone = closest_tone;
         double final_chroma = this.max_chroma(final_tone);
 
         // If we can't achieve the requested chroma, clamp it to what's achievable

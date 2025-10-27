@@ -293,7 +293,9 @@ namespace He.MathUtils {
     }
 
     public double convert (double value) {
-        var epsilon = 6.0 / 29.0;
+        // This is the inverse of the LAB fovea function (f^-1).
+        // The threshold should be δ³ = (6/29)³ = 216/24389 ≈ 0.008856
+        var epsilon = 216.0 / 24389.0;
         var kappa = 108.0 / 841.0;
         var delta = 4.0 / 29.0;
         value = Math.fmax (0.0, value);

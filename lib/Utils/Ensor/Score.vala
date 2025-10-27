@@ -21,7 +21,7 @@ namespace He {
 
 
       public static CompareFunc<weak AnnotatedColor> cmp = (a, b) => {
-        return (int) (a.score < b.score) - (int) (a.score > b.score);
+        return (int) (b.score < a.score) - (int) (b.score > a.score);
       };
     }
 
@@ -98,11 +98,9 @@ namespace He {
 
         bool is_duplicate_color = false;
         for (int j = 0; j < selected_colors.length; j++) {
-          for (int diff = 90; diff >= 15; diff--) {
-            if (colors_are_too_close (selected_colors.get (j), colors.get (i), diff)) {
-              is_duplicate_color = true;
-              break;
-            }
+          if (colors_are_too_close (selected_colors.get (j), colors.get (i), 15)) {
+            is_duplicate_color = true;
+            break;
           }
         }
 
@@ -110,11 +108,11 @@ namespace He {
           continue;
         }
 
-        if (selected_colors.length > 4) {
+        selected_colors.add (colors.get (i));
+
+        if (selected_colors.length >= desired) {
           break;
         }
-
-        selected_colors.add (colors.get (i));
       }
 
       if (selected_colors.length == 0) {

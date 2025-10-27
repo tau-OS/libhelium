@@ -60,11 +60,12 @@ namespace He {
     }
 
     public RGBColor from_argb_int (int argb) {
-        double r = MathUtils.linearized (red_from_rgba_int (argb));
-        double g = MathUtils.linearized (green_from_rgba_int (argb));
-        double b = MathUtils.linearized (blue_from_rgba_int (argb));
-        var d = MathUtils.elem_mul (new double[] { r, g, b }, SRGB_TO_XYZ);
+        RGBColor result = {
+            red_from_rgba_int (argb),
+            green_from_rgba_int (argb),
+            blue_from_rgba_int (argb)
+        };
 
-        return xyz_to_rgb ({ d[0], d[1], d[2] });
+        return result;
     }
 }

@@ -4,10 +4,10 @@ namespace He {
      */
     // Corresponds roughly to RGB brighter/darker
     private const double KN = 16.0;
-    // D65 standard referent
-    private const double XN = 0.95047;
-    private const double YN = 1.00000;
-    private const double ZN = 1.08883;
+    // D65 standard referent (scaled to the 0-100 XYZ range)
+    private const double XN = 95.047;
+    private const double YN = 100.000;
+    private const double ZN = 108.883;
     private const double T0 = 0.137931034; // 4 / 29
     private const double T1 = 0.206896552; // 6 / 29
     private const double T2 = 0.128418549; // 3  * t1 * t1
@@ -27,20 +27,35 @@ namespace He {
     }
 
     public double xyz_value_to_lab (double v) {
-        v = Math.fmax (0.0, v);
-        if (v > T3)return Math.pow (v, 1d / 3d);
-        return v / T2 + T0;
+        // Delegate to the canonical lab fovea implementation to keep
+        // behavior consistent across the codebase. `MathUtils.lab_fovea`
+        // expects a normalized value (X/Xn), so callers should pass the
+        // normalized value. This function preserves the previous name but
+        // forwards to the shared implementation.
+        return MathUtils.lab_fovea (v);
     }
 
     public LABColor xyz_to_lab (XYZColor color) {
-        var l = xyz_value_to_lab (color.x);
-        var a = xyz_value_to_lab (color.y);
-        var b = xyz_value_to_lab (color.z);
+        // Normalize XYZ by the D65 white point (XN, YN, ZN) before applying
+        // the f(t) (lab fovea) curve. The XYZ values used across the codebase
+        // are in the 0-100 range, while XN/YN/ZN here are the normalized D65
+        // values (0.95047, 1.0, 1.08883). Divide accordingly.
+        double xn = color.x / XN;
+        double yn = color.y / YN;
+        double zn = color.z / ZN;
+
+        double fx = xyz_value_to_lab (xn);
+        double fy = xyz_value_to_lab (yn);
+        double fz = xyz_value_to_lab (zn);
+
+        double L = 116.0 * fy - 16.0;
+        double A = 500.0 * (fx - fy);
+        double B = 200.0 * (fy - fz);
 
         LABColor result = {
-            l,
-            a,
-            b
+            L < 0 ? 0 : L,
+            A,
+            B
         };
 
         return result;
@@ -58,16 +73,9 @@ namespace He {
     }
 
     public LABColor rgb_to_lab (RGBColor color) {
+        // Convert RGB -> XYZ (XYZ returned in 0-100 range), then XYZ -> Lab
         var xyz_color = rgb_to_xyz (color);
-        var l = 116d * xyz_color.y - 16d;
-
-        LABColor result = {
-            l < 0 ? 0 : l,
-            500d * (xyz_color.x - xyz_color.y),
-            200d * (xyz_color.y - xyz_color.z)
-        };
-
-        return result;
+        return xyz_to_lab (xyz_color);
     }
 
     public LABColor lab_from_argb (int argb) {

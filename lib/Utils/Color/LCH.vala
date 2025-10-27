@@ -23,12 +23,9 @@ namespace He {
     }
 
     public LCHColor hct_to_lch (HCTColor color) {
-        LCHColor lch_color_derived = {
-            color.t,
-            color.c,
-            color.h
-        };
-
-        return lch_color_derived;
+        // HCT and LCH are different color spaces - must convert via ARGB and LAB
+        int argb = hct_to_argb (color.h, color.c, color.t);
+        LABColor lab = lab_from_argb (argb);
+        return lab_to_lch (lab);
     }
 }

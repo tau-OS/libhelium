@@ -55,19 +55,19 @@ namespace He {
         public DynamicColor.from_palette (string name,
                                           PaletteFunc palette,
                                           ToneFunc ? tone) {
-            new DynamicColor (
-                              name,
-                              palette,
-                              tone,
-                              1.0,
-                              false,
-                              null,
-                              null,
-                              null,
-                              null,
-                              null,
-                              null,
-                              null
+            this (
+                 name,
+                 palette,
+                 tone,
+                 1.0,
+                 false,
+                 null,
+                 null,
+                 null,
+                 null,
+                 null,
+                 null,
+                 null
             );
         }
 
