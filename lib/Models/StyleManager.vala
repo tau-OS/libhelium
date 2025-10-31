@@ -625,6 +625,10 @@ public class He.StyleManager : Object {
     uint card_content_height;
     uint check_radio_size;
     uint textfield_height;
+    uint content_block_padding;
+    uint navigation_row_height;
+    uint navigation_section_button_height;
+    uint navigation_row_mini_content_height;
 
     switch (density) {
     case 0:
@@ -638,6 +642,10 @@ public class He.StyleManager : Object {
       card_content_height = 80;
       check_radio_size = 15;
       textfield_height = 44;
+      content_block_padding = 18;
+      navigation_row_height = 56;
+      navigation_section_button_height = 46;
+      navigation_row_mini_content_height = 56;
       break;
     case 1:
       button_height = 56;
@@ -650,6 +658,10 @@ public class He.StyleManager : Object {
       card_content_height = 100;
       check_radio_size = 18;
       textfield_height = 56;
+      content_block_padding = 24;
+      navigation_row_height = 72;
+      navigation_section_button_height = 62;
+      navigation_row_mini_content_height = 72;
       break;
     case 2:
       button_height = 64;
@@ -662,6 +674,10 @@ public class He.StyleManager : Object {
       card_content_height = 200;
       check_radio_size = 24;
       textfield_height = 68;
+      content_block_padding = 32;
+      navigation_row_height = 88;
+      navigation_section_button_height = 74;
+      navigation_row_mini_content_height = 88;
       break;
     default:
       button_height = 40;
@@ -674,6 +690,10 @@ public class He.StyleManager : Object {
       card_content_height = 80;
       check_radio_size = 15;
       textfield_height = 44;
+      content_block_padding = 18;
+      navigation_row_height = 56;
+      navigation_section_button_height = 46;
+      navigation_row_mini_content_height = 56;
       break;
     }
 
@@ -687,6 +707,10 @@ public class He.StyleManager : Object {
     var card_content_height_px = card_content_height.to_string () + "px";
     var check_radio_size_px = check_radio_size.to_string () + "px";
     var textfield_height_px = textfield_height.to_string () + "px";
+    var content_block_padding_px = content_block_padding.to_string () + "px";
+    var navigation_row_height_px = navigation_row_height.to_string () + "px";
+    var navigation_section_button_height_px = navigation_section_button_height.to_string () + "px";
+    var navigation_row_mini_content_height_px = navigation_row_mini_content_height.to_string () + "px";
 
     string css = "";
     css += @"
@@ -758,6 +782,19 @@ public class He.StyleManager : Object {
     }
     .text-field {
       min-height: $textfield_height_px;
+    }
+    .content-block,
+    .mini-content-block {
+      padding: $content_block_padding_px;
+    }
+    .navigation-section-list row {
+      min-height: $navigation_row_height_px;
+    }
+    .navigation-section-list row .mini-content-block {
+      min-height: $navigation_row_mini_content_height_px;
+    }
+    .navigation-section-button {
+      min-height: $navigation_section_button_height_px;
     }
     ";
 
