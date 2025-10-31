@@ -91,6 +91,32 @@ public class He.Application : Gtk.Application {
     }
 
     /**
+     * Whether to override the user's density choice.
+     */
+    private bool _override_density = false;
+    public bool override_density {
+        get { return _override_density; }
+        set { _override_density = value; update_style_manager (); }
+    }
+    /**
+     * The chosen density mode for the app. Useful if the app requires a different density than the user choice.
+     * Values are: 0 = Normal, 1 = Softened, 2 = Cozy.
+     * Only works if override_density is TRUE.
+     */
+    private uint _default_density = 0;
+    public uint default_density {
+        get { return _default_density; }
+        set {
+            if (value > 2) {
+                _default_density = 0;
+            } else {
+                _default_density = value;
+            }
+            update_style_manager ();
+        }
+    }
+
+    /**
      * Sets the scheme variant to use for the application as Content.
      * This is especially useful for applications with their own color needs, such as media apps.
      */
@@ -204,9 +230,14 @@ public class He.Application : Gtk.Application {
             style_manager.contrast = rounded_contrast;
         }
 
+        if (override_density) {
+            style_manager.density = default_density;
+        } else {
+            style_manager.density = desktop.density;
+        }
+
         style_manager.font_weight = desktop.font_weight;
         style_manager.roundness = desktop.roundness;
-        style_manager.density = desktop.density;
         style_manager.update ();
     }
 

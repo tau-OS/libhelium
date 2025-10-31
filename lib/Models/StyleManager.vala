@@ -616,6 +616,11 @@ public class He.StyleManager : Object {
 
   private string density_refresh (uint density) {
     uint button_height;
+    uint button_xsmall_height;
+    uint button_small_height;
+    uint button_medium_height;
+    uint button_large_height;
+    uint button_xlarge_height;
     uint card_mini_height;
     uint card_content_height;
     uint check_radio_size;
@@ -624,6 +629,11 @@ public class He.StyleManager : Object {
     switch (density) {
     case 0:
       button_height = 40;
+      button_xsmall_height = 32;
+      button_small_height = 40;
+      button_medium_height = 56;
+      button_large_height = 96;
+      button_xlarge_height = 136;
       card_mini_height = 40;
       card_content_height = 80;
       check_radio_size = 15;
@@ -631,6 +641,11 @@ public class He.StyleManager : Object {
       break;
     case 1:
       button_height = 56;
+      button_xsmall_height = 44;
+      button_small_height = 56;
+      button_medium_height = 72;
+      button_large_height = 112;
+      button_xlarge_height = 152;
       card_mini_height = 80;
       card_content_height = 100;
       check_radio_size = 18;
@@ -638,6 +653,11 @@ public class He.StyleManager : Object {
       break;
     case 2:
       button_height = 64;
+      button_xsmall_height = 52;
+      button_small_height = 64;
+      button_medium_height = 80;
+      button_large_height = 120;
+      button_xlarge_height = 160;
       card_mini_height = 132;
       card_content_height = 200;
       check_radio_size = 24;
@@ -645,6 +665,11 @@ public class He.StyleManager : Object {
       break;
     default:
       button_height = 40;
+      button_xsmall_height = 32;
+      button_small_height = 40;
+      button_medium_height = 56;
+      button_large_height = 96;
+      button_xlarge_height = 136;
       card_mini_height = 40;
       card_content_height = 80;
       check_radio_size = 15;
@@ -652,27 +677,87 @@ public class He.StyleManager : Object {
       break;
     }
 
+    var button_height_px = button_height.to_string () + "px";
+    var button_xsmall_height_px = button_xsmall_height.to_string () + "px";
+    var button_small_height_px = button_small_height.to_string () + "px";
+    var button_medium_height_px = button_medium_height.to_string () + "px";
+    var button_large_height_px = button_large_height.to_string () + "px";
+    var button_xlarge_height_px = button_xlarge_height.to_string () + "px";
+    var card_mini_height_px = card_mini_height.to_string () + "px";
+    var card_content_height_px = card_content_height.to_string () + "px";
+    var check_radio_size_px = check_radio_size.to_string () + "px";
+    var textfield_height_px = textfield_height.to_string () + "px";
+
     string css = "";
     css += @"
-    button,
-    .segmented-button > button,
-    .chip {
-      min-height: ${button_height}px;
+    .fill-button:not(.xsmall):not(.small):not(.medium):not(.large):not(.xlarge),
+    .outline-button:not(.xsmall):not(.small):not(.medium):not(.large):not(.xlarge),
+    .textual-button:not(.xsmall):not(.small):not(.medium):not(.large):not(.xlarge),
+    .tint-button:not(.xsmall):not(.small):not(.medium):not(.large):not(.xlarge),
+    .pill-button:not(.xsmall):not(.small):not(.medium):not(.large):not(.xlarge),
+    .segmented-button > button:not(.xsmall):not(.small):not(.medium):not(.large):not(.xlarge),
+    .chip:not(.xsmall):not(.small):not(.medium):not(.large):not(.xlarge) {
+      min-height: $button_height_px;
+    }
+    .fill-button.xsmall,
+    .outline-button.xsmall,
+    .textual-button.xsmall,
+    .tint-button.xsmall,
+    .pill-button.xsmall,
+    .segmented-button > button.xsmall,
+    .chip.xsmall {
+      min-height: $button_xsmall_height_px;
+    }
+    .fill-button.small,
+    .outline-button.small,
+    .textual-button.small,
+    .tint-button.small,
+    .pill-button.small,
+    .segmented-button > button.small,
+    .chip.small {
+      min-height: $button_small_height_px;
+    }
+    .fill-button.medium,
+    .outline-button.medium,
+    .textual-button.medium,
+    .tint-button.medium,
+    .pill-button.medium,
+    .segmented-button > button.medium,
+    .chip.medium {
+      min-height: $button_medium_height_px;
+    }
+    .fill-button.large,
+    .outline-button.large,
+    .textual-button.large,
+    .tint-button.large,
+    .pill-button.large,
+    .segmented-button > button.large,
+    .chip.large {
+      min-height: $button_large_height_px;
+    }
+    .fill-button.xlarge,
+    .outline-button.xlarge,
+    .textual-button.xlarge,
+    .tint-button.xlarge,
+    .pill-button.xlarge,
+    .segmented-button > button.xlarge,
+    .chip.xlarge {
+      min-height: $button_xlarge_height_px;
     }
     .mini-content-block,
     .content-block.mini-content-block {
-      min-height: ${card_mini_height}px;
+      min-height: $card_mini_height_px;
     }
     .content-block {
-      min-height: ${card_content_height}px;
+      min-height: $card_content_height_px;
     }
     check,
     radio {
-      min-width: ${check_radio_size}px;
-      min-height: ${check_radio_size}px;
+      min-width: $check_radio_size_px;
+      min-height: $check_radio_size_px;
     }
     .text-field {
-      min-height: ${textfield_height}px;
+      min-height: $textfield_height_px;
     }
     ";
 
