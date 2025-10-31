@@ -43,5 +43,13 @@
         The preferred contrast for the user interface. Makes user interface low, default, medium, or high contrast to the user's choice.
       </description>
     </key>
+    <key name="density" type="u">
+      <default>0</default>
+      <range min="0" max="2"/>
+      <summary>UI Density</summary>
+      <description>
+        The preferred UI density for the user interface. Controls the height and size of various UI elements.
+      </description>
+    </key>
   </schema>
 </schemalist>

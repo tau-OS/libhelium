@@ -206,6 +206,7 @@ public class He.Application : Gtk.Application {
 
         style_manager.font_weight = desktop.font_weight;
         style_manager.roundness = desktop.roundness;
+        style_manager.density = desktop.density;
         style_manager.update ();
     }
 
@@ -237,6 +238,7 @@ public class He.Application : Gtk.Application {
         desktop.notify["prefers-color-scheme"].connect (update_style_manager);
         desktop.notify["contrast"].connect (update_style_manager);
         desktop.notify["roundness"].connect (update_style_manager);
+        desktop.notify["density"].connect (update_style_manager);
 
         style_manager.register ();
         base.startup ();

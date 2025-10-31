@@ -285,6 +285,45 @@ public class He.Desktop : Object {
         contrast = 0.0;
     }
 
+    /**
+     * The UI density preference.
+     * 0 = compact, 1 = normal, 2 = comfortable
+     */
+    private uint _density = 0;
+    public uint density {
+        get {
+            return _density;
+        }
+        set {
+            if (value > 2) {
+                _density = 0;
+            } else {
+                _density = value;
+            }
+        }
+    }
+
+    private void setup_density () {
+        try {
+            var density_val = portal.read (
+                                           "org.freedesktop.appearance",
+                                           "density"
+            ).get_variant ().get_uint32 ();
+
+            if (density_val <= 2) {
+                density = density_val;
+            } else {
+                density = 0;
+            }
+
+            return;
+        } catch (Error e) {
+            debug ("%s", e.message);
+        }
+
+        density = 0;
+    }
+
     private void init_handle_settings_change () {
         portal.setting_changed.connect ((scheme, key, val) => {
             if (scheme == "org.freedesktop.appearance" && key == "accent-color") {
@@ -317,6 +356,15 @@ public class He.Desktop : Object {
             if (scheme == "org.freedesktop.appearance" && key == "color-scheme") {
                 prefers_color_scheme = (ColorScheme) val.get_uint32 ();
             }
+
+            if (scheme == "org.freedesktop.appearance" && key == "density") {
+                var density_val = val.get_uint32 ();
+                if (density_val <= 2) {
+                    density = density_val;
+                } else {
+                    density = 0;
+                }
+            }
         });
     }
 
@@ -329,6 +377,7 @@ public class He.Desktop : Object {
             setup_accent_color ();
             setup_ensor_scheme ();
             setup_font_weight ();
+            setup_density ();
             init_handle_settings_change ();
         } catch (Error e) {
             debug ("%s", e.message);

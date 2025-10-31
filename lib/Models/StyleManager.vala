@@ -68,6 +68,24 @@ public class He.StyleManager : Object {
    */
   public bool is_registered { get; private set; default = false; }
 
+  /**
+   * The UI density preference.
+   * 0 = compact, 1 = normal, 2 = comfortable
+   */
+  private uint _density = 0;
+  public uint density {
+    get {
+      return _density;
+    }
+    set {
+      if (value > 2) {
+        _density = 0;
+      } else {
+        _density = value;
+      }
+    }
+  }
+
   private const int STYLE_PROVIDER_PRIORITY_PLATFORM = Gtk.STYLE_PROVIDER_PRIORITY_THEME;
   private const int STYLE_PROVIDER_PRIORITY_ACCENT = Gtk.STYLE_PROVIDER_PRIORITY_SETTINGS;
   private const int STYLE_PROVIDER_PRIORITY_USER_BASE = Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION;
@@ -196,6 +214,7 @@ public class He.StyleManager : Object {
 
     css += weight_refresh (font_weight);
     css += roundness_refresh (roundness);
+    css += density_refresh (density);
 
     Misc.init_css_provider_from_string (accent, css);
     Misc.toggle_style_provider (light, !is_dark, STYLE_PROVIDER_PRIORITY_PLATFORM);
@@ -589,6 +608,71 @@ public class He.StyleManager : Object {
     }
     .grouped-button.xlarge box button.active {
         border-radius: $circle_roundness;
+    }
+    ";
+
+    return css;
+  }
+
+  private string density_refresh (uint density) {
+    uint button_height;
+    uint card_mini_height;
+    uint card_content_height;
+    uint check_radio_size;
+    uint textfield_height;
+
+    switch (density) {
+    case 0:
+      button_height = 40;
+      card_mini_height = 40;
+      card_content_height = 80;
+      check_radio_size = 15;
+      textfield_height = 44;
+      break;
+    case 1:
+      button_height = 56;
+      card_mini_height = 80;
+      card_content_height = 100;
+      check_radio_size = 18;
+      textfield_height = 56;
+      break;
+    case 2:
+      button_height = 64;
+      card_mini_height = 132;
+      card_content_height = 200;
+      check_radio_size = 24;
+      textfield_height = 68;
+      break;
+    default:
+      button_height = 40;
+      card_mini_height = 40;
+      card_content_height = 80;
+      check_radio_size = 15;
+      textfield_height = 44;
+      break;
+    }
+
+    string css = "";
+    css += @"
+    button,
+    .segmented-button > button,
+    .chip {
+      min-height: ${button_height}px;
+    }
+    .mini-content-block,
+    .content-block.mini-content-block {
+      min-height: ${card_mini_height}px;
+    }
+    .content-block {
+      min-height: ${card_content_height}px;
+    }
+    check,
+    radio {
+      min-width: ${check_radio_size}px;
+      min-height: ${check_radio_size}px;
+    }
+    .text-field {
+      min-height: ${textfield_height}px;
     }
     ";
 
