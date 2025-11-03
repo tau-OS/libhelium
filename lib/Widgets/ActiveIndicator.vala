@@ -240,12 +240,13 @@ namespace He {
         }
 
         private void set_color_preset_full(ActiveIndicatorColor value) {
-            if (_color_preset == value)return;
+            if (_color_preset == value) {
+                return;
+            }
 
             _color_preset = value;
             update_css_classes();
-            _colors_cached = false;
-            queue_draw();
+            invalidate_cached_colors();
         }
 
         private void update_widget_size() {
@@ -281,7 +282,14 @@ namespace He {
         }
 
         private void cache_colors() {
-            if (_colors_cached)return;
+            if (_colors_cached) {
+                return;
+            }
+
+            if (!get_mapped()) {
+                // Can't cache colors until widget is mapped
+                return;
+            }
 
             var scheme = build_dynamic_scheme();
             string fg_hex = resolve_foreground_hex(scheme);
@@ -421,8 +429,12 @@ namespace He {
             int width = get_width();
             int height = get_height();
 
-            if (width <= 0 || height <= 0)return;
+            if (width <= 0 || height <= 0) {
+                return;
+            }
 
+            // Always try to cache colors when drawing
+            // cache_colors() will return early if already cached or widget not mapped
             cache_colors();
 
             var bounds = Graphene.Rect();

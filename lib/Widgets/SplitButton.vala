@@ -135,7 +135,7 @@ namespace He {
          * Icon displayed on the main button
          */
         public string? icon_name {
-            get {
+            owned get {
                 if (_button_content != null) {
                     return _button_content.icon;
                 }
@@ -154,7 +154,7 @@ namespace He {
          * Label displayed on the main button (requires button_content to be set)
          */
         public string? label {
-            get {
+            owned get {
                 if (_button_content != null) {
                     return _button_content.label;
                 }

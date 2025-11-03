@@ -21,7 +21,10 @@
  * A SegmentedButton is a group of buttons that selects a setting.
  * The developer supplies the buttons as children for further coding
  * in their app.
+ *
+ * @deprecated Use He.GroupedButton with segmented = true instead
  */
+[Version (deprecated = true, deprecated_since = "1.0", replacement = "He.GroupedButton with segmented = true")]
 public class He.SegmentedButton : Gtk.Box {
     /**
      * Adds a widget to SegmentedButton, should only be used in the context of a UI or Blueprint file. There should be no need to use this method in code.
