@@ -126,6 +126,7 @@ public class He.EmptyPage : He.Bin {
         icon_image.pixel_size = 128;
 
         action_button.is_pill = true;
+        action_button.visible = false;
 
         set_layout_manager (new Gtk.BoxLayout (Gtk.Orientation.VERTICAL));
 
