@@ -70,6 +70,9 @@ namespace He {
         private GLib.SimpleActionGroup? _callback_actions;
         private uint _callback_counter = 0;
 
+        // ButtonContent for main button label support
+        private He.ButtonContent? _button_content;
+
         /**
          * The size variant of the split button
          */
@@ -107,11 +110,72 @@ namespace He {
         }
 
         /**
+         * The button content for the main button (icon + label)
+         */
+        public He.ButtonContent? button_content {
+            get { return _button_content; }
+            set {
+                if (_button_content != value) {
+                    if (_button_content != null) {
+                        _main_button.child = null;
+                    }
+                    _button_content = value;
+                    if (_button_content != null) {
+                        _main_button.child = _button_content;
+                        _main_button.icon_name = null;
+                    } else {
+                        _main_button.child = null;
+                    }
+                    notify_property("button-content");
+                }
+            }
+        }
+
+        /**
          * Icon displayed on the main button
          */
         public string? icon_name {
-            get { return _main_button.icon_name; }
-            set { _main_button.icon_name = value; }
+            get {
+                if (_button_content != null) {
+                    return _button_content.icon;
+                }
+                return _main_button.icon_name;
+            }
+            set {
+                if (_button_content != null) {
+                    _button_content.icon = value ?? "";
+                } else {
+                    _main_button.icon_name = value;
+                }
+            }
+        }
+
+        /**
+         * Label displayed on the main button (requires button_content to be set)
+         */
+        public string? label {
+            get {
+                if (_button_content != null) {
+                    return _button_content.label;
+                }
+                return null;
+            }
+            set {
+                if (value != null) {
+                    if (_button_content == null) {
+                        _button_content = new He.ButtonContent();
+                        // Preserve existing icon if any
+                        if (_main_button.icon_name != null) {
+                            _button_content.icon = _main_button.icon_name;
+                        }
+                        _main_button.child = _button_content;
+                        _main_button.icon_name = null;
+                    }
+                    _button_content.label = value;
+                } else if (_button_content != null) {
+                    _button_content.label = "";
+                }
+            }
         }
 
         /**
