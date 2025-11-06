@@ -446,6 +446,10 @@ public class He.StyleManager : Object {
     window.csd {
       border-radius: $xx_large_roundness;
     }
+    window.csd:has(.flat-appbar),
+    window.csd:has(.appbar) {
+      box-shadow: inset 0 1px 0 0 alpha(white, 0.15);
+    }
     window.csd.dialog.message,
     window.csd.dialog-content,
     .dialog-content,
