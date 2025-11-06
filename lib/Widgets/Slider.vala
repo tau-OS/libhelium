@@ -406,21 +406,8 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         }
 
         if (effective_color != null) {
-            float r, g, b;
-
-            if (is_from_application) {
-                // Application colors are in 0.0-255.0 range, convert to 0.0-1.0
-                r = (float) Math.fmax (0.0, Math.fmin (255.0, effective_color.r)) / 255.0f;
-                g = (float) Math.fmax (0.0, Math.fmin (255.0, effective_color.g)) / 255.0f;
-                b = (float) Math.fmax (0.0, Math.fmin (255.0, effective_color.b)) / 255.0f;
-            } else {
-                // Bin and Desktop colors are already in 0.0-1.0 range
-                r = (float) Math.fmax (0.0, Math.fmin (1.0, effective_color.r));
-                g = (float) Math.fmax (0.0, Math.fmin (1.0, effective_color.g));
-                b = (float) Math.fmax (0.0, Math.fmin (1.0, effective_color.b));
-            }
-
-            accent_color = { r, g, b, 1.0f };
+            // Use Ensor to get the proper color
+            accent_color = get_ensor_primary_color (effective_color, is_from_application);
         } else {
             // Fallback to a visible color if no accent color is available
             accent_color = { 0.2f, 0.6f, 1.0f, 1.0f }; // Blue fallback
@@ -431,6 +418,90 @@ public class He.Slider : He.Bin, Gtk.Buildable {
             wavy_drawing_area.queue_draw ();
         }
         queue_draw ();
+    }
+
+    private Gdk.RGBA get_ensor_primary_color (RGBColor source_color, bool is_from_application) {
+        // Normalize color to 0-255 range for Ensor
+        RGBColor normalized;
+        if (is_from_application) {
+            normalized = {
+                Math.fmax (0.0, Math.fmin (255.0, source_color.r)),
+                Math.fmax (0.0, Math.fmin (255.0, source_color.g)),
+                Math.fmax (0.0, Math.fmin (255.0, source_color.b))
+            };
+        } else {
+            normalized = {
+                Math.fmax (0.0, Math.fmin (255.0, source_color.r * 255.0)),
+                Math.fmax (0.0, Math.fmin (255.0, source_color.g * 255.0)),
+                Math.fmax (0.0, Math.fmin (255.0, source_color.b * 255.0))
+            };
+        }
+
+        // Build HCT color
+        HCTColor accent_hct = hct_from_int (rgb_to_argb_int (normalized));
+
+        // Get scheme variant from application or desktop
+        SchemeVariant variant = SchemeVariant.DEFAULT;
+        var app = get_he_application ();
+        if (app != null) {
+            if (app.is_content) {
+                variant = SchemeVariant.CONTENT;
+            } else if (app.is_mono) {
+                variant = SchemeVariant.MONOCHROME;
+            } else {
+                variant = desktop.ensor_scheme.to_variant ();
+            }
+        } else {
+            variant = desktop.ensor_scheme.to_variant ();
+        }
+
+        // Build DynamicScheme
+        DynamicScheme scheme;
+        switch (variant) {
+        case SchemeVariant.VIBRANT:
+            scheme = new VibrantScheme ().generate (accent_hct, is_dark, desktop.contrast);
+            break;
+        case SchemeVariant.MUTED:
+            scheme = new MutedScheme ().generate (accent_hct, is_dark, desktop.contrast);
+            break;
+        case SchemeVariant.MONOCHROME:
+            scheme = new MonochromaticScheme ().generate (accent_hct, is_dark, desktop.contrast);
+            break;
+        case SchemeVariant.SALAD:
+            scheme = new SaladScheme ().generate (accent_hct, is_dark, desktop.contrast);
+            break;
+        case SchemeVariant.CONTENT:
+            scheme = new ContentScheme ().generate (accent_hct, is_dark, desktop.contrast);
+            break;
+        default:
+            scheme = new DefaultScheme ().generate (accent_hct, is_dark, desktop.contrast);
+            break;
+        }
+
+        // Get primary color from scheme (returns hex string)
+        string primary_hex = scheme.get_primary ();
+
+        // Convert hex to RGBA
+        return rgba_from_hex (primary_hex, 1.0f);
+    }
+
+    private Gdk.RGBA rgba_from_hex (string hex, float alpha) {
+        string trimmed = hex;
+        if (trimmed.has_prefix ("#")) {
+            trimmed = trimmed.substring (1);
+        }
+
+        uint value = uint.parse (trimmed, 16);
+        uint red = (value >> 16) & 0xFF;
+        uint green = (value >> 8) & 0xFF;
+        uint blue = value & 0xFF;
+
+        return {
+            (float) red / 255.0f,
+            (float) green / 255.0f,
+            (float) blue / 255.0f,
+            alpha
+        };
     }
 
     /**
@@ -625,7 +696,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         // Draw filled portion (wavy) with margins, avoiding handle border area
         double filled_end = Math.fmin (slider_x, width - WAVE_MARGIN);
         if (filled_end > WAVE_MARGIN) {
-            cr.set_source_rgba (((is_dark ? 0.40f : 0.80f) * accent_color.red), ((is_dark ? 0.40f : 0.80f) * accent_color.green), ((is_dark ? 0.40f : 0.80f) * accent_color.blue), 1.0f);
+            cr.set_source_rgba (accent_color.red, accent_color.green, accent_color.blue, accent_color.alpha);
             bool path_started = false;
             for (double x = WAVE_MARGIN; x <= filled_end; x += 1.0) {
                 double y = track_y + Math.sin (x * wave_frequency + _wave_phase) * wave_amplitude;
@@ -662,7 +733,7 @@ public class He.Slider : He.Bin, Gtk.Buildable {
         double corner_radius = 2.0;
 
         // Fill handle
-        cr.set_source_rgba (((is_dark ? 0.40f : 0.80f) * accent_color.red), ((is_dark ? 0.40f : 0.80f) * accent_color.green), ((is_dark ? 0.40f : 0.80f) * accent_color.blue), 1.0f);
+        cr.set_source_rgba (accent_color.red, accent_color.green, accent_color.blue, accent_color.alpha);
         draw_rounded_rectangle (cr, handle_x, handle_y, handle_width, handle_height, corner_radius);
         cr.fill ();
     }

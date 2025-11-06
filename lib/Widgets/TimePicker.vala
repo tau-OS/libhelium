@@ -454,6 +454,9 @@ public class He.TimePicker : Gtk.Entry {
 
         private He.Desktop desktop = new He.Desktop ();
         private Gdk.RGBA _accent_color = { 1, 1, 1, 1 };
+        private Gdk.RGBA _surface_variant_color = { 0.5f, 0.5f, 0.5f, 0.08f };
+        private Gdk.RGBA _on_primary_color = { 1, 1, 1, 1 };
+        private Gdk.RGBA _on_surface_variant_color = { 0.5f, 0.5f, 0.5f, 1 };
         public Gdk.RGBA accent_color {
             get { return _accent_color; }
             set { _accent_color = value; queue_draw (); }
@@ -544,24 +547,14 @@ public class He.TimePicker : Gtk.Entry {
             }
 
             if (effective_color != null) {
-                float r, g, b;
-
-                if (is_from_application) {
-                    // Application colors are in 0.0-255.0 range, convert to 0.0-1.0
-                    r = (float) Math.fmax (0.0, Math.fmin (255.0, effective_color.r)) / 255.0f;
-                    g = (float) Math.fmax (0.0, Math.fmin (255.0, effective_color.g)) / 255.0f;
-                    b = (float) Math.fmax (0.0, Math.fmin (255.0, effective_color.b)) / 255.0f;
-                } else {
-                    // Bin and Desktop colors are already in 0.0-1.0 range
-                    r = (float) Math.fmax (0.0, Math.fmin (1.0, effective_color.r));
-                    g = (float) Math.fmax (0.0, Math.fmin (1.0, effective_color.g));
-                    b = (float) Math.fmax (0.0, Math.fmin (1.0, effective_color.b));
-                }
-
-                accent_color = { r, g, b, 1.0f };
+                // Use Ensor to get the proper Material Design 3 colors
+                update_ensor_colors (effective_color, is_from_application);
             } else {
-                // Fallback to a visible color if no accent color is available
+                // Fallback to visible colors if no accent color is available
                 accent_color = { 0.2f, 0.6f, 1.0f, 1.0f }; // Blue fallback
+                _surface_variant_color = { 0.5f, 0.5f, 0.5f, 0.08f };
+                _on_primary_color = { 1.0f, 1.0f, 1.0f, 1.0f };
+                _on_surface_variant_color = { 0.5f, 0.5f, 0.5f, 1.0f };
             }
 
             // Force redraw with new color
@@ -574,6 +567,98 @@ public class He.TimePicker : Gtk.Entry {
          */
         public void refresh_accent_color () {
             update_accent_color ();
+        }
+
+        private void update_ensor_colors (RGBColor source_color, bool is_from_application) {
+            // Normalize color to 0-255 range for Ensor
+            RGBColor normalized;
+            if (is_from_application) {
+                normalized = {
+                    Math.fmax (0.0, Math.fmin (255.0, source_color.r)),
+                    Math.fmax (0.0, Math.fmin (255.0, source_color.g)),
+                    Math.fmax (0.0, Math.fmin (255.0, source_color.b))
+                };
+            } else {
+                normalized = {
+                    Math.fmax (0.0, Math.fmin (255.0, source_color.r * 255.0)),
+                    Math.fmax (0.0, Math.fmin (255.0, source_color.g * 255.0)),
+                    Math.fmax (0.0, Math.fmin (255.0, source_color.b * 255.0))
+                };
+            }
+
+            // Build HCT color
+            HCTColor accent_hct = hct_from_int (rgb_to_argb_int (normalized));
+
+            // Get scheme variant from application or desktop
+            SchemeVariant variant = SchemeVariant.DEFAULT;
+            var app = get_he_application ();
+            if (app != null) {
+                if (app.is_content) {
+                    variant = SchemeVariant.CONTENT;
+                } else if (app.is_mono) {
+                    variant = SchemeVariant.MONOCHROME;
+                } else {
+                    variant = desktop.ensor_scheme.to_variant ();
+                }
+            } else {
+                variant = desktop.ensor_scheme.to_variant ();
+            }
+
+            // Build DynamicScheme
+            DynamicScheme scheme;
+            switch (variant) {
+            case SchemeVariant.VIBRANT:
+                scheme = new VibrantScheme ().generate (accent_hct, is_dark, desktop.contrast);
+                break;
+            case SchemeVariant.MUTED:
+                scheme = new MutedScheme ().generate (accent_hct, is_dark, desktop.contrast);
+                break;
+            case SchemeVariant.MONOCHROME:
+                scheme = new MonochromaticScheme ().generate (accent_hct, is_dark, desktop.contrast);
+                break;
+            case SchemeVariant.SALAD:
+                scheme = new SaladScheme ().generate (accent_hct, is_dark, desktop.contrast);
+                break;
+            case SchemeVariant.CONTENT:
+                scheme = new ContentScheme ().generate (accent_hct, is_dark, desktop.contrast);
+                break;
+            default:
+                scheme = new DefaultScheme ().generate (accent_hct, is_dark, desktop.contrast);
+                break;
+            }
+
+            // Get Material Design 3 colors from scheme
+            // selectorColor = primary (for the hand/selector)
+            accent_color = rgba_from_hex (scheme.get_primary (), 1.0f);
+            
+            // clockDialColor = surfaceVariant (for clock face background)
+            Gdk.RGBA surface_variant = rgba_from_hex (scheme.get_surface_variant (), 1.0f);
+            _surface_variant_color = { surface_variant.red, surface_variant.green, surface_variant.blue, 1.0f };
+            
+            // clockDialSelectedContentColor = onPrimary (for selected text)
+            _on_primary_color = rgba_from_hex (scheme.get_on_primary (), 1.0f);
+            
+            // clockDialUnselectedContentColor = onSurfaceVariant (for unselected text)
+            _on_surface_variant_color = rgba_from_hex (scheme.get_on_surface_variant (), 1.0f);
+        }
+
+        private Gdk.RGBA rgba_from_hex (string hex, float alpha) {
+            string trimmed = hex;
+            if (trimmed.has_prefix ("#")) {
+                trimmed = trimmed.substring (1);
+            }
+
+            uint value = uint.parse (trimmed, 16);
+            uint red = (value >> 16) & 0xFF;
+            uint green = (value >> 8) & 0xFF;
+            uint blue = value & 0xFF;
+
+            return {
+                (float) red / 255.0f,
+                (float) green / 255.0f,
+                (float) blue / 255.0f,
+                alpha
+            };
         }
 
         construct {
@@ -620,8 +705,8 @@ public class He.TimePicker : Gtk.Entry {
             // Font used
             cr.select_font_face (FONT_FAMILY, Cairo.FontSlant.NORMAL, Cairo.FontWeight.NORMAL);
 
-            // Draw clock face
-            cr.set_source_rgba (((is_dark ? 0.92 : 0.17) * accent_color.red), ((is_dark ? 0.92 : 0.17) * accent_color.green), ((is_dark ? 0.92 : 0.17) * accent_color.blue), 0.08);
+            // Draw clock face (surfaceVariant with reduced opacity)
+            cr.set_source_rgba (_surface_variant_color.red, _surface_variant_color.green, _surface_variant_color.blue, 0.08f);
             cr.arc (CENTER, CENTER, RADIUS, 0, 2 * Math.PI);
             cr.fill ();
 
@@ -630,15 +715,15 @@ public class He.TimePicker : Gtk.Entry {
             double hand_radius = get_hand_radius (RADIUS);
             double hand_x = CENTER + hand_radius * Math.cos (hand_angle);
             double hand_y = CENTER + hand_radius * Math.sin (hand_angle);
-            cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
+            cr.set_source_rgba (accent_color.red, accent_color.green, accent_color.blue, accent_color.alpha);
             cr.arc (CENTER, CENTER, HAND_CENTER_WIDTH, 0, 2 * Math.PI);
             cr.fill_preserve ();
-            cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
+            cr.set_source_rgba (accent_color.red, accent_color.green, accent_color.blue, accent_color.alpha);
             cr.set_line_width (HAND_LINE_WIDTH);
             cr.move_to (CENTER, CENTER);
             cr.line_to (hand_x, hand_y);
             cr.stroke ();
-            cr.set_source_rgba (((is_dark ? 0.50 : 0.60) * accent_color.red), ((is_dark ? 0.50 : 0.60) * accent_color.green), ((is_dark ? 0.50 : 0.60) * accent_color.blue), 1);
+            cr.set_source_rgba (accent_color.red, accent_color.green, accent_color.blue, accent_color.alpha);
             cr.arc (hand_x, hand_y, SELECTION_CIRCLE_RADIUS, 0, 2 * Math.PI);
             cr.fill ();
 
@@ -661,7 +746,7 @@ public class He.TimePicker : Gtk.Entry {
                     bool is_selected = Math.fabs (selection_angle - label_angle) < Math.PI / MINUTES;
 
                     if (is_selected) {
-                        cr.set_source_rgba (((is_dark ? 0.20 * accent_color.red : 1.0)), ((is_dark ? 0.20 * accent_color.green : 1.0)), ((is_dark ? 0.20 * accent_color.blue : 1.0)), 1);
+                        cr.set_source_rgba (_on_primary_color.red, _on_primary_color.green, _on_primary_color.blue, _on_primary_color.alpha);
                         cr.set_font_size (MINUTE_FONT_SIZE);
 
                         if (i >= 6) {
@@ -673,7 +758,7 @@ public class He.TimePicker : Gtk.Entry {
                         }
                         cr.show_text (i.to_string ());
                     } else {
-                        cr.set_source_rgba (((is_dark ? 0.99 : 0.10) * accent_color.red), ((is_dark ? 0.99 : 0.10) * accent_color.green), ((is_dark ? 0.99 : 0.10) * accent_color.blue), 1);
+                        cr.set_source_rgba (_on_surface_variant_color.red, _on_surface_variant_color.green, _on_surface_variant_color.blue, _on_surface_variant_color.alpha);
                         cr.set_font_size (MINUTE_FONT_SIZE);
 
                         if (i >= 6) {
@@ -710,7 +795,7 @@ public class He.TimePicker : Gtk.Entry {
                     bool is_selected = Math.fabs (selection_angle - label_angle) < Math.PI / HALF_DAY;
 
                     if (is_selected) {
-                        cr.set_source_rgba (((is_dark ? 0.20 * accent_color.red : 1.0)), ((is_dark ? 0.20 * accent_color.green : 1.0)), ((is_dark ? 0.20 * accent_color.blue : 1.0)), 1);
+                        cr.set_source_rgba (_on_primary_color.red, _on_primary_color.green, _on_primary_color.blue, _on_primary_color.alpha);
                         if (i >= 10) {
                             cr.move_to (label_x - 18 / 2.0, label_y + 16 / 2.0);
                         } else if (i == 1) {
@@ -730,7 +815,7 @@ public class He.TimePicker : Gtk.Entry {
                         // If i is 24, display 0
                         cr.show_text ((i > HALF_DAY ? (i == 24 ? 0 : i) : i).to_string ());
                     } else {
-                        cr.set_source_rgba (((is_dark ? 0.99 : 0.10) * accent_color.red), ((is_dark ? 0.99 : 0.10) * accent_color.green), ((is_dark ? 0.99 : 0.10) * accent_color.blue), 1);
+                        cr.set_source_rgba (_on_surface_variant_color.red, _on_surface_variant_color.green, _on_surface_variant_color.blue, _on_surface_variant_color.alpha);
                         if (i >= 10) {
                             cr.move_to (label_x - 18 / 2.0, label_y + 16 / 2.0);
                         } else if (i == 1) {
