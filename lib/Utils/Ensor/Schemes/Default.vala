@@ -41,8 +41,8 @@ public class He.DefaultScheme : Object {
                                         TonalPalette.from_hue_and_chroma (primary_hue, is_dark ? 26.0 : 40.0),
                                         TonalPalette.from_hue_and_chroma (secondary_hue, 16.0),
                                         null,
-                                        TonalPalette.from_hue_and_chroma (primary_hue, 5.0),
-                                        TonalPalette.from_hue_and_chroma (primary_hue, 5.0 * 1.7),
+                                        TonalPalette.from_hue_and_chroma (primary_hue, 1.0),
+                                        TonalPalette.from_hue_and_chroma (primary_hue, 1.7),
                                         null
         );
 
