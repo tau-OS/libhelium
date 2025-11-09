@@ -315,12 +315,9 @@ public class He.StyleManager : Object {
   }
 
   public string weight_refresh (double font_weight) {
-    var thin_weight = 200 * font_weight;
-    var light_weight = 300 * font_weight;
     var base_weight = 400 * font_weight;
     var medium_weight = 500 * font_weight;
     var heavy_weight = 600 * font_weight;
-    var black_weight = 700 * font_weight;
 
     string css = "";
     css += @"
@@ -336,15 +333,12 @@ public class He.StyleManager : Object {
     .calendar button label {
       font-weight: $base_weight;
     }
-    .thin-body {
-      font-weight: $thin_weight;
-    }
     .large-title,
     .display,
     .appbar .text-field text,
     .flat-appbar .text-field text,
     .view-switcher button.toggle label {
-      font-weight: $light_weight;
+      font-weight: $base_weight;
     }
     .view-title,
     .view-switcher button.toggle:checked label,
@@ -373,9 +367,6 @@ public class He.StyleManager : Object {
     .calendar button.textual-button label,
     .calendar button.day label {
       font-weight: $heavy_weight;
-    }
-    .black-text {
-      font-weight: $black_weight;
     }
     ";
 
