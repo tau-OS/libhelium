@@ -1,0 +1,120 @@
+using Gtk 4.0;
+using He 1;
+
+template $DemoBadges : He.Bin {
+    hexpand: true;
+    vexpand: true;
+    child: Gtk.Box {
+        orientation: vertical;
+        spacing: 6;
+        hexpand: true;
+
+        He.AppBar {
+            show-left-title-buttons: false;
+            show-right-title-buttons: true;
+            show-back: false;
+
+            viewtitle-widget: He.ViewTitle {
+                label: "Badges";
+            };
+        }
+
+        Gtk.ScrolledWindow {
+            hscrollbar-policy: never;
+            vexpand: true;
+            child: Gtk.Box {
+                margin-start: 18;
+                margin-end: 18;
+                margin-bottom: 18;
+                orientation: vertical;
+                spacing: 18;
+
+                Gtk.Label {
+                    ellipsize: end;
+                    wrap: true;
+                    lines: 5;
+                    xalign: 0;
+                    label: "Badges display notification counts or status indicators. Modifier Badges are colored labels that indicate state changes or categories.";
+                }
+
+                Gtk.Box {
+                    orientation: vertical;
+                    spacing: 12;
+
+                    Gtk.Label {
+                        label: "Notification Badges";
+                        xalign: 0;
+                        styles ["heading"]
+                    }
+
+                    Gtk.Box badge_box {
+                        orientation: horizontal;
+                        spacing: 24;
+                        halign: center;
+                        margin-top: 12;
+                        margin-bottom: 12;
+                    }
+                }
+
+                Gtk.Box {
+                    orientation: vertical;
+                    spacing: 12;
+
+                    Gtk.Label {
+                        label: "Modifier Badges";
+                        xalign: 0;
+                        styles ["heading"]
+                    }
+
+                    Gtk.FlowBox modifier_badge_box {
+                        selection-mode: none;
+                        homogeneous: false;
+                        min-children-per-line: 3;
+                        max-children-per-line: 6;
+                        row-spacing: 8;
+                        column-spacing: 8;
+                        halign: center;
+                        margin-top: 12;
+                        margin-bottom: 12;
+                    }
+                }
+
+                He.ViewSwitcher {
+                    stack: code_stack;
+                    styles ["mini"]
+                }
+
+                Gtk.Stack code_stack {
+                    vexpand: true;
+
+                    Gtk.StackPage {
+                        name: "vala";
+                        title: "Vala";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "// Badge with count\nvar badge = new He.Badge ();\nbadge.label = \"5\";\nbadge.child = new Gtk.Image.from_icon_name (\"mail-symbolic\");\n\n// Modifier Badge\nvar modifier = new He.ModifierBadge (\"New\");\nmodifier.color = He.Colors.GREEN;\nmodifier.tinted = true;";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                    Gtk.StackPage {
+                        name: "blueprint";
+                        title: "Blueprint";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "He.Badge my_badge {\n  label: \"3\";\n  child: Gtk.Image {\n    icon-name: \"bell-symbolic\";\n  };\n}\n\nHe.ModifierBadge my_modifier {\n  label: \"Status\";\n  color: green;\n  tinted: true;\n}";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                }
+            };
+        }
+    };
+}

@@ -1,0 +1,107 @@
+using Gtk 4.0;
+using He 1;
+
+template $DemoTimePicker : He.Bin {
+    hexpand: true;
+    vexpand: true;
+    child: Gtk.Box {
+        orientation: vertical;
+        spacing: 6;
+        hexpand: true;
+
+        He.AppBar {
+            show-left-title-buttons: false;
+            show-right-title-buttons: true;
+            show-back: false;
+
+            viewtitle-widget: He.ViewTitle {
+                label: "Time Picker";
+            };
+        }
+
+        Gtk.ScrolledWindow {
+            hscrollbar-policy: never;
+            vexpand: true;
+            child: Gtk.Box {
+                margin-start: 18;
+                margin-end: 18;
+                margin-bottom: 18;
+                orientation: vertical;
+                spacing: 18;
+
+                Gtk.Label {
+                    ellipsize: end;
+                    wrap: true;
+                    lines: 5;
+                    xalign: 0;
+                    label: "Time Picker provides an intuitive way to select times. It supports both 12-hour and 24-hour formats with AM/PM toggle.";
+                }
+
+                Gtk.Box {
+                    orientation: vertical;
+                    spacing: 12;
+
+                    Gtk.Box {
+                        orientation: horizontal;
+                        spacing: 12;
+
+                        Gtk.Label {
+                            label: "Select a Time";
+                            xalign: 0;
+                            hexpand: true;
+                            styles ["heading"]
+                        }
+
+                        Gtk.Label selected_label {
+                            xalign: 1;
+                            styles ["caption", "dim-label"]
+                        }
+                    }
+
+                    Gtk.Box picker_box {
+                        orientation: vertical;
+                        spacing: 12;
+                        margin-top: 12;
+                        margin-bottom: 12;
+                    }
+                }
+
+                He.ViewSwitcher {
+                    stack: code_stack;
+                    styles ["mini"]
+                }
+
+                Gtk.Stack code_stack {
+                    vexpand: true;
+
+                    Gtk.StackPage {
+                        name: "vala";
+                        title: "Vala";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "// Default time picker\nvar time_picker = new He.TimePicker ();\n\n// With custom formats (12h, 24h)\nvar picker = new He.TimePicker.with_format (\n    \"%-I:%M %p\",  // 12h format\n    \"%H:%M\"       // 24h format\n);\n\n// Listen for time changes\ntime_picker.time_changed.connect (() => {\n    var time = time_picker.time;\n    print (time.format (\"%I:%M %p\"));\n});";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                    Gtk.StackPage {
+                        name: "blueprint";
+                        title: "Blueprint";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "He.TimePicker my_picker {\n  // Time is accessed via .time property\n}";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                }
+            };
+        }
+    };
+}

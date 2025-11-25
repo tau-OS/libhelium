@@ -1,0 +1,107 @@
+using Gtk 4.0;
+using He 1;
+
+template $DemoDatePicker : He.Bin {
+    hexpand: true;
+    vexpand: true;
+    child: Gtk.Box {
+        orientation: vertical;
+        spacing: 6;
+        hexpand: true;
+
+        He.AppBar {
+            show-left-title-buttons: false;
+            show-right-title-buttons: true;
+            show-back: false;
+
+            viewtitle-widget: He.ViewTitle {
+                label: "Date Picker";
+            };
+        }
+
+        Gtk.ScrolledWindow {
+            hscrollbar-policy: never;
+            vexpand: true;
+            child: Gtk.Box {
+                margin-start: 18;
+                margin-end: 18;
+                margin-bottom: 18;
+                orientation: vertical;
+                spacing: 18;
+
+                Gtk.Label {
+                    ellipsize: end;
+                    wrap: true;
+                    lines: 5;
+                    xalign: 0;
+                    label: "Date Picker provides an intuitive way to select dates using a calendar popup. It supports custom date formats.";
+                }
+
+                Gtk.Box {
+                    orientation: vertical;
+                    spacing: 12;
+
+                    Gtk.Box {
+                        orientation: horizontal;
+                        spacing: 12;
+
+                        Gtk.Label {
+                            label: "Select a Date";
+                            xalign: 0;
+                            hexpand: true;
+                            styles ["heading"]
+                        }
+
+                        Gtk.Label selected_label {
+                            xalign: 1;
+                            styles ["caption", "dim-label"]
+                        }
+                    }
+
+                    Gtk.Box picker_box {
+                        orientation: vertical;
+                        spacing: 12;
+                        margin-top: 12;
+                        margin-bottom: 12;
+                    }
+                }
+
+                He.ViewSwitcher {
+                    stack: code_stack;
+                    styles ["mini"]
+                }
+
+                Gtk.Stack code_stack {
+                    vexpand: true;
+
+                    Gtk.StackPage {
+                        name: "vala";
+                        title: "Vala";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "// Default date picker\nvar date_picker = new He.DatePicker ();\n\n// With custom format\nvar picker = new He.DatePicker.with_format (\"%Y-%m-%d\");\n\n// Listen for date changes\ndate_picker.notify[\"date\"].connect (() => {\n    var date = date_picker.date;\n    print (date.format (\"%B %d, %Y\"));\n});";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                    Gtk.StackPage {
+                        name: "blueprint";
+                        title: "Blueprint";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "He.DatePicker my_picker {\n  // Date is accessed via .date property\n}";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                }
+            };
+        }
+    };
+}

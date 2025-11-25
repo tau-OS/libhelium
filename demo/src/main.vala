@@ -44,14 +44,26 @@ public class Demo.Application : He.Application {
         Bis.init ();
 
         typeof (Demo.Avatar).ensure ();
+        typeof (Demo.Badges).ensure ();
+        typeof (Demo.Banner).ensure ();
         typeof (Demo.BottomSheet).ensure ();
         typeof (Demo.Buttons).ensure ();
         typeof (Demo.Chips).ensure ();
+        typeof (Demo.ColorPicker).ensure ();
         typeof (Demo.ContentAwareBin).ensure ();
+        typeof (Demo.DatePicker).ensure ();
+        typeof (Demo.EmptyPage).ensure ();
         typeof (Demo.Feedback).ensure ();
+        typeof (Demo.GroupedButton).ensure ();
         typeof (Demo.MenuButton).ensure ();
         typeof (Demo.OverlayButton).ensure ();
+        typeof (Demo.ProgressBar).ensure ();
+        typeof (Demo.Slider).ensure ();
+        typeof (Demo.SplitButton).ensure ();
+        typeof (Demo.Switch).ensure ();
         typeof (Demo.TextFields).ensure ();
+        typeof (Demo.TimePicker).ensure ();
+        typeof (Demo.TipView).ensure ();
         typeof (Demo.Welcome).ensure ();
 
         add_action_entries (APP_ENTRIES, this);

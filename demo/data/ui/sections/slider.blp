@@ -1,0 +1,108 @@
+using Gtk 4.0;
+using He 1;
+
+template $DemoSlider : He.Bin {
+    hexpand: true;
+    vexpand: true;
+    child: Gtk.Box {
+        orientation: vertical;
+        spacing: 6;
+        hexpand: true;
+
+        He.AppBar {
+            show-left-title-buttons: false;
+            show-right-title-buttons: true;
+            show-back: false;
+
+            viewtitle-widget: He.ViewTitle {
+                label: "Slider";
+            };
+        }
+
+        Gtk.ScrolledWindow {
+            hscrollbar-policy: never;
+            vexpand: true;
+            child: Gtk.Box {
+                margin-start: 18;
+                margin-end: 18;
+                margin-bottom: 18;
+                orientation: vertical;
+                spacing: 18;
+
+                Gtk.Label {
+                    ellipsize: end;
+                    wrap: true;
+                    lines: 5;
+                    xalign: 0;
+                    label: "Sliders allow selecting a value from a range. They support wavy animations, stop indicators, and custom icons.";
+                }
+
+                Gtk.Box {
+                    orientation: vertical;
+                    spacing: 12;
+
+                    Gtk.Box {
+                        orientation: horizontal;
+                        spacing: 12;
+
+                        Gtk.Label {
+                            label: "Slider Variants";
+                            xalign: 0;
+                            hexpand: true;
+                            styles ["heading"]
+                        }
+
+                        Gtk.Label slider_value_label {
+                            label: "Value: 50";
+                            xalign: 1;
+                            styles ["caption", "dim-label"]
+                        }
+                    }
+
+                    Gtk.Box slider_box {
+                        orientation: vertical;
+                        spacing: 18;
+                        margin-top: 12;
+                        margin-bottom: 12;
+                    }
+                }
+
+                He.ViewSwitcher {
+                    stack: code_stack;
+                    styles ["mini"]
+                }
+
+                Gtk.Stack code_stack {
+                    vexpand: true;
+
+                    Gtk.StackPage {
+                        name: "vala";
+                        title: "Vala";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "var slider = new He.Slider ();\nslider.set_range (0, 100);\nslider.value = 50;\nslider.left_icon = \"audio-volume-low-symbolic\";\nslider.right_icon = \"audio-volume-high-symbolic\";\n\n// Wavy animation\nslider.is_wavy = true;\nslider.animate = true;\n\n// Stop indicators\nslider.stop_indicator_visibility = true;\nslider.add_mark (25, null);\nslider.add_mark (50, null);\nslider.add_mark (75, null);\n\nslider.value_changed.connect (() => {\n    print (\"Value: %.0f\", slider.value);\n});";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                    Gtk.StackPage {
+                        name: "blueprint";
+                        title: "Blueprint";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "He.Slider my_slider {\n  // Configure in code:\n  // slider.set_range (0, 100);\n  // slider.value = 50;\n  // slider.is_wavy = true;\n}";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                }
+            };
+        }
+    };
+}

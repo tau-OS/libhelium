@@ -1,0 +1,122 @@
+using Gtk 4.0;
+using He 1;
+
+template $DemoProgressBar : He.Bin {
+    hexpand: true;
+    vexpand: true;
+    child: Gtk.Box {
+        orientation: vertical;
+        spacing: 6;
+        hexpand: true;
+
+        He.AppBar {
+            show-left-title-buttons: false;
+            show-right-title-buttons: true;
+            show-back: false;
+
+            viewtitle-widget: He.ViewTitle {
+                label: "Progress Bar";
+            };
+        }
+
+        Gtk.ScrolledWindow {
+            hscrollbar-policy: never;
+            vexpand: true;
+            child: Gtk.Box {
+                margin-start: 18;
+                margin-end: 18;
+                margin-bottom: 18;
+                orientation: vertical;
+                spacing: 18;
+
+                Gtk.Label {
+                    ellipsize: end;
+                    wrap: true;
+                    lines: 5;
+                    xalign: 0;
+                    label: "Progress Bars indicate the completion status of a task. They support standard, wavy animated, and OSD (on-screen display) styles.";
+                }
+
+                Gtk.Box {
+                    orientation: vertical;
+                    spacing: 12;
+
+                    Gtk.Box {
+                        orientation: horizontal;
+                        spacing: 12;
+
+                        Gtk.Label {
+                            label: "Progress Bars";
+                            xalign: 0;
+                            hexpand: true;
+                            styles ["heading"]
+                        }
+
+                        Gtk.Label progress_label {
+                            label: "Progress: 50%";
+                            xalign: 1;
+                            styles ["caption", "dim-label"]
+                        }
+                    }
+
+                    Gtk.Box progressbar_box {
+                        orientation: vertical;
+                        spacing: 18;
+                        margin-top: 12;
+                        margin-bottom: 12;
+                    }
+                }
+
+                Gtk.Box {
+                    orientation: vertical;
+                    spacing: 12;
+
+                    Gtk.Label {
+                        label: "Adjust Progress";
+                        xalign: 0;
+                        styles ["heading"]
+                    }
+
+                    He.Slider progress_slider {
+                    }
+                }
+
+                He.ViewSwitcher {
+                    stack: code_stack;
+                    styles ["mini"]
+                }
+
+                Gtk.Stack code_stack {
+                    vexpand: true;
+
+                    Gtk.StackPage {
+                        name: "vala";
+                        title: "Vala";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "// Standard ProgressBar\nvar progress = new He.ProgressBar ();\nprogress.progress = 0.5;\n\n// Wavy animated ProgressBar\nvar wavy = new He.ProgressBar ();\nwavy.is_wavy = true;\nwavy.animate = true;\nwavy.progress = 0.3;\n\n// OSD style ProgressBar\nvar osd = new He.ProgressBar ();\nosd.is_osd = true;\nosd.progress = 0.7;";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                    Gtk.StackPage {
+                        name: "blueprint";
+                        title: "Blueprint";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "He.ProgressBar my_progress {\n  progress: 0.5;\n  is-wavy: true;\n  animate: true;\n}";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                }
+            };
+        }
+    };
+}

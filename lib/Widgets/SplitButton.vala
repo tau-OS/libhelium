@@ -264,9 +264,9 @@ namespace He {
 
             _menu_button = new Gtk.MenuButton() {
                 icon_name = "pan-down-symbolic",
-                direction = Gtk.ArrowType.DOWN,
                 has_frame = false
             };
+            _menu_button.get_popover().has_arrow = false;
 
             append(_main_button);
             append(_menu_button);
