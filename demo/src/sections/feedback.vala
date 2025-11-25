@@ -53,8 +53,8 @@ public class Demo.Feedback : He.Bin {
         // Dialog
         dialog_btn.clicked.connect (() => {
             var window = (Gtk.Window) this.get_root ();
-            var primary = new He.Button (null, "Confirm");
-            var secondary = new He.Button (null, "Learn More");
+            var primary = new He.Button ("", "Confirm");
+            var secondary = new He.Button ("", "Learn More");
 
             var dialog = new He.Dialog (
                 window,

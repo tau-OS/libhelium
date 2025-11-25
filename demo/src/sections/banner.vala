@@ -26,7 +26,7 @@ public class Demo.Banner : He.Bin {
         // Info Banner
         var info_banner = new He.Banner ("Update Available", "A new version of the app is ready to install.");
         info_banner.style = He.Banner.Style.INFO;
-        var info_action = new He.Button (null, "Update");
+        var info_action = new He.Button ("", "Update");
         info_action.is_tint = true;
         info_banner.add_action_button (info_action);
         banners_box.append (info_banner);
@@ -34,7 +34,7 @@ public class Demo.Banner : He.Bin {
         // Warning Banner
         var warning_banner = new He.Banner ("Low Storage", "Your device is running low on storage space.");
         warning_banner.style = He.Banner.Style.WARNING;
-        var warning_action = new He.Button (null, "Manage");
+        var warning_action = new He.Button ("", "Manage");
         warning_action.is_tint = true;
         warning_banner.add_action_button (warning_action);
         banners_box.append (warning_banner);
@@ -42,7 +42,7 @@ public class Demo.Banner : He.Bin {
         // Error Banner
         var error_banner = new He.Banner ("Connection Lost", "Unable to connect to the server. Please check your network.");
         error_banner.style = He.Banner.Style.ERROR;
-        var error_action = new He.Button (null, "Retry");
+        var error_action = new He.Button ("", "Retry");
         error_action.is_tint = true;
         error_banner.add_action_button (error_action);
         banners_box.append (error_banner);

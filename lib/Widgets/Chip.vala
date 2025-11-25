@@ -66,12 +66,14 @@ public class He.Chip : Gtk.ToggleButton, Gtk.Actionable {
      */
     public Chip (string label) {
         _chip_label = label;
+        chip_box.label = _chip_label;
     }
 
     construct {
         this.add_css_class ("chip");
 
         chip_box = new He.ButtonContent ();
+        chip_box.hexpand = true;
         chip_box.label = _chip_label;
 
         // Create container to hold both chip content and close button
@@ -128,9 +130,13 @@ public class He.Chip : Gtk.ToggleButton, Gtk.Actionable {
             close_button.add_css_class ("chip-close");
             close_button.add_css_class ("flat");
 
-            close_button.clicked.connect (() => {
+            // Add gesture to claim click events and prevent toggling parent Chip
+            var click_gesture = new Gtk.GestureClick ();
+            click_gesture.released.connect ((n_press, x, y) => {
+                click_gesture.set_state (Gtk.EventSequenceState.CLAIMED);
                 close_clicked ();
             });
+            close_button.add_controller (click_gesture);
 
             container.append (close_button);
         }

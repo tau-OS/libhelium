@@ -56,41 +56,20 @@ template $DemoMainWindow : He.ApplicationWindow {
         orientation: vertical;
 
         Gtk.Stack stack {
+          // Introduction
           Gtk.StackPage {
             title: "Welcome";
             name: "welcome";
             icon-name: "com.fyralabs.Helium1.Demo-symbolic";
             child: $DemoWelcome {};
           }
+
+          // Basic Input Controls
           Gtk.StackPage {
             title: "Buttons";
             name: "buttons";
             icon-name: "input-mouse-symbolic";
             child: $DemoButtons {};
-          }
-          Gtk.StackPage {
-            title: "Text Fields";
-            name: "textfields";
-            icon-name: "input-keyboard-symbolic";
-            child: $DemoTextFields {};
-          }
-          Gtk.StackPage {
-            title: "Chips";
-            name: "chips";
-            icon-name: "emblem-default-symbolic";
-            child: $DemoChips {};
-          }
-          Gtk.StackPage {
-            title: "Avatar";
-            name: "avatar";
-            icon-name: "avatar-default-symbolic";
-            child: $DemoAvatar {};
-          }
-          Gtk.StackPage {
-            title: "Feedback";
-            name: "feedback";
-            icon-name: "dialog-information-symbolic";
-            child: $DemoFeedback {};
           }
           Gtk.StackPage {
             title: "Switch";
@@ -105,6 +84,20 @@ template $DemoMainWindow : He.ApplicationWindow {
             child: $DemoSlider {};
           }
           Gtk.StackPage {
+            title: "Text Fields";
+            name: "textfields";
+            icon-name: "input-keyboard-symbolic";
+            child: $DemoTextFields {};
+          }
+
+          // Selection & Pickers
+          Gtk.StackPage {
+            title: "Chips";
+            name: "chips";
+            icon-name: "emblem-default-symbolic";
+            child: $DemoChips {};
+          }
+          Gtk.StackPage {
             title: "Date Picker";
             name: "datepicker";
             icon-name: "x-office-calendar-symbolic";
@@ -117,16 +110,18 @@ template $DemoMainWindow : He.ApplicationWindow {
             child: $DemoTimePicker {};
           }
           Gtk.StackPage {
-            title: "Banner";
-            name: "banner";
-            icon-name: "emblem-important-symbolic";
-            child: $DemoBanner {};
+            title: "Color Picker";
+            name: "colorpicker";
+            icon-name: "color-select-symbolic";
+            child: $DemoColorPicker {};
           }
+
+          // Display & Indicators
           Gtk.StackPage {
-            title: "Empty Page";
-            name: "emptypage";
-            icon-name: "folder-symbolic";
-            child: $DemoEmptyPage {};
+            title: "Avatar";
+            name: "avatar";
+            icon-name: "avatar-default-symbolic";
+            child: $DemoAvatar {};
           }
           Gtk.StackPage {
             title: "Badges";
@@ -140,11 +135,39 @@ template $DemoMainWindow : He.ApplicationWindow {
             icon-name: "emblem-synchronizing-symbolic";
             child: $DemoProgressBar {};
           }
+
+          // Feedback & Status
+          Gtk.StackPage {
+            title: "Banner";
+            name: "banner";
+            icon-name: "emblem-important-symbolic";
+            child: $DemoBanner {};
+          }
+          Gtk.StackPage {
+            title: "Empty Page";
+            name: "emptypage";
+            icon-name: "folder-symbolic";
+            child: $DemoEmptyPage {};
+          }
           Gtk.StackPage {
             title: "Tip View";
             name: "tipview";
             icon-name: "help-info-symbolic";
             child: $DemoTipView {};
+          }
+          Gtk.StackPage {
+            title: "Feedback";
+            name: "feedback";
+            icon-name: "dialog-information-symbolic";
+            child: $DemoFeedback {};
+          }
+
+          // Advanced Buttons
+          Gtk.StackPage {
+            title: "Menu Button";
+            name: "menubutton";
+            icon-name: "open-menu-symbolic";
+            child: $DemoMenuButton {};
           }
           Gtk.StackPage {
             title: "Split Button";
@@ -159,34 +182,24 @@ template $DemoMainWindow : He.ApplicationWindow {
             child: $DemoGroupedButton {};
           }
           Gtk.StackPage {
-            title: "Color Picker";
-            name: "colorpicker";
-            icon-name: "color-select-symbolic";
-            child: $DemoColorPicker {};
+            title: "Overlay Button";
+            name: "overlaybutton";
+            icon-name: "overlay-button-symbolic";
+            child: $DemoOverlayButton {};
+          }
+
+          // Containers & Layout
+          Gtk.StackPage {
+            title: "Bottom Sheet";
+            name: "bottomsheet";
+            icon-name: "bottom-sheet-symbolic";
+            child: $DemoBottomSheet {};
           }
           Gtk.StackPage {
             title: "Content Colors";
             name: "contentawarebin";
             icon-name: "applications-graphics-symbolic";
             child: $DemoContentAwareBin {};
-          }
-          Gtk.StackPage {
-            title: "Overlay Button";
-            name: "overlaybutton";
-            icon-name: "overlay-button-symbolic";
-            child: $DemoOverlayButton {};
-          }
-          Gtk.StackPage {
-            title: "Menu Button";
-            name: "menubutton";
-            icon-name: "open-menu-symbolic";
-            child: $DemoMenuButton {};
-          }
-          Gtk.StackPage {
-            title: "Bottom Sheet";
-            name: "bottomsheet";
-            icon-name: "bottom-sheet-symbolic";
-            child: $DemoBottomSheet {};
           }
         }
       };

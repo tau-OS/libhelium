@@ -25,16 +25,16 @@ public class Demo.GroupedButton : He.Bin {
     construct {
         // Small grouped button - text formatting
         var grouped_small = new He.GroupedButton.with_size (He.GroupedButtonSize.SMALL);
-        var btn_bold = new He.Button ("format-text-bold-symbolic", null);
+        var btn_bold = new He.Button ("format-text-bold-symbolic", "");
         btn_bold.is_fill = true;
         btn_bold.toggle_mode = true;
-        var btn_italic = new He.Button ("format-text-italic-symbolic", null);
+        var btn_italic = new He.Button ("format-text-italic-symbolic", "");
         btn_italic.is_fill = true;
         btn_italic.toggle_mode = true;
-        var btn_underline = new He.Button ("format-text-underline-symbolic", null);
+        var btn_underline = new He.Button ("format-text-underline-symbolic", "");
         btn_underline.is_fill = true;
         btn_underline.toggle_mode = true;
-        var btn_strike = new He.Button ("format-text-strikethrough-symbolic", null);
+        var btn_strike = new He.Button ("format-text-strikethrough-symbolic", "");
         btn_strike.is_fill = true;
         btn_strike.toggle_mode = true;
         grouped_small.add_widget (btn_bold);
@@ -45,11 +45,11 @@ public class Demo.GroupedButton : He.Bin {
 
         // Medium grouped button - view mode
         var grouped_medium = new He.GroupedButton.with_size (He.GroupedButtonSize.MEDIUM);
-        var btn_grid = new He.Button ("view-grid-symbolic", null);
+        var btn_grid = new He.Button ("view-grid-symbolic", "");
         btn_grid.is_fill = true;
         btn_grid.toggle_mode = true;
         btn_grid.active = true;
-        var btn_list = new He.Button ("view-list-symbolic", null);
+        var btn_list = new He.Button ("view-list-symbolic", "");
         btn_list.is_fill = true;
         btn_list.toggle_mode = true;
         grouped_medium.add_widget (btn_grid);
@@ -58,11 +58,11 @@ public class Demo.GroupedButton : He.Bin {
 
         // Large grouped button
         var grouped_large = new He.GroupedButton.with_size (He.GroupedButtonSize.LARGE);
-        var btn_prev = new He.Button ("go-previous-symbolic", null);
+        var btn_prev = new He.Button ("go-previous-symbolic", "");
         btn_prev.is_fill = true;
-        var btn_play = new He.Button ("media-playback-start-symbolic", null);
+        var btn_play = new He.Button ("media-playback-start-symbolic", "");
         btn_play.is_fill = true;
-        var btn_next = new He.Button ("go-next-symbolic", null);
+        var btn_next = new He.Button ("go-next-symbolic", "");
         btn_next.is_fill = true;
         grouped_large.add_widget (btn_prev);
         grouped_large.add_widget (btn_play);
@@ -72,17 +72,17 @@ public class Demo.GroupedButton : He.Bin {
         // Segmented style - calendar view
         var grouped_segmented = new He.GroupedButton.with_size (He.GroupedButtonSize.MEDIUM);
         grouped_segmented.segmented = true;
-        var seg_day = new He.Button (null, "Day");
+        var seg_day = new He.Button ("", "Day");
         seg_day.is_fill = true;
         seg_day.toggle_mode = true;
         seg_day.active = true;
-        var seg_week = new He.Button (null, "Week");
+        var seg_week = new He.Button ("", "Week");
         seg_week.is_fill = true;
         seg_week.toggle_mode = true;
-        var seg_month = new He.Button (null, "Month");
+        var seg_month = new He.Button ("", "Month");
         seg_month.is_fill = true;
         seg_month.toggle_mode = true;
-        var seg_year = new He.Button (null, "Year");
+        var seg_year = new He.Button ("", "Year");
         seg_year.is_fill = true;
         seg_year.toggle_mode = true;
         grouped_segmented.add_widget (seg_day);

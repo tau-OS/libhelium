@@ -62,7 +62,7 @@ namespace He {
 
     public class SplitButton : Gtk.Box {
         private Gtk.Button _main_button;
-        private Gtk.MenuButton _menu_button;
+        private He.MenuButton _menu_button;
         private SplitButtonSize _size = SplitButtonSize.MEDIUM;
         private string _current_size_class = "";
 
@@ -97,7 +97,7 @@ namespace He {
         /**
          * Direct access to the dropdown menu button
          */
-        public Gtk.MenuButton menu_button {
+        public He.MenuButton menu_button {
             get { return _menu_button; }
         }
 
@@ -262,11 +262,8 @@ namespace He {
                 hexpand = false
             };
 
-            _menu_button = new Gtk.MenuButton() {
-                icon_name = "pan-down-symbolic",
-                has_frame = false
-            };
-            _menu_button.get_popover().has_arrow = false;
+            _menu_button = new He.MenuButton();
+            _menu_button.icon_name = "pan-down-symbolic";
 
             append(_main_button);
             append(_menu_button);
@@ -352,6 +349,9 @@ namespace He {
             }
 
             menu.append_item(menu_item);
+
+            // Trigger He.MenuButton to rebuild from the updated model
+            _menu_button.menu_model = menu;
         }
 
         private void clear_menu_callbacks() {
@@ -382,6 +382,9 @@ namespace He {
 
             var menu_item = create_menu_item_from_spec(spec);
             menu.append_item(menu_item);
+
+            // Trigger He.MenuButton to rebuild from the updated model
+            _menu_button.menu_model = menu;
         }
 
         /**
@@ -416,6 +419,9 @@ namespace He {
             }
 
             menu.append_section(null, new Menu());
+
+            // Trigger He.MenuButton to rebuild from the updated model
+            _menu_button.menu_model = menu;
         }
 
         /**

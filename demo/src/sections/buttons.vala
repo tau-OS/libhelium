@@ -62,56 +62,56 @@ public class Demo.Buttons : He.Bin {
         style_box.append (toggle_btn);
 
         // Button colors
-        var primary_btn = new He.Button (null, "Primary");
+        var primary_btn = new He.Button ("", "Primary");
         primary_btn.is_fill = true;
         primary_btn.color = He.ButtonColor.PRIMARY;
         color_box.append (primary_btn);
 
-        var secondary_btn = new He.Button (null, "Secondary");
+        var secondary_btn = new He.Button ("", "Secondary");
         secondary_btn.is_fill = true;
         secondary_btn.color = He.ButtonColor.SECONDARY;
         color_box.append (secondary_btn);
 
-        var tertiary_btn = new He.Button (null, "Tertiary");
+        var tertiary_btn = new He.Button ("", "Tertiary");
         tertiary_btn.is_fill = true;
         tertiary_btn.color = He.ButtonColor.TERTIARY;
         color_box.append (tertiary_btn);
 
-        var surface_btn = new He.Button (null, "Surface");
+        var surface_btn = new He.Button ("", "Surface");
         surface_btn.is_fill = true;
         surface_btn.color = He.ButtonColor.SURFACE;
         color_box.append (surface_btn);
 
-        var red_btn = new He.Button (null, "Red");
+        var red_btn = new He.Button ("", "Red");
         red_btn.is_fill = true;
         red_btn.custom_color = He.Colors.RED;
         color_box.append (red_btn);
 
-        var green_btn = new He.Button (null, "Green");
+        var green_btn = new He.Button ("", "Green");
         green_btn.is_fill = true;
         green_btn.custom_color = He.Colors.GREEN;
         color_box.append (green_btn);
 
         // Button sizes
-        var xsmall_btn = new He.Button (null, "XSmall");
+        var xsmall_btn = new He.Button ("", "XSmall");
         xsmall_btn.is_fill = true;
         xsmall_btn.size = He.ButtonSize.XSMALL;
         xsmall_btn.valign = Gtk.Align.CENTER;
         size_box.append (xsmall_btn);
 
-        var small_btn = new He.Button (null, "Small");
+        var small_btn = new He.Button ("", "Small");
         small_btn.is_fill = true;
         small_btn.size = He.ButtonSize.SMALL;
         small_btn.valign = Gtk.Align.CENTER;
         size_box.append (small_btn);
 
-        var medium_btn = new He.Button (null, "Medium");
+        var medium_btn = new He.Button ("", "Medium");
         medium_btn.is_fill = true;
         medium_btn.size = He.ButtonSize.MEDIUM;
         medium_btn.valign = Gtk.Align.CENTER;
         size_box.append (medium_btn);
 
-        var large_btn = new He.Button (null, "Large");
+        var large_btn = new He.Button ("", "Large");
         large_btn.is_fill = true;
         large_btn.size = He.ButtonSize.LARGE;
         large_btn.valign = Gtk.Align.CENTER;
