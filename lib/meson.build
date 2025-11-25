@@ -74,6 +74,7 @@ libhelium_sources += files(
   'Widgets/Dropdown.vala',
   'Widgets/EmptyPage.vala',
   'Widgets/GroupedButton.vala',
+  'Widgets/MenuButton.vala',
   'Widgets/ModifierBadge.vala',
   'Widgets/NavigationRail.vala',
   'Widgets/NavigationSection.vala',

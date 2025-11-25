@@ -45,6 +45,7 @@ public class Demo.Application : He.Application {
 
         typeof (Demo.BottomSheet).ensure ();
         typeof (Demo.ContentAwareBin).ensure ();
+        typeof (Demo.MenuButton).ensure ();
         typeof (Demo.OverlayButton).ensure ();
         typeof (Demo.Welcome).ensure ();
 

@@ -418,7 +418,6 @@ public class He.StyleManager : Object {
     }
     .toast-box,
     .text-view,
-    popover > contents,
     check {
       border-radius: $medium_roundness;
     }
@@ -434,7 +433,8 @@ public class He.StyleManager : Object {
     .navigation-section-list row .mini-content-block {
       border-radius: $x_large_roundness;
     }
-    window.csd {
+    window.csd,
+    popover > contents {
       border-radius: $xx_large_roundness;
     }
     window.csd.dialog.message,
@@ -600,6 +600,45 @@ public class He.StyleManager : Object {
     .grouped-button.xlarge box button.active {
         border-radius: $circle_roundness;
     }
+    .menu-content > contents {
+        border-radius: $xx_large_roundness;
+    }
+    .menu-content > contents > box > button {
+        border-radius: $large_roundness;
+    }
+    .menu-content > contents > box > button:first-child {
+        border-radius: $x_large_roundness $x_large_roundness $large_roundness $large_roundness;
+    }
+    .menu-content > contents > box > button:last-child {
+        border-radius: $large_roundness $large_roundness $x_large_roundness $x_large_roundness;
+    }
+    .menu-content > contents > box > button:only-child {
+        border-radius: $x_large_roundness;
+    }
+    .menu-content.bubble list {
+        border-radius: $xx_large_roundness;
+    }
+    .menu-content.bubble row {
+        border-radius: $large_roundness;
+    }
+    .menu-content.bubble row.header {
+        border-radius: $x_large_roundness $x_large_roundness $large_roundness $large_roundness;
+    }
+    .menu-content.bubble row:not(.header):first-child {
+        border-radius: $x_large_roundness $x_large_roundness $large_roundness $large_roundness;
+    }
+    .menu-content.bubble row:not(.header):last-child {
+        border-radius: $large_roundness $large_roundness $x_large_roundness $x_large_roundness;
+    }
+    .menu-content.bubble row:not(.header):only-child {
+        border-radius: $x_large_roundness;
+    }
+    .menu-content.bubble row.header + row:last-child {
+        border-radius: $large_roundness $large_roundness $x_large_roundness $x_large_roundness;
+    }
+    .menu-content.bubble row button {
+        border-radius: inherit;
+    }
     ";
 
     return css;
@@ -620,6 +659,10 @@ public class He.StyleManager : Object {
     uint navigation_row_height;
     uint navigation_section_button_height;
     uint navigation_row_mini_content_height;
+    uint menu_item_height;
+    uint menu_item_padding;
+    uint menu_margin;
+    uint menu_bubble_padding;
 
     switch (density) {
     case 0:
@@ -637,6 +680,10 @@ public class He.StyleManager : Object {
       navigation_row_height = 56;
       navigation_section_button_height = 46;
       navigation_row_mini_content_height = 56;
+      menu_item_height = 32;
+      menu_item_padding = 4;
+      menu_margin = 4;
+      menu_bubble_padding = 4;
       break;
     case 1:
       button_height = 56;
@@ -653,6 +700,10 @@ public class He.StyleManager : Object {
       navigation_row_height = 72;
       navigation_section_button_height = 62;
       navigation_row_mini_content_height = 72;
+      menu_item_height = 40;
+      menu_item_padding = 8;
+      menu_margin = 6;
+      menu_bubble_padding = 6;
       break;
     case 2:
       button_height = 64;
@@ -669,6 +720,10 @@ public class He.StyleManager : Object {
       navigation_row_height = 88;
       navigation_section_button_height = 74;
       navigation_row_mini_content_height = 88;
+      menu_item_height = 48;
+      menu_item_padding = 10;
+      menu_margin = 6;
+      menu_bubble_padding = 6;
       break;
     default:
       button_height = 40;
@@ -685,6 +740,10 @@ public class He.StyleManager : Object {
       navigation_row_height = 56;
       navigation_section_button_height = 46;
       navigation_row_mini_content_height = 56;
+      menu_item_height = 32;
+      menu_item_padding = 6;
+      menu_margin = 4;
+      menu_bubble_padding = 4;
       break;
     }
 
@@ -702,6 +761,10 @@ public class He.StyleManager : Object {
     var navigation_row_height_px = navigation_row_height.to_string () + "px";
     var navigation_section_button_height_px = navigation_section_button_height.to_string () + "px";
     var navigation_row_mini_content_height_px = navigation_row_mini_content_height.to_string () + "px";
+    var menu_item_height_px = menu_item_height.to_string () + "px";
+    var menu_item_padding_px = menu_item_padding.to_string () + "px";
+    var menu_margin_px = menu_margin.to_string () + "px";
+    var menu_bubble_padding_px = menu_bubble_padding.to_string () + "px";
 
     string css = "";
     css += @"
@@ -786,6 +849,22 @@ public class He.StyleManager : Object {
     }
     .navigation-section-button {
       min-height: $navigation_section_button_height_px;
+    }
+    .menu-content {
+      margin: $menu_margin_px;
+    }
+    .menu-content > contents > box > button {
+      min-height: $menu_item_height_px;
+      padding: $menu_item_padding_px;
+    }
+    .menu-content.bubble list {
+      padding: $menu_bubble_padding_px;
+    }
+    .menu-content.bubble row {
+      min-height: $menu_item_height_px;
+    }
+    .menu-content.bubble row button {
+      padding: $menu_item_padding_px;
     }
     ";
 

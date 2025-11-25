@@ -4,39 +4,40 @@ conf = configuration_data()
 conf.set_quoted('APP_ID', 'com.fyralabs.Helium1.Demo')
 conf.set_quoted('VERSION', '1.8.0')
 conf.set_quoted(
-    'LOCALEDIR',
-    join_paths(get_option('prefix'), get_option('localedir')),
+  'LOCALEDIR',
+  join_paths(get_option('prefix'), get_option('localedir')),
 )
 configure_file(output: 'config.h', configuration: conf)
 
 example_deps = libhelium_deps
 example_deps += [
-    libhelium_dep,
-    dependency(
-        'libbismuth-1',
-        fallback: ['libbismuth', 'libbismuth_dep'],
-        version: '>=1.0.0',
-    ),
+  libhelium_dep,
+  dependency(
+    'libbismuth-1',
+    fallback: ['libbismuth', 'libbismuth_dep'],
+    version: '>=1.0.0',
+  ),
 ]
 example_sources = helium_demo_resources
 example_sources += files(
-    'src/main.vala',
-    'src/sections/bottomsheet.vala',
-    'src/sections/contentawarebin.vala',
-    'src/sections/overlaybutton.vala',
-    'src/sections/welcome.vala',
-    'src/settings.vala',
-    'src/window.vala',
+  'src/main.vala',
+  'src/sections/bottomsheet.vala',
+  'src/sections/contentawarebin.vala',
+  'src/sections/menubutton.vala',
+  'src/sections/overlaybutton.vala',
+  'src/sections/welcome.vala',
+  'src/settings.vala',
+  'src/window.vala',
 )
 
 executable(
-    'com.fyralabs.Helium1.Demo',
-    [blueprints_hack, example_sources],
-    dependencies: example_deps,
-    vala_args: [
-        meson.project_source_root() + '/demo/src/config.vapi',
-        '--gresourcesdir=demo/data/ui/',
-        '--gresourcesdir', meson.current_build_dir() / 'data',
-    ],
-    install: true,
+  'com.fyralabs.Helium1.Demo',
+  [blueprints_hack, example_sources],
+  dependencies: example_deps,
+  vala_args: [
+    meson.project_source_root() + '/demo/src/config.vapi',
+    '--gresourcesdir=demo/data/ui/',
+    '--gresourcesdir', meson.current_build_dir() / 'data',
+  ],
+  install: true,
 )

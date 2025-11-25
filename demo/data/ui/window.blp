@@ -70,6 +70,12 @@ template $DemoMainWindow : He.ApplicationWindow {
             child: $DemoOverlayButton {};
           }
           Gtk.StackPage {
+            title: "Menu Button";
+            name: "menubutton";
+            icon-name: "open-menu-symbolic";
+            child: $DemoMenuButton {};
+          }
+          Gtk.StackPage {
             title: "Bottom Sheet";
             name: "bottomsheet";
             icon-name: "bottom-sheet-symbolic";

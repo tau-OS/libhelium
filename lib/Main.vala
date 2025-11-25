@@ -54,6 +54,7 @@ namespace He {
         typeof (He.DynamicScheme).ensure ();
         typeof (He.EmptyPage).ensure ();
         typeof (He.KeyColor).ensure ();
+        typeof (He.MenuButton).ensure ();
         typeof (He.MiniContentBlock).ensure ();
         typeof (He.ModifierBadge).ensure ();
         typeof (He.NavigationRail).ensure ();
