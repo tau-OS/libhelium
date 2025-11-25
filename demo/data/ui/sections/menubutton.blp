@@ -7,6 +7,7 @@ template $DemoMenuButton : He.Bin {
     child: Gtk.Box {
         orientation: vertical;
         spacing: 6;
+        hexpand: true;
 
         He.AppBar {
             show-left-title-buttons: false;
@@ -18,109 +19,113 @@ template $DemoMenuButton : He.Bin {
             };
         }
 
-        Gtk.Box {
-            margin-start: 18;
-            margin-end: 18;
-            margin-bottom: 18;
-            orientation: vertical;
-            spacing: 12;
+        Gtk.ScrolledWindow {
+            hscrollbar-policy: never;
+            vexpand: true;
+            child: Gtk.Box {
+                margin-start: 18;
+                margin-end: 18;
+                margin-bottom: 18;
+                orientation: vertical;
+                spacing: 12;
 
-            Gtk.Label {
-                ellipsize: end;
-                wrap: true;
-                lines: 5;
-                xalign: 0;
-                label: "Menu Buttons display a popup menu with actions and options. They support different visual styles and can be populated declaratively with sections and items.";
-            }
-
-            Gtk.Box {
-                orientation: horizontal;
-                spacing: 18;
-                halign: center;
-                margin-top: 24;
-                margin-bottom: 24;
-
-                Gtk.Box {
-                    orientation: vertical;
-                    spacing: 6;
-                    halign: center;
-
-                    He.MenuButton default_menu {
-                        icon-name: "open-menu-symbolic";
-                    }
-
-                    Gtk.Label {
-                        label: "Default";
-                        styles ["caption", "dim-label"]
-                    }
+                Gtk.Label {
+                    ellipsize: end;
+                    wrap: true;
+                    lines: 5;
+                    xalign: 0;
+                    label: "Menu Buttons display a popup menu with actions and options. They support different visual styles and can be populated declaratively with sections and items.";
                 }
 
                 Gtk.Box {
-                    orientation: vertical;
-                    spacing: 6;
+                    orientation: horizontal;
+                    spacing: 18;
                     halign: center;
+                    margin-top: 24;
+                    margin-bottom: 24;
 
-                    He.MenuButton bubble_menu {
-                        icon-name: "view-more-symbolic";
+                    Gtk.Box {
+                        orientation: vertical;
+                        spacing: 6;
+                        halign: center;
+
+                        He.MenuButton default_menu {
+                            icon-name: "open-menu-symbolic";
+                        }
+
+                        Gtk.Label {
+                            label: "Default";
+                            styles ["caption", "dim-label"]
+                        }
                     }
 
-                    Gtk.Label {
-                        label: "Bubble";
-                        styles ["caption", "dim-label"]
+                    Gtk.Box {
+                        orientation: vertical;
+                        spacing: 6;
+                        halign: center;
+
+                        He.MenuButton bubble_menu {
+                            icon-name: "view-more-symbolic";
+                        }
+
+                        Gtk.Label {
+                            label: "Bubble";
+                            styles ["caption", "dim-label"]
+                        }
+                    }
+
+                    Gtk.Box {
+                        orientation: vertical;
+                        spacing: 6;
+                        halign: center;
+
+                        He.MenuButton vibrant_menu {
+                            icon-name: "emblem-shared-symbolic";
+                        }
+
+                        Gtk.Label {
+                            label: "Vibrant";
+                            styles ["caption", "dim-label"]
+                        }
                     }
                 }
 
-                Gtk.Box {
-                    orientation: vertical;
-                    spacing: 6;
-                    halign: center;
-
-                    He.MenuButton vibrant_menu {
-                        icon-name: "emblem-shared-symbolic";
-                    }
-
-                    Gtk.Label {
-                        label: "Vibrant";
-                        styles ["caption", "dim-label"]
-                    }
+                He.ViewSwitcher {
+                    stack: s;
+                    styles ["mini"]
                 }
-            }
 
-            He.ViewSwitcher {
-                stack: s;
-                styles ["mini"]
-            }
+                Gtk.Stack s {
+                    vexpand: true;
 
-            Gtk.Stack s {
-                vexpand: true;
+                    Gtk.StackPage {
+                        name: "vala";
+                        title: "Vala";
 
-                Gtk.StackPage {
-                    name: "vala";
-                    title: "Vala";
-
-                    child: Gtk.TextView {
-                        editable: false;
-                        monospace: true;
-                        buffer: Gtk.TextBuffer {
-                            text: "var menu = new He.MenuButton ();\nmenu.menu_style = He.MenuStyle.BUBBLE;\nmenu.set_layout({\n    new He.Section(\"Header\", {\n        new He.Item(\"Action\", \"app.action\", \"icon-symbolic\", \"Ctrl+A\"),\n        new He.Item.detail(\"Label\", \"Description\", \"app.action\")\n    })\n});";
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "var menu = new He.MenuButton ();\nmenu.menu_style = He.MenuStyle.BUBBLE;\nmenu.set_layout({\n    new He.Section(\"Header\", {\n        new He.Item(\"Action\", \"app.action\", \"icon-symbolic\", \"Ctrl+A\"),\n        new He.Item.detail(\"Label\", \"Description\", \"app.action\")\n    })\n});";
+                            };
+                            styles ["text-view"]
                         };
-                        styles ["text-view"]
-                    };
-                }
-                Gtk.StackPage {
-                    name: "blueprint";
-                    title: "Blueprint";
+                    }
+                    Gtk.StackPage {
+                        name: "blueprint";
+                        title: "Blueprint";
 
-                    child: Gtk.TextView {
-                        editable: false;
-                        monospace: true;
-                        buffer: Gtk.TextBuffer {
-                            text: "He.MenuButton my_menu {\n  icon-name: \"open-menu-symbolic\";\n}\n\n// Menu content is set programmatically\n// using the set_layout() method";
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "He.MenuButton my_menu {\n  icon-name: \"open-menu-symbolic\";\n}\n\n// Menu content is set programmatically\n// using the set_layout() method";
+                            };
+                            styles ["text-view"]
                         };
-                        styles ["text-view"]
-                    };
+                    }
                 }
-            }
+            };
         }
     };
 }

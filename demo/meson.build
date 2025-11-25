@@ -21,10 +21,15 @@ example_deps += [
 example_sources = helium_demo_resources
 example_sources += files(
   'src/main.vala',
+  'src/sections/avatar.vala',
   'src/sections/bottomsheet.vala',
+  'src/sections/buttons.vala',
+  'src/sections/chips.vala',
   'src/sections/contentawarebin.vala',
+  'src/sections/feedback.vala',
   'src/sections/menubutton.vala',
   'src/sections/overlaybutton.vala',
+  'src/sections/textfields.vala',
   'src/sections/welcome.vala',
   'src/settings.vala',
   'src/window.vala',

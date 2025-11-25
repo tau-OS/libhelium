@@ -1,0 +1,146 @@
+using Gtk 4.0;
+using He 1;
+
+template $DemoFeedback : He.Bin {
+    hexpand: true;
+    vexpand: true;
+    child: Gtk.Overlay {
+        child: Gtk.Box {
+            orientation: vertical;
+            spacing: 6;
+            hexpand: true;
+
+            He.AppBar {
+                show-left-title-buttons: false;
+                show-right-title-buttons: true;
+                show-back: false;
+
+                viewtitle-widget: He.ViewTitle {
+                    label: "Feedback";
+                };
+            }
+
+            Gtk.ScrolledWindow {
+                hscrollbar-policy: never;
+                vexpand: true;
+                child: Gtk.Box {
+                    margin-start: 18;
+                    margin-end: 18;
+                    margin-bottom: 18;
+                    orientation: vertical;
+                    spacing: 18;
+
+                    Gtk.Label {
+                        ellipsize: end;
+                        wrap: true;
+                        lines: 5;
+                        xalign: 0;
+                        label: "Toasts provide brief, non-intrusive messages. Dialogs are modal windows for important actions requiring user confirmation.";
+                    }
+
+                    Gtk.Box {
+                        orientation: vertical;
+                        spacing: 12;
+
+                        Gtk.Label {
+                            label: "Toasts";
+                            xalign: 0;
+                            styles ["heading"]
+                        }
+
+                        Gtk.Box {
+                            orientation: horizontal;
+                            spacing: 12;
+                            halign: center;
+
+                            He.Button toast_btn {
+                                is-tint: true;
+                                text: "Show Toast";
+                                icon: "dialog-information-symbolic";
+                            }
+
+                            He.Button toast_action_btn {
+                                is-tint: true;
+                                text: "Toast with Action";
+                                icon: "mail-send-symbolic";
+                            }
+                        }
+                    }
+
+                    Gtk.Box {
+                        orientation: vertical;
+                        spacing: 12;
+
+                        Gtk.Label {
+                            label: "Dialogs";
+                            xalign: 0;
+                            styles ["heading"]
+                        }
+
+                        Gtk.Box {
+                            orientation: horizontal;
+                            spacing: 12;
+                            halign: center;
+
+                            He.Button dialog_btn {
+                                is-fill: true;
+                                text: "Show Dialog";
+                                icon: "dialog-warning-symbolic";
+                            }
+                        }
+                    }
+
+                    He.ViewSwitcher {
+                        stack: code_stack;
+                        styles ["mini"]
+                    }
+
+                    Gtk.Stack code_stack {
+                        vexpand: true;
+
+                        Gtk.StackPage {
+                            name: "vala";
+                            title: "Vala";
+
+                            child: Gtk.TextView {
+                                editable: false;
+                                monospace: true;
+                                buffer: Gtk.TextBuffer {
+                                    text: "// Toast\nvar toast = new He.Toast (\"Message saved\");\ntoast.default_action = \"Undo\";\ntoast.action.connect (() => { });\ntoast.send_notification ();\n\n// Dialog\nvar dialog = new He.Dialog (\n    window,\n    \"Title\",\n    \"Description text\",\n    \"icon-name\",\n    primary_button,\n    secondary_button\n);\ndialog.present ();";
+                                };
+                                styles ["text-view"]
+                            };
+                        }
+                        Gtk.StackPage {
+                            name: "blueprint";
+                            title: "Blueprint";
+
+                            child: Gtk.TextView {
+                                editable: false;
+                                monospace: true;
+                                buffer: Gtk.TextBuffer {
+                                    text: "He.Toast my_toast {\n  label: \"Notification text\";\n  default-action: \"Undo\";\n}\n\n// Dialogs are created in code\n// due to their dynamic nature";
+                                };
+                                styles ["text-view"]
+                            };
+                        }
+                    }
+                };
+            }
+        };
+
+        [overlay]
+        He.Toast toast {
+            halign: center;
+            valign: start;
+            margin-top: 12;
+        }
+
+        [overlay]
+        He.Toast toast_with_action {
+            halign: center;
+            valign: start;
+            margin-top: 12;
+        }
+    };
+}

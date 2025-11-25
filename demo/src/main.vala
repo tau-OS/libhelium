@@ -43,10 +43,15 @@ public class Demo.Application : He.Application {
 
         Bis.init ();
 
+        typeof (Demo.Avatar).ensure ();
         typeof (Demo.BottomSheet).ensure ();
+        typeof (Demo.Buttons).ensure ();
+        typeof (Demo.Chips).ensure ();
         typeof (Demo.ContentAwareBin).ensure ();
+        typeof (Demo.Feedback).ensure ();
         typeof (Demo.MenuButton).ensure ();
         typeof (Demo.OverlayButton).ensure ();
+        typeof (Demo.TextFields).ensure ();
         typeof (Demo.Welcome).ensure ();
 
         add_action_entries (APP_ENTRIES, this);

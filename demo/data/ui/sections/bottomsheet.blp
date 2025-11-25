@@ -11,6 +11,7 @@ template $DemoBottomSheet : He.Bin {
             orientation: vertical;
             spacing: 6;
             margin-bottom: 18;
+            hexpand: true;
 
             He.AppBar app_bar {
                 show-left-title-buttons: false;
@@ -51,7 +52,7 @@ template $DemoBottomSheet : He.Bin {
                         child: Gtk.TextView {
                             editable: false;
                             monospace: true;
-                            buffer: Gtk.TextBuffer { 
+                            buffer: Gtk.TextBuffer {
                                 text: "var my_bottomsheet = new He.BottomSheet () {\n    title: _(\"Title (max 3 words.\"),\n    sheet: my_sheetcontent,\n    button: my_sheet_button\n};";
                             };
                             styles ["text-view"]
@@ -64,7 +65,7 @@ template $DemoBottomSheet : He.Bin {
                         child: Gtk.TextView {
                             editable: false;
                             monospace: true;
-                            buffer: Gtk.TextBuffer { 
+                            buffer: Gtk.TextBuffer {
                                 text: "He.BottomSheet my_bottomsheet {\n  title: _(\"Title (max 3 words.\");\n  sheet: my_sheetcontent;\n  button: my_sheet_button;\n}";
                             };
                             styles ["text-view"]

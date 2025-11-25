@@ -1,0 +1,118 @@
+using Gtk 4.0;
+using He 1;
+
+template $DemoChips : He.Bin {
+    hexpand: true;
+    vexpand: true;
+    child: Gtk.Box {
+        orientation: vertical;
+        spacing: 6;
+        hexpand: true;
+
+        He.AppBar {
+            show-left-title-buttons: false;
+            show-right-title-buttons: true;
+            show-back: false;
+
+            viewtitle-widget: He.ViewTitle {
+                label: "Chips";
+            };
+        }
+
+        Gtk.ScrolledWindow {
+            hscrollbar-policy: never;
+            vexpand: true;
+            child: Gtk.Box {
+                margin-start: 18;
+                margin-end: 18;
+                margin-bottom: 18;
+                orientation: vertical;
+                spacing: 18;
+
+                Gtk.Label {
+                    ellipsize: end;
+                    wrap: true;
+                    lines: 5;
+                    xalign: 0;
+                    label: "Chips are compact elements that represent an input, attribute, or action. They can be selectable, toggled, or removable.";
+                }
+
+                Gtk.Box {
+                    orientation: vertical;
+                    spacing: 12;
+
+                    Gtk.Label {
+                        label: "Selectable Chips";
+                        xalign: 0;
+                        styles ["heading"]
+                    }
+
+                    Gtk.FlowBox chips_box {
+                        selection-mode: none;
+                        homogeneous: false;
+                        min-children-per-line: 2;
+                        max-children-per-line: 5;
+                        row-spacing: 8;
+                        column-spacing: 8;
+                    }
+                }
+
+                Gtk.Box {
+                    orientation: vertical;
+                    spacing: 12;
+
+                    Gtk.Label {
+                        label: "Removable Chips";
+                        xalign: 0;
+                        styles ["heading"]
+                    }
+
+                    Gtk.FlowBox removable_chips_box {
+                        selection-mode: none;
+                        homogeneous: false;
+                        min-children-per-line: 2;
+                        max-children-per-line: 5;
+                        row-spacing: 8;
+                        column-spacing: 8;
+                    }
+                }
+
+                He.ViewSwitcher {
+                    stack: code_stack;
+                    styles ["mini"]
+                }
+
+                Gtk.Stack code_stack {
+                    vexpand: true;
+
+                    Gtk.StackPage {
+                        name: "vala";
+                        title: "Vala";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "// Basic chip\nvar chip = new He.Chip (\"Label\");\n\n// Pre-selected chip\nchip.active = true;\n\n// Removable chip\nchip.show_close_button = true;\nchip.close_clicked.connect (() => {\n    // Handle removal\n});";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                    Gtk.StackPage {
+                        name: "blueprint";
+                        title: "Blueprint";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "He.Chip my_chip {\n  chip-label: \"Filter\";\n  active: true;\n  show-close-button: true;\n}";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                }
+            };
+        }
+    };
+}

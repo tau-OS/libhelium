@@ -58,6 +58,36 @@ template $DemoMainWindow : He.ApplicationWindow {
             child: $DemoWelcome {};
           }
           Gtk.StackPage {
+            title: "Buttons";
+            name: "buttons";
+            icon-name: "input-mouse-symbolic";
+            child: $DemoButtons {};
+          }
+          Gtk.StackPage {
+            title: "Text Fields";
+            name: "textfields";
+            icon-name: "input-keyboard-symbolic";
+            child: $DemoTextFields {};
+          }
+          Gtk.StackPage {
+            title: "Chips";
+            name: "chips";
+            icon-name: "emblem-default-symbolic";
+            child: $DemoChips {};
+          }
+          Gtk.StackPage {
+            title: "Avatar";
+            name: "avatar";
+            icon-name: "avatar-default-symbolic";
+            child: $DemoAvatar {};
+          }
+          Gtk.StackPage {
+            title: "Feedback";
+            name: "feedback";
+            icon-name: "dialog-information-symbolic";
+            child: $DemoFeedback {};
+          }
+          Gtk.StackPage {
             title: "Content Colors";
             name: "contentawarebin";
             icon-name: "color-select-symbolic";

@@ -6,10 +6,15 @@
     <file alias="window.ui">ui/window.ui</file>
     <file alias="settings.ui">ui/settings.ui</file>
 
+    <file alias="avatar.ui">ui/sections/avatar.ui</file>
     <file alias="bottomsheet.ui">ui/sections/bottomsheet.ui</file>
+    <file alias="buttons.ui">ui/sections/buttons.ui</file>
+    <file alias="chips.ui">ui/sections/chips.ui</file>
     <file alias="contentawarebin.ui">ui/sections/contentawarebin.ui</file>
+    <file alias="feedback.ui">ui/sections/feedback.ui</file>
     <file alias="menubutton.ui">ui/sections/menubutton.ui</file>
     <file alias="overlaybutton.ui">ui/sections/overlaybutton.ui</file>
+    <file alias="textfields.ui">ui/sections/textfields.ui</file>
     <file alias="welcome.ui">ui/sections/welcome.ui</file>
 
     <file alias="mountain.jpg">assets/landscapes/mountain.jpg</file>

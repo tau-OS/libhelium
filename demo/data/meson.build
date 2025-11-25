@@ -1,10 +1,15 @@
 blueprints = custom_target(
   'blueprints',
   input: files(
+    'ui/sections/avatar.blp',
     'ui/sections/bottomsheet.blp',
+    'ui/sections/buttons.blp',
+    'ui/sections/chips.blp',
     'ui/sections/contentawarebin.blp',
+    'ui/sections/feedback.blp',
     'ui/sections/menubutton.blp',
     'ui/sections/overlaybutton.blp',
+    'ui/sections/textfields.blp',
     'ui/sections/welcome.blp',
     'ui/settings.blp',
     'ui/window.blp',

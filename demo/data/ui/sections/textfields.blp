@@ -1,0 +1,98 @@
+using Gtk 4.0;
+using He 1;
+
+template $DemoTextFields : He.Bin {
+    hexpand: true;
+    vexpand: true;
+    child: Gtk.Box {
+        orientation: vertical;
+        spacing: 6;
+        hexpand: true;
+
+        He.AppBar {
+            show-left-title-buttons: false;
+            show-right-title-buttons: true;
+            show-back: false;
+
+            viewtitle-widget: He.ViewTitle {
+                label: "Text Fields";
+            };
+        }
+
+        Gtk.ScrolledWindow {
+            hscrollbar-policy: never;
+            vexpand: true;
+            child: Gtk.Box {
+                margin-start: 18;
+                margin-end: 18;
+                margin-bottom: 18;
+                orientation: vertical;
+                spacing: 18;
+
+                Gtk.Label {
+                    ellipsize: end;
+                    wrap: true;
+                    lines: 5;
+                    xalign: 0;
+                    label: "Text Fields provide input validation, helper text, and different visual styles. They support search mode, outline styling, and regex-based validation.";
+                }
+
+                Gtk.Box {
+                    orientation: vertical;
+                    spacing: 12;
+
+                    He.TextField default_field {
+                    }
+
+                    He.TextField search_field {
+                    }
+
+                    He.TextField outline_field {
+                    }
+
+                    He.TextField validated_field {
+                    }
+
+                    He.TextField password_field {
+                    }
+                }
+
+                He.ViewSwitcher {
+                    stack: code_stack;
+                    styles ["mini"]
+                }
+
+                Gtk.Stack code_stack {
+                    vexpand: true;
+
+                    Gtk.StackPage {
+                        name: "vala";
+                        title: "Vala";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "var field = new He.TextField ();\nfield.placeholder_text = \"Enter text\";\nfield.support_text = \"Helper text\";\nfield.is_search = true;\nfield.is_outline = true;\n\n// Validation\nfield.needs_validation = true;\nfield.min_length = 3;\nfield.regex = new Regex (\"^[a-z]+$\");";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                    Gtk.StackPage {
+                        name: "blueprint";
+                        title: "Blueprint";
+
+                        child: Gtk.TextView {
+                            editable: false;
+                            monospace: true;
+                            buffer: Gtk.TextBuffer {
+                                text: "He.TextField my_field {\n  // Properties set in code\n}\n\n// In construct:\nmy_field.placeholder_text = \"Email\";\nmy_field.needs_validation = true;";
+                            };
+                            styles ["text-view"]
+                        };
+                    }
+                }
+            };
+        }
+    };
+}
