@@ -411,11 +411,6 @@ public class He.StyleManager : Object {
     .bottom-bar.docked {
       border-radius: 0px;
     }
-    .badge,
-    .badge-info,
-    .tint-badge {
-      border-radius: $small_roundness;
-    }
     .toast-box,
     .text-view,
     check {
@@ -465,7 +460,10 @@ public class He.StyleManager : Object {
     switch > slider,
     radio,
     window.csd.dialog-content windowcontrols > button > image,
-    windowcontrols > button > image {
+    windowcontrols > button > image,
+    .badge,
+    .badge-info,
+    .tint-badge {
       border-radius: $circle_roundness;
     }
     .content-list row:first-child .mini-content-block {
