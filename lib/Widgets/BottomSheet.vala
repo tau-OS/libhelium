@@ -26,6 +26,12 @@ public class He.BottomSheet : Gtk.Widget {
     private const int TOP_MARGIN = 42;
     private const int MINIMUM_HEIGHT = 300;
     private const int DEFAULT_HEIGHT = 440; // Dialog HIG
+    private const int MOBILE_BREAKPOINT = 600;
+    private const int MOBILE_SHEET_WIDTH = 360;
+    private const int DESKTOP_SHEET_WIDTH = 440;
+    private const int HANDLE_HIDDEN_MARGIN = 24;
+    private const int TITLE_LABEL_MARGIN = 12;
+    private const int DEFAULT_UPDATE_INTERVAL = 16; // Default for 60Hz
 
     /**
      * The hidden signal fires when the sheet is hidden.
@@ -41,10 +47,11 @@ public class He.BottomSheet : Gtk.Widget {
     private GLib.TimeoutSource? resize_timeout;
 
     private bool dragging = false;
-    private double initial_y = 0;
     private int initial_height = 0;
     private int target_height = 0;
-    private int update_interval = 16; // Default for 60Hz
+    private int update_interval = DEFAULT_UPDATE_INTERVAL;
+    private bool is_mobile_mode = false;
+    private bool mode_initialized = false;
 
     /**
      * The back button in case of a stack-type content.
@@ -58,13 +65,18 @@ public class He.BottomSheet : Gtk.Widget {
     public Gtk.Widget? sheet {
         get { return _sheet; }
         set {
-            if (sheet == value)
+            if (_sheet == value)
                 return;
+
+            if (_sheet != null) {
+                _sheet.unparent ();
+            }
 
             _sheet = value;
 
-            sheet.unparent (); // Avoiding stacked children
-            sheet_bin.append (sheet);
+            if (_sheet != null) {
+                sheet_bin.append (_sheet);
+            }
         }
     }
 
@@ -75,14 +87,17 @@ public class He.BottomSheet : Gtk.Widget {
     public Gtk.Stack? sheet_stack {
         get { return _sheet_stack; }
         set {
-            if (sheet_stack == value)
+            if (_sheet_stack == value)
                 return;
+
+            if (_sheet_stack != null) {
+                _sheet_stack.unparent ();
+            }
 
             _sheet_stack = value;
 
-            sheet_stack.unparent (); // Avoiding stacked children
-            sheet_bin.append (sheet_stack);
-            if (value != null) {
+            if (_sheet_stack != null) {
+                sheet_bin.append (_sheet_stack);
                 back_button.set_visible (true);
             } else {
                 back_button.set_visible (false);
@@ -97,13 +112,18 @@ public class He.BottomSheet : Gtk.Widget {
     public Gtk.Widget? button {
         get { return _button; }
         set {
-            if (button == value)
+            if (_button == value)
                 return;
+
+            if (_button != null) {
+                _button.unparent ();
+            }
 
             _button = value;
 
-            button.unparent (); // Avoiding stacked children
-            sheet_bin.append (button);
+            if (_button != null) {
+                sheet_bin.append (_button);
+            }
         }
     }
 
@@ -114,12 +134,12 @@ public class He.BottomSheet : Gtk.Widget {
     public string? title {
         get { return _title; }
         set {
-            if (title == value)
+            if (_title == value)
                 return;
 
             _title = value;
 
-            title_label.label = title;
+            title_label.label = _title ?? "";
         }
     }
 
@@ -130,14 +150,14 @@ public class He.BottomSheet : Gtk.Widget {
     public bool show_sheet {
         get { return _show_sheet; }
         set {
-            if (show_sheet == value)
+            if (_show_sheet == value)
                 return;
 
             _show_sheet = value;
 
-            show_animation.latch = !show_sheet;
+            show_animation.latch = !_show_sheet;
             show_animation.value_from = show_animation.avalue;
-            show_animation.value_to = show_sheet ? 1 : 0;
+            show_animation.value_to = _show_sheet ? 1 : 0;
             show_animation.play ();
         }
     }
@@ -149,12 +169,12 @@ public class He.BottomSheet : Gtk.Widget {
     public bool modal {
         get { return _modal; }
         set {
-            if (modal == value)
+            if (_modal == value)
                 return;
 
             _modal = value;
 
-            if (value) {
+            if (_modal) {
                 dimming.add_css_class ("dimming");
             } else {
                 dimming.remove_css_class ("dimming");
@@ -170,16 +190,16 @@ public class He.BottomSheet : Gtk.Widget {
     public bool show_handle {
         get { return _show_handle; }
         set {
-            if (show_handle == value)
+            if (_show_handle == value)
                 return;
 
             _show_handle = value;
-            handle.visible = value;
+            handle.visible = _show_handle;
 
-            if (value) {
+            if (_show_handle) {
                 handle_wh.margin_top = 0;
             } else {
-                handle_wh.margin_top = 24;
+                handle_wh.margin_top = HANDLE_HIDDEN_MARGIN;
             }
         }
     }
@@ -192,7 +212,7 @@ public class He.BottomSheet : Gtk.Widget {
     public int preferred_sheet_height {
         get { return _preferred_sheet_height; }
         set {
-            if (preferred_sheet_height == value)
+            if (_preferred_sheet_height == value)
                 return;
 
             _preferred_sheet_height = value;
@@ -217,6 +237,7 @@ public class He.BottomSheet : Gtk.Widget {
 
         handle = new He.Bin ();
         handle.visible = false;
+        handle.halign = Gtk.Align.CENTER;
         handle.add_css_class ("drag-handle");
         handle.add_css_class ("large-radius");
 
@@ -227,7 +248,7 @@ public class He.BottomSheet : Gtk.Widget {
         gesture_drag.drag_end.connect (on_drag_end);
 
         title_label = new Gtk.Label ("");
-        title_label.margin_start = 12;
+        title_label.margin_start = TITLE_LABEL_MARGIN;
         title_label.valign = Gtk.Align.START;
         title_label.halign = Gtk.Align.START;
         title_label.hexpand = true;
@@ -299,47 +320,48 @@ public class He.BottomSheet : Gtk.Widget {
         if (monitor != null) {
             var refresh_rate = monitor.get_refresh_rate ();
             if (refresh_rate > 0) {
-                update_interval = (int) (1000 / (refresh_rate / 1000));
+                // refresh_rate is in millihertz, convert to milliseconds per frame
+                update_interval = (int) (1000000 / refresh_rate);
             }
         }
     }
 
     private void on_drag_begin (Gtk.GestureDrag gesture, double x, double y) {
         dragging = true;
-        initial_y = y;
         initial_height = preferred_sheet_height;
     }
 
     private void on_drag_update (Gtk.GestureDrag gesture, double offset_x, double offset_y) {
-        if (dragging) {
-            // Calculate the new target height based on the drag offset
-            target_height = initial_height - (int) offset_y;
+        if (!dragging)
+            return;
 
-            // Ensure the new target height is within acceptable bounds
-            target_height = int.max (target_height, 0);
+        // Calculate the new target height based on the drag offset
+        target_height = initial_height - (int) offset_y;
 
-            // Start the resize timer if not already running
-            if (resize_timeout == null) {
-                update_refresh_rate ();
+        // Ensure the new target height is within acceptable bounds
+        target_height = int.max (target_height, 0);
 
-                resize_timeout = new GLib.TimeoutSource (update_interval);
-                resize_timeout.set_callback (() => {
-                    // Smoothly update the preferred height towards the target height
-                    if (Math.fabs (preferred_sheet_height - target_height) > 1) {
-                        preferred_sheet_height += (target_height - preferred_sheet_height) / 4;
-                    } else {
-                        preferred_sheet_height = target_height;
+        // Start the resize timer if not already running
+        if (resize_timeout == null) {
+            update_refresh_rate ();
 
-                        // Stop the timer if the target height is reached
-                        resize_timeout = null;
-                        return false;
-                    }
+            resize_timeout = new GLib.TimeoutSource (update_interval);
+            resize_timeout.set_callback (() => {
+                // Smoothly update the preferred height towards the target height
+                if (Math.fabs (preferred_sheet_height - target_height) > 1) {
+                    preferred_sheet_height += (target_height - preferred_sheet_height) / 4;
+                } else {
+                    preferred_sheet_height = target_height;
 
-                    // Continue the timer
-                    return true;
-                });
-                resize_timeout.attach (GLib.MainContext.default ());
-            }
+                    // Stop the timer if the target height is reached
+                    resize_timeout = null;
+                    return false;
+                }
+
+                // Continue the timer
+                return true;
+            });
+            resize_timeout.attach (GLib.MainContext.default ());
         }
     }
 
@@ -357,6 +379,22 @@ public class He.BottomSheet : Gtk.Widget {
         if (resize_timeout != null) {
             resize_timeout.destroy ();
             resize_timeout = null;
+        }
+    }
+
+    private void update_sheet_mode (bool mobile) {
+        if (mode_initialized && is_mobile_mode == mobile)
+            return;
+
+        mode_initialized = true;
+        is_mobile_mode = mobile;
+
+        if (mobile) {
+            sheet_bin.add_css_class ("bottom-sheet");
+            sheet_bin.remove_css_class ("dialog-sheet");
+        } else {
+            sheet_bin.add_css_class ("dialog-sheet");
+            sheet_bin.remove_css_class ("bottom-sheet");
         }
     }
 
@@ -386,15 +424,10 @@ public class He.BottomSheet : Gtk.Widget {
                                      out int nat_baseline) {
         int sheet_min, sheet_nat;
         int dimming_min, dimming_nat;
-        int handle_min, handle_nat;
         min = nat = 0;
 
         sheet_bin.measure (orientation, for_size, out sheet_min, out sheet_nat, null, null);
         dimming.measure (orientation, for_size, out dimming_min, out dimming_nat, null, null);
-
-        if (handle != null) {
-            handle.measure (orientation, for_size, out handle_min, out handle_nat, null, null);
-        }
 
         if (orientation == HORIZONTAL) {
             min = int.max (dimming_min, sheet_min);
@@ -428,46 +461,33 @@ public class He.BottomSheet : Gtk.Widget {
 
         var t = new Gsk.Transform ();
 
-        if (width <= 600) { // Mobile size
-            if (dragging) {
-                t = t.translate ({ 0, height - offset_rounded });
-                sheet_height = int.max (sheet_height, offset_rounded);
-                sheet_bin.allocate (width, sheet_height, baseline, t);
-            } else {
-                t = t.translate ({ 0, height - offset_rounded });
-                sheet_height = int.max (sheet_height, offset_rounded);
-                sheet_bin.allocate (width, sheet_height, baseline, t);
-            }
-            sheet_bin.add_css_class ("bottom-sheet");
-            sheet_bin.remove_css_class ("dialog-sheet");
+        if (width <= MOBILE_BREAKPOINT) {
+            // Mobile size: sheet slides up from bottom
+            int sheet_width = int.min (MOBILE_SHEET_WIDTH, width);
+            int sheet_x = (width - sheet_width) / 2;
+
+            t = t.translate ({ sheet_x, height - offset_rounded });
+            sheet_height = int.max (sheet_height, offset_rounded);
+            sheet_bin.allocate (sheet_width, sheet_height, baseline, t);
+
+            // Mobile uses position animation, so keep full opacity
+            sheet_bin.opacity = 1;
+
+            update_sheet_mode (true);
             handle.visible = show_handle;
         } else {
-            if (!dragging) {
-                t = t.translate ({ 0, (height - offset_rounded) / 2 });
-                sheet_height = int.max (sheet_height, offset_rounded);
-                sheet_bin.allocate (width, sheet_height, baseline, t);
-            }
-            sheet_bin.add_css_class ("dialog-sheet");
-            sheet_bin.remove_css_class ("bottom-sheet");
+            // Desktop size: centered dialog with fade animation
+            int sheet_width = int.min (DESKTOP_SHEET_WIDTH, width);
+            int sheet_x = (width - sheet_width) / 2;
+
+            t = t.translate ({ sheet_x, (height - sheet_height) / 2 });
+            sheet_bin.allocate (sheet_width, sheet_height, baseline, t);
+
+            // Dialog uses opacity animation instead of sliding
+            sheet_bin.opacity = show_animation.avalue;
+
+            update_sheet_mode (false);
             handle.visible = false;
-        }
-
-        if (handle != null) {
-            int handle_width = 0, handle_height = 0, handle_x;
-
-            handle.measure (Gtk.Orientation.HORIZONTAL, -1, null, out handle_width, null, null);
-            handle.measure (Gtk.Orientation.VERTICAL, -1, null, out handle_height, null, null);
-
-            handle_width = (int) Math.fmin (handle_width, width);
-            handle_height = (int) Math.fmin (handle_height, height);
-
-            handle_x = (int) Math.round (((width - handle_width) - 36) / 2); // accounting for sheet horizontal margins (18+18)
-
-            var t2 = new Gsk.Transform ();
-
-            t2 = t2.translate ({ handle_x, 0 });
-
-            handle.allocate (handle_width, handle_height, baseline, t2);
         }
     }
 }
