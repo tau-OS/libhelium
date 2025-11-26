@@ -19,15 +19,25 @@
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Ensor {
     // Maximum number of pixel samples to collect for quantization
-    private const int MAX_SAMPLES = 128;
+    // Reduced from 128 - fewer samples means faster quantization with minimal quality loss
+    private const int MAX_SAMPLES = 64;
+
+    // Maximum colors for quantization - reduced from 128 for significant speedup
+    // 32 colors is sufficient for accent extraction since we only need top 4
+    private const int MAX_QUANTIZE_COLORS = 32;
 
     private GLib.Array<int> accent_from_pixels (uint8[] pixels, bool alpha) {
         // First pass: collect filtered pixels
         int[] filtered_pixels = pixels_to_argb_array (pixels, alpha);
 
-        // Second pass: cluster to 128 colors using quantizer
+        // Early exit if no valid pixels
+        if (filtered_pixels.length == 0) {
+            return new GLib.Array<int> ();
+        }
+
+        // Second pass: cluster to reduced color count using quantizer
         var celebi = new He.QuantizerCelebi ();
-        var result = celebi.quantize (filtered_pixels, 128);
+        var result = celebi.quantize (filtered_pixels, MAX_QUANTIZE_COLORS);
 
         var score = new He.Score ();
         return score.score (result, 4); // We only need 4.
@@ -44,14 +54,16 @@ namespace He.Ensor {
         int total_pixels = (int) pixels.length / factor;
 
         // Calculate skip factor to sample approximately MAX_SAMPLES pixels
+        // Use a larger skip to reduce processing time
         int skip = int.max (1, total_pixels / MAX_SAMPLES);
 
         // Pre-calculate expected number of samples for array pre-allocation
-        // This avoids O(n²) reallocation with dynamic array growth
         int expected_samples = (total_pixels + skip - 1) / skip;
 
-        // Use GLib.Array with pre-allocated capacity for efficient appending
-        var list = new GLib.Array<int>.sized (false, false, sizeof (int), expected_samples);
+        // Pre-allocate result array with estimated size
+        // Using a simple dynamic array approach with capacity
+        int[] temp_result = new int[expected_samples];
+        int result_count = 0;
 
         int i = 0;
         while (i < total_pixels) {
@@ -76,32 +88,38 @@ namespace He.Ensor {
             }
 
             // Skip very dark pixels (likely shadows/borders)
-            if (red < 8 && green < 8 && blue < 8) {
+            // Slightly relaxed threshold for speed
+            if (red < 10 && green < 10 && blue < 10) {
                 i += skip;
                 continue;
             }
 
             // Skip very light pixels (likely highlights/glare)
-            if (red > 247 && green > 247 && blue > 247) {
+            // Slightly relaxed threshold for speed
+            if (red > 245 && green > 245 && blue > 245) {
                 i += skip;
                 continue;
             }
 
             int argb = argb_from_rgb_int (red, green, blue);
-            list.append_val (argb);
+
+            // Append to result
+            if (result_count < expected_samples) {
+                temp_result[result_count] = argb;
+                result_count++;
+            }
 
             i += skip;
         }
 
-        // Convert GLib.Array to int[] for the quantizer
-        // This is a single copy at the end, much better than per-element reallocs
-        if (list.length == 0) {
+        // Return only the filled portion
+        if (result_count == 0) {
             return new int[0];
         }
 
-        int[] result = new int[list.length];
-        for (uint j = 0; j < list.length; j++) {
-            result[j] = list.index (j);
+        int[] result = new int[result_count];
+        for (int j = 0; j < result_count; j++) {
+            result[j] = temp_result[j];
         }
 
         return result;

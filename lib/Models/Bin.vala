@@ -32,6 +32,16 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
   private bool _content_color_override = false;
   private RGBColor? _content_source_color = null;
 
+  // Cache for expensive color scheme generation
+  private RGBColor? _cached_source_color = null;
+  private bool _cached_is_dark = false;
+  private double _cached_contrast = -1.0;
+
+  // Static cache shared across all Bin instances for identical color configurations
+  private static Gee.HashMap<string, string>? _css_cache = null;
+  private static ContentScheme? _shared_content_scheme = null;
+  private static StyleManager? _shared_style_manager = null;
+
   private Gtk.Widget? _child;
   public Gtk.Widget child {
     get {
@@ -170,6 +180,7 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
     if (!_content_color_override || _content_source_color == null) {
       remove_color_provider ();
       cached_css = null;
+      _cached_source_color = null;
       notify_children_color_changed ();
       return;
     }
@@ -179,16 +190,30 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
     bool is_dark = get_is_dark_theme ();
     double contrast = get_contrast_level ();
 
+    // Check if we can skip regeneration - color, theme, and contrast unchanged
+    if (_cached_source_color != null &&
+        colors_are_equal (_cached_source_color, source_argb) &&
+        _cached_is_dark == is_dark &&
+        Math.fabs (_cached_contrast - contrast) < 0.001) {
+      // Nothing changed, skip expensive regeneration
+      return;
+    }
+
     string css = build_content_css (source_argb, is_dark, contrast);
 
     if (css == "") {
       remove_color_provider ();
       cached_css = null;
+      _cached_source_color = null;
       notify_children_color_changed ();
       return;
     }
 
     if (cached_css != null && cached_css == css) {
+      // Update cache state even if CSS matches
+      _cached_source_color = source_argb;
+      _cached_is_dark = is_dark;
+      _cached_contrast = contrast;
       return;
     }
 
@@ -198,8 +223,19 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
     apply_color_provider_recursive (this, (!) color_provider);
 
     cached_css = css;
+    _cached_source_color = source_argb;
+    _cached_is_dark = is_dark;
+    _cached_contrast = contrast;
     notify_children_color_changed ();
     queue_draw ();
+  }
+
+  private bool colors_are_equal (RGBColor? a, RGBColor b) {
+    if (a == null) return false;
+    // Compare with small epsilon for floating point
+    return Math.fabs (a.r - b.r) < 0.001 &&
+           Math.fabs (a.g - b.g) < 0.001 &&
+           Math.fabs (a.b - b.b) < 0.001;
   }
 
   private void notify_children_color_changed () {
@@ -288,15 +324,40 @@ public class He.Bin : Gtk.Widget, Gtk.Buildable {
   }
 
   private string build_content_css (RGBColor source_color, bool is_dark, double contrast) {
-    var source_hct = hct_from_int (rgb_to_argb_int (source_color));
+    // Generate cache key from color + theme + contrast
+    int argb = rgb_to_argb_int (source_color);
+    string cache_key = "%d_%s_%.2f".printf (argb, is_dark ? "dark" : "light", contrast);
 
-    // Use ContentScheme to generate a full scheme from the source color
-    var content_scheme = new ContentScheme ();
-    var scheme = content_scheme.generate (source_hct, is_dark, contrast);
+    // Initialize static cache if needed
+    if (_css_cache == null) {
+      _css_cache = new Gee.HashMap<string, string> ();
+    }
 
-    var manager = new StyleManager ();
-    string css = manager.style_refresh (scheme);
-    return extract_content_color_definitions (css);
+    // Check cache first
+    if (_css_cache.has_key (cache_key)) {
+      return _css_cache.get (cache_key);
+    }
+
+    var source_hct = hct_from_int (argb);
+
+    // Reuse shared instances to avoid allocation overhead
+    if (_shared_content_scheme == null) {
+      _shared_content_scheme = new ContentScheme ();
+    }
+    if (_shared_style_manager == null) {
+      _shared_style_manager = new StyleManager ();
+    }
+
+    var scheme = _shared_content_scheme.generate (source_hct, is_dark, contrast);
+    string css = _shared_style_manager.style_refresh (scheme);
+    string result = extract_content_color_definitions (css);
+
+    // Cache the result (limit cache size to prevent memory bloat)
+    if (_css_cache.size < 50) {
+      _css_cache.set (cache_key, result);
+    }
+
+    return result;
   }
 
   private string extract_content_color_definitions (string css) {
