@@ -32,48 +32,47 @@ public class He.Contrast {
     /**
      * Returns tone >= tone parameter that ensures the ratio with the input tone.
      */
-    public static double lighter(double tone, double ratio) {
+    public static double? lighter(double tone, double ratio) {
         if (tone < 0.0 || tone > 100.0) {
-            return -1.0;
+            return null;
         }
 
         double dark_y = MathUtils.y_from_lstar(tone);
         double light_y = ratio * (dark_y + 5.0) - 5.0;
 
         if (light_y < 0.0 || light_y > 100.0) {
-            return -1.0;
+            return null;
         }
 
         double real_contrast = ratio_of_ys(light_y, dark_y);
         double delta = Math.fabs(real_contrast - ratio);
 
         if (real_contrast < ratio && delta > CONTRAST_RATIO_EPSILON) {
-            return -1.0;
+            return null;
         }
 
         double return_value = MathUtils.lstar_from_y(light_y) + LUMINANCE_GAMUT_MAP_TOLERANCE;
 
         if (return_value < 0 || return_value > 100) {
-            return -1.0;
+            return null;
+        } else {
+            return return_value;
         }
-
-        return return_value;
     }
 
     /**
      * Tone >= tone parameter that ensures ratio. Returns 100 if ratio cannot be achieved.
      */
     public static double lighter_unsafe(double tone, double ratio) {
-        double lighter_safe = lighter(tone, ratio);
-        return lighter_safe < 0.0 ? 100.0 : lighter_safe;
+        return lighter(tone, ratio) ?? 100.0;
     }
 
     /**
      * Returns tone <= tone parameter that ensures the ratio with the input tone.
      */
-    public static double darker(double tone, double ratio) {
+    public static double? darker(double tone, double ratio) {
         if (tone < 0.0 || tone > 100.0) {
-            return -1.0;
+            return null;
         }
 
         double light_y = MathUtils.y_from_lstar(tone);
@@ -82,30 +81,29 @@ public class He.Contrast {
         double dark_y = ((light_y + 5.0) / safe_ratio) - 5.0;
 
         if (dark_y < 0.0 || dark_y > 100.0) {
-            return -1.0;
+            return null;
         }
 
         double real_contrast = ratio_of_ys(light_y, dark_y);
         double delta = Math.fabs(real_contrast - ratio);
 
         if (real_contrast < ratio && delta > CONTRAST_RATIO_EPSILON) {
-            return -1.0;
+            return null;
         }
 
         double return_value = MathUtils.lstar_from_y(dark_y) - LUMINANCE_GAMUT_MAP_TOLERANCE;
 
         if (return_value < 0 || return_value > 100) {
-            return -1.0;
+            return null;
+        } else {
+            return return_value;
         }
-
-        return return_value;
     }
 
     /**
      * Tone <= tone parameter that ensures ratio. Returns 0 if ratio cannot be achieved.
      */
     public static double darker_unsafe(double tone, double ratio) {
-        double darker_safe = darker(tone, ratio);
-        return Math.fmax(0.0, darker_safe);
+        return darker(tone, ratio) ?? 0.0;
     }
 }

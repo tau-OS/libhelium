@@ -245,7 +245,7 @@ namespace He.MathUtils {
         return Math.atan2 (b, a);
     }
 
-    public double[] nth_vertex (double y, int n) {
+    public double[]? nth_vertex (double y, int n) {
         double k_r = 0.2126;
         double k_g = 0.7152;
         double k_b = 0.0722;
@@ -258,7 +258,7 @@ namespace He.MathUtils {
             if (is_bounded_rgb (r)) {
                 return new double[] { r, g, b };
             } else {
-                return new double[] { -1.0, -1.0, -1.0 };
+                return null;
             }
         } else if (n < 8) {
             double b = coord_a;
@@ -267,7 +267,7 @@ namespace He.MathUtils {
             if (is_bounded_rgb (g)) {
                 return new double[] { r, g, b };
             } else {
-                return new double[] { -1.0, -1.0, -1.0 };
+                return null;
             }
         } else {
             double r = coord_a;
@@ -276,7 +276,7 @@ namespace He.MathUtils {
             if (is_bounded_rgb (b)) {
                 return new double[] { r, g, b };
             } else {
-                return new double[] { -1.0, -1.0, -1.0 };
+                return null;
             }
         }
     }
@@ -311,26 +311,23 @@ namespace He.MathUtils {
         bool uncut = true;
         for (int n = 0; n < 12; n++) {
             double[] mid = nth_vertex (y, n);
-            if (mid[0] < 0.0) {
-                continue;
-            }
-            double mid_hue = hue_of (mid);
-            if (!initialized) {
-                left = mid;
-                right = mid;
-                left_hue = mid_hue;
-                right_hue = mid_hue;
-                initialized = true;
-                continue;
-            }
-            if (uncut || are_in_cyclic_order (left_hue, mid_hue, right_hue)) {
-                uncut = false;
-                if (are_in_cyclic_order (left_hue, target_hue, mid_hue)) {
-                    right = mid;
-                    right_hue = mid_hue;
-                } else {
+            if (mid != null) {
+                double mid_hue = hue_of (mid);
+                if (!initialized) {
                     left = mid;
+                    right = mid;
                     left_hue = mid_hue;
+                    right_hue = mid_hue;
+                    initialized = true;
+                } else if (uncut || are_in_cyclic_order (left_hue, mid_hue, right_hue)) {
+                    uncut = false;
+                    if (are_in_cyclic_order (left_hue, target_hue, mid_hue)) {
+                        right = mid;
+                        right_hue = mid_hue;
+                    } else {
+                        left = mid;
+                        left_hue = mid_hue;
+                    }
                 }
             }
         }

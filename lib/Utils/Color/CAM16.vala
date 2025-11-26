@@ -45,12 +45,7 @@ namespace He {
 
         double hr = Math.atan2 (b, a);
         double atan_degrees = hr * 180.0 / Math.PI;
-        double h =
-            atan_degrees < 0.0
-            ? atan_degrees + 360.0
-            : atan_degrees >= 360.0
-            ? atan_degrees - 360.0
-            : atan_degrees;
+        double h = MathUtils.sanitize_degrees (atan_degrees);
 
         double ac = p2 * vc.nbb;
 
