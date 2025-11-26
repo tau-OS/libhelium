@@ -21,6 +21,12 @@
  * A class that contains the color scheme of the app.
  */
 public class He.Scheme {
+    /**
+     * Delegate type for creating DynamicColor instances.
+     * Used by DynamicScheme for lazy caching of color definitions.
+     */
+    public delegate DynamicColor ColorFactory ();
+
     public Scheme () {
     }
 

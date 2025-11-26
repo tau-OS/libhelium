@@ -293,13 +293,9 @@ namespace He.MathUtils {
     }
 
     public double convert (double value) {
-        // This is the inverse of the LAB fovea function (f^-1).
-        // The threshold should be δ³ = (6/29)³ = 216/24389 ≈ 0.008856
-        var epsilon = 216.0 / 24389.0;
-        var kappa = 108.0 / 841.0;
-        var delta = 4.0 / 29.0;
-        value = Math.fmax (0.0, value);
-        return value > epsilon? Math.pow (value, 3.0) : (value - delta) * kappa;
+        // Delegate to lab_inverse_fovea which has the correct implementation.
+        // Clamp to non-negative to avoid issues with negative f-values.
+        return lab_inverse_fovea (Math.fmax (0.0, value));
     }
 
     public double[] bisect_to_segment (double y, double target_hue) {
@@ -392,13 +388,4 @@ namespace He.MathUtils {
         return 116.0 * lab_fovea (y / 100.0) - 16.0;
     }
 
-    public static double clamp (double start, double end, double value) {
-        if (value < start) {
-            return start;
-        } else if (value > end) {
-            return end;
-        } else {
-            return value;
-        }
-    }
 }

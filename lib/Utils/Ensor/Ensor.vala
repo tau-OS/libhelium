@@ -18,35 +18,45 @@
  */
 [CCode (gir_namespace = "He", gir_version = "1", cheader_filename = "libhelium-1.h")]
 namespace He.Ensor {
+    // Maximum number of pixel samples to collect for quantization
+    private const int MAX_SAMPLES = 128;
+
     private GLib.Array<int> accent_from_pixels (uint8[] pixels, bool alpha) {
         // First pass: collect filtered pixels
         int[] filtered_pixels = pixels_to_argb_array (pixels, alpha);
-        
+
         // Second pass: cluster to 128 colors using quantizer
         var celebi = new He.QuantizerCelebi ();
         var result = celebi.quantize (filtered_pixels, 128);
-        
+
         var score = new He.Score ();
         return score.score (result, 4); // We only need 4.
     }
 
     private int[] pixels_to_argb_array (uint8[] pixels, bool alpha) {
-        int[] list = {};
-
         int factor = alpha ? 4 : 3;
 
         // Validate pixel array length
         if (pixels.length < factor) {
-            return list;
+            return new int[0];
         }
 
         int total_pixels = (int) pixels.length / factor;
-        // Sample more pixels initially, then cluster to 128
-        int skip = (int)Math.fmax(1.0, total_pixels / 512.0);
-        
+
+        // Calculate skip factor to sample approximately MAX_SAMPLES pixels
+        int skip = int.max (1, total_pixels / MAX_SAMPLES);
+
+        // Pre-calculate expected number of samples for array pre-allocation
+        // This avoids O(n²) reallocation with dynamic array growth
+        int expected_samples = (total_pixels + skip - 1) / skip;
+
+        // Use GLib.Array with pre-allocated capacity for efficient appending
+        var list = new GLib.Array<int>.sized (false, false, sizeof (int), expected_samples);
+
         int i = 0;
         while (i < total_pixels) {
             int offset = i * factor;
+
             // Bounds check before accessing
             if (offset + factor > pixels.length) {
                 break;
@@ -55,50 +65,54 @@ namespace He.Ensor {
             uint8 red = pixels[offset];
             uint8 green = pixels[offset + 1];
             uint8 blue = pixels[offset + 2];
-            uint8 alpha_val = alpha ? pixels[offset + 3] : 255;
 
-            // Skip anti-aliased/transparent pixels - only use fully opaque pixels
-            if (alpha && alpha_val < 250) {
-                i += skip;
-                continue;
-            }
-            
-            // Check if pixel is likely blended by comparing to neighbors
-            bool is_blended = false;
-            int neighbor_offset = (i + 1) * factor;
-            if (neighbor_offset + factor <= pixels.length) {
-                uint8 next_r = pixels[neighbor_offset];
-                uint8 next_g = pixels[neighbor_offset + 1];
-                uint8 next_b = pixels[neighbor_offset + 2];
-                
-                // If RGB values are within 10 of neighbor, likely anti-aliased
-                int r_diff = (int)Math.fabs(red - next_r);
-                int g_diff = (int)Math.fabs(green - next_g);
-                int b_diff = (int)Math.fabs(blue - next_b);
-                
-                if (r_diff < 10 && g_diff < 10 && b_diff < 10) {
-                    is_blended = true;
+            // Skip transparent/semi-transparent pixels when alpha channel is present
+            if (alpha) {
+                uint8 alpha_val = pixels[offset + 3];
+                if (alpha_val < 250) {
+                    i += skip;
+                    continue;
                 }
             }
-            
-            if (is_blended) {
+
+            // Skip very dark pixels (likely shadows/borders)
+            if (red < 8 && green < 8 && blue < 8) {
                 i += skip;
                 continue;
             }
 
-            int argb = argb_from_rgb_int(red, green, blue);
+            // Skip very light pixels (likely highlights/glare)
+            if (red > 247 && green > 247 && blue > 247) {
+                i += skip;
+                continue;
+            }
 
-            list += argb;
+            int argb = argb_from_rgb_int (red, green, blue);
+            list.append_val (argb);
 
             i += skip;
         }
-        return list;
+
+        // Convert GLib.Array to int[] for the quantizer
+        // This is a single copy at the end, much better than per-element reallocs
+        if (list.length == 0) {
+            return new int[0];
+        }
+
+        int[] result = new int[list.length];
+        for (uint j = 0; j < list.length; j++) {
+            result[j] = list.index (j);
+        }
+
+        return result;
     }
 
     public async GLib.Array<int> accent_from_pixels_async (uint8[] pixels, bool alpha) {
         SourceFunc callback = accent_from_pixels_async.callback;
         GLib.Array<int> result = null;
 
+        // Copy pixel data for thread safety
+        // The original array may be modified/freed while thread is running
         uint length = pixels.length;
         uint8[] pixels_copy = new uint8[length];
         Memory.copy (pixels_copy, pixels, length);

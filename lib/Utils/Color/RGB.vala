@@ -12,7 +12,8 @@ namespace He {
     };
 
     public RGBColor xyz_to_rgb (XYZColor color) {
-        double[] rgbd = MathUtils.elem_mul ({ color.x, color.y, color.z }, XYZ_TO_SRGB);
+        // XYZ values are in 0-100 range, but XYZ_TO_SRGB matrix expects 0-1 range
+        double[] rgbd = MathUtils.elem_mul ({ color.x / 100.0, color.y / 100.0, color.z / 100.0 }, XYZ_TO_SRGB);
 
         RGBColor rgb = { rgbd[0], rgbd[1], rgbd[2] };
 
