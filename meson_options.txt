@@ -20,7 +20,7 @@ option(
 option(
     'valadoc',
     type: 'boolean',
-    value: true,
+    value: false,
     description: 'Generate valadoc documentation',
 )
 option(

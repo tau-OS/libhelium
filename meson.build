@@ -20,6 +20,10 @@ libhelium_c_args = ['-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name())]
 libhelium_vala_args = ['--abi-stability']
 
 vala_os_arg = ['--define=LINUX']
+portal_dep = dependency('libportal', required: false)
+if portal_dep.found()
+  vala_os_arg += ['--define=HAVE_PORTAL']
+endif
 glib_min_version = '2.50'
 gio_os_dep = dependency('gio-unix-2.0', version: '>=' + glib_min_version)
 
