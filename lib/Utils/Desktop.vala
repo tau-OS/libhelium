@@ -130,10 +130,9 @@ public class He.Desktop : GLib.Object {
     }
 
     private static string? macos_defaults_read (string domain, string key) {
-        // Use argv spawn (no shell, no quoting issues, no PATH dependency).
-        string stdout_str;
-        string stderr_str;
-        int status;
+        string? stdout_str = null;
+        string? stderr_str = null;
+        int status = 0;
 
         string[] argv;
 
@@ -148,7 +147,7 @@ public class He.Desktop : GLib.Object {
                 null,
                 argv,
                 null,
-                GLib.SpawnFlags.STDERR_TO_DEV_NULL,
+                GLib.SpawnFlags.STDOUT_TO_DEV_NULL,
                 null,
                 out stdout_str,
                 out stderr_str,
@@ -158,7 +157,7 @@ public class He.Desktop : GLib.Object {
             return null;
         }
 
-        if (status != 0) {
+        if (status != 0 || stdout_str == null) {
             return null;
         }
 
