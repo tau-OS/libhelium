@@ -108,32 +108,48 @@ public class He.Desktop : GLib.Object {
     // Platform detection + macOS fallback helpers
     // -------------------------------------------------------------------------
 
+    private static int _is_macos_cache = -1;
+
     private static bool is_macos () {
-        Posix.utsname u;
-        if (Posix.uname (out u) != 0) {
-            return false;
+        if (_is_macos_cache != -1) {
+            return _is_macos_cache == 1;
         }
-        return u.sysname == "Darwin";
+
+        // Cheap, dependency-free heuristic that works for macOS builds.
+        bool ok = GLib.FileUtils.test (
+                    "/usr/bin/defaults",
+                    GLib.FileTest.EXISTS
+                ) &&
+                GLib.FileUtils.test (
+                    "/System/Library/CoreServices",
+                    GLib.FileTest.EXISTS
+                );
+
+        _is_macos_cache = ok ? 1 : 0;
+        return ok;
     }
 
     private static string? macos_defaults_read (string domain, string key) {
+        // Use argv spawn (no shell, no quoting issues, no PATH dependency).
         string stdout_str;
         string stderr_str;
         int status;
 
-        string cmd;
+        string[] argv;
+
         if (domain == "-g" || domain == "NSGlobalDomain") {
-            cmd = "defaults read -g %s".printf (GLib.Shell.quote (key));
+            argv = { "/usr/bin/defaults", "read", "-g", key };
         } else {
-            cmd = "defaults read %s %s".printf (
-                GLib.Shell.quote (domain),
-                GLib.Shell.quote (key)
-            );
+            argv = { "/usr/bin/defaults", "read", domain, key };
         }
 
         try {
-            GLib.Process.spawn_command_line_sync (
-                cmd,
+            GLib.Process.spawn_sync (
+                null,
+                argv,
+                null,
+                GLib.SpawnFlags.STDERR_TO_DEV_NULL,
+                null,
                 out stdout_str,
                 out stderr_str,
                 out status
