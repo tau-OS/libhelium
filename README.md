@@ -1,5 +1,5 @@
 # libhelium is being sunset in October 2026
-libhelium is in maintainence mode until Ultramarine's components using it have shifted off (planned for UM45)
+libhelium is in maintenance mode until Ultramarine's components using it have shifted off (planned for UM45)
 
 libhelium will be deprecated when no more Ultramarine components are using it.
 
