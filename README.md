@@ -1,3 +1,8 @@
+# DEPRECATION NOTICE
+libhelium is in maintainence mode until Ultramarine's components using it have shifted off (planned for UM45)
+
+libhelium will be deprecated when no more Ultramarine components are using it.
+
 <img align="left" style="vertical-align: middle" width="120" height="120" src="assets/Helium.svg">
 
 # libhelium
